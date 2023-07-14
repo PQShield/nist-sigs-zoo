@@ -16,6 +16,7 @@ const properties = await d3.csv("data/parametersets.csv", (d) => {
     Level: +d["Security level"],
     Pk: +d["pk size"].replace(/,/g, ""),
     Sig: +d["sig size"].replace(/,/g, ""),
+    PkPlusSig: parseInt(d["pk size"].replace(/,/g, "")) + parseInt(d["sig size"].replace(/,/g, ""))
   };
 });
 const categories = new Set(schemes.map((s) => s.Category));
@@ -40,6 +41,11 @@ function reenableCategoryForScheme(event, scheme) {
     });
 }
 
+let schemeSortingDirection = 1;
+let nowSortingScheme = "Scheme"
+let propertiesSortingDirection = 1;
+let nowSortingProperties = "Scheme";
+
 function updateTable(event) {
   console.log("updating tables");
   const selectedCategories = d3.selectAll(".category > input:checked").data();
@@ -50,12 +56,17 @@ function updateTable(event) {
     }
   })
 
+  function sortAndFilterSchemes() {
+    return schemes.filter((s) => selectedCategories.includes(s.Category))
+            .sort((a, b) => schemeSortingDirection * d3.ascending(a[nowSortingScheme], b[nowSortingScheme]))
+  }
+
   // data
   table
     .select("tbody")
     .selectAll("tr")
     .data(
-      schemes.filter((s) => selectedCategories.includes(s.Category)),
+      sortAndFilterSchemes(),
       (d) => d.Scheme
     )
     .join((enter) =>
@@ -84,11 +95,17 @@ function updateTable(event) {
 
     const selectedLevels = d3.selectAll("#levels-filter input:checked").data();
 
-  const propRows = propsTable
+  function sortAndFilterProperties() {
+    return properties
+      .filter((p) => selectedSchemes.includes(p.Scheme) && selectedLevels.includes(p.Level))
+      .sort((a, b) => propertiesSortingDirection * d3.ascending(a[nowSortingProperties], b[nowSortingProperties]));
+  }
+
+  propsTable
     .select("tbody")
     .selectAll("tr")
     .data(
-      properties.filter((p) => selectedSchemes.includes(p.Scheme) && selectedLevels.includes(p.Level)),
+      sortAndFilterProperties(),
       (d) => d.Scheme + d.Parameterset
     )
     .join((enter) =>
@@ -98,9 +115,9 @@ function updateTable(event) {
         row.append("td").text(d.Scheme);
         row.append("td").text(d.Parameterset);
         row.append("td").text(d.Level);
-        row.append("td").text(d.Pk.toLocaleString());
-        row.append("td").text(d.Sig.toLocaleString());
-        row.append("td").text((d.Pk + d.Sig).toLocaleString())
+        row.append("td").text(d.Pk.toLocaleString()).attr("style", "text-align: right");
+        row.append("td").text(d.Sig.toLocaleString()).attr("style", "text-align: right");
+        row.append("td").text(d.PkPlusSig.toLocaleString()).attr("style", "text-align: right")
         return row.node();
       })
     );
@@ -109,7 +126,7 @@ function updateTable(event) {
 d3.select("#categories")
   .selectAll("div")
   .classed("grid-x", true)
-  .data(categories)
+  .data([...categories].sort(d3.ascending))
   .enter()
   .append((d) => {
     const cat = d3.create("div").classed("grid-x", true);
@@ -146,7 +163,7 @@ d3.select("#categories")
 d3.select("#schemes-filter")
   .selectAll("div")
   .classed("grid-x", true)
-  .data(schemes.map((s) => s.Scheme))
+  .data(schemes.map((s) => s.Scheme).sort(d3.ascending))
   .enter()
   .append((d) => {
     const cat = d3.create("div").classed("grid-x", true);
@@ -233,3 +250,39 @@ d3.select("#select-none-params").on('click', (e) => {
 })
 
 updateTable();
+
+function handleSortingSchemes(what) {
+  return (e) => {
+    if (nowSortingScheme === what) {
+      schemeSortingDirection *= -1;
+    } else {
+      schemeSortingDirection = 1;
+      nowSortingScheme = what;
+    }
+    updateTable(e)
+  }
+}
+
+function handleSortingProperties(what) {
+  return (e) => {
+    if (nowSortingProperties === what) {
+      propertiesSortingDirection *= -1;
+    } else {
+      propertiesSortingDirection = 1;
+      nowSortingProperties = what;
+    }
+    updateTable(e)
+  }
+}
+
+d3.select("#header-schemes-scheme").on('click', handleSortingSchemes("Scheme"))
+d3.select("#header-schemes-status").on('click', handleSortingSchemes("Status"));
+d3.select("#header-schemes-category").on('click', handleSortingSchemes("Category"));
+d3.select("#header-schemes-assumption").on('click', handleSortingSchemes("Assumption"));
+
+d3.select("#header-properties-scheme").on("click", handleSortingProperties("Scheme"))
+d3.select("#header-properties-parameterset").on("click", handleSortingProperties("Parameterset"))
+d3.select("#header-properties-level").on("click", handleSortingProperties("Level"))
+d3.select("#header-properties-pk").on("click", handleSortingProperties("Pk"))
+d3.select("#header-properties-sig").on("click", handleSortingProperties("Sig"))
+d3.select("#header-properties-pksig").on("click", handleSortingProperties("PkPlusSig"))
