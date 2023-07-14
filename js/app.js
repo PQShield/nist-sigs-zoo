@@ -1,6 +1,6 @@
 $(document).foundation();
 
-const schemes = await d3.csv("/data/schemes.csv", (d) => {
+const schemes = await d3.csv("data/schemes.csv", (d) => {
   return {
     Scheme: d.Scheme,
     Status: d["NIST status"],
@@ -9,7 +9,7 @@ const schemes = await d3.csv("/data/schemes.csv", (d) => {
     Assumption: d.Assumption,
   };
 });
-const properties = await d3.csv("/data/parametersets.csv", (d) => {
+const properties = await d3.csv("data/parametersets.csv", (d) => {
   return {
     Scheme: d.Scheme,
     Parameterset: d.Parameterset,
