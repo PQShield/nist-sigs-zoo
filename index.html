@@ -1,161 +1,169 @@
 <!DOCTYPE html>
+<html class="no-js" lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Post-Quantum signatures zoo</title>
+    <link rel="stylesheet" href="css/foundation.css" />
+    <link rel="stylesheet" href="css/app.css" />
+    <link rel="stylesheet" href="css/theme.default.css" />
+  </head>
+  <body>
+    <div
+      class="title-bar"
+      data-responsive-toggle="responsive-menu"
+      data-hide-for="medium"
+    >
+      <button
+        class="menu-icon"
+        type="button"
+        data-toggle="responsive-menu"
+      ></button>
+      <div class="title-bar-title">Menu</div>
+    </div>
 
-<div id="container"></div>
+    <div class="top-bar" id="responsive-menu">
+      <div class="top-bar-left">
+        <ul class="dropdown menu" data-dropdown-menu>
+          <li class="menu-text">PQ Signatures Zoo</li>
+          <li class="">
+            <a href="#schemes">Schemes</a>
+          </li>
+          <li>
+            <a href="#parameters">Parameters</a>
+          </li>
+        </ul>
+      </div>
+      <div class="top-bar-right">
+        <ul class="menu">
+          <li>
+            <strong><a href="https://pqshield.com">PQShield</a></strong>
+          </li>
+        </ul>
+      </div>
+    </div>
 
-<script src="static/d3.v7.min.js"></script>
-<style>
-  table,
-  th,
-  td {
-    border: 1px solid;
-  }
-</style>
+    <div class="grid-container">
+      <div class="grid-x grid-padding-x">
+        <div class="large-8 cell">
+          <h1>Post-Quantum signatures zoo</h1>
+        </div>
+      </div>
 
-<ul id="categories"></ul>
+      <div class="grid-x grid-padding-x">
+        <div class="large-8 cell">
+          <div class="callout">
+            <h3>
+              A list of post-quantum algorithms and their characteristics.
+            </h3>
+            <p>
+              In the below, we give an overview of the post-quantum algorithms
+              that have been submitted to the NIST post-quantum signatures
+              on-ramp.
+            </p>
+            <p>
+              We have copied the properties of the schemes out of the individual
+              schemes, so be aware of potential errors.
+            </p>
+          </div>
+        </div>
+        <div class="large-4">
+          <img src="logo.png" class="thumbnail" />
+        </div>
+      </div>
 
-<table id="scheme-table">
-  <thead></thead>
-  <tbody></tbody>
-</table>
+      <div class="callout alert">
+        <h5>
+          Performance characteristics have been directly taken from the
+          submission documents!
+        </h5>
+        <p>
+          Note that many submissions do not have optimized implementations, and
+          that the measurements were collected under an enormous variation of
+          measurement setups.
+          <strong
+            >Take the performance metrics with a significant grain of
+            salt.</strong
+          >
+        </p>
+      </div>
 
-<table id="properties-table">
-  <thead></thead>
-  <tbody></tbody>
-</table>
+      <div class="grid-x grid-padding-x grid-margin-y">
+        <div class="cell large-12 medium-12">
+          <a name="schemes"></a>
+          <h3>Schemes</h3>
+        </div>
+        <div class="auto cell">
+          <table id="scheme-table">
+            <thead>
+              <tr>
+                <th>Scheme</th>
+                <th>Status</th>
+                <th>Category</th>
+                <th>Assumption</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+          <div id="scheme-table-bottom"></div>
+        </div>
 
-<script type="module" type="application/javascript">
-    const schemes = await d3.csv("data/schemes.csv", (d) => {
-        return {
-            Scheme: d.Scheme,
-            Status: d["NIST status"],
-            Website: d.Website,
-            Category: d.Category,
-            Assumption: d.Assumption,
-        };
-    });
-    const properties = await d3.csv("data/parametersets.csv", (d) => {
-        return {
-          Scheme: d.Scheme,
-          Parameterset: d.Parameterset,
-          Level: +d["Security level"],
-          Pk: +d["pk size"].replace(/,/g, ''),
-          Sig: +d["sig size"].replace(/,/g, ''),
-        };
-    });
-    const categories = new Set(schemes.map((s) => s.Category));
+        <div class="large-3 medium-4 small-5 cell">
+          <h5>Filter categories</h5>
+          <div id="categories"></div>
+        </div>
+      </div>
 
+      <div class="grid-x grid-padding-x grid-margin-y">
+        <div class="cell large-12 medium-12">
+          <a name="parameters"></a>
+          <h3>Parameters</h3>
+        </div>
+        <div class="auto cell table-scroll">
+          <table id="properties-table">
+            <thead>
+              <tr>
+                <th>Scheme</th>
+                <th>Parameterset</th>
+                <th>NIST level</th>
+                <th>Pk bytes</th>
+                <th>Sig bytes</th>
+                <th>pk+sig</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
 
-    const table = d3.select('#scheme-table');
-    const propsTable = d3.select("#properties-table");
+        <div class="large-3 medium-4 cell">
+          <h5>Filter Security Levels</h5>
+          <div id="levels-filter"></div>
 
-  // headers
-  table.select("thead")
-    .append("tr")
-    .selectAll("th")
-    .data(["Include", "Scheme", "Status", "Category", "Assumption"])
-    .enter()
-    .append("th")
-    .text(d => d);
+          <h5>Filter parameters</h5>
+          <a class="button small" id="select-none-params">Select none</a>
+          <a class="button small" id="select-all-params">all</a>
+          <div id="schemes-filter"></div>
+        </div>
+      </div>
 
-  propsTable
-    .select("thead")
-    .append("tr")
-    .selectAll("th")
-    .data(["Scheme", "Parameterset", "NIST level", "Public key bytes", "Signature bytes"])
-    .enter()
-    .append("th")
-    .text(d=>d);
+      <footer class="grid-x grid-padding-x grid-margin-x grid-padding-y grid-margin-y">
+          <div class="cell medium-10 large-10">
+            <h4>Post-Quantum signatures zoo</h4>
+            <p>All data given for informational use only. Consult the original documentation of each scheme for accurate and up-to-date information.</p>
+            <p>Data last updated 2023-07-14.</p>
+            <p>Made with love by the PQShield research team.</p>
+            <a href="https://pqshield.com"><img src="logo.png" /></a>
+          </div>
+        </div>
+      </footer>
+    </div>
 
-  function updateTable(event) {
-    const selectedCategories = d3
-      .selectAll(".category > input:checked")
-      .select(function() { return this.parentNode })
-      .data();
-
-    // data
-    const rows = table
-      .select("tbody")
-      .selectAll("tr")
-      .data(
-        schemes.filter((s) => selectedCategories.includes(s.Category)),
-        (d) => d.Scheme,
-      )
-      .join(
-        (enter) => enter.append((d) => {
-          const row = d3.create("tr")
-            .property("data-scheme", d.Scheme);
-          row.append("td")
-            .append("input")
-            .attr("type", "checkbox")
-            .attr("name", d.Scheme)
-            .classed("scheme-checkbox", true)
-            .on("click", updateTable)
-            .property("checked", true);
-          row
-            .append("td")
-            .append("a")
-            .attr("href", d.Website)
-            .attr("target", "_blank")
-            .text(d.Scheme);
-          row.append("td").text(d.Status);
-          row.append("td").text(d.Category);
-          row.append("td").text(d.Assumption);
-
-          return row.node();
-        })
-      );
-
-
-    let selectedSchemes = schemes.map((d) => d.Scheme);
-    if (event !== undefined) {
-      selectedSchemes = d3
-        .selectAll("#scheme-table input:checked")
-        .select(function() { return this.parentNode.parentNode })
-        .data()
-        .map((d) => d.Scheme);
-    }
-    console.log(selectedSchemes);
-
-      const propRows = propsTable
-        .select("tbody")
-        .selectAll("tr")
-        .data(
-          properties.filter(p => selectedSchemes.includes(p.Scheme)),
-          (d) => d.Scheme + d.Parameterset
-        )
-        .join(
-          (enter) => enter.append((d) => {
-            const row =d3.create("tr");
-
-            row.append("td").text(d.Scheme);
-            row.append("td").text(d.Parameterset);
-            row.append("td").text(d.Level);
-            row.append("td").text(d.Pk.toLocaleString())
-            row.append("td").text(d.Sig.toLocaleString())
-
-            return row.node();
-          })
-        );
-    }
-
-    d3.select("#categories")
-    .selectAll("div")
-    .data(categories)
-    .enter()
-    .append((d) => {
-      const cat = d3.create("div").classed("category", true);
-      cat
-        .append("input")
-        .attr("type", "checkbox")
-        .attr("name", d)
-        .property("checked", "checked")
-        .on("click", updateTable);
-      cat.append("label")
-        .property("for", d)
-        .text(d);
-      return cat.node();
-    });
-
-
-    updateTable();
-</script>
+    <script src="js/vendor/jquery.js"></script>
+    <script src="js/jquery.tablesorter.js"></script>
+    <script src="js/vendor/what-input.js"></script>
+    <script src="js/vendor/foundation.js"></script>
+    <script src="static/d3.v7.min.js"></script>
+    <script src="js/app.js" type="module"></script>
+  </body>
+</html>
