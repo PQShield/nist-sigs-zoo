@@ -1,0 +1,25 @@
+Scheme,NIST status,Website,Category,Assumption
+Dilithium,To be standardized,https://pq-crystals.org/dilithium,Lattices,MLWE/MSIS
+Falcon,To be standardized,https://falcon-sign.info,Lattices,NTRU-SIS
+SPHINCS+,To be standardized,https://sphincs.org/,Symmetric,Hash-based
+ALTEQ,On-ramp?,https://pqcalteq.github.io/,Other,alternating trilinear form equivalence problem
+Biscuit,On-ramp?,https://www.biscuit-pqc.org/,Multivariate,multivariate: solving generic sctructured algebraic equations
+CROSS,On-ramp?,https://cross-crypto.com/,Code-based,Restricted syndrome decoding
+FAEST,On-ramp?,https://faest.info,Symmetric,symmetric / zero-knowledge VOLE-in-the-Head
+FuLeeca,On-ramp?,https://www.ce.cit.tum.de/lnt/forschung/professur-fuer-coding-and-cryptography/fuleeca/,Code-based,Code-based Lee Metric
+HAWK,On-ramp?,https://hawk-sign.info,Lattices,Lattice Isomorphism Problem
+MAYO,On-ramp?,https://pqmayo.org,Multivariate,Multivariate quadratic
+MEDS,On-ramp?,https://www.meds-pqc.org/,Code-based,Matrix Code Equivalence
+MIRA,On-ramp?,https://pqc-mira.org/,Code-based,MinRank
+MiRitH,On-ramp?,https://github.com/Crypto-TII/mirith_nist_submission/,Code-based,MinRank
+PERK,On-ramp?,https://pqc-perk.org/,Code-based,Permuted Kernel
+PROV,On-ramp?,https://prov-sign.github.io/,Multivariate,Multivariate
+QR-UOV,On-ramp?,http://info.isl.ntt.co.jp/crypt/qruov/index.html,Multivariate,Multivariate
+Raccoon,On-ramp?,https://raccoonfamily.org/,Lattices,MLWE/MSIS
+RYDE,On-ramp?,https://pqc-ryde.org/,Code-based,Rank Syndrome Decoding
+SDitH,On-ramp?,https://sdith.org/,Code-based,Syndrome Decoding
+SQIsign,On-ramp?,https://sqisign.org/,Isogenies,Isogenies
+UOV,On-ramp?,https://www.uovsig.org/,Multivariate,Multivariate
+VOX,On-ramp?,http://vox-sign.com/,Multivariate,Multivariate
+Wave,On-ramp?,https://wave-sign.org/,Code-based,Coding theory
+Squirrels,On-ramp?,,Lattices,SIS
