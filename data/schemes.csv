@@ -2,25 +2,43 @@ Scheme,NIST status,Website,Category,Assumption
 Dilithium,To be standardized,https://pq-crystals.org/dilithium,Lattices,MLWE/MSIS
 Falcon,To be standardized,https://falcon-sign.info,Lattices,NTRU-SIS
 SPHINCS+,To be standardized,https://sphincs.org/,Symmetric,Hash-based
-ALTEQ,On-ramp?,https://pqcalteq.github.io/,Other,alternating trilinear form equivalence problem
-Biscuit,On-ramp?,https://www.biscuit-pqc.org/,Multivariate,multivariate: solving generic sctructured algebraic equations
-CROSS,On-ramp?,https://cross-crypto.com/,Code-based,Restricted syndrome decoding
-FAEST,On-ramp?,https://faest.info,Symmetric,symmetric / zero-knowledge VOLE-in-the-Head
-FuLeeca,On-ramp?,https://www.ce.cit.tum.de/lnt/forschung/professur-fuer-coding-and-cryptography/fuleeca/,Code-based,Code-based Lee Metric
-HAWK,On-ramp?,https://hawk-sign.info,Lattices,Lattice Isomorphism Problem
-MAYO,On-ramp?,https://pqmayo.org,Multivariate,Multivariate quadratic
-MEDS,On-ramp?,https://www.meds-pqc.org/,Code-based,Matrix Code Equivalence
-MIRA,On-ramp?,https://pqc-mira.org/,Code-based,MinRank
-MiRitH,On-ramp?,https://github.com/Crypto-TII/mirith_nist_submission/,Code-based,MinRank
-PERK,On-ramp?,https://pqc-perk.org/,Code-based,Permuted Kernel
-PROV,On-ramp?,https://prov-sign.github.io/,Multivariate,Multivariate
-QR-UOV,On-ramp?,http://info.isl.ntt.co.jp/crypt/qruov/index.html,Multivariate,Multivariate
-Raccoon,On-ramp?,https://raccoonfamily.org/,Lattices,MLWE/MSIS
-RYDE,On-ramp?,https://pqc-ryde.org/,Code-based,Rank Syndrome Decoding
-SDitH,On-ramp?,https://sdith.org/,Code-based,Syndrome Decoding
-SQIsign,On-ramp?,https://sqisign.org/,Isogenies,Isogenies
-UOV,On-ramp?,https://www.uovsig.org/,Multivariate,Multivariate
-VOX,On-ramp?,http://vox-sign.com/,Multivariate,Multivariate
-Wave,On-ramp?,https://wave-sign.org/,Code-based,Coding theory
-Squirrels,On-ramp?,,Lattices,SIS
-LESS,On-ramp?,https://less-project.com,Code-based,Linear Equivalence Problem
+ALTEQ,On-ramp,https://pqcalteq.github.io/,Other,alternating trilinear form equivalence problem
+Biscuit,On-ramp,https://www.biscuit-pqc.org/,Multivariate,multivariate: solving generic sctructured algebraic equations
+CROSS,On-ramp,https://cross-crypto.com/,MPC-in-the-Head,Restricted syndrome decoding
+FAEST,On-ramp,https://faest.info,Symmetric,symmetric / zero-knowledge VOLE-in-the-Head
+FuLeeca,On-ramp,https://www.ce.cit.tum.de/lnt/forschung/professur-fuer-coding-and-cryptography/fuleeca/,Code-based,Code-based Lee Metric
+HAWK,On-ramp,https://hawk-sign.info,Lattices,Lattice Isomorphism Problem
+MAYO,On-ramp,https://pqmayo.org,Multivariate,Multivariate quadratic
+MEDS,On-ramp,https://www.meds-pqc.org/,Code-based,Matrix Code Equivalence
+MIRA,On-ramp,https://pqc-mira.org/,MPC-in-the-Head,MinRank
+MiRitH,On-ramp,https://github.com/Crypto-TII/mirith_nist_submission/,MPC-in-the-Head,MinRank
+PERK,On-ramp,https://pqc-perk.org/,MPC-in-the-Head,Permuted Kernel
+PROV,On-ramp,https://prov-sign.github.io/,Multivariate,Multivariate
+QR-UOV,On-ramp,http://info.isl.ntt.co.jp/crypt/qruov/index.html,Multivariate,Multivariate
+Raccoon,On-ramp,https://raccoonfamily.org/,Lattices,MLWE/MSIS
+RYDE,On-ramp,https://pqc-ryde.org/,MPC-in-the-Head,Rank Syndrome Decoding
+SDitH,On-ramp,https://sdith.org/,MPC-in-the-Head,Syndrome Decoding
+SQIsign,On-ramp,https://sqisign.org/,Isogenies,Isogenies
+UOV,On-ramp,https://www.uovsig.org/,Multivariate,Multivariate
+VOX,On-ramp,http://vox-sign.com/,Multivariate,Multivariate
+Wave,On-ramp,https://wave-sign.org/,Code-based,Coding theory
+Squirrels,On-ramp,https://www.squirrels-pqc.org/,Lattices,SIS
+LESS ,On-ramp,https://less-project.com,Code-based,Linear Equivalence Problem
+HAETAE,On-ramp,https://kpqc.cryptolab.co.kr/haetae,Lattices,MLWE/MSIS
+Enhanced pqsigRM,On-ramp,https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/round-1/spec-files/Enhanced-pqsigRM-spec-web.pdf,Code-based,Reed Muller codes
+EagleSign,On-ramp,https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/round-1/spec-files/EagleSign-spec-web.pdf,Lattices,MNTRU/MLWE
+EHTv3 / EHTv4,On-ramp,https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/round-1/spec-files/EHTv3v4-spec-web.pdf,Lattices,Lattices?
+HuFu,On-ramp,http://123.56.244.4/,Lattices,LWE/SIS
+MQOM,On-ramp,https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/round-1/spec-files/MQOM-spec-web.pdf,MPC-in-the-Head,Multivariate Quadratic
+3WISE,On-ramp,https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/round-1/spec-files/3wise-spec-web.pdf,Multivariate,cubic degree
+DME-Sign,On-ramp,https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/round-1/spec-files/DME_SIGN-spec-web.pdf,Multivariate,deterministic trapdoor permutation
+HPPC,On-ramp,https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/round-1/spec-files/hppc-spec-web.pdf,Multivariate,HFE
+SNOVA,On-ramp,http://snova.pqclab.org/,Multivariate,Non-commutative ring UOV
+TUOV,On-ramp,https://www.tuovsig.org/,Multivariate,UOV
+AIMer,On-ramp,https://www.aimer-signature.org/,Symmetric,Zero-knowledge proof of knowledge
+Ascon-Sign,On-ramp,https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/round-1/spec-files/Ascon-sign-spec-web.pdf,Symmetric,SPHINCS+ with Ascon
+SPHINCS-alpha,On-ramp,https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/round-1/spec-files/sphincs-alpha-spec-web.pdf,Symmetric,hash-based
+eMLE-Sig 2.0,On-ramp,https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/round-1/spec-files/eMLE-spec-web.pdf,Other,Embedded Multilayer Equations
+KAZ-Sign,On-ramp,https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/round-1/spec-files/kaz-sign-spec-web.pdf,Other,Second-order Discrete Logarithm Problem
+PREON,On-ramp,https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/round-1/spec-files/Preon-spec-web.pdf,Other,zk-SNARK
+Xifrat1-Sign.I,On-ramp,https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/round-1/spec-files/xifrat1-sign-i-spec.pdf,Other,randomized abelian quasigroups
