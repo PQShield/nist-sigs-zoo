@@ -59,7 +59,7 @@ const table = d3.select("#scheme-table");
 const propsTable = d3.select("#properties-table");
 
 function cleanId(name) {
-  return name.replace(/[^a-zA-Z0-9]/, "_");
+  return name.replace(/[^a-zA-Z0-9]/g, "_");
 }
 
 function reenableCategoryForScheme(event, scheme) {
