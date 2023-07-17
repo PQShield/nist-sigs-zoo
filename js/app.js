@@ -77,6 +77,28 @@ let nowSortingProperties = "Scheme";
 let performanceSortingDirection = 1;
 let nowSortingPerformance = "Scheme";
 
+function sortAndFilterProperties() {
+  let selectedPropsSchemes = schemes.map((d) => d.Scheme);
+  selectedPropsSchemes = d3
+    .selectAll("#props-schemes-filter input:checked")
+    .data();
+
+  const selectedPropsLevels = d3
+    .selectAll("#props-levels-filter input:checked")
+    .data();
+  return properties
+    .filter(
+      (p) =>
+        selectedPropsSchemes.includes(p.Scheme) &&
+        selectedPropsLevels.includes(p.Level)
+    )
+    .sort(
+      (a, b) =>
+        propertiesSortingDirection *
+        d3.ascending(a[nowSortingProperties], b[nowSortingProperties])
+    );
+}
+
 function updateTable(event) {
   console.log("updating tables");
   const selectedCategories = d3.selectAll(".category > input:checked").data();
@@ -124,31 +146,6 @@ function updateTable(event) {
         return row.node();
       })
     );
-
-  let selectedPropsSchemes = schemes.map((d) => d.Scheme);
-  if (event !== undefined) {
-    selectedPropsSchemes = d3
-      .selectAll("#props-schemes-filter input:checked")
-      .data();
-  }
-
-  const selectedPropsLevels = d3
-    .selectAll("#props-levels-filter input:checked")
-    .data();
-
-  function sortAndFilterProperties() {
-    return properties
-      .filter(
-        (p) =>
-          selectedPropsSchemes.includes(p.Scheme) &&
-          selectedPropsLevels.includes(p.Level)
-      )
-      .sort(
-        (a, b) =>
-          propertiesSortingDirection *
-          d3.ascending(a[nowSortingProperties], b[nowSortingProperties])
-      );
-  }
 
   d3.select("#properties-table")
     .select("tbody")
@@ -248,6 +245,8 @@ function updateTable(event) {
         return row.node();
       })
     );
+
+  updatePlot();
 }
 
 d3.select("#categories")
@@ -693,7 +692,7 @@ function dotSymbol(d) {
 }
 
 function dotTitle(d) {
-  let str = (
+  let str =
     d.Scheme +
     " " +
     d.Parameterset +
@@ -702,31 +701,34 @@ function dotTitle(d) {
     " B" +
     "\nsig: " +
     d.Sig.toLocaleString() +
-    " B"
-  );
+    " B";
   if (d.Broken) {
-    str += "\n ⚠️ Broken!"
+    str += "\n ⚠️ Broken!";
   }
   return str;
 }
 
-const plot = Plot.plot({
-  x: { type: "log", label: "Public key size (bytes)" },
-  y: { type: "log", label: "Signature size (bytes)" },
-  width: "1000",
-  marks: [
-    Plot.dot(properties, {
-      x: "Pk",
-      y: "Sig",
-      tip: true,
-      title: dotTitle,
-      stroke: dotColor,
-      symbol: dotSymbol,
-      fill: dotColor,
-      legend: (d) => d.Category,
-    }),
-    Plot.crosshair(properties, {x: "Pk", y: "Sig"})
-  ],
-});
+function updatePlot() {
+  const data = sortAndFilterProperties(properties);
+  const plot = Plot.plot({
+    x: { type: "log", label: "Public key size (bytes)" },
+    y: { type: "log", label: "Signature size (bytes)" },
+    width: "1000",
+    grid: true,
+    marks: [
+      Plot.dot(data, {
+        x: "Pk",
+        y: "Sig",
+        tip: true,
+        title: dotTitle,
+        stroke: dotColor,
+        symbol: dotSymbol,
+        fill: dotColor,
+        legend: (d) => d.Category,
+      }),
+      Plot.crosshair(data, { x: "Pk", y: "Sig" }),
+    ],
+  });
 
-document.querySelector("#keySizeChart").append(plot);
+  document.querySelector("#keySizeChart").replaceChildren(plot);
+}
