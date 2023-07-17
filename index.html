@@ -10,40 +10,48 @@
     <link rel="stylesheet" href="css/theme.default.css" />
   </head>
   <body>
-    <div
-      class="title-bar"
-      data-responsive-toggle="responsive-menu"
-      data-hide-for="medium"
-    >
-      <button
-        class="menu-icon"
-        type="button"
-        data-toggle="responsive-menu"
-      ></button>
-      <div class="title-bar-title">Menu</div>
-    </div>
-
-    <div class="top-bar" id="responsive-menu">
-      <div class="top-bar-left">
-        <ul class="dropdown menu" data-dropdown-menu>
-          <li class="menu-text">PQ Signatures Zoo</li>
-          <li class="">
-            <a href="#schemes">Schemes</a>
-          </li>
-          <li>
-            <a href="#parameters">Parameters</a>
-          </li>
-          <li>
-            <a href="#performance">Performance</a>
-          </li>
-        </ul>
+    <div data-sticky-container>
+      <div
+        class="title-bar"
+        data-responsive-toggle="responsive-menu"
+        data-hide-for="medium"
+      >
+        <button
+          class="menu-icon"
+          type="button"
+          data-toggle="responsive-menu"
+        ></button>
+        <div class="title-bar-title">PQ Signatures zoo</div>
       </div>
-      <div class="top-bar-right">
-        <ul class="menu">
-          <li>
-            <strong><a href="https://pqshield.com">PQShield</a></strong>
-          </li>
-        </ul>
+
+      <div
+        class="top-bar"
+        id="responsive-menu"
+        data-sticky
+        data-options="marginTop:0;"
+        style="width: 100%"
+      >
+        <div class="top-bar-left">
+          <ul class="dropdown menu" data-dropdown-menu>
+            <li class="menu-text">PQ Signatures Zoo</li>
+            <li class="">
+              <a href="#schemes">Schemes</a>
+            </li>
+            <li>
+              <a href="#parameters">Parameters</a>
+            </li>
+            <li>
+              <a href="#performance">Performance</a>
+            </li>
+          </ul>
+        </div>
+        <div class="top-bar-right">
+          <ul class="menu">
+            <li>
+              <strong><a href="https://pqshield.com">PQShield</a></strong>
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
 
@@ -126,18 +134,23 @@
           </table>
         </div>
 
-        <div class="large-3 medium- small-6 cell">
-          <div class="callout secondary">
-            Click on the table headers to sort.
+        <div class="large-3 medium-12 small-12 cell">
+          <div class="grid-x">
+            <div class="callout secondary cell medium-3 large-12">
+              Click on the table headers to sort.
+            </div>
+
+            <div class="cell medium-3 large-12">
+              <h5>Filter Security Levels</h5>
+              <div id="props-levels-filter"></div>
+            </div>
+            <div class="cell medium-3 large-12">
+              <h5>Filter parameters</h5>
+              <a class="button small select-none-params">Select none</a>
+              <a class="button small select-all-params">all</a>
+              <div id="props-schemes-filter"></div>
+            </div>
           </div>
-          <h5>Filter Security Levels</h5>
-          <div id="props-levels-filter"></div>
-        </div>
-        <div class="large-3 medium-4 small-6 cell">
-          <h5>Filter parameters</h5>
-          <a class="button small select-none-params">Select none</a>
-          <a class="button small select-all-params">all</a>
-          <div id="props-schemes-filter"></div>
         </div>
       </div>
 
@@ -188,18 +201,23 @@
           </table>
         </div>
 
-        <div class="large-3 medium-4 small-5 cell">
-          <div class="callout secondary">
-            Click on the table headers to sort.
+        <div class="large-3 medium-12 small-12 cell">
+          <div class="grid-x">
+            <div class="callout secondary cell medium-3 large-12">
+              Click on the table headers to sort.
+            </div>
+
+            <div class="cell medium-3 large-12">
+              <h5>Filter Security Levels</h5>
+              <div id="perf-levels-filter"></div>
+            </div>
+            <div class="cell medium-3 large-12">
+              <h5>Filter parameters</h5>
+              <a class="button small select-none-params">Select none</a>
+              <a class="button small select-all-params">all</a>
+              <div id="perf-schemes-filter"></div>
+            </div>
           </div>
-          <h5>Filter Security Levels</h5>
-          <div id="perf-levels-filter"></div>
-        </div>
-        <div class="large-3 medium-4 small-5 cell">
-          <h5>Filter parameters</h5>
-          <a class="button small select-none-params">Select none</a>
-          <a class="button small select-all-params">all</a>
-          <div id="perf-schemes-filter"></div>
         </div>
       </div>
 
