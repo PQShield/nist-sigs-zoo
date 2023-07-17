@@ -155,28 +155,37 @@
                 <div class="cell medium-6">
                   <label
                     >Minimum
-                    <input type="number" id="props-min-pk" value="-1"/>
+                    <input type="number" id="props-min-pk" value="-1" />
                   </label>
                 </div>
                 <div class="cell medium-6">
                   <label
                     >Maximum
-                    <input type="number" id="props-max-pk" value="99999999999"/>
+                    <input
+                      type="number"
+                      id="props-max-pk"
+                      value="99999999999"
+                    />
                   </label>
                 </div>
               </div>
+
               <div class="grid-x grid-margin-x">
                 <h6 class="cell medium-12">Signature size</h6>
                 <div class="cell medium-6">
                   <label
                     >Minimum
-                    <input type="number" id="props-min-sig" value="-1"/>
+                    <input type="number" id="props-min-sig" value="-1" />
                   </label>
                 </div>
                 <div class="cell medium-6">
                   <label
                     >Maximum
-                    <input type="number" id="props-max-sig" value="99999999999"/>
+                    <input
+                      type="number"
+                      id="props-max-sig"
+                      value="99999999999"
+                    />
                   </label>
                 </div>
               </div>
@@ -185,15 +194,39 @@
                 <div class="cell medium-6">
                   <label
                     >Minimum
-                    <input type="number" id="props-min-pkplussig" value="-1"/>
+                    <input type="number" id="props-min-pkplussig" value="-1" />
                   </label>
                 </div>
                 <div class="cell medium-6">
                   <label
                     >Maximum
-                    <input type="number" id="props-max-pkplussig" value="99999999999"/>
+                    <input
+                      type="number"
+                      id="props-max-pkplussig"
+                      value="99999999999"
+                    />
                   </label>
                 </div>
+              </div>
+            </div>
+            <div class="cell medium-3 large-12">
+              <h5>Sync performance filters</h5>
+              <div
+                class="grid-x"
+                title="Apply the cycle count filters from the performance table"
+              >
+                <div class="small-3 medium-3 switch tiny">
+                  <input
+                    id="props-sync-filters"
+                    type="checkbox"
+                    class="switch-input"
+                    checked="true"
+                  />
+                  <label for="props-sync-filters" class="switch-paddle"
+                    ><span class="show-for-sr">Synchronize filters</span></label
+                  >
+                </div>
+                <span class="cell small-8">Apply performance filters</span>
               </div>
             </div>
             <div class="cell medium-3 large-12">
@@ -270,13 +303,17 @@
                 <div class="cell medium-6">
                   <label
                     >Minimum
-                    <input type="number" id="perf-min-sign" value="-1"/>
+                    <input type="number" id="perf-min-sign" value="-1" />
                   </label>
                 </div>
                 <div class="cell medium-6">
                   <label
                     >Maximum
-                    <input type="number" id="perf-max-sign" value="99999999999"/>
+                    <input
+                      type="number"
+                      id="perf-max-sign"
+                      value="99999999999"
+                    />
                   </label>
                 </div>
               </div>
@@ -285,15 +322,39 @@
                 <div class="cell medium-6">
                   <label
                     >Minimum
-                    <input type="number" id="perf-min-verify" value="-1"/>
+                    <input type="number" id="perf-min-verify" value="-1" />
                   </label>
                 </div>
                 <div class="cell medium-6">
                   <label
                     >Maximum
-                    <input type="number" id="perf-max-verify" value="99999999999"/>
+                    <input
+                      type="number"
+                      id="perf-max-verify"
+                      value="99999999999"
+                    />
                   </label>
                 </div>
+              </div>
+            </div>
+            <div class="cell medium-3 large-12">
+              <h5>Sync size filters</h5>
+              <div
+                class="grid-x"
+                title="Apply the size filters from the parameters table"
+              >
+                <div class="small-3 medium-3 switch tiny">
+                  <input
+                    id="perf-sync-filters"
+                    type="checkbox"
+                    class="switch-input"
+                    checked="true"
+                  />
+                  <label for="perf-sync-filters" class="switch-paddle"
+                    ><span class="show-for-sr">Synchronize filters</span></label
+                  >
+                </div>
+                <span class="cell small-8">Apply size filters</span>
               </div>
             </div>
             <div class="cell medium-3 large-12">

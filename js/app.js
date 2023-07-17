@@ -87,8 +87,19 @@ function sortAndFilterProperties() {
   const maxPk = parseInt(d3.select("#props-max-pk").property("value"));
   const minSig = parseInt(d3.select("#props-min-sig").property("value"));
   const maxSig = parseInt(d3.select("#props-max-sig").property("value"));
-  const minPkPlusSig = parseInt(d3.select("#props-min-pkplussig").property("value"));
-  const maxPkPlusSig = parseInt(d3.select("#props-max-pkplussig").property("value"));
+  const minPkPlusSig = parseInt(
+    d3.select("#props-min-pkplussig").property("value")
+  );
+  const maxPkPlusSig = parseInt(
+    d3.select("#props-max-pkplussig").property("value")
+  );
+
+  const minSignCycles = d3.select("#perf-min-sign").property("value");
+  const maxSignCycles = d3.select("#perf-max-sign").property("value");
+  const minVerifyCycles = d3.select("#perf-min-verify").property("value");
+  const maxVerifyCycles = d3.select("#perf-max-verify").property("value");
+
+  const applyCycles = d3.select("#props-sync-filters").property("checked");
 
   const selectedPropsLevels = d3
     .selectAll("#props-levels-filter input:checked")
@@ -98,9 +109,17 @@ function sortAndFilterProperties() {
       (p) =>
         selectedPropsSchemes.includes(p.Scheme) &&
         selectedPropsLevels.includes(p.Level) &&
-        p.Pk >= minPk && maxPk >= p.Pk &&
-        p.Sig >= minSig && maxSig >= p.Sig &&
-        p.PkPlusSig >= minPkPlusSig && maxPkPlusSig >= p.PkPlusSig
+        p.Pk >= minPk &&
+        maxPk >= p.Pk &&
+        p.Sig >= minSig &&
+        maxSig >= p.Sig &&
+        p.PkPlusSig >= minPkPlusSig &&
+        maxPkPlusSig >= p.PkPlusSig &&
+        (!applyCycles ||
+          (p.SigningCycles >= minSignCycles &&
+            p.SigningCycles <= maxSignCycles &&
+            p.VerificationCycles >= minVerifyCycles &&
+            p.VerificationCycles <= maxVerifyCycles))
     )
     .sort(
       (a, b) =>
@@ -206,13 +225,35 @@ function updateTable(event) {
     const maxSignCycles = d3.select("#perf-max-sign").property("value");
     const minVerifyCycles = d3.select("#perf-min-verify").property("value");
     const maxVerifyCycles = d3.select("#perf-max-verify").property("value");
+
+    const applySizes = d3.select("#perf-sync-filters").property("checked");
+    const minPk = parseInt(d3.select("#props-min-pk").property("value"));
+    const maxPk = parseInt(d3.select("#props-max-pk").property("value"));
+    const minSig = parseInt(d3.select("#props-min-sig").property("value"));
+    const maxSig = parseInt(d3.select("#props-max-sig").property("value"));
+    const minPkPlusSig = parseInt(
+      d3.select("#props-min-pkplussig").property("value")
+    );
+    const maxPkPlusSig = parseInt(
+      d3.select("#props-max-pkplussig").property("value")
+    );
+
     return properties
       .filter(
         (p) =>
           selectedPerfSchemes.includes(p.Scheme) &&
           selectedPerfLevels.includes(p.Level) &&
-          p.SigningCycles >= minSignCycles && p.SigningCycles <= maxSignCycles &&
-          p.VerificationCycles >= minVerifyCycles && p.VerificationCycles <= maxVerifyCycles
+          p.SigningCycles >= minSignCycles &&
+          p.SigningCycles <= maxSignCycles &&
+          p.VerificationCycles >= minVerifyCycles &&
+          p.VerificationCycles <= maxVerifyCycles &&
+          (!applySizes ||
+            (p.Pk >= minPk &&
+              maxPk >= p.Pk &&
+              p.Sig >= minSig &&
+              maxSig >= p.Sig &&
+              p.PkPlusSig >= minPkPlusSig &&
+              maxPkPlusSig >= p.PkPlusSig))
       )
       .sort(
         (a, b) =>
@@ -430,17 +471,67 @@ d3.select("#perf-levels-filter")
     return cat.node();
   });
 
-d3.select("#props-min-pk").property("value", d3.min(properties, (d) => d.Pk)).on('change', updateTable);
-d3.select("#props-max-pk").property("value", d3.max(properties, (d) => d.Pk)).on('change', updateTable);
-d3.select("#props-min-sig").property("value", d3.min(properties, (d) => d.Sig)).on('change', updateTable);
-d3.select("#props-max-sig").property("value", d3.max(properties, (d) => d.Sig)).on('change', updateTable);
-d3.select("#props-min-pkplussig").property("value", d3.min(properties, (d) => d.PkPlusSig)).on('change', updateTable);
-d3.select("#props-max-pkplussig").property("value", d3.max(properties, (d) => d.PkPlusSig)).on('change', updateTable);
+d3.select("#props-min-pk")
+  .property(
+    "value",
+    d3.min(properties, (d) => d.Pk)
+  )
+  .on("change", updateTable);
+d3.select("#props-max-pk")
+  .property(
+    "value",
+    d3.max(properties, (d) => d.Pk)
+  )
+  .on("change", updateTable);
+d3.select("#props-min-sig")
+  .property(
+    "value",
+    d3.min(properties, (d) => d.Sig)
+  )
+  .on("change", updateTable);
+d3.select("#props-max-sig")
+  .property(
+    "value",
+    d3.max(properties, (d) => d.Sig)
+  )
+  .on("change", updateTable);
+d3.select("#props-min-pkplussig")
+  .property(
+    "value",
+    d3.min(properties, (d) => d.PkPlusSig)
+  )
+  .on("change", updateTable);
+d3.select("#props-max-pkplussig")
+  .property(
+    "value",
+    d3.max(properties, (d) => d.PkPlusSig)
+  )
+  .on("change", updateTable);
 
-d3.select("#perf-min-sign").property("value", d3.min(properties, (d) => d.SigningCycles)).on('change', updateTable);
-d3.select("#perf-max-sign").property("value", d3.max(properties, (d) => d.SigningCycles)).on('change', updateTable);
-d3.select("#perf-min-verify").property("value", d3.min(properties, (d) => d.VerificationCycles)).on('change', updateTable);
-d3.select("#perf-max-verify").property("value", d3.max(properties, (d) => d.VerificationCycles)).on('change', updateTable);
+d3.select("#perf-min-sign")
+  .property(
+    "value",
+    d3.min(properties, (d) => d.SigningCycles)
+  )
+  .on("change", updateTable);
+d3.select("#perf-max-sign")
+  .property(
+    "value",
+    d3.max(properties, (d) => d.SigningCycles)
+  )
+  .on("change", updateTable);
+d3.select("#perf-min-verify")
+  .property(
+    "value",
+    d3.min(properties, (d) => d.VerificationCycles)
+  )
+  .on("change", updateTable);
+d3.select("#perf-max-verify")
+  .property(
+    "value",
+    d3.max(properties, (d) => d.VerificationCycles)
+  )
+  .on("change", updateTable);
 
 d3.select("#perf-schemes-filter")
   .selectAll("div")
@@ -584,6 +675,9 @@ d3.select("#header-performance-verify").on(
   "click",
   handleSortingPerformance("VerificationCycles")
 );
+
+d3.select("#perf-sync-filters").on("change", updateTable);
+d3.select("#props-sync-filters").on("change", updateTable);
 
 // function getKeySizeChart() {
 //   // Declare the chart dimensions and margins.
