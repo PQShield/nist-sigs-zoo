@@ -147,8 +147,57 @@
               <h5>Filter Security Levels</h5>
               <div id="props-levels-filter"></div>
             </div>
+
+            <div class="celll medium-3 large-12">
+              <h5>Filter on sizes</h5>
+              <div class="grid-x grid-margin-x">
+                <h6 class="cell medium-12">Public key size</h6>
+                <div class="cell medium-6">
+                  <label
+                    >Minimum
+                    <input type="number" id="props-min-pk" value="-1"/>
+                  </label>
+                </div>
+                <div class="cell medium-6">
+                  <label
+                    >Maximum
+                    <input type="number" id="props-max-pk" value="99999999999"/>
+                  </label>
+                </div>
+              </div>
+              <div class="grid-x grid-margin-x">
+                <h6 class="cell medium-12">Signature size</h6>
+                <div class="cell medium-6">
+                  <label
+                    >Minimum
+                    <input type="number" id="props-min-sig" value="-1"/>
+                  </label>
+                </div>
+                <div class="cell medium-6">
+                  <label
+                    >Maximum
+                    <input type="number" id="props-max-sig" value="99999999999"/>
+                  </label>
+                </div>
+              </div>
+              <div class="grid-x grid-margin-x">
+                <h6 class="cell medium-12">Pk+Sig size</h6>
+                <div class="cell medium-6">
+                  <label
+                    >Minimum
+                    <input type="number" id="props-min-pkplussig" value="-1"/>
+                  </label>
+                </div>
+                <div class="cell medium-6">
+                  <label
+                    >Maximum
+                    <input type="number" id="props-max-pkplussig" value="99999999999"/>
+                  </label>
+                </div>
+              </div>
+            </div>
             <div class="cell medium-3 large-12">
-              <h5>Filter parameters</h5>
+              <h5>Filter schemes</h5>
               <a class="button small select-none-params">Select none</a>
               <a class="button small select-all-params">all</a>
               <div id="props-schemes-filter"></div>
@@ -213,6 +262,39 @@
             <div class="cell medium-3 large-12">
               <h5>Filter Security Levels</h5>
               <div id="perf-levels-filter"></div>
+            </div>
+            <div class="celll medium-3 large-12">
+              <h5>Filter on runtime</h5>
+              <div class="grid-x grid-margin-x">
+                <h6 class="cell medium-12">Signing cycles</h6>
+                <div class="cell medium-6">
+                  <label
+                    >Minimum
+                    <input type="number" id="perf-min-sign" value="-1"/>
+                  </label>
+                </div>
+                <div class="cell medium-6">
+                  <label
+                    >Maximum
+                    <input type="number" id="perf-max-sign" value="99999999999"/>
+                  </label>
+                </div>
+              </div>
+              <div class="grid-x grid-margin-x">
+                <h6 class="cell medium-12">Verification cycles</h6>
+                <div class="cell medium-6">
+                  <label
+                    >Minimum
+                    <input type="number" id="perf-min-verify" value="-1"/>
+                  </label>
+                </div>
+                <div class="cell medium-6">
+                  <label
+                    >Maximum
+                    <input type="number" id="perf-max-verify" value="99999999999"/>
+                  </label>
+                </div>
+              </div>
             </div>
             <div class="cell medium-3 large-12">
               <h5>Filter parameters</h5>
