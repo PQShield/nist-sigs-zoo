@@ -47,6 +47,7 @@ const properties = await d3.csv("data/parametersets.csv", (d) => {
     Broken: broken,
   };
 });
+
 const categories = new Set(schemes.map((s) => s.Category));
 
 const table = d3.select("#scheme-table");
@@ -111,9 +112,10 @@ function updateTable(event) {
           .attr("target", "_blank")
           .text(d.Scheme);
         if (d.Broken) {
-          cell.append("span")
+          cell
+            .append("span")
             .property("title", "This submission has security vulnerabilities")
-            .text(" ⚠️")
+            .text(" ⚠️");
         }
         row.append("td").text(d.Status);
         row.append("td").text(d.Category);
@@ -158,9 +160,10 @@ function updateTable(event) {
 
         const cell = row.append("td").text(d.Scheme);
         if (d.Broken) {
-          cell.append("span")
+          cell
+            .append("span")
             .property("title", "This submission has security vulnerabilities")
-            .text(" ⚠️")
+            .text(" ⚠️");
         }
         row.append("td").text(d.Parameterset);
         row.append("td").text(d.Level);
@@ -215,9 +218,10 @@ function updateTable(event) {
 
         const cell = row.append("td").text(d.Scheme);
         if (d.Broken) {
-          cell.append("span")
+          cell
+            .append("span")
             .property("title", "This submission has security vulnerabilities")
-            .text(" ⚠️")
+            .text(" ⚠️");
         }
         row.append("td").text(d.Parameterset);
         row.append("td").text(d.Level);
@@ -553,3 +557,176 @@ d3.select("#header-performance-verify").on(
   "click",
   handleSortingPerformance("VerificationCycles")
 );
+
+// function getKeySizeChart() {
+//   // Declare the chart dimensions and margins.
+//   const width = 600;
+//   const height = 200;
+//   const margin = { top: 20, right: 0, bottom: 30, left: 50 };
+
+//   console.log(properties)
+
+//   function zoom(svg) {
+//     const extent = [
+//       [margin.left, margin.top],
+//       [width - margin.right, height - margin.top],
+//     ];
+
+//     svg.call(
+//       d3
+//         .zoom()
+//         .scaleExtent([1, 8])
+//         .translateExtent(extent)
+//         .extent(extent)
+//         .on("zoom", zoomed)
+//     );
+
+//     function zoomed(event) {
+//       x.range(
+//         [margin.left, width - margin.right].map((d) =>
+//           event.transform.applyX(d)
+//         )
+//       );
+//       svg.selectAll(".bars rect").attr("x", d => d.Scheme + " " + d.Parameterset).attr("width", x.bandwidth());
+//       svg.selectAll(".x-axis").call(xAxis);
+//     }
+//   }
+
+//   const x = d3
+//     .scaleBand(properties.map((d) => d.Scheme + " " + d.Parameterset))
+//     .range([margin.left, width - margin.right])
+//     .padding(0.1);
+
+//   const y = d3
+//     .scaleLinear()
+//     .domain([1, d3.max(properties, (d) => d.Pk)])
+//     .nice()
+//     .range([height - margin.bottom, margin.top]);
+
+//   const xAxis = (g) =>
+//     g
+//       .attr("transform", `translate(0, ${height - margin.bottom})`)
+//       .call(d3.axisBottom(x).tickSizeOuter(0));
+
+//   const yAxis = (g) =>
+//     g
+//       .attr("transform", `translate(${margin.left},0)`)
+//       .call(d3.axisLeft(y))
+//       .call((g) => g.select(".domain").remove());
+
+//   const svg = d3
+//       .create("svg")
+//       .attr("viewBox", [0, 0, width, height]);
+//   svg
+//     .append("g")
+//     .attr("class", "bars")
+//     .attr("fill", "steelblue")
+//     .selectAll("rect")
+//     .data(properties)
+//     .join("rect")
+//     .attr("x", (d) => x(d.Scheme + " " + d.Parameterset))
+//     .attr("y", (d) => y(d.Pk))
+//     .attr("height", (d) => y(1) - y(d.Pk))
+//     .attr("width", x.bandwidth());
+
+//   svg.call(zoom);
+
+//   svg.append("g").attr("class", "x-axis").call(xAxis);
+
+//   svg.append("g").attr("class", "y-axis").call(yAxis);
+
+//   return svg.node();
+// }
+
+// const plot = Plot.plot({
+//   x: { label: "Key size (bytes)", type: "log" },
+//   y: { padding: 3},
+//   marginLeft: 150,
+//   width: 1000,
+//   height: 9000,
+//   color: true,
+//   marks: [
+//     Plot.barX(properties, {
+//       y: (d) => d.Scheme + " " + d.Parameterset,
+//       x1: 1,
+//       x2: (d) => {
+//         console.log(d.Scheme, d.Pk);
+//         return d.Pk;
+//       },
+//       tip: true,
+//       width: 1,
+//       dy: -2,
+//     }),
+//     Plot.barX(properties, {
+//       y: (d) => d.Scheme + " " + d.Parameterset,
+//       x1: 1,
+//       x2: (d) => {
+//         console.log(d.Scheme, d.Sig);
+//         return d.Sig;
+//       },
+//       tip: true,
+//       dy: 2,
+//       fill: "red",
+//       label: "Signature",
+//     }),
+//   ],
+// });
+
+function dotColor(d) {
+  if (d.Broken) {
+    return "red";
+  }
+  if (["Dilithium", "Falcon", "SPHINCS+"].includes(d.Scheme)) {
+    return "magenta";
+  }
+  return "black";
+}
+
+function dotSymbol(d) {
+  if (["Dilithium", "Falcon", "SPHINCS+"].includes(d.Scheme)) {
+    return "star";
+  }
+  if (d.Broken) {
+    return "times";
+  }
+  return "plus";
+}
+
+function dotTitle(d) {
+  let str = (
+    d.Scheme +
+    " " +
+    d.Parameterset +
+    "\npk: " +
+    d.Pk.toLocaleString() +
+    " B" +
+    "\nsig: " +
+    d.Sig.toLocaleString() +
+    " B"
+  );
+  if (d.Broken) {
+    str += "\n ⚠️ Broken!"
+  }
+  return str;
+}
+
+const plot = Plot.plot({
+  x: { type: "log", label: "Public key size (bytes)" },
+  y: { type: "log", label: "Signature size (bytes)" },
+  width: "1000",
+  marks: [
+    Plot.dot(properties, {
+      x: "Pk",
+      y: "Sig",
+      tip: true,
+      title: dotTitle,
+      stroke: dotColor,
+      symbol: dotSymbol,
+      fill: dotColor,
+      legend: (d) => d.Category,
+    }),
+    Plot.crosshair(properties, {x: "Pk", y: "Sig"})
+  ],
+});
+
+document.querySelector("#keySizeChart").append(plot);
