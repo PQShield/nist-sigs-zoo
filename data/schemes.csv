@@ -42,3 +42,5 @@ eMLE-Sig 2.0,On-ramp,https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/docum
 KAZ-Sign,On-ramp,https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/round-1/spec-files/kaz-sign-spec-web.pdf,Other,yes,Second-order Discrete Logarithm Problem
 PREON,On-ramp,https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/round-1/spec-files/Preon-spec-web.pdf,Other,no,zk-SNARK
 Xifrat1-Sign.I,On-ramp,https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/round-1/spec-files/xifrat1-sign-i-spec.pdf,Other,yes,randomized abelian quasigroups
+EdDSA,Classic cryptography,https://ed25519.cr.yp.to/,Pre-Quantum,classical,Elliptic Curves
+RSA,Classic cryptography,https://web.archive.org/web/20230127011251/http://people.csail.mit.edu/rivest/Rsapaper.pdf,Pre-Quantum,classical,Factoring

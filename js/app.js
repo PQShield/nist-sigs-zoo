@@ -9,6 +9,7 @@ const schemes = await d3.csv("data/schemes.csv", (d) => {
     Website: d.Website,
     Category: d.Category,
     Broken: d.Broken === "yes",
+    Classical: d.Broken === "classical",
     Assumption: d.Assumption,
   };
 });
@@ -29,11 +30,14 @@ const properties = await d3.csv("data/parametersets.csv", (d) => {
   }
 
   const broken = schemes.some((s) => s.Scheme == d.Scheme && s.Broken);
+  const classical = schemes.some((s) => s.Scheme == d.Scheme && s.Classical);
+
+  const level = d["Security level"] === "Pre-Quantum" ? "Pre-Quantum" : +d["Security level"];
 
   return {
     Scheme: d.Scheme,
     Parameterset: d.Parameterset,
-    Level: +d["Security level"],
+    Level: level,
     Pk: +d["pk size"].replace(/,/g, ""),
     Sig: +d["sig size"].replace(/,/g, ""),
     PkPlusSig:
@@ -45,6 +49,7 @@ const properties = await d3.csv("data/parametersets.csv", (d) => {
     VerificationTime: parseFloat(d["verification (ms)"].replace(/,/g, "")),
     Extrapolated: extrapolated,
     Broken: broken,
+    Classical: classical
   };
 });
 
@@ -192,7 +197,11 @@ function updateTable(event) {
             .text(" ⚠️");
         }
         row.append("td").text(d.Parameterset);
-        row.append("td").text(d.Level);
+        if (d.Classical) {
+          row.append("td").text("Pre-Q");
+        } else {
+          row.append("td").text(d.Level);
+        }
         row
           .append("td")
           .text(d.Pk.toLocaleString())
@@ -278,7 +287,11 @@ function updateTable(event) {
             .text(" ⚠️");
         }
         row.append("td").text(d.Parameterset);
-        row.append("td").text(d.Level);
+        if (d.Classical) {
+          row.append("td").text("Pre-Q");
+        } else {
+          row.append("td").text(d.Level);
+        }
         let extrapolated_text_sign;
         let extrapolated_text_verify;
         if (d.Extrapolated) {
@@ -390,7 +403,7 @@ d3.select("#props-schemes-filter")
 d3.select("#props-levels-filter")
   .selectAll("div")
   .classed("grid-x", true)
-  .data([1, 2, 3, 4, 5])
+  .data(["Pre-Quantum", 1, 2, 3, 4, 5])
   .enter()
   .append((d) => {
     const cat = d3.create("div").classed("grid-x", true);
@@ -424,7 +437,7 @@ d3.select("#props-levels-filter")
     cat
       .append("span")
       .classed("cell auto", true)
-      .text("Level " + d);
+      .text(d == "Pre-Quantum" ? "Pre-Quantum" : "Level " + d);
 
     return cat.node();
   });
@@ -432,7 +445,7 @@ d3.select("#props-levels-filter")
 d3.select("#perf-levels-filter")
   .selectAll("div")
   .classed("grid-x", true)
-  .data([1, 2, 3, 4, 5])
+  .data(["Pre-Quantum", 1, 2, 3, 4, 5])
   .enter()
   .append((d) => {
     const cat = d3.create("div").classed("grid-x", true);
@@ -466,7 +479,7 @@ d3.select("#perf-levels-filter")
     cat
       .append("span")
       .classed("cell auto", true)
-      .text("Level " + d);
+      .text(d == "Pre-Quantum" ? "Pre-Quantum" : "Level " + d)
 
     return cat.node();
   });
@@ -800,6 +813,7 @@ function dotColor(d) {
   if (["Dilithium", "Falcon", "SPHINCS+"].includes(d.Scheme)) {
     return "magenta";
   }
+  if (d.Classical) { return "blue"; }
   return "black";
 }
 
@@ -809,6 +823,9 @@ function dotSymbol(d) {
   }
   if (d.Broken) {
     return "times";
+  }
+  if (d.Classical) {
+    return "circle";
   }
   return "plus";
 }
