@@ -8,6 +8,7 @@ const schemes = await d3.csv("data/schemes.csv", (d) => {
     Status: d["NIST status"],
     Website: d.Website,
     Category: d.Category,
+    Broken: d.Broken === "yes",
     Assumption: d.Assumption,
   };
 });
@@ -15,15 +16,19 @@ const properties = await d3.csv("data/parametersets.csv", (d) => {
   let signcycles;
   let verifycycles;
   let extrapolated;
-  if (parseInt(d["signing (cycles)"].replace(/,/g, "")) > 0 ) {
+  if (parseInt(d["signing (cycles)"].replace(/,/g, "")) > 0) {
     extrapolated = false;
     signcycles = parseInt(d["signing (cycles)"].replace(/,/g, ""));
-    verifycycles = parseInt(d["verification (cycles)"].replace(/,/g, ""))
+    verifycycles = parseInt(d["verification (cycles)"].replace(/,/g, ""));
   } else {
     extrapolated = true;
-    signcycles = (CPUSPEED * parseFloat(d["signing (ms)"].replace(/,/g, ""))) / 1000;
-    verifycycles = (CPUSPEED *parseFloat(d["verification (ms)"].replace(/,/g, ""))) / 1000;
+    signcycles =
+      (CPUSPEED * parseFloat(d["signing (ms)"].replace(/,/g, ""))) / 1000;
+    verifycycles =
+      (CPUSPEED * parseFloat(d["verification (ms)"].replace(/,/g, ""))) / 1000;
   }
+
+  const broken = schemes.some((s) => s.Scheme == d.Scheme && s.Broken);
 
   return {
     Scheme: d.Scheme,
@@ -39,6 +44,7 @@ const properties = await d3.csv("data/parametersets.csv", (d) => {
     SigningTime: parseFloat(d["signing (ms)"].replace(/,/g, "")),
     VerificationTime: parseFloat(d["verification (ms)"].replace(/,/g, "")),
     Extrapolated: extrapolated,
+    Broken: broken,
   };
 });
 const categories = new Set(schemes.map((s) => s.Category));
@@ -98,12 +104,17 @@ function updateTable(event) {
     .join((enter) =>
       enter.append((d) => {
         const row = d3.create("tr").property("data-scheme", d.Scheme);
-        row
-          .append("td")
+        const cell = row.append("td");
+        cell
           .append("a")
           .attr("href", d.Website)
           .attr("target", "_blank")
           .text(d.Scheme);
+        if (d.Broken) {
+          cell.append("span")
+            .property("title", "This submission has security vulnerabilities")
+            .text(" ⚠️")
+        }
         row.append("td").text(d.Status);
         row.append("td").text(d.Category);
         row.append("td").text(d.Assumption);
@@ -145,7 +156,12 @@ function updateTable(event) {
       enter.append((d) => {
         const row = d3.create("tr");
 
-        row.append("td").text(d.Scheme);
+        const cell = row.append("td").text(d.Scheme);
+        if (d.Broken) {
+          cell.append("span")
+            .property("title", "This submission has security vulnerabilities")
+            .text(" ⚠️")
+        }
         row.append("td").text(d.Parameterset);
         row.append("td").text(d.Level);
         row
@@ -197,7 +213,12 @@ function updateTable(event) {
       enter.append((d) => {
         const row = d3.create("tr");
 
-        row.append("td").text(d.Scheme);
+        const cell = row.append("td").text(d.Scheme);
+        if (d.Broken) {
+          cell.append("span")
+            .property("title", "This submission has security vulnerabilities")
+            .text(" ⚠️")
+        }
         row.append("td").text(d.Parameterset);
         row.append("td").text(d.Level);
         let extrapolated_text_sign;
@@ -512,9 +533,23 @@ d3.select("#header-properties-pksig").on(
   handleSortingProperties("PkPlusSig")
 );
 
-
-d3.select("#header-performance-scheme").on("click", handleSortingPerformance("Scheme"));
-d3.select("#header-performance-parameterset").on("click", handleSortingPerformance("Parameterset"));
-d3.select("#header-performance-level").on("click", handleSortingPerformance("Level"));
-d3.select("#header-performance-sign").on("click", handleSortingPerformance("SigningCycles"));
-d3.select("#header-performance-verify").on("click", handleSortingPerformance("VerificationCycles"));
+d3.select("#header-performance-scheme").on(
+  "click",
+  handleSortingPerformance("Scheme")
+);
+d3.select("#header-performance-parameterset").on(
+  "click",
+  handleSortingPerformance("Parameterset")
+);
+d3.select("#header-performance-level").on(
+  "click",
+  handleSortingPerformance("Level")
+);
+d3.select("#header-performance-sign").on(
+  "click",
+  handleSortingPerformance("SigningCycles")
+);
+d3.select("#header-performance-verify").on(
+  "click",
+  handleSortingPerformance("VerificationCycles")
+);
