@@ -1,3 +1,7 @@
 footer {
     background: darkgrey;
 }
+
+.extrapolated {
+    text-decoration: underline wavy red;
+}
