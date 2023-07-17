@@ -172,6 +172,11 @@ function updateTable(event) {
             .append("span")
             .property("title", "This submission has security vulnerabilities")
             .text(" ⚠️");
+        } else if (d.Classical) {
+          cell
+            .append("span")
+            .property("title", "This scheme is not resistant to quantum computers")
+            .text(" ⚠️");
         }
         row.append("td").text(d.Status);
         row.append("td").text(d.Category);
@@ -284,6 +289,11 @@ function updateTable(event) {
           cell
             .append("span")
             .property("title", "This submission has security vulnerabilities")
+            .text(" ⚠️");
+        } else if (d.Classical) {
+          cell
+            .append("span")
+            .property("title", "This scheme is not resistant to quantum computers")
             .text(" ⚠️");
         }
         row.append("td").text(d.Parameterset);
