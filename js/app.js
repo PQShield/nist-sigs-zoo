@@ -817,13 +817,13 @@ d3.select("#props-sync-filters").on("change", updateTable);
 // });
 
 function dotColor(d) {
+  if (d.Classical) { return "blue"; }
   if (d.Broken) {
     return "red";
   }
   if (["Dilithium", "Falcon", "SPHINCS+"].includes(d.Scheme)) {
     return "magenta";
   }
-  if (d.Classical) { return "blue"; }
   return "black";
 }
 
@@ -831,11 +831,11 @@ function dotSymbol(d) {
   if (["Dilithium", "Falcon", "SPHINCS+"].includes(d.Scheme)) {
     return "star";
   }
-  if (d.Broken) {
-    return "times";
-  }
   if (d.Classical) {
     return "circle";
+  }
+  if (d.Broken) {
+    return "times";
   }
   return "plus";
 }
