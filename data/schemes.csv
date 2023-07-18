@@ -2,8 +2,8 @@ Scheme,NIST status,Website,Category,Broken,Assumption
 Dilithium,To be standardized,https://pq-crystals.org/dilithium,Lattices,no,MLWE/MSIS
 Falcon,To be standardized,https://falcon-sign.info,Lattices,no,NTRU-SIS
 SPHINCS+,To be standardized,https://sphincs.org/,Symmetric,no,Hash-based
-ALTEQ,On-ramp,https://pqcalteq.github.io/,Other,no,alternating trilinear form equivalence problem
-Biscuit,On-ramp,https://www.biscuit-pqc.org/,Multivariate,no,multivariate: solving generic sctructured algebraic equations
+ALTEQ,On-ramp,https://pqcalteq.github.io/,Other,original reference implementation has an implementation flaw,alternating trilinear form equivalence problem
+Biscuit,On-ramp,https://www.biscuit-pqc.org/,Multivariate,smaller security margin,multivariate: solving generic sctructured algebraic equations
 CROSS,On-ramp,https://cross-crypto.com/,MPC-in-the-Head,no,Restricted syndrome decoding
 FAEST,On-ramp,https://faest.info,Symmetric,no,symmetric / zero-knowledge VOLE-in-the-Head
 FuLeeca,On-ramp,https://www.ce.cit.tum.de/lnt/forschung/professur-fuer-coding-and-cryptography/fuleeca/,Code-based,no,Code-based Lee Metric
@@ -26,21 +26,21 @@ Squirrels,On-ramp,https://www.squirrels-pqc.org/,Lattices,no,SIS
 LESS ,On-ramp,https://less-project.com,Code-based,no,Linear Equivalence Problem
 HAETAE,On-ramp,https://kpqc.cryptolab.co.kr/haetae,Lattices,no,MLWE/MSIS
 Enhanced pqsigRM,On-ramp,https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/round-1/spec-files/Enhanced-pqsigRM-spec-web.pdf,Code-based,no,Reed Muller codes
-EagleSign,On-ramp,https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/round-1/spec-files/EagleSign-spec-web.pdf,Lattices,yes,MNTRU/MLWE
+EagleSign,On-ramp,https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/round-1/spec-files/EagleSign-spec-web.pdf,Lattices,signature leaks secret key,MNTRU/MLWE
 EHTv3 / EHTv4,On-ramp,https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/round-1/spec-files/EHTv3v4-spec-web.pdf,Lattices,no,Lattices?
 HuFu,On-ramp,http://123.56.244.4/,Lattices,no,LWE/SIS
 MQOM,On-ramp,https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/round-1/spec-files/MQOM-spec-web.pdf,MPC-in-the-Head,no,Multivariate Quadratic
 3WISE,On-ramp,https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/round-1/spec-files/3wise-spec-web.pdf,Multivariate,yes,cubic degree
 DME-Sign,On-ramp,https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/round-1/spec-files/DME_SIGN-spec-web.pdf,Multivariate,no,deterministic trapdoor permutation
-HPPC,On-ramp,https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/round-1/spec-files/hppc-spec-web.pdf,Multivariate,no,HFE
+HPPC,On-ramp,https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/round-1/spec-files/hppc-spec-web.pdf,Multivariate,2^64 collision / universal forgery attack,HFE
 SNOVA,On-ramp,http://snova.pqclab.org/,Multivariate,no,Non-commutative ring UOV
 TUOV,On-ramp,https://www.tuovsig.org/,Multivariate,no,UOV
 AIMer,On-ramp,https://www.aimer-signature.org/,Symmetric,no,Zero-knowledge proof of knowledge
 Ascon-Sign,On-ramp,https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/round-1/spec-files/Ascon-sign-spec-web.pdf,Symmetric,no,SPHINCS+ with Ascon
 SPHINCS-alpha,On-ramp,https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/round-1/spec-files/sphincs-alpha-spec-web.pdf,Symmetric,no,hash-based
-eMLE-Sig 2.0,On-ramp,https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/round-1/spec-files/eMLE-spec-web.pdf,Other,yes,Embedded Multilayer Equations
-KAZ-Sign,On-ramp,https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/round-1/spec-files/kaz-sign-spec-web.pdf,Other,yes,Second-order Discrete Logarithm Problem
+eMLE-Sig 2.0,On-ramp,https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/round-1/spec-files/eMLE-spec-web.pdf,Other,secret key recovery,Embedded Multilayer Equations
+KAZ-Sign,On-ramp,https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/round-1/spec-files/kaz-sign-spec-web.pdf,Other,secret key recovery,Second-order Discrete Logarithm Problem
 PREON,On-ramp,https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/round-1/spec-files/Preon-spec-web.pdf,Other,no,zk-SNARK
-Xifrat1-Sign.I,On-ramp,https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/round-1/spec-files/xifrat1-sign-i-spec.pdf,Other,yes,randomized abelian quasigroups
+Xifrat1-Sign.I,On-ramp,https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/round-1/spec-files/xifrat1-sign-i-spec.pdf,Other,signature forgery,randomized abelian quasigroups
 EdDSA,Classic cryptography,https://ed25519.cr.yp.to/,Pre-Quantum,classical,Elliptic Curves
 RSA,Classic cryptography,https://web.archive.org/web/20230127011251/http://people.csail.mit.edu/rivest/Rsapaper.pdf,Pre-Quantum,classical,Factoring

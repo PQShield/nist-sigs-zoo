@@ -8,7 +8,7 @@ const schemes = await d3.csv("data/schemes.csv", (d) => {
     Status: d["NIST status"],
     Website: d.Website,
     Category: d.Category,
-    Broken: d.Broken === "yes",
+    Broken: d.Broken === "no" ? false : d.Broken,
     Classical: d.Broken === "classical",
     Assumption: d.Assumption,
   };
@@ -167,15 +167,15 @@ function updateTable(event) {
           .attr("href", d.Website)
           .attr("target", "_blank")
           .text(d.Scheme);
-        if (d.Broken) {
-          cell
-            .append("span")
-            .property("title", "This submission has security vulnerabilities")
-            .text(" ⚠️");
-        } else if (d.Classical) {
+        if (d.Classical) {
           cell
             .append("span")
             .property("title", "This scheme is not resistant to quantum computers")
+            .text(" ⚠️");
+        } else if (d.Broken) {
+          cell
+            .append("span")
+            .property("title", "This submission has security vulnerabilities: " + d.Broken)
             .text(" ⚠️");
         }
         row.append("td").text(d.Status);
@@ -198,7 +198,7 @@ function updateTable(event) {
         if (d.Broken) {
           cell
             .append("span")
-            .property("title", "This submission has security vulnerabilities")
+            .property("title", "This submission has security vulnerabilities: " + d.Broken)
             .text(" ⚠️");
         }
         row.append("td").text(d.Parameterset);
@@ -285,15 +285,15 @@ function updateTable(event) {
         const row = d3.create("tr");
 
         const cell = row.append("td").text(d.Scheme);
-        if (d.Broken) {
-          cell
-            .append("span")
-            .property("title", "This submission has security vulnerabilities")
-            .text(" ⚠️");
-        } else if (d.Classical) {
+        if (d.Classical) {
           cell
             .append("span")
             .property("title", "This scheme is not resistant to quantum computers")
+            .text(" ⚠️");
+        } else if (d.Broken) {
+          cell
+            .append("span")
+            .property("title", "This submission has security vulnerabilities: " + d.Broken)
             .text(" ⚠️");
         }
         row.append("td").text(d.Parameterset);
