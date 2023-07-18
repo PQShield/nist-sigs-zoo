@@ -98,16 +98,16 @@ function sortAndFilterProperties() {
   const minSig = parseInt(d3.select("#props-min-sig").property("value"));
   const maxSig = parseInt(d3.select("#props-max-sig").property("value"));
   const minPkPlusSig = parseInt(
-    d3.select("#props-min-pkplussig").property("value")
+    parseInt(d3.select("#props-min-pkplussig").property("value"))
   );
   const maxPkPlusSig = parseInt(
-    d3.select("#props-max-pkplussig").property("value")
+    parseInt(d3.select("#props-max-pkplussig").property("value"))
   );
 
-  const minSignCycles = d3.select("#perf-min-sign").property("value");
-  const maxSignCycles = d3.select("#perf-max-sign").property("value");
-  const minVerifyCycles = d3.select("#perf-min-verify").property("value");
-  const maxVerifyCycles = d3.select("#perf-max-verify").property("value");
+  const minSignCycles = parseInt(d3.select("#perf-min-sign").property("value"));
+  const maxSignCycles = parseInt(d3.select("#perf-max-sign").property("value"));
+  const minVerifyCycles = parseInt(d3.select("#perf-min-verify").property("value"));
+  const maxVerifyCycles = parseInt(d3.select("#perf-max-verify").property("value"));
 
   const applyCycles = d3.select("#props-sync-filters").property("checked");
 
@@ -240,10 +240,10 @@ function updateTable(event) {
     .data();
 
   function sortAndFilterPerformance() {
-    const minSignCycles = d3.select("#perf-min-sign").property("value");
-    const maxSignCycles = d3.select("#perf-max-sign").property("value");
-    const minVerifyCycles = d3.select("#perf-min-verify").property("value");
-    const maxVerifyCycles = d3.select("#perf-max-verify").property("value");
+    const minSignCycles = parseInt(d3.select("#perf-min-sign").property("value"));
+    const maxSignCycles = parseInt(d3.select("#perf-max-sign").property("value"));
+    const minVerifyCycles = parseInt(d3.select("#perf-min-verify").property("value"));
+    const maxVerifyCycles = parseInt(d3.select("#perf-max-verify").property("value"));
 
     const applySizes = d3.select("#perf-sync-filters").property("checked");
     const minPk = parseInt(d3.select("#props-min-pk").property("value"));
