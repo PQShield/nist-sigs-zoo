@@ -23,7 +23,7 @@ UOV,On-ramp,https://www.uovsig.org/,Multivariate,no,Multivariate
 VOX,On-ramp,http://vox-sign.com/,Multivariate,no,Multivariate
 Wave,On-ramp,https://wave-sign.org/,Code-based,no,Coding theory
 Squirrels,On-ramp,https://www.squirrels-pqc.org/,Lattices,no,SIS
-LESS ,On-ramp,https://less-project.com,Code-based,no,Linear Equivalence Problem
+LESS,On-ramp,https://less-project.com,Code-based,no,Linear Equivalence Problem
 HAETAE,On-ramp,https://kpqc.cryptolab.co.kr/haetae,Lattices,no,MLWE/MSIS
 Enhanced pqsigRM,On-ramp,https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/round-1/spec-files/Enhanced-pqsigRM-spec-web.pdf,Code-based,no,Reed Muller codes
 EagleSign,On-ramp,https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/round-1/spec-files/EagleSign-spec-web.pdf,Lattices,signature leaks secret key,MNTRU/MLWE
