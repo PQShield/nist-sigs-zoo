@@ -144,7 +144,8 @@ function updateTable(event) {
 
   schemes.forEach((s) => {
     if (!selectedCategories.includes(s.Category)) {
-      d3.select("#switch-" + cleanId(s.Scheme)).property("checked", false);
+      d3.select("#perf-switch-" + cleanId(s.Scheme)).property("checked", false);
+      d3.select("#props-switch-" + cleanId(s.Scheme)).property("checked", false);
     }
   });
 
