@@ -20,7 +20,7 @@ HAWK,On-ramp,https://hawk-sign.info,Lattices,no,Lattice Isomorphism Problem
 HPPC,On-ramp,https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/round-1/spec-files/hppc-spec-web.pdf,Multivariate,2^64 collision / universal forgery attack,HFE
 HuFu,On-ramp,http://123.56.244.4/,Lattices,no,LWE/SIS
 KAZ-Sign,On-ramp,https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/round-1/spec-files/kaz-sign-spec-web.pdf,Other,universal signature forgery,Second-order Discrete Logarithm Problem
-LESS,On-ramp,https://less-project.com,Code-based,no,Linear Equivalence Problem
+LESS,On-ramp,https://less-project.com,Code-based,Original spec lacks validation of matrix well-formedness,Linear Equivalence Problem
 MAYO,On-ramp,https://pqmayo.org,Multivariate,no,Multivariate quadratic
 MEDS,On-ramp,https://www.meds-pqc.org/,Code-based,original reference implementation has an implementation flaw,Matrix Code Equivalence
 MIRA,On-ramp,https://pqc-mira.org/,MPC-in-the-Head,no,MinRank
