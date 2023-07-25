@@ -6,15 +6,15 @@ Ascon-Sign,On-ramp,https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documen
 Biscuit,On-ramp,https://www.biscuit-pqc.org/,Multivariate,smaller security margin,multivariate: solving generic sctructured algebraic equations
 CROSS,On-ramp,https://cross-crypto.com/,MPC-in-the-Head,no,Restricted syndrome decoding
 Dilithium,To be standardized,https://pq-crystals.org/dilithium,Lattices,no,MLWE/MSIS
-DME-Sign,On-ramp,https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/round-1/spec-files/DME_SIGN-spec-web.pdf,Multivariate,no,deterministic trapdoor permutation
+DME-Sign,On-ramp,https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/round-1/spec-files/DME_SIGN-spec-web.pdf,Multivariate,2^96 signature forgery,deterministic trapdoor permutation
 EagleSign,On-ramp,https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/round-1/spec-files/EagleSign-spec-web.pdf,Lattices,signature leaks secret key,MNTRU/MLWE
 EdDSA,Classic cryptography,https://ed25519.cr.yp.to/,Pre-Quantum,classical,Elliptic Curves
-EHTv3 / EHTv4,On-ramp,https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/round-1/spec-files/EHTv3v4-spec-web.pdf,Lattices,no,Lattices?
+EHTv3 / EHTv4,On-ramp,https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/round-1/spec-files/EHTv3v4-spec-web.pdf,Lattices,EHTv3 is broken,Lattices?
 eMLE-Sig 2.0,On-ramp,https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/round-1/spec-files/eMLE-spec-web.pdf,Other,secret key recovery,Embedded Multilayer Equations
 Enhanced pqsigRM,On-ramp,https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/round-1/spec-files/Enhanced-pqsigRM-spec-web.pdf,Code-based,no,Reed Muller codes
 FAEST,On-ramp,https://faest.info,Symmetric,no,symmetric / zero-knowledge VOLE-in-the-Head
 Falcon,To be standardized,https://falcon-sign.info,Lattices,no,NTRU-SIS
-FuLeeca,On-ramp,https://www.ce.cit.tum.de/lnt/forschung/professur-fuer-coding-and-cryptography/fuleeca/,Code-based,no,Code-based Lee Metric
+FuLeeca,On-ramp,https://www.ce.cit.tum.de/lnt/forschung/professur-fuer-coding-and-cryptography/fuleeca/,Code-based,Significant reduction in security margin,Code-based Lee Metric
 HAETAE,On-ramp,https://kpqc.cryptolab.co.kr/haetae,Lattices,no,MLWE/MSIS
 HAWK,On-ramp,https://hawk-sign.info,Lattices,no,Lattice Isomorphism Problem
 HPPC,On-ramp,https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/round-1/spec-files/hppc-spec-web.pdf,Multivariate,2^64 collision / universal forgery attack,HFE
@@ -22,7 +22,7 @@ HuFu,On-ramp,http://123.56.244.4/,Lattices,no,LWE/SIS
 KAZ-Sign,On-ramp,https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/round-1/spec-files/kaz-sign-spec-web.pdf,Other,universal signature forgery,Second-order Discrete Logarithm Problem
 LESS,On-ramp,https://less-project.com,Code-based,no,Linear Equivalence Problem
 MAYO,On-ramp,https://pqmayo.org,Multivariate,no,Multivariate quadratic
-MEDS,On-ramp,https://www.meds-pqc.org/,Code-based,no,Matrix Code Equivalence
+MEDS,On-ramp,https://www.meds-pqc.org/,Code-based,original reference implementation has an implementation flaw,Matrix Code Equivalence
 MIRA,On-ramp,https://pqc-mira.org/,MPC-in-the-Head,no,MinRank
 MiRitH,On-ramp,https://github.com/Crypto-TII/mirith_nist_submission/,MPC-in-the-Head,no,MinRank
 MQOM,On-ramp,https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/round-1/spec-files/MQOM-spec-web.pdf,MPC-in-the-Head,no,Multivariate Quadratic
