@@ -1,5 +1,5 @@
 Scheme,NIST status,Website,Category,Broken,Assumption
-3WISE,On-ramp,https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/round-1/spec-files/3wise-spec-web.pdf,Multivariate,yes,cubic degree
+3WISE,On-ramp,https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/round-1/spec-files/3wise-spec-web.pdf,Multivariate,Broken,cubic degree
 AIMer,On-ramp,https://www.aimer-signature.org/,Symmetric,no,Zero-knowledge proof of knowledge
 ALTEQ,On-ramp,https://pqcalteq.github.io/,Other,original reference implementation has an implementation flaw,alternating trilinear form equivalence problem
 Ascon-Sign,On-ramp,https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/round-1/spec-files/Ascon-sign-spec-web.pdf,Symmetric,no,SPHINCS+ with Ascon

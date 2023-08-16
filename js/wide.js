@@ -703,7 +703,7 @@ function dotTitle(d) {
     d.Sig.toLocaleString() +
     " B";
   if (d.Broken) {
-    str += "\n ⚠️ Broken!";
+    str += "\n ⚠️ " + d.Broken + "!";
   }
   return str;
 }
