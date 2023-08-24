@@ -147,23 +147,6 @@ function updateTable(event) {
   const selectedCategories = d3.selectAll(".category > input:checked").data();
   console.log(selectedCategories);
 
-  schemes.forEach((s) => {
-    const schemeSwitch = d3.select("#props-switch-" + cleanId(s.Scheme));
-    if (
-      !selectedCategories.includes(s.Category) &&
-      schemeSwitch.property("checked")
-    ) {
-      schemeSwitch.property(
-        "data-was-switched",
-        schemeSwitch.property("checked")
-      );
-      schemeSwitch.property("checked", false);
-    } else if (schemeSwitch.property("data-was-switched")) {
-      schemeSwitch.property("checked", true);
-      schemeSwitch.property("data-was-switched", null);
-    }
-  });
-
   d3.select("#properties-table")
     .select("tbody")
     .selectAll("tr")
@@ -234,6 +217,17 @@ function updateTable(event) {
   updatePlot();
 }
 
+function switchSchemesForCategory(event, category) {
+  const enabledCategory = event.target.checked;
+  schemes.forEach((scheme) => {
+    console.log(scheme, event,category);
+    if (scheme.Category === category) {
+      d3.select("#props-switch-" + cleanId(scheme.Scheme)).property("checked", enabledCategory);
+      d3.select("#perf-switch-" + cleanId(scheme.Scheme)).property("checked", enabledCategory);
+    }
+  });
+}
+
 d3.select("#categories")
   .selectAll("div")
   .classed("grid-x", true)
@@ -254,7 +248,10 @@ d3.select("#categories")
       .classed("switch-input categories-filter", true)
       .property("checked", true)
       .datum(d)
-      .on("click", updateTable);
+      .on("click", function(event) {
+        switchSchemesForCategory(event, d);
+        updateTable(event);
+      });
     toggle
       .append("label")
       .classed("switch-paddle", true)
