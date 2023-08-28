@@ -56,6 +56,7 @@ const properties = await d3.csv("data/parametersets.csv", (d) => {
     Extrapolated: extrapolated,
     Broken: broken,
     Classical: classical,
+    SchemeObj: scheme,
   };
 });
 
@@ -669,14 +670,15 @@ function dotColor(d) {
   if (d.Broken) {
     return "red";
   }
-  if (["Dilithium", "Falcon", "SPHINCS+"].includes(d.Scheme)) {
+  if (d.SchemeObj.Status === "FIPS draft") {
     return "magenta";
   }
   return "black";
 }
 
 function dotSymbol(d) {
-  if (["Dilithium", "Falcon", "SPHINCS+"].includes(d.Scheme)) {
+  console.log(d)
+  if (d.SchemeObj.Status === "FIPS draft") {
     return "star";
   }
   if (d.Classical) {
