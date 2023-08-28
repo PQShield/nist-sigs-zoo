@@ -29,13 +29,9 @@ const properties = await d3.csv("data/parametersets.csv", (d) => {
       (CPUSPEED * parseFloat(d["verification (ms)"].replace(/,/g, ""))) / 1000;
   }
 
-  let broken = schemes.find((s) => s.Scheme == d.Scheme && s.Broken);
-  if (broken === undefined) {
-    broken = false;
-  } else {
-    broken = broken.Broken;
-  }
-  const classical = schemes.some((s) => s.Scheme == d.Scheme && s.Classical);
+  const scheme = schemes.find((s) => s.Scheme == d.Scheme);
+  const broken = scheme.Broken;
+  const classical = s.Classical;
 
   const level = d["Security level"] === "Pre-Quantum" ? "Pre-Quantum" : +d["Security level"];
 

@@ -31,7 +31,7 @@ const properties = await d3.csv("data/parametersets.csv", (d) => {
 
   const scheme = schemes.find((s) => s.Scheme == d.Scheme);
 
-  let broken = scheme.Broken;
+  const broken = scheme.Broken;
   const classical = scheme.Classical;
 
   const level =
