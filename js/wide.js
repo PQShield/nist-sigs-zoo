@@ -670,7 +670,7 @@ function dotColor(d) {
   if (d.Broken) {
     return "red";
   }
-  if (d.SchemeObj.Status === "FIPS draft") {
+  if (d.SchemeObj.Status === "FIPS draft" || d.SchemeObj.Scheme == "Falcon") {
     return "magenta";
   }
   return "black";
@@ -678,7 +678,7 @@ function dotColor(d) {
 
 function dotSymbol(d) {
   console.log(d)
-  if (d.SchemeObj.Status === "FIPS draft") {
+  if (d.SchemeObj.Status === "FIPS draft" || d.SchemeObj.Scheme == "Falcon") {
     return "star";
   }
   if (d.Classical) {
