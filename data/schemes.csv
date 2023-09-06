@@ -6,7 +6,7 @@ Ascon-Sign,On-ramp,https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documen
 Biscuit,On-ramp,https://www.biscuit-pqc.org/,Multivariate,smaller security margin,multivariate: solving generic sctructured algebraic equations
 CROSS,On-ramp,https://cross-crypto.com/,MPC-in-the-Head,no,Restricted syndrome decoding
 ML-DSA (Dilithium),FIPS draft,https://pq-crystals.org/dilithium,Lattices,no,MLWE/MSIS
-DME-Sign,On-ramp,https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/round-1/spec-files/DME_SIGN-spec-web.pdf,Multivariate,2^96 signature forgery,deterministic trapdoor permutation
+DME-Sign,On-ramp,https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/round-1/spec-files/DME_SIGN-spec-web.pdf,Multivariate,equivalent secret key recovery,deterministic trapdoor permutation
 EagleSign,On-ramp,https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/round-1/spec-files/EagleSign-spec-web.pdf,Lattices,signature leaks secret key,MNTRU/MLWE
 EdDSA,Classic cryptography,https://ed25519.cr.yp.to/,Pre-Quantum,classical,Elliptic Curves
 EHTv3 / EHTv4,On-ramp,https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/round-1/spec-files/EHTv3v4-spec-web.pdf,Lattices,EHTv3 is broken,Lattices?
