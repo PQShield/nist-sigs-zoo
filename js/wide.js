@@ -8,7 +8,9 @@ const schemes = await d3.csv("data/schemes.csv", (d) => {
     Status: d["NIST status"],
     Website: d.Website,
     Category: d.Category,
-    Broken: d.Broken === "no" ? false : d.Broken,
+    Broken: d.Broken === "" ? false : d.Broken,
+    Info: d.Info === "" ? false : d.Info,
+    Warning: d.Warning === "" ? false : d.Warning,
     Classical: d.Broken === "classical",
     Assumption: d.Assumption,
   };
@@ -32,6 +34,8 @@ const properties = await d3.csv("data/parametersets.csv", (d) => {
   const scheme = schemes.find((s) => s.Scheme == d.Scheme);
 
   const broken = scheme.Broken;
+  const warning = scheme.Warning;
+  const info = scheme.Info;
   const classical = scheme.Classical;
 
   const level =
@@ -55,6 +59,8 @@ const properties = await d3.csv("data/parametersets.csv", (d) => {
     VerificationTime: parseFloat(d["verification (ms)"].replace(/,/g, "")),
     Extrapolated: extrapolated,
     Broken: broken,
+    Info: info,
+    Warning: warning,
     Classical: classical,
     SchemeObj: scheme,
   };
@@ -166,11 +172,18 @@ function updateTable(event) {
         if (d.Broken) {
           cell
             .append("span")
-            .property(
-              "title",
-              "This submission has security vulnerabilities: " + d.Broken
-            )
-            .text(" ⚠️");
+            .property("title", "This submission has security vulnerabilities: " + d.Broken)
+            .text(" 🧨");
+        } else if (d.Warning) {
+          cell
+          .append("span")
+          .property("title", "This submission has security vulnerabilities: " + d.Warning)
+          .text(" ⚠️");
+        }else if (d.Info) {
+          cell
+          .append("span")
+          .property("title", "This submission has security vulnerabilities: " + d.Info)
+          .text(" ℹ️");
         }
         row.append("td").text(scheme.Category);
         row.append("td").text(d.Parameterset);
@@ -667,7 +680,7 @@ function dotColor(d) {
   if (d.Classical) {
     return "blue";
   }
-  if (d.Broken) {
+  if (d.Broken || d.Warning) {
     return "red";
   }
   if (d.SchemeObj.Status === "FIPS draft" || d.SchemeObj.Scheme == "Falcon") {

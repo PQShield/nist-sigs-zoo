@@ -1,46 +1,46 @@
-Scheme,NIST status,Website,Category,Broken,Assumption
-3WISE,On-ramp,https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/round-1/spec-files/3wise-spec-web.pdf,Multivariate,Broken,cubic degree
-AIMer,On-ramp,https://www.aimer-signature.org/,Symmetric,no,Zero-knowledge proof of knowledge
-ALTEQ,On-ramp,https://pqcalteq.github.io/,Other,original reference implementation has an implementation flaw,alternating trilinear form equivalence problem
-Ascon-Sign,On-ramp,https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/round-1/spec-files/Ascon-sign-spec-web.pdf,Symmetric,no,SPHINCS+ with Ascon
-Biscuit,On-ramp,https://www.biscuit-pqc.org/,Multivariate,smaller security margin,multivariate: solving generic sctructured algebraic equations
-CROSS,On-ramp,https://cross-crypto.com/,MPC-in-the-Head,no,Restricted syndrome decoding
-ML-DSA (Dilithium),FIPS draft,https://pq-crystals.org/dilithium,Lattices,no,MLWE/MSIS
-DME-Sign,On-ramp,https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/round-1/spec-files/DME_SIGN-spec-web.pdf,Multivariate,equivalent secret key recovery,deterministic trapdoor permutation
-EagleSign,On-ramp,https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/round-1/spec-files/EagleSign-spec-web.pdf,Lattices,signature leaks secret key,MNTRU/MLWE
-EdDSA,Classic cryptography,https://ed25519.cr.yp.to/,Pre-Quantum,classical,Elliptic Curves
-EHTv3 / EHTv4,On-ramp,https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/round-1/spec-files/EHTv3v4-spec-web.pdf,Lattices,EHTv3 is broken,Lattices?
-eMLE-Sig 2.0,On-ramp,https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/round-1/spec-files/eMLE-spec-web.pdf,Other,secret key recovery,Embedded Multilayer Equations
-Enhanced pqsigRM,On-ramp,https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/round-1/spec-files/Enhanced-pqsigRM-spec-web.pdf,Code-based,no,Reed Muller codes
-FAEST,On-ramp,https://faest.info,Symmetric,no,symmetric / zero-knowledge VOLE-in-the-Head
-Falcon,To be standardized,https://falcon-sign.info,Lattices,no,NTRU-SIS
-FuLeeca,On-ramp,https://www.ce.cit.tum.de/lnt/forschung/professur-fuer-coding-and-cryptography/fuleeca/,Code-based,Significant reduction in security margin,Code-based Lee Metric
-HAETAE,On-ramp,https://kpqc.cryptolab.co.kr/haetae,Lattices,no,MLWE/MSIS
-HAWK,On-ramp,https://hawk-sign.info,Lattices,no,Lattice Isomorphism Problem
-HPPC,On-ramp,https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/round-1/spec-files/hppc-spec-web.pdf,Multivariate,2^64 collision / universal forgery attack,HFE
-HuFu,On-ramp,http://123.56.244.4/,Lattices,bit-flipping signature forgery,LWE/SIS
-KAZ-Sign,On-ramp,https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/round-1/spec-files/kaz-sign-spec-web.pdf,Other,universal signature forgery,Second-order Discrete Logarithm Problem
-LESS,On-ramp,https://less-project.com,Code-based,Original specification lacks verification of well-formed matrices,Linear Equivalence Problem
-MAYO,On-ramp,https://pqmayo.org,Multivariate,no,Multivariate quadratic
-MEDS,On-ramp,https://www.meds-pqc.org/,Code-based,original reference implementation has an implementation flaw,Matrix Code Equivalence
-MIRA,On-ramp,https://pqc-mira.org/,MPC-in-the-Head,no,MinRank
-MiRitH,On-ramp,https://github.com/Crypto-TII/mirith_nist_submission/,MPC-in-the-Head,no,MinRank
-MQOM,On-ramp,https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/round-1/spec-files/MQOM-spec-web.pdf,MPC-in-the-Head,no,Multivariate Quadratic
-PERK,On-ramp,https://pqc-perk.org/,MPC-in-the-Head,no,Permuted Kernel
-PREON,On-ramp,https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/round-1/spec-files/Preon-spec-web.pdf,Other,no,zk-SNARK
-PROV,On-ramp,https://prov-sign.github.io/,Multivariate,no,Multivariate
-QR-UOV,On-ramp,http://info.isl.ntt.co.jp/crypt/qruov/index.html,Multivariate,no,Multivariate
-Raccoon,On-ramp,https://raccoonfamily.org/,Lattices,no,MLWE/MSIS
-RSA,Classic cryptography,https://web.archive.org/web/20230127011251/http://people.csail.mit.edu/rivest/Rsapaper.pdf,Pre-Quantum,classical,Factoring
-RYDE,On-ramp,https://pqc-ryde.org/,MPC-in-the-Head,no,Rank Syndrome Decoding
-SDitH,On-ramp,https://sdith.org/,MPC-in-the-Head,few bits security loss in original parameters,Syndrome Decoding
-SNOVA,On-ramp,http://snova.pqclab.org/,Multivariate,no,Non-commutative ring UOV
-SPHINCS-alpha,On-ramp,https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/round-1/spec-files/sphincs-alpha-spec-web.pdf,Symmetric,no,hash-based
-SLH-DSA (SPHINCS+),FIPS draft,https://sphincs.org/,Symmetric,no,Hash-based
-SQIsign,On-ramp,https://sqisign.org/,Isogenies,no,Isogenies
-Squirrels,On-ramp,https://www.squirrels-pqc.org/,Lattices,no,SIS
-TUOV,On-ramp,https://www.tuovsig.org/,Multivariate,no,UOV
-UOV,On-ramp,https://www.uovsig.org/,Multivariate,no,Multivariate
-VOX,On-ramp,http://vox-sign.com/,Multivariate,no,Multivariate
-Wave,On-ramp,https://wave-sign.org/,Code-based,no,Coding theory
-Xifrat1-Sign.I,On-ramp,https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/round-1/spec-files/xifrat1-sign-i-spec.pdf,Other,secret key recovery,randomized abelian quasigroups
+Scheme,NIST status,Website,Category,Broken,Warning,Info,Assumption
+3WISE,On-ramp,https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/round-1/spec-files/3wise-spec-web.pdf,Multivariate,Broken,,,cubic degree
+AIMer,On-ramp,https://www.aimer-signature.org/,Symmetric,,Original AIM cipher was insecure,,Zero-knowledge proof of knowledge
+ALTEQ,On-ramp,https://pqcalteq.github.io/,Other,,,original reference implementation has an implementation flaw,alternating trilinear form equivalence problem
+Ascon-Sign,On-ramp,https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/round-1/spec-files/Ascon-sign-spec-web.pdf,Symmetric,,,,SPHINCS+ with Ascon
+Biscuit,On-ramp,https://www.biscuit-pqc.org/,Multivariate,,smaller security margin,,multivariate: solving generic sctructured algebraic equations
+CROSS,On-ramp,https://cross-crypto.com/,MPC-in-the-Head,,,,Restricted syndrome decoding
+ML-DSA (Dilithium),FIPS draft,https://pq-crystals.org/dilithium,Lattices,,,,MLWE/MSIS
+DME-Sign,On-ramp,https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/round-1/spec-files/DME_SIGN-spec-web.pdf,Multivariate,2^96 signature forgery,,,deterministic trapdoor permutation
+EagleSign,On-ramp,https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/round-1/spec-files/EagleSign-spec-web.pdf,Lattices,signature leaks secret key,,,MNTRU/MLWE
+EdDSA,Classic cryptography,https://ed25519.cr.yp.to/,Pre-Quantum,classical,,,Elliptic Curves
+EHTv3 / EHTv4,On-ramp,https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/round-1/spec-files/EHTv3v4-spec-web.pdf,Lattices,EHTv3 is broken,,,Lattices?
+eMLE-Sig 2.0,On-ramp,https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/round-1/spec-files/eMLE-spec-web.pdf,Other,secret key recovery,,,Embedded Multilayer Equations
+Enhanced pqsigRM,On-ramp,https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/round-1/spec-files/Enhanced-pqsigRM-spec-web.pdf,Code-based,signatures leak secret information,,,Reed Muller codes
+FAEST,On-ramp,https://faest.info,Symmetric,,,,symmetric / zero-knowledge VOLE-in-the-Head
+Falcon,To be standardized,https://falcon-sign.info,Lattices,,,,NTRU-SIS
+FuLeeca,On-ramp,https://www.ce.cit.tum.de/lnt/forschung/professur-fuer-coding-and-cryptography/fuleeca/,Code-based,Significant reduction in security margin,,,Code-based Lee Metric
+HAETAE,On-ramp,https://kpqc.cryptolab.co.kr/haetae,Lattices,,,,MLWE/MSIS
+HAWK,On-ramp,https://hawk-sign.info,Lattices,,,,Lattice Isomorphism Problem
+HPPC,On-ramp,https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/round-1/spec-files/hppc-spec-web.pdf,Multivariate,2^64 collision / universal forgery attack,,,HFE
+HuFu,On-ramp,http://123.56.244.4/,Lattices,,,Original version had bit-flipping signature forgery,LWE/SIS
+KAZ-Sign,On-ramp,https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/round-1/spec-files/kaz-sign-spec-web.pdf,Other,universal signature forgery,,,Second-order Discrete Logarithm Problem
+LESS,On-ramp,https://less-project.com,Code-based,,,Original specification lacks verification of well-formed matrices,Linear Equivalence Problem
+MAYO,On-ramp,https://pqmayo.org,Multivariate,,,,Multivariate quadratic
+MEDS,On-ramp,https://www.meds-pqc.org/,Code-based,,,original reference implementation has an implementation flaw,Matrix Code Equivalence
+MIRA,On-ramp,https://pqc-mira.org/,MPC-in-the-Head,,,,MinRank
+MiRitH,On-ramp,https://github.com/Crypto-TII/mirith_nist_submission/,MPC-in-the-Head,,,,MinRank
+MQOM,On-ramp,https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/round-1/spec-files/MQOM-spec-web.pdf,MPC-in-the-Head,,,,Multivariate Quadratic
+PERK,On-ramp,https://pqc-perk.org/,MPC-in-the-Head,,,,Permuted Kernel
+PREON,On-ramp,https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/round-1/spec-files/Preon-spec-web.pdf,Other,,,,zk-SNARK
+PROV,On-ramp,https://prov-sign.github.io/,Multivariate,,,,Multivariate
+QR-UOV,On-ramp,http://info.isl.ntt.co.jp/crypt/qruov/index.html,Multivariate,,,,Multivariate
+Raccoon,On-ramp,https://raccoonfamily.org/,Lattices,,,,MLWE/MSIS
+RSA,Classic cryptography,https://web.archive.org/web/20230127011251/http://people.csail.mit.edu/rivest/Rsapaper.pdf,Pre-Quantum,classical,,,Factoring
+RYDE,On-ramp,https://pqc-ryde.org/,MPC-in-the-Head,,,,Rank Syndrome Decoding
+SDitH,On-ramp,https://sdith.org/,MPC-in-the-Head,,few bits security loss in original parameters,,Syndrome Decoding
+SNOVA,On-ramp,http://snova.pqclab.org/,Multivariate,,,,Non-commutative ring UOV
+SPHINCS-alpha,On-ramp,https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/round-1/spec-files/sphincs-alpha-spec-web.pdf,Symmetric,,,,hash-based
+SLH-DSA (SPHINCS+),FIPS draft,https://sphincs.org/,Symmetric,,,,Hash-based
+SQIsign,On-ramp,https://sqisign.org/,Isogenies,,,,Isogenies
+Squirrels,On-ramp,https://www.squirrels-pqc.org/,Lattices,,,,SIS
+TUOV,On-ramp,https://www.tuovsig.org/,Multivariate,,,,UOV
+UOV,On-ramp,https://www.uovsig.org/,Multivariate,,,,Multivariate
+VOX,On-ramp,http://vox-sign.com/,Multivariate,,,,Multivariate
+Wave,On-ramp,https://wave-sign.org/,Code-based,,,,Coding theory
+Xifrat1-Sign.I,On-ramp,https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/round-1/spec-files/xifrat1-sign-i-spec.pdf,Other,secret key recovery,,,randomized abelian quasigroups
