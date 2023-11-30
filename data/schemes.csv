@@ -15,7 +15,7 @@ Enhanced pqsigRM,On-ramp,https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/d
 FAEST,On-ramp,https://faest.info,Symmetric,,,,symmetric / zero-knowledge VOLE-in-the-Head
 Falcon,To be standardized,https://falcon-sign.info,Lattices,,,,NTRU-SIS
 FuLeeca,On-ramp,https://www.ce.cit.tum.de/lnt/forschung/professur-fuer-coding-and-cryptography/fuleeca/,Code-based,Significant reduction in security margin,,,Code-based Lee Metric
-HAETAE,On-ramp,https://kpqc.cryptolab.co.kr/haetae,Lattices,,Original version has bit-flipping signature forgery,,MLWE/MSIS
+HAETAE,On-ramp,https://kpqc.cryptolab.co.kr/haetae,Lattices,,,Original version has bit-flipping signature forgery,MLWE/MSIS
 HAWK,On-ramp,https://hawk-sign.info,Lattices,,,,Lattice Isomorphism Problem
 HPPC,On-ramp,https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/round-1/spec-files/hppc-spec-web.pdf,Multivariate,2^64 collision / universal forgery attack,,,HFE
 HuFu,On-ramp,http://123.56.244.4/,Lattices,,,Original version had bit-flipping signature forgery,LWE/SIS
