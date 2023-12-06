@@ -33,7 +33,7 @@ QR-UOV,On-ramp,http://info.isl.ntt.co.jp/crypt/qruov/index.html,Multivariate,,,,
 Raccoon,On-ramp,https://raccoonfamily.org/,Lattices,,,,MLWE/MSIS
 RSA,Classic cryptography,https://web.archive.org/web/20230127011251/http://people.csail.mit.edu/rivest/Rsapaper.pdf,Pre-Quantum,classical,,,Factoring
 RYDE,On-ramp,https://pqc-ryde.org/,MPC-in-the-Head,,,,Rank Syndrome Decoding
-SDitH,On-ramp,https://sdith.org/,MPC-in-the-Head,,few bits security loss in original parameters,,Syndrome Decoding
+SDitH,On-ramp,https://sdith.org/,MPC-in-the-Head,,,few bits security loss in original parameters,Syndrome Decoding
 SNOVA,On-ramp,http://snova.pqclab.org/,Multivariate,,,,Non-commutative ring UOV
 SPHINCS-alpha,On-ramp,https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/round-1/spec-files/sphincs-alpha-spec-web.pdf,Symmetric,,,,hash-based
 SLH-DSA (SPHINCS+),FIPS draft,https://sphincs.org/,Symmetric,,,,Hash-based
