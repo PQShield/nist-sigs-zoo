@@ -28,7 +28,7 @@ MiRitH,On-ramp,https://github.com/Crypto-TII/mirith_nist_submission/,MPC-in-the-
 MQOM,On-ramp,https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/round-1/spec-files/MQOM-spec-web.pdf,MPC-in-the-Head,,,,Multivariate Quadratic
 PERK,On-ramp,https://pqc-perk.org/,MPC-in-the-Head,,,,Permuted Kernel
 PREON,On-ramp,https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/round-1/spec-files/Preon-spec-web.pdf,Other,,,,zk-SNARK
-PROV,On-ramp,https://prov-sign.github.io/,Multivariate,,,,Multivariate
+PROV,On-ramp,https://prov-sign.github.io/,Multivariate,,,PROV v1.0 leaks the private key. Use v1.1,Multivariate
 QR-UOV,On-ramp,http://info.isl.ntt.co.jp/crypt/qruov/index.html,Multivariate,,,,Multivariate
 Raccoon,On-ramp,https://raccoonfamily.org/,Lattices,,,,MLWE/MSIS
 RSA,Classic cryptography,https://web.archive.org/web/20230127011251/http://people.csail.mit.edu/rivest/Rsapaper.pdf,Pre-Quantum,classical,,,Factoring
