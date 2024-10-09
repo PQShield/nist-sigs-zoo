@@ -1,7 +1,7 @@
 Scheme,NIST status,Website,Category,Broken,Warning,Info,Assumption
 3WISE,On-ramp,https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/round-1/spec-files/3wise-spec-web.pdf,Multivariate,Broken,,,cubic degree
 AIMer,On-ramp,https://www.aimer-signature.org/,Symmetric,,Original AIM cipher was insecure,,Zero-knowledge proof of knowledge
-ALTEQ,On-ramp,https://pqcalteq.github.io/,Other,,,original reference implementation has an implementation flaw,alternating trilinear form equivalence problem
+ALTEQ,On-ramp,https://pqcalteq.github.io/,Other,,,1/q chance at generating weak keys,alternating trilinear form equivalence problem
 Ascon-Sign,On-ramp,https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/round-1/spec-files/Ascon-sign-spec-web.pdf,Symmetric,,,,SPHINCS+ with Ascon
 Biscuit,On-ramp,https://www.biscuit-pqc.org/,Multivariate,,smaller security margin,,multivariate: solving generic structured algebraic equations
 CROSS,On-ramp,https://cross-crypto.com/,MPC-in-the-Head,,,,Restricted syndrome decoding
