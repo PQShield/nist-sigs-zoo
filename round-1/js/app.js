@@ -32,21 +32,16 @@ const properties = await d3.csv("data/parametersets.csv", (d) => {
   }
 
   const scheme = schemes.find((s) => s.Scheme == d.Scheme);
-
   const broken = scheme.Broken;
   const warning = scheme.Warning;
   const info = scheme.Info;
   const classical = scheme.Classical;
 
-  const level =
-    d["Security level"] === "Pre-Quantum"
-      ? "Pre-Quantum"
-      : +d["Security level"];
+  const level = d["Security level"] === "Pre-Quantum" ? "Pre-Quantum" : +d["Security level"];
 
   return {
     Scheme: d.Scheme,
     Parameterset: d.Parameterset,
-    Category: scheme.Category,
     Level: level,
     Pk: +d["pk size"].replace(/,/g, ""),
     Sig: +d["sig size"].replace(/,/g, ""),
@@ -68,10 +63,24 @@ const properties = await d3.csv("data/parametersets.csv", (d) => {
 
 const categories = new Set(schemes.map((s) => s.Category));
 
+const table = d3.select("#scheme-table");
 const propsTable = d3.select("#properties-table");
 
 function cleanId(name) {
   return name.replace(/[^a-zA-Z0-9]/g, "_");
+}
+
+function reenableCategoryForScheme(event, scheme) {
+  if (!event.target.checked) {
+    return;
+  }
+  schemes.forEach((s) => {
+    console.log(s, scheme);
+    if (s.Scheme === scheme) {
+      d3.select("#switch-" + cleanId(s.Category)).property("checked", true);
+      return;
+    }
+  });
 }
 
 let schemeSortingDirection = 1;
@@ -100,14 +109,10 @@ function sortAndFilterProperties() {
 
   const minSignCycles = parseInt(d3.select("#perf-min-sign").property("value"));
   const maxSignCycles = parseInt(d3.select("#perf-max-sign").property("value"));
-  const minVerifyCycles = parseInt(
-    d3.select("#perf-min-verify").property("value")
-  );
-  const maxVerifyCycles = parseInt(
-    d3.select("#perf-max-verify").property("value")
-  );
+  const minVerifyCycles = parseInt(d3.select("#perf-min-verify").property("value"));
+  const maxVerifyCycles = parseInt(d3.select("#perf-max-verify").property("value"));
 
-  const applyCycles = true;
+  const applyCycles = d3.select("#props-sync-filters").property("checked");
 
   const selectedPropsLevels = d3
     .selectAll("#props-levels-filter input:checked")
@@ -136,44 +141,39 @@ function sortAndFilterProperties() {
     );
 }
 
-function reenableCategoryForScheme(event, scheme) {
-  if (!event.target.checked) {
-    return;
-  }
-  schemes.forEach((s) => {
-    console.log(s, scheme);
-    if (s.Scheme === scheme) {
-      d3.select("#switch-" + cleanId(s.Category)).property("checked", true);
-      return;
-    }
-  });
-}
-
 function updateTable(event) {
   console.log("updating tables");
   const selectedCategories = d3.selectAll(".category > input:checked").data();
-  console.log(selectedCategories);
 
-  d3.select("#properties-table")
+  function sortAndFilterSchemes() {
+    return schemes
+      .filter((s) => selectedCategories.includes(s.Category))
+      .sort(
+        (a, b) =>
+          schemeSortingDirection *
+          d3.ascending(a[nowSortingScheme], b[nowSortingScheme])
+      );
+  }
+
+  // data
+  table
     .select("tbody")
     .selectAll("tr")
-    .data(sortAndFilterProperties(), (d) => d.Scheme + d.Parameterset)
+    .data(sortAndFilterSchemes(), (d) => d.Scheme)
     .join((enter) =>
       enter.append((d) => {
-        const row = d3.create("tr");
-        const scheme = schemes.find((s) => s.Scheme === d.Scheme);
-
-        const cell = row
-          .append("td")
-          .append("span")
-          .attr("style", "text-decoration: underline dashed")
-          .property("title", scheme.Assumption)
+        const row = d3.create("tr").property("data-scheme", d.Scheme);
+        const cell = row.append("td");
+        cell
+          .append("a")
+          .attr("href", d.Website)
+          .attr("target", "_blank")
           .text(d.Scheme);
         if (d.Classical) {
           cell
             .append("span")
             .property("title", "This scheme is not resistant to quantum computers")
-            .text(" 💣");
+            .text(" ⚠️");
         } else if (d.Broken) {
           cell
             .append("span")
@@ -190,7 +190,39 @@ function updateTable(event) {
           .property("title", "This submission has security vulnerabilities: " + d.Info)
           .text(" ℹ️");
         }
-        row.append("td").text(scheme.Category);
+        row.append("td").text(d.Status);
+        row.append("td").text(d.Category);
+        row.append("td").text(d.Assumption);
+
+        return row.node();
+      })
+    );
+
+  d3.select("#properties-table")
+    .select("tbody")
+    .selectAll("tr")
+    .data(sortAndFilterProperties(), (d) => d.Scheme + d.Parameterset)
+    .join((enter) =>
+      enter.append((d) => {
+        const row = d3.create("tr");
+
+        const cell = row.append("td").text(d.Scheme);
+        if (d.Broken) {
+          cell
+            .append("span")
+            .property("title", "This submission has security vulnerabilities: " + d.Broken)
+            .text(" 🧨");
+        } else if (d.Warning) {
+          cell
+          .append("span")
+          .property("title", "This submission has security vulnerabilities: " + d.Warning)
+          .text(" ⚠️");
+        }else if (d.Info) {
+          cell
+          .append("span")
+          .property("title", "This submission has security vulnerabilities: " + d.Info)
+          .text(" ℹ️");
+        }
         row.append("td").text(d.Parameterset);
         if (d.Classical) {
           row.append("td").text("Pre-Q");
@@ -209,6 +241,99 @@ function updateTable(event) {
           .append("td")
           .text(d.PkPlusSig.toLocaleString())
           .attr("style", "text-align: right");
+        return row.node();
+      })
+    );
+
+  let selectedPerfSchemes = schemes.map((d) => d.Scheme);
+  if (event !== undefined) {
+    selectedPerfSchemes = d3
+      .selectAll("#perf-schemes-filter input:checked")
+      .data();
+  }
+
+  const selectedPerfLevels = d3
+    .selectAll("#perf-levels-filter input:checked")
+    .data();
+
+  function sortAndFilterPerformance() {
+    const minSignCycles = parseInt(d3.select("#perf-min-sign").property("value"));
+    const maxSignCycles = parseInt(d3.select("#perf-max-sign").property("value"));
+    const minVerifyCycles = parseInt(d3.select("#perf-min-verify").property("value"));
+    const maxVerifyCycles = parseInt(d3.select("#perf-max-verify").property("value"));
+
+    const applySizes = d3.select("#perf-sync-filters").property("checked");
+    const minPk = parseInt(d3.select("#props-min-pk").property("value"));
+    const maxPk = parseInt(d3.select("#props-max-pk").property("value"));
+    const minSig = parseInt(d3.select("#props-min-sig").property("value"));
+    const maxSig = parseInt(d3.select("#props-max-sig").property("value"));
+    const minPkPlusSig = parseInt(
+      d3.select("#props-min-pkplussig").property("value")
+    );
+    const maxPkPlusSig = parseInt(
+      d3.select("#props-max-pkplussig").property("value")
+    );
+
+    return properties
+      .filter(
+        (p) =>
+          selectedPerfSchemes.includes(p.Scheme) &&
+          selectedPerfLevels.includes(p.Level) &&
+          p.SigningCycles >= minSignCycles &&
+          p.SigningCycles <= maxSignCycles &&
+          p.VerificationCycles >= minVerifyCycles &&
+          p.VerificationCycles <= maxVerifyCycles &&
+          (!applySizes ||
+            (p.Pk >= minPk &&
+              maxPk >= p.Pk &&
+              p.Sig >= minSig &&
+              maxSig >= p.Sig &&
+              p.PkPlusSig >= minPkPlusSig &&
+              maxPkPlusSig >= p.PkPlusSig))
+      )
+      .sort(
+        (a, b) =>
+          performanceSortingDirection *
+          d3.ascending(a[nowSortingPerformance], b[nowSortingPerformance])
+      );
+  }
+
+  d3.select("#performance-table")
+    .select("tbody")
+    .selectAll("tr")
+    .data(sortAndFilterPerformance(), (d) => d.Scheme + d.Parameterset)
+    .join((enter) =>
+      enter.append((d) => {
+        const row = d3.create("tr");
+
+        const cell = row.append("td").text(d.Scheme);
+        if (d.Classical) {
+          cell
+            .append("span")
+            .property("title", "This scheme is not resistant to quantum computers")
+            .text(" ⚠️");
+        } else if (d.Broken) {
+          cell
+            .append("span")
+            .property("title", "This submission has security vulnerabilities: " + d.Broken)
+            .text(" 🧨");
+        } else if (d.Warning) {
+          cell
+          .append("span")
+          .property("title", "This submission has security vulnerabilities: " + d.Warning)
+          .text(" ⚠️");
+        }else if (d.Info) {
+          cell
+          .append("span")
+          .property("title", "This submission has security vulnerabilities: " + d.Info)
+          .text(" ℹ️");
+        }
+        row.append("td").text(d.Parameterset);
+        if (d.Classical) {
+          row.append("td").text("Pre-Q");
+        } else {
+          row.append("td").text(d.Level);
+        }
         let extrapolated_text_sign;
         let extrapolated_text_verify;
         if (d.Extrapolated) {
@@ -265,7 +390,7 @@ d3.select("#categories")
       .attr("type", "checkbox")
       .attr("id", "switch-" + cleanId(d))
       .classed("switch-input categories-filter", true)
-      .property("checked", true)
+      .property("checked", "checked")
       .datum(d)
       .on("click", function(event) {
         switchSchemesForCategory(event, d);
@@ -308,6 +433,10 @@ d3.select("#props-schemes-filter")
       .property("checked", "checked")
       .datum(d)
       .on("click", (e) => {
+        d3.select("#perf-switch-" + cleanId(d)).property(
+          "checked",
+          e.target.checked
+        );
         reenableCategoryForScheme(e, d);
         updateTable(e);
       });
@@ -365,6 +494,48 @@ d3.select("#props-levels-filter")
       .append("span")
       .classed("cell auto", true)
       .text(d == "Pre-Quantum" ? "Pre-Quantum" : "Level " + d);
+
+    return cat.node();
+  });
+
+d3.select("#perf-levels-filter")
+  .selectAll("div")
+  .classed("grid-x", true)
+  .data(["Pre-Quantum", 1, 2, 3, 4, 5])
+  .enter()
+  .append((d) => {
+    const cat = d3.create("div").classed("grid-x", true);
+
+    const toggle = cat
+      .append("div")
+      .classed("cell small-3", true)
+      .classed("switch tiny", true);
+    toggle
+      .append("input")
+      .attr("type", "checkbox")
+      .classed("nistlevel-filter", true)
+      .attr("id", "perf-switch-level-" + d)
+      .classed("switch-input", true)
+      .property("checked", "checked")
+      .datum(d)
+      .on("click", (e) => {
+        updateTable(e);
+      });
+    toggle
+      .append("label")
+      .classed("switch-paddle", true)
+      .attr("for", "perf-switch-level-" + d)
+      .append((e) =>
+        d3
+          .create("span")
+          .classed("show-for-sr", true)
+          .text("Show/hide NIST level " + d)
+          .node()
+      );
+    cat
+      .append("span")
+      .classed("cell auto", true)
+      .text(d == "Pre-Quantum" ? "Pre-Quantum" : "Level " + d)
 
     return cat.node();
   });
@@ -538,10 +709,6 @@ d3.select("#header-properties-scheme").on(
   "click",
   handleSortingProperties("Scheme")
 );
-d3.select("#header-properties-category").on(
-  "click",
-  handleSortingProperties("Category")
-);
 d3.select("#header-properties-parameterset").on(
   "click",
   handleSortingProperties("Parameterset")
@@ -557,15 +724,29 @@ d3.select("#header-properties-pksig").on(
   handleSortingProperties("PkPlusSig")
 );
 
+d3.select("#header-performance-scheme").on(
+  "click",
+  handleSortingPerformance("Scheme")
+);
+d3.select("#header-performance-parameterset").on(
+  "click",
+  handleSortingPerformance("Parameterset")
+);
+d3.select("#header-performance-level").on(
+  "click",
+  handleSortingPerformance("Level")
+);
+d3.select("#header-performance-sign").on(
+  "click",
+  handleSortingPerformance("SigningCycles")
+);
+d3.select("#header-performance-verify").on(
+  "click",
+  handleSortingPerformance("VerificationCycles")
+);
 
-d3.select("#header-properties-sign").on(
-  "click",
-  handleSortingProperties("SigningCycles")
-);
-d3.select("#header-properties-verify").on(
-  "click",
-  handleSortingProperties("VerificationCycles")
-);
+d3.select("#perf-sync-filters").on("change", updateTable);
+d3.select("#props-sync-filters").on("change", updateTable);
 
 // function getKeySizeChart() {
 //   // Declare the chart dimensions and margins.
@@ -682,21 +863,18 @@ d3.select("#header-properties-verify").on(
 // });
 
 function dotColor(d) {
-  if (d.Classical) {
-    return "blue";
-  }
+  if (d.Classical) { return "blue"; }
   if (d.Broken || d.Warning) {
     return "red";
   }
-  if (d.SchemeObj.Status === "FIPS" || d.SchemeObj.Scheme == "Falcon") {
+  if (d.SchemeObj.Status === "FIPS draft" || d.SchemeObj.Scheme == "Falcon") {
     return "magenta";
   }
   return "black";
 }
 
 function dotSymbol(d) {
-  console.log(d)
-  if (d.SchemeObj.Status === "FIPS" || d.SchemeObj.Scheme == "Falcon") {
+  if (d.SchemeObj.Status === "FIPS draft" || d.SchemeObj.Scheme == "Falcon") {
     return "star";
   }
   if (d.Classical) {

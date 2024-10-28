@@ -4,10 +4,10 @@
     <meta charset="utf-8" />
     <meta http-equiv="x-ua-compatible" content="ie=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Post-Quantum signatures zoo</title>
-    <link rel="stylesheet" href="css/foundation.css" />
-    <link rel="stylesheet" href="css/app.css" />
-    <link rel="stylesheet" href="css/theme.default.css" />
+    <title>Post-Quantum signatures zoo (NIST round 1)</title>
+    <link rel="stylesheet" href="../css/foundation.css" />
+    <link rel="stylesheet" href="../css/app.css" />
+    <link rel="stylesheet" href="../css/theme.default.css" />
   </head>
   <body>
     <div data-sticky-container>
@@ -21,7 +21,7 @@
           type="button"
           data-toggle="responsive-menu"
         ></button>
-        <div class="title-bar-title">PQ Signatures zoo</div>
+        <div class="title-bar-title">PQ Signatures zoo <b>Round 1</b> (widescreen)</div>
       </div>
 
       <div
@@ -33,18 +33,13 @@
       >
         <div class="top-bar-left">
           <ul class="dropdown menu" data-dropdown-menu>
-            <li class="menu-text">PQ Signatures Zoo</li>
-            <li class="">
-              <a href="#schemes">Schemes</a>
-            </li>
+            <li class="menu-text">PQ Signatures Zoo (widescreen)</li>
+            <li><a href="../index.html"><b>Round 2</b></a></li>
             <li>
               <a href="#parameters">Parameters</a>
             </li>
             <li>
-              <a href="#performance">Performance</a>
-            </li>
-            <li>
-              <a href="wide.html">Wide screen version</a>
+              <a href="index.html">Narrow screen version</a>
             </li>
           </ul>
         </div>
@@ -69,19 +64,11 @@
       <div class="grid-x grid-padding-x">
         <div class="large-8 cell">
           <h1>Post-Quantum signatures zoo</h1>
-          <h3>NIST round 2</h3>
+          <h3>NIST round 1</h3>
         </div>
       </div>
 
       <div class="grid-x grid-padding-x">
-        <div class="large-12 cell">
-          <div class="callout alert">
-              <h3>Schemes are still getting updated</h3>
-              <p>As part of round 2, schemes will be updating their parameters and submission documents.
-                  These have not yet been included in our data.</p>
-          </div>
-        </div>
-
         <div class="large-8 cell">
           <div class="callout">
             <h3>
@@ -100,7 +87,7 @@
         </div>
         <div class="large-4">
           <a href="https://pqshield.com" target="_blank"
-            ><img src="logo.png" class="thumbnail"
+            ><img src="../logo.png" class="thumbnail"
           /></a>
         </div>
       </div>
@@ -113,7 +100,7 @@
         </div>
       </div>
 
-      <div class="grid-x grid-padding-x grid-margin-y">
+      <!--<div class="grid-x grid-padding-x grid-margin-y">
         <div class="cell large-12 medium-12">
           <a name="schemes"></a>
           <h3>Schemes</h3>
@@ -132,15 +119,7 @@
           </table>
           <div id="scheme-table-bottom"></div>
         </div>
-
-        <div class="large-3 medium-6 small-5 cell">
-          <div class="callout secondary">
-            Click on the table headers to sort.
-          </div>
-          <h5>Filter categories</h5>
-          <div id="categories"></div>
-        </div>
-      </div>
+      </div>-->
 
       <div class="grid-x grid-padding-x grid-margin-y">
         <div class="cell large-12 medium-12">
@@ -150,16 +129,51 @@
         <div class="cell small-12">
           <div id="keySizeChart" class="small-12 large-12 cell"></div>
         </div>
-        <div class="small-12 large-9 medium-12 cell table-scroll">
+        <div class="cell large-12">
+          <div class="callout alert">
+            <h5>
+              Performance characteristics have been directly taken from the
+              submission documents!
+            </h5>
+            <p>
+              Note that many submissions do not have optimized implementations,
+              and that the measurements were collected under an enormous
+              variation of measurement setups. Some implementation are also not
+              timing-invariant with regards to secrets ("constant-time"), and
+              fixing this may also come with performance penalties.
+              <strong>
+                Take the performance metrics with a significant grain of salt.
+              </strong>
+            </p>
+            <p>
+              Some metrics have been extrapolated from reported times in
+              milliseconds. These have been converted
+              <strong
+                >assuming a 2.5 GHz cpu; independent of the benchmarking
+                platform</strong
+              >
+              reported. Converted metrics are
+              <span class="extrapolated">marked as such</span>.
+            </p>
+          </div>
+        </div>
+        <div class="small-12 large-12 medium-12 cell table-expand">
+          <div class="callout secondary cell medium-3 large-12">
+            Click on the table headers to sort.
+            <a href="#filters">Filters can be configured below the table</a>.
+          </div>
           <table id="properties-table">
             <thead>
               <tr>
                 <th id="header-properties-scheme">Scheme</th>
+                <th id="header-properties-category">Category</th>
                 <th id="header-properties-parameterset">Parameterset</th>
                 <th id="header-properties-level">NIST level</th>
                 <th id="header-properties-pk">Pk bytes</th>
                 <th id="header-properties-sig">Sig bytes</th>
                 <th id="header-properties-pksig">pk+sig</th>
+                <th id="header-properties-sign">Sign (cycles)</th>
+                <th id="header-properties-verify">Verify (cycles)</th>
               </tr>
             </thead>
             <tbody></tbody>
@@ -167,16 +181,21 @@
         </div>
 
         <div class="large-3 medium-12 small-12 cell">
+          <a name="filters"></a>
           <div class="grid-x">
-            <div class="callout secondary cell medium-3 large-12">
-              Click on the table headers to sort.
-            </div>
-
             <div class="cell medium-3 large-12">
               <h5>Filter Security Levels</h5>
               <div id="props-levels-filter"></div>
             </div>
 
+            <div class="cell medium-3 large-12">
+              <h5>Filter categories</h5>
+              <div id="categories"></div>
+            </div>
+          </div>
+        </div>
+        <div class="large-3 medium-12 small-12 cell">
+          <div class="grid-x">
             <div class="celll medium-3 large-12">
               <h5>Filter on sizes</h5>
               <div class="grid-x grid-margin-x">
@@ -219,7 +238,7 @@
                 </div>
               </div>
               <div class="grid-x grid-margin-x">
-                <h6 class="cell medium-12">Pk+Sig size</h6>
+                <h6 class="cell medium-12 large-12">Pk+Sig size</h6>
                 <div class="cell medium-6">
                   <label
                     >Minimum
@@ -237,95 +256,6 @@
                   </label>
                 </div>
               </div>
-            </div>
-            <div class="cell medium-3 large-12">
-              <h5>Sync performance filters</h5>
-              <div
-                class="grid-x"
-                title="Apply the cycle count filters from the performance table"
-              >
-                <div class="small-3 medium-3 switch tiny">
-                  <input
-                    id="props-sync-filters"
-                    type="checkbox"
-                    class="switch-input"
-                    checked="true"
-                  />
-                  <label for="props-sync-filters" class="switch-paddle"
-                    ><span class="show-for-sr">Synchronize filters</span></label
-                  >
-                </div>
-                <span class="cell small-8">Apply performance filters</span>
-              </div>
-            </div>
-            <div class="cell medium-3 large-12">
-              <h5>Filter schemes</h5>
-              <a class="button small select-none-params">Select none</a>
-              <a class="button small select-all-params">all</a>
-              <div id="props-schemes-filter"></div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="grid-x grid-padding-x grid-margin-y">
-        <div class="cell large-12 medium-12">
-          <a name="performance"></a>
-          <h3>Performance metrics</h3>
-        </div>
-        <div class="cell large-12">
-          <div class="callout alert">
-            <h5>
-              Performance characteristics have been directly taken from the
-              submission documents!
-            </h5>
-            <p>
-              Note that many submissions do not have optimized implementations,
-              and that the measurements were collected under an enormous
-              variation of measurement setups. Some implementation are also not
-              timing-invariant with regards to secrets ("constant-time"), and
-              fixing this may also come with performance penalties.
-              <strong>
-                Take the performance metrics with a significant grain of salt.
-              </strong>
-            </p>
-            <p>
-              Some metrics have been extrapolated from reported times in
-              milliseconds. These have been converted
-              <strong
-                >assuming a 2.5 GHz cpu; independent of the benchmarking
-                platform</strong
-              >
-              reported. Converted metrics are
-              <span class="extrapolated">marked as such</span>.
-            </p>
-          </div>
-        </div>
-
-        <div class="cell small-12 medium-12 large-9 table-scroll">
-          <table id="performance-table">
-            <thead>
-              <tr>
-                <th id="header-performance-scheme">Scheme</th>
-                <th id="header-performance-parameterset">Parameterset</th>
-                <th id="header-performance-level">NIST level</th>
-                <th id="header-performance-sign">Sign (cycles)</th>
-                <th id="header-performance-verify">Verify (cycles)</th>
-              </tr>
-            </thead>
-            <tbody></tbody>
-          </table>
-        </div>
-
-        <div class="large-3 medium-12 small-12 cell">
-          <div class="grid-x">
-            <div class="callout secondary cell medium-3 large-12">
-              Click on the table headers to sort.
-            </div>
-
-            <div class="cell medium-3 large-12">
-              <h5>Filter Security Levels</h5>
-              <div id="perf-levels-filter"></div>
             </div>
             <div class="celll medium-3 large-12">
               <h5>Filter on runtime</h5>
@@ -368,31 +298,15 @@
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+        <div class="large-3 medium-12 small-12 cell">
+          <div class="grid-x">
             <div class="cell medium-3 large-12">
-              <h5>Sync size filters</h5>
-              <div
-                class="grid-x"
-                title="Apply the size filters from the parameters table"
-              >
-                <div class="small-3 medium-3 switch tiny">
-                  <input
-                    id="perf-sync-filters"
-                    type="checkbox"
-                    class="switch-input"
-                    checked="true"
-                  />
-                  <label for="perf-sync-filters" class="switch-paddle"
-                    ><span class="show-for-sr">Synchronize filters</span></label
-                  >
-                </div>
-                <span class="cell small-8">Apply size filters</span>
-              </div>
-            </div>
-            <div class="cell medium-3 large-12">
-              <h5>Filter parameters</h5>
+              <h5>Filter schemes</h5>
               <a class="button small select-none-params">Select none</a>
               <a class="button small select-all-params">all</a>
-              <div id="perf-schemes-filter"></div>
+              <div id="props-schemes-filter"></div>
             </div>
           </div>
         </div>
@@ -415,9 +329,8 @@
               >GitHub</a
             >.
           </p>
-          <p>Data last updated 2024-10-28.</p>
+          <p>Data last updated 2023-09-06.</p>
           <p>Made with love by the PQShield research team.</p>
-          <p><a href="round-1/">Find the round-1 version here</a></p>
           <a href="https://pqshield.com"><img src="logo.png" /></a>
         </div>
       </footer>
@@ -429,6 +342,6 @@
     <script src="js/vendor/foundation.js"></script>
     <script src="static/d3.v7.min.js"></script>
     <script src="js/plot.js"></script>
-    <script src="js/app.js" type="module"></script>
+    <script src="js/wide.js" type="module"></script>
   </body>
 </html>
