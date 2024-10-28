@@ -173,7 +173,7 @@ function updateTable(event) {
           cell
             .append("span")
             .property("title", "This scheme is not resistant to quantum computers")
-            .text(" ⚠️");
+            .text(" 💣");
         } else if (d.Broken) {
           cell
             .append("span")
@@ -207,11 +207,11 @@ function updateTable(event) {
         const row = d3.create("tr");
 
         const cell = row.append("td").text(d.Scheme);
-        if (d.Broken) {
+        if (d.Classical) {
           cell
             .append("span")
-            .property("title", "This submission has security vulnerabilities: " + d.Broken)
-            .text(" 🧨");
+            .property("title", "This scheme is not resistant to quantum computers")
+            .text(" 💣");
         } else if (d.Warning) {
           cell
           .append("span")
@@ -867,14 +867,14 @@ function dotColor(d) {
   if (d.Broken || d.Warning) {
     return "red";
   }
-  if (d.SchemeObj.Status === "FIPS draft" || d.SchemeObj.Scheme == "Falcon") {
+  if (d.SchemeObj.Status === "FIPS" || d.SchemeObj.Scheme == "Falcon") {
     return "magenta";
   }
   return "black";
 }
 
 function dotSymbol(d) {
-  if (d.SchemeObj.Status === "FIPS draft" || d.SchemeObj.Scheme == "Falcon") {
+  if (d.SchemeObj.Status === "FIPS" || d.SchemeObj.Scheme == "Falcon") {
     return "star";
   }
   if (d.Classical) {
