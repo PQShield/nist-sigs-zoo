@@ -173,7 +173,7 @@ function updateTable(event) {
           cell
             .append("span")
             .property("title", "This scheme is not resistant to quantum computers")
-            .text(" ⚠️");
+            .text(" 💣");
         } else if (d.Broken) {
           cell
             .append("span")
