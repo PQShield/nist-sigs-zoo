@@ -4,7 +4,7 @@ AIMer,On-ramp,https://www.aimer-signature.org/,Symmetric,,Original AIM cipher wa
 ALTEQ,On-ramp,https://pqcalteq.github.io/,Other,,,1/q chance at generating weak keys,alternating trilinear form equivalence problem
 Ascon-Sign,On-ramp,https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/round-1/spec-files/Ascon-sign-spec-web.pdf,Symmetric,,,,SPHINCS+ with Ascon
 Biscuit,On-ramp,https://www.biscuit-pqc.org/,Multivariate,,smaller security margin,,multivariate: solving generic structured algebraic equations
-CROSS,On-ramp,https://cross-crypto.com/,MPC-in-the-Head,,,,Restricted syndrome decoding
+CROSS,On-ramp,https://cross-crypto.com/,Code-based,,,,Restricted syndrome decoding
 ML-DSA (Dilithium),FIPS draft,https://pq-crystals.org/dilithium,Lattices,,,,MLWE/MSIS
 DME-Sign,On-ramp,https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/round-1/spec-files/DME_SIGN-spec-web.pdf,Multivariate,2^96 signature forgery,,,deterministic trapdoor permutation
 EagleSign,On-ramp,https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/round-1/spec-files/EagleSign-spec-web.pdf,Lattices,signature leaks secret key,,,MNTRU/MLWE
