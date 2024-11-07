@@ -16,6 +16,6 @@ PERK,On-ramp,https://pqc-perk.org/,MPC-in-the-Head,,,,Permuted Kernel
 QR-UOV,On-ramp,http://info.isl.ntt.co.jp/crypt/qruov/index.html,Multivariate,,,,Multivariate
 RYDE,On-ramp,https://pqc-ryde.org/,MPC-in-the-Head,,,,Rank Syndrome Decoding
 SDitH,On-ramp,https://sdith.org/,MPC-in-the-Head,,,,Syndrome Decoding
-SNOVA,On-ramp,http://snova.pqclab.org/,Multivariate,,,,Non-commutative ring UOV
+SNOVA,On-ramp,http://snova.pqclab.org/,Multivariate,,Attacks have reduced the security of the scheme,,Non-commutative ring UOV
 SQIsign,On-ramp,https://sqisign.org/,Isogenies,,,,Isogenies
 UOV,On-ramp,https://www.uovsig.org/,Multivariate,,,,Multivariate
