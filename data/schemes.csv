@@ -10,7 +10,7 @@ MIRA (Mirath),On-ramp,https://pqc-mira.org/,MPC-in-the-Head,,,,MinRank
 MiRitH (Mirath),On-ramp,https://github.com/Crypto-TII/mirith_nist_submission/,MPC-in-the-Head,,,,MinRank
 HAWK,On-ramp,https://hawk-sign.info,Lattices,,,,Lattice Isomorphism Problem
 LESS,On-ramp,https://less-project.com,Code-based,,,,Linear Equivalence Problem
-MAYO,On-ramp,https://pqmayo.org,Multivariate,,,,Multivariate quadratic
+MAYO,On-ramp,https://pqmayo.org,Multivariate,,There is an attack on a parameterset with a specific structure,,Multivariate quadratic
 MQOM,On-ramp,https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/round-1/spec-files/MQOM-spec-web.pdf,MPC-in-the-Head,,,,Multivariate Quadratic
 PERK,On-ramp,https://pqc-perk.org/,MPC-in-the-Head,,,,Permuted Kernel
 QR-UOV,On-ramp,http://info.isl.ntt.co.jp/crypt/qruov/index.html,Multivariate,,,,Multivariate
@@ -18,4 +18,4 @@ RYDE,On-ramp,https://pqc-ryde.org/,MPC-in-the-Head,,,,Rank Syndrome Decoding
 SDitH,On-ramp,https://sdith.org/,MPC-in-the-Head,,,,Syndrome Decoding
 SNOVA,On-ramp,http://snova.pqclab.org/,Multivariate,,Attacks have reduced the security of the scheme,,Non-commutative ring UOV
 SQIsign,On-ramp,https://sqisign.org/,Isogenies,,,,Isogenies
-UOV,On-ramp,https://www.uovsig.org/,Multivariate,,,,Multivariate
+UOV,On-ramp,https://www.uovsig.org/,Multivariate,,There is an attack on some parametersets with a specific structure,,Multivariate
