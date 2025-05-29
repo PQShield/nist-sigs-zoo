@@ -6,8 +6,7 @@ EdDSA,Classic cryptography,https://ed25519.cr.yp.to/,Pre-Quantum,classical,,,Ell
 RSA,Classic cryptography,https://web.archive.org/web/20230127011251/http://people.csail.mit.edu/rivest/Rsapaper.pdf,Pre-Quantum,classical,,,Factoring
 FAEST,On-ramp,https://faest.info,Symmetric,,,,symmetric / zero-knowledge VOLE-in-the-Head
 CROSS,On-ramp,https://cross-crypto.com/,Code-based,,,,Restricted syndrome decoding
-MIRA (Mirath),On-ramp,https://pqc-mira.org/,MPC-in-the-Head,,,,MinRank
-MiRitH (Mirath),On-ramp,https://github.com/Crypto-TII/mirith_nist_submission/,MPC-in-the-Head,,,,MinRank
+Mirath,On-ramp,https://pqc-mirath.org/,MPC-in-the-Head,,,,Min-rank problem
 HAWK,On-ramp,https://hawk-sign.info,Lattices,,,,Lattice Isomorphism Problem
 LESS,On-ramp,https://less-project.com,Code-based,,,,Linear Equivalence Problem
 MAYO,On-ramp,https://pqmayo.org,Multivariate,,There is an attack on a parameterset with a specific structure,,Multivariate quadratic

@@ -3,6 +3,7 @@ $(document).foundation();
 const CPUSPEED = 2_500_000_000;
 
 const schemes = await d3.csv("data/schemes.csv", (d) => {
+    console.log("Parsing scheme", d);
   return {
     Scheme: d.Scheme,
     Status: d["NIST status"],
@@ -32,6 +33,9 @@ const properties = await d3.csv("data/parametersets.csv", (d) => {
   }
 
   const scheme = schemes.find((s) => s.Scheme == d.Scheme);
+  if (!scheme) {
+      console.error(" Could not find scheme", d.Scheme);
+  }
   const broken = scheme.Broken;
   const warning = scheme.Warning;
   const info = scheme.Info;
