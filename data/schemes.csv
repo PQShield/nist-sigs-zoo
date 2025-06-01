@@ -10,7 +10,7 @@ Mirath,On-ramp,https://pqc-mirath.org/,MPC-in-the-Head,,,,Min-rank problem
 HAWK,On-ramp,https://hawk-sign.info,Lattices,,,,Lattice Isomorphism Problem
 LESS,On-ramp,https://less-project.com,Code-based,,,,Linear Equivalence Problem
 MAYO,On-ramp,https://pqmayo.org,Multivariate,,There is an attack on a parameterset with a specific structure,,Multivariate quadratic
-MQOM,On-ramp,https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/round-1/spec-files/MQOM-spec-web.pdf,MPC-in-the-Head,,,,Multivariate Quadratic
+MQOM,On-ramp,https://mqom.org,MPC-in-the-Head,,,,Multivariate Quadratic
 PERK,On-ramp,https://pqc-perk.org/,MPC-in-the-Head,,,,Permuted Kernel
 QR-UOV,On-ramp,http://info.isl.ntt.co.jp/crypt/qruov/index.html,Multivariate,,,,Multivariate
 RYDE,On-ramp,https://pqc-ryde.org/,MPC-in-the-Head,,,,Rank Syndrome Decoding

@@ -20,6 +20,7 @@ const properties = await d3.csv("data/parametersets.csv", (d) => {
   let signcycles;
   let verifycycles;
   let extrapolated;
+  console.log("Parsing parameterset", d);
   if (parseInt(d["signing (cycles)"].replace(/,/g, "")) > 0) {
     extrapolated = false;
     signcycles = parseInt(d["signing (cycles)"].replace(/,/g, ""));
