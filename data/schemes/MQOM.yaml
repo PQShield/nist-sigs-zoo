@@ -3,8 +3,8 @@ website: https://mqom.org
 category: MPC-in-the-Head
 assumption: Multivariate Quadratic
 versions:
-- version: initial
-  date: '2024-10-01'
+- version: v2.0
+  date: '2025-02-05'
   status: On-ramp
   parametersets:
   - name: L1-gf2-short-3r
@@ -151,3 +151,5 @@ versions:
     sig: 15140
     signing_cycles: 52640000
     verification_cycles: 33690000
+tags:
+- round-2

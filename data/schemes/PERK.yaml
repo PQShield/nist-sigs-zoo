@@ -3,8 +3,8 @@ website: https://pqc-perk.org/
 category: MPC-in-the-Head
 assumption: Permuted Kernel
 versions:
-- version: initial
-  date: '2024-10-01'
+- version: v2.0
+  date: '2025-02-05'
   status: On-ramp
   parametersets:
   - name: I-fast3
@@ -79,3 +79,5 @@ versions:
     sig: 23000
     signing_cycles: 168000000
     verification_cycles: 131000000
+tags:
+- round-2

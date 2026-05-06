@@ -3,8 +3,8 @@ website: https://hawk-sign.info
 category: Lattices
 assumption: Lattice Isomorphism Problem
 versions:
-- version: initial
-  date: '2024-10-01'
+- version: v1.1
+  date: '2025-02-05'
   status: On-ramp
   parametersets:
   - name: '1024'
@@ -19,3 +19,5 @@ versions:
     sig: 555
     signing_cycles: 85372
     verification_cycles: 148224
+tags:
+- round-2

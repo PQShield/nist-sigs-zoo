@@ -3,8 +3,8 @@ website: https://faest.info
 category: Symmetric
 assumption: symmetric / zero-knowledge VOLE-in-the-Head
 versions:
-- version: initial
-  date: '2024-10-01'
+- version: v2.0
+  date: '2025-02-07'
   status: On-ramp
   parametersets:
   - name: 192s
@@ -79,3 +79,5 @@ versions:
     sig: 5060
     signing_cycles: 1404000
     verification_cycles: 1113000
+tags:
+- round-2

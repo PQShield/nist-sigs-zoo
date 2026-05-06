@@ -3,8 +3,8 @@ website: https://sqisign.org/
 category: Isogenies
 assumption: Isogenies
 versions:
-- version: initial
-  date: '2024-10-01'
+- version: v2.0
+  date: '2025-02-05'
   status: On-ramp
   parametersets:
   - name: V
@@ -25,3 +25,5 @@ versions:
     sig: 148
     signing_cycles: 101600000
     verification_cycles: 5100000
+tags:
+- round-2

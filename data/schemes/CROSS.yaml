@@ -3,8 +3,8 @@ website: https://cross-crypto.com/
 category: Code-based
 assumption: Restricted syndrome decoding
 versions:
-- version: initial
-  date: '2024-10-01'
+- version: v2
+  date: '2025-01-31'
   status: On-ramp
   parametersets:
   - name: R-SDP 5 small
@@ -115,3 +115,5 @@ versions:
     sig: 11980
     signing_cycles: 687000
     verification_cycles: 422000
+tags:
+- round-2

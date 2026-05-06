@@ -3,8 +3,8 @@ website: https://pqmayo.org
 category: Multivariate
 assumption: Multivariate quadratic
 versions:
-- version: initial
-  date: '2024-10-01'
+- version: Round 2
+  date: '2025-02-05'
   status: On-ramp
   parametersets:
   - name: five
@@ -32,3 +32,5 @@ versions:
     signing_cycles: 471028
     verification_cycles: 153266
   warning: There is an attack on a parameterset with a specific structure
+tags:
+- round-2

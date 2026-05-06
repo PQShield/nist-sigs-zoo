@@ -3,8 +3,8 @@ website: https://sdith.org/
 category: MPC-in-the-Head
 assumption: Syndrome Decoding
 versions:
-- version: initial
-  date: '2024-10-01'
+- version: v2.0
+  date: '2025-02-05'
   status: On-ramp
   parametersets:
   - name: SDitH2-L1-gf2-short
@@ -43,3 +43,5 @@ versions:
     sig: 17540
     signing_ms: 9.42
     verification_ms: 8.7
+tags:
+- round-2

@@ -3,8 +3,8 @@ website: http://snova.pqclab.org/
 category: Multivariate
 assumption: Non-commutative ring UOV
 versions:
-- version: initial
-  date: '2024-10-01'
+- version: v2.0
+  date: '2025-01-25'
   status: On-ramp
   parametersets:
   - name: (60 10 4)
@@ -62,3 +62,5 @@ versions:
     signing_cycles: 338723
     verification_cycles: 146738
   warning: Attacks have reduced the security of the scheme
+tags:
+- round-2

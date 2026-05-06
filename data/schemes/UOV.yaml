@@ -3,8 +3,8 @@ website: https://www.uovsig.org/
 category: Multivariate
 assumption: Multivariate
 versions:
-- version: initial
-  date: '2024-10-01'
+- version: v2.0
+  date: '2025-02-05'
   status: On-ramp
   parametersets:
   - name: V-pkc
@@ -56,3 +56,5 @@ versions:
     signing_cycles: 109328
     verification_cycles: 80342
   warning: There is an attack on some parametersets with a specific structure
+tags:
+- round-2

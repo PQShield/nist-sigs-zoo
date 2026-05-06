@@ -3,8 +3,8 @@ website: http://info.isl.ntt.co.jp/crypt/qruov/index.html
 category: Multivariate
 assumption: Multivariate
 versions:
-- version: initial
-  date: '2024-10-01'
+- version: Round 2
+  date: '2025-02-05'
   status: On-ramp
   parametersets:
   - name: I-(127 156 54 3)
@@ -79,3 +79,5 @@ versions:
     sig: 662
     signing_cycles: 347789000
     verification_cycles: 329495000
+tags:
+- round-2
