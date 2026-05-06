@@ -56,5 +56,7 @@ versions:
     signing_cycles: 109328
     verification_cycles: 80342
   warning: There is an attack on some parametersets with a specific structure
+  tags:
+  - round-2
 tags:
 - round-2

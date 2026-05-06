@@ -151,5 +151,7 @@ versions:
     sig: 15140
     signing_cycles: 52640000
     verification_cycles: 33690000
+  tags:
+  - round-2
 tags:
 - round-2

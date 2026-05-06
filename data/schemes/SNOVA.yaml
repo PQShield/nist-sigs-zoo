@@ -62,5 +62,7 @@ versions:
     signing_cycles: 338723
     verification_cycles: 146738
   warning: Attacks have reduced the security of the scheme
+  tags:
+  - round-2
 tags:
 - round-2

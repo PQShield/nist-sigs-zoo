@@ -58,6 +58,7 @@ export interface VersionYaml {
 	version: string;
 	date: string;
 	status: string;
+	tags?: string[];
 	notes?: string;
 	broken?: string;
 	warning?: string;

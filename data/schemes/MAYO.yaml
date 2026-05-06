@@ -32,5 +32,7 @@ versions:
     signing_cycles: 471028
     verification_cycles: 153266
   warning: There is an attack on a parameterset with a specific structure
+  tags:
+  - round-2
 tags:
 - round-2

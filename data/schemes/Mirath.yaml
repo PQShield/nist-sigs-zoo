@@ -79,5 +79,7 @@ versions:
     sig: 14262
     signing_cycles: 121000000
     verification_cycles: 88000000
+  tags:
+  - round-2
 tags:
 - round-2
