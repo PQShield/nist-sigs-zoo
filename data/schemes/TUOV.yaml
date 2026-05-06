@@ -1,0 +1,35 @@
+name: TUOV
+website: https://www.tuovsig.org/
+category: Multivariate
+assumption: UOV
+versions:
+- version: v1.0
+  date: '2023-05-30'
+  status: On-ramp
+  tags:
+  - round-1
+  parametersets:
+  - name: V
+    level: 5
+    pk: 442384
+    sig: 244
+    signing_cycles: 1133958
+    verification_cycles: 4520748
+  - name: III
+    level: 3
+    pk: 186640
+    sig: 184
+    signing_cycles: 608604
+    verification_cycles: 1914056
+  - name: Is
+    level: 1
+    pk: 65552
+    sig: 80
+    signing_cycles: 272394
+    verification_cycles: 570194
+  - name: Ip
+    level: 1
+    pk: 42608
+    sig: 112
+    signing_cycles: 220792
+    verification_cycles: 491120

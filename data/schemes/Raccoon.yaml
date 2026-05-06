@@ -1,0 +1,119 @@
+name: Raccoon
+website: https://raccoonfamily.org/
+category: Lattices
+assumption: MLWE/MSIS
+versions:
+- version: Round 1
+  date: '2023-06-01'
+  status: On-ramp
+  tags:
+  - round-1
+  parametersets:
+  - name: 256-32
+    level: 5
+    pk: 4064
+    sig: 20330
+    signing_cycles: 135111000
+    verification_cycles: 4554000
+  - name: 192-32
+    level: 3
+    pk: 3160
+    sig: 14544
+    signing_cycles: 98984000
+    verification_cycles: 2764000
+  - name: 128-32
+    level: 1
+    pk: 2256
+    sig: 11524
+    signing_cycles: 74140000
+    verification_cycles: 1757000
+  - name: 256-16
+    level: 5
+    pk: 4064
+    sig: 20330
+    signing_cycles: 42732000
+    verification_cycles: 4554000
+  - name: 256-8
+    level: 5
+    pk: 4064
+    sig: 20330
+    signing_cycles: 33433000
+    verification_cycles: 4554000
+  - name: 192-16
+    level: 3
+    pk: 3160
+    sig: 14544
+    signing_cycles: 30574000
+    verification_cycles: 2764000
+  - name: 192-8
+    level: 3
+    pk: 3160
+    sig: 14544
+    signing_cycles: 24099000
+    verification_cycles: 2764000
+  - name: 128-16
+    level: 1
+    pk: 2256
+    sig: 11524
+    signing_cycles: 22588000
+    verification_cycles: 1757000
+  - name: 128-8
+    level: 1
+    pk: 2256
+    sig: 11524
+    signing_cycles: 17658000
+    verification_cycles: 1757000
+  - name: 256-4
+    level: 5
+    pk: 4064
+    sig: 20330
+    signing_cycles: 13174000
+    verification_cycles: 4554000
+  - name: 256-2
+    level: 5
+    pk: 4064
+    sig: 20330
+    signing_cycles: 11123000
+    verification_cycles: 4554000
+  - name: 256-1
+    level: 5
+    pk: 4064
+    sig: 20330
+    signing_cycles: 10062000
+    verification_cycles: 4554000
+  - name: 192-4
+    level: 3
+    pk: 3160
+    sig: 14544
+    signing_cycles: 9064000
+    verification_cycles: 2764000
+  - name: 192-2
+    level: 3
+    pk: 3160
+    sig: 14544
+    signing_cycles: 7697000
+    verification_cycles: 2764000
+  - name: 192-1
+    level: 3
+    pk: 3160
+    sig: 14544
+    signing_cycles: 6860000
+    verification_cycles: 2764000
+  - name: 128-4
+    level: 1
+    pk: 2256
+    sig: 11524
+    signing_cycles: 6465000
+    verification_cycles: 1757000
+  - name: 128-2
+    level: 1
+    pk: 2256
+    sig: 11524
+    signing_cycles: 5412000
+    verification_cycles: 1757000
+  - name: 128-1
+    level: 1
+    pk: 2256
+    sig: 11524
+    signing_cycles: 4817000
+    verification_cycles: 1757000

@@ -27,3 +27,27 @@ versions:
     verification_cycles: 5100000
   tags:
   - round-2
+- version: v1.0
+  date: '2023-06-01'
+  status: On-ramp
+  tags:
+  - round-1
+  parametersets:
+  - name: V
+    level: 5
+    pk: 128
+    sig: 335
+    signing_cycles: 158544000000
+    verification_cycles: 2177000000
+  - name: III
+    level: 3
+    pk: 96
+    sig: 263
+    signing_cycles: 43760000000
+    verification_cycles: 654000000
+  - name: I
+    level: 1
+    pk: 64
+    sig: 177
+    signing_cycles: 5669000000
+    verification_cycles: 108000000

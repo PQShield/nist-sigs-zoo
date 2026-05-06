@@ -1,0 +1,30 @@
+name: KAZ-Sign
+website: https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/round-1/spec-files/kaz-sign-spec-web.pdf
+category: Other
+assumption: Second-order Discrete Logarithm Problem
+versions:
+- version: Round 1
+  date: '2023-06-01'
+  status: On-ramp
+  tags:
+  - round-1
+  parametersets:
+  - name: KAZ970
+    level: 5
+    pk: 243
+    sig: 153
+    signing_ms: 43319.0
+    verification_ms: 22650.0
+  - name: KAZ738
+    level: 3
+    pk: 185
+    sig: 117
+    signing_ms: 20822.0
+    verification_ms: 10306.0
+  - name: KAZ458
+    level: 1
+    pk: 115
+    sig: 74
+    signing_ms: 9955.0
+    verification_ms: 2696.0
+  broken: universal signature forgery

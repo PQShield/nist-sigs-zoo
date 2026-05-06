@@ -153,3 +153,81 @@ versions:
     verification_cycles: 33690000
   tags:
   - round-2
+- version: v1.0
+  date: '2023-05-31'
+  status: On-ramp
+  tags:
+  - round-1
+  parametersets:
+  - name: L1-gf31-short
+    level: 1
+    pk: 47
+    sig: 6352
+    signing_cycles: 44400000
+    verification_cycles: 41720000
+  - name: L1-gf251-short
+    level: 1
+    pk: 59
+    sig: 6578
+    signing_cycles: 28500000
+    verification_cycles: 27300000
+  - name: L1-gf31-fast
+    level: 1
+    pk: 47
+    sig: 7657
+    signing_cycles: 17700000
+    verification_cycles: 15500000
+  - name: L1-gf251-fast
+    level: 1
+    pk: 59
+    sig: 7850
+    signing_cycles: 11500000
+    verification_cycles: 10200000
+  - name: L3-gf31-short
+    level: 3
+    pk: 73
+    sig: 13846
+    signing_cycles: 108000000
+    verification_cycles: 102000000
+  - name: L3-gf251-short
+    level: 3
+    pk: 92
+    sig: 14266
+    signing_cycles: 69500000
+    verification_cycles: 65600000
+  - name: L3-gf31-fast
+    level: 3
+    pk: 73
+    sig: 16669
+    signing_cycles: 56300000
+    verification_cycles: 51300000
+  - name: L3-gf251-fast
+    level: 3
+    pk: 92
+    sig: 17252
+    signing_cycles: 32900000
+    verification_cycles: 29600000
+  - name: L5-gf31-short
+    level: 5
+    pk: 99
+    sig: 24158
+    signing_cycles: 224000000
+    verification_cycles: 214000000
+  - name: L5-gf251-short
+    level: 5
+    pk: 125
+    sig: 24942
+    signing_cycles: 148000000
+    verification_cycles: 142000000
+  - name: L5-gf31-fast
+    level: 5
+    pk: 99
+    sig: 29036
+    signing_cycles: 156000000
+    verification_cycles: 146000000
+  - name: L5-gf251-fast
+    level: 5
+    pk: 125
+    sig: 30092
+    signing_cycles: 81600000
+    verification_cycles: 75600000

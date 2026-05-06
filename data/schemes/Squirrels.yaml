@@ -1,0 +1,41 @@
+name: Squirrels
+website: https://www.squirrels-pqc.org/
+category: Lattices
+assumption: SIS
+versions:
+- version: Round 1
+  date: '2023-06-02'
+  status: On-ramp
+  tags:
+  - round-1
+  parametersets:
+  - name: V
+    level: 5
+    pk: 2786580
+    sig: 2025
+    signing_cycles: 10670614
+    verification_cycles: 481938
+  - name: VI
+    level: 4
+    pk: 1888700
+    sig: 1676
+    signing_cycles: 9097631
+    verification_cycles: 329066
+  - name: III
+    level: 3
+    pk: 1629640
+    sig: 1554
+    signing_cycles: 7139278
+    verification_cycles: 287974
+  - name: II
+    level: 2
+    pk: 874576
+    sig: 1147
+    signing_cycles: 3732387
+    verification_cycles: 159887
+  - name: I
+    level: 1
+    pk: 681780
+    sig: 1019
+    signing_cycles: 3164772
+    verification_cycles: 145351

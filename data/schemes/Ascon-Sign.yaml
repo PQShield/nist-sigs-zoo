@@ -1,0 +1,59 @@
+name: Ascon-Sign
+website: https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/round-1/spec-files/Ascon-sign-spec-web.pdf
+category: Symmetric
+assumption: SPHINCS+ with Ascon
+versions:
+- version: Round 1
+  date: '2023-06-01'
+  status: On-ramp
+  tags:
+  - round-1
+  parametersets:
+  - name: 192s robust
+    level: 3
+    pk: 48
+    sig: 16224
+    signing_cycles: 8893090510
+    verification_cycles: 7664451
+  - name: 192s simple
+    level: 3
+    pk: 48
+    sig: 16224
+    signing_cycles: 5046224790
+    verification_cycles: 4357430
+  - name: 128s robust
+    level: 1
+    pk: 32
+    sig: 7856
+    signing_cycles: 4038032800
+    verification_cycles: 4232362
+  - name: 128s simple
+    level: 1
+    pk: 32
+    sig: 7856
+    signing_cycles: 2224377542
+    verification_cycles: 2137821
+  - name: 192f robust
+    level: 3
+    pk: 48
+    sig: 35664
+    signing_cycles: 381735599
+    verification_cycles: 21408883
+  - name: 192f simple
+    level: 3
+    pk: 48
+    sig: 35664
+    signing_cycles: 226197880
+    verification_cycles: 12333664
+  - name: 128f robust
+    level: 1
+    pk: 32
+    sig: 17088
+    signing_cycles: 182601975
+    verification_cycles: 11279318
+  - name: 128f simple
+    level: 1
+    pk: 32
+    sig: 17088
+    signing_cycles: 107020221
+    verification_cycles: 6535295

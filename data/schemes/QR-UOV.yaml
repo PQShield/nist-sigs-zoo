@@ -81,3 +81,81 @@ versions:
     verification_cycles: 329495000
   tags:
   - round-2
+- version: Round 1
+  date: '2023-06-01'
+  status: On-ramp
+  tags:
+  - round-1
+  parametersets:
+  - name: V-(127, 306, 105, 3)
+    level: 5
+    pk: 173708
+    sig: 392
+    signing_cycles: 4254736000
+    verification_cycles: 1169402000
+  - name: III-(127, 228, 78, 3)
+    level: 3
+    pk: 71915
+    sig: 292
+    signing_cycles: 1555131000
+    verification_cycles: 524886000
+  - name: V-(31, 1120, 120, 10)
+    level: 5
+    pk: 58564
+    sig: 807
+    signing_cycles: 1074835000
+    verification_cycles: 433574000
+  - name: III-(31, 890, 100, 10)
+    level: 3
+    pk: 34423
+    sig: 643
+    signing_cycles: 573433000
+    verification_cycles: 232156000
+  - name: I-(127, 156, 54, 3)
+    level: 1
+    pk: 24271
+    sig: 200
+    signing_cycles: 361728000
+    verification_cycles: 144955000
+  - name: V-(31, 324, 114, 3)
+    level: 5
+    pk: 158453
+    sig: 306
+    signing_cycles: 337483000
+    verification_cycles: 119098000
+  - name: V-(7, 1490, 190, 10)
+    level: 5
+    pk: 135439
+    sig: 662
+    signing_cycles: 221341000
+    verification_cycles: 10865000
+  - name: III-(31, 246, 87, 3)
+    level: 3
+    pk: 71007
+    sig: 232
+    signing_cycles: 153006000
+    verification_cycles: 5349000
+  - name: I-(31, 600, 70, 10)
+    level: 1
+    pk: 12282
+    sig: 435
+    signing_cycles: 135849000
+    verification_cycles: 68947000
+  - name: III-(7, 1100, 140, 10)
+    level: 3
+    pk: 55173
+    sig: 489
+    signing_cycles: 98376000
+    verification_cycles: 47636000
+  - name: I-(31, 165, 60, 3)
+    level: 1
+    pk: 23657
+    sig: 157
+    signing_cycles: 25217000
+    verification_cycles: 15973000
+  - name: I-(7, 740, 100, 10)
+    level: 1
+    pk: 20657
+    sig: 331
+    signing_cycles: 24823000
+    verification_cycles: 13539000

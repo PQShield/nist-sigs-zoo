@@ -1,0 +1,48 @@
+name: HuFu
+website: http://123.56.244.4/
+category: Lattices
+assumption: LWE/SIS
+versions:
+- version: Round 1
+  date: '2023-06-01'
+  status: On-ramp
+  tags:
+  - round-1
+  parametersets:
+  - name: NIST-5 SHAKE
+    level: 5
+    pk: 3573000
+    sig: 4520
+    signing_cycles: 21849000
+    verification_cycles: 13697000
+  - name: NIST-3 SHAKE
+    level: 3
+    pk: 2177000
+    sig: 3540
+    signing_cycles: 13022000
+    verification_cycles: 8510000
+  - name: NIST-5 AES
+    level: 5
+    pk: 3573000
+    sig: 4520
+    signing_cycles: 12091000
+    verification_cycles: 3811000
+  - name: NIST-3 AES
+    level: 3
+    pk: 2177000
+    sig: 3540
+    signing_cycles: 7001000
+    verification_cycles: 2358000
+  - name: NIST-1 SHAKE
+    level: 1
+    pk: 1059000
+    sig: 2455
+    signing_cycles: 6342000
+    verification_cycles: 3069000
+  - name: NIST-1 AES
+    level: 1
+    pk: 1059000
+    sig: 2455
+    signing_cycles: 3872000
+    verification_cycles: 801000
+  info: Original version had bit-flipping signature forgery

@@ -1,0 +1,65 @@
+name: PREON
+website: https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/round-1/spec-files/Preon-spec-web.pdf
+category: Other
+assumption: zk-SNARK
+versions:
+- version: Round 1
+  date: '2023-05-31'
+  status: On-ramp
+  tags:
+  - round-1
+  parametersets:
+  - name: 256A
+    level: 5
+    pk: 64
+    sig: 598000
+    signing_ms: 414713.0
+    verification_ms: 11552.0
+  - name: 256B
+    level: 5
+    pk: 64
+    sig: 1157000
+    signing_ms: 415207.0
+    verification_ms: 12487.0
+  - name: 256C
+    level: 5
+    pk: 64
+    sig: 5248000
+    signing_ms: 417464.0
+    verification_ms: 26835.0
+  - name: 192A
+    level: 3
+    pk: 56
+    sig: 312000
+    signing_ms: 132411.0
+    verification_ms: 2182.0
+  - name: 192B
+    level: 3
+    pk: 56
+    sig: 778000
+    signing_ms: 137306.0
+    verification_ms: 2688.0
+  - name: 192C
+    level: 3
+    pk: 56
+    sig: 3541000
+    signing_ms: 137252.0
+    verification_ms: 7460.0
+  - name: 128A
+    level: 1
+    pk: 32
+    sig: 139000
+    signing_ms: 76067.0
+    verification_ms: 397.0
+  - name: 128B
+    level: 1
+    pk: 32
+    sig: 372000
+    signing_ms: 80870.0
+    verification_ms: 561.0
+  - name: 128C
+    level: 1
+    pk: 32
+    sig: 1725000
+    signing_ms: 76919.0
+    verification_ms: 2303.0

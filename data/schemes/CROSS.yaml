@@ -117,3 +117,81 @@ versions:
     verification_cycles: 422000
   tags:
   - round-2
+- version: Round 1
+  date: '2023-06-02'
+  status: On-ramp
+  tags:
+  - round-1
+  parametersets:
+  - name: R-SDP 5 small
+    level: 5
+    pk: 121
+    sig: 43373
+    signing_cycles: 74830000
+    verification_cycles: 26130000
+  - name: R-SDP 3 small
+    level: 3
+    pk: 91
+    sig: 23407
+    signing_cycles: 46490000
+    verification_cycles: 18340000
+  - name: R-SDP 5 fast
+    level: 5
+    pk: 121
+    sig: 51120
+    signing_cycles: 37090000
+    verification_cycles: 14560000
+  - name: R-SDP(G) 5 small
+    level: 5
+    pk: 77
+    sig: 31696
+    signing_cycles: 29080000
+    verification_cycles: 19440000
+  - name: R-SDP 1 small
+    level: 1
+    pk: 61
+    sig: 10304
+    signing_cycles: 22000000
+    verification_cycles: 10280000
+  - name: R-SDP(G) 3 small
+    level: 3
+    pk: 56
+    sig: 17429
+    signing_cycles: 18060000
+    verification_cycles: 12240000
+  - name: R-SDP 3 fast
+    level: 3
+    pk: 91
+    sig: 37080
+    signing_cycles: 11810000
+    verification_cycles: 5870000
+  - name: R-SDP(G) 5 fast
+    level: 5
+    pk: 77
+    sig: 37924
+    signing_cycles: 11050000
+    verification_cycles: 7490000
+  - name: R-SDP(G) 1 small
+    level: 1
+    pk: 38
+    sig: 7625
+    signing_cycles: 11040000
+    verification_cycles: 7490000
+  - name: R-SDP 1 fast
+    level: 1
+    pk: 61
+    sig: 12944
+    signing_cycles: 6700000
+    verification_cycles: 3170000
+  - name: R-SDP(G) 3 fast
+    level: 3
+    pk: 56
+    sig: 21697
+    signing_cycles: 4910000
+    verification_cycles: 3230000
+  - name: R-SDP(G) 1 fast
+    level: 1
+    pk: 38
+    sig: 8665
+    signing_cycles: 3080000
+    verification_cycles: 2110000

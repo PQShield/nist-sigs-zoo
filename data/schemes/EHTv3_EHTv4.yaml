@@ -1,0 +1,42 @@
+name: EHTv3 / EHTv4
+website: https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/round-1/spec-files/EHTv3v4-spec-web.pdf
+category: Lattices
+assumption: Lattices?
+versions:
+- version: Round 1
+  date: '2023-06-01'
+  status: On-ramp
+  tags:
+  - round-1
+  parametersets:
+  - name: v3-5
+    level: 5
+    pk: 349000
+    sig: 344
+    signing_ms: 305.0
+    verification_ms: 3.16
+  - name: v3-3
+    level: 3
+    pk: 191600
+    sig: 255
+    signing_ms: 206.0
+    verification_ms: 1.78
+  - name: v3-1
+    level: 1
+    pk: 83500
+    sig: 169
+    signing_ms: 75.8
+    verification_ms: 0.82
+  - name: v4-5
+    level: 5
+    pk: 2630
+    sig: 857
+    signing_ms: 59.3
+    verification_ms: 26.2
+  - name: v4-1
+    level: 1
+    pk: 1110
+    sig: 369
+    signing_ms: 9.0
+    verification_ms: 3.85
+  broken: EHTv3 is broken

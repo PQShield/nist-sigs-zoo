@@ -1,0 +1,83 @@
+name: SPHINCS-alpha
+website: https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/round-1/spec-files/sphincs-alpha-spec-web.pdf
+category: Symmetric
+assumption: hash-based
+versions:
+- version: Round 1
+  date: '2023-05-31'
+  status: On-ramp
+  tags:
+  - round-1
+  parametersets:
+  - name: 256s SHAKE
+    level: 5
+    pk: 64
+    sig: 27232
+    signing_cycles: 1996754616
+    verification_cycles: 7254738
+  - name: 256f SHAKE
+    level: 5
+    pk: 64
+    sig: 49312
+    signing_cycles: 1582371720
+    verification_cycles: 11677806
+  - name: 192f SHAKE
+    level: 3
+    pk: 48
+    sig: 34896
+    signing_cycles: 92073114
+    verification_cycles: 3028500
+  - name: 256s SHA2
+    level: 5
+    pk: 64
+    sig: 27232
+    signing_cycles: 764352612
+    verification_cycles: 6005448
+  - name: 256f SHA2
+    level: 5
+    pk: 64
+    sig: 49312
+    signing_cycles: 91335474
+    verification_cycles: 3175290
+  - name: 192f SHA2
+    level: 3
+    pk: 48
+    sig: 34896
+    signing_cycles: 45218790
+    verification_cycles: 1744038
+  - name: 192s SHAKE
+    level: 3
+    pk: 48
+    sig: 14568
+    signing_cycles: 1996754616
+    verification_cycles: 7254738
+  - name: 128f SHAKE
+    level: 1
+    pk: 32
+    sig: 16720
+    signing_cycles: 57069090
+    verification_cycles: 3558492
+  - name: 192s SHA2
+    level: 3
+    pk: 48
+    sig: 14568
+    signing_cycles: 988899534
+    verification_cycles: 3845970
+  - name: 128s SHAKE
+    level: 1
+    pk: 32
+    sig: 6880
+    signing_cycles: 1139743980
+    verification_cycles: 4891482
+  - name: 128f SHA2
+    level: 1
+    pk: 32
+    sig: 16720
+    signing_cycles: 26635716
+    verification_cycles: 2028186
+  - name: 128s SHA2
+    level: 1
+    pk: 32
+    sig: 6880
+    signing_cycles: 537033762
+    verification_cycles: 2689650

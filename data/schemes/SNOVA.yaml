@@ -64,3 +64,63 @@ versions:
   warning: Attacks have reduced the security of the scheme
   tags:
   - round-2
+- version: Round 1
+  date: '2023-05-25'
+  status: On-ramp
+  tags:
+  - round-1
+  parametersets:
+  - name: (60, 10, 16, 4)
+    level: 5
+    pk: 8016
+    sig: 576
+    signing_cycles: 237150613
+    verification_cycles: 90472932
+  - name: (66, 15, 16, 3)
+    level: 5
+    pk: 15204
+    sig: 381
+    signing_cycles: 172139775
+    verification_cycles: 47936266
+  - name: (61, 33, 16, 2)
+    level: 5
+    pk: 71890
+    sig: 204
+    signing_cycles: 158443732
+    verification_cycles: 25289616
+  - name: (37, 8, 16, 4)
+    level: 3
+    pk: 4112
+    sig: 376
+    signing_cycles: 81382976
+    verification_cycles: 31084401
+  - name: (49, 11, 16, 3)
+    level: 3
+    pk: 6006
+    sig: 286
+    signing_cycles: 60561733
+    verification_cycles: 18853861
+  - name: (43, 25, 16, 2)
+    level: 3
+    pk: 31266
+    sig: 152
+    signing_cycles: 47587816
+    verification_cycles: 9443639
+  - name: (24, 5, 16, 4)
+    level: 1
+    pk: 1016
+    sig: 248
+    signing_cycles: 19681409
+    verification_cycles: 8086815
+  - name: (25, 8, 16, 3)
+    level: 1
+    pk: 2320
+    sig: 165
+    signing_cycles: 12408096
+    verification_cycles: 3959869
+  - name: (28, 17, 16, 2)
+    level: 1
+    pk: 9842
+    sig: 106
+    signing_cycles: 10964945
+    verification_cycles: 3161199

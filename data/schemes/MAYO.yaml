@@ -34,3 +34,33 @@ versions:
   warning: There is an attack on a parameterset with a specific structure
   tags:
   - round-2
+- version: Round 1
+  date: '2023-06-01'
+  status: On-ramp
+  tags:
+  - round-1
+  parametersets:
+  - name: five
+    level: 5
+    pk: 5008
+    sig: 838
+    signing_cycles: 4149954
+    verification_cycles: 1186132
+  - name: three
+    level: 3
+    pk: 2656
+    sig: 577
+    signing_cycles: 1663666
+    verification_cycles: 610010
+  - name: two
+    level: 1
+    pk: 5488
+    sig: 180
+    signing_cycles: 563900
+    verification_cycles: 91512
+  - name: one
+    level: 1
+    pk: 1168
+    sig: 321
+    signing_cycles: 460978
+    verification_cycles: 175158

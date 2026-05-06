@@ -45,3 +45,45 @@ versions:
     verification_cycles: 44500000
   tags:
   - round-2
+- version: Round 1
+  date: '2023-06-01'
+  status: On-ramp
+  tags:
+  - round-1
+  parametersets:
+  - name: 256S
+    level: 5
+    pk: 188
+    sig: 22802
+    signing_cycles: 105500000
+    verification_cycles: 94900000
+  - name: 192S
+    level: 3
+    pk: 131
+    sig: 12933
+    signing_cycles: 49600000
+    verification_cycles: 44800000
+  - name: 256F
+    level: 5
+    pk: 188
+    sig: 29134
+    signing_cycles: 26000000
+    verification_cycles: 22700000
+  - name: 128S
+    level: 1
+    pk: 86
+    sig: 5956
+    signing_cycles: 23400000
+    verification_cycles: 20100000
+  - name: 192F
+    level: 3
+    pk: 131
+    sig: 16380
+    signing_cycles: 12200000
+    verification_cycles: 10700000
+  - name: 128F
+    level: 1
+    pk: 86
+    sig: 7446
+    signing_cycles: 5400000
+    verification_cycles: 4400000
