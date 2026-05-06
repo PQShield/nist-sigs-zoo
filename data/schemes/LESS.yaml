@@ -1,0 +1,51 @@
+name: LESS
+website: https://less-project.com
+category: Code-based
+assumption: Linear Equivalence Problem
+versions:
+- version: initial
+  date: '2024-10-01'
+  status: On-ramp
+  parametersets:
+  - name: 252-192
+    level: 1
+    pk: 13940
+    sig: 2625
+    signing_cycles: 127500000
+    verification_cycles: 122700000
+  - name: 252-68
+    level: 1
+    pk: 41788
+    sig: 1825
+    signing_cycles: 45900000
+    verification_cycles: 44800000
+  - name: 252-45
+    level: 1
+    pk: 97484
+    sig: 1329
+    signing_cycles: 30600000
+    verification_cycles: 30000000
+  - name: 400-220
+    level: 3
+    pk: 35074
+    sig: 6329
+    signing_cycles: 401500000
+    verification_cycles: 392700000
+  - name: 400-102
+    level: 3
+    pk: 105174
+    sig: 4131
+    signing_cycles: 184000000
+    verification_cycles: 181300000
+  - name: 548-345
+    level: 5
+    pk: 65793
+    sig: 10680
+    signing_cycles: 1424200000
+    verification_cycles: 1396000000
+  - name: 548-137
+    level: 5
+    pk: 197315
+    sig: 7436
+    signing_cycles: 560000000
+    verification_cycles: 564600000

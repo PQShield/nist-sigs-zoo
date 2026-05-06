@@ -35,6 +35,7 @@
 		const values = data.map((d) => ({
 			scheme: d.scheme,
 			parameterset: d.parameterset,
+			version: d.version || null,
 			pk: d.pk,
 			sig: d.sig,
 			color: colorCat(d),
@@ -104,6 +105,7 @@
 				tooltip: [
 					{ field: 'scheme', type: 'nominal', title: 'Scheme' },
 					{ field: 'parameterset', type: 'nominal', title: 'Parameter set' },
+					{ field: 'version', type: 'nominal', title: 'Version' },
 					{ field: 'pk', type: 'quantitative', title: 'pk (bytes)', format: ',' },
 					{ field: 'sig', type: 'quantitative', title: 'sig (bytes)', format: ',' },
 					{ field: 'notes', type: 'nominal', title: 'Notes' }

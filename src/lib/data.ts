@@ -1,5 +1,5 @@
 import { CPUSPEED } from './constants';
-import type { DataRanges, NistLevel, ParameterSet, Scheme } from './types';
+import type { DataRanges, NistLevel, ParameterSet, Scheme, SchemeYaml } from './types';
 
 function parseCsv(text: string): Record<string, string>[] {
 	const lines = text.trim().split('\n');
@@ -49,6 +49,7 @@ export function parseSchemes(csv: string): Scheme[] {
 		warning: d['Warning'] === '' ? false : d['Warning'],
 		info: d['Info'] === '' ? false : d['Info'],
 		classical: d['Broken'] === 'classical',
+		tags: [],
 	}));
 }
 
@@ -110,6 +111,8 @@ export function parseParameterSets(
 			classical: scheme.classical,
 			website: scheme.website,
 			assumption: scheme.assumption,
+			notes: null,
+			version: '',
 		};
 	});
 
@@ -133,4 +136,111 @@ export function parseParameterSets(
 	};
 
 	return { rows, ranges };
+}
+
+export function processYamlSchemes(schemeData: SchemeYaml[]): {
+	schemes: Scheme[];
+	parameterSets: ParameterSet[];
+	ranges: DataRanges;
+} {
+	const schemes: Scheme[] = [];
+	const rows: ParameterSet[] = [];
+
+	for (const yaml of schemeData) {
+		if (!yaml.versions || yaml.versions.length === 0) continue;
+
+		// Latest version = highest date
+		const latest = [...yaml.versions].sort((a, b) => b.date.localeCompare(a.date))[0];
+
+		const scheme: Scheme = {
+			scheme: yaml.name,
+			status: latest.status,
+			website: yaml.website,
+			category: yaml.category,
+			assumption: yaml.assumption,
+			broken: latest.broken ?? false,
+			warning: latest.warning ?? false,
+			info: latest.info ?? false,
+			classical: latest.broken === 'classical',
+			tags: yaml.tags ?? [],
+		};
+		schemes.push(scheme);
+
+		for (const ps of latest.parametersets) {
+			const level: NistLevel =
+				ps.level === 'Pre-Quantum' ? 'Pre-Quantum' : (ps.level as 1 | 2 | 3 | 4 | 5);
+
+			const signingMs = ps.signing_ms ?? null;
+			const verificationMs = ps.verification_ms ?? null;
+
+			let signingCycles: number;
+			let verificationCycles: number;
+			let extrapolated: boolean;
+
+			if (ps.signing_cycles != null && ps.signing_cycles > 0) {
+				extrapolated = false;
+				signingCycles = ps.signing_cycles;
+				verificationCycles = ps.verification_cycles ?? 0;
+			} else {
+				extrapolated = true;
+				signingCycles = signingMs != null ? Math.round((CPUSPEED * signingMs) / 1000) : 0;
+				verificationCycles =
+					verificationMs != null ? Math.round((CPUSPEED * verificationMs) / 1000) : 0;
+			}
+
+			// Parameterset flags fall back to version-level flags
+			const broken = ps.broken ?? latest.broken ?? false;
+			const warning = ps.warning ?? latest.warning ?? false;
+			const info = ps.info ?? latest.info ?? false;
+
+			const pk = ps.pk;
+			const sig = ps.sig;
+
+			rows.push({
+				scheme: yaml.name,
+				parameterset: ps.name,
+				category: yaml.category,
+				status: latest.status,
+				level,
+				pk,
+				sig,
+				pkPlusSig: pk + sig,
+				signingCycles,
+				verificationCycles,
+				signingMs,
+				verificationMs,
+				extrapolated,
+				broken: broken === false ? false : broken || false,
+				warning: warning === false ? false : warning || false,
+				info: info === false ? false : info || false,
+				classical: broken === 'classical',
+				website: yaml.website,
+				assumption: yaml.assumption,
+				notes: ps.notes ?? null,
+				version: latest.version,
+			});
+		}
+	}
+
+	const nonZeroSign = rows.filter((r) => r.signingCycles > 0);
+	const nonZeroVerify = rows.filter((r) => r.verificationCycles > 0);
+
+	const ranges: DataRanges = {
+		pk: [Math.min(...rows.map((r) => r.pk)), Math.max(...rows.map((r) => r.pk))],
+		sig: [Math.min(...rows.map((r) => r.sig)), Math.max(...rows.map((r) => r.sig))],
+		pkPlusSig: [
+			Math.min(...rows.map((r) => r.pkPlusSig)),
+			Math.max(...rows.map((r) => r.pkPlusSig)),
+		],
+		signingCycles: [
+			Math.min(...nonZeroSign.map((r) => r.signingCycles)),
+			Math.max(...nonZeroSign.map((r) => r.signingCycles)),
+		],
+		verificationCycles: [
+			Math.min(...nonZeroVerify.map((r) => r.verificationCycles)),
+			Math.max(...nonZeroVerify.map((r) => r.verificationCycles)),
+		],
+	};
+
+	return { schemes, parameterSets: rows, ranges };
 }

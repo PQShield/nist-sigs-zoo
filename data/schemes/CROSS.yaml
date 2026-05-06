@@ -1,0 +1,117 @@
+name: CROSS
+website: https://cross-crypto.com/
+category: Code-based
+assumption: Restricted syndrome decoding
+versions:
+- version: initial
+  date: '2024-10-01'
+  status: On-ramp
+  parametersets:
+  - name: R-SDP 5 small
+    level: 5
+    pk: 153
+    sig: 50818
+    signing_cycles: 11356000
+    verification_cycles: 7765000
+  - name: R-SDP 5 balanced
+    level: 5
+    pk: 153
+    sig: 53527
+    signing_cycles: 7042000
+    verification_cycles: 4752000
+  - name: R-SDP 3 small
+    level: 3
+    pk: 115
+    sig: 28391
+    signing_cycles: 6254000
+    verification_cycles: 4277000
+  - name: R-SDP 3 balanced
+    level: 3
+    pk: 115
+    sig: 29853
+    signing_cycles: 4161000
+    verification_cycles: 2776000
+  - name: R-SDP 5 fast
+    level: 5
+    pk: 153
+    sig: 74590
+    signing_cycles: 4116000
+    verification_cycles: 2512000
+  - name: R-SDP(G) 5 small
+    level: 5
+    pk: 106
+    sig: 36454
+    signing_cycles: 6197000
+    verification_cycles: 4059000
+  - name: R-SDP(G) 5 balanced
+    level: 5
+    pk: 106
+    sig: 40100
+    signing_cycles: 3482000
+    verification_cycles: 2248000
+  - name: R-SDP 1 small
+    level: 1
+    pk: 77
+    sig: 12434
+    signing_cycles: 4048000
+    verification_cycles: 2725000
+  - name: R-SDP 1 balanced
+    level: 1
+    pk: 77
+    sig: 13152
+    signing_cycles: 2013000
+    verification_cycles: 1270000
+  - name: R-SDP(G) 3 small
+    level: 3
+    pk: 83
+    sig: 20452
+    signing_cycles: 4195000
+    verification_cycles: 2832000
+  - name: R-SDP(G) 3 balanced
+    level: 3
+    pk: 83
+    sig: 22464
+    signing_cycles: 2240000
+    verification_cycles: 1446000
+  - name: R-SDP 3 fast
+    level: 3
+    pk: 115
+    sig: 41406
+    signing_cycles: 2324000
+    verification_cycles: 1398000
+  - name: R-SDP(G) 5 fast
+    level: 5
+    pk: 106
+    sig: 48102
+    signing_cycles: 2580000
+    verification_cycles: 1634000
+  - name: R-SDP(G) 1 small
+    level: 1
+    pk: 54
+    sig: 8960
+    signing_cycles: 3137000
+    verification_cycles: 1971000
+  - name: R-SDP(G) 1 balanced
+    level: 1
+    pk: 54
+    sig: 9120
+    signing_cycles: 1579000
+    verification_cycles: 985000
+  - name: R-SDP 1 fast
+    level: 1
+    pk: 77
+    sig: 18432
+    signing_cycles: 1007000
+    verification_cycles: 572000
+  - name: R-SDP(G) 3 fast
+    level: 3
+    pk: 83
+    sig: 26772
+    signing_cycles: 1555000
+    verification_cycles: 982000
+  - name: R-SDP(G) 1 fast
+    level: 1
+    pk: 54
+    sig: 11980
+    signing_cycles: 687000
+    verification_cycles: 422000

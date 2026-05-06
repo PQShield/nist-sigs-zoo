@@ -1,0 +1,45 @@
+name: SDitH
+website: https://sdith.org/
+category: MPC-in-the-Head
+assumption: Syndrome Decoding
+versions:
+- version: initial
+  date: '2024-10-01'
+  status: On-ramp
+  parametersets:
+  - name: SDitH2-L1-gf2-short
+    level: 1
+    pk: 70
+    sig: 3705
+    signing_ms: 6.73
+    verification_ms: 6.04
+  - name: SDitH2-L1-gf2-fast
+    level: 1
+    pk: 70
+    sig: 4484
+    signing_ms: 2.01
+    verification_ms: 1.79
+  - name: SDitH2-L3-gf2-short
+    level: 3
+    pk: 98
+    sig: 7964
+    signing_ms: 42.26
+    verification_ms: 39.84
+  - name: SDitH2-L3-gf2-fast
+    level: 3
+    pk: 98
+    sig: 9916
+    signing_ms: 6.36
+    verification_ms: 5.75
+  - name: SDitH2-L5-gf2-short
+    level: 5
+    pk: 132
+    sig: 14121
+    signing_ms: 60.48
+    verification_ms: 57.23
+  - name: SDitH2-L5-gf2-fast
+    level: 5
+    pk: 132
+    sig: 17540
+    signing_ms: 9.42
+    verification_ms: 8.7

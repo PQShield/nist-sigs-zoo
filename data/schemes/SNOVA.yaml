@@ -1,0 +1,64 @@
+name: SNOVA
+website: http://snova.pqclab.org/
+category: Multivariate
+assumption: Non-commutative ring UOV
+versions:
+- version: initial
+  date: '2024-10-01'
+  status: On-ramp
+  parametersets:
+  - name: (60 10 4)
+    level: 5
+    pk: 8016
+    sig: 576
+    signing_cycles: 3110898
+    verification_cycles: 1504945
+  - name: (66 15 3)
+    level: 5
+    pk: 15204
+    sig: 381
+    signing_cycles: 3546746
+    verification_cycles: 2460059
+  - name: (75 33 2)
+    level: 5
+    pk: 71890
+    sig: 216
+    signing_cycles: 2304920
+    verification_cycles: 1165161
+  - name: (37 8 14)
+    level: 3
+    pk: 4112
+    sig: 376
+    signing_cycles: 1188690
+    verification_cycles: 544395
+  - name: (49 11 3)
+    level: 3
+    pk: 6006
+    sig: 286
+    signing_cycles: 1365463
+    verification_cycles: 1004519
+  - name: (56 25 2)
+    level: 3
+    pk: 31266
+    sig: 168
+    signing_cycles: 964716
+    verification_cycles: 507009
+  - name: (24 5 4)
+    level: 1
+    pk: 1016
+    sig: 248
+    signing_cycles: 306736
+    verification_cycles: 163805
+  - name: (25 8 3)
+    level: 1
+    pk: 2320
+    sig: 165
+    signing_cycles: 370046
+    verification_cycles: 218801
+  - name: (37 17 2)
+    level: 1
+    pk: 9842
+    sig: 106
+    signing_cycles: 338723
+    verification_cycles: 146738
+  warning: Attacks have reduced the security of the scheme
