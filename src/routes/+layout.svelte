@@ -32,7 +32,7 @@
 					Round 1
 				</a>
 				<a
-					href="https://github.com/thomwiggers/nist-sigs-zoo"
+					href="https://github.com/pqshield/nist-sigs-zoo"
 					target="_blank"
 					rel="noopener noreferrer"
 					class="text-pqs-bluegray hover:text-pqs-apricot transition-colors"
@@ -65,7 +65,7 @@
 				<a href="/round-1/" class="text-pqs-apricot hover:underline">Round 1 snapshot</a>
 				·
 				<a
-					href="https://github.com/thomwiggers/nist-sigs-zoo"
+					href="https://github.com/pqshield/nist-sigs-zoo"
 					target="_blank"
 					rel="noopener noreferrer"
 					class="text-pqs-apricot hover:underline">GitHub</a
