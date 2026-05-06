@@ -162,7 +162,7 @@ export function processYamlSchemes(schemeData: SchemeYaml[]): {
 			warning: latest.warning ?? false,
 			info: latest.info ?? false,
 			classical: latest.broken === 'classical',
-			tags: yaml.tags ?? [],
+			tags: [...new Set(yaml.versions.flatMap((v) => v.tags ?? []))],
 		};
 		schemes.push(scheme);
 

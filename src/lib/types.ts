@@ -71,7 +71,6 @@ export interface SchemeYaml {
 	website: string;
 	category: string;
 	assumption: string;
-	tags?: string[];
 	versions: VersionYaml[];
 }
 
