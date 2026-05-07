@@ -39,35 +39,29 @@
 		// Apply filter URL params
 		if (params.toString()) applyUrl(params);
 
-		// Debounced URL sync on filter changes — re-subscribed on each round change
+		// Debounced URL sync on filter changes
 		let urlSyncTimer: ReturnType<typeof setTimeout> | null = null;
-		let unsubFilter: (() => void) | null = null;
+		const { store, defaults } = getFilterStore();
+		const unsubFilter = store.subscribe((state) => {
+			if (urlSyncTimer) clearTimeout(urlSyncTimer);
+			urlSyncTimer = setTimeout(() => {
+				const p = buildUrlParams(state, defaults);
+				const round = $roundStore === 'round-1' ? '1' : null;
+				if (round) p.set('r', round);
+				const qs = p.toString();
+				const newUrl = qs ? `?${qs}` : $page.url.pathname;
+				goto(newUrl, { replaceState: true, keepFocus: true, noScroll: true });
+			}, 300);
+		});
 
-		function subscribeFilter() {
-			if (unsubFilter) unsubFilter();
-			const { store: currentStore, defaults: currentDefaults } = getFilterStore();
-			unsubFilter = currentStore.subscribe((state) => {
-				if (urlSyncTimer) clearTimeout(urlSyncTimer);
-				urlSyncTimer = setTimeout(() => {
-					const p = buildUrlParams(state, currentDefaults);
-					const round = $roundStore === 'round-1' ? '1' : null;
-					if (round) p.set('r', round);
-					const qs = p.toString();
-					const newUrl = qs ? `?${qs}` : $page.url.pathname;
-					goto(newUrl, { replaceState: true, keepFocus: true, noScroll: true });
-				}, 300);
-			});
-		}
-
-		// Re-process when round changes, then re-subscribe to new filter store
+		// Re-process when round changes — store stays stable, data updates in place
 		const unsubRound = roundStore.subscribe((round) => {
 			applyRound(round);
-			subscribeFilter();
 		});
 
 		return () => {
 			unsubRound();
-			if (unsubFilter) unsubFilter();
+			unsubFilter();
 			if (urlSyncTimer) clearTimeout(urlSyncTimer);
 		};
 	});
