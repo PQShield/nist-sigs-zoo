@@ -1,7 +1,9 @@
 <script lang="ts">
 	import './layout.css';
 	import { onMount } from 'svelte';
+	import { page } from '$app/stores';
 	import { themeStore } from '$lib/themeStore';
+	import { roundStore, type Round } from '$lib/roundStore';
 
 	let { children } = $props();
 
@@ -10,9 +12,15 @@
 	);
 	const themeLabel = $derived(`Theme: ${$themeStore} — click to cycle`);
 
+	const isHome = $derived($page.url.pathname === '/');
+
 	onMount(() => {
 		themeStore.init();
 	});
+
+	function setRound(r: Round) {
+		roundStore.set(r);
+	}
 </script>
 
 <div class="flex min-h-screen flex-col bg-pqs-smoke text-pqs-midnight dark:bg-pqs-midnight dark:text-pqs-smoke">
@@ -25,12 +33,22 @@
 				</span>
 			</a>
 			<div class="ml-auto flex items-center gap-5 font-heading text-sm">
-				<a
-					href="/round-1/"
-					class="text-pqs-bluegray hover:text-pqs-apricot transition-colors"
-				>
-					Round 1
-				</a>
+				{#if isHome}
+					<div class="flex items-center gap-1 rounded border border-pqs-steel/40 p-0.5 font-heading text-sm">
+						<button
+							onclick={() => setRound('round-2')}
+							class="rounded px-2 py-0.5 transition-colors {$roundStore === 'round-2' ? 'bg-pqs-apricot text-pqs-midnight font-semibold' : 'text-pqs-bluegray hover:text-white'}"
+						>
+							Round 2
+						</button>
+						<button
+							onclick={() => setRound('round-1')}
+							class="rounded px-2 py-0.5 transition-colors {$roundStore === 'round-1' ? 'bg-pqs-apricot text-pqs-midnight font-semibold' : 'text-pqs-bluegray hover:text-white'}"
+						>
+							Round 1
+						</button>
+					</div>
+				{/if}
 				<a
 					href="https://github.com/pqshield/nist-sigs-zoo"
 					target="_blank"

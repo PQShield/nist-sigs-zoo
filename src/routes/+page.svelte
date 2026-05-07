@@ -1,36 +1,73 @@
 <script lang="ts">
-	import { browser } from '$app/environment';
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
 	import { onMount } from 'svelte';
 	import FilterPanel from '$lib/components/FilterPanel.svelte';
 	import SchemeTable from '$lib/components/SchemeTable.svelte';
 	import ScatterPlot from '$lib/components/ScatterPlot.svelte';
-	import { getFilterStore, buildUrlParams } from '$lib/filterStore';
+	import { processYamlSchemes } from '$lib/data';
+	import { getFilterStore, buildUrlParams, createFilterStore } from '$lib/filterStore';
+	import { roundStore, type Round } from '$lib/roundStore';
+	import { allSchemeData } from '$lib/schemeData';
 	import type { PageData } from './$types';
 
 	let { data }: { data: PageData } = $props();
 
-	const { store, defaults, applyUrl } = getFilterStore();
+	let schemes = $state(data.schemes);
+	let categories = $state(data.categories);
+	let ranges = $state(data.ranges);
+
+	const { applyUrl } = getFilterStore();
+
+	function applyRound(round: Round) {
+		const result = processYamlSchemes(allSchemeData, round);
+		schemes = result.schemes;
+		categories = [...new Set(result.schemes.map((s) => s.category))].sort();
+		ranges = result.ranges;
+		createFilterStore(result.parameterSets, result.ranges, new URLSearchParams());
+	}
 
 	onMount(() => {
-		// Apply URL params now that we're on the client
+		// Apply round from URL (?r=1 or ?r=2)
 		const params = new URLSearchParams(window.location.search);
+		const rParam = params.get('r');
+		if (rParam === '1') {
+			roundStore.set('round-1');
+			applyRound('round-1');
+		}
+
+		// Apply filter URL params
 		if (params.toString()) applyUrl(params);
 
-		// Debounced URL sync on subsequent filter changes
+		// Debounced URL sync on filter changes — re-subscribed on each round change
 		let urlSyncTimer: ReturnType<typeof setTimeout> | null = null;
-		const unsub = store.subscribe((state) => {
-			if (urlSyncTimer) clearTimeout(urlSyncTimer);
-			urlSyncTimer = setTimeout(() => {
-				const p = buildUrlParams(state, defaults);
-				const qs = p.toString();
-				const newUrl = qs ? `?${qs}` : $page.url.pathname;
-				goto(newUrl, { replaceState: true, keepFocus: true, noScroll: true });
-			}, 300);
+		let unsubFilter: (() => void) | null = null;
+
+		function subscribeFilter() {
+			if (unsubFilter) unsubFilter();
+			const { store: currentStore, defaults: currentDefaults } = getFilterStore();
+			unsubFilter = currentStore.subscribe((state) => {
+				if (urlSyncTimer) clearTimeout(urlSyncTimer);
+				urlSyncTimer = setTimeout(() => {
+					const p = buildUrlParams(state, currentDefaults);
+					const round = $roundStore === 'round-1' ? '1' : null;
+					if (round) p.set('r', round);
+					const qs = p.toString();
+					const newUrl = qs ? `?${qs}` : $page.url.pathname;
+					goto(newUrl, { replaceState: true, keepFocus: true, noScroll: true });
+				}, 300);
+			});
+		}
+
+		// Re-process when round changes, then re-subscribe to new filter store
+		const unsubRound = roundStore.subscribe((round) => {
+			applyRound(round);
+			subscribeFilter();
 		});
+
 		return () => {
-			unsub();
+			unsubRound();
+			if (unsubFilter) unsubFilter();
 			if (urlSyncTimer) clearTimeout(urlSyncTimer);
 		};
 	});
@@ -56,7 +93,7 @@
 		<!-- Sidebar filter panel -->
 		<div class="hidden w-60 shrink-0 lg:block">
 			<div class="sticky top-4">
-				<FilterPanel schemes={data.schemes} categories={data.categories} ranges={data.ranges} />
+				<FilterPanel schemes={schemes} categories={categories} ranges={ranges} />
 			</div>
 		</div>
 
@@ -68,7 +105,7 @@
 					Filters ▼
 				</summary>
 				<div class="mt-2 rounded border border-pqs-ashgray bg-white p-3 dark:border-pqs-steel dark:bg-pqs-midnight-mid">
-					<FilterPanel schemes={data.schemes} categories={data.categories} ranges={data.ranges} />
+					<FilterPanel schemes={schemes} categories={categories} ranges={ranges} />
 				</div>
 			</details>
 

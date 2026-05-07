@@ -138,7 +138,10 @@ export function parseParameterSets(
 	return { rows, ranges };
 }
 
-export function processYamlSchemes(schemeData: SchemeYaml[]): {
+export function processYamlSchemes(
+	schemeData: SchemeYaml[],
+	tagFilter?: string
+): {
 	schemes: Scheme[];
 	parameterSets: ParameterSet[];
 	ranges: DataRanges;
@@ -149,8 +152,23 @@ export function processYamlSchemes(schemeData: SchemeYaml[]): {
 	for (const yaml of schemeData) {
 		if (!yaml.versions || yaml.versions.length === 0) continue;
 
-		// Latest version = highest date
-		const latest = [...yaml.versions].sort((a, b) => b.date.localeCompare(a.date))[0];
+		const sorted = [...yaml.versions].sort((a, b) => b.date.localeCompare(a.date));
+
+		let latest;
+		if (tagFilter) {
+			// Pick latest version with the requested tag
+			const tagged = sorted.filter((v) => v.tags?.includes(tagFilter));
+			if (tagged.length > 0) {
+				latest = tagged[0];
+			} else if (yaml.versions.every((v) => !v.tags || v.tags.length === 0)) {
+				// Untagged reference scheme — always include
+				latest = sorted[0];
+			} else {
+				continue; // Scheme exists but not in this round
+			}
+		} else {
+			latest = sorted[0];
+		}
 
 		const scheme: Scheme = {
 			scheme: yaml.name,

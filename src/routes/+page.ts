@@ -1,17 +1,12 @@
 import { processYamlSchemes } from '$lib/data';
 import { createFilterStore } from '$lib/filterStore';
-import type { SchemeYaml } from '$lib/types';
+import { allSchemeData } from '$lib/schemeData';
 import type { PageLoad } from './$types';
-
-const schemeModules = import.meta.glob('../../data/schemes/*.yaml', {
-	eager: true,
-}) as Record<string, { default: SchemeYaml }>;
 
 export const prerender = true;
 
 export const load: PageLoad = async () => {
-	const schemeData = Object.values(schemeModules).map((m) => m.default);
-	const { schemes, parameterSets, ranges } = processYamlSchemes(schemeData);
+	const { schemes, parameterSets, ranges } = processYamlSchemes(allSchemeData, 'round-2');
 
 	const categories = [...new Set(schemes.map((s) => s.category))].sort();
 
