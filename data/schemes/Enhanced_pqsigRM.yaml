@@ -1,0 +1,18 @@
+name: Enhanced pqsigRM
+website: https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/round-1/spec-files/Enhanced-pqsigRM-spec-web.pdf
+category: Code-based
+assumption: Reed Muller codes
+versions:
+- version: Round 1
+  date: '2023-06-01'
+  status: On-ramp
+  tags:
+  - round-1
+  parametersets:
+  - name: '128'
+    level: 1
+    pk: 2000000
+    sig: 1032
+    signing_cycles: 1366500
+    verification_cycles: 242901
+  broken: signatures leak secret information

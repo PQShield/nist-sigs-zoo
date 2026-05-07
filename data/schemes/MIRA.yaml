@@ -1,0 +1,47 @@
+name: MIRA
+website: https://pqc-mira.org/
+category: MPC-in-the-Head
+assumption: MinRank
+versions:
+- version: Round 1
+  date: '2023-06-01'
+  status: On-ramp
+  tags:
+  - round-1
+  parametersets:
+  - name: 256S
+    level: 5
+    pk: 150
+    sig: 20762
+    signing_cycles: 337700000
+    verification_cycles: 331400000
+  - name: 256F
+    level: 5
+    pk: 150
+    sig: 27678
+    signing_cycles: 322300000
+    verification_cycles: 323200000
+  - name: 192S
+    level: 3
+    pk: 121
+    sig: 11779
+    signing_cycles: 119700000
+    verification_cycles: 116200000
+  - name: 192F
+    level: 3
+    pk: 121
+    sig: 15540
+    signing_cycles: 107200000
+    verification_cycles: 107000000
+  - name: 128S
+    level: 1
+    pk: 84
+    sig: 5640
+    signing_cycles: 46800000
+    verification_cycles: 43900000
+  - name: 128F
+    level: 1
+    pk: 84
+    sig: 7376
+    signing_cycles: 37400000
+    verification_cycles: 36700000

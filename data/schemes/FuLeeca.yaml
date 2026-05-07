@@ -1,0 +1,30 @@
+name: FuLeeca
+website: https://www.ce.cit.tum.de/lnt/forschung/professur-fuer-coding-and-cryptography/fuleeca/
+category: Code-based
+assumption: Code-based Lee Metric
+versions:
+- version: Round 1
+  date: '2023-05-31'
+  status: On-ramp
+  tags:
+  - round-1
+  parametersets:
+  - name: V
+    level: 5
+    pk: 2638
+    sig: 2130
+    signing_cycles: 12327726000
+    verification_cycles: 3789000
+  - name: III
+    level: 3
+    pk: 1982
+    sig: 1620
+    signing_cycles: 2111156000
+    verification_cycles: 2447000
+  - name: I
+    level: 1
+    pk: 1318
+    sig: 1100
+    signing_cycles: 1846779000
+    verification_cycles: 1260000
+  broken: Private key recovery

@@ -1,0 +1,41 @@
+name: HAWK
+website: https://hawk-sign.info
+category: Lattices
+assumption: Lattice Isomorphism Problem
+versions:
+- version: v1.1
+  date: '2025-02-05'
+  status: On-ramp
+  parametersets:
+  - name: '1024'
+    level: 5
+    pk: 2440
+    sig: 1221
+    signing_cycles: 180816
+    verification_cycles: 302861
+  - name: '512'
+    level: 1
+    pk: 1024
+    sig: 555
+    signing_cycles: 85372
+    verification_cycles: 148224
+  tags:
+  - round-2
+- version: v1.0
+  date: '2023-06-01'
+  status: On-ramp
+  tags:
+  - round-1
+  parametersets:
+  - name: '1024'
+    level: 5
+    pk: 2440
+    sig: 1221
+    signing_cycles: 180816
+    verification_cycles: 302861
+  - name: '512'
+    level: 1
+    pk: 1024
+    sig: 555
+    signing_cycles: 85372
+    verification_cycles: 148224

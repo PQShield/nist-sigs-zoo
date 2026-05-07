@@ -1,0 +1,29 @@
+name: Wave
+website: https://wave-sign.org/
+category: Code-based
+assumption: Coding theory
+versions:
+- version: v1
+  date: '2023-06-01'
+  status: On-ramp
+  tags:
+  - round-1
+  parametersets:
+  - name: '1644'
+    level: 5
+    pk: 13632308
+    sig: 1644
+    signing_cycles: 7397000000
+    verification_cycles: 813300000
+  - name: '1249'
+    level: 3
+    pk: 7867598
+    sig: 1249
+    signing_cycles: 3507000000
+    verification_cycles: 464100000
+  - name: '822'
+    level: 1
+    pk: 3677390
+    sig: 822
+    signing_cycles: 1161000000
+    verification_cycles: 205800000

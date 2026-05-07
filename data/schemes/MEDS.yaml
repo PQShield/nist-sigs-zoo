@@ -1,0 +1,48 @@
+name: MEDS
+website: https://www.meds-pqc.org/
+category: Code-based
+assumption: Matrix Code Equivalence
+versions:
+- version: v1.0.1
+  date: '2023-06-30'
+  status: On-ramp
+  tags:
+  - round-1
+  parametersets:
+  - name: '134180'
+    level: 5
+    pk: 134180
+    sig: 132528
+    signing_cycles: 1629840000
+    verification_cycles: 1612560000
+  - name: '41711'
+    level: 3
+    pk: 41711
+    sig: 41080
+    signing_cycles: 1467000000
+    verification_cycles: 1461970000
+  - name: '167717'
+    level: 5
+    pk: 167717
+    sig: 165464
+    signing_cycles: 961800000
+    verification_cycles: 938890000
+  - name: '9923'
+    level: 1
+    pk: 9923
+    sig: 9896
+    signing_cycles: 518050000
+    verification_cycles: 515580000
+  - name: '69497'
+    level: 3
+    pk: 55604
+    sig: 54736
+    signing_cycles: 386270000
+    verification_cycles: 380700000
+  - name: '13220'
+    level: 1
+    pk: 13220
+    sig: 12976
+    signing_cycles: 88900000
+    verification_cycles: 87480000
+  info: original reference implementation has an implementation flaw

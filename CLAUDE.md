@@ -12,7 +12,7 @@ Deploy: `npm run build` → `dist/`. GitHub Actions deploys to GitHub Pages.
 
 - **Framework**: SvelteKit 2 + Svelte 5 (runes mode), adapter-static → `dist/`
 - **CSS**: Tailwind CSS v4 via `@tailwindcss/vite`
-- **Charts**: `@observablehq/plot` (log-log scatter of pk vs sig size)
+- **Charts**: Vega-Lite (log-log scatter of pk vs sig size)
 - **Language**: TypeScript throughout
 
 ## Development
@@ -26,53 +26,91 @@ npm run check     # type-check with svelte-check
 
 ## Data
 
-Source of truth is Google Sheets (linked in README). CSV files live in two places:
+Source of truth is `data/schemes/*.yaml` — one YAML file per scheme.
 
-- `data/schemes.csv` and `data/parametersets.csv` — **edit here**
-- `static/data/schemes.csv` and `static/data/parametersets.csv` — **copy from data/ after editing**
+Schema per file:
+```yaml
+name: SchemeName
+website: https://...
+category: Lattice | Multivariate | Hash-based | ...
+assumption: ...
+versions:
+  - version: "FIPS 206"        # human-readable version label
+    date: "2024-08-13"         # ISO date, used to pick latest
+    status: Standardized | On-ramp
+    tags: [round-2]            # round-1, round-2, or omit for reference schemes
+    broken: false              # or string description / "classical"
+    warning: false             # or string description
+    info: false                # or string description
+    parametersets:
+      - name: ML-DSA-44
+        level: 2               # 1-5 or "Pre-Quantum"
+        pk: 1312
+        sig: 2420
+        signing_cycles: 1234567
+        verification_cycles: 234567
+        signing_ms: null       # use cycles OR ms, not both
+        verification_ms: null
+        notes: null
+```
 
-The `data/convert.py` script converts a Numbers-exported semicolon-delimited CSV (`numbers.csv`)
-into the standard `parametersets.csv` — run it from the `data/` directory.
+Security flags (`broken`/`warning`/`info`) can be set at version level (applies to all
+parametersets) or overridden per-parameterset.
 
-Security flags in `schemes.csv`:
-- `Broken` — scheme is broken or classically insecure (value is a description or `"classical"`)
-- `Warning` — known attack weakens the scheme
-- `Info` — informational note about a security concern
+The YAML files are bundled at build time via a Vite plugin (`vite.config.ts`) and
+`import.meta.glob` in `src/lib/schemeData.ts`.
 
 ## Architecture
 
 ```
+data/
+└── schemes/          # one .yaml per scheme (source of truth)
+
 src/
 ├── lib/
-│   ├── types.ts          # Scheme, ParameterSet, FilterState types
+│   ├── types.ts          # Scheme, ParameterSet, SchemeYaml, VersionYaml, FilterState types
 │   ├── constants.ts      # CPUSPEED, NIST_LEVELS
-│   ├── data.ts           # CSV parsing (parseSchemes, parseParameterSets)
+│   ├── data.ts           # processYamlSchemes() — tag-filtered YAML → Scheme[] + ParameterSet[]
 │   ├── filterStore.ts    # Svelte writable store + derived filteredRows + URL codec
+│   ├── roundStore.ts     # writable<'round-1'|'round-2'> — drives dataset selection
+│   ├── schemeData.ts     # import.meta.glob loader → allSchemeData: SchemeYaml[]
 │   ├── themeStore.ts     # dark/light/system theme store → localStorage
-│   ├── plotHelpers.ts    # dotColor, dotSymbol, dotTitle for Observable Plot
+│   ├── yaml.d.ts         # TypeScript module declaration for *.yaml imports
 │   └── components/
-│       ├── SecurityBadge.svelte  # 💣🧨⚠️ℹ️ badges with aria-labels
-│       ├── FilterPanel.svelte    # all filter controls (categories, levels, ranges)
+│       ├── SecurityBadge.svelte  # broken/warning/info badges with aria-labels
+│       ├── FilterPanel.svelte    # filter controls (categories, levels, ranges)
 │       ├── RangeField.svelte     # reusable number input
-│       ├── SchemeTable.svelte    # unified sortable table (one row per parameter set)
-│       └── ScatterPlot.svelte    # Observable Plot wrapper
+│       ├── SchemeTable.svelte    # sortable table (one row per parameter set)
+│       └── ScatterPlot.svelte    # Vega-Lite scatter plot
 └── routes/
-    ├── +layout.svelte    # nav bar (logo, dark toggle), footer
-    ├── +page.ts          # load: fetch CSVs, parse, initialize filter store
-    └── +page.svelte      # page composition, URL state sync in onMount
+    ├── +layout.svelte    # nav (logo, round selector, dark toggle), footer
+    ├── +page.ts          # load: processYamlSchemes('round-2'), createFilterStore
+    └── +page.svelte      # page composition, round switching, URL state sync
 ```
+
+### Data Processing
+
+`processYamlSchemes(allSchemeData, tagFilter?)` in `src/lib/data.ts`:
+- With `tagFilter` (e.g. `'round-2'`): picks the latest version whose `tags` includes that value.
+- Fallback: schemes with no tags on any version are always included (reference schemes like ML-DSA).
+- Schemes that have tags but none matching `tagFilter` are excluded.
 
 ### Filter Store
 
-`src/lib/filterStore.ts` is the core state module. A singleton `writable<FilterState>` is
-initialized by `createFilterStore()` (called from `+page.ts` load function). Components call
-`getFilterStore()` to get the store and `filteredRows` derived store.
+`src/lib/filterStore.ts` uses stable module-level store references. `_store` and `_filteredRows`
+are created once; `createFilterStore()` on subsequent calls (round changes) updates `_allRows`
+and resets `_store` in place. This means components calling `getFilterStore()` at init always
+hold valid references — no stale subscription bugs.
 
-Category checkbox "checked/indeterminate/unchecked" state is **derived** from the scheme set —
-not stored separately. This eliminates the sync-bug class from the old codebase.
+Category checkbox state is **derived** from the scheme set, not stored separately.
 
-URL state: filter params are encoded as query params (see URL codec in `filterStore.ts`).
-Applied client-side in `onMount` (prerender cannot access `url.searchParams`).
+URL state: filter params encoded as query params, applied client-side in `onMount`.
+Round encoded as `?r=1` for round-1 (round-2 is default, no param).
+
+### Round Selector
+
+Nav shows Round 2 / Round 1 toggle (only on home page). Clicking updates `roundStore`, which
+triggers `applyRound()` in `+page.svelte`, which calls `createFilterStore()` with new data.
 
 ### Performance Data
 

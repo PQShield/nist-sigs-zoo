@@ -1,0 +1,83 @@
+name: Mirath
+website: https://pqc-mirath.org/
+category: MPC-in-the-Head
+assumption: Min-rank problem
+versions:
+- version: v2.0
+  date: '2025-02-05'
+  status: On-ramp
+  parametersets:
+  - name: 1a-Short
+    level: 1
+    pk: 73
+    sig: 3078
+    signing_cycles: 166000000
+    verification_cycles: 123000000
+  - name: 1b-Short
+    level: 1
+    pk: 57
+    sig: 2902
+    signing_cycles: 152000000
+    verification_cycles: 101000000
+  - name: 1a-Fast
+    level: 1
+    pk: 73
+    sig: 3728
+    signing_cycles: 11000000
+    verification_cycles: 9800000
+  - name: 1b-Fast
+    level: 1
+    pk: 57
+    sig: 3456
+    signing_cycles: 15100000
+    verification_cycles: 12200000
+  - name: 3a-Short
+    level: 3
+    pk: 107
+    sig: 6907
+    signing_cycles: 597000000
+    verification_cycles: 411000000
+  - name: 3b-Short
+    level: 3
+    pk: 84
+    sig: 6514
+    signing_cycles: 520000000
+    verification_cycles: 327000000
+  - name: 3a-Fast
+    level: 3
+    pk: 107
+    sig: 8537
+    signing_cycles: 33600000
+    verification_cycles: 34400000
+  - name: 3b-Fast
+    level: 3
+    pk: 84
+    sig: 7936
+    signing_cycles: 55000000
+    verification_cycles: 51600000
+  - name: 5a-Short
+    level: 5
+    pk: 147
+    sig: 12413
+    signing_cycles: 1415000000
+    verification_cycles: 712000000
+  - name: 5b-Short
+    level: 5
+    pk: 112
+    sig: 11620
+    signing_cycles: 1421000000
+    verification_cycles: 630000000
+  - name: 5a-Fast
+    level: 5
+    pk: 147
+    sig: 15504
+    signing_cycles: 86700000
+    verification_cycles: 65100000
+  - name: 5b-Fast
+    level: 5
+    pk: 112
+    sig: 14262
+    signing_cycles: 121000000
+    verification_cycles: 88000000
+  tags:
+  - round-2

@@ -1,0 +1,32 @@
+name: EagleSign
+website: https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/round-1/spec-files/EagleSign-spec-web.pdf
+category: Lattices
+assumption: MNTRU/MLWE
+versions:
+- version: Round 1
+  date: '2023-06-01'
+  status: On-ramp
+  tags:
+  - round-1
+  parametersets:
+  - name: Recomm I
+    level: 3
+    pk: 1824
+    sig: 2336
+    signing_cycles: 1286413
+    verification_cycles: 2251036
+  - name: High I
+    level: 5
+    pk: 3616
+    sig: 3488
+    signing_cycles: 917213
+    verification_cycles: 1503004
+  - name: Recomm II
+    level: 3
+    pk: 3616
+    sig: 2464
+  - name: Medium
+    level: 2
+    pk: 1824
+    sig: 2144
+  broken: signature leaks secret key

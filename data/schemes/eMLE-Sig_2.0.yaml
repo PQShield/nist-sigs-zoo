@@ -1,0 +1,30 @@
+name: eMLE-Sig 2.0
+website: https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/round-1/spec-files/eMLE-spec-web.pdf
+category: Other
+assumption: Embedded Multilayer Equations
+versions:
+- version: Round 1
+  date: '2023-06-01'
+  status: On-ramp
+  tags:
+  - round-1
+  parametersets:
+  - name: Level V
+    level: 5
+    pk: 960
+    sig: 640
+    signing_cycles: 114965
+    verification_cycles: 63110
+  - name: Level III
+    level: 3
+    pk: 672
+    sig: 456
+    signing_cycles: 80653
+    verification_cycles: 38175
+  - name: Level I
+    level: 1
+    pk: 416
+    sig: 280
+    signing_cycles: 52597
+    verification_cycles: 21755
+  broken: secret key recovery

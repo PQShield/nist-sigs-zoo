@@ -1,0 +1,227 @@
+name: MiRitH
+website: https://github.com/Crypto-TII/mirith_nist_submission/
+category: MPC-in-the-Head
+assumption: MinRank
+versions:
+- version: Round 1
+  date: '2023-06-01'
+  status: On-ramp
+  tags:
+  - round-1
+  parametersets:
+  - name: hypercube-Vb shortest
+    level: 5
+    pk: 274
+    sig: 18292
+    signing_cycles: 17465014934
+    verification_cycles: 16113973548
+  - name: hypercube-Va shortest
+    level: 5
+    pk: 253
+    sig: 17552
+    signing_cycles: 16708044999
+    verification_cycles: 16535614637
+  - name: hypercube-IIIb shortest
+    level: 3
+    pk: 205
+    sig: 10314
+    signing_cycles: 9878242731
+    verification_cycles: 10063176060
+  - name: hypercube-IIIa shortest
+    level: 3
+    pk: 205
+    sig: 9954
+    signing_cycles: 9861041315
+    verification_cycles: 9651788738
+  - name: hypercube-Ia shortest
+    level: 1
+    pk: 129
+    sig: 4536
+    signing_cycles: 6108117293
+    verification_cycles: 6195562217
+  - name: hypercube-Ib shortest
+    level: 1
+    pk: 144
+    sig: 4886
+    signing_cycles: 6107588818
+    verification_cycles: 6040512181
+  - name: hypercube-Vb shorter
+    level: 5
+    pk: 274
+    sig: 20394
+    signing_cycles: 1359468059
+    verification_cycles: 1278699748
+  - name: hypercube-Va shorter
+    level: 5
+    pk: 253
+    sig: 19393
+    signing_cycles: 1290986430
+    verification_cycles: 1272158929
+  - name: hypercube-IIIb shorter
+    level: 3
+    pk: 205
+    sig: 11202
+    signing_cycles: 727245043
+    verification_cycles: 732036291
+  - name: hypercube-IIIa shorter
+    level: 3
+    pk: 205
+    sig: 10746
+    signing_cycles: 723105845
+    verification_cycles: 708260445
+  - name: hypercube-Ib shorter
+    level: 1
+    pk: 144
+    sig: 5491
+    signing_cycles: 458671636
+    verification_cycles: 450442537
+  - name: hypercube-Ia shorter
+    level: 1
+    pk: 129
+    sig: 5036
+    signing_cycles: 455493593
+    verification_cycles: 456564597
+  - name: Vb short
+    level: 5
+    pk: 274
+    sig: 23182
+    signing_cycles: 327068513
+    verification_cycles: 330632038
+  - name: Va short
+    level: 5
+    pk: 253
+    sig: 21795
+    signing_cycles: 308565196
+    verification_cycles: 310604452
+  - name: IIIb short
+    level: 3
+    pk: 205
+    sig: 13136
+    signing_cycles: 242531804
+    verification_cycles: 204853275
+  - name: IIIa short
+    level: 3
+    pk: 205
+    sig: 12440
+    signing_cycles: 192858411
+    verification_cycles: 175520472
+  - name: hypercube-Vb short
+    level: 5
+    pk: 274
+    sig: 23182
+    signing_cycles: 138497686
+    verification_cycles: 138624970
+  - name: hypercube-Va short
+    level: 5
+    pk: 253
+    sig: 21795
+    signing_cycles: 118493608
+    verification_cycles: 113191871
+  - name: Ia short
+    level: 1
+    pk: 129
+    sig: 5673
+    signing_cycles: 76549995
+    verification_cycles: 76874731
+  - name: hypercube-IIIb short
+    level: 3
+    pk: 205
+    sig: 13136
+    signing_cycles: 71813403
+    verification_cycles: 75999541
+  - name: hypercube-IIIa short
+    level: 3
+    pk: 205
+    sig: 12440
+    signing_cycles: 70251731
+    verification_cycles: 67659810
+  - name: Ib short
+    level: 1
+    pk: 144
+    sig: 6309
+    signing_cycles: 65630977
+    verification_cycles: 65551641
+  - name: hypercube-Ib short
+    level: 1
+    pk: 144
+    sig: 6309
+    signing_cycles: 42086140
+    verification_cycles: 42047669
+  - name: hypercube-Ia short
+    level: 1
+    pk: 129
+    sig: 5673
+    signing_cycles: 41220707
+    verification_cycles: 40976634
+  - name: hypercube-Vb fast
+    level: 5
+    pk: 274
+    sig: 33048
+    signing_cycles: 40665696
+    verification_cycles: 34718714
+  - name: Vb fast
+    level: 5
+    pk: 274
+    sig: 33048
+    signing_cycles: 38659453
+    verification_cycles: 38122610
+  - name: Va fast
+    level: 5
+    pk: 253
+    sig: 30458
+    signing_cycles: 36361915
+    verification_cycles: 36665342
+  - name: hypercube-Va fast
+    level: 5
+    pk: 253
+    sig: 30458
+    signing_cycles: 33245024
+    verification_cycles: 28269718
+  - name: IIIb fast
+    level: 3
+    pk: 205
+    sig: 18459
+    signing_cycles: 24538474
+    verification_cycles: 22470437
+  - name: IIIa fast
+    level: 3
+    pk: 205
+    sig: 17139
+    signing_cycles: 22485807
+    verification_cycles: 18431919
+  - name: hypercube-IIIb fast
+    level: 3
+    pk: 205
+    sig: 18459
+    signing_cycles: 18384614
+    verification_cycles: 15550479
+  - name: hypercube-IIIa fast
+    level: 3
+    pk: 205
+    sig: 17139
+    signing_cycles: 15571845
+    verification_cycles: 13030031
+  - name: hypercube-Ib fast
+    level: 1
+    pk: 144
+    sig: 9105
+    signing_cycles: 9462556
+    verification_cycles: 7914458
+  - name: Ia fast
+    level: 1
+    pk: 129
+    sig: 7877
+    signing_cycles: 8703311
+    verification_cycles: 7311069
+  - name: Ib fast
+    level: 1
+    pk: 144
+    sig: 9105
+    signing_cycles: 8015345
+    verification_cycles: 7558761
+  - name: hypercube-Ia fast
+    level: 1
+    pk: 129
+    sig: 7877
+    signing_cycles: 7246084
+    verification_cycles: 6061955

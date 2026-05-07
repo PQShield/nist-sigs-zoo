@@ -1,0 +1,48 @@
+name: Biscuit
+website: https://www.biscuit-pqc.org/
+category: Multivariate
+assumption: 'multivariate: solving generic structured algebraic equations'
+versions:
+- version: Round 1
+  date: '2023-06-01'
+  status: On-ramp
+  tags:
+  - round-1
+  parametersets:
+  - name: 256s
+    level: 5
+    pk: 93
+    sig: 20192
+    signing_cycles: 1291111734
+    verification_cycles: 1274568395
+  - name: 192s
+    level: 3
+    pk: 69
+    sig: 11349
+    signing_cycles: 724466241
+    verification_cycles: 714947231
+  - name: 256f
+    level: 5
+    pk: 93
+    sig: 27348
+    signing_cycles: 147099575
+    verification_cycles: 137359832
+  - name: 192f
+    level: 3
+    pk: 69
+    sig: 15129
+    signing_cycles: 81492308
+    verification_cycles: 75826788
+  - name: 128s
+    level: 1
+    pk: 50
+    sig: 4758
+    signing_cycles: 80555671
+    verification_cycles: 78899797
+  - name: 128f
+    level: 1
+    pk: 50
+    sig: 6726
+    signing_cycles: 9653412
+    verification_cycles: 8734302
+  warning: smaller security margin

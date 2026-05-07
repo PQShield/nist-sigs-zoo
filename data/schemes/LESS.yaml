@@ -1,0 +1,102 @@
+name: LESS
+website: https://less-project.com
+category: Code-based
+assumption: Linear Equivalence Problem
+versions:
+- version: v2.0
+  date: '2025-02-07'
+  status: On-ramp
+  parametersets:
+  - name: 252-192
+    level: 1
+    pk: 13940
+    sig: 2625
+    signing_cycles: 127500000
+    verification_cycles: 122700000
+  - name: 252-68
+    level: 1
+    pk: 41788
+    sig: 1825
+    signing_cycles: 45900000
+    verification_cycles: 44800000
+  - name: 252-45
+    level: 1
+    pk: 97484
+    sig: 1329
+    signing_cycles: 30600000
+    verification_cycles: 30000000
+  - name: 400-220
+    level: 3
+    pk: 35074
+    sig: 6329
+    signing_cycles: 401500000
+    verification_cycles: 392700000
+  - name: 400-102
+    level: 3
+    pk: 105174
+    sig: 4131
+    signing_cycles: 184000000
+    verification_cycles: 181300000
+  - name: 548-345
+    level: 5
+    pk: 65793
+    sig: 10680
+    signing_cycles: 1424200000
+    verification_cycles: 1396000000
+  - name: 548-137
+    level: 5
+    pk: 197315
+    sig: 7436
+    signing_cycles: 560000000
+    verification_cycles: 564600000
+  tags:
+  - round-2
+- version: Round 1
+  date: '2023-06-01'
+  status: On-ramp
+  tags:
+  - round-1
+  parametersets:
+  - name: 5b
+    level: 5
+    pk: 66151
+    sig: 33280
+    signing_cycles: 10212600000
+    verification_cycles: 10458800000
+  - name: 5s
+    level: 5
+    pk: 132096
+    sig: 26727
+    signing_cycles: 6763200000
+    verification_cycles: 7016500000
+  - name: 3s
+    level: 3
+    pk: 70554
+    sig: 14439
+    signing_cycles: 2984300000
+    verification_cycles: 3075100000
+  - name: 3b
+    level: 3
+    pk: 35328
+    sig: 18842
+    signing_cycles: 2446900000
+    verification_cycles: 2521400000
+  - name: 1b
+    level: 1
+    pk: 14029
+    sig: 8602
+    signing_cycles: 263600000
+    verification_cycles: 271400000
+  - name: 1i
+    level: 1
+    pk: 42087
+    sig: 6247
+    signing_cycles: 254300000
+    verification_cycles: 263400000
+  - name: 1s
+    level: 1
+    pk: 98202
+    sig: 5325
+    signing_cycles: 206600000
+    verification_cycles: 213400000
+  info: Original specification lacks verification of well-formed matrices

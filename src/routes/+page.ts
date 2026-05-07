@@ -1,17 +1,12 @@
-import { parseParameterSets, parseSchemes } from '$lib/data';
+import { processYamlSchemes } from '$lib/data';
 import { createFilterStore } from '$lib/filterStore';
+import { allSchemeData } from '$lib/schemeData';
 import type { PageLoad } from './$types';
 
 export const prerender = true;
 
-export const load: PageLoad = async ({ fetch, url }) => {
-	const [schemesText, paramsText] = await Promise.all([
-		fetch('/data/schemes.csv').then((r) => r.text()),
-		fetch('/data/parametersets.csv').then((r) => r.text()),
-	]);
-
-	const schemes = parseSchemes(schemesText);
-	const { rows: parameterSets, ranges } = parseParameterSets(paramsText, schemes);
+export const load: PageLoad = async () => {
+	const { schemes, parameterSets, ranges } = processYamlSchemes(allSchemeData, 'round-2');
 
 	const categories = [...new Set(schemes.map((s) => s.category))].sort();
 

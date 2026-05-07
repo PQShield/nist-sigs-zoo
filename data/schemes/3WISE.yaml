@@ -1,0 +1,30 @@
+name: 3WISE
+website: https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/round-1/spec-files/3wise-spec-web.pdf
+category: Multivariate
+assumption: cubic degree
+versions:
+- version: Round 1
+  date: '2023-06-01'
+  status: On-ramp
+  tags:
+  - round-1
+  parametersets:
+  - name: '256'
+    level: 5
+    pk: 2860000
+    sig: 64
+    signing_ms: 0.093
+    verification_ms: 15.33
+  - name: '192'
+    level: 4
+    pk: 918750
+    sig: 48
+    signing_ms: 0.06
+    verification_ms: 5.22
+  - name: '128'
+    level: 2
+    pk: 187000
+    sig: 32
+    signing_ms: 0.038
+    verification_ms: 1.11
+  broken: Broken

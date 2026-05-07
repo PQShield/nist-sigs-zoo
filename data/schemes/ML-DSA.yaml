@@ -1,0 +1,27 @@
+name: ML-DSA
+website: https://pq-crystals.org/dilithium
+category: Lattices
+assumption: MLWE/MSIS
+versions:
+- version: FIPS 204
+  date: '2024-08-13'
+  status: FIPS
+  parametersets:
+  - name: ML-DSA-87
+    level: 5
+    pk: 2592
+    sig: 4627
+    signing_cycles: 642192
+    verification_cycles: 279936
+  - name: ML-DSA-65
+    level: 3
+    pk: 1952
+    sig: 3309
+    signing_cycles: 529106
+    verification_cycles: 179424
+  - name: ML-DSA-44
+    level: 2
+    pk: 1312
+    sig: 2420
+    signing_cycles: 333013
+    verification_cycles: 118412

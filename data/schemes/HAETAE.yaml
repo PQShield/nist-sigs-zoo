@@ -1,0 +1,30 @@
+name: HAETAE
+website: https://kpqc.cryptolab.co.kr/haetae
+category: Lattices
+assumption: MLWE/MSIS
+versions:
+- version: Round 1
+  date: '2023-05-31'
+  status: On-ramp
+  tags:
+  - round-1
+  parametersets:
+  - name: '180'
+    level: 3
+    pk: 1472
+    sig: 2337
+    signing_cycles: 9472724
+    verification_cycles: 718010
+  - name: '260'
+    level: 5
+    pk: 2080
+    sig: 2908
+    signing_cycles: 8989980
+    verification_cycles: 913378
+  - name: '120'
+    level: 2
+    pk: 992
+    sig: 1463
+    signing_cycles: 6253166
+    verification_cycles: 387594
+  info: Original version has bit-flipping signature forgery

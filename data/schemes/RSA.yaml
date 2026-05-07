@@ -1,0 +1,16 @@
+name: RSA
+website: https://web.archive.org/web/20230127011251/http://people.csail.mit.edu/rivest/Rsapaper.pdf
+category: Pre-Quantum
+assumption: Factoring
+versions:
+- version: initial
+  date: '2024-10-01'
+  status: Classic cryptography
+  parametersets:
+  - name: '2048'
+    level: Pre-Quantum
+    pk: 272
+    sig: 256
+    signing_cycles: 27000000
+    verification_cycles: 45000
+  broken: classical

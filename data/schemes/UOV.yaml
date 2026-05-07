@@ -1,0 +1,114 @@
+name: UOV
+website: https://www.uovsig.org/
+category: Multivariate
+assumption: Multivariate
+versions:
+- version: v2.0
+  date: '2025-02-05'
+  status: On-ramp
+  parametersets:
+  - name: V-pkc
+    level: 5
+    pk: 446992
+    sig: 260
+    signing_cycles: 591144
+    verification_cycles: 2017472
+  - name: V-classic
+    level: 5
+    pk: 2869440
+    sig: 260
+    signing_cycles: 591144
+    verification_cycles: 530468
+  - name: III-pkc
+    level: 3
+    pk: 189232
+    sig: 200
+    signing_cycles: 302728
+    verification_cycles: 963800
+  - name: III-classic
+    level: 3
+    pk: 1225440
+    sig: 200
+    signing_cycles: 302728
+    verification_cycles: 282514
+  - name: Is-pkc
+    level: 1
+    pk: 66576
+    sig: 96
+    signing_cycles: 128972
+    verification_cycles: 282842
+  - name: Is-classic
+    level: 1
+    pk: 412160
+    sig: 96
+    signing_cycles: 128972
+    verification_cycles: 60916
+  - name: Ip-pkc
+    level: 1
+    pk: 43576
+    sig: 128
+    signing_cycles: 109328
+    verification_cycles: 235006
+  - name: Ip-classic
+    level: 1
+    pk: 278432
+    sig: 128
+    signing_cycles: 109328
+    verification_cycles: 80342
+  warning: There is an attack on some parametersets with a specific structure
+  tags:
+  - round-2
+- version: v1.0
+  date: '2023-05-30'
+  status: On-ramp
+  tags:
+  - round-1
+  parametersets:
+  - name: V-pkc
+    level: 5
+    pk: 446992
+    sig: 260
+    signing_cycles: 591812
+    verification_cycles: 2032992
+  - name: V-classic
+    level: 5
+    pk: 2869440
+    sig: 260
+    signing_cycles: 591812
+    verification_cycles: 470886
+  - name: III-pkc
+    level: 3
+    pk: 189232
+    sig: 200
+    signing_cycles: 299316
+    verification_cycles: 917402
+  - name: III-classic
+    level: 3
+    pk: 1225440
+    sig: 200
+    signing_cycles: 299316
+    verification_cycles: 241588
+  - name: Is-pkc
+    level: 1
+    pk: 66576
+    sig: 96
+    signing_cycles: 109314
+    verification_cycles: 276520
+  - name: Is-classic
+    level: 1
+    pk: 412160
+    sig: 96
+    signing_cycles: 109314
+    verification_cycles: 58274
+  - name: Ip-pkc
+    level: 1
+    pk: 43576
+    sig: 128
+    signing_cycles: 105324
+    verification_cycles: 224006
+  - name: Ip-classic
+    level: 1
+    pk: 278432
+    sig: 128
+    signing_cycles: 105324
+    verification_cycles: 90336

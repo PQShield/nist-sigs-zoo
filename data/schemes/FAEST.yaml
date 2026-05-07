@@ -1,0 +1,161 @@
+name: FAEST
+website: https://faest.info
+category: Symmetric
+assumption: symmetric / zero-knowledge VOLE-in-the-Head
+versions:
+- version: v2.0
+  date: '2025-02-07'
+  status: On-ramp
+  parametersets:
+  - name: 192s
+    level: 3
+    pk: 48
+    sig: 11260
+    signing_cycles: 54687000
+    verification_cycles: 42290000
+  - name: 192f
+    level: 3
+    pk: 48
+    sig: 14948
+    signing_cycles: 7045000
+    verification_cycles: 6079000
+  - name: 256s
+    level: 5
+    pk: 48
+    sig: 20696
+    signing_cycles: 76330000
+    verification_cycles: 74546000
+  - name: 256f
+    level: 5
+    pk: 48
+    sig: 26548
+    signing_cycles: 11071000
+    verification_cycles: 10241000
+  - name: EM-256s
+    level: 5
+    pk: 64
+    sig: 17984
+    signing_cycles: 62465000
+    verification_cycles: 59738000
+  - name: EM-256f
+    level: 5
+    pk: 64
+    sig: 23476
+    signing_cycles: 9436000
+    verification_cycles: 8725000
+  - name: EM-192s
+    level: 3
+    pk: 48
+    sig: 9340
+    signing_cycles: 39282000
+    verification_cycles: 36239000
+  - name: EM-192f
+    level: 3
+    pk: 48
+    sig: 12380
+    signing_cycles: 5177000
+    verification_cycles: 4665000
+  - name: 128s
+    level: 1
+    pk: 32
+    sig: 4506
+    signing_cycles: 12787000
+    verification_cycles: 9783000
+  - name: 128f
+    level: 1
+    pk: 32
+    sig: 5924
+    signing_cycles: 1722000
+    verification_cycles: 1413000
+  - name: EM-128s
+    level: 1
+    pk: 32
+    sig: 3906
+    signing_cycles: 9403000
+    verification_cycles: 7398000
+  - name: EM-128f
+    level: 1
+    pk: 32
+    sig: 5060
+    signing_cycles: 1404000
+    verification_cycles: 1113000
+  tags:
+  - round-2
+- version: v1.0
+  date: '2023-06-01'
+  status: On-ramp
+  tags:
+  - round-1
+  parametersets:
+  - name: 192s
+    level: 3
+    pk: 64
+    sig: 12744
+    signing_ms: 19.18
+    verification_ms: 19.31
+  - name: 192f
+    level: 3
+    pk: 64
+    sig: 16792
+    signing_ms: 1.96
+    verification_ms: 1.96
+  - name: 256s
+    level: 5
+    pk: 64
+    sig: 22100
+    signing_ms: 26.65
+    verification_ms: 26.76
+  - name: 256f
+    level: 5
+    pk: 64
+    sig: 28400
+    signing_ms: 3.1
+    verification_ms: 3.1
+  - name: EM-256s
+    level: 5
+    pk: 64
+    sig: 20956
+    signing_ms: 25.65
+    verification_ms: 25.87
+  - name: EM-256f
+    level: 5
+    pk: 64
+    sig: 26736
+    signing_ms: 3.04
+    verification_ms: 3.03
+  - name: EM-192s
+    level: 3
+    pk: 48
+    sig: 10824
+    signing_ms: 18.46
+    verification_ms: 18.52
+  - name: EM-192f
+    level: 3
+    pk: 48
+    sig: 13912
+    signing_ms: 1.87
+    verification_ms: 1.87
+  - name: 128s
+    level: 1
+    pk: 32
+    sig: 5006
+    signing_ms: 8.1
+    verification_ms: 8.1
+  - name: 128f
+    level: 1
+    pk: 32
+    sig: 6336
+    signing_ms: 0.87
+    verification_ms: 0.87
+  - name: EM-128s
+    level: 1
+    pk: 32
+    sig: 4566
+    signing_ms: 8.09
+    verification_ms: 8.05
+  - name: EM-128f
+    level: 1
+    pk: 32
+    sig: 5696
+    signing_ms: 0.85
+    verification_ms: 0.86

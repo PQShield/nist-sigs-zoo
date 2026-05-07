@@ -118,9 +118,11 @@ function compareValues(a: ParameterSet, b: ParameterSet, col: SortableColumn): n
 	}
 }
 
-// Module-level store state — initialized by createFilterStore
+// Stable module-level stores — created once, updated in place on round changes
+const _allRows = writable<ParameterSet[]>([]);
 let _store: Writable<FilterState> | null = null;
 let _defaults: FilterState | null = null;
+// _filteredRows derives from both _store and _allRows, so it stays valid across round changes
 let _filteredRows: Readable<ParameterSet[]> | null = null;
 
 export function createFilterStore(
@@ -133,33 +135,40 @@ export function createFilterStore(
 	const initial = applyUrlParams(defaults, urlParams);
 
 	_defaults = defaults;
-	_store = writable(initial);
-	_filteredRows = derived(_store, ($state) => {
-		return allRows
-			.filter((row) => {
-				if (!$state.schemes.has(row.scheme)) return false;
-				if (!$state.levels.has(row.level)) return false;
-				if (row.pk < $state.minPk || row.pk > $state.maxPk) return false;
-				if (row.sig < $state.minSig || row.sig > $state.maxSig) return false;
-				if (row.pkPlusSig < $state.minPkPlusSig || row.pkPlusSig > $state.maxPkPlusSig)
-					return false;
-				if (
-					row.signingCycles < $state.minSigningCycles ||
-					row.signingCycles > $state.maxSigningCycles
-				)
-					return false;
-				if (
-					row.verificationCycles < $state.minVerificationCycles ||
-					row.verificationCycles > $state.maxVerificationCycles
-				)
-					return false;
-				return true;
-			})
-			.sort((a, b) => {
-				const cmp = compareValues(a, b, $state.sortCol);
-				return $state.sortDir === 'asc' ? cmp : -cmp;
-			});
-	});
+	_allRows.set(allRows);
+
+	if (!_store || !_filteredRows) {
+		_store = writable(initial);
+		_filteredRows = derived([_store, _allRows], ([$state, $rows]) => {
+			return $rows
+				.filter((row) => {
+					if (!$state.schemes.has(row.scheme)) return false;
+					if (!$state.levels.has(row.level)) return false;
+					if (row.pk < $state.minPk || row.pk > $state.maxPk) return false;
+					if (row.sig < $state.minSig || row.sig > $state.maxSig) return false;
+					if (row.pkPlusSig < $state.minPkPlusSig || row.pkPlusSig > $state.maxPkPlusSig)
+						return false;
+					if (
+						row.signingCycles < $state.minSigningCycles ||
+						row.signingCycles > $state.maxSigningCycles
+					)
+						return false;
+					if (
+						row.verificationCycles < $state.minVerificationCycles ||
+						row.verificationCycles > $state.maxVerificationCycles
+					)
+						return false;
+					return true;
+				})
+				.sort((a, b) => {
+					const cmp = compareValues(a, b, $state.sortCol);
+					return $state.sortDir === 'asc' ? cmp : -cmp;
+				});
+		});
+	} else {
+		// Round change: reset filter state to new defaults, data already updated via _allRows
+		_store.set(initial);
+	}
 
 	return { store: _store, defaults, filteredRows: _filteredRows };
 }

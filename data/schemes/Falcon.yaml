@@ -1,0 +1,21 @@
+name: Falcon
+website: https://falcon-sign.info
+category: Lattices
+assumption: NTRU-SIS
+versions:
+- version: initial
+  date: '2024-10-01'
+  status: To be standardized
+  parametersets:
+  - name: '1024'
+    level: 5
+    pk: 1793
+    sig: 1280
+    signing_cycles: 2053080
+    verification_cycles: 160596
+  - name: '512'
+    level: 1
+    pk: 897
+    sig: 666
+    signing_cycles: 1009764
+    verification_cycles: 81036

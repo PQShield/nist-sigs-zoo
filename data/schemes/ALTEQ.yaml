@@ -1,0 +1,48 @@
+name: ALTEQ
+website: https://pqcalteq.github.io/
+category: Other
+assumption: alternating trilinear form equivalence problem
+versions:
+- version: Round 1
+  date: '2023-06-01'
+  status: On-ramp
+  tags:
+  - round-1
+  parametersets:
+  - name: Balanced-V
+    level: 5
+    pk: 73632
+    sig: 122336
+    signing_cycles: 59708622
+    verification_cycles: 103463869
+  - name: Balanced-III
+    level: 3
+    pk: 31944
+    sig: 49000
+    signing_cycles: 36460660
+    verification_cycles: 46054633
+  - name: ShortSig-V
+    level: 5
+    pk: 2088432
+    sig: 63908
+    signing_cycles: 30558103
+    verification_cycles: 50354691
+  - name: ShortSig-III
+    level: 3
+    pk: 1044264
+    sig: 32504
+    signing_cycles: 7815599
+    verification_cycles: 14609046
+  - name: Balanced-I
+    level: 1
+    pk: 8024
+    sig: 15896
+    signing_cycles: 2847138
+    verification_cycles: 4226834
+  - name: ShortSig-I
+    level: 1
+    pk: 523968
+    sig: 9528
+    signing_cycles: 725973
+    verification_cycles: 1766808
+  info: 1/q chance at generating weak keys

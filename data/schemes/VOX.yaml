@@ -1,0 +1,29 @@
+name: VOX
+website: http://vox-sign.com/
+category: Multivariate
+assumption: Multivariate
+versions:
+- version: v1.0
+  date: '2023-06-01'
+  status: On-ramp
+  tags:
+  - round-1
+  parametersets:
+  - name: '256'
+    level: 5
+    pk: 82400
+    sig: 300
+    signing_cycles: 12110394
+    verification_cycles: 1585504
+  - name: '192'
+    level: 3
+    pk: 30351
+    sig: 184
+    signing_cycles: 2709851
+    verification_cycles: 713968
+  - name: '128'
+    level: 1
+    pk: 9104
+    sig: 102
+    signing_cycles: 664265
+    verification_cycles: 168567

@@ -1,0 +1,16 @@
+name: EdDSA
+website: https://ed25519.cr.yp.to/
+category: Pre-Quantum
+assumption: Elliptic Curves
+versions:
+- version: initial
+  date: '2024-10-01'
+  status: Classic cryptography
+  parametersets:
+  - name: Ed25519
+    level: Pre-Quantum
+    pk: 32
+    sig: 64
+    signing_cycles: 42000
+    verification_cycles: 130000
+  broken: classical

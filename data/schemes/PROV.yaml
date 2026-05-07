@@ -1,0 +1,30 @@
+name: PROV
+website: https://prov-sign.github.io/
+category: Multivariate
+assumption: Multivariate
+versions:
+- version: v1.0
+  date: '2023-06-01'
+  status: On-ramp
+  tags:
+  - round-1
+  parametersets:
+  - name: V
+    level: 5
+    pk: 524192
+    sig: 304
+    signing_ms: 136.66
+    verification_ms: 182.48
+  - name: III
+    level: 3
+    pk: 215694
+    sig: 232
+    signing_ms: 59.04
+    verification_ms: 79.08
+  - name: I
+    level: 1
+    pk: 68326
+    sig: 160
+    signing_ms: 17.71
+    verification_ms: 24.0
+  info: PROV v1.0 leaks the private key. Use v1.1

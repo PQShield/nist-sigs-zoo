@@ -1,0 +1,66 @@
+name: MAYO
+website: https://pqmayo.org
+category: Multivariate
+assumption: Multivariate quadratic
+versions:
+- version: Round 2
+  date: '2025-02-05'
+  status: On-ramp
+  parametersets:
+  - name: five
+    level: 5
+    pk: 5554
+    sig: 964
+    signing_cycles: 2387350
+    verification_cycles: 853920
+  - name: three
+    level: 3
+    pk: 2986
+    sig: 681
+    signing_cycles: 1017216
+    verification_cycles: 347972
+  - name: two
+    level: 1
+    pk: 4912
+    sig: 186
+    signing_cycles: 286028
+    verification_cycles: 56374
+  - name: one
+    level: 1
+    pk: 1420
+    sig: 454
+    signing_cycles: 471028
+    verification_cycles: 153266
+  warning: There is an attack on a parameterset with a specific structure
+  tags:
+  - round-2
+- version: Round 1
+  date: '2023-06-01'
+  status: On-ramp
+  tags:
+  - round-1
+  parametersets:
+  - name: five
+    level: 5
+    pk: 5008
+    sig: 838
+    signing_cycles: 4149954
+    verification_cycles: 1186132
+  - name: three
+    level: 3
+    pk: 2656
+    sig: 577
+    signing_cycles: 1663666
+    verification_cycles: 610010
+  - name: two
+    level: 1
+    pk: 5488
+    sig: 180
+    signing_cycles: 563900
+    verification_cycles: 91512
+  - name: one
+    level: 1
+    pk: 1168
+    sig: 321
+    signing_cycles: 460978
+    verification_cycles: 175158

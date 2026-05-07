@@ -1,0 +1,45 @@
+name: SLH-DSA
+website: https://sphincs.org/
+category: Symmetric
+assumption: Hash-based
+versions:
+- version: FIPS 205
+  date: '2024-08-13'
+  status: FIPS
+  parametersets:
+  - name: SHAKE-192s
+    level: 3
+    pk: 48
+    sig: 16224
+    signing_cycles: 8091419556
+    verification_cycles: 6465506
+  - name: SHAKE-256s
+    level: 5
+    pk: 64
+    sig: 29792
+    signing_cycles: 7085272100
+    verification_cycles: 10216560
+  - name: SHAKE-128s
+    level: 1
+    pk: 32
+    sig: 7856
+    signing_cycles: 4682570992
+    verification_cycles: 4764084
+  - name: SHAKE-256f
+    level: 5
+    pk: 64
+    sig: 49856
+    signing_cycles: 763942250
+    verification_cycles: 19886032
+  - name: SHAKE-192f
+    level: 3
+    pk: 48
+    sig: 35664
+    signing_cycles: 386861992
+    verification_cycles: 19876926
+  - name: SHAKE-128f
+    level: 1
+    pk: 32
+    sig: 17088
+    signing_cycles: 239793806
+    verification_cycles: 12909924

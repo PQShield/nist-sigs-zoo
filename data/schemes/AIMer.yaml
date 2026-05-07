@@ -1,0 +1,84 @@
+name: AIMer
+website: https://www.aimer-signature.org/
+category: Symmetric
+assumption: Zero-knowledge proof of knowledge
+versions:
+- version: v1.0
+  date: '2023-06-01'
+  status: On-ramp
+  tags:
+  - round-1
+  parametersets:
+  - name: L5_PARAM4
+    level: 5
+    pk: 64
+    sig: 15392
+    signing_cycles: 321174411
+    verification_cycles: 310906616
+  - name: L3_PARAM4
+    level: 3
+    pk: 48
+    sig: 8352
+    signing_cycles: 186813161
+    verification_cycles: 177567471
+  - name: L1_PARAM4
+    level: 1
+    pk: 32
+    sig: 3840
+    signing_cycles: 78022625
+    verification_cycles: 73813256
+  - name: L5_PARAM3
+    level: 5
+    pk: 64
+    sig: 17088
+    signing_cycles: 65302783
+    verification_cycles: 62135635
+  - name: L3_PARAM3
+    level: 3
+    pk: 48
+    sig: 9144
+    signing_cycles: 34202905
+    verification_cycles: 33670751
+  - name: L5_PARAM2
+    level: 5
+    pk: 64
+    sig: 19904
+    signing_cycles: 21925850
+    verification_cycles: 21245240
+  - name: L1_PARAM3
+    level: 1
+    pk: 32
+    sig: 4176
+    signing_cycles: 15476644
+    verification_cycles: 15075635
+  - name: L3_PARAM2
+    level: 3
+    pk: 48
+    sig: 10440
+    signing_cycles: 12562067
+    verification_cycles: 12048460
+  - name: L5_PARAM1
+    level: 5
+    pk: 64
+    sig: 25152
+    signing_cycles: 8573223
+    verification_cycles: 8181552
+  - name: L3_PARAM1
+    level: 3
+    pk: 48
+    sig: 13080
+    signing_cycles: 4838748
+    verification_cycles: 4494766
+  - name: L1_PARAM2
+    level: 1
+    pk: 32
+    sig: 4880
+    signing_cycles: 4747229
+    verification_cycles: 4474325
+  - name: L1_PARAM1
+    level: 1
+    pk: 32
+    sig: 5904
+    signing_cycles: 2079167
+    verification_cycles: 1840810
+  warning: Original AIM cipher was insecure
