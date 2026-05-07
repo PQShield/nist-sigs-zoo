@@ -4,6 +4,7 @@
 	import { page } from '$app/stores';
 	import { themeStore } from '$lib/themeStore';
 	import { roundStore, type Round } from '$lib/roundStore';
+	import { lastUpdated } from '$lib/schemeData';
 
 	let { children } = $props();
 
@@ -76,12 +77,12 @@
 	<footer class="mt-8 border-t border-pqs-bluegray/30 bg-pqs-midnight px-6 py-6 text-xs text-pqs-bluegray dark:border-pqs-steel">
 		<div class="mx-auto max-w-screen-2xl space-y-1">
 			<p>
+        Built by Thom Wiggers / PQShield.
 				Data licensed under
-				<a href="/LICENSE.md" class="text-pqs-apricot hover:underline">CC BY-SA 4.0</a>. Last updated 2024-10-28.
+				<a href="/LICENSE.md" class="text-pqs-apricot hover:underline">CC BY-SA 4.0</a>.
+        Most recent scheme data is dated {lastUpdated}.
 			</p>
 			<p>
-				<a href="/round-1/" class="text-pqs-apricot hover:underline">Round 1 snapshot</a>
-				·
 				<a
 					href="https://github.com/pqshield/nist-sigs-zoo"
 					target="_blank"
