@@ -55,7 +55,7 @@
 
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		const spec: any = {
-			$schema: 'https://vega.github.io/schema/vega-lite/v5.json',
+			$schema: 'https://vega.github.io/schema/vega-lite/v6.json',
 			width: 'container',
 			height: 350,
 			autosize: { type: 'fit-x', resize: true },
