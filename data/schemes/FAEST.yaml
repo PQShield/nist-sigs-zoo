@@ -9,25 +9,25 @@ versions:
   parametersets:
   - name: 192s
     level: 3
-    pk: 64
+    pk: 48
     sig: 11260
     signing_cycles: 54687000
     verification_cycles: 42290000
   - name: 192f
     level: 3
-    pk: 64
+    pk: 48
     sig: 14948
     signing_cycles: 7045000
     verification_cycles: 6079000
   - name: 256s
     level: 5
-    pk: 64
+    pk: 48
     sig: 20696
     signing_cycles: 76330000
     verification_cycles: 74546000
   - name: 256f
     level: 5
-    pk: 64
+    pk: 48
     sig: 26548
     signing_cycles: 11071000
     verification_cycles: 10241000
@@ -53,7 +53,7 @@ versions:
     level: 3
     pk: 48
     sig: 12380
-    signing_cycles: 5117000
+    signing_cycles: 5177000
     verification_cycles: 4665000
   - name: 128s
     level: 1

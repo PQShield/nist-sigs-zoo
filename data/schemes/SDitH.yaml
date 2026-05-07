@@ -24,7 +24,7 @@ versions:
     pk: 98
     sig: 7964
     signing_ms: 42.26
-    verification_ms: 39.84
+    verification_ms: 39.83
   - name: SDitH2-L3-gf2-fast
     level: 3
     pk: 98

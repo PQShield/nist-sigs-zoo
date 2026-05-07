@@ -29,7 +29,7 @@ versions:
     level: 3
     pk: 115
     sig: 29853
-    signing_cycles: 4161000
+    signing_cycles: 4171000
     verification_cycles: 2776000
   - name: R-SDP 5 fast
     level: 5
@@ -52,7 +52,7 @@ versions:
   - name: R-SDP 1 small
     level: 1
     pk: 77
-    sig: 12434
+    sig: 12432
     signing_cycles: 4048000
     verification_cycles: 2725000
   - name: R-SDP 1 balanced

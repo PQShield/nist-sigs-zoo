@@ -71,7 +71,7 @@ versions:
     level: 5
     pk: 147
     sig: 15504
-    signing_cycles: 88700000
+    signing_cycles: 86700000
     verification_cycles: 65100000
   - name: 5b-Fast
     level: 5

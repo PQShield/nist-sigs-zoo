@@ -35,8 +35,8 @@ versions:
     level: 3
     pk: 78
     sig: 6388
-    signing_cycles: 11490000
-    verification_cycles: 10360000
+    signing_cycles: 114900000
+    verification_cycles: 103600000
   - name: L3-gf256-short-3r
     level: 3
     pk: 120
@@ -132,7 +132,7 @@ versions:
     pk: 104
     sig: 11564
     signing_cycles: 306940000
-    verification_cycles: 28907000
+    verification_cycles: 289070000
   - name: L5-gf256-short-5r
     level: 5
     pk: 160
