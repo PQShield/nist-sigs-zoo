@@ -11,11 +11,12 @@
 	import { allSchemeData } from '$lib/schemeData';
 	import type { PageData } from './$types';
 
-	let { data }: { data: PageData } = $props();
+	let { data: _ }: { data: PageData } = $props();
 
-	let schemes = $state(data.schemes);
-	let categories = $state(data.categories);
-	let ranges = $state(data.ranges);
+	const _init = processYamlSchemes(allSchemeData, 'round-2');
+	let schemes = $state(_init.schemes);
+	let categories = $state([...new Set(_init.schemes.map((s) => s.category))].sort());
+	let ranges = $state(_init.ranges);
 
 	const { applyUrl } = getFilterStore();
 
