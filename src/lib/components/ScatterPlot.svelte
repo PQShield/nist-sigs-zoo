@@ -145,4 +145,10 @@
 </script>
 
 <div bind:this={container} class="w-full"></div>
-<p class="mt-1 text-xs text-pqs-bluegray dark:text-pqs-steel">Scroll to zoom · drag to pan</p>
+<div class="mt-1 flex items-center justify-between">
+	<p class="text-xs text-pqs-bluegray dark:text-pqs-steel">Scroll to zoom · drag to pan</p>
+	<button
+		onclick={render}
+		class="text-xs text-pqs-bluegray hover:text-pqs-apricot dark:text-pqs-steel dark:hover:text-pqs-apricot transition-colors"
+	>Reset zoom</button>
+</div>
