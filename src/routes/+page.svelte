@@ -79,7 +79,7 @@
 			Click column headers to sort. Use the filters to narrow down by category, security level, or size constraints.
 		</p>
 		<p class="mt-1.5 text-xs text-pqs-steel/70 dark:text-pqs-bluegray/70">
-			Data reflects scheme specifications as submitted at the start of Round 2 of the NIST Additional Signatures competition.
+			Data reflects scheme specifications as submitted at the start of {$roundStore === 'round-1' ? 'Round 1' : 'Round 2'} of the NIST Additional Signatures competition.
 			Schemes may have been updated since; consult the individual scheme websites for current specifications.
 		</p>
 	</div>

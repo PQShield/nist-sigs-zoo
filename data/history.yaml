@@ -1,0 +1,7 @@
+- date: '2026-05-07'
+  type: update
+  description: Fixed some typos in scheme data. <a href="https://github.com/PQShield/nist-sigs-zoo/commit/355b685ab03fa8f51b8bd1fec2b17e46ed701ffa">commit</a>
+
+- date: '2026-05-07'
+  type: update
+  description: Website rewritten with SvelteKit, Tailwind CSS v4, and a new round selector, filter panel, and scatter plot.

@@ -50,6 +50,9 @@
 						</button>
 					</div>
 				{/if}
+				<a href="/history" class="text-pqs-bluegray hover:text-pqs-apricot transition-colors">
+					History
+				</a>
 				<a
 					href="https://github.com/pqshield/nist-sigs-zoo"
 					target="_blank"

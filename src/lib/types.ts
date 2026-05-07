@@ -74,6 +74,13 @@ export interface SchemeYaml {
 	versions: VersionYaml[];
 }
 
+export interface HistoryEntry {
+	date: string;
+	type: 'update' | 'attack' | 'standardization';
+	description: string;
+	schemes?: string[];
+}
+
 export type SortableColumn =
 	| 'scheme'
 	| 'category'
