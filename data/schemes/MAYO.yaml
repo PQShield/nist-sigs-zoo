@@ -4,6 +4,37 @@ category: Multivariate
 assumption: Multivariate quadratic
 versions:
 - version: Round 2
+  date: '2025-03-26'
+  status: On-ramp
+  parametersets:
+  - name: five
+    level: 5
+    pk: 5554
+    sig: 964
+    signing_cycles: 3475547
+    verification_cycles: 1488808
+  - name: three
+    level: 3
+    pk: 2986
+    sig: 681
+    signing_cycles: 1476585
+    verification_cycles: 664631
+  - name: two
+    level: 1
+    pk: 4912
+    sig: 186
+    signing_cycles: 375493
+    verification_cycles: 96606
+  - name: one
+    level: 1
+    pk: 1420
+    sig: 454
+    signing_cycles: 702261
+    verification_cycles: 290041
+  warning: There is an attack on a parameterset with a specific structure
+  tags:
+  - round-2
+- version: Round 2
   date: '2025-02-05'
   status: On-ramp
   parametersets:
