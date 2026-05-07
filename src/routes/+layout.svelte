@@ -12,7 +12,7 @@
 	);
 	const themeLabel = $derived(`Theme: ${$themeStore} — click to cycle`);
 
-	const isHome = $derived($page.url.pathname === '/');
+	const isHome = $derived($page.route.id === '/');
 
 	onMount(() => {
 		themeStore.init();
