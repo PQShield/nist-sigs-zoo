@@ -61,8 +61,6 @@ versions:
     sig: 20850
     signing_cycles: 7300000
     verification_cycles: 6600000
-  tags:
-  - round-2
 - version: v2.0
   date: '2025-02-05'
   status: On-ramp

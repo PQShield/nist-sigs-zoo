@@ -223,8 +223,6 @@ versions:
     sig: 15140
     signing_cycles: 28140000
     verification_cycles: 27520000
-  tags:
-  - round-2
 - version: v2.0
   date: '2025-02-05'
   status: On-ramp

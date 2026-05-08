@@ -32,8 +32,6 @@ versions:
     signing_cycles: 702261
     verification_cycles: 290041
   warning: There is an attack on a parameterset with a specific structure
-  tags:
-  - round-2
 - version: Round 2
   date: '2025-02-05'
   status: On-ramp
