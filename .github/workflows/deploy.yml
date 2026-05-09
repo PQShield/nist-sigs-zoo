@@ -29,9 +29,6 @@ jobs:
 
       - run: npm run build
 
-      - name: Copy round-1 snapshot into dist
-        run: cp -r round-1 dist/round-1
-
       - name: Copy .nojekyll
         run: cp .nojekyll dist/.nojekyll
 
