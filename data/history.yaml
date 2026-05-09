@@ -1,5 +1,10 @@
 - date: '2026-05-09'
   type: attack
+  description: "Updated UOV security flags based on pℓ-truncated polynomial ring intersection attack (Furue &amp; Ikematsu, <a href=\"https://eprint.iacr.org/2026/298\">ePrint 2026/298</a>). Improves on Ran's wedge attack for Ip (~128 bits), III (~182 bits), V (~223 bits). Is parameter sets newly flagged as warning (~159 bits, still above threshold)."
+  schemes: [UOV]
+
+- date: '2026-05-09'
+  type: attack
   description: "Updated UOV and MAYO security flags based on wedge attack (Ran, <a href=\"https://eprint.iacr.org/2025/1143\">ePrint 2025/1143</a>). MAYO-2 (\"two\") marked broken (~113 bits, below 128-bit threshold). UOV Ip, III, and V parameter sets marked with warning (reduced but still above threshold). UOV Is unaffected."
   schemes: [UOV, MAYO]
 
