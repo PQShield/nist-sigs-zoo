@@ -38,7 +38,8 @@ versions:
   - version: "FIPS 206"        # human-readable version label
     date: "2024-08-13"         # ISO date, used to pick latest
     status: Standardized | On-ramp
-    tags: [round-2]            # round-1, round-2, or omit for reference schemes
+    tags: [round-2]            # round-1, round-2, or omit for reference/standardized schemes
+                               # post-round-2 updates should have NO tags
     broken: false              # or string description / "classical"
     warning: false             # or string description
     info: false                # or string description
@@ -72,7 +73,7 @@ src/
 │   ├── constants.ts      # CPUSPEED, NIST_LEVELS
 │   ├── data.ts           # processYamlSchemes() — tag-filtered YAML → Scheme[] + ParameterSet[]
 │   ├── filterStore.ts    # Svelte writable store + derived filteredRows + URL codec
-│   ├── roundStore.ts     # writable<'round-1'|'round-2'> — drives dataset selection
+│   ├── roundStore.ts     # writable<'round-1'|'round-2'|'latest'> — drives dataset selection
 │   ├── schemeData.ts     # import.meta.glob loader → allSchemeData: SchemeYaml[]
 │   ├── themeStore.ts     # dark/light/system theme store → localStorage
 │   ├── yaml.d.ts         # TypeScript module declaration for *.yaml imports
@@ -84,7 +85,7 @@ src/
 │       └── ScatterPlot.svelte    # Vega-Lite scatter plot
 └── routes/
     ├── +layout.svelte    # nav (logo, round selector, dark toggle), footer
-    ├── +page.ts          # load: processYamlSchemes('round-2'), createFilterStore
+    ├── +page.ts          # load: processYamlSchemes('round-2', {useLatestVersion:true}), createFilterStore
     └── +page.svelte      # page composition, round switching, URL state sync
 ```
 
@@ -105,12 +106,22 @@ hold valid references — no stale subscription bugs.
 Category checkbox state is **derived** from the scheme set, not stored separately.
 
 URL state: filter params encoded as query params, applied client-side in `onMount`.
-Round encoded as `?r=1` for round-1 (round-2 is default, no param).
+Round encoded as `?r=1` for round-1, `?r=2` for round-2. No param = latest (default).
 
 ### Round Selector
 
-Nav shows Round 2 / Round 1 toggle (only on home page). Clicking updates `roundStore`, which
-triggers `applyRound()` in `+page.svelte`, which calls `createFilterStore()` with new data.
+Nav shows Latest / Round 2 / Round 1 toggle (only on home page). Clicking updates `roundStore`,
+which triggers `applyRound()` in `+page.svelte`, which calls `createFilterStore()` with new data.
+
+### Latest View
+
+"Latest" is the default view. It shows the newest version of each scheme that participated in
+round 2 (or is an untagged reference scheme). Inclusion is determined by whether any version has
+a `round-2` tag; the data shown comes from `sorted[0]` (newest by date, regardless of tags).
+
+Post-round-2 spec updates should be added as new version entries **without** any tags. This way:
+- Round 2 view shows the pinned round-2 submission data.
+- Latest view shows the most current specs.
 
 ### Performance Data
 
