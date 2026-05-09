@@ -97,8 +97,10 @@
 		const categoryDomain = presentShapeKeys;
 		const categoryShapeRange = presentShapeKeys.map((k) => CATEGORY_SHAPES[k]);
 
-		const isMobile = container.clientWidth < 640;
-		const mobileLegend = isMobile ? { orient: 'bottom', direction: 'horizontal', columns: 3 } : {};
+		const isMobile = window.innerWidth < 640;
+		const mobileLegend = isMobile
+			? { orient: 'bottom', direction: 'horizontal', columns: 3, labelFontSize: 10 }
+			: {};
 		const legendConfig = {
 			labelColor: isDark ? '#94A3B8' : '#475569',
 			titleColor: isDark ? '#C5CADA' : '#061128',
@@ -106,11 +108,14 @@
 			padding: 8,
 			...mobileLegend
 		};
-		const shapeLegendConfig = {
-			...legendConfig,
-			symbolFillColor: isDark ? '#94A3B8' : '#475569',
-			symbolStrokeColor: isDark ? '#94A3B8' : '#475569'
-		};
+		// Shape legend has up to 9 entries — too wide to show on mobile
+		const shapeLegendConfig = isMobile
+			? null
+			: {
+					...legendConfig,
+					symbolFillColor: isDark ? '#94A3B8' : '#475569',
+					symbolStrokeColor: isDark ? '#94A3B8' : '#475569'
+				};
 
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		const spec: any = {
@@ -148,7 +153,7 @@
 							field: 'shapeKey',
 							type: 'nominal',
 							scale: { domain: categoryDomain, range: categoryShapeRange },
-							legend: { title: 'Family', ...shapeLegendConfig }
+							legend: shapeLegendConfig ? { title: 'Family', ...shapeLegendConfig } : null
 						}
 					}
 				},
@@ -216,6 +221,7 @@
 </script>
 
 <div bind:this={container} class="w-full"></div>
+<p class="sm:hidden mt-1 text-xs text-pqs-bluegray dark:text-pqs-steel">Shape = family · tap point for details</p>
 <div class="mt-1 flex items-center justify-between">
 	<p class="text-xs text-pqs-bluegray dark:text-pqs-steel">Scroll to zoom · drag to pan</p>
 	<button
