@@ -12,7 +12,8 @@
 
 	function colorCat(d: ParameterSet): string {
 		if (d.classical) return 'classical';
-		if (d.broken || d.warning) return 'broken';
+		if (d.broken) return 'broken';
+		if (d.warning) return 'warning';
 		if (d.status === 'FIPS' || d.scheme === 'Falcon') return 'fips';
 		return 'normal';
 	}
@@ -21,6 +22,7 @@
 		if (d.status === 'FIPS' || d.scheme === 'Falcon') return 'fips';
 		if (d.classical) return 'classical';
 		if (d.broken) return 'broken';
+		if (d.warning) return 'warning';
 		return 'normal';
 	}
 
@@ -50,8 +52,8 @@
 		}));
 
 		const colorRange = isDark
-			? ['#9CA3AF', '#F87171', '#E09434', '#60A5FA']
-			: ['#6B7280', '#DC2626', '#E09434', '#1D4ED8'];
+			? ['#9CA3AF', '#F87171', '#FB923C', '#E09434', '#60A5FA']
+			: ['#6B7280', '#DC2626', '#EA580C', '#E09434', '#1D4ED8'];
 
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		const spec: any = {
@@ -84,21 +86,21 @@
 				color: {
 					field: 'color',
 					type: 'nominal',
-					scale: { domain: ['classical', 'broken', 'fips', 'normal'], range: colorRange },
+					scale: { domain: ['classical', 'broken', 'warning', 'fips', 'normal'], range: colorRange },
 					legend: null
 				},
 				stroke: {
 					field: 'color',
 					type: 'nominal',
-					scale: { domain: ['classical', 'broken', 'fips', 'normal'], range: colorRange },
+					scale: { domain: ['classical', 'broken', 'warning', 'fips', 'normal'], range: colorRange },
 					legend: null
 				},
 				shape: {
 					field: 'shape',
 					type: 'nominal',
 					scale: {
-						domain: ['fips', 'classical', 'broken', 'normal'],
-						range: ['diamond', 'circle', 'triangle-down', 'square']
+						domain: ['fips', 'classical', 'broken', 'warning', 'normal'],
+						range: ['M0,-0.875L0.22,-0.303L0.832,-0.27L0.357,0.116L0.514,0.708L0,0.375L-0.514,0.708L-0.357,0.116L-0.832,-0.27L-0.22,-0.303Z', 'circle', 'triangle-down', 'triangle-up', 'square']
 					},
 					legend: null
 				},
