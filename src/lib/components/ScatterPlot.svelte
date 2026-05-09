@@ -2,7 +2,7 @@
 	import { onMount } from 'svelte';
 	import { getFilterStore } from '$lib/filterStore';
 	import { themeStore } from '$lib/themeStore';
-	import type { ParameterSet } from '$lib/types';
+	import type { NistLevel, ParameterSet } from '$lib/types';
 
 	const { filteredRows } = getFilterStore();
 
@@ -10,20 +10,34 @@
 	let viewHandle: { finalize(): void } | null = null;
 	let renderSeq = 0;
 
-	function colorCat(d: ParameterSet): string {
-		if (d.classical) return 'classical';
-		if (d.broken) return 'broken';
-		if (d.warning) return 'warning';
-		if (d.status === 'FIPS' || d.scheme === 'Falcon') return 'fips';
-		return 'normal';
+	const STAR = 'M0,-1L0.224,-0.309L0.951,-0.309L0.363,0.118L0.588,0.809L0,0.382L-0.588,0.809L-0.363,0.118L-0.951,-0.309L-0.224,-0.309Z';
+
+	const CATEGORY_SHAPES: Record<string, string> = {
+		Standardized: STAR,
+		Lattices: 'square',
+		'Code-based': 'cross',
+		'MPC-in-the-Head': 'diamond',
+		Multivariate: 'triangle-up',
+		Symmetric: 'triangle-down',
+		Isogenies: 'circle',
+		'Pre-Quantum': 'triangle-left',
+		Other: 'triangle-right'
+	};
+
+	function shapeKey(d: ParameterSet): string {
+		if (d.status === 'FIPS' || d.status === 'To be standardized') return 'Standardized';
+		return d.category;
 	}
 
-	function shapeCat(d: ParameterSet): string {
-		if (d.status === 'FIPS' || d.scheme === 'Falcon') return 'fips';
-		if (d.classical) return 'classical';
-		if (d.broken) return 'broken';
+	function securityStatus(d: ParameterSet): string {
+		if (d.broken && !d.classical) return 'broken';
 		if (d.warning) return 'warning';
-		return 'normal';
+		return 'ok';
+	}
+
+	function levelLabel(level: NistLevel): string {
+		if (level === 'Pre-Quantum') return 'Pre-Quantum';
+		return `Level ${level}`;
 	}
 
 	async function render() {
@@ -34,26 +48,54 @@
 		const data = $filteredRows;
 		const isDark = document.documentElement.classList.contains('dark');
 
-		const values = data.map((d) => ({
-			scheme: d.scheme,
-			parameterset: d.parameterset,
-			version: d.version || null,
-			pk: d.pk,
-			sig: d.sig,
-			color: colorCat(d),
-			shape: shapeCat(d),
-			notes:
-				[
-					d.broken && !d.classical ? `⚠ ${d.broken}` : null,
-					d.warning ? `⚠ ${d.warning}` : null
-				]
-					.filter(Boolean)
-					.join(' | ') || null
-		}));
+		const values = data.map((d) => {
+			const notes = [
+				d.broken && !d.classical ? `⚠ ${d.broken}` : null,
+				d.warning ? `⚠ ${d.warning}` : null
+			]
+				.filter(Boolean)
+				.join(' | ');
 
-		const colorRange = isDark
-			? ['#9CA3AF', '#F87171', '#FB923C', '#E09434', '#60A5FA']
-			: ['#6B7280', '#DC2626', '#EA580C', '#E09434', '#1D4ED8'];
+			const tooltip: Record<string, string | number> = {
+				Scheme: d.scheme,
+				'Parameter set': d.parameterset,
+				...(d.version ? { Version: d.version } : {}),
+				Family: d.category,
+				'Security level': levelLabel(d.level),
+				'pk (bytes)': d.pk.toLocaleString(),
+				'sig (bytes)': d.sig.toLocaleString(),
+				...(notes ? { Notes: notes } : {})
+			};
+
+			return {
+				scheme: d.scheme,
+				parameterset: d.parameterset,
+				pk: d.pk,
+				sig: d.sig,
+				shapeKey: shapeKey(d),
+				level: levelLabel(d.level),
+				security: securityStatus(d),
+				tooltip
+			};
+		});
+
+		// Colors per NIST security level — only levels present in data
+		const allLevelDomain = ['Pre-Quantum', 'Level 1', 'Level 2', 'Level 3', 'Level 4', 'Level 5'];
+		const allLevelColors = isDark
+			? ['#9CA3AF', '#60A5FA', '#34D399', '#FBBF24', '#F97316', '#F87171']
+			: ['#6B7280', '#1D4ED8', '#059669', '#D97706', '#EA580C', '#DC2626'];
+		const presentLevels = new Set(data.map((d) => levelLabel(d.level)));
+		const levelDomain = allLevelDomain.filter((l) => presentLevels.has(l));
+		const levelColorRange = allLevelDomain
+			.map((l, i) => (presentLevels.has(l) ? allLevelColors[i] : null))
+			.filter(Boolean);
+
+		// Shape per shapeKey — ordered by CATEGORY_SHAPES key order, only present in data
+		const presentShapeKeys = Object.keys(CATEGORY_SHAPES).filter((k) =>
+			values.some((v) => v.shapeKey === k)
+		);
+		const categoryDomain = presentShapeKeys;
+		const categoryShapeRange = presentShapeKeys.map((k) => CATEGORY_SHAPES[k]);
 
 		const legendConfig = {
 			labelColor: isDark ? '#94A3B8' : '#475569',
@@ -69,14 +111,54 @@
 			height: 350,
 			autosize: { type: 'fit-x', resize: true },
 			data: { values },
-			params: [
+			resolve: { scale: { x: 'shared', y: 'shared', color: 'independent', shape: 'independent', opacity: 'independent' } },
+			layer: [
 				{
-					name: 'grid',
-					select: { type: 'interval', encodings: ['x', 'y'] },
-					bind: 'scales'
+					params: [
+						{
+							name: 'grid',
+							select: { type: 'interval', encodings: ['x', 'y'] },
+							bind: 'scales'
+						}
+					],
+					mark: { type: 'point', filled: true, size: 100 },
+					encoding: {
+						size: {
+							condition: [
+								{ test: "datum.shapeKey === 'Standardized'", value: 180 },
+								{ test: "datum.shapeKey === 'Lattices'", value: 70 }
+							],
+							value: 100
+						},
+						color: {
+							field: 'level',
+							type: 'nominal',
+							scale: { domain: levelDomain, range: levelColorRange },
+							legend: { title: 'Security level', ...legendConfig }
+						},
+						shape: {
+							field: 'shapeKey',
+							type: 'nominal',
+							scale: { domain: categoryDomain, range: categoryShapeRange },
+							legend: { title: 'Family', ...legendConfig }
+						}
+					}
+				},
+				{
+					transform: [{ filter: "datum.security === 'broken'" }],
+					mark: { type: 'point', filled: false, shape: 'circle', size: 120, strokeWidth: 2 },
+					encoding: {
+						color: { value: isDark ? '#FCA5A5' : '#B91C1C' }
+					}
+				},
+				{
+					transform: [{ filter: "datum.security === 'warning'" }],
+					mark: { type: 'point', filled: false, shape: 'circle', size: 120, strokeWidth: 2 },
+					encoding: {
+						color: { value: isDark ? '#FDE68A' : '#B45309' }
+					}
 				}
 			],
-			mark: { type: 'point', filled: true, fillOpacity: 0.8, size: 80, strokeWidth: 1.5 },
 			encoding: {
 				x: {
 					field: 'pk',
@@ -90,43 +172,7 @@
 					scale: { type: 'log' },
 					axis: { title: 'Signature size (bytes)', grid: true, format: 's' }
 				},
-				color: {
-					field: 'color',
-					type: 'nominal',
-					scale: { domain: ['classical', 'broken', 'warning', 'fips', 'normal'], range: colorRange },
-					legend: {
-						title: 'Category',
-						labelExpr: "{'classical': 'Pre-quantum', 'broken': 'Broken', 'warning': 'Warning', 'fips': 'FIPS / Standardized', 'normal': 'On-ramp'}[datum.value]",
-						...legendConfig
-					}
-				},
-				stroke: {
-					field: 'color',
-					type: 'nominal',
-					scale: { domain: ['classical', 'broken', 'warning', 'fips', 'normal'], range: colorRange },
-					legend: null
-				},
-				shape: {
-					field: 'color',
-					type: 'nominal',
-					scale: {
-						domain: ['classical', 'broken', 'warning', 'fips', 'normal'],
-						range: ['circle', 'triangle-down', 'triangle-up', 'M0,-0.875L0.22,-0.303L0.832,-0.27L0.357,0.116L0.514,0.708L0,0.375L-0.514,0.708L-0.357,0.116L-0.832,-0.27L-0.22,-0.303Z', 'square']
-					},
-					legend: {
-						title: 'Category',
-						labelExpr: "{'classical': 'Pre-quantum', 'broken': 'Broken', 'warning': 'Warning', 'fips': 'FIPS / Standardized', 'normal': 'On-ramp'}[datum.value]",
-						...legendConfig
-					}
-				},
-				tooltip: [
-					{ field: 'scheme', type: 'nominal', title: 'Scheme' },
-					{ field: 'parameterset', type: 'nominal', title: 'Parameter set' },
-					{ field: 'version', type: 'nominal', title: 'Version' },
-					{ field: 'pk', type: 'quantitative', title: 'pk (bytes)', format: ',' },
-					{ field: 'sig', type: 'quantitative', title: 'sig (bytes)', format: ',' },
-					{ field: 'notes', type: 'nominal', title: 'Notes' }
-				]
+				tooltip: { field: 'tooltip', type: 'nominal' }
 			},
 			config: {
 				background: 'transparent',
