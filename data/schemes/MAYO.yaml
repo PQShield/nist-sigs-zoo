@@ -25,13 +25,13 @@ versions:
     sig: 186
     signing_cycles: 375493
     verification_cycles: 96606
+    broken: "Wedge attack (Ran, ePrint 2025/1143) reduces classical security to ~113 bits, below NIST Level I threshold (128 bits)"
   - name: one
     level: 1
     pk: 1420
     sig: 454
     signing_cycles: 702261
     verification_cycles: 290041
-  warning: There is an attack on a parameterset with a specific structure
 - version: Round 2
   date: '2025-02-05'
   status: On-ramp
@@ -54,13 +54,13 @@ versions:
     sig: 186
     signing_cycles: 286028
     verification_cycles: 56374
+    broken: "Wedge attack (Ran, ePrint 2025/1143) reduces classical security to ~113 bits, below NIST Level I threshold (128 bits)"
   - name: one
     level: 1
     pk: 1420
     sig: 454
     signing_cycles: 471028
     verification_cycles: 153266
-  warning: There is an attack on a parameterset with a specific structure
   tags:
   - round-2
 - version: Round 1
