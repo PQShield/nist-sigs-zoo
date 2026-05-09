@@ -1,3 +1,8 @@
+- date: '2026-05-09'
+  type: attack
+  description: "Updated SNOVA security flags based on wedge product attack (Bros et al., <a href=\"https://eprint.iacr.org/2026/237\">ePrint 2026/237</a>). 6 parameter sets marked broken: (37 17 2), (25 8 3), (56 25 2), (24 5 5), (75 33 2), (29 6 5). 2 parameter sets marked with warning: (24 5 4), (37 8 4)."
+  schemes: [SNOVA]
+
 - date: '2026-05-08'
   type: update
   description: Updated 7 schemes to their latest published specifications. PERK redesigned parameter sets (v2.2.0). MQOM adds gf16 variants (v2.1). RYDE and Mirath corrected signature sizes and added faster variants. CROSS, SQIsign, and MAYO updated with revised benchmarks.
