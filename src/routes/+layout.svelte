@@ -56,7 +56,7 @@
 						</button>
 					</div>
 				{/if}
-				<a href="/history" class="text-pqs-bluegray hover:text-pqs-apricot transition-colors">
+				<a href="/history/" class="text-pqs-bluegray hover:text-pqs-apricot transition-colors">
 					History
 				</a>
 				<a

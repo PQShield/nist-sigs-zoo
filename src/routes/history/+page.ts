@@ -1,6 +1,7 @@
 import type { HistoryEntry } from '$lib/types';
 
 export const prerender = true;
+export const trailingSlash = 'always';
 
 const raw = import.meta.glob('../../../data/history.yaml', { eager: true }) as Record<
 	string,
