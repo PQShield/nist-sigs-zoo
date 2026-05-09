@@ -37,6 +37,12 @@
 				{#if isHome}
 					<div class="flex items-center gap-1 rounded border border-pqs-steel/40 p-0.5 font-heading text-sm">
 						<button
+							onclick={() => setRound('latest')}
+							class="rounded px-2 py-0.5 transition-colors {$roundStore === 'latest' ? 'bg-pqs-apricot text-pqs-midnight font-semibold' : 'text-pqs-bluegray hover:text-white'}"
+						>
+							Latest
+						</button>
+						<button
 							onclick={() => setRound('round-2')}
 							class="rounded px-2 py-0.5 transition-colors {$roundStore === 'round-2' ? 'bg-pqs-apricot text-pqs-midnight font-semibold' : 'text-pqs-bluegray hover:text-white'}"
 						>

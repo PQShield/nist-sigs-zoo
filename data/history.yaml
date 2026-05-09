@@ -1,3 +1,8 @@
+- date: '2026-05-08'
+  type: update
+  description: Updated 7 schemes to their latest published specifications. PERK redesigned parameter sets (v2.2.0). MQOM adds gf16 variants (v2.1). RYDE and Mirath corrected signature sizes and added faster variants. CROSS, SQIsign, and MAYO updated with revised benchmarks.
+  schemes: [CROSS, MAYO, MQOM, Mirath, PERK, RYDE, SQIsign]
+
 - date: '2026-05-07'
   type: update
   description: Fixed some typos in scheme data. <a href="https://github.com/PQShield/nist-sigs-zoo/commit/355b685ab03fa8f51b8bd1fec2b17e46ed701ffa">commit</a>

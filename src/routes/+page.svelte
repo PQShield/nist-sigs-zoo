@@ -8,12 +8,12 @@
 	import { processYamlSchemes } from '$lib/data';
 	import { getFilterStore, buildUrlParams, createFilterStore } from '$lib/filterStore';
 	import { roundStore, type Round } from '$lib/roundStore';
-	import { allSchemeData } from '$lib/schemeData';
+	import { allSchemeData, lastUpdated } from '$lib/schemeData';
 	import type { PageData } from './$types';
 
 	let { data: _ }: { data: PageData } = $props();
 
-	const _init = processYamlSchemes(allSchemeData, 'round-2');
+	const _init = processYamlSchemes(allSchemeData, 'round-2', { useLatestVersion: true });
 	let schemes = $state(_init.schemes);
 	let categories = $state([...new Set(_init.schemes.map((s) => s.category))].sort());
 	let ranges = $state(_init.ranges);
@@ -21,7 +21,8 @@
 	const { applyUrl } = getFilterStore();
 
 	function applyRound(round: Round) {
-		const result = processYamlSchemes(allSchemeData, round);
+		const tagFilter = round === 'latest' ? 'round-2' : round;
+		const result = processYamlSchemes(allSchemeData, tagFilter, { useLatestVersion: round === 'latest' });
 		schemes = result.schemes;
 		categories = [...new Set(result.schemes.map((s) => s.category))].sort();
 		ranges = result.ranges;
@@ -35,6 +36,9 @@
 		if (rParam === '1') {
 			roundStore.set('round-1');
 			applyRound('round-1');
+		} else if (rParam === '2') {
+			roundStore.set('round-2');
+			applyRound('round-2');
 		}
 
 		// Apply filter URL params
@@ -47,7 +51,7 @@
 			if (urlSyncTimer) clearTimeout(urlSyncTimer);
 			urlSyncTimer = setTimeout(() => {
 				const p = buildUrlParams(state, defaults);
-				const round = $roundStore === 'round-1' ? '1' : null;
+				const round = $roundStore === 'round-1' ? '1' : $roundStore === 'round-2' ? '2' : null;
 				if (round) p.set('r', round);
 				const qs = p.toString();
 				const newUrl = qs ? `?${qs}` : $page.url.pathname;
@@ -79,8 +83,13 @@
 			Click column headers to sort. Use the filters to narrow down by category, security level, or size constraints.
 		</p>
 		<p class="mt-1.5 text-xs text-pqs-steel/70 dark:text-pqs-bluegray/70">
-			Data reflects scheme specifications as submitted at the start of {$roundStore === 'round-1' ? 'Round 1' : 'Round 2'} of the NIST Additional Signatures competition.
-			Schemes may have been updated since; consult the individual scheme websites for current specifications.
+			{#if $roundStore === 'latest'}
+				Data reflects the latest known specifications for each scheme, last updated {lastUpdated}.
+				Consult the individual scheme websites for the most current information.
+			{:else}
+				Data reflects scheme specifications as submitted at the start of {$roundStore === 'round-1' ? 'Round 1' : 'Round 2'} of the NIST Additional Signatures competition (data last updated {lastUpdated}).
+				Schemes may have been updated since; consult the individual scheme websites for current specifications.
+			{/if}
 		</p>
 	</div>
 

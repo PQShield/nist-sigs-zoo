@@ -3,6 +3,118 @@ website: https://cross-crypto.com/
 category: Code-based
 assumption: Restricted syndrome decoding
 versions:
+- version: v2.2
+  date: '2025-07-31'
+  status: On-ramp
+  parametersets:
+  - name: R-SDP 1 fast
+    level: 1
+    pk: 77
+    sig: 18432
+    signing_cycles: 1366000
+    verification_cycles: 781000
+  - name: R-SDP 1 balanced
+    level: 1
+    pk: 77
+    sig: 13152
+    signing_cycles: 2361000
+    verification_cycles: 1539000
+  - name: R-SDP 1 small
+    level: 1
+    pk: 77
+    sig: 12432
+    signing_cycles: 4783000
+    verification_cycles: 3290000
+  - name: R-SDP(G) 1 fast
+    level: 1
+    pk: 54
+    sig: 11980
+    signing_cycles: 744000
+    verification_cycles: 482000
+  - name: R-SDP(G) 1 balanced
+    level: 1
+    pk: 54
+    sig: 9120
+    signing_cycles: 1452000
+    verification_cycles: 989000
+  - name: R-SDP(G) 1 small
+    level: 1
+    pk: 54
+    sig: 8960
+    signing_cycles: 2849000
+    verification_cycles: 1995000
+  - name: R-SDP 3 fast
+    level: 3
+    pk: 115
+    sig: 41406
+    signing_cycles: 3110000
+    verification_cycles: 1909000
+  - name: R-SDP 3 balanced
+    level: 3
+    pk: 115
+    sig: 29853
+    signing_cycles: 5099000
+    verification_cycles: 3500000
+  - name: R-SDP 3 small
+    level: 3
+    pk: 115
+    sig: 28391
+    signing_cycles: 7612000
+    verification_cycles: 5381000
+  - name: R-SDP(G) 3 fast
+    level: 3
+    pk: 83
+    sig: 26772
+    signing_cycles: 1745000
+    verification_cycles: 1166000
+  - name: R-SDP(G) 3 balanced
+    level: 3
+    pk: 83
+    sig: 22464
+    signing_cycles: 2225000
+    verification_cycles: 1508000
+  - name: R-SDP(G) 3 small
+    level: 3
+    pk: 83
+    sig: 20452
+    signing_cycles: 4159000
+    verification_cycles: 3052000
+  - name: R-SDP 5 fast
+    level: 5
+    pk: 153
+    sig: 74590
+    signing_cycles: 5501000
+    verification_cycles: 3453000
+  - name: R-SDP 5 balanced
+    level: 5
+    pk: 153
+    sig: 53527
+    signing_cycles: 8802000
+    verification_cycles: 6054000
+  - name: R-SDP 5 small
+    level: 5
+    pk: 153
+    sig: 50818
+    signing_cycles: 14062000
+    verification_cycles: 10009000
+  - name: R-SDP(G) 5 fast
+    level: 5
+    pk: 106
+    sig: 48102
+    signing_cycles: 2912000
+    verification_cycles: 1961000
+  - name: R-SDP(G) 5 balanced
+    level: 5
+    pk: 106
+    sig: 40100
+    signing_cycles: 3577000
+    verification_cycles: 2463000
+  - name: R-SDP(G) 5 small
+    level: 5
+    pk: 106
+    sig: 36454
+    signing_cycles: 6289000
+    verification_cycles: 4509000
 - version: v2
   date: '2025-01-31'
   status: On-ramp

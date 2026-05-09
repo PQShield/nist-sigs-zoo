@@ -3,6 +3,46 @@ website: https://pqc-perk.org/
 category: MPC-in-the-Head
 assumption: Permuted Kernel
 versions:
+- version: v2.2.0
+  date: '2025-12-20'
+  status: On-ramp
+  parametersets:
+  - name: 1-short
+    level: 1
+    pk: 104
+    sig: 3473
+    signing_cycles: 16300000
+    verification_cycles: 12600000
+  - name: 1-fast
+    level: 1
+    pk: 104
+    sig: 4312
+    signing_cycles: 5000000
+    verification_cycles: 3400000
+  - name: 3-short
+    level: 3
+    pk: 151
+    sig: 8311
+    signing_cycles: 143000000
+    verification_cycles: 130000000
+  - name: 3-fast
+    level: 3
+    pk: 151
+    sig: 10423
+    signing_cycles: 33500000
+    verification_cycles: 23200000
+  - name: 5-short
+    level: 5
+    pk: 195
+    sig: 14830
+    signing_cycles: 191000000
+    verification_cycles: 172000000
+  - name: 5-fast
+    level: 5
+    pk: 195
+    sig: 18216
+    signing_cycles: 53200000
+    verification_cycles: 37400000
 - version: v2.0
   date: '2025-02-05'
   status: On-ramp

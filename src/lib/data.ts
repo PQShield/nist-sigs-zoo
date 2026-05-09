@@ -140,7 +140,8 @@ export function parseParameterSets(
 
 export function processYamlSchemes(
 	schemeData: SchemeYaml[],
-	tagFilter?: string
+	tagFilter?: string,
+	{ useLatestVersion = false }: { useLatestVersion?: boolean } = {}
 ): {
 	schemes: Scheme[];
 	parameterSets: ParameterSet[];
@@ -159,7 +160,8 @@ export function processYamlSchemes(
 			// Pick latest version with the requested tag
 			const tagged = sorted.filter((v) => v.tags?.includes(tagFilter));
 			if (tagged.length > 0) {
-				latest = tagged[0];
+				// useLatestVersion: include scheme if it has the tag, but show newest version
+				latest = useLatestVersion ? sorted[0] : tagged[0];
 			} else if (yaml.versions.every((v) => !v.tags || v.tags.length === 0)) {
 				// Untagged reference scheme — always include
 				latest = sorted[0];

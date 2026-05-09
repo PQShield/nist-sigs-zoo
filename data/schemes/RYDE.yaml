@@ -3,6 +3,64 @@ website: https://pqc-ryde.org/
 category: MPC-in-the-Head
 assumption: Rank Syndrome Decoding
 versions:
+- version: v2.1.0
+  date: '2025-09-23'
+  status: On-ramp
+  parametersets:
+  - name: 1-Short
+    level: 1
+    pk: 69
+    sig: 3115
+    signing_cycles: 18000000
+    verification_cycles: 15000000
+  - name: 1-Fast
+    level: 1
+    pk: 69
+    sig: 3597
+    signing_cycles: 7000000
+    verification_cycles: 2800000
+  - name: 1-Faster
+    level: 1
+    pk: 69
+    sig: 4976
+    signing_cycles: 1700000
+    verification_cycles: 900000
+  - name: 3-Short
+    level: 3
+    pk: 101
+    sig: 7064
+    signing_cycles: 106000000
+    verification_cycles: 94000000
+  - name: 3-Fast
+    level: 3
+    pk: 101
+    sig: 8264
+    signing_cycles: 21000000
+    verification_cycles: 17000000
+  - name: 3-Faster
+    level: 3
+    pk: 101
+    sig: 11672
+    signing_cycles: 4800000
+    verification_cycles: 4300000
+  - name: 5-Short
+    level: 5
+    pk: 132
+    sig: 12607
+    signing_cycles: 141000000
+    verification_cycles: 131000000
+  - name: 5-Fast
+    level: 5
+    pk: 132
+    sig: 14779
+    signing_cycles: 29000000
+    verification_cycles: 24000000
+  - name: 5-Faster
+    level: 5
+    pk: 132
+    sig: 20850
+    signing_cycles: 7300000
+    verification_cycles: 6600000
 - version: v2.0
   date: '2025-02-05'
   status: On-ramp

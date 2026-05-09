@@ -3,6 +3,226 @@ website: https://mqom.org
 category: MPC-in-the-Head
 assumption: Multivariate Quadratic
 versions:
+- version: v2.1
+  date: '2025-09-22'
+  status: On-ramp
+  parametersets:
+  - name: L1-gf2-short-3r
+    level: 1
+    pk: 52
+    sig: 2868
+    signing_cycles: 11940000
+    verification_cycles: 11700000
+  - name: L1-gf2-short-5r
+    level: 1
+    pk: 52
+    sig: 2820
+    signing_cycles: 11860000
+    verification_cycles: 11620000
+  - name: L1-gf16-short-3r
+    level: 1
+    pk: 60
+    sig: 3060
+    signing_cycles: 6560000
+    verification_cycles: 6310000
+  - name: L1-gf16-short-5r
+    level: 1
+    pk: 60
+    sig: 2916
+    signing_cycles: 6330000
+    verification_cycles: 6030000
+  - name: L1-gf256-short-3r
+    level: 1
+    pk: 80
+    sig: 3540
+    signing_cycles: 7510000
+    verification_cycles: 7260000
+  - name: L1-gf256-short-5r
+    level: 1
+    pk: 80
+    sig: 3156
+    signing_cycles: 6890000
+    verification_cycles: 6600000
+  - name: L1-gf2-fast-3r
+    level: 1
+    pk: 52
+    sig: 3212
+    signing_cycles: 6750000
+    verification_cycles: 6330000
+  - name: L1-gf2-fast-5r
+    level: 1
+    pk: 52
+    sig: 3144
+    signing_cycles: 6790000
+    verification_cycles: 6270000
+  - name: L1-gf16-fast-3r
+    level: 1
+    pk: 60
+    sig: 3484
+    signing_cycles: 2800000
+    verification_cycles: 2350000
+  - name: L1-gf16-fast-5r
+    level: 1
+    pk: 60
+    sig: 3280
+    signing_cycles: 2770000
+    verification_cycles: 2290000
+  - name: L1-gf256-fast-3r
+    level: 1
+    pk: 80
+    sig: 4164
+    signing_cycles: 3450000
+    verification_cycles: 3010000
+  - name: L1-gf256-fast-5r
+    level: 1
+    pk: 80
+    sig: 3620
+    signing_cycles: 3360000
+    verification_cycles: 2890000
+  - name: L3-gf2-short-3r
+    level: 3
+    pk: 78
+    sig: 6388
+    signing_cycles: 61330000
+    verification_cycles: 58270000
+  - name: L3-gf2-short-5r
+    level: 3
+    pk: 78
+    sig: 6280
+    signing_cycles: 60710000
+    verification_cycles: 57810000
+  - name: L3-gf16-short-3r
+    level: 3
+    pk: 90
+    sig: 6820
+    signing_cycles: 35840000
+    verification_cycles: 31800000
+  - name: L3-gf16-short-5r
+    level: 3
+    pk: 90
+    sig: 6496
+    signing_cycles: 33020000
+    verification_cycles: 29480000
+  - name: L3-gf256-short-3r
+    level: 3
+    pk: 120
+    sig: 7900
+    signing_cycles: 42550000
+    verification_cycles: 38490000
+  - name: L3-gf256-short-5r
+    level: 3
+    pk: 120
+    sig: 7036
+    signing_cycles: 37360000
+    verification_cycles: 33200000
+  - name: L3-gf2-fast-3r
+    level: 3
+    pk: 78
+    sig: 7576
+    signing_cycles: 30010000
+    verification_cycles: 29410000
+  - name: L3-gf2-fast-5r
+    level: 3
+    pk: 78
+    sig: 7414
+    signing_cycles: 30410000
+    verification_cycles: 29690000
+  - name: L3-gf16-fast-3r
+    level: 3
+    pk: 90
+    sig: 8224
+    signing_cycles: 11770000
+    verification_cycles: 11360000
+  - name: L3-gf16-fast-5r
+    level: 3
+    pk: 90
+    sig: 7738
+    signing_cycles: 11350000
+    verification_cycles: 10610000
+  - name: L3-gf256-fast-3r
+    level: 3
+    pk: 120
+    sig: 9844
+    signing_cycles: 16010000
+    verification_cycles: 14820000
+  - name: L3-gf256-fast-5r
+    level: 3
+    pk: 120
+    sig: 8548
+    signing_cycles: 14040000
+    verification_cycles: 13420000
+  - name: L5-gf2-short-3r
+    level: 5
+    pk: 104
+    sig: 11764
+    signing_cycles: 135010000
+    verification_cycles: 133620000
+  - name: L5-gf2-short-5r
+    level: 5
+    pk: 104
+    sig: 11564
+    signing_cycles: 136320000
+    verification_cycles: 133360000
+  - name: L5-gf16-short-3r
+    level: 5
+    pk: 122
+    sig: 12664
+    signing_cycles: 56830000
+    verification_cycles: 54620000
+  - name: L5-gf16-short-5r
+    level: 5
+    pk: 122
+    sig: 12014
+    signing_cycles: 53790000
+    verification_cycles: 52260000
+  - name: L5-gf256-short-3r
+    level: 5
+    pk: 160
+    sig: 14564
+    signing_cycles: 64020000
+    verification_cycles: 63700000
+  - name: L5-gf256-short-5r
+    level: 5
+    pk: 160
+    sig: 12964
+    signing_cycles: 58080000
+    verification_cycles: 56810000
+  - name: L5-gf2-fast-3r
+    level: 5
+    pk: 104
+    sig: 13412
+    signing_cycles: 74390000
+    verification_cycles: 75000000
+  - name: L5-gf2-fast-5r
+    level: 5
+    pk: 104
+    sig: 13124
+    signing_cycles: 74530000
+    verification_cycles: 72950000
+  - name: L5-gf16-fast-3r
+    level: 5
+    pk: 122
+    sig: 14708
+    signing_cycles: 24950000
+    verification_cycles: 24620000
+  - name: L5-gf16-fast-5r
+    level: 5
+    pk: 122
+    sig: 13772
+    signing_cycles: 24500000
+    verification_cycles: 23310000
+  - name: L5-gf256-fast-3r
+    level: 5
+    pk: 160
+    sig: 17444
+    signing_cycles: 29210000
+    verification_cycles: 29510000
+  - name: L5-gf256-fast-5r
+    level: 5
+    pk: 160
+    sig: 15140
+    signing_cycles: 28140000
+    verification_cycles: 27520000
 - version: v2.0
   date: '2025-02-05'
   status: On-ramp
