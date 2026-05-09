@@ -55,6 +55,13 @@
 			? ['#9CA3AF', '#F87171', '#FB923C', '#E09434', '#60A5FA']
 			: ['#6B7280', '#DC2626', '#EA580C', '#E09434', '#1D4ED8'];
 
+		const legendConfig = {
+			labelColor: isDark ? '#94A3B8' : '#475569',
+			titleColor: isDark ? '#C5CADA' : '#061128',
+			strokeColor: 'transparent',
+			padding: 8
+		};
+
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		const spec: any = {
 			$schema: 'https://vega.github.io/schema/vega-lite/v6.json',
@@ -87,7 +94,11 @@
 					field: 'color',
 					type: 'nominal',
 					scale: { domain: ['classical', 'broken', 'warning', 'fips', 'normal'], range: colorRange },
-					legend: null
+					legend: {
+						title: 'Category',
+						labelExpr: "{'classical': 'Pre-quantum', 'broken': 'Broken', 'warning': 'Warning', 'fips': 'FIPS / Standardized', 'normal': 'On-ramp'}[datum.value]",
+						...legendConfig
+					}
 				},
 				stroke: {
 					field: 'color',
@@ -96,13 +107,17 @@
 					legend: null
 				},
 				shape: {
-					field: 'shape',
+					field: 'color',
 					type: 'nominal',
 					scale: {
-						domain: ['fips', 'classical', 'broken', 'warning', 'normal'],
-						range: ['M0,-0.875L0.22,-0.303L0.832,-0.27L0.357,0.116L0.514,0.708L0,0.375L-0.514,0.708L-0.357,0.116L-0.832,-0.27L-0.22,-0.303Z', 'circle', 'triangle-down', 'triangle-up', 'square']
+						domain: ['classical', 'broken', 'warning', 'fips', 'normal'],
+						range: ['circle', 'triangle-down', 'triangle-up', 'M0,-0.875L0.22,-0.303L0.832,-0.27L0.357,0.116L0.514,0.708L0,0.375L-0.514,0.708L-0.357,0.116L-0.832,-0.27L-0.22,-0.303Z', 'square']
 					},
-					legend: null
+					legend: {
+						title: 'Category',
+						labelExpr: "{'classical': 'Pre-quantum', 'broken': 'Broken', 'warning': 'Warning', 'fips': 'FIPS / Standardized', 'normal': 'On-ramp'}[datum.value]",
+						...legendConfig
+					}
 				},
 				tooltip: [
 					{ field: 'scheme', type: 'nominal', title: 'Scheme' },
