@@ -97,11 +97,19 @@
 		const categoryDomain = presentShapeKeys;
 		const categoryShapeRange = presentShapeKeys.map((k) => CATEGORY_SHAPES[k]);
 
+		const isMobile = container.clientWidth < 640;
+		const mobileLegend = isMobile ? { orient: 'bottom', direction: 'horizontal', columns: 3 } : {};
 		const legendConfig = {
 			labelColor: isDark ? '#94A3B8' : '#475569',
 			titleColor: isDark ? '#C5CADA' : '#061128',
 			strokeColor: 'transparent',
-			padding: 8
+			padding: 8,
+			...mobileLegend
+		};
+		const shapeLegendConfig = {
+			...legendConfig,
+			symbolFillColor: isDark ? '#94A3B8' : '#475569',
+			symbolStrokeColor: isDark ? '#94A3B8' : '#475569'
 		};
 
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -140,7 +148,7 @@
 							field: 'shapeKey',
 							type: 'nominal',
 							scale: { domain: categoryDomain, range: categoryShapeRange },
-							legend: { title: 'Family', ...legendConfig }
+							legend: { title: 'Family', ...shapeLegendConfig }
 						}
 					}
 				},
