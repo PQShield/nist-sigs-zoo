@@ -15,25 +15,34 @@
 
 	const isHome = $derived($page.route.id === '/');
 
+	let menuOpen = $state(false);
+
 	onMount(() => {
 		themeStore.init();
 	});
 
 	function setRound(r: Round) {
 		roundStore.set(r);
+		menuOpen = false;
+	}
+
+	function closeMenu() {
+		menuOpen = false;
 	}
 </script>
 
 <div class="flex min-h-screen flex-col bg-pqs-smoke text-pqs-midnight dark:bg-pqs-midnight dark:text-pqs-smoke">
 	<header class="bg-pqs-midnight shadow-md">
 		<nav class="mx-auto flex max-w-screen-2xl items-center gap-6 px-6 py-4">
-			<a href="/" class="flex items-center gap-2 text-white">
+			<a href="/" class="flex items-center gap-2 text-white" onclick={closeMenu}>
 				<span class="font-heading text-xl font-bold tracking-tight">PQShield</span>
 				<span class="rounded bg-pqs-apricot px-2 py-0.5 font-heading text-xs font-semibold text-pqs-midnight">
 					NIST Signatures Zoo
 				</span>
 			</a>
-			<div class="ml-auto flex items-center gap-5 font-heading text-sm">
+
+			<!-- Desktop nav -->
+			<div class="ml-auto hidden items-center gap-5 font-heading text-sm md:flex">
 				{#if isHome}
 					<div class="flex items-center gap-1 rounded border border-pqs-steel/40 p-0.5 font-heading text-sm">
 						<button
@@ -76,7 +85,80 @@
 					{themeIcon}
 				</button>
 			</div>
+
+			<!-- Mobile: theme toggle always visible + hamburger -->
+			<div class="ml-auto flex items-center gap-2 md:hidden">
+				<button
+					onclick={() => themeStore.toggle()}
+					aria-label={themeLabel}
+					title={themeLabel}
+					class="rounded px-2 py-1 text-base text-pqs-bluegray hover:text-white hover:bg-pqs-steel transition-colors"
+				>
+					{themeIcon}
+				</button>
+				<button
+					onclick={() => (menuOpen = !menuOpen)}
+					aria-label="Toggle menu"
+					aria-expanded={menuOpen}
+					class="rounded p-1.5 text-pqs-bluegray hover:text-white hover:bg-pqs-steel transition-colors"
+				>
+					{#if menuOpen}
+						<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+							<path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+						</svg>
+					{:else}
+						<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+							<path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+						</svg>
+					{/if}
+				</button>
+			</div>
 		</nav>
+
+		<!-- Mobile dropdown -->
+		{#if menuOpen}
+			<div class="border-t border-pqs-steel/30 px-6 pb-4 pt-3 font-heading text-sm md:hidden">
+				{#if isHome}
+					<div class="mb-4">
+						<p class="mb-1.5 text-xs font-semibold uppercase tracking-wider text-pqs-bluegray/60">Dataset</p>
+						<div class="flex items-center gap-1 rounded border border-pqs-steel/40 p-0.5 self-start">
+							<button
+								onclick={() => setRound('latest')}
+								class="rounded px-3 py-1 transition-colors {$roundStore === 'latest' ? 'bg-pqs-apricot text-pqs-midnight font-semibold' : 'text-pqs-bluegray hover:text-white'}"
+							>
+								Latest
+							</button>
+							<button
+								onclick={() => setRound('round-2')}
+								class="rounded px-3 py-1 transition-colors {$roundStore === 'round-2' ? 'bg-pqs-apricot text-pqs-midnight font-semibold' : 'text-pqs-bluegray hover:text-white'}"
+							>
+								Round 2
+							</button>
+							<button
+								onclick={() => setRound('round-1')}
+								class="rounded px-3 py-1 transition-colors {$roundStore === 'round-1' ? 'bg-pqs-apricot text-pqs-midnight font-semibold' : 'text-pqs-bluegray hover:text-white'}"
+							>
+								Round 1
+							</button>
+						</div>
+					</div>
+				{/if}
+				<div class="flex flex-col gap-3">
+					<a href="/history/" onclick={closeMenu} class="text-pqs-bluegray hover:text-pqs-apricot transition-colors">
+						History
+					</a>
+					<a
+						href="https://github.com/pqshield/nist-sigs-zoo"
+						target="_blank"
+						rel="noopener noreferrer"
+						onclick={closeMenu}
+						class="text-pqs-bluegray hover:text-pqs-apricot transition-colors"
+					>
+						Contribute ↗
+					</a>
+				</div>
+			</div>
+		{/if}
 	</header>
 
 	<main class="flex-1">
