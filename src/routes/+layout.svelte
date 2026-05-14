@@ -52,6 +52,12 @@
 							Latest
 						</button>
 						<button
+							onclick={() => setRound('round-3')}
+							class="rounded px-2 py-0.5 transition-colors {$roundStore === 'round-3' ? 'bg-pqs-apricot text-pqs-midnight font-semibold' : 'text-pqs-bluegray hover:text-white'}"
+						>
+							Round 3
+						</button>
+						<button
 							onclick={() => setRound('round-2')}
 							class="rounded px-2 py-0.5 transition-colors {$roundStore === 'round-2' ? 'bg-pqs-apricot text-pqs-midnight font-semibold' : 'text-pqs-bluegray hover:text-white'}"
 						>
@@ -127,6 +133,12 @@
 								class="rounded px-3 py-1 transition-colors {$roundStore === 'latest' ? 'bg-pqs-apricot text-pqs-midnight font-semibold' : 'text-pqs-bluegray hover:text-white'}"
 							>
 								Latest
+							</button>
+							<button
+								onclick={() => setRound('round-3')}
+								class="rounded px-3 py-1 transition-colors {$roundStore === 'round-3' ? 'bg-pqs-apricot text-pqs-midnight font-semibold' : 'text-pqs-bluegray hover:text-white'}"
+							>
+								Round 3
 							</button>
 							<button
 								onclick={() => setRound('round-2')}

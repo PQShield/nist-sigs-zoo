@@ -65,6 +65,7 @@ versions:
     broken: "Intersection attack (Furue & Ikematsu, ePrint 2026/298) reduces classical security to ~128 bits, below NIST Level I threshold (best known; improves on Ran's ePrint 2025/1143 ~141 bits)"
   tags:
   - round-2
+  - round-3  # Round 3 spec not yet available; showing current latest data
 - version: v1.0
   date: '2023-05-30'
   status: On-ramp

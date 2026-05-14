@@ -83,6 +83,7 @@ versions:
     broken: "Wedge product attack (Bros et al., ePrint 2026/237) reduces classical security to ~103 bits, below NIST Level I threshold (128 bits)"
   tags:
   - round-2
+  - round-3  # Round 3 spec not yet available; showing current latest data
 - version: Round 1
   date: '2023-05-25'
   status: On-ramp

@@ -13,7 +13,7 @@
 
 	let { data: _ }: { data: PageData } = $props();
 
-	const _init = processYamlSchemes(allSchemeData, 'round-2', { useLatestVersion: true });
+	const _init = processYamlSchemes(allSchemeData, 'round-3', { useLatestVersion: true });
 	let schemes = $state(_init.schemes);
 	let categories = $state([...new Set(_init.schemes.map((s) => s.category))].sort());
 	let ranges = $state(_init.ranges);
@@ -21,8 +21,8 @@
 	const { applyUrl } = getFilterStore();
 
 	function applyRound(round: Round) {
-		const tagFilter = round === 'latest' ? 'round-2' : round;
-		const result = processYamlSchemes(allSchemeData, tagFilter, { useLatestVersion: round === 'latest' });
+		const tagFilter = round === 'latest' || round === 'round-3' ? 'round-3' : round;
+		const result = processYamlSchemes(allSchemeData, tagFilter, { useLatestVersion: round === 'latest' || round === 'round-3' });
 		schemes = result.schemes;
 		categories = [...new Set(result.schemes.map((s) => s.category))].sort();
 		ranges = result.ranges;
@@ -39,6 +39,9 @@
 		} else if (rParam === '2') {
 			roundStore.set('round-2');
 			applyRound('round-2');
+		} else if (rParam === '3') {
+			roundStore.set('round-3');
+			applyRound('round-3');
 		}
 
 		// Apply filter URL params
@@ -51,7 +54,7 @@
 			if (urlSyncTimer) clearTimeout(urlSyncTimer);
 			urlSyncTimer = setTimeout(() => {
 				const p = buildUrlParams(state, defaults);
-				const round = $roundStore === 'round-1' ? '1' : $roundStore === 'round-2' ? '2' : null;
+				const round = $roundStore === 'round-1' ? '1' : $roundStore === 'round-2' ? '2' : $roundStore === 'round-3' ? '3' : null;
 				if (round) p.set('r', round);
 				const qs = p.toString();
 				const newUrl = qs ? `?${qs}` : $page.url.pathname;
@@ -86,6 +89,9 @@
 			{#if $roundStore === 'latest'}
 				Data reflects the latest known specifications for each scheme, last updated {lastUpdated}.
 				Consult the individual scheme websites for the most current information.
+			{:else if $roundStore === 'round-3'}
+				Showing the 9 schemes selected for Round 3 of the NIST Additional Signatures competition.
+				Round 3 specific submission data is not yet available; data reflects the most recent known specifications (last updated {lastUpdated}).
 			{:else}
 				Data reflects scheme specifications as submitted at the start of {$roundStore === 'round-1' ? 'Round 1' : 'Round 2'} of the NIST Additional Signatures competition (data last updated {lastUpdated}).
 				Schemes may have been updated since; consult the individual scheme websites for current specifications.

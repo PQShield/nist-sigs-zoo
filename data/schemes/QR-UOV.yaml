@@ -81,6 +81,7 @@ versions:
     verification_cycles: 329495000
   tags:
   - round-2
+  - round-3  # Round 3 spec not yet available; showing current latest data
 - version: Round 1
   date: '2023-06-01'
   status: On-ramp
