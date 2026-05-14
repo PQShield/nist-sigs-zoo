@@ -1,3 +1,8 @@
+- date: '2026-05-14'
+  type: milestone
+  description: "NIST announced 9 Round 3 candidates for additional post-quantum signature schemes: FAEST, HAWK, MAYO, MQOM, QR-UOV, SDitH, SNOVA, SQIsign, UOV. Rationale in <a href=\"https://csrc.nist.gov/pubs/ir/8610/final\">NIST IR 8610</a>. <a href=\"https://csrc.nist.gov/projects/pqc-dig-sig/round-3-additional-signatures\">Round 3 candidates</a>."
+  schemes: [FAEST, HAWK, MAYO, MQOM, QR-UOV, SDitH, SNOVA, SQIsign, UOV]
+
 - date: '2026-05-09'
   type: attack
   description: "Updated UOV security flags based on pℓ-truncated polynomial ring intersection attack (Furue &amp; Ikematsu, <a href=\"https://eprint.iacr.org/2026/298\">ePrint 2026/298</a>). Improves on Ran's wedge attack for Ip (~128 bits), III (~182 bits), V (~223 bits). Is parameter sets newly flagged as warning (~159 bits, still above threshold)."

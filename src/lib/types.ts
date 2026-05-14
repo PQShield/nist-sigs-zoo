@@ -76,7 +76,7 @@ export interface SchemeYaml {
 
 export interface HistoryEntry {
 	date: string;
-	type: 'update' | 'attack' | 'standardization';
+	type: 'update' | 'attack' | 'standardization' | 'milestone';
 	description: string;
 	schemes?: string[];
 }
