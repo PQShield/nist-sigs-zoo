@@ -28,6 +28,8 @@ jobs:
       - run: npm ci
 
       - run: npm run build
+        env:
+          BASE_PATH: /nist-sigs-zoo
 
       - name: Copy .nojekyll
         run: cp .nojekyll dist/.nojekyll

@@ -13,6 +13,9 @@ const config = {
 			fallback: undefined,
 			precompress: false,
 		}),
+		paths: {
+			base: process.env.BASE_PATH ?? '',
+		},
 		prerender: {
 			// round-1/ is copied into dist/ post-build, not part of the SvelteKit app
 			handleHttpError: ({ path, message }) => {

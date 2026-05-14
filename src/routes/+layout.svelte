@@ -2,6 +2,7 @@
 	import './layout.css';
 	import { onMount } from 'svelte';
 	import { page } from '$app/stores';
+	import { base } from '$app/paths';
 	import { themeStore } from '$lib/themeStore';
 	import { roundStore, type Round } from '$lib/roundStore';
 	import { lastUpdated } from '$lib/schemeData';
@@ -34,7 +35,7 @@
 <div class="flex min-h-screen flex-col bg-pqs-smoke text-pqs-midnight dark:bg-pqs-midnight dark:text-pqs-smoke">
 	<header class="bg-pqs-midnight shadow-md">
 		<nav class="mx-auto flex max-w-screen-2xl items-center gap-6 px-6 py-4">
-			<a href="/" class="flex items-center gap-2 text-white" onclick={closeMenu}>
+			<a href="{base}/" class="flex items-center gap-2 text-white" onclick={closeMenu}>
 				<span class="font-heading text-xl font-bold tracking-tight">PQShield</span>
 				<span class="rounded bg-pqs-apricot px-2 py-0.5 font-heading text-xs font-semibold text-pqs-midnight">
 					NIST Signatures Zoo
@@ -71,7 +72,7 @@
 						</button>
 					</div>
 				{/if}
-				<a href="/history/" class="text-pqs-bluegray hover:text-pqs-apricot transition-colors">
+				<a href="{base}/history/" class="text-pqs-bluegray hover:text-pqs-apricot transition-colors">
 					History
 				</a>
 				<a
@@ -156,7 +157,7 @@
 					</div>
 				{/if}
 				<div class="flex flex-col gap-3">
-					<a href="/history/" onclick={closeMenu} class="text-pqs-bluegray hover:text-pqs-apricot transition-colors">
+					<a href="{base}/history/" onclick={closeMenu} class="text-pqs-bluegray hover:text-pqs-apricot transition-colors">
 						History
 					</a>
 					<a
@@ -182,7 +183,7 @@
 			<p>
         Built by Thom Wiggers / PQShield.
 				Data licensed under
-				<a href="/LICENSE.md" class="text-pqs-apricot hover:underline">CC BY-SA 4.0</a>.
+				<a href="{base}/LICENSE.md" class="text-pqs-apricot hover:underline">CC BY-SA 4.0</a>.
         Most recent scheme data is dated {lastUpdated}.
 			</p>
 			<p>
