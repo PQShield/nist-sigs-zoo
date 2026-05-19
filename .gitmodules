@@ -1,0 +1,3 @@
+[submodule "bench/schemes/mldsa/ref"]
+	path = bench/schemes/mldsa/ref
+	url = https://github.com/pq-crystals/dilithium.git
