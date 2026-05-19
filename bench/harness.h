@@ -51,15 +51,16 @@ static uint64_t bench_median(uint64_t *arr, size_t n) {
 #endif
 
 static void bench_run(const bench_scheme_t *s) {
-    uint8_t *pk  = malloc(s->pk_bytes);
-    uint8_t *sk  = malloc(s->sk_bytes);
-    uint8_t *sig = malloc(s->sig_bytes);
+    int      n    = s->iters > 0 ? s->iters : BENCH_ITER;
+    uint8_t *pk   = malloc(s->pk_bytes);
+    uint8_t *sk   = malloc(s->sk_bytes);
+    uint8_t *sig  = malloc(s->sig_bytes);
     uint8_t  msg[32] = {0};
     size_t   siglen  = 0;
 
-    uint64_t *kg_cyc = malloc(BENCH_ITER * sizeof(uint64_t));
-    uint64_t *sg_cyc = malloc(BENCH_ITER * sizeof(uint64_t));
-    uint64_t *vf_cyc = malloc(BENCH_ITER * sizeof(uint64_t));
+    uint64_t *kg_cyc = malloc(n * sizeof(uint64_t));
+    uint64_t *sg_cyc = malloc(n * sizeof(uint64_t));
+    uint64_t *vf_cyc = malloc(n * sizeof(uint64_t));
 
     if (!pk || !sk || !sig || !kg_cyc || !sg_cyc || !vf_cyc) {
         fprintf(stderr, "bench_run: allocation failed for %s\n", s->name);
@@ -70,7 +71,7 @@ static void bench_run(const bench_scheme_t *s) {
     s->keygen_fn(pk, sk);
     s->sign_fn(sig, &siglen, msg, sizeof(msg), sk);
 
-    for (int i = 0; i < BENCH_ITER; i++) {
+    for (int i = 0; i < n; i++) {
         uint64_t t0, t1;
 
         t0 = cpucycles();
@@ -89,11 +90,12 @@ static void bench_run(const bench_scheme_t *s) {
         vf_cyc[i] = t1 - t0;
     }
 
-    printf("%-20s  %16" PRIu64 "  %16" PRIu64 "  %16" PRIu64 "\n",
+    printf("%-24s  %16" PRIu64 "  %16" PRIu64 "  %16" PRIu64 "\n",
            s->name,
-           bench_median(kg_cyc, BENCH_ITER),
-           bench_median(sg_cyc, BENCH_ITER),
-           bench_median(vf_cyc, BENCH_ITER));
+           bench_median(kg_cyc, n),
+           bench_median(sg_cyc, n),
+           bench_median(vf_cyc, n));
+    fflush(stdout);
 
 cleanup:
     free(pk); free(sk); free(sig);

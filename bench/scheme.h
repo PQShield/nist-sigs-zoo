@@ -14,6 +14,7 @@ typedef struct {
     size_t      pk_bytes;
     size_t      sk_bytes;
     size_t      sig_bytes;
+    int         iters;    /* 0 → use BENCH_ITER; non-zero overrides */
 
     int (*keygen_fn)(uint8_t *pk, uint8_t *sk);
     int (*sign_fn)(uint8_t *sig, size_t *siglen,
