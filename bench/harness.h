@@ -1,11 +1,9 @@
 #pragma once
 #include <inttypes.h>
-#include <stddef.h>
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
-#include "scheme.h"
+#include "loader.h"
 
 /* ---------- cycle counter ---------- */
 
@@ -39,8 +37,8 @@ static int bench_cmp_u64(const void *a, const void *b) {
     return (x > y) - (x < y);
 }
 
-static uint64_t bench_median(uint64_t *arr, size_t n) {
-    qsort(arr, n, sizeof(uint64_t), bench_cmp_u64);
+static uint64_t bench_median(uint64_t *arr, int n) {
+    qsort(arr, (size_t)n, sizeof(uint64_t), bench_cmp_u64);
     return (n & 1) ? arr[n / 2] : (arr[n / 2 - 1] + arr[n / 2]) / 2;
 }
 
@@ -58,9 +56,9 @@ static void bench_run(const bench_scheme_t *s) {
     uint8_t  msg[32] = {0};
     size_t   siglen  = 0;
 
-    uint64_t *kg_cyc = malloc(n * sizeof(uint64_t));
-    uint64_t *sg_cyc = malloc(n * sizeof(uint64_t));
-    uint64_t *vf_cyc = malloc(n * sizeof(uint64_t));
+    uint64_t *kg_cyc = malloc((size_t)n * sizeof(uint64_t));
+    uint64_t *sg_cyc = malloc((size_t)n * sizeof(uint64_t));
+    uint64_t *vf_cyc = malloc((size_t)n * sizeof(uint64_t));
 
     if (!pk || !sk || !sig || !kg_cyc || !sg_cyc || !vf_cyc) {
         fprintf(stderr, "bench_run: allocation failed for %s\n", s->name);

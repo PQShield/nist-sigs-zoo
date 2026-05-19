@@ -1,23 +1,18 @@
 #include <stdio.h>
 #include "harness.h"
-#include "schemes/mldsa/mldsa.h"
-#include "schemes/slhdsa/slhdsa.h"
+#include "loader.h"
 
 /*
- * To add a new scheme:
- *   1. Create schemes/<name>/<name>.h  (declares bench_scheme_t[] + count)
- *   2. Add an #include here
- *   3. Add an entry in scheme_groups below
+ * List of scheme .so paths to benchmark, relative to the bench/ directory.
+ * To add a new scheme: build its .so and add the path here.
  */
-
-typedef struct {
-    bench_scheme_t *schemes;
-    size_t          count;
-} scheme_group_t;
-
-static const scheme_group_t scheme_groups[] = {
-    { mldsa_schemes,  3               },
-    { slhdsa_schemes, 12 /* n_slhdsa_schemes */ },
+static const char *SO_PATHS[] = {
+    "schemes/mldsa/build/mldsa44.so",
+    "schemes/mldsa/build/mldsa65.so",
+    "schemes/mldsa/build/mldsa87.so",
+    /* SLH-DSA entries will be added once bench/schemes/slhdsa/ref/ is
+     * populated (git submodule update --init bench/schemes/slhdsa/ref). */
+    NULL,
 };
 
 int main(void) {
@@ -26,13 +21,11 @@ int main(void) {
     printf("%-24s  %16s  %16s  %16s\n",
            "------", "---------------", "-------------", "---------------");
 
-    for (size_t g = 0; g < sizeof(scheme_groups) / sizeof(scheme_groups[0]); g++) {
-        const scheme_group_t *grp = &scheme_groups[g];
-        for (size_t i = 0; i < grp->count; i++) {
-            bench_run(&grp->schemes[i]);
-        }
-        printf("\n");
+    for (int i = 0; SO_PATHS[i]; i++) {
+        bench_scheme_t *s = bench_load(SO_PATHS[i]);
+        if (!s) continue;
+        bench_run(s);
+        bench_unload(s);
     }
-
     return 0;
 }

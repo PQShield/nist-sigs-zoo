@@ -1,13 +1,9 @@
 #pragma once
 #include <stddef.h>
-#include <stdint.h>
 
 /*
- * Pluggable scheme interface.
- *
- * Each scheme provides one or more bench_scheme_t instances (one per
- * parameter set). Adapters implement the three function pointers and expose
- * a scheme array + count. Only scheme.h needs to be included by adapters.
+ * Metadata exported by every scheme .so via bench_info().
+ * Shim files include only this header — no harness/loader dependency.
  */
 typedef struct {
     const char *name;
@@ -15,12 +11,4 @@ typedef struct {
     size_t      sk_bytes;
     size_t      sig_bytes;
     int         iters;    /* 0 → use BENCH_ITER; non-zero overrides */
-
-    int (*keygen_fn)(uint8_t *pk, uint8_t *sk);
-    int (*sign_fn)(uint8_t *sig, size_t *siglen,
-                   const uint8_t *msg, size_t msglen,
-                   const uint8_t *sk);
-    int (*verify_fn)(const uint8_t *sig, size_t siglen,
-                     const uint8_t *msg, size_t msglen,
-                     const uint8_t *pk);
-} bench_scheme_t;
+} bench_scheme_info_t;
