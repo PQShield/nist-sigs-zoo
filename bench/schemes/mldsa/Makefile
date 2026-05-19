@@ -1,18 +1,24 @@
 CC      ?= cc
-CFLAGS  := -O3 -fomit-frame-pointer -fPIC -Wall -Wextra -I ref/ref
-REF_DIR  = ref/ref
+CFLAGS  := -O3 -fomit-frame-pointer -fPIC -mavx2 -mpopcnt -march=native \
+            -mtune=native -Wall -Wextra -I ref/avx2
+AVX2_DIR = ref/avx2
 BUILD    = build
 
-REF_SRCS = sign.c packing.c polyvec.c poly.c ntt.c reduce.c rounding.c \
-           fips202.c symmetric-shake.c randombytes.c
+# C sources and assembly sources for the AVX2 implementation (SHAKE variant).
+C_SRCS = sign.c packing.c polyvec.c poly.c consts.c rejsample.c rounding.c \
+         fips202.c fips202x4.c symmetric-shake.c randombytes.c
+S_SRCS = ntt.S invntt.S pointwise.S shuffle.S f1600x4.S
 
 .PHONY: all clean
 all: $(BUILD)/mldsa44.so $(BUILD)/mldsa65.so $(BUILD)/mldsa87.so
 
-# Compile dilithium mode-N objects (all with -fPIC for .so inclusion).
 define mode_rules
-$$(BUILD)/mode$(1)/%.o: $$(REF_DIR)/%.c | $$(BUILD)/mode$(1)
+$$(BUILD)/mode$(1)/%.o: $$(AVX2_DIR)/%.c | $$(BUILD)/mode$(1)
 	$$(CC) $$(CFLAGS) -DDILITHIUM_MODE=$(1) -c $$< -o $$@
+
+$$(BUILD)/mode$(1)/%.o: $$(AVX2_DIR)/%.S | $$(BUILD)/mode$(1)
+	$$(CC) $$(CFLAGS) -DDILITHIUM_MODE=$(1) -c $$< -o $$@
+
 $$(BUILD)/mode$(1):
 	mkdir -p $$@
 endef
@@ -21,11 +27,17 @@ $(eval $(call mode_rules,2))
 $(eval $(call mode_rules,3))
 $(eval $(call mode_rules,5))
 
-MODE2_OBJS = $(addprefix $(BUILD)/mode2/, $(REF_SRCS:.c=.o))
-MODE3_OBJS = $(addprefix $(BUILD)/mode3/, $(REF_SRCS:.c=.o))
-MODE5_OBJS = $(addprefix $(BUILD)/mode5/, $(REF_SRCS:.c=.o))
+ALL_SRCS = $(C_SRCS) $(S_SRCS)
 
-# Shim objects.
+MODE2_OBJS = $(addprefix $(BUILD)/mode2/, $(ALL_SRCS:.S=.o))
+MODE3_OBJS = $(addprefix $(BUILD)/mode3/, $(ALL_SRCS:.S=.o))
+MODE5_OBJS = $(addprefix $(BUILD)/mode5/, $(ALL_SRCS:.S=.o))
+
+# .c → .o substitution (pattern above handles both .c and .S)
+MODE2_OBJS := $(MODE2_OBJS:.c=.o)
+MODE3_OBJS := $(MODE3_OBJS:.c=.o)
+MODE5_OBJS := $(MODE5_OBJS:.c=.o)
+
 $(BUILD)/mldsa44_shim.o: mldsa44_shim.c ../../scheme.h | $(BUILD)
 	$(CC) $(CFLAGS) -c $< -o $@
 $(BUILD)/mldsa65_shim.o: mldsa65_shim.c ../../scheme.h | $(BUILD)
@@ -33,7 +45,6 @@ $(BUILD)/mldsa65_shim.o: mldsa65_shim.c ../../scheme.h | $(BUILD)
 $(BUILD)/mldsa87_shim.o: mldsa87_shim.c ../../scheme.h | $(BUILD)
 	$(CC) $(CFLAGS) -c $< -o $@
 
-# Each .so: shim + all mode-specific dilithium objects.
 $(BUILD)/mldsa44.so: $(BUILD)/mldsa44_shim.o $(MODE2_OBJS)
 	$(CC) -shared -o $@ $^
 $(BUILD)/mldsa65.so: $(BUILD)/mldsa65_shim.o $(MODE3_OBJS)
