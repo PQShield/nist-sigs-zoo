@@ -1,18 +1,30 @@
 # bench/
 
-Cycle-count benchmarking framework for post-quantum signature schemes.
-Measures median keygen / sign / verify cycles per parameter set.
+Cycle-count + wall-time benchmarking framework for signature schemes.
+Measures median keygen / sign / verify cycles and microseconds per parameter set.
 
-## Build
+## Build and run
 
 ```bash
 git submodule update --init --recursive bench/schemes/
-make        # builds ./bench and all scheme .so files
-./bench     # run all registered schemes
-make clean  # remove build artifacts
+make              # builds ./bench and all scheme .so files
+./bench           # run all registered schemes
+./bench mldsa     # run only schemes whose name matches "mldsa" (case-insensitive)
+./bench rsa ecdsa # multiple filters are OR-ed
+make clean        # remove build artifacts
 ```
 
-Requires: C compiler (cc), make, git submodules initialized.
+`run_bench.sh` wraps `./bench`, prepends a system-info header, and saves
+output to `results/<timestamp>_<cpu>.txt`:
+
+```bash
+./run_bench.sh              # all schemes
+./run_bench.sh classic      # filtered; slug appended to filename
+```
+
+Requires: C compiler (cc), make, git submodules initialized,
+OpenSSL 3.x (for classic schemes; detected via `brew --prefix openssl`,
+`pkg-config`, or `/usr` fallback).
 
 ## Architecture
 
@@ -20,19 +32,21 @@ Requires: C compiler (cc), make, git submodules initialized.
 bench/
 ├── scheme.h              # bench_scheme_info_t — metadata type used by shims
 ├── loader.h / loader.c   # dlopen loader: bench_scheme_t, bench_load/unload
-├── harness.h             # Cycle counter + stats + bench_run()
-├── main.c                # SO_PATHS[] list + main loop
+├── harness.h             # cycle counter + wall-clock timer + stats + bench_run()
+├── main.c                # SO_PATHS[] list + filter logic + main loop
 ├── Makefile
+├── run_bench.sh          # wrapper: collects sysinfo, tees output to results/
+├── results/              # saved benchmark runs (committed)
 └── schemes/
-    ├── <name>/
-    │   ├── <param>_shim.c   # one shim per parameter set
-    │   ├── Makefile          # builds build/<param>.so
-    │   └── ref/              # git submodule: upstream implementation
-    └── ...
+    ├── classic/          # RSA/ECDSA/EdDSA via system OpenSSL; no submodule
+    ├── mldsa/            # pq-crystals/dilithium (AVX2)
+    ├── slhdsa/           # pq-code-package/slhdsa-c
+    ├── fndsa/            # pornin/c-fn-dsa
+    └── <name>/
+        ├── <param>_shim.c   # one shim per parameter set
+        ├── Makefile          # builds build/<param>.so
+        └── ref/              # git submodule: upstream implementation
 ```
-
-Current schemes: `mldsa/` (pq-crystals/dilithium, AVX2),
-`slhdsa/` (pq-code-package/slhdsa-c), `fndsa/` (pornin/c-fn-dsa).
 
 ## Isolation model
 
@@ -62,14 +76,14 @@ that header plus the upstream implementation's own header.
 
 ## Harness (`harness.h`)
 
-- **Cycle counter**: `rdtsc` + `lfence` on x86/x86-64; `cntvct_el0` on
-  aarch64.
+- **Cycle counter**: `rdtsc` + `lfence` on x86/x86-64; `cntvct_el0` on aarch64.
+- **Wall clock**: `clock_gettime(CLOCK_MONOTONIC)` bracketing each operation.
 - **Stats**: median over `BENCH_ITER` (default 1000) iterations.
   Override at build time: `make BENCH_ITER=200`.
 - **Per-scheme override**: set `iters` field in `bench_scheme_info_t` to
-  a non-zero value (e.g. slow hash-based `-s` variants use 5).
-- **bench_run()**: one warm-up, then `n` timed iterations of keygen /
-  sign / verify; prints one line and flushes stdout.
+  a non-zero value (e.g. SLH-DSA `-s` variants use 5, RSA-4096 uses 20).
+- **bench_run()**: one warm-up, then `n` timed iterations; prints one line
+  with six columns (keygen/sign/verify × cycles/µs) and flushes stdout.
 
 ## Shim pattern
 
@@ -77,7 +91,7 @@ Each upstream implementation has its own API conventions.  The shim's job
 is to absorb those differences and re-export the standard contract above.
 Common adaptations needed:
 
-- **Argument order**: some APIs put sk before pk, or pass ctx/addrnd
+- **Argument order**: some APIs put sk before pk, or carry ctx/addrnd
   parameters absent from the standard contract (pass `NULL, 0`).
 - **Return value**: some return 1 on success or a `size_t` byte count
   instead of 0-on-success `int`; convert at the shim boundary.
@@ -86,6 +100,10 @@ Common adaptations needed:
 - **Mode selection**: compile-time `-D` flags (e.g. Dilithium) or a
   runtime parameter struct (e.g. slhdsa-c's `slh_param_t *`) — the
   shim selects the correct one for its parameter set.
+- **OpenSSL / stateful keys**: classic shims store a module-level
+  `EVP_PKEY *g_key`; `crypto_sign_keypair` generates and stores it,
+  sign/verify use it directly.  The pk/sk harness buffers are unused
+  (sizes in INFO are set to real DER values for documentation only).
 
 The upstream library is compiled once as a static `.a` (with `-fPIC`)
 and linked into each per-parameter-set `.so`.
@@ -93,6 +111,7 @@ and linked into each per-parameter-set `.so`.
 ## Adding a new scheme
 
 1. Add upstream as a git submodule under `schemes/<name>/ref/`.
+   (Classic/system-library schemes skip this step.)
 
 2. Create `schemes/<name>/`:
    - `<param>_shim.c` per parameter set — implement `bench_info()` +
@@ -106,6 +125,13 @@ and linked into each per-parameter-set `.so`.
    add `$(MAKE) -C schemes/<name> clean` to the `clean` target.
 
 4. `bench/main.c`: append `.so` paths to `SO_PATHS[]`.
+
+## Filtering
+
+`./bench [filter...]` runs only schemes whose names match at least one
+filter.  Matching is case-insensitive and ignores non-alphanumeric
+characters, so `mldsa`, `ml-dsa`, and `ML_DSA` all match `ML-DSA-44`.
+`run_bench.sh` passes filters through and appends them to the output filename.
 
 ## Notes
 
