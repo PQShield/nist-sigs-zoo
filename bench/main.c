@@ -28,10 +28,7 @@ static const char *SO_PATHS[] = {
 };
 
 int main(void) {
-    printf("%-24s  %16s  %16s  %16s\n",
-           "scheme", "keygen (cycles)", "sign (cycles)", "verify (cycles)");
-    printf("%-24s  %16s  %16s  %16s\n",
-           "------", "---------------", "-------------", "---------------");
+    bench_print_header();
 
     for (int i = 0; SO_PATHS[i]; i++) {
         bench_scheme_t *s = bench_load(SO_PATHS[i]);
