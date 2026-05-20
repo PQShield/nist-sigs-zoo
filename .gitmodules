@@ -4,4 +4,4 @@
 
 [submodule "bench/schemes/slhdsa/ref"]
 	path = bench/schemes/slhdsa/ref
-	url = https://github.com/pq-code-package/slhdsa-c.git
+	url = https://github.com/pq-code-package/slhdsa-c

@@ -10,8 +10,18 @@ static const char *SO_PATHS[] = {
     "schemes/mldsa/build/mldsa44.so",
     "schemes/mldsa/build/mldsa65.so",
     "schemes/mldsa/build/mldsa87.so",
-    /* SLH-DSA entries will be added once bench/schemes/slhdsa/ref/ is
-     * populated (git submodule update --init bench/schemes/slhdsa/ref). */
+    "schemes/slhdsa/build/slhdsa_sha2_128s.so",
+    "schemes/slhdsa/build/slhdsa_shake_128s.so",
+    "schemes/slhdsa/build/slhdsa_sha2_128f.so",
+    "schemes/slhdsa/build/slhdsa_shake_128f.so",
+    "schemes/slhdsa/build/slhdsa_sha2_192s.so",
+    "schemes/slhdsa/build/slhdsa_shake_192s.so",
+    "schemes/slhdsa/build/slhdsa_sha2_192f.so",
+    "schemes/slhdsa/build/slhdsa_shake_192f.so",
+    "schemes/slhdsa/build/slhdsa_sha2_256s.so",
+    "schemes/slhdsa/build/slhdsa_shake_256s.so",
+    "schemes/slhdsa/build/slhdsa_sha2_256f.so",
+    "schemes/slhdsa/build/slhdsa_shake_256f.so",
     NULL,
 };
 
