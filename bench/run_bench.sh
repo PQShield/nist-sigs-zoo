@@ -39,6 +39,21 @@ OS=$(. /etc/os-release 2>/dev/null && echo "$PRETTY_NAME" || uname -s)
 HOSTNAME=$(hostname)
 DATE=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
 
+# --- collect compiler + library versions ---
+
+CC_VERSION=$(${CC:-cc} --version 2>&1 | head -1)
+OPENSSL_VERSION=$(openssl version 2>/dev/null || echo "not found")
+
+# Submodule sources: for each schemes/<name>/ref/, record url@commit
+SUBMODULE_INFO=""
+for ref_dir in "$SCRIPT_DIR"/schemes/*/ref; do
+    [ -e "$ref_dir/.git" ] || continue
+    scheme_path="${ref_dir#"$SCRIPT_DIR/"}"   # e.g. schemes/mldsa/ref
+    url=$(git -C "$ref_dir" remote get-url origin 2>/dev/null || echo "unknown")
+    commit=$(git -C "$ref_dir" rev-parse HEAD 2>/dev/null || echo "unknown")
+    SUBMODULE_INFO="${SUBMODULE_INFO}#   ${scheme_path}: ${url}@${commit}"$'\n'
+done
+
 # slug for filename: lowercase model, spaces/special chars → underscore
 CPU_SLUG=$(echo "$CPU_MODEL" | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9]/_/g' | sed 's/__*/_/g' | sed 's/_$//')
 TIMESTAMP=$(date -u +"%Y%m%dT%H%M%SZ")
@@ -66,6 +81,13 @@ OUTFILE="$RESULTS_DIR/${TIMESTAMP}_${CPU_SLUG}${FILTER_SLUG}.txt"
     echo "# governor:     $CPU_GOVERNOR"
     echo "# turbo:        $TURBO"
     echo "# flags:        $CPU_FLAGS"
+    echo "#"
+    echo "# compiler:     $CC_VERSION"
+    echo "# openssl:      $OPENSSL_VERSION"
+    if [ -n "$SUBMODULE_INFO" ]; then
+        echo "# sources:"
+        printf "%s" "$SUBMODULE_INFO"
+    fi
     if [ $# -gt 0 ]; then
         echo "# filter:       $*"
     fi
