@@ -26,6 +26,10 @@ CLASSIC_SOS = $(addprefix $(CLASSIC_DIR)/build/, \
     ecdsa_p256.so ecdsa_p384.so ecdsa_p521.so \
     ed25519.so ed448.so)
 
+HAWK_DIR = schemes/hawk
+HAWK_SOS = $(HAWK_DIR)/build/hawk512.so \
+           $(HAWK_DIR)/build/hawk1024.so
+
 .PHONY: all clean schemes
 
 all: bench
@@ -42,13 +46,16 @@ $(FNDSA_SOS):
 $(CLASSIC_SOS):
 	$(MAKE) -C $(CLASSIC_DIR) CC=$(CC)
 
+$(HAWK_SOS):
+	$(MAKE) -C $(HAWK_DIR) CC=$(CC)
+
 $(BUILD)/main.o: main.c harness.h loader.h scheme.h | $(BUILD)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 $(BUILD)/loader.o: loader.c loader.h scheme.h | $(BUILD)
 	$(CC) $(CFLAGS) -c $< -o $@
 
-bench: $(BUILD)/main.o $(BUILD)/loader.o $(MLDSA_SOS) $(SLHDSA_SOS) $(FNDSA_SOS) $(CLASSIC_SOS) | $(BUILD)
+bench: $(BUILD)/main.o $(BUILD)/loader.o $(MLDSA_SOS) $(SLHDSA_SOS) $(FNDSA_SOS) $(CLASSIC_SOS) $(HAWK_SOS) | $(BUILD)
 	$(CC) $(CFLAGS) -o $@ $(BUILD)/main.o $(BUILD)/loader.o -ldl
 
 $(BUILD):
@@ -60,3 +67,4 @@ clean:
 	$(MAKE) -C $(SLHDSA_DIR) clean
 	$(MAKE) -C $(FNDSA_DIR) clean
 	$(MAKE) -C $(CLASSIC_DIR) clean
+	$(MAKE) -C $(HAWK_DIR) clean

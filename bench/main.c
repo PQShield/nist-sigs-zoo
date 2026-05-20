@@ -33,6 +33,8 @@ static const char *SO_PATHS[] = {
     "schemes/classic/build/ecdsa_p521.so",
     "schemes/classic/build/ed25519.so",
     "schemes/classic/build/ed448.so",
+    "schemes/hawk/build/hawk512.so",
+    "schemes/hawk/build/hawk1024.so",
     NULL,
 };
 

@@ -8,3 +8,6 @@
 [submodule "bench/schemes/fndsa/ref"]
 	path = bench/schemes/fndsa/ref
 	url = https://github.com/pornin/c-fn-dsa
+[submodule "bench/schemes/hawk/ref"]
+	path = bench/schemes/hawk/ref
+	url = https://github.com/hawk-sign/dev

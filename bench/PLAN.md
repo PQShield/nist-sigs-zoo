@@ -18,13 +18,13 @@ All parameter sets, including broken ones. SQIsign: original implementation.
 
 ## HAWK (2 param sets)
 
-Category: Lattice (LIP). Source: TBD.
+Category: Lattice (LIP). Source: https://github.com/hawk-sign/dev (AVX2 impl).
 
-- [ ] Locate canonical GitHub repo
-- [ ] Add submodule
-- [ ] Write shims + Makefile
-  - [ ] HAWK-512
-  - [ ] HAWK-1024
+- [x] Locate canonical GitHub repo
+- [x] Add submodule
+- [x] Write shims + Makefile
+  - [x] HAWK-512
+  - [x] HAWK-1024
 
 ## MAYO (4 param sets)
 
