@@ -28,15 +28,15 @@ Category: Lattice (LIP). Source: https://github.com/hawk-sign/dev (AVX2 impl).
 
 ## MAYO (4 param sets)
 
-Category: Multivariate. Source: TBD.
+Category: Multivariate. Source: https://github.com/PQCMayo/MAYO-C (AVX2 + AES-NI).
 
-- [ ] Locate canonical GitHub repo
-- [ ] Add submodule
-- [ ] Write shims + Makefile
-  - [ ] MAYO-one
-  - [ ] MAYO-two  (broken: Wedge attack)
-  - [ ] MAYO-three
-  - [ ] MAYO-five
+- [x] Locate canonical GitHub repo
+- [x] Add submodule
+- [x] Write shims + Makefile
+  - [x] MAYO-one
+  - [x] MAYO-two  (broken: Wedge attack)
+  - [x] MAYO-three
+  - [x] MAYO-five
 
 ## FAEST (12 param sets)
 

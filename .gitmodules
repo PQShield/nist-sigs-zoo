@@ -11,3 +11,6 @@
 [submodule "bench/schemes/hawk/ref"]
 	path = bench/schemes/hawk/ref
 	url = https://github.com/hawk-sign/dev
+[submodule "bench/schemes/mayo/ref"]
+	path = bench/schemes/mayo/ref
+	url = https://github.com/PQCMayo/MAYO-C

@@ -35,6 +35,10 @@ static const char *SO_PATHS[] = {
     "schemes/classic/build/ed448.so",
     "schemes/hawk/build/hawk512.so",
     "schemes/hawk/build/hawk1024.so",
+    "schemes/mayo/build/mayo1.so",
+    "schemes/mayo/build/mayo2.so",
+    "schemes/mayo/build/mayo3.so",
+    "schemes/mayo/build/mayo5.so",
     NULL,
 };
 

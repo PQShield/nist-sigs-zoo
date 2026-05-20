@@ -30,6 +30,9 @@ HAWK_DIR = schemes/hawk
 HAWK_SOS = $(HAWK_DIR)/build/hawk512.so \
            $(HAWK_DIR)/build/hawk1024.so
 
+MAYO_DIR = schemes/mayo
+MAYO_SOS = $(addprefix $(MAYO_DIR)/build/, mayo1.so mayo2.so mayo3.so mayo5.so)
+
 .PHONY: all clean schemes
 
 all: bench
@@ -49,13 +52,16 @@ $(CLASSIC_SOS):
 $(HAWK_SOS):
 	$(MAKE) -C $(HAWK_DIR) CC=$(CC)
 
+$(MAYO_SOS):
+	$(MAKE) -C $(MAYO_DIR) CC=$(CC)
+
 $(BUILD)/main.o: main.c harness.h loader.h scheme.h | $(BUILD)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 $(BUILD)/loader.o: loader.c loader.h scheme.h | $(BUILD)
 	$(CC) $(CFLAGS) -c $< -o $@
 
-bench: $(BUILD)/main.o $(BUILD)/loader.o $(MLDSA_SOS) $(SLHDSA_SOS) $(FNDSA_SOS) $(CLASSIC_SOS) $(HAWK_SOS) | $(BUILD)
+bench: $(BUILD)/main.o $(BUILD)/loader.o $(MLDSA_SOS) $(SLHDSA_SOS) $(FNDSA_SOS) $(CLASSIC_SOS) $(HAWK_SOS) $(MAYO_SOS) | $(BUILD)
 	$(CC) $(CFLAGS) -o $@ $(BUILD)/main.o $(BUILD)/loader.o -ldl
 
 $(BUILD):
@@ -68,3 +74,4 @@ clean:
 	$(MAKE) -C $(FNDSA_DIR) clean
 	$(MAKE) -C $(CLASSIC_DIR) clean
 	$(MAKE) -C $(HAWK_DIR) clean
+	$(MAKE) -C $(MAYO_DIR) clean
