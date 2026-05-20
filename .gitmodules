@@ -5,3 +5,6 @@
 [submodule "bench/schemes/slhdsa/ref"]
 	path = bench/schemes/slhdsa/ref
 	url = https://github.com/pq-code-package/slhdsa-c
+[submodule "bench/schemes/fndsa/ref"]
+	path = bench/schemes/fndsa/ref
+	url = https://github.com/pornin/c-fn-dsa

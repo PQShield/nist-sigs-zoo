@@ -22,6 +22,8 @@ static const char *SO_PATHS[] = {
     "schemes/slhdsa/build/slhdsa_shake_256s.so",
     "schemes/slhdsa/build/slhdsa_sha2_256f.so",
     "schemes/slhdsa/build/slhdsa_shake_256f.so",
+    "schemes/fndsa/build/fndsa512.so",
+    "schemes/fndsa/build/fndsa1024.so",
     NULL,
 };
 

@@ -16,6 +16,10 @@ SLHDSA_SOS = $(addprefix $(SLHDSA_DIR)/build/, \
     slhdsa_sha2_256s.so  slhdsa_shake_256s.so \
     slhdsa_sha2_256f.so  slhdsa_shake_256f.so)
 
+FNDSA_DIR = schemes/fndsa
+FNDSA_SOS = $(FNDSA_DIR)/build/fndsa512.so \
+            $(FNDSA_DIR)/build/fndsa1024.so
+
 .PHONY: all clean schemes
 
 all: bench
@@ -26,13 +30,16 @@ $(MLDSA_SOS):
 $(SLHDSA_SOS):
 	$(MAKE) -C $(SLHDSA_DIR) CC=$(CC)
 
+$(FNDSA_SOS):
+	$(MAKE) -C $(FNDSA_DIR) CC=$(CC)
+
 $(BUILD)/main.o: main.c harness.h loader.h scheme.h | $(BUILD)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 $(BUILD)/loader.o: loader.c loader.h scheme.h | $(BUILD)
 	$(CC) $(CFLAGS) -c $< -o $@
 
-bench: $(BUILD)/main.o $(BUILD)/loader.o $(MLDSA_SOS) $(SLHDSA_SOS) | $(BUILD)
+bench: $(BUILD)/main.o $(BUILD)/loader.o $(MLDSA_SOS) $(SLHDSA_SOS) $(FNDSA_SOS) | $(BUILD)
 	$(CC) $(CFLAGS) -o $@ $(BUILD)/main.o $(BUILD)/loader.o -ldl
 
 $(BUILD):
@@ -42,3 +49,4 @@ clean:
 	rm -rf $(BUILD)
 	$(MAKE) -C $(MLDSA_DIR) clean
 	$(MAKE) -C $(SLHDSA_DIR) clean
+	$(MAKE) -C $(FNDSA_DIR) clean
