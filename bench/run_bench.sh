@@ -1,4 +1,8 @@
 #!/usr/bin/env bash
+# Usage: run_bench.sh [filter...]
+#   Filters are case-insensitive substrings matched against scheme names.
+#   Multiple filters are OR-ed: run_bench.sh rsa ecdsa  →  RSA + ECDSA only.
+#   No filters → run all schemes.
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
@@ -40,7 +44,13 @@ CPU_SLUG=$(echo "$CPU_MODEL" | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9]/_/g
 TIMESTAMP=$(date -u +"%Y%m%dT%H%M%SZ")
 RESULTS_DIR="$SCRIPT_DIR/results"
 mkdir -p "$RESULTS_DIR"
-OUTFILE="$RESULTS_DIR/${TIMESTAMP}_${CPU_SLUG}.txt"
+
+# Append filter slug to filename when filters are specified
+FILTER_SLUG=""
+if [ $# -gt 0 ]; then
+    FILTER_SLUG="_$(echo "$*" | tr ' ' '_' | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9_]//g')"
+fi
+OUTFILE="$RESULTS_DIR/${TIMESTAMP}_${CPU_SLUG}${FILTER_SLUG}.txt"
 
 # --- write header to output file, tee bench output ---
 
@@ -56,10 +66,13 @@ OUTFILE="$RESULTS_DIR/${TIMESTAMP}_${CPU_SLUG}.txt"
     echo "# governor:     $CPU_GOVERNOR"
     echo "# turbo:        $TURBO"
     echo "# flags:        $CPU_FLAGS"
+    if [ $# -gt 0 ]; then
+        echo "# filter:       $*"
+    fi
     echo "#"
 } | tee "$OUTFILE"
 
-./bench 2>&1 | tee -a "$OUTFILE"
+./bench "$@" 2>&1 | tee -a "$OUTFILE"
 
 echo "" | tee -a "$OUTFILE"
 echo "# saved to $OUTFILE" >&2
