@@ -7,14 +7,14 @@ All parameter sets, including broken ones. SQIsign: original implementation.
 
 `schemes/classic/` — no submodule, link system libcrypto via pkg-config.
 
-- [ ] RSA-2048
-- [ ] RSA-3072
-- [ ] RSA-4096
-- [ ] ECDSA-P256
-- [ ] ECDSA-P384
-- [ ] ECDSA-P521
-- [ ] Ed25519
-- [ ] Ed448
+- [x] RSA-2048
+- [x] RSA-3072
+- [x] RSA-4096
+- [x] ECDSA-P256
+- [x] ECDSA-P384
+- [x] ECDSA-P521
+- [x] Ed25519
+- [x] Ed448
 
 ## HAWK (2 param sets)
 
