@@ -20,6 +20,12 @@ FNDSA_DIR = schemes/fndsa
 FNDSA_SOS = $(FNDSA_DIR)/build/fndsa512.so \
             $(FNDSA_DIR)/build/fndsa1024.so
 
+CLASSIC_DIR = schemes/classic
+CLASSIC_SOS = $(addprefix $(CLASSIC_DIR)/build/, \
+    rsa2048.so rsa3072.so rsa4096.so \
+    ecdsa_p256.so ecdsa_p384.so ecdsa_p521.so \
+    ed25519.so ed448.so)
+
 .PHONY: all clean schemes
 
 all: bench
@@ -33,13 +39,16 @@ $(SLHDSA_SOS):
 $(FNDSA_SOS):
 	$(MAKE) -C $(FNDSA_DIR) CC=$(CC)
 
+$(CLASSIC_SOS):
+	$(MAKE) -C $(CLASSIC_DIR) CC=$(CC)
+
 $(BUILD)/main.o: main.c harness.h loader.h scheme.h | $(BUILD)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 $(BUILD)/loader.o: loader.c loader.h scheme.h | $(BUILD)
 	$(CC) $(CFLAGS) -c $< -o $@
 
-bench: $(BUILD)/main.o $(BUILD)/loader.o $(MLDSA_SOS) $(SLHDSA_SOS) $(FNDSA_SOS) | $(BUILD)
+bench: $(BUILD)/main.o $(BUILD)/loader.o $(MLDSA_SOS) $(SLHDSA_SOS) $(FNDSA_SOS) $(CLASSIC_SOS) | $(BUILD)
 	$(CC) $(CFLAGS) -o $@ $(BUILD)/main.o $(BUILD)/loader.o -ldl
 
 $(BUILD):
@@ -50,3 +59,4 @@ clean:
 	$(MAKE) -C $(MLDSA_DIR) clean
 	$(MAKE) -C $(SLHDSA_DIR) clean
 	$(MAKE) -C $(FNDSA_DIR) clean
+	$(MAKE) -C $(CLASSIC_DIR) clean

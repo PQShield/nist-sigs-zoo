@@ -24,6 +24,14 @@ static const char *SO_PATHS[] = {
     "schemes/slhdsa/build/slhdsa_shake_256f.so",
     "schemes/fndsa/build/fndsa512.so",
     "schemes/fndsa/build/fndsa1024.so",
+    "schemes/classic/build/rsa2048.so",
+    "schemes/classic/build/rsa3072.so",
+    "schemes/classic/build/rsa4096.so",
+    "schemes/classic/build/ecdsa_p256.so",
+    "schemes/classic/build/ecdsa_p384.so",
+    "schemes/classic/build/ecdsa_p521.so",
+    "schemes/classic/build/ed25519.so",
+    "schemes/classic/build/ed448.so",
     NULL,
 };
 
