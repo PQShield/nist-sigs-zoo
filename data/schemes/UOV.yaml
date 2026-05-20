@@ -6,6 +6,7 @@ versions:
 - version: v2.0
   date: '2025-02-05'
   status: On-ramp
+  perf_source: submission document
   parametersets:
   - name: V-pkc
     level: 5
@@ -69,6 +70,7 @@ versions:
 - version: v1.0
   date: '2023-05-30'
   status: On-ramp
+  perf_source: submission document
   tags:
   - round-1
   parametersets:

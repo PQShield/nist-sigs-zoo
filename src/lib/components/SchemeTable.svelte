@@ -116,12 +116,14 @@
 							{#if row.extrapolated}
 								<span
 									class="underline decoration-wavy decoration-pqs-scarlet"
-									title="Extrapolated from {row.signingMs?.toLocaleString()} ms"
+									title="Extrapolated from {row.signingMs?.toLocaleString()} ms{row.perfSource ? ' · Source: ' + row.perfSource : ''}"
 								>
 									{fmtCycles(row.signingCycles)}
 								</span>
 							{:else}
-								{fmtCycles(row.signingCycles)}
+								<span title={row.perfSource ? 'Source: ' + row.perfSource : undefined}>
+									{fmtCycles(row.signingCycles)}
+								</span>
 							{/if}
 						{:else}
 							<span class="text-pqs-bluegray">—</span>
@@ -133,12 +135,14 @@
 							{#if row.extrapolated}
 								<span
 									class="underline decoration-wavy decoration-pqs-scarlet"
-									title="Extrapolated from {row.verificationMs?.toLocaleString()} ms"
+									title="Extrapolated from {row.verificationMs?.toLocaleString()} ms{row.perfSource ? ' · Source: ' + row.perfSource : ''}"
 								>
 									{fmtCycles(row.verificationCycles)}
 								</span>
 							{:else}
-								{fmtCycles(row.verificationCycles)}
+								<span title={row.perfSource ? 'Source: ' + row.perfSource : undefined}>
+									{fmtCycles(row.verificationCycles)}
+								</span>
 							{/if}
 						{:else}
 							<span class="text-pqs-bluegray">—</span>

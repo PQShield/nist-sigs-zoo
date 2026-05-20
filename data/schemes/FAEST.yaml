@@ -6,6 +6,7 @@ versions:
 - version: v2.0
   date: '2025-02-07'
   status: On-ramp
+  perf_source: submission document
   parametersets:
   - name: 192s
     level: 3
@@ -85,6 +86,7 @@ versions:
 - version: v1.0
   date: '2023-06-01'
   status: On-ramp
+  perf_source: submission document
   tags:
   - round-1
   parametersets:

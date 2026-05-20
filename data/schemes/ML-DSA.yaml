@@ -6,6 +6,7 @@ versions:
 - version: FIPS 204
   date: '2024-08-13'
   status: FIPS
+  perf_source: OQS bench
   parametersets:
   - name: ML-DSA-87
     level: 5

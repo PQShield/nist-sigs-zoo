@@ -6,6 +6,7 @@ versions:
 - version: v2.1
   date: '2025-09-22'
   status: On-ramp
+  perf_source: submission document
   parametersets:
   - name: L1-gf2-short-3r
     level: 1
@@ -226,6 +227,7 @@ versions:
 - version: v2.0
   date: '2025-02-05'
   status: On-ramp
+  perf_source: submission document
   parametersets:
   - name: L1-gf2-short-3r
     level: 1
@@ -377,6 +379,7 @@ versions:
 - version: v1.0
   date: '2023-05-31'
   status: On-ramp
+  perf_source: submission document
   tags:
   - round-1
   parametersets:

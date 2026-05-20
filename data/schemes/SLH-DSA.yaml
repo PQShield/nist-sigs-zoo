@@ -6,6 +6,7 @@ versions:
 - version: FIPS 205
   date: '2024-08-13'
   status: FIPS
+  perf_source: submission document
   parametersets:
   - name: SHAKE-192s
     level: 3
