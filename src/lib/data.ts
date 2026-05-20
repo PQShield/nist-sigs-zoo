@@ -113,6 +113,7 @@ export function parseParameterSets(
 			assumption: scheme.assumption,
 			notes: null,
 			version: '',
+			perfSource: null,
 		};
 	});
 
@@ -238,6 +239,7 @@ export function processYamlSchemes(
 				assumption: yaml.assumption,
 				notes: ps.notes ?? null,
 				version: latest.version,
+				perfSource: latest.perf_source ?? null,
 			});
 		}
 	}

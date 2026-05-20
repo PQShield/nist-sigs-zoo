@@ -35,6 +35,7 @@ export interface ParameterSet {
 	assumption: string;
 	notes: string | null;
 	version: string;
+	perfSource: string | null;
 }
 
 // YAML schema types
@@ -58,6 +59,7 @@ export interface VersionYaml {
 	version: string;
 	date: string;
 	status: string;
+	perf_source?: string;
 	tags?: string[];
 	notes?: string;
 	broken?: string;

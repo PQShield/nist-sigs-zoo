@@ -6,6 +6,7 @@ versions:
 - version: v2.2
   date: '2025-07-31'
   status: On-ramp
+  perf_source: submission document
   parametersets:
   - name: R-SDP 1 fast
     level: 1
@@ -118,6 +119,7 @@ versions:
 - version: v2
   date: '2025-01-31'
   status: On-ramp
+  perf_source: submission document
   parametersets:
   - name: R-SDP 5 small
     level: 5
@@ -232,6 +234,7 @@ versions:
 - version: Round 1
   date: '2023-06-02'
   status: On-ramp
+  perf_source: submission document
   tags:
   - round-1
   parametersets:
