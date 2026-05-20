@@ -1,0 +1,7 @@
+# MAYO shim parameters. Columns: file, name, pk, sk, sig, iters, variant
+# variant: MAYO_VARIANT value passed by Makefile via -D (used in VARIANT_RULES)
+file	name	pk	sk	sig	iters	variant
+mayo1	MAYO-one	1420	24	454	0	MAYO_1
+mayo2	MAYO-two (broken)	4912	24	186	0	MAYO_2
+mayo3	MAYO-three	2986	32	681	0	MAYO_3
+mayo5	MAYO-five	5554	40	964	0	MAYO_5

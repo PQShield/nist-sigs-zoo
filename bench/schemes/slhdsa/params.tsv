@@ -1,0 +1,16 @@
+# SLH-DSA shim parameters. Columns: file, name, pk, sk, sig, iters, param
+# param: slh_dsa.h parameter struct variable name
+# iters: 5 for -s variants (slow), 50 for -f variants (fast)
+file	name	pk	sk	sig	iters	param
+slhdsa_sha2_128s	SLH-DSA-SHA2-128s	32	64	7856	5	slh_dsa_sha2_128s
+slhdsa_sha2_128f	SLH-DSA-SHA2-128f	32	64	17088	50	slh_dsa_sha2_128f
+slhdsa_sha2_192s	SLH-DSA-SHA2-192s	48	96	16224	5	slh_dsa_sha2_192s
+slhdsa_sha2_192f	SLH-DSA-SHA2-192f	48	96	35664	50	slh_dsa_sha2_192f
+slhdsa_sha2_256s	SLH-DSA-SHA2-256s	64	128	29792	5	slh_dsa_sha2_256s
+slhdsa_sha2_256f	SLH-DSA-SHA2-256f	64	128	49856	50	slh_dsa_sha2_256f
+slhdsa_shake_128s	SLH-DSA-SHAKE-128s	32	64	7856	5	slh_dsa_shake_128s
+slhdsa_shake_128f	SLH-DSA-SHAKE-128f	32	64	17088	50	slh_dsa_shake_128f
+slhdsa_shake_192s	SLH-DSA-SHAKE-192s	48	96	16224	5	slh_dsa_shake_192s
+slhdsa_shake_192f	SLH-DSA-SHAKE-192f	48	96	35664	50	slh_dsa_shake_192f
+slhdsa_shake_256s	SLH-DSA-SHAKE-256s	64	128	29792	5	slh_dsa_shake_256s
+slhdsa_shake_256f	SLH-DSA-SHAKE-256f	64	128	49856	50	slh_dsa_shake_256f

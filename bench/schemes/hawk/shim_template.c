@@ -1,9 +1,10 @@
+/* Shim for @NAME@. Generated — edit params.tsv + shim_template.c, not this file. */
 #include <stdint.h>
 #include <sys/random.h>
 #include "hawk.h"
 #include "../../scheme.h"
 
-#define LOGN 10
+#define LOGN @LOGN@
 
 static void rng_cb(void *ctx, void *dst, size_t len) {
     (void)ctx;
@@ -15,20 +16,18 @@ static void rng_cb(void *ctx, void *dst, size_t len) {
 }
 
 static const bench_scheme_info_t INFO = {
-    "HAWK-1024",
+    "@NAME@",
     HAWK_PUBKEY_SIZE(LOGN),
     HAWK_PRIVKEY_SIZE(LOGN),
     HAWK_SIG_SIZE(LOGN),
-    0
+    @ITERS@
 };
-
 const bench_scheme_info_t *bench_info(void) { return &INFO; }
 
 int crypto_sign_keypair(uint8_t *pk, uint8_t *sk) {
     uint8_t tmp[HAWK_TMPSIZE_KEYGEN(LOGN)];
     return hawk_keygen(LOGN, sk, pk, rng_cb, NULL, tmp, sizeof tmp) == 1 ? 0 : -1;
 }
-
 int crypto_sign_signature(uint8_t *sig, size_t *siglen,
                           const uint8_t *m, size_t mlen, const uint8_t *sk) {
     uint8_t tmp[HAWK_TMPSIZE_SIGN(LOGN)];
@@ -40,7 +39,6 @@ int crypto_sign_signature(uint8_t *sig, size_t *siglen,
     *siglen = HAWK_SIG_SIZE(LOGN);
     return 0;
 }
-
 int crypto_sign_verify(const uint8_t *sig, size_t siglen,
                        const uint8_t *m, size_t mlen, const uint8_t *pk) {
     uint8_t tmp[HAWK_TMPSIZE_VERIFY_FAST(LOGN)];

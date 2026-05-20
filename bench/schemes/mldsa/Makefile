@@ -9,8 +9,13 @@ C_SRCS = sign.c packing.c polyvec.c poly.c consts.c rejsample.c rounding.c \
          fips202.c fips202x4.c symmetric-shake.c randombytes.c
 S_SRCS = ntt.S invntt.S pointwise.S shuffle.S f1600x4.S
 
+SHIM_FILES := mldsa44_shim.c mldsa65_shim.c mldsa87_shim.c
+
 .PHONY: all clean
-all: $(BUILD)/mldsa44.so $(BUILD)/mldsa65.so $(BUILD)/mldsa87.so
+all: $(SHIM_FILES) $(BUILD)/mldsa44.so $(BUILD)/mldsa65.so $(BUILD)/mldsa87.so
+
+$(SHIM_FILES): shim_template.c params.tsv
+	python3 ../../gen_shims.py shim_template.c params.tsv .
 
 define mode_rules
 $$(BUILD)/mode$(1)/%.o: $$(AVX2_DIR)/%.c | $$(BUILD)/mode$(1)
@@ -57,3 +62,4 @@ $(BUILD):
 
 clean:
 	rm -rf $(BUILD)
+	rm -f $(SHIM_FILES)

@@ -187,18 +187,30 @@ Note: extremely slow — sign takes seconds. Set iters=3.
 
 ## Implementation notes
 
-### Shim generation
+### Shim generation (mandatory for all schemes)
 
-For schemes with many param sets sharing one compiled library, generate shims from a
-template rather than writing them by hand. Pattern:
+All schemes use the shim template system — hand-written shim files are banned.
+`gen_shims.py` lives at `bench/` level and is shared across all schemes.
 
+Per-scheme layout:
 ```
 schemes/<name>/
-├── params.tsv          # name TAB pk TAB sk TAB sig TAB iters TAB selector
-├── shim_template.c     # C template with @NAME@ @PK@ @SK@ @SIG@ @ITERS@ @SELECTOR@
-├── gen_shims.py        # reads params.tsv → emits one _shim.c per row
-└── Makefile            # calls gen_shims.py if shims missing; builds .a + .so
+├── params.tsv          # TSV: file  name  pk  sk  sig  iters  <scheme-specific…>
+├── shim_template.c     # C template; @COLNAME@ tokens substituted per row
+├── .gitignore          # contains: *_shim.c  (generated files not committed)
+└── Makefile
 ```
+
+Makefile rules (must follow these conventions exactly):
+1. `all:` must be the **first** explicit target in every sub-Makefile so that
+   `$(MAKE) -C schemes/<name>` without an explicit goal builds everything.
+2. Shim generation rule: `$(SHIM_FILES): shim_template.c params.tsv`
+   → `python3 ../../gen_shims.py shim_template.c params.tsv .`
+3. Add `rm -f $(SHIM_FILES)` to the `clean:` rule.
+
+Parent `bench/Makefile` uses per-scheme stamp files (`schemes/<name>/.stamp`)
+so that parallel `-j` doesn't race multiple recursive make invocations against
+each other.
 
 ### Source strategy
 

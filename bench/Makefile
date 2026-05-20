@@ -33,27 +33,42 @@ HAWK_SOS = $(HAWK_DIR)/build/hawk512.so \
 MAYO_DIR = schemes/mayo
 MAYO_SOS = $(addprefix $(MAYO_DIR)/build/, mayo1.so mayo2.so mayo3.so mayo5.so)
 
-.PHONY: all clean schemes
+.PHONY: all clean
 
 all: bench
 
-$(MLDSA_SOS):
+# Each scheme is built by a single recursive make invocation, guarded by a
+# stamp file so parallel -j doesn't race multiple sub-makes against each other.
+$(MLDSA_DIR)/.stamp: $(MLDSA_DIR)/Makefile $(MLDSA_DIR)/shim_template.c $(MLDSA_DIR)/params.tsv
 	$(MAKE) -C $(MLDSA_DIR) CC=$(CC)
+	touch $@
 
-$(SLHDSA_SOS):
+$(SLHDSA_DIR)/.stamp: $(SLHDSA_DIR)/Makefile $(SLHDSA_DIR)/shim_template.c $(SLHDSA_DIR)/params.tsv
 	$(MAKE) -C $(SLHDSA_DIR) CC=$(CC)
+	touch $@
 
-$(FNDSA_SOS):
+$(FNDSA_DIR)/.stamp: $(FNDSA_DIR)/Makefile $(FNDSA_DIR)/shim_template.c $(FNDSA_DIR)/params.tsv
 	$(MAKE) -C $(FNDSA_DIR) CC=$(CC)
+	touch $@
 
-$(CLASSIC_SOS):
+$(CLASSIC_DIR)/.stamp: $(CLASSIC_DIR)/Makefile $(wildcard $(CLASSIC_DIR)/*_template.c $(CLASSIC_DIR)/*.tsv)
 	$(MAKE) -C $(CLASSIC_DIR) CC=$(CC)
+	touch $@
 
-$(HAWK_SOS):
+$(HAWK_DIR)/.stamp: $(HAWK_DIR)/Makefile $(HAWK_DIR)/shim_template.c $(HAWK_DIR)/params.tsv
 	$(MAKE) -C $(HAWK_DIR) CC=$(CC)
+	touch $@
 
-$(MAYO_SOS):
+$(MAYO_DIR)/.stamp: $(MAYO_DIR)/Makefile $(MAYO_DIR)/shim_template.c $(MAYO_DIR)/params.tsv
 	$(MAKE) -C $(MAYO_DIR) CC=$(CC)
+	touch $@
+
+$(MLDSA_SOS):  $(MLDSA_DIR)/.stamp
+$(SLHDSA_SOS): $(SLHDSA_DIR)/.stamp
+$(FNDSA_SOS):  $(FNDSA_DIR)/.stamp
+$(CLASSIC_SOS): $(CLASSIC_DIR)/.stamp
+$(HAWK_SOS):   $(HAWK_DIR)/.stamp
+$(MAYO_SOS):   $(MAYO_DIR)/.stamp
 
 $(BUILD)/main.o: main.c harness.h loader.h scheme.h | $(BUILD)
 	$(CC) $(CFLAGS) -c $< -o $@
@@ -69,6 +84,8 @@ $(BUILD):
 
 clean:
 	rm -rf $(BUILD)
+	rm -f $(MLDSA_DIR)/.stamp $(SLHDSA_DIR)/.stamp $(FNDSA_DIR)/.stamp \
+	      $(CLASSIC_DIR)/.stamp $(HAWK_DIR)/.stamp $(MAYO_DIR)/.stamp
 	$(MAKE) -C $(MLDSA_DIR) clean
 	$(MAKE) -C $(SLHDSA_DIR) clean
 	$(MAKE) -C $(FNDSA_DIR) clean

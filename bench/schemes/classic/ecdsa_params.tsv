@@ -1,0 +1,6 @@
+# ECDSA shim parameters. pk/sk are uncompressed point / PKCS#8 DER sizes (documented only).
+# sig: max DER-encoded ECDSA signature size.
+file	name	pk	sk	sig	iters	curve	hash
+ecdsa_p256	ECDSA-P256 (SHA-256)	65	121	72	0	P-256	EVP_sha256()
+ecdsa_p384	ECDSA-P384 (SHA-384)	97	167	104	0	P-384	EVP_sha384()
+ecdsa_p521	ECDSA-P521 (SHA-512)	133	223	139	0	P-521	EVP_sha512()

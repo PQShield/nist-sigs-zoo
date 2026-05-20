@@ -15,12 +15,26 @@ OSSL_LDFLAGS = -L$(OSSL_PREFIX)/lib -lcrypto -Wl,-rpath,$(OSSL_PREFIX)/lib
 
 CFLAGS := -O3 -fomit-frame-pointer -fPIC -Wall -Wextra $(OSSL_CFLAGS)
 
-SHIMS = rsa2048 rsa3072 rsa4096 ecdsa_p256 ecdsa_p384 ecdsa_p521 ed25519 ed448
+RSA_SHIMS   := rsa2048_shim.c rsa3072_shim.c rsa4096_shim.c
+ECDSA_SHIMS := ecdsa_p256_shim.c ecdsa_p384_shim.c ecdsa_p521_shim.c
+EDDSA_SHIMS := ed25519_shim.c ed448_shim.c
+SHIM_FILES  := $(RSA_SHIMS) $(ECDSA_SHIMS) $(EDDSA_SHIMS)
+
+SHIMS   = rsa2048 rsa3072 rsa4096 ecdsa_p256 ecdsa_p384 ecdsa_p521 ed25519 ed448
 TARGETS = $(addprefix $(BUILD)/, $(addsuffix .so, $(SHIMS)))
 
 .PHONY: all clean
 
-all: $(TARGETS)
+all: $(SHIM_FILES) $(TARGETS)
+
+$(RSA_SHIMS): rsa_shim_template.c rsa_params.tsv
+	python3 ../../gen_shims.py rsa_shim_template.c rsa_params.tsv .
+
+$(ECDSA_SHIMS): ecdsa_shim_template.c ecdsa_params.tsv
+	python3 ../../gen_shims.py ecdsa_shim_template.c ecdsa_params.tsv .
+
+$(EDDSA_SHIMS): eddsa_shim_template.c eddsa_params.tsv
+	python3 ../../gen_shims.py eddsa_shim_template.c eddsa_params.tsv .
 
 $(BUILD):
 	mkdir -p $@
@@ -33,3 +47,4 @@ $(BUILD)/%.so: $(BUILD)/%.o
 
 clean:
 	rm -rf $(BUILD)
+	rm -f $(SHIM_FILES)

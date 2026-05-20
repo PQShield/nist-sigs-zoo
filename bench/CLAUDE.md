@@ -110,19 +110,31 @@ and linked into each per-parameter-set `.so`.
 
 ## Adding a new scheme
 
+**All schemes use the shim template system. Hand-written shim files are banned.**
+`gen_shims.py` at `bench/` level generates one `<file>_shim.c` per row of `params.tsv`.
+Generated shim files are not committed — each scheme dir has a `.gitignore` with `*_shim.c`.
+
 1. Add upstream as a git submodule under `schemes/<name>/ref/`.
    (Classic/system-library schemes skip this step.)
 
 2. Create `schemes/<name>/`:
-   - `<param>_shim.c` per parameter set — implement `bench_info()` +
-     `crypto_sign_*` wrappers, adapting the upstream API as needed.
-   - `Makefile` — compiles upstream sources to `build/lib<name>.a`,
-     compiles each shim, links each `.so`; `all:` rule first, guard on
-     `ref/` being populated.
+   - `params.tsv` — TSV with columns: `file  name  pk  sk  sig  iters` plus any
+     scheme-specific columns referenced by `@TOKEN@` in the template.
+   - `shim_template.c` — C template; `@COLNAME@` tokens are substituted per row.
+   - `.gitignore` containing `*_shim.c`.
+   - `Makefile` — **`all:` must be the first explicit target** (so `$(MAKE) -C`
+     without a goal builds everything). Add shim generation rule
+     `$(SHIM_FILES): shim_template.c params.tsv` → `python3 ../../gen_shims.py …`.
+     Compile upstream sources to `build/lib<name>.a` with `-fPIC`; compile+link
+     each shim into `build/<file>.so`.
 
-3. `bench/Makefile`: add `<NAME>_SOS` variable, a rule invoking
-   `$(MAKE) -C schemes/<name>`, add `.so` paths to `bench` prerequisites,
-   add `$(MAKE) -C schemes/<name> clean` to the `clean` target.
+3. `bench/Makefile`:
+   - Add `<NAME>_SOS` listing each `.so` path.
+   - Add a stamp-file rule: `schemes/<name>/.stamp: … → $(MAKE) -C … && touch $@`.
+     (Stamp files prevent parallel `-j` from racing multiple sub-make instances.)
+   - Add `$(NAME_SOS): schemes/<name>/.stamp` order dependency.
+   - Add `.so` paths to `bench` prerequisites.
+   - Add `.stamp` removal and `$(MAKE) -C … clean` to `clean:`.
 
 4. `bench/main.c`: append `.so` paths to `SO_PATHS[]`.
 

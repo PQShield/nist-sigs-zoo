@@ -10,10 +10,14 @@ LIB_OBJS := $(patsubst %.c, $(BUILD)/%.o, $(LIB_SRCS))
 LIB      := $(BUILD)/libhawk.a
 
 SOS := $(BUILD)/hawk512.so $(BUILD)/hawk1024.so
+SHIM_FILES := hawk512_shim.c hawk1024_shim.c
 
 .PHONY: all clean
 
-all: check_ref $(SOS)
+all: check_ref $(SHIM_FILES) $(SOS)
+
+$(SHIM_FILES): shim_template.c params.tsv
+	python3 ../../gen_shims.py shim_template.c params.tsv .
 
 check_ref:
 	@if [ ! -f ref/build.py ]; then \
@@ -43,3 +47,4 @@ $(BUILD):
 
 clean:
 	rm -rf $(BUILD)
+	rm -f $(SHIM_FILES)

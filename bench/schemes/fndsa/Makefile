@@ -3,9 +3,14 @@ CFLAGS  := -O3 -fomit-frame-pointer -fPIC -Wall -Wextra -DFNDSA_SHAKE256X4=1
 REF_DIR  = ref
 BUILD    = build
 
+SHIM_FILES := fndsa512_shim.c fndsa1024_shim.c
+
 .PHONY: all clean check-submodule
 
-all: check-submodule $(BUILD)/fndsa512.so $(BUILD)/fndsa1024.so
+all: check-submodule $(SHIM_FILES) $(BUILD)/fndsa512.so $(BUILD)/fndsa1024.so
+
+$(SHIM_FILES): shim_template.c params.tsv
+	python3 ../../gen_shims.py shim_template.c params.tsv .
 
 check-submodule:
 	@test -f $(REF_DIR)/fndsa.h || { \
@@ -47,3 +52,4 @@ $(BUILD)/fndsa1024.so: $(BUILD)/fndsa1024.o $(BUILD)/libfndsa.a
 
 clean:
 	rm -rf $(BUILD)
+	rm -f $(SHIM_FILES)

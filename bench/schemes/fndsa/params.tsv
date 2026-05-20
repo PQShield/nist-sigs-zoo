@@ -1,0 +1,6 @@
+# FN-DSA shim parameters. Columns: file, name, iters, logn, logn_const
+# logn: log2(n) passed to FNDSA_*_KEY_SIZE macros
+# logn_const: FNDSA_LOGN_* constant for fndsa_keygen()
+file	name	iters	logn	logn_const
+fndsa512	FN-DSA-512	0	9	FNDSA_LOGN_512
+fndsa1024	FN-DSA-1024	0	10	FNDSA_LOGN_1024

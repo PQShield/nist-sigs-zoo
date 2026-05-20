@@ -12,10 +12,14 @@ PARAM_SETS = \
     slhdsa_sha2_256f  slhdsa_shake_256f
 
 TARGETS = $(addprefix $(BUILD)/, $(addsuffix .so, $(PARAM_SETS)))
+SHIM_FILES = $(addsuffix _shim.c, $(PARAM_SETS))
 
 .PHONY: all clean check-submodule
 
-all: check-submodule $(TARGETS)
+all: check-submodule $(SHIM_FILES) $(TARGETS)
+
+$(SHIM_FILES): shim_template.c params.tsv
+	python3 ../../gen_shims.py shim_template.c params.tsv .
 
 check-submodule:
 	@test -f $(REF_DIR)/slh_dsa.c || { \
@@ -49,3 +53,4 @@ $(BUILD)/%.so: $(BUILD)/%.o $(BUILD)/libslhdsa.a
 
 clean:
 	rm -rf $(BUILD)
+	rm -f $(SHIM_FILES)

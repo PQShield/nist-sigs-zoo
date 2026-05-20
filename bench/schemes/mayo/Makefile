@@ -11,10 +11,14 @@ DEFINES  := -DMAYO_BUILD_TYPE_AVX2 -DMAYO_AVX -DENABLE_AESNI
 SIMD_FLAGS := -mavx2 -maes -mssse3
 
 SOS := $(BUILD)/mayo1.so $(BUILD)/mayo2.so $(BUILD)/mayo3.so $(BUILD)/mayo5.so
+SHIM_FILES := mayo1_shim.c mayo2_shim.c mayo3_shim.c mayo5_shim.c
 
 .PHONY: all clean check_ref
 
-all: check_ref $(SOS)
+all: check_ref $(SHIM_FILES) $(SOS)
+
+$(SHIM_FILES): shim_template.c params.tsv
+	python3 ../../gen_shims.py shim_template.c params.tsv .
 
 check_ref:
 	@if [ ! -f $(REF)/src/mayo.c ]; then \
@@ -64,3 +68,4 @@ $(eval $(call VARIANT_RULES,MAYO_5,mayo5))
 
 clean:
 	rm -rf $(BUILD)
+	rm -f $(SHIM_FILES)
