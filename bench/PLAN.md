@@ -40,37 +40,47 @@ Category: Multivariate. Source: https://github.com/PQCMayo/MAYO-C (AVX2 + AES-NI
 
 ## FAEST (12 param sets)
 
-Category: Symmetric (VOLE-in-the-Head). Source: TBD.
+Category: Symmetric (VOLE-in-the-Head). Source: https://github.com/faest-sign/faest-ref (C reference).
+Note: faest-ref uses Meson; build bypasses it via gen_faest.py (substitutes upstream templates directly).
+SHA3: XKCP opt64 path (no assembly).
 
-- [ ] Locate canonical GitHub repo
-- [ ] Add submodule
-- [ ] Write shim template + params.tsv + gen_shims.py + Makefile
-  - [ ] FAEST-128s
-  - [ ] FAEST-128f
-  - [ ] FAEST-EM-128s
-  - [ ] FAEST-EM-128f
-  - [ ] FAEST-192s
-  - [ ] FAEST-192f
-  - [ ] FAEST-EM-192s
-  - [ ] FAEST-EM-192f
-  - [ ] FAEST-256s
-  - [ ] FAEST-256f
-  - [ ] FAEST-EM-256s
-  - [ ] FAEST-EM-256f
+- [x] Locate canonical GitHub repo
+- [x] Add submodule
+- [x] Write shim template + params.tsv + gen_faest.py + Makefile
+  - [x] FAEST-128s
+  - [x] FAEST-128f
+  - [x] FAEST-EM-128s
+  - [x] FAEST-EM-128f
+  - [x] FAEST-192s
+  - [x] FAEST-192f
+  - [x] FAEST-EM-192s
+  - [x] FAEST-EM-192f
+  - [x] FAEST-256s
+  - [x] FAEST-256f
+  - [x] FAEST-EM-256s
+  - [x] FAEST-EM-256f
 
-## SDitH (6 param sets)
+## SDitH (12 param sets)
 
-Category: MPC-in-the-Head. Source: TBD.
+Category: MPC-in-the-Head. Source: https://github.com/sdith/sdith (Optimized_Implementation).
+Note: 6 Hypercube + 6 Threshold variants; each is a self-contained source directory.
+Two shim templates (one per variant type); Threshold excludes sign.c (ull/size_t ABI fix).
 
-- [ ] Locate canonical GitHub repo
-- [ ] Add submodule
-- [ ] Write shim template + params.tsv + gen_shims.py + Makefile
-  - [ ] SDitH2-L1-gf2-short
-  - [ ] SDitH2-L1-gf2-fast
-  - [ ] SDitH2-L3-gf2-short
-  - [ ] SDitH2-L3-gf2-fast
-  - [ ] SDitH2-L5-gf2-short
-  - [ ] SDitH2-L5-gf2-fast
+- [x] Locate canonical GitHub repo
+- [x] Add submodule
+- [x] Write shim templates + params TSVs + Makefile
+  - [x] SDitH-Hypercube-L1-GF256
+  - [x] SDitH-Hypercube-L1-P251
+  - [x] SDitH-Hypercube-L3-GF256
+  - [x] SDitH-Hypercube-L3-P251
+  - [x] SDitH-Hypercube-L5-GF256
+  - [x] SDitH-Hypercube-L5-P251
+  - [x] SDitH-Threshold-L1-GF256
+  - [x] SDitH-Threshold-L1-P251
+  - [x] SDitH-Threshold-L3-GF256
+  - [x] SDitH-Threshold-L3-P251
+  - [x] SDitH-Threshold-L5-GF256
+  - [x] SDitH-Threshold-L5-P251
 
 ## SNOVA (11 param sets)
 
