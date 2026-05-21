@@ -155,55 +155,56 @@ for SHA3_absorb/SHA3_squeeze (internal keccak symbols). mgf.c patched: EVP_Diges
 
 ## MQOM (36 param sets)
 
-Category: MPC-in-the-Head. Source: TBD.
+Category: MPC-in-the-Head. Source: https://github.com/mqom/mqom-v2
 
-- [ ] Locate canonical GitHub repo
-- [ ] Add submodule
-- [ ] Write shim template + params.tsv + gen_shims.py + Makefile
-  - [ ] L1-gf2-short-3r
-  - [ ] L1-gf2-short-5r
-  - [ ] L1-gf16-short-3r
-  - [ ] L1-gf16-short-5r
-  - [ ] L1-gf256-short-3r
-  - [ ] L1-gf256-short-5r
-  - [ ] L1-gf2-fast-3r
-  - [ ] L1-gf2-fast-5r
-  - [ ] L1-gf16-fast-3r
-  - [ ] L1-gf16-fast-5r
-  - [ ] L1-gf256-fast-3r
-  - [ ] L1-gf256-fast-5r
-  - [ ] L3-gf2-short-3r
-  - [ ] L3-gf2-short-5r
-  - [ ] L3-gf16-short-3r
-  - [ ] L3-gf16-short-5r
-  - [ ] L3-gf256-short-3r
-  - [ ] L3-gf256-short-5r
-  - [ ] L3-gf2-fast-3r
-  - [ ] L3-gf2-fast-5r
-  - [ ] L3-gf16-fast-3r
-  - [ ] L3-gf16-fast-5r
-  - [ ] L3-gf256-fast-3r
-  - [ ] L3-gf256-fast-5r
-  - [ ] L5-gf2-short-3r
-  - [ ] L5-gf2-short-5r
-  - [ ] L5-gf16-short-3r
-  - [ ] L5-gf16-short-5r
-  - [ ] L5-gf256-short-3r
-  - [ ] L5-gf256-short-5r
-  - [ ] L5-gf2-fast-3r
-  - [ ] L5-gf2-fast-5r
-  - [ ] L5-gf16-fast-3r
-  - [ ] L5-gf16-fast-5r
-  - [ ] L5-gf256-fast-3r
-  - [ ] L5-gf256-fast-5r
+- [x] Locate canonical GitHub repo
+- [x] Add submodule
+- [x] Write shim template + params.tsv + gen_shims.py + Makefile
+  - [x] L1-gf2-short-3r
+  - [x] L1-gf2-short-5r
+  - [x] L1-gf16-short-3r
+  - [x] L1-gf16-short-5r
+  - [x] L1-gf256-short-3r
+  - [x] L1-gf256-short-5r
+  - [x] L1-gf2-fast-3r
+  - [x] L1-gf2-fast-5r
+  - [x] L1-gf16-fast-3r
+  - [x] L1-gf16-fast-5r
+  - [x] L1-gf256-fast-3r
+  - [x] L1-gf256-fast-5r
+  - [x] L3-gf2-short-3r
+  - [x] L3-gf2-short-5r
+  - [x] L3-gf16-short-3r
+  - [x] L3-gf16-short-5r
+  - [x] L3-gf256-short-3r
+  - [x] L3-gf256-short-5r
+  - [x] L3-gf2-fast-3r
+  - [x] L3-gf2-fast-5r
+  - [x] L3-gf16-fast-3r
+  - [x] L3-gf16-fast-5r
+  - [x] L3-gf256-fast-3r
+  - [x] L3-gf256-fast-5r
+  - [x] L5-gf2-short-3r
+  - [x] L5-gf2-short-5r
+  - [x] L5-gf16-short-3r
+  - [x] L5-gf16-short-5r
+  - [x] L5-gf256-short-3r
+  - [x] L5-gf256-short-5r
+  - [x] L5-gf2-fast-3r
+  - [x] L5-gf2-fast-5r
+  - [x] L5-gf16-fast-3r
+  - [x] L5-gf16-fast-5r
+  - [x] L5-gf256-fast-3r
+  - [x] L5-gf256-fast-5r
 
 ## SQIsign (3 param sets)
 
-Category: Isogenies. Source: original implementation (TBD — sqisign-org/sqisign or similar).
+Category: Isogenies. Source: https://github.com/sqisign-org/sqisign
 Note: extremely slow — sign takes seconds. Set iters=3.
+BLOCKED: submodule clone requires network access (no internet in current env).
 
-- [ ] Locate canonical GitHub repo (original, not SQIsign2D or SQIsign-UF)
-- [ ] Add submodule
+- [x] Locate canonical GitHub repo (sqisign-org/sqisign, v2.0.1 tag)
+- [ ] Add submodule (blocked — needs network access to clone)
 - [ ] Write shims + Makefile
   - [ ] SQIsign-I
   - [ ] SQIsign-III
