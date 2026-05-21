@@ -23,3 +23,6 @@
 [submodule "bench/schemes/snova/ref"]
 	path = bench/schemes/snova/ref
 	url = https://github.com/PQCLAB-SNOVA/SNOVA.git
+[submodule "bench/schemes/uov/ref"]
+	path = bench/schemes/uov/ref
+	url = https://github.com/pqov/pqov.git

@@ -34,9 +34,14 @@ SNOVA_SOS   = $(addprefix schemes/snova/build/, \
     snova_40_7_19_4.so   snova_37_8_16_4.so   snova_72_25_16_2.so                        \
     snova_38_5_16_4x5.so snova_38_5_19_4x5.so                                            \
     snova_50_9_19_4.so   snova_60_10_16_4.so  snova_97_33_16_2.so)
+UOV_SOS     = $(addprefix schemes/uov/build/, \
+    uov_Ip_pkc.so uov_Ip_classic.so \
+    uov_Is_pkc.so uov_Is_classic.so \
+    uov_III_pkc.so uov_III_classic.so \
+    uov_V_pkc.so uov_V_classic.so)
 
-ALL_SOS     = $(MLDSA_SOS) $(SLHDSA_SOS) $(FNDSA_SOS) $(CLASSIC_SOS) $(HAWK_SOS) $(MAYO_SOS) $(FAEST_SOS) $(SDITH_SOS) $(SNOVA_SOS)
-SCHEME_DIRS = mldsa slhdsa fndsa classic hawk mayo faest sdith snova
+ALL_SOS     = $(MLDSA_SOS) $(SLHDSA_SOS) $(FNDSA_SOS) $(CLASSIC_SOS) $(HAWK_SOS) $(MAYO_SOS) $(FAEST_SOS) $(SDITH_SOS) $(SNOVA_SOS) $(UOV_SOS)
+SCHEME_DIRS = mldsa slhdsa fndsa classic hawk mayo faest sdith snova uov
 STAMPS      = $(addprefix schemes/, $(addsuffix /.stamp, $(SCHEME_DIRS)))
 
 .PHONY: all clean
@@ -55,6 +60,7 @@ schemes/sdith/.stamp:   schemes/sdith/Makefile \
     schemes/sdith/shim_hypercube_template.c schemes/sdith/params_hypercube.tsv \
     schemes/sdith/shim_threshold_template.c schemes/sdith/params_threshold.tsv
 schemes/snova/.stamp:   schemes/snova/Makefile schemes/snova/shim_template.c schemes/snova/params.tsv
+schemes/uov/.stamp:     schemes/uov/Makefile   schemes/uov/shim_template.c   schemes/uov/params.tsv
 
 # Shared recipe for every scheme stamp.
 $(STAMPS): schemes/%/.stamp:
@@ -71,6 +77,7 @@ $(MAYO_SOS):    schemes/mayo/.stamp
 $(FAEST_SOS):   schemes/faest/.stamp
 $(SDITH_SOS):   schemes/sdith/.stamp
 $(SNOVA_SOS):   schemes/snova/.stamp
+$(UOV_SOS):     schemes/uov/.stamp
 
 # Generate the SO path list included by main.c.
 $(BUILD)/so_paths.h: Makefile | $(BUILD)

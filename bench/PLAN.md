@@ -109,20 +109,26 @@ Stack: large variants (notably 97-33-16-2) require >8MB stack; main.c raises sof
 
 ## UOV (8 param sets)
 
-Category: Multivariate. Source: TBD.
-Note: most param sets broken by Intersection attack (ePrint 2026/298).
+Category: Multivariate. Source: https://github.com/pqov/pqov (AVX2 impl).
+Note: Ip variants broken by Intersection attack (ePrint 2026/298).
+Build: pqov uses PQOV_NAMESPACE macro to namespace ALL symbols including randombytes.
+Hash: config.h auto-selects _UTILS_OPENSSL_ (SHAKE via OpenSSL EVP); link with -lcrypto.
+PRNG: config.h auto-selects _UTILS_AESNI_ when _BLAS_AVX2_ is defined.
+Shim: includes utils_randombytes.h to get the namespace #define applied to randombytes.
+Param sets: 4 security levels (Ip=GF256/L1, Is=GF16/L1, III=GF256/L3, V=GF256/L5) × 2 variants.
+PKC verify is slower than classic: compressed PK must be expanded from seed each verification.
 
-- [ ] Locate canonical GitHub repo
-- [ ] Add submodule
-- [ ] Write shim template + params.tsv + gen_shims.py + Makefile
-  - [ ] UOV-Ip-pkc      (broken)
-  - [ ] UOV-Ip-classic  (broken)
-  - [ ] UOV-Is-pkc
-  - [ ] UOV-Is-classic
-  - [ ] UOV-III-pkc
-  - [ ] UOV-III-classic
-  - [ ] UOV-V-pkc
-  - [ ] UOV-V-classic
+- [x] Locate canonical GitHub repo
+- [x] Add submodule
+- [x] Write shim template + params.tsv + Makefile
+  - [x] UOV-Ip-pkc      (broken)
+  - [x] UOV-Ip-classic  (broken)
+  - [x] UOV-Is-pkc
+  - [x] UOV-Is-classic
+  - [x] UOV-III-pkc
+  - [x] UOV-III-classic
+  - [x] UOV-V-pkc
+  - [x] UOV-V-classic
 
 ## QR-UOV (12 param sets)
 
