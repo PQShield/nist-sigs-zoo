@@ -199,16 +199,17 @@ Category: MPC-in-the-Head. Source: https://github.com/mqom/mqom-v2
 
 ## SQIsign (3 param sets)
 
-Category: Isogenies. Source: https://github.com/sqisign-org/sqisign
-Note: extremely slow — sign takes seconds. Set iters=3.
-BLOCKED: submodule clone requires network access (no internet in current env).
+Category: Isogenies. Source: https://github.com/SQISign/the-sqisign (tag: nist-v2)
+Note: extremely slow — sign takes ~50ms (lvl1). iters=3.
+Build: CMake (requires cmake + libgmp-dev). cmake build runs once into build/cmake/.
+Namespace: all internal symbols are namespaced (sqisign_lvlN_ref_*); shim calls them directly.
 
-- [x] Locate canonical GitHub repo (sqisign-org/sqisign, v2.0.1 tag)
-- [ ] Add submodule (blocked — needs network access to clone)
-- [ ] Write shims + Makefile
-  - [ ] SQIsign-I
-  - [ ] SQIsign-III
-  - [ ] SQIsign-V
+- [x] Locate canonical GitHub repo (SQISign/the-sqisign, nist-v2 tag = v2.0.1)
+- [x] Add submodule
+- [x] Write shims + Makefile
+  - [x] SQIsign-I
+  - [x] SQIsign-III
+  - [x] SQIsign-V
 
 ## Implementation notes
 
