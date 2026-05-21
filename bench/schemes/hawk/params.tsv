@@ -1,0 +1,5 @@
+# HAWK shim parameters. Columns: file, name, iters, logn
+# logn: log2(n); sizes computed via HAWK_PUBKEY_SIZE(logn) etc.
+file	name	iters	logn
+hawk512	HAWK-512	0	9
+hawk1024	HAWK-1024	0	10

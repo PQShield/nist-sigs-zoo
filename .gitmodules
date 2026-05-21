@@ -1,0 +1,38 @@
+[submodule "bench/schemes/mldsa/ref"]
+	path = bench/schemes/mldsa/ref
+	url = https://github.com/pq-crystals/dilithium.git
+  ignore = "dirty"
+[submodule "bench/schemes/slhdsa/ref"]
+	path = bench/schemes/slhdsa/ref
+	url = https://github.com/pq-code-package/slhdsa-c
+[submodule "bench/schemes/fndsa/ref"]
+	path = bench/schemes/fndsa/ref
+	url = https://github.com/pornin/c-fn-dsa
+[submodule "bench/schemes/hawk/ref"]
+	path = bench/schemes/hawk/ref
+	url = https://github.com/hawk-sign/dev
+[submodule "bench/schemes/mayo/ref"]
+	path = bench/schemes/mayo/ref
+	url = https://github.com/PQCMayo/MAYO-C
+[submodule "bench/schemes/faest/ref"]
+	path = bench/schemes/faest/ref
+	url = https://github.com/faest-sign/faest-ref
+[submodule "bench/schemes/sdith/ref"]
+	path = bench/schemes/sdith/ref
+	url = https://github.com/sdith/sdith
+[submodule "bench/schemes/snova/ref"]
+	path = bench/schemes/snova/ref
+	url = https://github.com/PQCLAB-SNOVA/SNOVA.git
+[submodule "bench/schemes/uov/ref"]
+	path = bench/schemes/uov/ref
+	url = https://github.com/pqov/pqov.git
+[submodule "bench/schemes/qruov/ref"]
+	path = bench/schemes/qruov/ref
+	url = https://github.com/qruov/round2.git
+[submodule "bench/schemes/mqom/ref"]
+	path = bench/schemes/mqom/ref
+	url = https://github.com/mqom/mqom-v2
+[submodule "bench/schemes/sqisign/ref"]
+	path = bench/schemes/sqisign/ref
+	url = https://github.com/SQISign/the-sqisign
+  ignore = "dirty"

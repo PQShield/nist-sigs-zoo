@@ -1,0 +1,4 @@
+# EdDSA shim parameters.
+file	name	pk	sk	sig	iters	key_type
+ed25519	Ed25519	32	32	64	0	EVP_PKEY_ED25519
+ed448	Ed448	57	57	114	0	EVP_PKEY_ED448
