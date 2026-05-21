@@ -1,3 +1,5 @@
+.DEFAULT_GOAL := all
+
 CC      ?= cc
 BUILD    = build
 REFDIR   = ref/src/ref
@@ -44,11 +46,20 @@ pf_qruov5q31L3v324m114   := -DQRUOV_security_strength_category=5 -DQRUOV_q=31  -
 pf_qruov5q31L10v1120m120 := -DQRUOV_security_strength_category=5 -DQRUOV_q=31  -DQRUOV_L=10 -DQRUOV_v=1120 -DQRUOV_m=120 -DQRUOV_fc=5 -DQRUOV_fe=3 -DQRUOV_fc0=1
 pf_qruov5q7L10v1490m190  := -DQRUOV_security_strength_category=5 -DQRUOV_q=7   -DQRUOV_L=10 -DQRUOV_v=1490 -DQRUOV_m=190 -DQRUOV_fc=2 -DQRUOV_fe=1 -DQRUOV_fc0=1
 
+# mgf.c needs a compatibility patch for OpenSSL 3.3+ (EVP_DigestSqueeze API).
+# Build a patched copy in build/ so ref/ stays untouched.
+PATCHED_MGF := $(BUILD)/patched_mgf.c
+
+$(PATCHED_MGF): $(REFDIR)/mgf.c mgf_openssl36.patch | $(BUILD)
+	cp $(REFDIR)/mgf.c $@
+	patch $@ mgf_openssl36.patch
+
 # Sources compiled into each per-param static library.
 # rng.c excluded — shim provides randombytes via getrandom().
 # PQCgenKAT_sign.c, qruov_config_h_gen.c, api_h_gen.c excluded (have main()).
+# mgf.c replaced by patched copy above.
 SRCS := $(REFDIR)/Fql.c $(REFDIR)/qruov.c $(REFDIR)/sign.c \
-        $(REFDIR)/matrix.c $(REFDIR)/mgf.c
+        $(REFDIR)/matrix.c
 
 .PHONY: all clean check_ref
 
@@ -79,9 +90,10 @@ define QRUOV_RULES
 
 # Param defines come from generated qruov_config.h (via -I); don't repeat on
 # command line to avoid redefined-macro warnings.
-cflags_$(1) := $(BASE_CFLAGS) -I$(BUILD)/$(1) -I$(REFDIR)
-objs_$(1)   := $(patsubst $(REFDIR)/%.c,$(BUILD)/$(1)/%.o,$(SRCS))
-lib_$(1)    := $(BUILD)/$(1)/libqruov.a
+cflags_$(1)    := $(BASE_CFLAGS) -I$(BUILD)/$(1) -I$(REFDIR)
+objs_ref_$(1)  := $(patsubst $(REFDIR)/%.c,$(BUILD)/$(1)/%.o,$(SRCS))
+objs_$(1)      := $$(objs_ref_$(1)) $(BUILD)/$(1)/mgf.o
+lib_$(1)       := $(BUILD)/$(1)/libqruov.a
 
 $(BUILD)/$(1):
 	mkdir -p $$@
@@ -101,9 +113,13 @@ $(BUILD)/$(1)/api.h: $(REFDIR)/api_h_gen.c $(BUILD)/$(1)/qruov_config.h
 	$(BUILD)/$(1)/api_gen > $$@
 	rm $(BUILD)/$(1)/api_gen
 
-$$(objs_$(1)): $(BUILD)/$(1)/%.o: $(REFDIR)/%.c \
+$$(objs_ref_$(1)): $(BUILD)/$(1)/%.o: $(REFDIR)/%.c \
     | $(BUILD)/$(1)/qruov_config.h $(BUILD)/$(1)/api.h
 	mkdir -p $$(dir $$@)
+	$$(CC) $$(cflags_$(1)) -c $$< -o $$@
+
+$(BUILD)/$(1)/mgf.o: $(PATCHED_MGF) \
+    | $(BUILD)/$(1)/qruov_config.h $(BUILD)/$(1)/api.h
 	$$(CC) $$(cflags_$(1)) -c $$< -o $$@
 
 $$(lib_$(1)): $$(objs_$(1))
