@@ -82,25 +82,30 @@ Two shim templates (one per variant type); Threshold excludes sign.c (ull/size_t
   - [x] SDitH-Threshold-L5-GF256
   - [x] SDitH-Threshold-L5-P251
 
-## SNOVA (11 param sets)
+## SNOVA (14 param sets)
 
-Category: Multivariate. Source: TBD.
+Category: Multivariate. Source: https://github.com/PQCLAB-SNOVA/SNOVA (version 2.3).
 Note: most param sets broken by Wedge product attack (ePrint 2026/237).
+Build: snova_opt.c unity-build (auto-selects AVX2 path via __AVX2__); SNOVA_r defined only for rectangular variants.
+Stack: large variants (notably 97-33-16-2) require >8MB stack; main.c raises soft stack limit at startup via setrlimit.
 
-- [ ] Locate canonical GitHub repo
-- [ ] Add submodule
-- [ ] Write shim template + params.tsv + gen_shims.py + Makefile
-  - [ ] SNOVA-(24,5,4)
-  - [ ] SNOVA-(24,5,5)   (broken)
-  - [ ] SNOVA-(25,8,3)   (broken)
-  - [ ] SNOVA-(29,6,5)
-  - [ ] SNOVA-(37,8,4)
-  - [ ] SNOVA-(37,17,2)  (broken)
-  - [ ] SNOVA-(49,11,3)
-  - [ ] SNOVA-(56,25,2)
-  - [ ] SNOVA-(60,10,4)
-  - [ ] SNOVA-(66,15,3)
-  - [ ] SNOVA-(75,33,2)
+- [x] Locate canonical GitHub repo
+- [x] Add submodule
+- [x] Write shim template + params.tsv + Makefile
+  - [x] SNOVA-24-5-16-4
+  - [x] SNOVA-28-5-19-4
+  - [x] SNOVA-48-17-16-2
+  - [x] SNOVA-48-16-19-2
+  - [x] SNOVA-28-4-16-4x5  (rectangular)
+  - [x] SNOVA-28-4-19-4x5  (rectangular)
+  - [x] SNOVA-40-7-19-4
+  - [x] SNOVA-37-8-16-4
+  - [x] SNOVA-72-25-16-2
+  - [x] SNOVA-38-5-16-4x5  (rectangular)
+  - [x] SNOVA-38-5-19-4x5  (rectangular)
+  - [x] SNOVA-50-9-19-4
+  - [x] SNOVA-60-10-16-4
+  - [x] SNOVA-97-33-16-2
 
 ## UOV (8 param sets)
 

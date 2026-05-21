@@ -28,9 +28,15 @@ SDITH_SOS   = $(addprefix schemes/sdith/build/, \
     sdith_threshold_cat1_gf256.so sdith_threshold_cat1_p251.so \
     sdith_threshold_cat3_gf256.so sdith_threshold_cat3_p251.so \
     sdith_threshold_cat5_gf256.so sdith_threshold_cat5_p251.so)
+SNOVA_SOS   = $(addprefix schemes/snova/build/, \
+    snova_24_5_16_4.so   snova_28_5_19_4.so   snova_48_17_16_2.so  snova_48_16_19_2.so  \
+    snova_28_4_16_4x5.so snova_28_4_19_4x5.so                                            \
+    snova_40_7_19_4.so   snova_37_8_16_4.so   snova_72_25_16_2.so                        \
+    snova_38_5_16_4x5.so snova_38_5_19_4x5.so                                            \
+    snova_50_9_19_4.so   snova_60_10_16_4.so  snova_97_33_16_2.so)
 
-ALL_SOS     = $(MLDSA_SOS) $(SLHDSA_SOS) $(FNDSA_SOS) $(CLASSIC_SOS) $(HAWK_SOS) $(MAYO_SOS) $(FAEST_SOS) $(SDITH_SOS)
-SCHEME_DIRS = mldsa slhdsa fndsa classic hawk mayo faest sdith
+ALL_SOS     = $(MLDSA_SOS) $(SLHDSA_SOS) $(FNDSA_SOS) $(CLASSIC_SOS) $(HAWK_SOS) $(MAYO_SOS) $(FAEST_SOS) $(SDITH_SOS) $(SNOVA_SOS)
+SCHEME_DIRS = mldsa slhdsa fndsa classic hawk mayo faest sdith snova
 STAMPS      = $(addprefix schemes/, $(addsuffix /.stamp, $(SCHEME_DIRS)))
 
 .PHONY: all clean
@@ -48,6 +54,7 @@ schemes/faest/.stamp:   schemes/faest/Makefile   schemes/faest/shim_template.c  
 schemes/sdith/.stamp:   schemes/sdith/Makefile \
     schemes/sdith/shim_hypercube_template.c schemes/sdith/params_hypercube.tsv \
     schemes/sdith/shim_threshold_template.c schemes/sdith/params_threshold.tsv
+schemes/snova/.stamp:   schemes/snova/Makefile schemes/snova/shim_template.c schemes/snova/params.tsv
 
 # Shared recipe for every scheme stamp.
 $(STAMPS): schemes/%/.stamp:
@@ -63,6 +70,7 @@ $(HAWK_SOS):    schemes/hawk/.stamp
 $(MAYO_SOS):    schemes/mayo/.stamp
 $(FAEST_SOS):   schemes/faest/.stamp
 $(SDITH_SOS):   schemes/sdith/.stamp
+$(SNOVA_SOS):   schemes/snova/.stamp
 
 # Generate the SO path list included by main.c.
 $(BUILD)/so_paths.h: Makefile | $(BUILD)
