@@ -26,3 +26,6 @@
 [submodule "bench/schemes/uov/ref"]
 	path = bench/schemes/uov/ref
 	url = https://github.com/pqov/pqov.git
+[submodule "bench/schemes/qruov/ref"]
+	path = bench/schemes/qruov/ref
+	url = https://github.com/qruov/round2.git
