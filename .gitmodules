@@ -1,7 +1,7 @@
 [submodule "bench/schemes/mldsa/ref"]
 	path = bench/schemes/mldsa/ref
 	url = https://github.com/pq-crystals/dilithium.git
-
+  ignore = "dirty"
 [submodule "bench/schemes/slhdsa/ref"]
 	path = bench/schemes/slhdsa/ref
 	url = https://github.com/pq-code-package/slhdsa-c
@@ -35,3 +35,4 @@
 [submodule "bench/schemes/sqisign/ref"]
 	path = bench/schemes/sqisign/ref
 	url = https://github.com/SQISign/the-sqisign
+  ignore = "dirty"
