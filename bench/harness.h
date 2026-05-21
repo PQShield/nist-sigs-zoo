@@ -40,7 +40,7 @@ static int bench_cmp_u64(const void *a, const void *b) {
 
 static uint64_t bench_median(uint64_t *arr, int n) {
     qsort(arr, (size_t)n, sizeof(uint64_t), bench_cmp_u64);
-    return (n & 1) ? arr[n / 2] : (arr[n / 2 - 1] + arr[n / 2]) / 2;
+    return (n & 1) ? arr[n / 2] : arr[n/2-1] + (arr[n/2] - arr[n/2-1]) / 2;
 }
 
 /* ---------- benchmark runner ---------- */

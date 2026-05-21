@@ -1,5 +1,6 @@
 /* UOV shim for @NAME@. Generated — do not edit. */
 #include <stdint.h>
+#include <errno.h>
 #include <sys/random.h>
 /* utils_randombytes.h defines: #define randombytes PQOV_NAMESPACE(randombytes)
  * so our definition below gets the correct namespaced name. */
@@ -7,7 +8,12 @@
 #include "../../scheme.h"
 
 void randombytes(unsigned char *x, unsigned long long xlen) {
-    getrandom(x, (size_t)xlen, 0);
+    uint8_t *p = x; size_t len = (size_t)xlen;
+    while (len > 0) {
+        ssize_t r = getrandom(p, len, 0);
+        if (r > 0) { p += (size_t)r; len -= (size_t)r; }
+        else if (errno != EINTR) break;
+    }
 }
 
 /* Declare the namespaced functions exported by the compiled library. */

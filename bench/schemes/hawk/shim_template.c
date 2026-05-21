@@ -1,5 +1,6 @@
 /* Shim for @NAME@. Generated — edit params.tsv + shim_template.c, not this file. */
 #include <stdint.h>
+#include <errno.h>
 #include <sys/random.h>
 #include "hawk.h"
 #include "../../scheme.h"
@@ -12,6 +13,7 @@ static void rng_cb(void *ctx, void *dst, size_t len) {
     while (len > 0) {
         ssize_t r = getrandom(p, len, 0);
         if (r > 0) { p += (size_t)r; len -= (size_t)r; }
+        else if (errno != EINTR) break;
     }
 }
 
