@@ -29,3 +29,6 @@
 [submodule "bench/schemes/qruov/ref"]
 	path = bench/schemes/qruov/ref
 	url = https://github.com/qruov/round2.git
+[submodule "bench/schemes/mqom/ref"]
+	path = bench/schemes/mqom/ref
+	url = https://github.com/mqom/mqom-v2
