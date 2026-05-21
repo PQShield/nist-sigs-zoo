@@ -91,37 +91,26 @@ static void bench_run(const bench_scheme_t *s) {
     s->keygen_fn(pk, sk);
     s->sign_fn(sig, &siglen, msg, sizeof(msg), sk);
 
+/* Time one operation into cyc[i] and ns[i]. */
+#define TIME_OP(cyc, ns, i, op) do {                                      \
+    struct timespec _ts0, _ts1;                                           \
+    uint64_t _t0 = cpucycles();                                           \
+    clock_gettime(CLOCK_MONOTONIC, &_ts0);                                \
+    (op);                                                                 \
+    uint64_t _t1 = cpucycles();                                           \
+    clock_gettime(CLOCK_MONOTONIC, &_ts1);                                \
+    (cyc)[i] = _t1 - _t0;                                                \
+    (ns)[i]  = (uint64_t)(_ts1.tv_sec  - _ts0.tv_sec)  * 1000000000ULL  \
+             + (uint64_t)(_ts1.tv_nsec - _ts0.tv_nsec);                  \
+} while (0)
+
     for (int i = 0; i < n; i++) {
-        uint64_t t0, t1;
-        struct timespec ts0, ts1;
-
-        t0 = cpucycles();
-        clock_gettime(CLOCK_MONOTONIC, &ts0);
-        s->keygen_fn(pk, sk);
-        t1 = cpucycles();
-        clock_gettime(CLOCK_MONOTONIC, &ts1);
-        kg_cyc[i] = t1 - t0;
-        kg_ns[i]  = (uint64_t)(ts1.tv_sec - ts0.tv_sec) * 1000000000ULL
-                  + (uint64_t)(ts1.tv_nsec - ts0.tv_nsec);
-
-        t0 = cpucycles();
-        clock_gettime(CLOCK_MONOTONIC, &ts0);
-        s->sign_fn(sig, &siglen, msg, sizeof(msg), sk);
-        t1 = cpucycles();
-        clock_gettime(CLOCK_MONOTONIC, &ts1);
-        sg_cyc[i] = t1 - t0;
-        sg_ns[i]  = (uint64_t)(ts1.tv_sec - ts0.tv_sec) * 1000000000ULL
-                  + (uint64_t)(ts1.tv_nsec - ts0.tv_nsec);
-
-        t0 = cpucycles();
-        clock_gettime(CLOCK_MONOTONIC, &ts0);
-        s->verify_fn(sig, siglen, msg, sizeof(msg), pk);
-        t1 = cpucycles();
-        clock_gettime(CLOCK_MONOTONIC, &ts1);
-        vf_cyc[i] = t1 - t0;
-        vf_ns[i]  = (uint64_t)(ts1.tv_sec - ts0.tv_sec) * 1000000000ULL
-                  + (uint64_t)(ts1.tv_nsec - ts0.tv_nsec);
+        TIME_OP(kg_cyc, kg_ns, i, s->keygen_fn(pk, sk));
+        TIME_OP(sg_cyc, sg_ns, i, s->sign_fn(sig, &siglen, msg, sizeof(msg), sk));
+        TIME_OP(vf_cyc, vf_ns, i, s->verify_fn(sig, siglen, msg, sizeof(msg), pk));
     }
+
+#undef TIME_OP
 
     printf(BENCH_FMT,
            s->name,

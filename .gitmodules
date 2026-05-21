@@ -20,3 +20,6 @@
 [submodule "bench/schemes/sdith/ref"]
 	path = bench/schemes/sdith/ref
 	url = https://github.com/sdith/sdith
+[submodule "bench/schemes/snova/ref"]
+	path = bench/schemes/snova/ref
+	url = https://github.com/PQCLAB-SNOVA/SNOVA.git
