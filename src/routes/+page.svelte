@@ -2,13 +2,14 @@
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
 	import { onMount } from 'svelte';
+	import BenchmarkEnvInfo from '$lib/components/BenchmarkEnvInfo.svelte';
 	import FilterPanel from '$lib/components/FilterPanel.svelte';
 	import SchemeTable from '$lib/components/SchemeTable.svelte';
 	import ScatterPlot from '$lib/components/ScatterPlot.svelte';
 	import { processYamlSchemes } from '$lib/data';
 	import { getFilterStore, buildUrlParams, createFilterStore } from '$lib/filterStore';
 	import { roundStore, type Round } from '$lib/roundStore';
-	import { allSchemeData, lastUpdated } from '$lib/schemeData';
+	import { allSchemeData, benchmarkEnv, lastUpdated } from '$lib/schemeData';
 	import type { PageData } from './$types';
 
 	let { data: _ }: { data: PageData } = $props();
@@ -141,6 +142,11 @@
 			<section>
 				<SchemeTable />
 			</section>
+
+			<!-- Benchmark environment -->
+			{#if benchmarkEnv}
+				<BenchmarkEnvInfo env={benchmarkEnv} />
+			{/if}
 		</div>
 	</div>
 </div>
