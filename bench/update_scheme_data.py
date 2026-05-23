@@ -1,0 +1,327 @@
+#!/usr/bin/env -S uv run --script
+# /// script
+# requires-python = ">=3.10"
+# dependencies = ["ruamel.yaml>=0.18"]
+# ///
+"""Parse a bench results file and update data/schemes/*.yaml with measured cycles.
+
+Also writes data/benchmark_env.yaml describing the benchmark environment.
+
+Usage:
+    uv run bench/update_scheme_data.py [results_file]
+
+If no results_file is given, uses the most recent file in bench/results/.
+"""
+import re
+import sys
+from pathlib import Path
+from ruamel.yaml import YAML
+
+REPO_ROOT = Path(__file__).parent.parent
+SCHEMES_DIR = REPO_ROOT / "data" / "schemes"
+BENCH_ENV_FILE = REPO_ROOT / "data" / "benchmark_env.yaml"
+
+# Map bench output name → (yaml_filename, parameterset_name_in_yaml)
+# Only entries where the bench measurement corresponds to the YAML parameterset.
+BENCH_TO_YAML: dict[str, tuple[str, str]] = {
+    # ML-DSA (FIPS 204)
+    "ML-DSA-44": ("ML-DSA.yaml", "ML-DSA-44"),
+    "ML-DSA-65": ("ML-DSA.yaml", "ML-DSA-65"),
+    "ML-DSA-87": ("ML-DSA.yaml", "ML-DSA-87"),
+    # SLH-DSA (FIPS 205) — only SHAKE variants present in YAML
+    "SLH-DSA-SHAKE-128s": ("SLH-DSA.yaml", "SHAKE-128s"),
+    "SLH-DSA-SHAKE-128f": ("SLH-DSA.yaml", "SHAKE-128f"),
+    "SLH-DSA-SHAKE-192s": ("SLH-DSA.yaml", "SHAKE-192s"),
+    "SLH-DSA-SHAKE-192f": ("SLH-DSA.yaml", "SHAKE-192f"),
+    "SLH-DSA-SHAKE-256s": ("SLH-DSA.yaml", "SHAKE-256s"),
+    "SLH-DSA-SHAKE-256f": ("SLH-DSA.yaml", "SHAKE-256f"),
+    # FN-DSA / Falcon
+    "FN-DSA-512": ("Falcon.yaml", "512"),
+    "FN-DSA-1024": ("Falcon.yaml", "1024"),
+    # HAWK
+    "HAWK-512": ("HAWK.yaml", "512"),
+    "HAWK-1024": ("HAWK.yaml", "1024"),
+    # MAYO
+    "MAYO-one": ("MAYO.yaml", "one"),
+    "MAYO-two (broken)": ("MAYO.yaml", "two"),
+    "MAYO-three": ("MAYO.yaml", "three"),
+    "MAYO-five": ("MAYO.yaml", "five"),
+    # FAEST
+    "FAEST-128s": ("FAEST.yaml", "128s"),
+    "FAEST-128f": ("FAEST.yaml", "128f"),
+    "FAEST-EM-128s": ("FAEST.yaml", "EM-128s"),
+    "FAEST-EM-128f": ("FAEST.yaml", "EM-128f"),
+    "FAEST-192s": ("FAEST.yaml", "192s"),
+    "FAEST-192f": ("FAEST.yaml", "192f"),
+    "FAEST-EM-192s": ("FAEST.yaml", "EM-192s"),
+    "FAEST-EM-192f": ("FAEST.yaml", "EM-192f"),
+    "FAEST-256s": ("FAEST.yaml", "256s"),
+    "FAEST-256f": ("FAEST.yaml", "256f"),
+    "FAEST-EM-256s": ("FAEST.yaml", "EM-256s"),
+    "FAEST-EM-256f": ("FAEST.yaml", "EM-256f"),
+    # SDitH — bench implements v1.0 hypercube/threshold parameters
+    "SDitH-Hypercube-L1-GF256": ("SDitH.yaml", "gf256-L1-hyp"),
+    "SDitH-Hypercube-L1-P251": ("SDitH.yaml", "gf251-L1-hyp"),
+    "SDitH-Hypercube-L3-GF256": ("SDitH.yaml", "gf256-L3-hyp"),
+    "SDitH-Hypercube-L3-P251": ("SDitH.yaml", "gf251-L3-hyp"),
+    "SDitH-Hypercube-L5-GF256": ("SDitH.yaml", "gf256-L5-hyp"),
+    "SDitH-Hypercube-L5-P251": ("SDitH.yaml", "gf251-L5-hyp"),
+    "SDitH-Threshold-L1-GF256": ("SDitH.yaml", "gf256-L1-thr"),
+    "SDitH-Threshold-L1-P251": ("SDitH.yaml", "gf251-L1-thr"),
+    "SDitH-Threshold-L3-GF256": ("SDitH.yaml", "gf256-L3-thr"),
+    "SDitH-Threshold-L3-P251": ("SDitH.yaml", "gf251-L3-thr"),
+    "SDitH-Threshold-L5-GF256": ("SDitH.yaml", "gf256-L5-thr"),
+    "SDitH-Threshold-L5-P251": ("SDitH.yaml", "gf251-L5-thr"),
+    # SNOVA — matched by exact (pk, sig) agreement with YAML v2.0
+    "SNOVA-24-5-16-4": ("SNOVA.yaml", "(24 5 4)"),
+    "SNOVA-37-8-16-4": ("SNOVA.yaml", "(37 8 4)"),
+    "SNOVA-60-10-16-4": ("SNOVA.yaml", "(60 10 4)"),
+    # UOV
+    "UOV-Ip-pkc": ("UOV.yaml", "Ip-pkc"),
+    "UOV-Ip-classic": ("UOV.yaml", "Ip-classic"),
+    "UOV-Is-pkc": ("UOV.yaml", "Is-pkc"),
+    "UOV-Is-classic": ("UOV.yaml", "Is-classic"),
+    "UOV-III-pkc": ("UOV.yaml", "III-pkc"),
+    "UOV-III-classic": ("UOV.yaml", "III-classic"),
+    "UOV-V-pkc": ("UOV.yaml", "V-pkc"),
+    "UOV-V-classic": ("UOV.yaml", "V-classic"),
+    # QR-UOV — bench uses commas, YAML uses spaces inside parens
+    "QR-UOV-I-(127,156,54,3)": ("QR-UOV.yaml", "I-(127 156 54 3)"),
+    "QR-UOV-I-(31,165,60,3)": ("QR-UOV.yaml", "I-(31 165 60 3)"),
+    "QR-UOV-I-(31,600,70,10)": ("QR-UOV.yaml", "I-(31 600 70 10)"),
+    "QR-UOV-I-(7,740,100,10)": ("QR-UOV.yaml", "I-(7 740 100 10)"),
+    "QR-UOV-III-(127,228,78,3)": ("QR-UOV.yaml", "III-(127 228 78 3)"),
+    "QR-UOV-III-(31,246,87,3)": ("QR-UOV.yaml", "III-(31 246 87 3)"),
+    "QR-UOV-III-(31,890,100,10)": ("QR-UOV.yaml", "III-(31 890 100 10)"),
+    "QR-UOV-III-(7,1100,140,10)": ("QR-UOV.yaml", "III-(7 1100 140 10)"),
+    "QR-UOV-V-(127,306,105,3)": ("QR-UOV.yaml", "V-(127 306 105 3)"),
+    "QR-UOV-V-(31,324,114,3)": ("QR-UOV.yaml", "V-(31 324 114 3)"),
+    "QR-UOV-V-(31,1120,120,10)": ("QR-UOV.yaml", "V-(31 1120 120 10)"),
+    "QR-UOV-V-(7,1490,190,10)": ("QR-UOV.yaml", "V-(7 1490 190 10)"),
+    # MQOM — bench r3/r5 suffix → YAML 3r/5r
+    "MQOM2-L1-gf2-fast-r3": ("MQOM.yaml", "L1-gf2-fast-3r"),
+    "MQOM2-L1-gf2-fast-r5": ("MQOM.yaml", "L1-gf2-fast-5r"),
+    "MQOM2-L1-gf2-short-r3": ("MQOM.yaml", "L1-gf2-short-3r"),
+    "MQOM2-L1-gf2-short-r5": ("MQOM.yaml", "L1-gf2-short-5r"),
+    "MQOM2-L1-gf16-fast-r3": ("MQOM.yaml", "L1-gf16-fast-3r"),
+    "MQOM2-L1-gf16-fast-r5": ("MQOM.yaml", "L1-gf16-fast-5r"),
+    "MQOM2-L1-gf16-short-r3": ("MQOM.yaml", "L1-gf16-short-3r"),
+    "MQOM2-L1-gf16-short-r5": ("MQOM.yaml", "L1-gf16-short-5r"),
+    "MQOM2-L1-gf256-fast-r3": ("MQOM.yaml", "L1-gf256-fast-3r"),
+    "MQOM2-L1-gf256-fast-r5": ("MQOM.yaml", "L1-gf256-fast-5r"),
+    "MQOM2-L1-gf256-short-r3": ("MQOM.yaml", "L1-gf256-short-3r"),
+    "MQOM2-L1-gf256-short-r5": ("MQOM.yaml", "L1-gf256-short-5r"),
+    "MQOM2-L3-gf2-fast-r3": ("MQOM.yaml", "L3-gf2-fast-3r"),
+    "MQOM2-L3-gf2-fast-r5": ("MQOM.yaml", "L3-gf2-fast-5r"),
+    "MQOM2-L3-gf2-short-r3": ("MQOM.yaml", "L3-gf2-short-3r"),
+    "MQOM2-L3-gf2-short-r5": ("MQOM.yaml", "L3-gf2-short-5r"),
+    "MQOM2-L3-gf16-fast-r3": ("MQOM.yaml", "L3-gf16-fast-3r"),
+    "MQOM2-L3-gf16-fast-r5": ("MQOM.yaml", "L3-gf16-fast-5r"),
+    "MQOM2-L3-gf16-short-r3": ("MQOM.yaml", "L3-gf16-short-3r"),
+    "MQOM2-L3-gf16-short-r5": ("MQOM.yaml", "L3-gf16-short-5r"),
+    "MQOM2-L3-gf256-fast-r3": ("MQOM.yaml", "L3-gf256-fast-3r"),
+    "MQOM2-L3-gf256-fast-r5": ("MQOM.yaml", "L3-gf256-fast-5r"),
+    "MQOM2-L3-gf256-short-r3": ("MQOM.yaml", "L3-gf256-short-3r"),
+    "MQOM2-L3-gf256-short-r5": ("MQOM.yaml", "L3-gf256-short-5r"),
+    "MQOM2-L5-gf2-fast-r3": ("MQOM.yaml", "L5-gf2-fast-3r"),
+    "MQOM2-L5-gf2-fast-r5": ("MQOM.yaml", "L5-gf2-fast-5r"),
+    "MQOM2-L5-gf2-short-r3": ("MQOM.yaml", "L5-gf2-short-3r"),
+    "MQOM2-L5-gf2-short-r5": ("MQOM.yaml", "L5-gf2-short-5r"),
+    "MQOM2-L5-gf16-fast-r3": ("MQOM.yaml", "L5-gf16-fast-3r"),
+    "MQOM2-L5-gf16-fast-r5": ("MQOM.yaml", "L5-gf16-fast-5r"),
+    "MQOM2-L5-gf16-short-r3": ("MQOM.yaml", "L5-gf16-short-3r"),
+    "MQOM2-L5-gf16-short-r5": ("MQOM.yaml", "L5-gf16-short-5r"),
+    "MQOM2-L5-gf256-fast-r3": ("MQOM.yaml", "L5-gf256-fast-3r"),
+    "MQOM2-L5-gf256-fast-r5": ("MQOM.yaml", "L5-gf256-fast-5r"),
+    "MQOM2-L5-gf256-short-r3": ("MQOM.yaml", "L5-gf256-short-3r"),
+    "MQOM2-L5-gf256-short-r5": ("MQOM.yaml", "L5-gf256-short-5r"),
+    # SQIsign
+    "SQIsign-I": ("SQIsign.yaml", "I"),
+    "SQIsign-III": ("SQIsign.yaml", "III"),
+    "SQIsign-V": ("SQIsign.yaml", "V"),
+    # Classic
+    "RSA-2048 (PSS)": ("RSA.yaml", "2048"),
+    "Ed25519": ("EdDSA.yaml", "Ed25519"),
+    "Ed448": ("EdDSA.yaml", "Ed448"),
+}
+
+
+def parse_results_file(path: Path) -> tuple[dict, list[dict]]:
+    """Return (env_meta, rows).  rows: list of dicts with keys name/keygen_cyc/sign_cyc/verify_cyc."""
+    meta: dict[str, str] = {}
+    rows: list[dict] = []
+    in_data = False
+
+    with open(path) as f:
+        for line in f:
+            line = line.rstrip("\n")
+            if line.startswith("# "):
+                # header metadata lines: "# key: value"
+                src_m = re.match(r"^#\s+schemes/(\w+)/ref:\s+(https?://\S+)", line)
+                if src_m:
+                    meta.setdefault("_sources", {})[src_m.group(1)] = src_m.group(2)
+                else:
+                    m = re.match(r"^#\s+([\w_]+):\s*(.*)", line)
+                    if m:
+                        meta[m.group(1)] = m.group(2).strip()
+            elif line.startswith("scheme") or line.startswith("------"):
+                in_data = True
+            elif in_data and line.strip():
+                parts = line.split()
+                if len(parts) >= 7:
+                    # scheme name may contain spaces; columns are last 6 fields
+                    name = " ".join(parts[:-6])
+                    keygen_cyc, _, sign_cyc, _, verify_cyc, _ = parts[-6:]
+                    rows.append({
+                        "name": name,
+                        "keygen_cycles": int(keygen_cyc),
+                        "signing_cycles": int(sign_cyc),
+                        "verification_cycles": int(verify_cyc),
+                    })
+    return meta, rows
+
+
+def find_and_update_parameterset(
+    yaml_data,
+    ps_name: str,
+    signing_cycles: int,
+    verification_cycles: int,
+) -> bool:
+    """Find first version containing ps_name and update its cycles. Return True if found."""
+    for version in yaml_data.get("versions", []):
+        for ps in version.get("parametersets", []):
+            if str(ps.get("name", "")) == ps_name:
+                ps["signing_cycles"] = signing_cycles
+                ps["verification_cycles"] = verification_cycles
+                # Remove signing_ms/verification_ms so cycles take precedence
+                ps.pop("signing_ms", None)
+                ps.pop("verification_ms", None)
+                return True
+    return False
+
+
+def write_benchmark_env(meta: dict, path: Path) -> None:
+    """Write data/benchmark_env.yaml from parsed header metadata."""
+    yaml = YAML()
+    yaml.default_flow_style = False
+    yaml.width = 4096
+
+    from ruamel.yaml.comments import CommentedMap
+
+    env: CommentedMap = CommentedMap()
+    env.yaml_set_start_comment(
+        "Licensed under CC BY 4.0: https://creativecommons.org/licenses/by/4.0/\n"
+        "Attribution: nist-sigs.zoo — https://nist-sigs-zoo.thomwiggers.nl"
+    )
+    env["license"] = "CC-BY-4.0"
+    env["attribution"] = "nist-sigs.zoo"
+    env["date"] = meta.get("date", "")
+
+    cpu = CommentedMap()
+    cpu["model"] = meta.get("cpu", "")
+    cores_str = meta.get("cores", "")
+    cores_m = re.match(r"(\d+)\s+\(threads/core:\s+(\d+)\)", cores_str)
+    if cores_m:
+        cpu["cores"] = int(cores_m.group(1))
+        cpu["threads_per_core"] = int(cores_m.group(2))
+    freq_str = meta.get("max_freq_mhz", "")
+    freq_m = re.match(r"(\d+)", freq_str)
+    if freq_m:
+        cpu["max_freq_mhz"] = int(freq_m.group(1))
+    cpu["governor"] = meta.get("governor", "")
+    cpu["turbo"] = meta.get("turbo", "")
+    env["cpu"] = cpu
+
+    env["os"] = meta.get("os", "")
+    env["kernel"] = meta.get("kernel", "")
+    env["compiler"] = meta.get("compiler", "")
+    env["openssl"] = meta.get("openssl", "")
+    env["notes"] = (
+        "Median over 1000 iterations (fewer for slow schemes). "
+        "Cycle counter: rdtsc + lfence (constant TSC rate, not execution cycles). "
+        "Wall clock: clock_gettime(CLOCK_MONOTONIC)."
+    )
+
+    sources = meta.get("_sources", {})
+    if sources:
+        src_map = CommentedMap()
+        for k, v in sorted(sources.items()):
+            src_map[k] = v
+        env["sources"] = src_map
+
+    with open(path, "w") as f:
+        yaml.dump(env, f)
+
+    print(f"Wrote {path.relative_to(REPO_ROOT)}")
+
+
+def main() -> None:
+    results_dir = REPO_ROOT / "bench" / "results"
+
+    if len(sys.argv) > 1:
+        results_file = Path(sys.argv[1])
+    else:
+        files = sorted(results_dir.glob("*.txt"))
+        if not files:
+            sys.exit("No results files found in bench/results/")
+        results_file = files[-1]
+        print(f"Using {results_file.name}")
+
+    meta, rows = parse_results_file(results_file)
+    print(f"Parsed {len(rows)} benchmark rows")
+
+    yaml = YAML()
+    yaml.preserve_quotes = True
+    yaml.width = 4096
+
+    updated = 0
+    skipped = 0
+    not_mapped = []
+
+    # Group updates by yaml file to minimise file reads/writes
+    file_updates: dict[str, list[tuple[str, int, int]]] = {}
+    for row in rows:
+        name = row["name"]
+        if name not in BENCH_TO_YAML:
+            not_mapped.append(name)
+            continue
+        yaml_file, ps_name = BENCH_TO_YAML[name]
+        file_updates.setdefault(yaml_file, []).append(
+            (ps_name, row["signing_cycles"], row["verification_cycles"])
+        )
+
+    for yaml_filename, updates in sorted(file_updates.items()):
+        yaml_path = SCHEMES_DIR / yaml_filename
+        if not yaml_path.exists():
+            print(f"  MISSING: {yaml_filename}")
+            skipped += len(updates)
+            continue
+
+        with open(yaml_path) as f:
+            data = yaml.load(f)
+
+        changed = False
+        for ps_name, sign_cyc, verify_cyc in updates:
+            if find_and_update_parameterset(data, ps_name, sign_cyc, verify_cyc):
+                print(f"  {yaml_filename}  {ps_name}: sign={sign_cyc:>12,}  verify={verify_cyc:>12,}")
+                updated += 1
+                changed = True
+            else:
+                print(f"  NOT FOUND: {yaml_filename}  '{ps_name}'")
+                skipped += 1
+
+        if changed:
+            with open(yaml_path, "w") as f:
+                yaml.dump(data, f)
+
+    print(f"\nUpdated {updated} parametersets, skipped {skipped}")
+    if not_mapped:
+        print(f"\nNo YAML mapping for {len(not_mapped)} bench names:")
+        for n in not_mapped:
+            print(f"  {n}")
+
+    write_benchmark_env(meta, BENCH_ENV_FILE)
+
+
+if __name__ == "__main__":
+    main()

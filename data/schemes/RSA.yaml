@@ -11,6 +11,6 @@ versions:
     level: Pre-Quantum
     pk: 272
     sig: 256
-    signing_cycles: 27000000
-    verification_cycles: 45000
+    signing_cycles: 1339282
+    verification_cycles: 34397
   broken: classical

@@ -11,6 +11,12 @@ versions:
     level: Pre-Quantum
     pk: 32
     sig: 64
-    signing_cycles: 42000
-    verification_cycles: 130000
+    signing_cycles: 61436
+    verification_cycles: 161366
+  - name: Ed448
+    level: Pre-Quantum
+    pk: 57
+    sig: 114
+    signing_cycles: 333112
+    verification_cycles: 275702
   broken: classical

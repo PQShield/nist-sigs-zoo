@@ -11,8 +11,8 @@ versions:
     level: 5
     pk: 8016
     sig: 576
-    signing_cycles: 2800653
-    verification_cycles: 1932041
+    signing_cycles: 5177434
+    verification_cycles: 1508168
   - name: (66 15 3)
     level: 5
     pk: 15204
@@ -37,8 +37,8 @@ versions:
     level: 3
     pk: 4112
     sig: 376
-    signing_cycles: 1102301
-    verification_cycles: 652463
+    signing_cycles: 1567970
+    verification_cycles: 445169
     warning: "Wedge product attack (Bros et al., ePrint 2026/237) reduces best known classical attack to ~214 bits; above NIST Level III threshold (192 bits) but significantly weaker than claimed"
   - name: (49 11 3)
     level: 3
@@ -64,8 +64,8 @@ versions:
     level: 1
     pk: 1016
     sig: 248
-    signing_cycles: 385429
-    verification_cycles: 205829
+    signing_cycles: 610724
+    verification_cycles: 161863
     warning: "Wedge product attack (Bros et al., ePrint 2026/237) reduces best known classical attack to ~155 bits; above NIST Level I threshold (128 bits) but significantly weaker than claimed"
   - name: (25 8 3)
     level: 1

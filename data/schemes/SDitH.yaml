@@ -56,72 +56,72 @@ versions:
     level: 5
     pk: 234
     sig: 33370
-    signing_cycles: 94800000
-    verification_cycles: 91300000
+    signing_cycles: 45691902
+    verification_cycles: 42866044
   - name: gf256-L5-hyp
     level: 5
     pk: 234
     sig: 33370
-    signing_cycles: 59200000
-    verification_cycles: 54400000
+    signing_cycles: 30829008
+    verification_cycles: 27734944
   - name: gf251-L3-hyp
     level: 3
     pk: 183
     sig: 19161
-    signing_cycles: 51100000
-    verification_cycles: 49000000
+    signing_cycles: 26342745
+    verification_cycles: 25302017
   - name: gf256-L3-hyp
     level: 3
     pk: 183
     sig: 19161
-    signing_cycles: 30500000
-    verification_cycles: 27700000
+    signing_cycles: 16284510
+    verification_cycles: 15482468
   - name: gf256-L5-thr
     level: 5
     pk: 234
     sig: 43943
-    signing_cycles: 30500000
-    verification_cycles: 10200000
+    signing_cycles: 92839334
+    verification_cycles: 20496505
   - name: gf251-L5-thr
     level: 5
     pk: 234
     sig: 43943
-    signing_cycles: 23900000
-    verification_cycles: 3200000
+    signing_cycles: 15331602
+    verification_cycles: 1987592
   - name: gf251-L1-hyp
     level: 1
     pk: 120
     sig: 8241
-    signing_cycles: 22100000
-    verification_cycles: 21200000
+    signing_cycles: 11153169
+    verification_cycles: 10454203
   - name: gf256-L3-thr
     level: 3
     pk: 183
     sig: 24918
-    signing_cycles: 14800000
-    verification_cycles: 4900000
+    signing_cycles: 53720949
+    verification_cycles: 10235428
   - name: gf256-L1-hyp
     level: 1
     pk: 120
     sig: 8241
-    signing_cycles: 13400000
-    verification_cycles: 12500000
+    signing_cycles: 6831790
+    verification_cycles: 6224474
   - name: gf251-L3-thr
     level: 3
     pk: 183
     sig: 24918
-    signing_cycles: 11700000
-    verification_cycles: 1500000
+    signing_cycles: 6552768
+    verification_cycles: 756521
   - name: gf256-L1-thr
     level: 1
     pk: 120
     sig: 10117
-    signing_cycles: 5100000
-    verification_cycles: 1600000
+    signing_cycles: 19859988
+    verification_cycles: 2916542
   - name: gf251-L1-thr
     level: 1
     pk: 120
     sig: 10117
-    signing_cycles: 4400000
-    verification_cycles: 600000
+    signing_cycles: 2982841
+    verification_cycles: 340259
   info: few bits security loss in original parameters

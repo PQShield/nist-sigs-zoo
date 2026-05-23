@@ -74,6 +74,26 @@ export interface SchemeYaml {
 	versions: VersionYaml[];
 }
 
+export interface BenchmarkEnv {
+	license: string;
+	attribution: string;
+	date: string;
+	cpu: {
+		model: string;
+		cores: number;
+		threads_per_core: number;
+		max_freq_mhz: number;
+		governor: string;
+		turbo: string;
+	};
+	os: string;
+	kernel: string;
+	compiler: string;
+	openssl: string;
+	notes: string;
+	sources: Record<string, string>;
+}
+
 export interface HistoryEntry {
 	date: string;
 	type: 'update' | 'attack' | 'standardization' | 'milestone';

@@ -11,11 +11,11 @@ versions:
     level: 5
     pk: 1793
     sig: 1280
-    signing_cycles: 2053080
-    verification_cycles: 160596
+    signing_cycles: 650497
+    verification_cycles: 63714
   - name: '512'
     level: 1
     pk: 897
     sig: 666
-    signing_cycles: 1009764
-    verification_cycles: 81036
+    signing_cycles: 312230
+    verification_cycles: 32141

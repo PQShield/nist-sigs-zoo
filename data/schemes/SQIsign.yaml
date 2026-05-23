@@ -11,20 +11,20 @@ versions:
     level: 5
     pk: 129
     sig: 292
-    signing_cycles: 507500000
-    verification_cycles: 35700000
+    signing_cycles: 328946358
+    verification_cycles: 27806485
   - name: III
     level: 3
     pk: 97
     sig: 224
-    signing_cycles: 309200000
-    verification_cycles: 18600000
+    signing_cycles: 219292297
+    verification_cycles: 14278048
   - name: I
     level: 1
     pk: 65
     sig: 148
-    signing_cycles: 101600000
-    verification_cycles: 5100000
+    signing_cycles: 70330210
+    verification_cycles: 5251891
 - version: v2.0
   date: '2025-02-05'
   status: On-ramp
