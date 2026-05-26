@@ -12,26 +12,26 @@ versions:
     level: 5
     pk: 129
     sig: 292
-    signing_cycles: 332800922
-    verification_cycles: 27305591
-    signing_us: 222228.1
-    verification_us: 18233.3
+    signing_cycles: 323022851
+    verification_cycles: 26679166
+    signing_us: 215699.2
+    verification_us: 17815.3
   - name: III
     level: 3
     pk: 97
     sig: 224
-    signing_cycles: 190055802
-    verification_cycles: 13119784
-    signing_us: 126910.2
-    verification_us: 8760.8
+    signing_cycles: 194918816
+    verification_cycles: 13710313
+    signing_us: 130157.8
+    verification_us: 9155.3
   - name: I
     level: 1
     pk: 65
     sig: 148
-    signing_cycles: 71309295
-    verification_cycles: 5203274
-    signing_us: 47617.1
-    verification_us: 3474.5
+    signing_cycles: 73959629
+    verification_cycles: 5151282
+    signing_us: 49386.9
+    verification_us: 3439.8
 - version: v2.0
   date: '2025-02-05'
   status: On-ramp

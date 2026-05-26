@@ -12,47 +12,47 @@ versions:
     level: 3
     pk: 48
     sig: 16224
-    signing_cycles: 2299948206
-    verification_cycles: 1867845
-    signing_us: 1535789.9
-    verification_us: 1247.3
+    signing_cycles: 2284420334
+    verification_cycles: 1872191
+    signing_us: 1525421.7
+    verification_us: 1250.2
   - name: SHAKE-256s
     level: 5
     pk: 64
     sig: 29792
-    signing_cycles: 2003112784
-    verification_cycles: 2786188
-    signing_us: 1337578.4
-    verification_us: 1860.5
+    signing_cycles: 2038295238
+    verification_cycles: 2751784
+    signing_us: 1361071.9
+    verification_us: 1837.5
   - name: SHAKE-128s
     level: 1
     pk: 32
     sig: 7856
-    signing_cycles: 1283057866
-    verification_cycles: 1263169
-    signing_us: 856761.8
-    verification_us: 843.5
+    signing_cycles: 1311725446
+    verification_cycles: 1298506
+    signing_us: 875904.9
+    verification_us: 867.1
   - name: SHAKE-256f
     level: 5
     pk: 64
     sig: 49856
-    signing_cycles: 212469162
-    verification_cycles: 5591751
-    signing_us: 141876.3
-    verification_us: 3733.9
+    signing_cycles: 219062770
+    verification_cycles: 5787218
+    signing_us: 146280.1
+    verification_us: 3864.5
   - name: SHAKE-192f
     level: 3
     pk: 48
     sig: 35664
-    signing_cycles: 91416935
-    verification_cycles: 4880673
-    signing_us: 61043.8
-    verification_us: 3259.1
+    signing_cycles: 93978666
+    verification_cycles: 5312735
+    signing_us: 62754.2
+    verification_us: 3547.5
   - name: SHAKE-128f
     level: 1
     pk: 32
     sig: 17088
-    signing_cycles: 61054251
-    verification_cycles: 3633632
-    signing_us: 40769.2
-    verification_us: 2426.4
+    signing_cycles: 64161670
+    verification_cycles: 3887082
+    signing_us: 42844.0
+    verification_us: 2595.6

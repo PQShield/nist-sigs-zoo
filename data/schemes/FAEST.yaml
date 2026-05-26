@@ -12,98 +12,98 @@ versions:
     level: 1
     pk: 32
     sig: 4506
-    signing_cycles: 6823756
-    verification_cycles: 6050701
-    signing_us: 4556.7
-    verification_us: 4040.5
+    signing_cycles: 6698573
+    verification_cycles: 5442163
+    signing_us: 4473.0
+    verification_us: 3634.1
   - name: 128f
     level: 1
     pk: 32
     sig: 5924
-    signing_cycles: 830369
-    verification_cycles: 692068
-    signing_us: 554.5
-    verification_us: 462.2
+    signing_cycles: 883854
+    verification_cycles: 716100
+    signing_us: 590.2
+    verification_us: 478.2
   - name: EM-128s
     level: 1
     pk: 32
     sig: 3906
-    signing_cycles: 4624494
-    verification_cycles: 3541113
-    signing_us: 3088.1
-    verification_us: 2364.6
+    signing_cycles: 4100552
+    verification_cycles: 3511201
+    signing_us: 2738.2
+    verification_us: 2344.8
   - name: EM-128f
     level: 1
     pk: 32
     sig: 5060
-    signing_cycles: 581738
-    verification_cycles: 506506
-    signing_us: 388.5
-    verification_us: 338.3
+    signing_cycles: 616840
+    verification_cycles: 508254
+    signing_us: 411.9
+    verification_us: 339.4
   - name: 192s
     level: 3
     pk: 48
     sig: 11260
-    signing_cycles: 29141997
-    verification_cycles: 25407624
-    signing_us: 19460.7
-    verification_us: 16966.6
+    signing_cycles: 28917525
+    verification_cycles: 24145523
+    signing_us: 19309.8
+    verification_us: 16123.4
   - name: 192f
     level: 3
     pk: 48
     sig: 14948
-    signing_cycles: 3776388
-    verification_cycles: 3395300
-    signing_us: 2521.7
-    verification_us: 2267.3
+    signing_cycles: 3515881
+    verification_cycles: 3216691
+    signing_us: 2347.7
+    verification_us: 2148.1
   - name: EM-192s
     level: 3
     pk: 48
     sig: 9340
-    signing_cycles: 18386655
-    verification_cycles: 17091426
-    signing_us: 12278.0
-    verification_us: 11413.2
+    signing_cycles: 20583999
+    verification_cycles: 19722485
+    signing_us: 13745.2
+    verification_us: 13169.8
   - name: EM-192f
     level: 3
     pk: 48
     sig: 12380
-    signing_cycles: 2414162
-    verification_cycles: 2212262
-    signing_us: 1613.1
-    verification_us: 1477.3
+    signing_cycles: 2394325
+    verification_cycles: 2255154
+    signing_us: 1598.9
+    verification_us: 1505.9
   - name: 256s
     level: 5
     pk: 48
     sig: 20696
-    signing_cycles: 43058370
-    verification_cycles: 42711027
-    signing_us: 28752.7
-    verification_us: 28520.6
+    signing_cycles: 35856257
+    verification_cycles: 36206045
+    signing_us: 23943.4
+    verification_us: 24176.7
   - name: 256f
     level: 5
     pk: 48
     sig: 26548
-    signing_cycles: 4826144
-    verification_cycles: 4483363
-    signing_us: 3222.7
-    verification_us: 2993.8
+    signing_cycles: 5052037
+    verification_cycles: 4979330
+    signing_us: 3373.6
+    verification_us: 3325.0
   - name: EM-256s
     level: 5
     pk: 64
     sig: 17984
-    signing_cycles: 31163557
-    verification_cycles: 30113663
-    signing_us: 20810.0
-    verification_us: 20108.8
+    signing_cycles: 29842048
+    verification_cycles: 28748085
+    signing_us: 19927.4
+    verification_us: 19196.8
   - name: EM-256f
     level: 5
     pk: 64
     sig: 23476
-    signing_cycles: 4007151
-    verification_cycles: 3781558
-    signing_us: 2675.8
-    verification_us: 2525.2
+    signing_cycles: 4160441
+    verification_cycles: 4254577
+    signing_us: 2778.2
+    verification_us: 2841.0
   tags:
   - round-2
   - round-3  # Round 3 spec not yet available; showing current latest data

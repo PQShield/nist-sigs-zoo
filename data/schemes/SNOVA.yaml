@@ -14,118 +14,118 @@ versions:
     level: 5
     pk: 8016
     sig: 576
-    signing_cycles: 4686721
-    verification_cycles: 1320182
-    signing_us: 3129.7
-    verification_us: 881.6
+    signing_cycles: 4540477
+    verification_cycles: 1287637
+    signing_us: 3032.0
+    verification_us: 859.9
   - name: SNOVA-50-9-19-4
     level: 5
     pk: 3213
     sig: 520
-    signing_cycles: 1715414
-    verification_cycles: 790004
-    signing_us: 1145.6
-    verification_us: 527.6
+    signing_cycles: 1758159
+    verification_cycles: 802412
+    signing_us: 1174.1
+    verification_us: 536.0
   - name: SNOVA-97-33-16-2
     level: 5
     pk: 71890
     sig: 276
-    signing_cycles: 11420691
-    verification_cycles: 2312204
-    signing_us: 7626.3
-    verification_us: 1544.0
+    signing_cycles: 12420786
+    verification_cycles: 2507124
+    signing_us: 8294.2
+    verification_us: 1674.2
   # Level 3
   - name: SNOVA-37-8-16-4
     level: 3
     pk: 4112
     sig: 376
-    signing_cycles: 1574995
-    verification_cycles: 436812
+    signing_cycles: 1612388
+    verification_cycles: 456198
     warning: "Wedge product attack (Bros et al., ePrint 2026/237) reduces best known classical attack to ~214 bits; above NIST Level III threshold (192 bits) but significantly weaker than claimed"
-    signing_us: 1051.8
-    verification_us: 291.8
+    signing_us: 1076.7
+    verification_us: 304.7
   - name: SNOVA-40-7-19-4
     level: 3
     pk: 1532
     sig: 418
-    signing_cycles: 846138
-    verification_cycles: 404113
-    signing_us: 565.0
-    verification_us: 269.9
+    signing_cycles: 831776
+    verification_cycles: 400191
+    signing_us: 555.5
+    verification_us: 267.3
   - name: SNOVA-72-25-16-2
     level: 3
     pk: 31266
     sig: 210
-    signing_cycles: 4276084
-    verification_cycles: 969341
-    signing_us: 2855.4
-    verification_us: 647.4
+    signing_cycles: 4295351
+    verification_cycles: 975719
+    signing_us: 2868.3
+    verification_us: 651.6
   - name: SNOVA-38-5-16-4x5
     level: 3
     pk: 1416
     sig: 446
-    signing_cycles: 1210069
-    verification_cycles: 647386
-    signing_us: 808.1
-    verification_us: 432.3
+    signing_cycles: 1214815
+    verification_cycles: 650734
+    signing_us: 811.3
+    verification_us: 434.6
   - name: SNOVA-38-5-19-4x5
     level: 3
     pk: 800
     sig: 475
-    signing_cycles: 1099326
-    verification_cycles: 434623
-    signing_us: 734.2
-    verification_us: 290.2
+    signing_cycles: 1056269
+    verification_cycles: 413452
+    signing_us: 705.4
+    verification_us: 276.2
   # Level 1
   - name: SNOVA-24-5-16-4
     level: 1
     pk: 1016
     sig: 248
-    signing_cycles: 515187
-    verification_cycles: 135705
+    signing_cycles: 521918
+    verification_cycles: 138006
     warning: "Wedge product attack (Bros et al., ePrint 2026/237) reduces best known classical attack to ~155 bits; above NIST Level I threshold (128 bits) but significantly weaker than claimed"
-    signing_us: 344.0
-    verification_us: 90.6
+    signing_us: 348.6
+    verification_us: 92.2
   - name: SNOVA-28-5-19-4
     level: 1
     pk: 576
     sig: 298
-    signing_cycles: 341735
-    verification_cycles: 157741
-    signing_us: 228.2
-    verification_us: 105.3
+    signing_cycles: 320509
+    verification_cycles: 148914
+    signing_us: 214.0
+    verification_us: 99.5
   - name: SNOVA-48-17-16-2
     level: 1
     pk: 9842
     sig: 146
-    signing_cycles: 1230736
-    verification_cycles: 291652
-    signing_us: 821.9
-    verification_us: 194.8
+    signing_cycles: 1205862
+    verification_cycles: 284585
+    signing_us: 805.3
+    verification_us: 190.1
   - name: SNOVA-48-16-19-2
     level: 1
     pk: 4522
     sig: 153
-    signing_cycles: 648604
-    verification_cycles: 341647
-    signing_us: 433.2
-    verification_us: 228.2
+    signing_cycles: 586529
+    verification_cycles: 305631
+    signing_us: 391.7
+    verification_us: 204.2
   - name: SNOVA-28-4-16-4x5
     level: 1
     pk: 656
     sig: 336
-    signing_cycles: 574351
-    verification_cycles: 284954
-    signing_us: 383.6
-    verification_us: 190.3
+    signing_cycles: 554666
+    verification_cycles: 271255
+    signing_us: 370.4
+    verification_us: 181.2
   - name: SNOVA-28-4-19-4x5
     level: 1
     pk: 379
     sig: 358
-    signing_cycles: 534936
-    verification_cycles: 202328
-    signing_us: 357.3
-    verification_us: 135.1
+    signing_cycles: 522064
+    verification_cycles: 197100
+    signing_us: 348.6
+    verification_us: 131.6
 - version: v2.0
   date: '2025-01-25'
   status: On-ramp
