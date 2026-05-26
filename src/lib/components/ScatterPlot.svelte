@@ -2,7 +2,22 @@
 	import { onMount } from 'svelte';
 	import { getFilterStore } from '$lib/filterStore';
 	import { themeStore } from '$lib/themeStore';
-	import type { NistLevel, ParameterSet } from '$lib/types';
+	import type { AxisField, NistLevel, ParameterSet, ScaleType } from '$lib/types';
+
+	let {
+		xField = 'pk' as AxisField,
+		yField = 'sig' as AxisField,
+		xScale = 'log' as ScaleType,
+		yScale = 'log' as ScaleType,
+	}: { xField?: AxisField; yField?: AxisField; xScale?: ScaleType; yScale?: ScaleType } = $props();
+
+	const AXIS_TITLES: Record<AxisField, string> = {
+		pk: 'Public key (bytes)',
+		sig: 'Signature (bytes)',
+		pkPlusSig: 'pk + sig (bytes)',
+		signingCycles: 'Signing (cycles)',
+		verificationCycles: 'Verification (cycles)',
+	};
 
 	const { filteredRows } = getFilterStore();
 
@@ -64,6 +79,9 @@
 				'Security level': levelLabel(d.level),
 				'pk (bytes)': d.pk.toLocaleString(),
 				'sig (bytes)': d.sig.toLocaleString(),
+				'pk+sig (bytes)': d.pkPlusSig.toLocaleString(),
+				...(d.signingCycles > 0 ? { 'Signing (cycles)': d.signingCycles.toLocaleString() } : {}),
+				...(d.verificationCycles > 0 ? { 'Verification (cycles)': d.verificationCycles.toLocaleString() } : {}),
 				...(notes ? { Notes: notes } : {})
 			};
 
@@ -72,6 +90,9 @@
 				parameterset: d.parameterset,
 				pk: d.pk,
 				sig: d.sig,
+				pkPlusSig: d.pkPlusSig,
+				signingCycles: d.signingCycles > 0 ? d.signingCycles : null,
+				verificationCycles: d.verificationCycles > 0 ? d.verificationCycles : null,
 				shapeKey: shapeKey(d),
 				level: levelLabel(d.level),
 				security: securityStatus(d),
@@ -174,16 +195,16 @@
 			],
 			encoding: {
 				x: {
-					field: 'pk',
+					field: xField,
 					type: 'quantitative',
-					scale: { type: 'log' },
-					axis: { title: 'Public key size (bytes)', grid: true, format: 's' }
+					scale: { type: xScale },
+					axis: { title: AXIS_TITLES[xField], grid: true, format: 's' }
 				},
 				y: {
-					field: 'sig',
+					field: yField,
 					type: 'quantitative',
-					scale: { type: 'log' },
-					axis: { title: 'Signature size (bytes)', grid: true, format: 's' }
+					scale: { type: yScale },
+					axis: { title: AXIS_TITLES[yField], grid: true, format: 's' }
 				},
 				tooltip: { field: 'tooltip', type: 'nominal' }
 			},
@@ -216,6 +237,7 @@
 	$effect(() => {
 		$filteredRows;
 		$themeStore;
+		xField; yField; xScale; yScale;
 		render();
 	});
 </script>

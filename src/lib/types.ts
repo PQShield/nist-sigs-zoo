@@ -103,6 +103,9 @@ export interface HistoryEntry {
 	schemes?: string[];
 }
 
+export type AxisField = 'pk' | 'sig' | 'pkPlusSig' | 'signingCycles' | 'verificationCycles';
+export type ScaleType = 'log' | 'linear';
+
 export type SortableColumn =
 	| 'scheme'
 	| 'category'
