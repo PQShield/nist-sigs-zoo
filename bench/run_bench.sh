@@ -77,6 +77,8 @@ OUTFILE="$RESULTS_DIR/${TIMESTAMP}_${CPU_SLUG}${FILTER_SLUG}.txt"
 
 # --- write header to output file, tee bench output ---
 
+_khz_to_mhz() { [ "$1" = "unknown" ] && echo "unknown" || echo "$(( $1 / 1000 ))"; }
+
 {
     echo "# pq-sigs benchmark results"
     echo "# date:         $DATE"
@@ -85,7 +87,7 @@ OUTFILE="$RESULTS_DIR/${TIMESTAMP}_${CPU_SLUG}${FILTER_SLUG}.txt"
     echo "# kernel:       $KERNEL"
     echo "# cpu:          $CPU_MODEL"
     echo "# cores:        $CPU_CORES (threads/core: ${CPU_THREADS_PER_CORE:-?})"
-    echo "# max_freq_mhz: $(( CPU_MAXFREQ_KHZ == 0 ? 0 : CPU_MAXFREQ_KHZ / 1000 )) (cur: $(( CPU_CURFREQ_KHZ == 0 ? 0 : CPU_CURFREQ_KHZ / 1000 )) MHz)"
+    echo "# max_freq_mhz: $(_khz_to_mhz "$CPU_MAXFREQ_KHZ") (cur: $(_khz_to_mhz "$CPU_CURFREQ_KHZ") MHz)"
     echo "# governor:     $CPU_GOVERNOR"
     echo "# turbo:        $TURBO"
     echo "# flags:        $CPU_FLAGS"
