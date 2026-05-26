@@ -17,6 +17,8 @@
 		pkPlusSig: 'pk + sig (bytes)',
 		signingCycles: 'Signing (cycles)',
 		verificationCycles: 'Verification (cycles)',
+		signingUs: 'Signing (µs)',
+		verificationUs: 'Verification (µs)',
 	};
 
 	const { filteredRows } = getFilterStore();
@@ -82,6 +84,8 @@
 				'pk+sig (bytes)': d.pkPlusSig.toLocaleString(),
 				...(d.signingCycles > 0 ? { 'Signing (cycles)': d.signingCycles.toLocaleString() } : {}),
 				...(d.verificationCycles > 0 ? { 'Verification (cycles)': d.verificationCycles.toLocaleString() } : {}),
+				...(d.signingUs != null ? { 'Signing (µs)': d.signingUs.toLocaleString() } : {}),
+				...(d.verificationUs != null ? { 'Verification (µs)': d.verificationUs.toLocaleString() } : {}),
 				...(notes ? { Notes: notes } : {})
 			};
 
@@ -93,6 +97,8 @@
 				pkPlusSig: d.pkPlusSig,
 				signingCycles: d.signingCycles > 0 ? d.signingCycles : null,
 				verificationCycles: d.verificationCycles > 0 ? d.verificationCycles : null,
+				signingUs: d.signingUs,
+				verificationUs: d.verificationUs,
 				shapeKey: shapeKey(d),
 				level: levelLabel(d.level),
 				security: securityStatus(d),

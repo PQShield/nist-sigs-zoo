@@ -36,17 +36,21 @@
 		{ value: 'pkPlusSig', label: 'pk + sig (bytes)' },
 		{ value: 'signingCycles', label: 'Signing (cycles)' },
 		{ value: 'verificationCycles', label: 'Verification (cycles)' },
+		{ value: 'signingUs', label: 'Signing (µs)' },
+		{ value: 'verificationUs', label: 'Verification (µs)' },
 	];
 
 	const AXIS_SHORT: Record<AxisField, string> = {
 		pk: 'pk size',
 		sig: 'sig size',
 		pkPlusSig: 'pk+sig',
-		signingCycles: 'signing time',
-		verificationCycles: 'verification time',
+		signingCycles: 'signing (cycles)',
+		verificationCycles: 'verification (cycles)',
+		signingUs: 'signing (µs)',
+		verificationUs: 'verification (µs)',
 	};
 
-	const VALID_FIELDS = new Set<string>(['pk', 'sig', 'pkPlusSig', 'signingCycles', 'verificationCycles']);
+	const VALID_FIELDS = new Set<string>(['pk', 'sig', 'pkPlusSig', 'signingCycles', 'verificationCycles', 'signingUs', 'verificationUs']);
 
 	let urlSyncTimer: ReturnType<typeof setTimeout> | null = null;
 
