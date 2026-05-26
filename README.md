@@ -22,7 +22,15 @@ npm run preview   # preview dist/ at http://localhost:4173
 npm run check     # type-check
 ```
 
-Updating data: edit `data/schemes.csv` or `data/parametersets.csv`, then copy to `static/data/`.
+## Testing
+
+```sh
+npm run test        # unit tests (Vitest) — fast, no browser required
+npm run test:e2e    # E2E tests (Playwright) — builds site then runs in headless Chromium
+```
+
+Unit tests in `src/lib/__tests__/` cover data processing and URL-encoding logic.
+E2E tests in `e2e/` exercise the main page and advanced graph page in a real browser.
 
 ## Contributing
 

@@ -24,6 +24,36 @@ npm run preview   # preview dist/ at http://localhost:4173
 npm run check     # type-check with svelte-check
 ```
 
+## Testing
+
+```bash
+npm run test          # unit tests (Vitest, fast, no browser)
+npm run test:watch    # unit tests in watch mode
+npm run test:e2e      # E2E tests (Playwright, builds site first)
+```
+
+### Unit tests — `src/lib/__tests__/*.test.ts`
+
+Vitest with node environment. Tests pure TypeScript functions only — no Svelte components, no browser.
+
+- `data.test.ts` — `processYamlSchemes()`: tag filtering, version selection, field computation, flag propagation
+- `filterStore.test.ts` — `buildUrlParams()`: URL encoding of filter state
+
+**Adding unit tests:** create `src/lib/__tests__/<module>.test.ts`. Import directly from `$lib/...`.
+Pass mock `SchemeYaml[]` objects to `processYamlSchemes` — no fixture files needed.
+Do not import from `$app/*` or `$lib/schemeData` (these need the Vite/SvelteKit runtime).
+
+### E2E tests — `e2e/*.spec.ts`
+
+Playwright against a built static site. The playwright config runs `npm run build && npm run preview -- --port 4175` automatically (`reuseExistingServer: true`, so a running preview server is reused for speed).
+
+- `main.spec.ts` — main page: heading, Vega chart render, advanced link, round selector, table
+- `advanced.spec.ts` — advanced page: axis controls, heading updates, URL encoding/restoration, filter panel
+
+**Adding E2E tests:** add to `e2e/main.spec.ts` or `e2e/advanced.spec.ts`, or create a new `e2e/<feature>.spec.ts`.
+Use `page.waitForFunction(() => [...document.querySelectorAll('svg')].some(s => s.querySelector('g')), { timeout: 15_000 })` to wait for the Vega chart to render before asserting on it.
+Axis URL params: `x`, `y` (field name), `xs`, `ys` (scale: `log`|`linear`). Default values omitted from URL.
+
 ## Data
 
 Source of truth is `data/schemes/*.yaml` — one YAML file per scheme.
@@ -97,11 +127,22 @@ src/
 │       ├── FilterPanel.svelte    # filter controls (categories, levels, ranges)
 │       ├── RangeField.svelte     # reusable number input
 │       ├── SchemeTable.svelte    # sortable table (one row per parameter set)
-│       └── ScatterPlot.svelte    # Vega-Lite scatter plot
+│       └── ScatterPlot.svelte    # Vega-Lite scatter plot; accepts xField/yField/xScale/yScale props
 └── routes/
     ├── +layout.svelte    # nav (logo, round selector, dark toggle), footer
-    ├── +page.ts          # load: processYamlSchemes('round-2', {useLatestVersion:true}), createFilterStore
-    └── +page.svelte      # page composition, round switching, URL state sync
+    ├── +page.ts          # load: processYamlSchemes('round-3', {useLatestVersion:true}), createFilterStore
+    ├── +page.svelte      # page composition, round switching, URL state sync
+    └── advanced/
+        ├── +page.ts      # same load as main page
+        └── +page.svelte  # axis selectors, scale toggles, ScatterPlot, FilterPanel, SchemeTable
+
+tests/
+├── src/lib/__tests__/   # Vitest unit tests (vitest.config.ts)
+│   ├── data.test.ts
+│   └── filterStore.test.ts
+└── e2e/                 # Playwright E2E tests (playwright.config.ts)
+    ├── main.spec.ts
+    └── advanced.spec.ts
 ```
 
 ### Data Processing
