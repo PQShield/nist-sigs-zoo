@@ -1,7 +1,7 @@
 name: QR-UOV
 website: http://info.isl.ntt.co.jp/crypt/qruov/index.html
 category: Multivariate
-assumption: Multivariate
+assumption: UOV
 versions:
 - version: Round 2
   date: '2025-02-05'

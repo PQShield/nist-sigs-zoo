@@ -1,7 +1,7 @@
 name: CROSS
 website: https://cross-crypto.com/
 category: Code-based
-assumption: Restricted syndrome decoding
+assumption: Restricted Synd. Dec.
 versions:
 - version: v2.2
   date: '2025-07-31'

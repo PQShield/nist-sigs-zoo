@@ -1,7 +1,7 @@
 name: KAZ-Sign
 website: https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/round-1/spec-files/kaz-sign-spec-web.pdf
 category: Other
-assumption: Second-order Discrete Logarithm Problem
+assumption: Second-order Discrete Log
 versions:
 - version: Round 1
   date: '2023-06-01'

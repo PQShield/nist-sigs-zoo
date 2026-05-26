@@ -1,7 +1,7 @@
 name: 3WISE
 website: https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/round-1/spec-files/3wise-spec-web.pdf
 category: Multivariate
-assumption: cubic degree
+assumption: Cubic Degree
 versions:
 - version: Round 1
   date: '2023-06-01'

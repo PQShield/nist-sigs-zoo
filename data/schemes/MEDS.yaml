@@ -1,7 +1,7 @@
 name: MEDS
 website: https://www.meds-pqc.org/
 category: Code-based
-assumption: Matrix Code Equivalence
+assumption: Matrix Code Equiv.
 versions:
 - version: v1.0.1
   date: '2023-06-30'

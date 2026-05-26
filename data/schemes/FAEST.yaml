@@ -1,7 +1,7 @@
 name: FAEST
 website: https://faest.info
 category: Symmetric
-assumption: symmetric / zero-knowledge VOLE-in-the-Head
+assumption: AES
 versions:
 - version: v2.0
   date: '2025-02-07'

@@ -1,7 +1,7 @@
 name: MAYO
 website: https://pqmayo.org
 category: Multivariate
-assumption: Multivariate quadratic
+assumption: Multivariate Quadratic
 versions:
 - version: Round 2
   date: '2025-03-26'

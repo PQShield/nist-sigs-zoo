@@ -1,7 +1,7 @@
 name: Mirath
 website: https://pqc-mirath.org/
 category: MPCitH
-assumption: Min-rank problem
+assumption: MinRank
 versions:
 - version: v2.1.0
   date: '2025-09-23'

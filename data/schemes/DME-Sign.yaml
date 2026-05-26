@@ -1,7 +1,7 @@
 name: DME-Sign
 website: https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/round-1/spec-files/DME_SIGN-spec-web.pdf
 category: Multivariate
-assumption: deterministic trapdoor permutation
+assumption: Deterministic Trapdoor Permutation
 versions:
 - version: Round 1
   date: '2023-06-01'

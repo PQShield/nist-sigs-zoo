@@ -1,7 +1,7 @@
 name: VOX
 website: http://vox-sign.com/
 category: Multivariate
-assumption: Multivariate
+assumption: UOV
 versions:
 - version: v1.0
   date: '2023-06-01'

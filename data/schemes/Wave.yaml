@@ -1,7 +1,7 @@
 name: Wave
 website: https://wave-sign.org/
 category: Code-based
-assumption: Coding theory
+assumption: Coding Theory
 versions:
 - version: v1
   date: '2023-06-01'

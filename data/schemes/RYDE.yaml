@@ -1,7 +1,7 @@
 name: RYDE
 website: https://pqc-ryde.org/
 category: MPCitH
-assumption: Rank Syndrome Decoding
+assumption: Rank Synd. Dec.
 versions:
 - version: v2.1.0
   date: '2025-09-23'

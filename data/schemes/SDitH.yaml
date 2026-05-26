@@ -1,7 +1,7 @@
 name: SDitH
 website: https://sdith.org/
 category: MPCitH
-assumption: Syndrome Decoding
+assumption: Synd. Dec.
 versions:
 - version: v2.0
   date: '2025-02-05'

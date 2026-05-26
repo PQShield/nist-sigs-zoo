@@ -1,7 +1,7 @@
 name: HAWK
 website: https://hawk-sign.info
 category: Lattices
-assumption: Lattice Isomorphism Problem
+assumption: Lattice Isomorphism
 versions:
 - version: v1.1
   date: '2025-02-05'

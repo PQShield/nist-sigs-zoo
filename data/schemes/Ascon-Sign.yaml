@@ -1,7 +1,7 @@
 name: Ascon-Sign
 website: https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/round-1/spec-files/Ascon-sign-spec-web.pdf
 category: Symmetric
-assumption: SPHINCS+ with Ascon
+assumption: Hash-based
 versions:
 - version: Round 1
   date: '2023-06-01'

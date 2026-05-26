@@ -1,7 +1,7 @@
 name: PROV
 website: https://prov-sign.github.io/
 category: Multivariate
-assumption: Multivariate
+assumption: UOV
 versions:
 - version: v1.0
   date: '2023-06-01'

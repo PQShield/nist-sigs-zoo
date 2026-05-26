@@ -1,7 +1,7 @@
 name: SPHINCS-alpha
 website: https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/round-1/spec-files/sphincs-alpha-spec-web.pdf
 category: Symmetric
-assumption: hash-based
+assumption: Hash-based
 versions:
 - version: Round 1
   date: '2023-05-31'
