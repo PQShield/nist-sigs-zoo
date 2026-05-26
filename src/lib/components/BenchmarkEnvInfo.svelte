@@ -59,17 +59,24 @@
 			</summary>
 			<ul class="mt-2 space-y-0.5 font-mono">
 				{#each Object.entries(env.sources).sort() as [scheme, url]}
-					{@const [repoUrl, commit] = url.split('@')}
+					{@const atIdx = url.lastIndexOf('@')}
+					{@const hasCommit = atIdx > 8}
+					{@const repoUrl = hasCommit ? url.slice(0, atIdx) : url}
+					{@const commit = hasCommit ? url.slice(atIdx + 1) : null}
 					<li class="flex gap-2">
 						<span class="w-16 shrink-0 text-pqs-steel dark:text-pqs-bluegray">{scheme}</span>
 						<a
-							href="{repoUrl}/commit/{commit}"
+							href={commit ? `${repoUrl}/commit/${commit}` : repoUrl}
 							target="_blank"
 							rel="noopener noreferrer"
 							class="truncate text-pqs-apricot hover:underline"
 							title={url}
 						>
-							{repoUrl.replace('https://github.com/', '')}@{commit.slice(0, 8)}
+							{#if commit}
+								{repoUrl.replace('https://github.com/', '')}@{commit.slice(0, 8)}
+							{:else}
+								{url.replace('https://', '')}
+							{/if}
 						</a>
 					</li>
 				{/each}

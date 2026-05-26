@@ -1,0 +1,8 @@
+#define aes128_ctrle_init_key_iv_T aes128_ctrle_init_key_iv_ref
+#define aes128_ctrle_set_key_T aes128_ctrle_set_key_ref
+#define aes128_ctrle_init_key_ivzero_T aes128_ctrle_init_key_ivzero_ref
+#define aes128_ctrle_seek_T aes128_ctrle_seek_ref
+#define aes128_ctrle_encrypt_nblocks_T aes128_ctrle_encrypt_nblocks_ref
+#define aes128_ctrle_get_bytes_T aes128_ctrle_get_bytes_ref
+
+#include "aes128_ctrle_generics.impl.h"

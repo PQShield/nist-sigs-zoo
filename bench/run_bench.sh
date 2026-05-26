@@ -45,6 +45,7 @@ CC_VERSION=$(${CC:-cc} --version 2>&1 | head -1)
 OPENSSL_VERSION=$(openssl version 2>/dev/null || echo "not found")
 
 # Submodule sources: for each schemes/<name>/ref/, record url@commit
+# Non-submodule sources: for each schemes/<name>/.source, record url from file
 SUBMODULE_INFO=""
 for ref_dir in "$SCRIPT_DIR"/schemes/*/ref; do
     [ -e "$ref_dir/.git" ] || continue
@@ -52,6 +53,13 @@ for ref_dir in "$SCRIPT_DIR"/schemes/*/ref; do
     url=$(git -C "$ref_dir" remote get-url origin 2>/dev/null || echo "unknown")
     commit=$(git -C "$ref_dir" rev-parse HEAD 2>/dev/null || echo "unknown")
     SUBMODULE_INFO="${SUBMODULE_INFO}#   ${scheme_path}: ${url}@${commit}"$'\n'
+done
+for src_file in "$SCRIPT_DIR"/schemes/*/.source; do
+    [ -f "$src_file" ] || continue
+    scheme_dir="${src_file%/.source}"
+    scheme_path="${scheme_dir#"$SCRIPT_DIR/"}"   # e.g. schemes/sdith2
+    url=$(head -1 "$src_file" | tr -d '[:space:]')
+    SUBMODULE_INFO="${SUBMODULE_INFO}#   ${scheme_path}: ${url}"$'\n'
 done
 
 # slug for filename: lowercase model, spaces/special chars → underscore

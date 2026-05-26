@@ -135,6 +135,13 @@ BENCH_TO_YAML: dict[str, tuple[str, str]] = {
     "MQOM2-L5-gf256-fast-r5": ("MQOM.yaml", "L5-gf256-fast-5r"),
     "MQOM2-L5-gf256-short-r3": ("MQOM.yaml", "L5-gf256-short-3r"),
     "MQOM2-L5-gf256-short-r5": ("MQOM.yaml", "L5-gf256-short-5r"),
+    # SDitH2 — v2.0 gf2 variants (bench output name matches shim's @NAME@)
+    "SDitH2-L1-gf2-short": ("SDitH.yaml", "SDitH2-L1-gf2-short"),
+    "SDitH2-L1-gf2-fast":  ("SDitH.yaml", "SDitH2-L1-gf2-fast"),
+    "SDitH2-L3-gf2-short": ("SDitH.yaml", "SDitH2-L3-gf2-short"),
+    "SDitH2-L3-gf2-fast":  ("SDitH.yaml", "SDitH2-L3-gf2-fast"),
+    "SDitH2-L5-gf2-short": ("SDitH.yaml", "SDitH2-L5-gf2-short"),
+    "SDitH2-L5-gf2-fast":  ("SDitH.yaml", "SDitH2-L5-gf2-fast"),
     # SQIsign
     "SQIsign-I": ("SQIsign.yaml", "I"),
     "SQIsign-III": ("SQIsign.yaml", "III"),
@@ -157,7 +164,7 @@ def parse_results_file(path: Path) -> tuple[dict, list[dict]]:
             line = line.rstrip("\n")
             if line.startswith("# "):
                 # header metadata lines: "# key: value"
-                src_m = re.match(r"^#\s+schemes/(\w+)/ref:\s+(https?://\S+)", line)
+                src_m = re.match(r"^#\s+schemes/(\w+)(?:/ref)?:\s+(https?://\S+)", line)
                 if src_m:
                     meta.setdefault("_sources", {})[src_m.group(1)] = src_m.group(2)
                 else:
@@ -210,8 +217,7 @@ def write_benchmark_env(meta: dict, path: Path) -> None:
 
     env: CommentedMap = CommentedMap()
     env.yaml_set_start_comment(
-        "Licensed under CC BY 4.0: https://creativecommons.org/licenses/by/4.0/\n"
-        "Attribution: nist-sigs.zoo — https://nist-sigs-zoo.thomwiggers.nl"
+        "Licensed under CC BY 4.0: https://creativecommons.org/licenses/by/4.0/"
     )
     env["license"] = "CC-BY-4.0"
     env["attribution"] = "Thom Wiggers / PQShield"

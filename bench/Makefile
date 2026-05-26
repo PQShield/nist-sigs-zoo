@@ -48,6 +48,10 @@ QRUOV_SOS   = $(addprefix schemes/qruov/build/, \
     qruov5q31L10v1120m120.so qruov5q7L10v1490m190.so)
 SQISIGN_SOS = $(addprefix schemes/sqisign/build/, \
     sqisign_lvl1.so sqisign_lvl3.so sqisign_lvl5.so)
+SDITH2_SOS  = $(addprefix schemes/sdith2/build/, \
+    sdith2_cat1_short.so sdith2_cat1_fast.so \
+    sdith2_cat3_short.so sdith2_cat3_fast.so \
+    sdith2_cat5_short.so sdith2_cat5_fast.so)
 MQOM_SOS    = $(addprefix schemes/mqom/build/, \
     mqom_cat1_gf2_fast_r3.so   mqom_cat1_gf2_fast_r5.so   \
     mqom_cat1_gf2_short_r3.so  mqom_cat1_gf2_short_r5.so  \
@@ -68,8 +72,8 @@ MQOM_SOS    = $(addprefix schemes/mqom/build/, \
     mqom_cat5_gf256_fast_r3.so mqom_cat5_gf256_fast_r5.so \
     mqom_cat5_gf256_short_r3.so mqom_cat5_gf256_short_r5.so)
 
-ALL_SOS     = $(MLDSA_SOS) $(SLHDSA_SOS) $(FNDSA_SOS) $(CLASSIC_SOS) $(HAWK_SOS) $(MAYO_SOS) $(FAEST_SOS) $(SDITH_SOS) $(SNOVA_SOS) $(UOV_SOS) $(QRUOV_SOS) $(MQOM_SOS) $(SQISIGN_SOS)
-SCHEME_DIRS = mldsa slhdsa fndsa classic hawk mayo faest sdith snova uov qruov mqom sqisign
+ALL_SOS     = $(MLDSA_SOS) $(SLHDSA_SOS) $(FNDSA_SOS) $(CLASSIC_SOS) $(HAWK_SOS) $(MAYO_SOS) $(FAEST_SOS) $(SDITH_SOS) $(SDITH2_SOS) $(SNOVA_SOS) $(UOV_SOS) $(QRUOV_SOS) $(MQOM_SOS) $(SQISIGN_SOS)
+SCHEME_DIRS = mldsa slhdsa fndsa classic hawk mayo faest sdith sdith2 snova uov qruov mqom sqisign
 STAMPS      = $(addprefix schemes/, $(addsuffix /.stamp, $(SCHEME_DIRS)))
 
 .PHONY: all clean
@@ -91,6 +95,7 @@ schemes/snova/.stamp:   schemes/snova/Makefile schemes/snova/shim_template.c sch
 schemes/uov/.stamp:     schemes/uov/Makefile   schemes/uov/shim_template.c   schemes/uov/params.tsv
 schemes/qruov/.stamp:   schemes/qruov/Makefile schemes/qruov/shim_template.c schemes/qruov/params.tsv
 schemes/mqom/.stamp:    schemes/mqom/Makefile  schemes/mqom/shim_template.c  schemes/mqom/params.tsv
+schemes/sdith2/.stamp:  schemes/sdith2/Makefile  schemes/sdith2/shim_template.c  schemes/sdith2/params.tsv
 schemes/sqisign/.stamp: schemes/sqisign/Makefile schemes/sqisign/shim_template.c schemes/sqisign/params.tsv
 
 # Shared recipe for every scheme stamp.
@@ -107,6 +112,7 @@ $(HAWK_SOS):    schemes/hawk/.stamp
 $(MAYO_SOS):    schemes/mayo/.stamp
 $(FAEST_SOS):   schemes/faest/.stamp
 $(SDITH_SOS):   schemes/sdith/.stamp
+$(SDITH2_SOS):  schemes/sdith2/.stamp
 $(SNOVA_SOS):   schemes/snova/.stamp
 $(UOV_SOS):     schemes/uov/.stamp
 $(QRUOV_SOS):   schemes/qruov/.stamp
