@@ -1,7 +1,7 @@
 name: SNOVA
 website: http://snova.pqclab.org/
 category: Multivariate
-assumption: Non-commutative Ring UOV
+assumption: Non-comm. Ring UOV
 versions:
 - version: v2.0
   date: '2025-01-25'
