@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <string.h>
-#include <sys/resource.h>
+#include <pthread.h>
 #include "harness.h"
 #include "loader.h"
 
@@ -40,18 +40,34 @@ static int scheme_matches(const char *name, int nfilters, char **filters) {
     return 0;
 }
 
+/* Run bench_run in a thread with a large explicit stack to handle schemes
+ * (e.g. SNOVA-97-33-16-2) that exceed the system default stack limit.
+ * setrlimit(RLIMIT_STACK) is ineffective when the hard limit is capped
+ * (e.g. AWS Linux limits.conf). pthread stack size is independent of rlimit. */
+#define BENCH_STACK_SIZE (256 * 1024 * 1024)  /* 256 MB */
+
+static void *bench_run_thread(void *arg) {
+    bench_run((const bench_scheme_t *)arg);
+    return NULL;
+}
+
+static void bench_run_large_stack(const bench_scheme_t *s) {
+    pthread_t thr;
+    pthread_attr_t attr;
+    pthread_attr_init(&attr);
+    pthread_attr_setstacksize(&attr, BENCH_STACK_SIZE);
+    if (pthread_create(&thr, &attr, bench_run_thread, (void *)s) != 0) {
+        fprintf(stderr, "pthread_create failed for %s, running inline\n", s->name);
+        bench_run(s);
+    } else {
+        pthread_join(thr, NULL);
+    }
+    pthread_attr_destroy(&attr);
+}
+
 int main(int argc, char **argv) {
     int nfilters = argc - 1;
     char **filters = argv + 1;
-
-    /* Some schemes (e.g. large SNOVA variants) use very large stack frames.
-     * Raise the soft stack limit to the hard limit (or unlimited) so they
-     * don't SIGSEGV before we can benchmark them. */
-    struct rlimit rl;
-    if (getrlimit(RLIMIT_STACK, &rl) == 0 && rl.rlim_cur != RLIM_INFINITY) {
-        rl.rlim_cur = (rl.rlim_max == RLIM_INFINITY) ? RLIM_INFINITY : rl.rlim_max;
-        setrlimit(RLIMIT_STACK, &rl);
-    }
 
     bench_print_header();
 
@@ -59,7 +75,7 @@ int main(int argc, char **argv) {
         bench_scheme_t *s = bench_load(SO_PATHS[i]);
         if (!s) continue;
         if (scheme_matches(s->name, nfilters, filters))
-            bench_run(s);
+            bench_run_large_stack(s);
         bench_unload(s);
     }
     return 0;

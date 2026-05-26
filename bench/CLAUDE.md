@@ -135,7 +135,9 @@ The shim adapts upstream API conventions to the bench contract. Common issues:
   then `make -C build/cmake/` to produce static libs, then link shims against those `.a` files.
   See `schemes/sqisign/Makefile` for the stamp-based pattern.
 - **Large stack**: some variants need >8 MB stack (e.g. SNOVA-97-33-16-2).
-  `main.c` raises the soft stack limit via `setrlimit` at startup.
+  `main.c` runs each scheme in a pthread with a 256 MB stack
+  (`pthread_attr_setstacksize`) — this is independent of `RLIMIT_STACK` and
+  works even on systems (e.g. AWS Linux) where the hard stack limit is capped.
 
 ## Adding a new scheme
 

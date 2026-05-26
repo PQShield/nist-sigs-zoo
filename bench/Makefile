@@ -130,7 +130,7 @@ $(BUILD)/loader.o: loader.c loader.h scheme.h | $(BUILD)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 bench: $(BUILD)/main.o $(BUILD)/loader.o $(ALL_SOS) | $(BUILD)
-	$(CC) $(CFLAGS) -o $@ $(BUILD)/main.o $(BUILD)/loader.o -ldl
+	$(CC) $(CFLAGS) -o $@ $(BUILD)/main.o $(BUILD)/loader.o -ldl -lpthread
 
 $(BUILD):
 	mkdir -p $@
