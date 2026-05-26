@@ -72,10 +72,10 @@ BENCH_TO_YAML: dict[str, tuple[str, str]] = {
     "SDitH-Threshold-L3-P251": ("SDitH.yaml", "gf251-L3-thr"),
     "SDitH-Threshold-L5-GF256": ("SDitH.yaml", "gf256-L5-thr"),
     "SDitH-Threshold-L5-P251": ("SDitH.yaml", "gf251-L5-thr"),
-    # SNOVA — q=16 original variants
-    "SNOVA-24-5-16-4": ("SNOVA.yaml", "(24 5 4)"),
-    "SNOVA-37-8-16-4": ("SNOVA.yaml", "(37 8 4)"),
-    "SNOVA-60-10-16-4": ("SNOVA.yaml", "(60 10 4)"),
+    # SNOVA — l=4 variants retained in v2.3
+    "SNOVA-24-5-16-4": ("SNOVA.yaml", "SNOVA-24-5-16-4"),
+    "SNOVA-37-8-16-4": ("SNOVA.yaml", "SNOVA-37-8-16-4"),
+    "SNOVA-60-10-16-4": ("SNOVA.yaml", "SNOVA-60-10-16-4"),
     # SNOVA — updated l=2 variants, q=19 variants, and 4x5 structure
     "SNOVA-28-5-19-4":   ("SNOVA.yaml", "SNOVA-28-5-19-4"),
     "SNOVA-48-17-16-2":  ("SNOVA.yaml", "SNOVA-48-17-16-2"),
