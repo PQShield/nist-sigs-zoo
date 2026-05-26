@@ -1,6 +1,6 @@
 name: MIRA
 website: https://pqc-mira.org/
-category: MPC-in-the-Head
+category: MPCitH
 assumption: MinRank
 versions:
 - version: Round 1

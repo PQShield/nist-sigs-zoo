@@ -1,6 +1,6 @@
 name: SDitH
 website: https://sdith.org/
-category: MPC-in-the-Head
+category: MPCitH
 assumption: Syndrome Decoding
 versions:
 - version: v2.0

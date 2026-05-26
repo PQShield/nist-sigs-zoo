@@ -1,6 +1,6 @@
 name: MQOM
 website: https://mqom.org
-category: MPC-in-the-Head
+category: MPCitH
 assumption: Multivariate Quadratic
 versions:
 - version: v2.1

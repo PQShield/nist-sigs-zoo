@@ -1,6 +1,6 @@
 name: RYDE
 website: https://pqc-ryde.org/
-category: MPC-in-the-Head
+category: MPCitH
 assumption: Rank Syndrome Decoding
 versions:
 - version: v2.1.0

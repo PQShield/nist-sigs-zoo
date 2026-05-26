@@ -1,6 +1,6 @@
 name: Mirath
 website: https://pqc-mirath.org/
-category: MPC-in-the-Head
+category: MPCitH
 assumption: Min-rank problem
 versions:
 - version: v2.1.0
