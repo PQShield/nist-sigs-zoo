@@ -1,7 +1,6 @@
 # Licensed under CC BY 4.0: https://creativecommons.org/licenses/by/4.0/
-# Attribution: nist-sigs.zoo — https://nist-sigs-zoo.thomwiggers.nl
 license: CC-BY-4.0
-attribution: nist-sigs.zoo
+attribution: Thom Wiggers / PQShield
 date: '2026-05-23T12:47:08Z'
 cpu:
   model: 12th Gen Intel(R) Core(TM) i7-12650H

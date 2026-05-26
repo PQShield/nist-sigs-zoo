@@ -85,6 +85,6 @@
 			rel="noopener noreferrer"
 			class="text-pqs-apricot hover:underline">{env.license}</a
 		>
-		&mdash; {env.attribution}.
+		&mdash; {env.attribution}
 	</p>
 </section>

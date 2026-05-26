@@ -214,7 +214,7 @@ def write_benchmark_env(meta: dict, path: Path) -> None:
         "Attribution: nist-sigs.zoo — https://nist-sigs-zoo.thomwiggers.nl"
     )
     env["license"] = "CC-BY-4.0"
-    env["attribution"] = "nist-sigs.zoo"
+    env["attribution"] = "Thom Wiggers / PQShield"
     env["date"] = meta.get("date", "")
 
     cpu = CommentedMap()
