@@ -6,6 +6,7 @@ versions:
 - version: Round 2
   date: '2025-02-05'
   status: On-ramp
+  perf_source: submission document
   parametersets:
   - name: I-(127 156 54 3)
     level: 1
@@ -109,6 +110,7 @@ versions:
 - version: Round 1
   date: '2023-06-01'
   status: On-ramp
+  perf_source: submission document
   tags:
   - round-1
   parametersets:

@@ -6,6 +6,7 @@ versions:
 - version: Round 1
   date: '2023-05-31'
   status: On-ramp
+  perf_source: submission document
   tags:
   - round-1
   parametersets:

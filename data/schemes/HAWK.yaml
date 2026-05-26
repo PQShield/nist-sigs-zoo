@@ -6,6 +6,7 @@ versions:
 - version: v1.1
   date: '2025-02-05'
   status: On-ramp
+  perf_source: submission document
   parametersets:
   - name: '1024'
     level: 5
@@ -29,6 +30,7 @@ versions:
 - version: v1.0
   date: '2023-06-01'
   status: On-ramp
+  perf_source: submission document
   tags:
   - round-1
   parametersets:

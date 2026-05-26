@@ -6,6 +6,7 @@ versions:
 - version: Round 2
   date: '2025-03-26'
   status: On-ramp
+  perf_source: submission document
   parametersets:
   - name: five
     level: 5
@@ -43,6 +44,7 @@ versions:
 - version: Round 2
   date: '2025-02-05'
   status: On-ramp
+  perf_source: submission document
   parametersets:
   - name: five
     level: 5
@@ -75,6 +77,7 @@ versions:
 - version: Round 1
   date: '2023-06-01'
   status: On-ramp
+  perf_source: submission document
   tags:
   - round-1
   parametersets:
