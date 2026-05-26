@@ -11,290 +11,290 @@ versions:
     level: 1
     pk: 52
     sig: 2868
-    signing_cycles: 3966578
-    verification_cycles: 3310414
-    signing_us: 2648.7
-    verification_us: 2210.6
+    signing_cycles: 3942178
+    verification_cycles: 3278494
+    signing_us: 2632.4
+    verification_us: 2189.3
   - name: L1-gf2-short-5r
     level: 1
     pk: 52
     sig: 2820
-    signing_cycles: 3967321
-    verification_cycles: 3421267
-    signing_us: 2649.2
-    verification_us: 2284.6
+    signing_cycles: 3888644
+    verification_cycles: 3328574
+    signing_us: 2596.7
+    verification_us: 2222.9
   - name: L1-gf16-short-3r
     level: 1
     pk: 60
     sig: 3060
-    signing_cycles: 4178937
-    verification_cycles: 3053612
-    signing_us: 2790.5
-    verification_us: 2039.1
+    signing_cycles: 4255955
+    verification_cycles: 3107428
+    signing_us: 2842.0
+    verification_us: 2075.1
   - name: L1-gf16-short-5r
     level: 1
     pk: 60
     sig: 2916
-    signing_cycles: 3627545
-    verification_cycles: 2953911
-    signing_us: 2422.4
-    verification_us: 1972.5
+    signing_cycles: 3712782
+    verification_cycles: 2908446
+    signing_us: 2479.3
+    verification_us: 1942.2
   - name: L1-gf256-short-3r
     level: 1
     pk: 80
     sig: 3540
-    signing_cycles: 4924500
-    verification_cycles: 3238036
-    signing_us: 3288.4
-    verification_us: 2162.2
+    signing_cycles: 5233944
+    verification_cycles: 3511773
+    signing_us: 3495.1
+    verification_us: 2345.1
   - name: L1-gf256-short-5r
     level: 1
     pk: 80
     sig: 3156
-    signing_cycles: 4237102
-    verification_cycles: 2752670
-    signing_us: 2829.4
-    verification_us: 1838.2
+    signing_cycles: 4319491
+    verification_cycles: 2823134
+    signing_us: 2884.4
+    verification_us: 1885.2
   - name: L1-gf2-fast-3r
     level: 1
     pk: 52
     sig: 3212
-    signing_cycles: 2592664
-    verification_cycles: 2091746
-    signing_us: 1731.3
-    verification_us: 1396.8
+    signing_cycles: 2205057
+    verification_cycles: 1827268
+    signing_us: 1472.5
+    verification_us: 1220.2
   - name: L1-gf2-fast-5r
     level: 1
     pk: 52
     sig: 3144
-    signing_cycles: 2031160
-    verification_cycles: 1786488
-    signing_us: 1356.3
-    verification_us: 1193.0
+    signing_cycles: 1979274
+    verification_cycles: 1734750
+    signing_us: 1321.7
+    verification_us: 1158.4
   - name: L1-gf16-fast-3r
     level: 1
     pk: 60
     sig: 3484
-    signing_cycles: 1428725
-    verification_cycles: 1112745
-    signing_us: 954.0
-    verification_us: 743.1
+    signing_cycles: 1296166
+    verification_cycles: 1066164
+    signing_us: 865.5
+    verification_us: 712.0
   - name: L1-gf16-fast-5r
     level: 1
     pk: 60
     sig: 3280
-    signing_cycles: 1321882
-    verification_cycles: 1059997
-    signing_us: 882.7
-    verification_us: 707.8
+    signing_cycles: 1134291
+    verification_cycles: 911403
+    signing_us: 757.4
+    verification_us: 608.6
   - name: L1-gf256-fast-3r
     level: 1
     pk: 80
     sig: 4164
-    signing_cycles: 1835019
-    verification_cycles: 1431024
-    signing_us: 1225.4
-    verification_us: 955.6
+    signing_cycles: 1765982
+    verification_cycles: 1388749
+    signing_us: 1179.3
+    verification_us: 927.4
   - name: L1-gf256-fast-5r
     level: 1
     pk: 80
     sig: 3620
-    signing_cycles: 1777625
-    verification_cycles: 1366889
-    signing_us: 1187.0
-    verification_us: 912.8
+    signing_cycles: 1570066
+    verification_cycles: 1205051
+    signing_us: 1048.4
+    verification_us: 804.7
   - name: L3-gf2-short-3r
     level: 3
     pk: 78
     sig: 6388
-    signing_cycles: 21568903
-    verification_cycles: 18193884
-    signing_us: 14403.0
-    verification_us: 12149.3
+    signing_cycles: 17168723
+    verification_cycles: 14827944
+    signing_us: 11464.6
+    verification_us: 9901.4
   - name: L3-gf2-short-5r
     level: 3
     pk: 78
     sig: 6280
-    signing_cycles: 21559438
-    verification_cycles: 19941518
-    signing_us: 14396.8
-    verification_us: 13316.1
+    signing_cycles: 21330908
+    verification_cycles: 19778156
+    signing_us: 14244.2
+    verification_us: 13207.3
   - name: L3-gf16-short-3r
     level: 3
     pk: 90
     sig: 6820
-    signing_cycles: 18900171
-    verification_cycles: 15649860
-    signing_us: 12620.9
-    verification_us: 10450.2
+    signing_cycles: 19290112
+    verification_cycles: 15621690
+    signing_us: 12881.1
+    verification_us: 10431.4
   - name: L3-gf16-short-5r
     level: 3
     pk: 90
     sig: 6496
-    signing_cycles: 17922005
-    verification_cycles: 16330382
-    signing_us: 11967.5
-    verification_us: 10904.7
+    signing_cycles: 16933726
+    verification_cycles: 16051019
+    signing_us: 11308.0
+    verification_us: 10718.1
   - name: L3-gf256-short-3r
     level: 3
     pk: 120
     sig: 7900
-    signing_cycles: 24128808
-    verification_cycles: 19431847
-    signing_us: 16112.2
-    verification_us: 12975.8
+    signing_cycles: 23465582
+    verification_cycles: 19123924
+    signing_us: 15669.4
+    verification_us: 12770.1
   - name: L3-gf256-short-5r
     level: 3
     pk: 120
     sig: 7036
-    signing_cycles: 19084635
-    verification_cycles: 15302231
-    signing_us: 12743.9
-    verification_us: 10218.2
+    signing_cycles: 17342204
+    verification_cycles: 13528097
+    signing_us: 11580.3
+    verification_us: 9033.4
   - name: L3-gf2-fast-3r
     level: 3
     pk: 78
     sig: 7576
-    signing_cycles: 9899903
-    verification_cycles: 9434025
-    signing_us: 6610.7
-    verification_us: 6299.6
+    signing_cycles: 9337592
+    verification_cycles: 9043853
+    signing_us: 6235.3
+    verification_us: 6039.1
   - name: L3-gf2-fast-5r
     level: 3
     pk: 78
     sig: 7414
-    signing_cycles: 9626749
-    verification_cycles: 9319397
-    signing_us: 6428.4
-    verification_us: 6223.2
+    signing_cycles: 8131337
+    verification_cycles: 7774733
+    signing_us: 5429.8
+    verification_us: 5191.7
   - name: L3-gf16-fast-3r
     level: 3
     pk: 90
     sig: 8224
-    signing_cycles: 5650203
-    verification_cycles: 5048532
-    signing_us: 3773.0
-    verification_us: 3371.2
+    signing_cycles: 5498398
+    verification_cycles: 4922950
+    signing_us: 3671.7
+    verification_us: 3287.3
   - name: L3-gf16-fast-5r
     level: 3
     pk: 90
     sig: 7738
-    signing_cycles: 5097417
-    verification_cycles: 4849094
-    signing_us: 3403.8
-    verification_us: 3238.0
+    signing_cycles: 5325544
+    verification_cycles: 5039725
+    signing_us: 3556.2
+    verification_us: 3365.4
   - name: L3-gf256-fast-3r
     level: 3
     pk: 120
     sig: 9844
-    signing_cycles: 7317094
-    verification_cycles: 6536590
-    signing_us: 4886.0
-    verification_us: 4364.9
+    signing_cycles: 7943962
+    verification_cycles: 6888380
+    signing_us: 5304.8
+    verification_us: 4599.8
   - name: L3-gf256-fast-5r
     level: 3
     pk: 120
     sig: 8548
-    signing_cycles: 6242669
-    verification_cycles: 5587853
-    signing_us: 4168.6
-    verification_us: 3731.3
+    signing_cycles: 6304829
+    verification_cycles: 5775838
+    signing_us: 4210.2
+    verification_us: 3856.9
   - name: L5-gf2-short-3r
     level: 5
     pk: 104
     sig: 11764
-    signing_cycles: 26686721
-    verification_cycles: 22360135
-    signing_us: 17820.3
-    verification_us: 14931.2
+    signing_cycles: 32092387
+    verification_cycles: 27488948
+    signing_us: 21430.5
+    verification_us: 18355.9
   - name: L5-gf2-short-5r
     level: 5
     pk: 104
     sig: 11564
-    signing_cycles: 30237117
-    verification_cycles: 26741762
-    signing_us: 20191.1
-    verification_us: 17857.0
+    signing_cycles: 31902825
+    verification_cycles: 28059171
+    signing_us: 21303.5
+    verification_us: 18736.6
   - name: L5-gf16-short-3r
     level: 5
     pk: 122
     sig: 12664
-    signing_cycles: 24039485
-    verification_cycles: 20574307
-    signing_us: 16052.5
-    verification_us: 13738.6
+    signing_cycles: 26070925
+    verification_cycles: 21755411
+    signing_us: 17409.1
+    verification_us: 14527.3
   - name: L5-gf16-short-5r
     level: 5
     pk: 122
     sig: 12014
-    signing_cycles: 24464792
-    verification_cycles: 24094671
-    signing_us: 16336.5
-    verification_us: 16089.4
+    signing_cycles: 25938813
+    verification_cycles: 25213638
+    signing_us: 17321.1
+    verification_us: 16836.5
   - name: L5-gf256-short-3r
     level: 5
     pk: 160
     sig: 14564
-    signing_cycles: 36777879
-    verification_cycles: 30021595
-    signing_us: 24558.6
-    verification_us: 20047.3
+    signing_cycles: 33645503
+    verification_cycles: 27299645
+    signing_us: 22467.1
+    verification_us: 18229.6
   - name: L5-gf256-short-5r
     level: 5
     pk: 160
     sig: 12964
-    signing_cycles: 26719114
-    verification_cycles: 21849573
-    signing_us: 17842.0
-    verification_us: 14590.3
+    signing_cycles: 26044941
+    verification_cycles: 21309964
+    signing_us: 17391.6
+    verification_us: 14229.8
   - name: L5-gf2-fast-3r
     level: 5
     pk: 104
     sig: 13412
-    signing_cycles: 19948321
-    verification_cycles: 18452522
-    signing_us: 13320.6
-    verification_us: 12321.9
+    signing_cycles: 16481012
+    verification_cycles: 15908069
+    signing_us: 11005.4
+    verification_us: 10622.7
   - name: L5-gf2-fast-5r
     level: 5
     pk: 104
     sig: 13124
-    signing_cycles: 16411482
-    verification_cycles: 15000327
-    signing_us: 10958.9
-    verification_us: 10016.6
+    signing_cycles: 15461743
+    verification_cycles: 14973365
+    signing_us: 10324.6
+    verification_us: 9998.6
   - name: L5-gf16-fast-3r
     level: 5
     pk: 122
     sig: 14708
-    signing_cycles: 9131696
-    verification_cycles: 8907978
-    signing_us: 6097.8
-    verification_us: 5948.4
+    signing_cycles: 10206226
+    verification_cycles: 9560761
+    signing_us: 6815.3
+    verification_us: 6384.3
   - name: L5-gf16-fast-5r
     level: 5
     pk: 122
     sig: 13772
-    signing_cycles: 9490368
-    verification_cycles: 8893759
-    signing_us: 6337.3
-    verification_us: 5938.9
+    signing_cycles: 11342873
+    verification_cycles: 10787052
+    signing_us: 7574.3
+    verification_us: 7203.1
   - name: L5-gf256-fast-3r
     level: 5
     pk: 160
     sig: 17444
-    signing_cycles: 12591228
-    verification_cycles: 10363099
-    signing_us: 8407.9
-    verification_us: 6920.0
+    signing_cycles: 12156001
+    verification_cycles: 9780155
+    signing_us: 8117.2
+    verification_us: 6530.8
   - name: L5-gf256-fast-5r
     level: 5
     pk: 160
     sig: 15140
-    signing_cycles: 12127870
-    verification_cycles: 10888535
-    signing_us: 8098.4
-    verification_us: 7270.9
+    signing_cycles: 10005525
+    verification_cycles: 8800265
+    signing_us: 6681.2
+    verification_us: 5876.4
 - version: v2.0
   date: '2025-02-05'
   status: On-ramp

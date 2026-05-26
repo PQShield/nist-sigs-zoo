@@ -192,12 +192,13 @@ def parse_results_file(path: Path) -> tuple[dict, list[dict]]:
                 in_data = True
             elif in_data and line.strip():
                 parts = line.split()
-                if len(parts) >= 7:
+                if len(parts) >= 8:
                     # scheme name may contain spaces; columns are last 6 fields
-                    name = " ".join(parts[:-6])
-                    keygen_cyc, _keygen_us, sign_cyc, sign_us, verify_cyc, verify_us = parts[-6:]
+                    name = " ".join(parts[:-7])
+                    iters, keygen_cyc, _keygen_us, sign_cyc, sign_us, verify_cyc, verify_us = parts[-7:]
                     rows.append({
                         "name": name,
+                        "iters": int(iters),
                         "keygen_cycles": int(keygen_cyc),
                         "signing_cycles": int(sign_cyc),
                         "verification_cycles": int(verify_cyc),
