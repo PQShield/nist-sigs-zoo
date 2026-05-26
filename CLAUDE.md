@@ -38,8 +38,8 @@ versions:
   - version: "FIPS 206"        # human-readable version label
     date: "2024-08-13"         # ISO date, used to pick latest
     status: Standardized | On-ramp
-    tags: [round-2]            # round-1, round-2, or omit for reference/standardized schemes
-                               # post-round-2 updates should have NO tags
+    tags: [round-2]            # round-1, round-2, round-3, or omit for reference/standardized schemes
+                               # post-round-3 updates should have NO tags
     broken: false              # or string description / "classical"
     warning: false             # or string description
     info: false                # or string description
@@ -50,8 +50,8 @@ versions:
         sig: 2420
         signing_cycles: 1234567
         verification_cycles: 234567
-        signing_ms: null       # use cycles OR ms, not both
-        verification_ms: null
+        signing_us: null       # microseconds; use cycles OR us, not both
+        verification_us: null
         notes: null
 ```
 
@@ -61,11 +61,26 @@ parametersets) or overridden per-parameterset.
 The YAML files are bundled at build time via a Vite plugin (`vite.config.ts`) and
 `import.meta.glob` in `src/lib/schemeData.ts`.
 
+### History
+
+`data/history.yaml` — chronological log of notable events shown in the site's history panel.
+**Update this file whenever scheme data changes** (spec updates, new attacks, milestone events).
+
+```yaml
+- date: '2026-05-26'          # ISO date
+  type: update                 # update | attack | milestone
+  description: "HTML string. Link tags allowed."
+  schemes: [SNOVA]             # optional; list of affected scheme names
+```
+
+Types: `update` (spec/data change), `attack` (new cryptanalysis result), `milestone` (NIST process event).
+
 ## Architecture
 
 ```
 data/
-└── schemes/          # one .yaml per scheme (source of truth)
+├── schemes/          # one .yaml per scheme (source of truth)
+└── history.yaml      # chronological event log (attacks, updates, milestones)
 
 src/
 ├── lib/
@@ -73,7 +88,7 @@ src/
 │   ├── constants.ts      # CPUSPEED, NIST_LEVELS
 │   ├── data.ts           # processYamlSchemes() — tag-filtered YAML → Scheme[] + ParameterSet[]
 │   ├── filterStore.ts    # Svelte writable store + derived filteredRows + URL codec
-│   ├── roundStore.ts     # writable<'round-1'|'round-2'|'latest'> — drives dataset selection
+│   ├── roundStore.ts     # writable<'round-1'|'round-2'|'round-3'|'latest'> — drives dataset selection
 │   ├── schemeData.ts     # import.meta.glob loader → allSchemeData: SchemeYaml[]
 │   ├── themeStore.ts     # dark/light/system theme store → localStorage
 │   ├── yaml.d.ts         # TypeScript module declaration for *.yaml imports
@@ -115,12 +130,15 @@ which triggers `applyRound()` in `+page.svelte`, which calls `createFilterStore(
 
 ### Latest View
 
-"Latest" is the default view. It shows the newest version of each scheme that participated in
-round 2 (or is an untagged reference scheme). Inclusion is determined by whether any version has
-a `round-2` tag; the data shown comes from `sorted[0]` (newest by date, regardless of tags).
+"Latest" (default) and "Round 3" both use `tagFilter='round-3'` with `useLatestVersion=true`.
+Inclusion: scheme must have at least one version tagged `round-3` (or be an untagged reference
+scheme). Data shown: `sorted[0]` (newest version by date, regardless of tags).
 
-Post-round-2 spec updates should be added as new version entries **without** any tags. This way:
-- Round 2 view shows the pinned round-2 submission data.
+Round 2 view uses `tagFilter='round-2'` without `useLatestVersion` — shows the pinned
+round-2 submission version.
+
+Post-round-3 spec updates should be added as new version entries **without** any tags. This way:
+- Round 2/3 views show pinned submission data.
 - Latest view shows the most current specs.
 
 ### Performance Data

@@ -1,7 +1,7 @@
 name: AIMer
 website: https://www.aimer-signature.org/
 category: Symmetric
-assumption: Zero-knowledge proof of knowledge
+assumption: AIM
 versions:
 - version: v1.0
   date: '2023-06-01'

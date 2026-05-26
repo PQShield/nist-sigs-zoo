@@ -1,0 +1,7 @@
+file	name	pk	sk	sig	iters	param_set
+sdith2_cat1_short	SDitH2-L1-gf2-short	70	163	3705	50	CAT1_SHORT_PARAMETERS
+sdith2_cat1_fast	SDitH2-L1-gf2-fast	70	163	4484	50	CAT1_FAST_PARAMETERS
+sdith2_cat3_short	SDitH2-L3-gf2-short	98	232	7964	50	CAT3_SHORT_PARAMETERS
+sdith2_cat3_fast	SDitH2-L3-gf2-fast	98	232	9916	50	CAT3_FAST_PARAMETERS
+sdith2_cat5_short	SDitH2-L5-gf2-short	132	307	14121	50	CAT5_SHORT_PARAMETERS
+sdith2_cat5_fast	SDitH2-L5-gf2-fast	132	307	17540	50	CAT5_FAST_PARAMETERS

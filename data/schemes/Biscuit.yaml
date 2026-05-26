@@ -1,7 +1,7 @@
 name: Biscuit
 website: https://www.biscuit-pqc.org/
 category: Multivariate
-assumption: 'multivariate: solving generic structured algebraic equations'
+assumption: Multivariate (Structured)
 versions:
 - version: Round 1
   date: '2023-06-01'

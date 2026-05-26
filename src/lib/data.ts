@@ -62,8 +62,8 @@ export function parseParameterSets(
 	const rows: ParameterSet[] = parseCsv(csv).map((d) => {
 		const rawSignCycles = parseNum(d['signing (cycles)']);
 		const rawVerifyCycles = parseNum(d['verification (cycles)']);
-		const signingMs = parseNum(d['signing (ms)']) || null;
-		const verificationMs = parseNum(d['verification (ms)']) || null;
+		const signingUs = parseNum(d['signing (ms)']) ? parseNum(d['signing (ms)']) * 1000 : null;
+		const verificationUs = parseNum(d['verification (ms)']) ? parseNum(d['verification (ms)']) * 1000 : null;
 
 		let signingCycles: number;
 		let verificationCycles: number;
@@ -75,9 +75,9 @@ export function parseParameterSets(
 			verificationCycles = rawVerifyCycles;
 		} else {
 			extrapolated = true;
-			signingCycles = signingMs != null ? Math.round((CPUSPEED * signingMs) / 1000) : 0;
+			signingCycles = signingUs != null ? Math.round((CPUSPEED * signingUs) / 1_000_000) : 0;
 			verificationCycles =
-				verificationMs != null ? Math.round((CPUSPEED * verificationMs) / 1000) : 0;
+				verificationUs != null ? Math.round((CPUSPEED * verificationUs) / 1_000_000) : 0;
 		}
 
 		const scheme = schemeMap.get(d['Scheme']);
@@ -102,8 +102,8 @@ export function parseParameterSets(
 			pkPlusSig: pk + sig,
 			signingCycles,
 			verificationCycles,
-			signingMs,
-			verificationMs,
+			signingUs,
+			verificationUs,
 			extrapolated,
 			broken: scheme.broken,
 			warning: scheme.warning,
@@ -116,6 +116,9 @@ export function parseParameterSets(
 			perfSource: null,
 		};
 	});
+
+	const withSignUs = rows.filter((r) => r.signingUs != null);
+	const withVerifyUs = rows.filter((r) => r.verificationUs != null);
 
 	const ranges: DataRanges = {
 		pk: [Math.min(...rows.map((r) => r.pk)), Math.max(...rows.map((r) => r.pk))],
@@ -134,6 +137,12 @@ export function parseParameterSets(
 			),
 			Math.max(...rows.map((r) => r.verificationCycles)),
 		],
+		signingUs: withSignUs.length > 0
+			? [Math.min(...withSignUs.map((r) => r.signingUs!)), Math.max(...withSignUs.map((r) => r.signingUs!))]
+			: null,
+		verificationUs: withVerifyUs.length > 0
+			? [Math.min(...withVerifyUs.map((r) => r.verificationUs!)), Math.max(...withVerifyUs.map((r) => r.verificationUs!))]
+			: null,
 	};
 
 	return { rows, ranges };
@@ -191,8 +200,8 @@ export function processYamlSchemes(
 			const level: NistLevel =
 				ps.level === 'Pre-Quantum' ? 'Pre-Quantum' : (ps.level as 1 | 2 | 3 | 4 | 5);
 
-			const signingMs = ps.signing_ms ?? null;
-			const verificationMs = ps.verification_ms ?? null;
+			const signingUs = ps.signing_us ?? null;
+			const verificationUs = ps.verification_us ?? null;
 
 			let signingCycles: number;
 			let verificationCycles: number;
@@ -204,9 +213,9 @@ export function processYamlSchemes(
 				verificationCycles = ps.verification_cycles ?? 0;
 			} else {
 				extrapolated = true;
-				signingCycles = signingMs != null ? Math.round((CPUSPEED * signingMs) / 1000) : 0;
+				signingCycles = signingUs != null ? Math.round((CPUSPEED * signingUs) / 1_000_000) : 0;
 				verificationCycles =
-					verificationMs != null ? Math.round((CPUSPEED * verificationMs) / 1000) : 0;
+					verificationUs != null ? Math.round((CPUSPEED * verificationUs) / 1_000_000) : 0;
 			}
 
 			// Parameterset flags fall back to version-level flags
@@ -228,8 +237,8 @@ export function processYamlSchemes(
 				pkPlusSig: pk + sig,
 				signingCycles,
 				verificationCycles,
-				signingMs,
-				verificationMs,
+				signingUs,
+				verificationUs,
 				extrapolated,
 				broken: broken === false ? false : broken || false,
 				warning: warning === false ? false : warning || false,
@@ -246,6 +255,8 @@ export function processYamlSchemes(
 
 	const nonZeroSign = rows.filter((r) => r.signingCycles > 0);
 	const nonZeroVerify = rows.filter((r) => r.verificationCycles > 0);
+	const withSignUs = rows.filter((r) => r.signingUs != null);
+	const withVerifyUs = rows.filter((r) => r.verificationUs != null);
 
 	const ranges: DataRanges = {
 		pk: [Math.min(...rows.map((r) => r.pk)), Math.max(...rows.map((r) => r.pk))],
@@ -262,6 +273,12 @@ export function processYamlSchemes(
 			Math.min(...nonZeroVerify.map((r) => r.verificationCycles)),
 			Math.max(...nonZeroVerify.map((r) => r.verificationCycles)),
 		],
+		signingUs: withSignUs.length > 0
+			? [Math.min(...withSignUs.map((r) => r.signingUs!)), Math.max(...withSignUs.map((r) => r.signingUs!))]
+			: null,
+		verificationUs: withVerifyUs.length > 0
+			? [Math.min(...withVerifyUs.map((r) => r.verificationUs!)), Math.max(...withVerifyUs.map((r) => r.verificationUs!))]
+			: null,
 	};
 
 	return { schemes, parameterSets: rows, ranges };

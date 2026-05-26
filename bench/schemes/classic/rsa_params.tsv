@@ -1,0 +1,5 @@
+# RSA shim parameters. pk/sk are DER sizes (documented only; buffers unused).
+file	name	pk	sk	sig	iters	bits	hash
+rsa2048	RSA-2048 (PSS)	294	1219	256	200	2048	EVP_sha256()
+rsa3072	RSA-3072 (PSS)	422	1769	384	50	3072	EVP_sha384()
+rsa4096	RSA-4096 (PSS)	550	2350	512	50	4096	EVP_sha512()

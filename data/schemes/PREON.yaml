@@ -14,53 +14,53 @@ versions:
     level: 5
     pk: 64
     sig: 598000
-    signing_ms: 414713.0
-    verification_ms: 11552.0
+    signing_us: 414713000.0
+    verification_us: 11552000.0
   - name: 256B
     level: 5
     pk: 64
     sig: 1157000
-    signing_ms: 415207.0
-    verification_ms: 12487.0
+    signing_us: 415207000.0
+    verification_us: 12487000.0
   - name: 256C
     level: 5
     pk: 64
     sig: 5248000
-    signing_ms: 417464.0
-    verification_ms: 26835.0
+    signing_us: 417464000.0
+    verification_us: 26835000.0
   - name: 192A
     level: 3
     pk: 56
     sig: 312000
-    signing_ms: 132411.0
-    verification_ms: 2182.0
+    signing_us: 132411000.0
+    verification_us: 2182000.0
   - name: 192B
     level: 3
     pk: 56
     sig: 778000
-    signing_ms: 137306.0
-    verification_ms: 2688.0
+    signing_us: 137306000.0
+    verification_us: 2688000.0
   - name: 192C
     level: 3
     pk: 56
     sig: 3541000
-    signing_ms: 137252.0
-    verification_ms: 7460.0
+    signing_us: 137252000.0
+    verification_us: 7460000.0
   - name: 128A
     level: 1
     pk: 32
     sig: 139000
-    signing_ms: 76067.0
-    verification_ms: 397.0
+    signing_us: 76067000.0
+    verification_us: 397000.0
   - name: 128B
     level: 1
     pk: 32
     sig: 372000
-    signing_ms: 80870.0
-    verification_ms: 561.0
+    signing_us: 80870000.0
+    verification_us: 561000.0
   - name: 128C
     level: 1
     pk: 32
     sig: 1725000
-    signing_ms: 76919.0
-    verification_ms: 2303.0
+    signing_us: 76919000.0
+    verification_us: 2303000.0

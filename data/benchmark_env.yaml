@@ -1,0 +1,30 @@
+# Licensed under CC BY 4.0: https://creativecommons.org/licenses/by/4.0/
+license: CC-BY-4.0
+attribution: Thom Wiggers / PQShield
+date: '2026-05-26T15:08:05Z'
+cpu:
+  model: 12th Gen Intel(R) Core(TM) i7-12650H
+  cores: 8
+  threads_per_core: 2
+  max_freq_mhz: 4600
+  governor: powersave
+  turbo: enabled
+os: Debian GNU/Linux 13 (trixie)
+kernel: 6.19.11-zabbly+
+compiler: cc (Debian 14.2.0-19) 14.2.0
+openssl: 'OpenSSL 3.6.2 7 Apr 2026 (Library: OpenSSL 3.6.2 7 Apr 2026)'
+notes: 'Median over 1000 iterations (fewer for slow schemes). Cycle counter: rdtsc + lfence (constant TSC rate, not execution cycles). Wall clock: clock_gettime(CLOCK_MONOTONIC).'
+sources:
+  faest: https://github.com/faest-sign/faest-ref@77caab6dc19685adfc1197547dc21efd9940fa8c
+  fndsa: https://github.com/pornin/c-fn-dsa@33026d4d2734049a23f065f77eea11c35de58d76
+  hawk: https://github.com/hawk-sign/dev@1b9fef52559273fe7b40fe3e22968eaedd3a4c2a
+  mayo: https://github.com/PQCMayo/MAYO-C@4108b71d416ce5947398b48b8abcb2a8c6803f3b
+  mldsa: https://github.com/pq-crystals/dilithium.git@6e00625c5b29f516c6de973fe2ee2fbb150973f9
+  mqom: https://github.com/mqom/mqom-v2@9a5a4d5137c0c9e7974eb8879aa7f13fa6c8ab4d
+  qruov: https://github.com/qruov/round2.git@787f8dba4c158f713d3351e7531edbec4afddf97
+  sdith: https://github.com/sdith/sdith@fff41ae5b12ba3c6b90d8f97b2ede57aa277a92f
+  sdith2: https://sdith.org/docs/sdith-package-v2.zip
+  slhdsa: https://github.com/pq-code-package/slhdsa-c@fac08b7d0a93849de0ee163c63712395e012b38c
+  snova: https://github.com/PQCLAB-SNOVA/SNOVA.git@9da14981336ede257c41ef53cc069989051e8181
+  sqisign: https://github.com/SQISign/the-sqisign@91e9e464fe5400192d13e1f9240cbf180200a103
+  uov: https://github.com/pqov/pqov.git@49dc53c09717763759911c47c7e4c8000fda1cc5

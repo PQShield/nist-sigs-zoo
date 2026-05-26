@@ -1,7 +1,7 @@
 name: LESS
 website: https://less-project.com
 category: Code-based
-assumption: Linear Equivalence Problem
+assumption: Linear Equiv.
 versions:
 - version: v2.0
   date: '2025-02-07'

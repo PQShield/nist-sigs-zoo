@@ -1,19 +1,145 @@
 name: SNOVA
 website: http://snova.pqclab.org/
 category: Multivariate
-assumption: Non-commutative ring UOV
+assumption: Non-comm. Ring UOV
 versions:
+- version: v2.3
+  date: '2026-04-03'
+  status: On-ramp
+  tags:
+  - round-3
+  parametersets:
+  # Level 5
+  - name: SNOVA-60-10-16-4
+    level: 5
+    pk: 8016
+    sig: 576
+    signing_cycles: 4686721
+    verification_cycles: 1320182
+    signing_us: 3129.7
+    verification_us: 881.6
+  - name: SNOVA-50-9-19-4
+    level: 5
+    pk: 3213
+    sig: 520
+    signing_cycles: 1715414
+    verification_cycles: 790004
+    signing_us: 1145.6
+    verification_us: 527.6
+  - name: SNOVA-97-33-16-2
+    level: 5
+    pk: 71890
+    sig: 276
+    signing_cycles: 11420691
+    verification_cycles: 2312204
+    signing_us: 7626.3
+    verification_us: 1544.0
+  # Level 3
+  - name: SNOVA-37-8-16-4
+    level: 3
+    pk: 4112
+    sig: 376
+    signing_cycles: 1574995
+    verification_cycles: 436812
+    warning: "Wedge product attack (Bros et al., ePrint 2026/237) reduces best known classical attack to ~214 bits; above NIST Level III threshold (192 bits) but significantly weaker than claimed"
+    signing_us: 1051.8
+    verification_us: 291.8
+  - name: SNOVA-40-7-19-4
+    level: 3
+    pk: 1532
+    sig: 418
+    signing_cycles: 846138
+    verification_cycles: 404113
+    signing_us: 565.0
+    verification_us: 269.9
+  - name: SNOVA-72-25-16-2
+    level: 3
+    pk: 31266
+    sig: 210
+    signing_cycles: 4276084
+    verification_cycles: 969341
+    signing_us: 2855.4
+    verification_us: 647.4
+  - name: SNOVA-38-5-16-4x5
+    level: 3
+    pk: 1416
+    sig: 446
+    signing_cycles: 1210069
+    verification_cycles: 647386
+    signing_us: 808.1
+    verification_us: 432.3
+  - name: SNOVA-38-5-19-4x5
+    level: 3
+    pk: 800
+    sig: 475
+    signing_cycles: 1099326
+    verification_cycles: 434623
+    signing_us: 734.2
+    verification_us: 290.2
+  # Level 1
+  - name: SNOVA-24-5-16-4
+    level: 1
+    pk: 1016
+    sig: 248
+    signing_cycles: 515187
+    verification_cycles: 135705
+    warning: "Wedge product attack (Bros et al., ePrint 2026/237) reduces best known classical attack to ~155 bits; above NIST Level I threshold (128 bits) but significantly weaker than claimed"
+    signing_us: 344.0
+    verification_us: 90.6
+  - name: SNOVA-28-5-19-4
+    level: 1
+    pk: 576
+    sig: 298
+    signing_cycles: 341735
+    verification_cycles: 157741
+    signing_us: 228.2
+    verification_us: 105.3
+  - name: SNOVA-48-17-16-2
+    level: 1
+    pk: 9842
+    sig: 146
+    signing_cycles: 1230736
+    verification_cycles: 291652
+    signing_us: 821.9
+    verification_us: 194.8
+  - name: SNOVA-48-16-19-2
+    level: 1
+    pk: 4522
+    sig: 153
+    signing_cycles: 648604
+    verification_cycles: 341647
+    signing_us: 433.2
+    verification_us: 228.2
+  - name: SNOVA-28-4-16-4x5
+    level: 1
+    pk: 656
+    sig: 336
+    signing_cycles: 574351
+    verification_cycles: 284954
+    signing_us: 383.6
+    verification_us: 190.3
+  - name: SNOVA-28-4-19-4x5
+    level: 1
+    pk: 379
+    sig: 358
+    signing_cycles: 534936
+    verification_cycles: 202328
+    signing_us: 357.3
+    verification_us: 135.1
 - version: v2.0
   date: '2025-01-25'
   status: On-ramp
-  perf_source: submission document
+  tags:
+  - round-2
   parametersets:
   - name: (60 10 4)
     level: 5
     pk: 8016
     sig: 576
-    signing_cycles: 2800653
-    verification_cycles: 1932041
+    signing_cycles: 4574330
+    verification_cycles: 1312834
+    signing_us: 3054.6
+    verification_us: 876.8
   - name: (66 15 3)
     level: 5
     pk: 15204
@@ -38,9 +164,11 @@ versions:
     level: 3
     pk: 4112
     sig: 376
-    signing_cycles: 1102301
-    verification_cycles: 652463
+    signing_cycles: 1576596
+    verification_cycles: 455047
     warning: "Wedge product attack (Bros et al., ePrint 2026/237) reduces best known classical attack to ~214 bits; above NIST Level III threshold (192 bits) but significantly weaker than claimed"
+    signing_us: 1052.8
+    verification_us: 303.9
   - name: (49 11 3)
     level: 3
     pk: 6006
@@ -65,9 +193,11 @@ versions:
     level: 1
     pk: 1016
     sig: 248
-    signing_cycles: 385429
-    verification_cycles: 205829
+    signing_cycles: 576635
+    verification_cycles: 156279
     warning: "Wedge product attack (Bros et al., ePrint 2026/237) reduces best known classical attack to ~155 bits; above NIST Level I threshold (128 bits) but significantly weaker than claimed"
+    signing_us: 385.1
+    verification_us: 104.4
   - name: (25 8 3)
     level: 1
     pk: 2320
@@ -82,13 +212,9 @@ versions:
     signing_cycles: 262422
     verification_cycles: 151842
     broken: "Wedge product attack (Bros et al., ePrint 2026/237) reduces classical security to ~103 bits, below NIST Level I threshold (128 bits)"
-  tags:
-  - round-2
-  - round-3  # Round 3 spec not yet available; showing current latest data
 - version: Round 1
   date: '2023-05-25'
   status: On-ramp
-  perf_source: submission document
   tags:
   - round-1
   parametersets:

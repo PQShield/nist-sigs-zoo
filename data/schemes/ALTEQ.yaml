@@ -1,7 +1,7 @@
 name: ALTEQ
 website: https://pqcalteq.github.io/
 category: Other
-assumption: alternating trilinear form equivalence problem
+assumption: Alternating Trilinear Form Equiv.
 versions:
 - version: Round 1
   date: '2023-06-01'

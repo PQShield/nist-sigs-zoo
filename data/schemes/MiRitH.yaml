@@ -1,6 +1,6 @@
 name: MiRitH
 website: https://github.com/Crypto-TII/mirith_nist_submission/
-category: MPC-in-the-Head
+category: MPCitH
 assumption: MinRank
 versions:
 - version: Round 1

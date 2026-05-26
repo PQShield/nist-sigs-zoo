@@ -1,7 +1,7 @@
 name: MAYO
 website: https://pqmayo.org
 category: Multivariate
-assumption: Multivariate quadratic
+assumption: Multivariate Quadratic
 versions:
 - version: Round 2
   date: '2025-03-26'
@@ -12,27 +12,35 @@ versions:
     level: 5
     pk: 5554
     sig: 964
-    signing_cycles: 3475547
-    verification_cycles: 1488808
+    signing_cycles: 1297002
+    verification_cycles: 568536
+    signing_us: 866.1
+    verification_us: 379.7
   - name: three
     level: 3
     pk: 2986
     sig: 681
-    signing_cycles: 1476585
-    verification_cycles: 664631
+    signing_cycles: 805452
+    verification_cycles: 359887
+    signing_us: 537.9
+    verification_us: 240.4
   - name: two
     level: 1
     pk: 4912
     sig: 186
-    signing_cycles: 375493
-    verification_cycles: 96606
+    signing_cycles: 168648
+    verification_cycles: 29891
     broken: "Wedge attack (Ran, ePrint 2025/1143) reduces classical security to ~113 bits, below NIST Level I threshold (128 bits)"
+    signing_us: 112.7
+    verification_us: 20.0
   - name: one
     level: 1
     pk: 1420
     sig: 454
-    signing_cycles: 702261
-    verification_cycles: 290041
+    signing_cycles: 350619
+    verification_cycles: 156262
+    signing_us: 234.2
+    verification_us: 104.4
 - version: Round 2
   date: '2025-02-05'
   status: On-ramp

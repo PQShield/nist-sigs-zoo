@@ -1,0 +1,53 @@
+diff --git a/src/ref/mgf.c b/src/ref/mgf.c
+index 1d0a09a..b805cd0 100644
+--- a/src/ref/mgf.c
++++ b/src/ref/mgf.c
+@@ -208,7 +208,14 @@ static int EVP_DigestFinalXOF_BEGIN_legacy(EVP_MD_CTX * ctx, unsigned char * md)
+     return ret ;
+ }
+ 
+-#  if OPENSSL_VERSION_NUMBER < 0x30000000L
++#  if OPENSSL_VERSION_NUMBER >= 0x30300000L
++
++/* OpenSSL 3.3+: EVP_DigestSqueeze() provides public streaming XOF output. */
++int EVP_DigestFinalXOF_BEGIN(EVP_MD_CTX * ctx, unsigned char * md) {
++    return EVP_DigestSqueeze(ctx, md, 1) ;
++}
++
++#  elif OPENSSL_VERSION_NUMBER < 0x30000000L
+ 
+ int EVP_DigestFinalXOF_BEGIN(EVP_MD_CTX * ctx, unsigned char * md){
+     return EVP_DigestFinalXOF_BEGIN_legacy(ctx, md) ;
+@@ -264,10 +271,21 @@ int EVP_DigestFinalXOF_BEGIN(EVP_MD_CTX * ctx, unsigned char * md){
+ #  endif
+ 
+ // ---------------------
+-// OpenSSL 3.3
+-// int EVP_DigestSqueeze(EVP_MD_CTX *ctx, unsigned char *out, size_t outlen) ;
++// OpenSSL 3.3+: EVP_DigestSqueeze() replaces internal struct access below.
+ // ---------------------
+ 
++#if OPENSSL_VERSION_NUMBER >= 0x30300000L
++
++int EVP_DigestFinalXOF_SQUEEZE(EVP_MD_CTX * ctx, unsigned char * md) {
++    return EVP_DigestSqueeze(ctx, md, QRUOV_SHAKE_BSZ + 1) ;
++}
++
++int EVP_DigestFinalXOF_END(EVP_MD_CTX * ctx) {
++    (void) ctx ; return 1 ;
++}
++
++#else
++
+ int EVP_DigestFinalXOF_SQUEEZE(EVP_MD_CTX * ctx, unsigned char * md) {
+     int ret = 0;
+     if (ctx->digest->flags & EVP_MD_FLAG_XOF){
+@@ -296,6 +314,8 @@ int EVP_DigestFinalXOF_END(EVP_MD_CTX *ctx) {
+     return ret ;
+ }
+ 
++#endif
++
+ uint8_t * MGF_yield (MGF_CTX ctx, uint8_t * dest, const size_t n1) {
+   if(ctx->counter == 0){
+     ctx->counter = 1 ;

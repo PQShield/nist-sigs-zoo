@@ -1,4 +1,4 @@
-import type { SchemeYaml } from './types';
+import type { BenchmarkEnv, SchemeYaml } from './types';
 
 const modules = import.meta.glob('../../data/schemes/*.yaml', {
 	eager: true,
@@ -11,3 +11,10 @@ export const lastUpdated: string = allSchemeData
 	.filter(Boolean)
 	.sort()
 	.at(-1) ?? '';
+
+const benchEnvModule = import.meta.glob('../../data/benchmark_env.yaml', {
+	eager: true,
+}) as Record<string, { default: BenchmarkEnv }>;
+
+export const benchmarkEnv: BenchmarkEnv | null =
+	Object.values(benchEnvModule)[0]?.default ?? null;

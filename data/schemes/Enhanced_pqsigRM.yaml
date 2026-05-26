@@ -1,7 +1,7 @@
 name: Enhanced pqsigRM
 website: https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/round-1/spec-files/Enhanced-pqsigRM-spec-web.pdf
 category: Code-based
-assumption: Reed Muller codes
+assumption: Reed-Muller Codes
 versions:
 - version: Round 1
   date: '2023-06-01'

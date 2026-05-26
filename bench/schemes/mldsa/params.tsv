@@ -1,0 +1,6 @@
+# ML-DSA shim parameters. Columns: file, name, pk, sk, sig, iters, mode
+# mode: Dilithium AVX2 mode number (2=ML-DSA-44, 3=ML-DSA-65, 5=ML-DSA-87)
+file	name	pk	sk	sig	iters	mode
+mldsa44	ML-DSA-44	1312	2560	2420	0	2
+mldsa65	ML-DSA-65	1952	4032	3309	0	3
+mldsa87	ML-DSA-87	2592	4896	4627	0	5

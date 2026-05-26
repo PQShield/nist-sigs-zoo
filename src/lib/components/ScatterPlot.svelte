@@ -16,7 +16,7 @@
 		Standardized: STAR,
 		Lattices: 'square',
 		'Code-based': 'cross',
-		'MPC-in-the-Head': 'diamond',
+		'MPCitH': 'diamond',
 		Multivariate: 'triangle-up',
 		Symmetric: 'triangle-down',
 		Isogenies: 'circle',

@@ -14,18 +14,18 @@ versions:
     level: 5
     pk: 1028000
     sig: 33
-    signing_ms: 1200.0
-    verification_ms: 25.1
+    signing_us: 1200000.0
+    verification_us: 25100.0
   - name: '192'
     level: 4
     pk: 434250
     sig: 25
-    signing_ms: 1000.0
-    verification_ms: 10.7
+    signing_us: 1000000.0
+    verification_us: 10700.0
   - name: '128'
     level: 2
     pk: 129000
     sig: 21
-    signing_ms: 689.75
-    verification_ms: 3.18
+    signing_us: 689750.0
+    verification_us: 3180.0
   broken: 2^64 collision / universal forgery attack

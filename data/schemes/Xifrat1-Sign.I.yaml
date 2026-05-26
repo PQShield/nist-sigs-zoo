@@ -1,7 +1,7 @@
 name: Xifrat1-Sign.I
 website: https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/round-1/spec-files/xifrat1-sign-i-spec.pdf
 category: Other
-assumption: randomized abelian quasigroups
+assumption: Randomized Abelian Quasigroups
 versions:
 - version: Round 1
   date: '2023-06-01'
@@ -14,6 +14,6 @@ versions:
     level: 3
     pk: 288
     sig: 96
-    signing_ms: 20.0
-    verification_ms: 60.0
+    signing_us: 20000.0
+    verification_us: 60000.0
   broken: secret key recovery

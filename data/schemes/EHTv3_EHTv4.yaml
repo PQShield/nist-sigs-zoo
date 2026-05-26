@@ -14,30 +14,30 @@ versions:
     level: 5
     pk: 349000
     sig: 344
-    signing_ms: 305.0
-    verification_ms: 3.16
+    signing_us: 305000.0
+    verification_us: 3160.0
   - name: v3-3
     level: 3
     pk: 191600
     sig: 255
-    signing_ms: 206.0
-    verification_ms: 1.78
+    signing_us: 206000.0
+    verification_us: 1780.0
   - name: v3-1
     level: 1
     pk: 83500
     sig: 169
-    signing_ms: 75.8
-    verification_ms: 0.82
+    signing_us: 75800.0
+    verification_us: 820.0
   - name: v4-5
     level: 5
     pk: 2630
     sig: 857
-    signing_ms: 59.3
-    verification_ms: 26.2
+    signing_us: 59300.0
+    verification_us: 26200.0
   - name: v4-1
     level: 1
     pk: 1110
     sig: 369
-    signing_ms: 9.0
-    verification_ms: 3.85
+    signing_us: 9000.0
+    verification_us: 3850.0
   broken: EHTv3 is broken

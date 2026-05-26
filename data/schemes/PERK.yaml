@@ -1,6 +1,6 @@
 name: PERK
 website: https://pqc-perk.org/
-category: MPC-in-the-Head
+category: MPCitH
 assumption: Permuted Kernel
 versions:
 - version: v2.2.0
