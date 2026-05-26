@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
+	import { base } from '$app/paths';
 	import { onMount } from 'svelte';
 	import BenchmarkEnvInfo from '$lib/components/BenchmarkEnvInfo.svelte';
 	import FilterPanel from '$lib/components/FilterPanel.svelte';
@@ -126,6 +127,11 @@
 					pk size vs. sig size <span class="font-normal text-pqs-bluegray">(log–log scale)</span>
 				</h2>
 				<ScatterPlot />
+				<div class="mt-2 flex justify-end">
+					<a href="{base}/advanced/" class="text-xs text-pqs-bluegray hover:text-pqs-apricot dark:text-pqs-steel dark:hover:text-pqs-apricot transition-colors">
+						Advanced graph →
+					</a>
+				</div>
 			</section>
 
 			<!-- Performance disclaimer -->
