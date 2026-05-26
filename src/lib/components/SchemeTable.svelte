@@ -17,6 +17,12 @@
 		return String(n);
 	}
 
+	function fmtTime(us: number): string {
+		if (us >= 1_000_000) return (us / 1_000_000).toFixed(2) + ' s';
+		if (us >= 1_000) return (us / 1_000).toFixed(2) + ' ms';
+		return us.toFixed(1) + ' µs';
+	}
+
 	const COLUMNS: { key: SortableColumn; label: string; numeric?: boolean }[] = [
 		{ key: 'scheme', label: 'Scheme' },
 		{ key: 'category', label: 'Category' },
@@ -26,8 +32,8 @@
 		{ key: 'pk', label: 'pk (B)', numeric: true },
 		{ key: 'sig', label: 'sig (B)', numeric: true },
 		{ key: 'pkPlusSig', label: 'pk+sig (B)', numeric: true },
-		{ key: 'signingCycles', label: 'Sign (cycles)', numeric: true },
-		{ key: 'verificationCycles', label: 'Verify (cycles)', numeric: true },
+		{ key: 'signingUs', label: 'Sign', numeric: true },
+		{ key: 'verificationUs', label: 'Verify', numeric: true },
 	];
 
 	function setSort(col: SortableColumn) {
@@ -110,36 +116,32 @@
 					<td class="px-3 py-1.5 text-right tabular-nums">{fmt(row.sig)}</td>
 					<!-- pk+sig -->
 					<td class="px-3 py-1.5 text-right tabular-nums">{fmt(row.pkPlusSig)}</td>
-					<!-- signing cycles -->
+					<!-- signing time -->
 					<td class="px-3 py-1.5 text-right tabular-nums">
-						{#if row.signingCycles > 0}
-							{#if row.extrapolated}
-								<span
-									class="underline decoration-wavy decoration-pqs-scarlet"
-									title="Extrapolated from {row.signingMs?.toLocaleString()} ms"
-								>
-									{fmtCycles(row.signingCycles)}
-								</span>
-							{:else}
-								{fmtCycles(row.signingCycles)}
-							{/if}
+						{#if row.signingUs != null}
+							{fmtTime(row.signingUs)}
+						{:else if row.signingCycles > 0}
+							<span
+								class="underline decoration-wavy decoration-pqs-scarlet"
+								title="Estimated from {fmtCycles(row.signingCycles)} cycles @ 2.5 GHz"
+							>
+								{fmtTime(row.signingCycles / 2500)}
+							</span>
 						{:else}
 							<span class="text-pqs-bluegray">—</span>
 						{/if}
 					</td>
-					<!-- verification cycles -->
+					<!-- verification time -->
 					<td class="px-3 py-1.5 text-right tabular-nums">
-						{#if row.verificationCycles > 0}
-							{#if row.extrapolated}
-								<span
-									class="underline decoration-wavy decoration-pqs-scarlet"
-									title="Extrapolated from {row.verificationMs?.toLocaleString()} ms"
-								>
-									{fmtCycles(row.verificationCycles)}
-								</span>
-							{:else}
-								{fmtCycles(row.verificationCycles)}
-							{/if}
+						{#if row.verificationUs != null}
+							{fmtTime(row.verificationUs)}
+						{:else if row.verificationCycles > 0}
+							<span
+								class="underline decoration-wavy decoration-pqs-scarlet"
+								title="Estimated from {fmtCycles(row.verificationCycles)} cycles @ 2.5 GHz"
+							>
+								{fmtTime(row.verificationCycles / 2500)}
+							</span>
 						{:else}
 							<span class="text-pqs-bluegray">—</span>
 						{/if}

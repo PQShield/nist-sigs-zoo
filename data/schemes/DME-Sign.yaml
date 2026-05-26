@@ -13,18 +13,18 @@ versions:
     level: 5
     pk: 2889
     sig: 64
-    signing_ms: 0.04
-    verification_ms: 0.01
+    signing_us: 40.0
+    verification_us: 10.0
   - name: 2^48
     level: 3
     pk: 2169
     sig: 48
-    signing_ms: 0.04
-    verification_ms: 0.01
+    signing_us: 40.0
+    verification_us: 10.0
   - name: 2^32
     level: 1
     pk: 1449
     sig: 32
-    signing_ms: 0.02
-    verification_ms: 0.01
+    signing_us: 20.0
+    verification_us: 10.0
   broken: 2^96 signature forgery

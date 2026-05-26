@@ -19,6 +19,10 @@ function defaultFilter(ranges: DataRanges, allSchemes: Set<string>): FilterState
 		maxSigningCycles: ranges.signingCycles[1],
 		minVerificationCycles: ranges.verificationCycles[0],
 		maxVerificationCycles: ranges.verificationCycles[1],
+		minSigningUs: ranges.signingUs?.[0] ?? 0,
+		maxSigningUs: ranges.signingUs?.[1] ?? Infinity,
+		minVerificationUs: ranges.verificationUs?.[0] ?? 0,
+		maxVerificationUs: ranges.verificationUs?.[1] ?? Infinity,
 		sortCol: DEFAULT_SORT_COL,
 		sortDir: DEFAULT_SORT_DIR,
 	};
@@ -49,6 +53,10 @@ function applyUrlParams(state: FilterState, params: URLSearchParams): FilterStat
 	if (params.has('scMax')) s.maxSigningCycles = Number(params.get('scMax'));
 	if (params.has('vcMin')) s.minVerificationCycles = Number(params.get('vcMin'));
 	if (params.has('vcMax')) s.maxVerificationCycles = Number(params.get('vcMax'));
+	if (params.has('suMin')) s.minSigningUs = Number(params.get('suMin'));
+	if (params.has('suMax')) s.maxSigningUs = Number(params.get('suMax'));
+	if (params.has('vuMin')) s.minVerificationUs = Number(params.get('vuMin'));
+	if (params.has('vuMax')) s.maxVerificationUs = Number(params.get('vuMax'));
 
 	const sortParam = params.get('sort');
 	if (sortParam) s.sortCol = sortParam as SortableColumn;
@@ -87,6 +95,10 @@ export function buildUrlParams(state: FilterState, defaults: FilterState): URLSe
 	if (state.maxSigningCycles !== defaults.maxSigningCycles) params.set('scMax', String(state.maxSigningCycles));
 	if (state.minVerificationCycles !== defaults.minVerificationCycles) params.set('vcMin', String(state.minVerificationCycles));
 	if (state.maxVerificationCycles !== defaults.maxVerificationCycles) params.set('vcMax', String(state.maxVerificationCycles));
+	if (state.minSigningUs !== defaults.minSigningUs) params.set('suMin', String(state.minSigningUs));
+	if (state.maxSigningUs !== defaults.maxSigningUs) params.set('suMax', String(state.maxSigningUs));
+	if (state.minVerificationUs !== defaults.minVerificationUs) params.set('vuMin', String(state.minVerificationUs));
+	if (state.maxVerificationUs !== defaults.maxVerificationUs) params.set('vuMax', String(state.maxVerificationUs));
 
 	if (state.sortCol !== DEFAULT_SORT_COL) params.set('sort', state.sortCol);
 	if (state.sortDir !== DEFAULT_SORT_DIR) params.set('dir', state.sortDir);
@@ -110,6 +122,8 @@ function compareValues(a: ParameterSet, b: ParameterSet, col: SortableColumn): n
 		case 'pkPlusSig': return a.pkPlusSig - b.pkPlusSig;
 		case 'signingCycles': return a.signingCycles - b.signingCycles;
 		case 'verificationCycles': return a.verificationCycles - b.verificationCycles;
+		case 'signingUs': return (a.signingUs ?? a.signingCycles / 2500) - (b.signingUs ?? b.signingCycles / 2500);
+		case 'verificationUs': return (a.verificationUs ?? a.verificationCycles / 2500) - (b.verificationUs ?? b.verificationCycles / 2500);
 		default: {
 			const av = String(a[col] ?? '').toLowerCase();
 			const bv = String(b[col] ?? '').toLowerCase();
@@ -156,6 +170,16 @@ export function createFilterStore(
 					if (
 						row.verificationCycles < $state.minVerificationCycles ||
 						row.verificationCycles > $state.maxVerificationCycles
+					)
+						return false;
+					if (
+						row.signingUs != null &&
+						(row.signingUs < $state.minSigningUs || row.signingUs > $state.maxSigningUs)
+					)
+						return false;
+					if (
+						row.verificationUs != null &&
+						(row.verificationUs < $state.minVerificationUs || row.verificationUs > $state.maxVerificationUs)
 					)
 						return false;
 					return true;

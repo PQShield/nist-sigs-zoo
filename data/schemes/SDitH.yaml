@@ -11,38 +11,50 @@ versions:
     level: 1
     pk: 70
     sig: 3705
-    signing_cycles: 16297900
-    verification_cycles: 14515344
+    signing_cycles: 16956750
+    verification_cycles: 14669583
+    signing_us: 11323.2
+    verification_us: 9795.8
   - name: SDitH2-L1-gf2-fast
     level: 1
     pk: 70
     sig: 4484
-    signing_cycles: 4593314
-    verification_cycles: 4431867
+    signing_cycles: 5037917
+    verification_cycles: 4540713
+    signing_us: 3364.1
+    verification_us: 3032.1
   - name: SDitH2-L3-gf2-short
     level: 3
     pk: 98
     sig: 7964
-    signing_cycles: 99280212
-    verification_cycles: 92511906
+    signing_cycles: 97356158
+    verification_cycles: 94638268
+    signing_us: 65010.2
+    verification_us: 63195.2
   - name: SDitH2-L3-gf2-fast
     level: 3
     pk: 98
     sig: 9916
-    signing_cycles: 13979758
-    verification_cycles: 12623758
+    signing_cycles: 15142130
+    verification_cycles: 13801112
+    signing_us: 10111.2
+    verification_us: 9216.0
   - name: SDitH2-L5-gf2-short
     level: 5
     pk: 132
     sig: 14121
-    signing_cycles: 138764677
-    verification_cycles: 130717340
+    signing_cycles: 137492025
+    verification_cycles: 130719286
+    signing_us: 91810.9
+    verification_us: 87288.3
   - name: SDitH2-L5-gf2-fast
     level: 5
     pk: 132
     sig: 17540
-    signing_cycles: 20045038
-    verification_cycles: 18755265
+    signing_cycles: 25435868
+    verification_cycles: 22181365
+    signing_us: 16985.0
+    verification_us: 14811.7
   tags:
   - round-2
   - round-3  # Round 3 spec not yet available; showing current latest data

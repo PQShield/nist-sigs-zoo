@@ -154,7 +154,7 @@ BENCH_TO_YAML: dict[str, tuple[str, str]] = {
 
 
 def parse_results_file(path: Path) -> tuple[dict, list[dict]]:
-    """Return (env_meta, rows).  rows: list of dicts with keys name/keygen_cyc/sign_cyc/verify_cyc."""
+    """Return (env_meta, rows).  rows: list of dicts with keys name/keygen_cyc/sign_cyc/verify_cyc/sign_us/verify_us."""
     meta: dict[str, str] = {}
     rows: list[dict] = []
     in_data = False
@@ -178,12 +178,14 @@ def parse_results_file(path: Path) -> tuple[dict, list[dict]]:
                 if len(parts) >= 7:
                     # scheme name may contain spaces; columns are last 6 fields
                     name = " ".join(parts[:-6])
-                    keygen_cyc, _, sign_cyc, _, verify_cyc, _ = parts[-6:]
+                    keygen_cyc, _keygen_us, sign_cyc, sign_us, verify_cyc, verify_us = parts[-6:]
                     rows.append({
                         "name": name,
                         "keygen_cycles": int(keygen_cyc),
                         "signing_cycles": int(sign_cyc),
                         "verification_cycles": int(verify_cyc),
+                        "signing_us": float(sign_us),
+                        "verification_us": float(verify_us),
                     })
     return meta, rows
 
@@ -193,16 +195,17 @@ def find_and_update_parameterset(
     ps_name: str,
     signing_cycles: int,
     verification_cycles: int,
+    signing_us: float,
+    verification_us: float,
 ) -> bool:
-    """Find first version containing ps_name and update its cycles. Return True if found."""
+    """Find first version containing ps_name and update its cycles and µs timings. Return True if found."""
     for version in yaml_data.get("versions", []):
         for ps in version.get("parametersets", []):
             if str(ps.get("name", "")) == ps_name:
                 ps["signing_cycles"] = signing_cycles
                 ps["verification_cycles"] = verification_cycles
-                # Remove signing_ms/verification_ms so cycles take precedence
-                ps.pop("signing_ms", None)
-                ps.pop("verification_ms", None)
+                ps["signing_us"] = signing_us
+                ps["verification_us"] = verification_us
                 return True
     return False
 
@@ -285,7 +288,7 @@ def main() -> None:
     not_mapped = []
 
     # Group updates by yaml file to minimise file reads/writes
-    file_updates: dict[str, list[tuple[str, int, int]]] = {}
+    file_updates: dict[str, list[tuple[str, int, int, float, float]]] = {}
     for row in rows:
         name = row["name"]
         if name not in BENCH_TO_YAML:
@@ -293,7 +296,8 @@ def main() -> None:
             continue
         yaml_file, ps_name = BENCH_TO_YAML[name]
         file_updates.setdefault(yaml_file, []).append(
-            (ps_name, row["signing_cycles"], row["verification_cycles"])
+            (ps_name, row["signing_cycles"], row["verification_cycles"],
+             row["signing_us"], row["verification_us"])
         )
 
     for yaml_filename, updates in sorted(file_updates.items()):
@@ -307,9 +311,9 @@ def main() -> None:
             data = yaml.load(f)
 
         changed = False
-        for ps_name, sign_cyc, verify_cyc in updates:
-            if find_and_update_parameterset(data, ps_name, sign_cyc, verify_cyc):
-                print(f"  {yaml_filename}  {ps_name}: sign={sign_cyc:>12,}  verify={verify_cyc:>12,}")
+        for ps_name, sign_cyc, verify_cyc, sign_us, verify_us in updates:
+            if find_and_update_parameterset(data, ps_name, sign_cyc, verify_cyc, sign_us, verify_us):
+                print(f"  {yaml_filename}  {ps_name}: sign={sign_cyc:>12,} ({sign_us} µs)  verify={verify_cyc:>12,} ({verify_us} µs)")
                 updated += 1
                 changed = True
             else:

@@ -1,7 +1,7 @@
 # Licensed under CC BY 4.0: https://creativecommons.org/licenses/by/4.0/
 license: CC-BY-4.0
 attribution: Thom Wiggers / PQShield
-date: '2026-05-26T09:47:09Z'
+date: '2026-05-26T09:45:21Z'
 cpu:
   model: 12th Gen Intel(R) Core(TM) i7-12650H
   cores: 8
@@ -23,7 +23,6 @@ sources:
   mqom: https://github.com/mqom/mqom-v2@9a5a4d5137c0c9e7974eb8879aa7f13fa6c8ab4d
   qruov: https://github.com/qruov/round2.git@787f8dba4c158f713d3351e7531edbec4afddf97
   sdith: https://github.com/sdith/sdith@fff41ae5b12ba3c6b90d8f97b2ede57aa277a92f
-  sdith2: https://sdith.org/docs/sdith-package-v2.zip
   slhdsa: https://github.com/pq-code-package/slhdsa-c@fac08b7d0a93849de0ee163c63712395e012b38c
   snova: https://github.com/PQCLAB-SNOVA/SNOVA.git@9da14981336ede257c41ef53cc069989051e8181
   sqisign: https://github.com/SQISign/the-sqisign@91e9e464fe5400192d13e1f9240cbf180200a103

@@ -92,71 +92,71 @@ versions:
     level: 3
     pk: 64
     sig: 12744
-    signing_ms: 19.18
-    verification_ms: 19.31
+    signing_us: 19180.0
+    verification_us: 19310.0
   - name: 192f
     level: 3
     pk: 64
     sig: 16792
-    signing_ms: 1.96
-    verification_ms: 1.96
+    signing_us: 1960.0
+    verification_us: 1960.0
   - name: 256s
     level: 5
     pk: 64
     sig: 22100
-    signing_ms: 26.65
-    verification_ms: 26.76
+    signing_us: 26650.0
+    verification_us: 26760.0
   - name: 256f
     level: 5
     pk: 64
     sig: 28400
-    signing_ms: 3.1
-    verification_ms: 3.1
+    signing_us: 3100.0
+    verification_us: 3100.0
   - name: EM-256s
     level: 5
     pk: 64
     sig: 20956
-    signing_ms: 25.65
-    verification_ms: 25.87
+    signing_us: 25650.0
+    verification_us: 25870.0
   - name: EM-256f
     level: 5
     pk: 64
     sig: 26736
-    signing_ms: 3.04
-    verification_ms: 3.03
+    signing_us: 3040.0
+    verification_us: 3030.0
   - name: EM-192s
     level: 3
     pk: 48
     sig: 10824
-    signing_ms: 18.46
-    verification_ms: 18.52
+    signing_us: 18460.0
+    verification_us: 18520.0
   - name: EM-192f
     level: 3
     pk: 48
     sig: 13912
-    signing_ms: 1.87
-    verification_ms: 1.87
+    signing_us: 1870.0
+    verification_us: 1870.0
   - name: 128s
     level: 1
     pk: 32
     sig: 5006
-    signing_ms: 8.1
-    verification_ms: 8.1
+    signing_us: 8100.0
+    verification_us: 8100.0
   - name: 128f
     level: 1
     pk: 32
     sig: 6336
-    signing_ms: 0.87
-    verification_ms: 0.87
+    signing_us: 870.0
+    verification_us: 870.0
   - name: EM-128s
     level: 1
     pk: 32
     sig: 4566
-    signing_ms: 8.09
-    verification_ms: 8.05
+    signing_us: 8090.0
+    verification_us: 8050.0
   - name: EM-128f
     level: 1
     pk: 32
     sig: 5696
-    signing_ms: 0.85
-    verification_ms: 0.86
+    signing_us: 850.0
+    verification_us: 860.0

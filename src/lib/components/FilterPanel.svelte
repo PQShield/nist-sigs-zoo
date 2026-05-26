@@ -159,7 +159,7 @@
 	<hr class="mb-4 border-pqs-ashgray dark:border-pqs-steel" />
 
 	<!-- Performance filters -->
-	<section>
+	<section class="mb-5">
 		<h3 class="mb-2 font-heading text-xs font-semibold uppercase tracking-wider text-pqs-steel dark:text-pqs-apricot">
 			Performance (cycles)
 		</h3>
@@ -170,4 +170,24 @@
 			<RangeField label="Max verification" value={$store.maxVerificationCycles} onchange={(v) => store.update((f) => ({ ...f, maxVerificationCycles: v }))} />
 		</div>
 	</section>
+
+	{#if ranges.signingUs || ranges.verificationUs}
+		<hr class="mb-4 border-pqs-ashgray dark:border-pqs-steel" />
+
+		<section>
+			<h3 class="mb-2 font-heading text-xs font-semibold uppercase tracking-wider text-pqs-steel dark:text-pqs-apricot">
+				Performance (µs)
+			</h3>
+			<div class="space-y-2">
+				{#if ranges.signingUs}
+					<RangeField label="Min signing" value={$store.minSigningUs} onchange={(v) => store.update((f) => ({ ...f, minSigningUs: v }))} />
+					<RangeField label="Max signing" value={$store.maxSigningUs} onchange={(v) => store.update((f) => ({ ...f, maxSigningUs: v }))} />
+				{/if}
+				{#if ranges.verificationUs}
+					<RangeField label="Min verification" value={$store.minVerificationUs} onchange={(v) => store.update((f) => ({ ...f, minVerificationUs: v }))} />
+					<RangeField label="Max verification" value={$store.maxVerificationUs} onchange={(v) => store.update((f) => ({ ...f, maxVerificationUs: v }))} />
+				{/if}
+			</div>
+		</section>
+	{/if}
 </aside>

@@ -13,18 +13,18 @@ versions:
     level: 5
     pk: 524192
     sig: 304
-    signing_ms: 136.66
-    verification_ms: 182.48
+    signing_us: 136660.0
+    verification_us: 182480.0
   - name: III
     level: 3
     pk: 215694
     sig: 232
-    signing_ms: 59.04
-    verification_ms: 79.08
+    signing_us: 59040.0
+    verification_us: 79080.0
   - name: I
     level: 1
     pk: 68326
     sig: 160
-    signing_ms: 17.71
-    verification_ms: 24.0
+    signing_us: 17710.0
+    verification_us: 24000.0
   info: PROV v1.0 leaks the private key. Use v1.1

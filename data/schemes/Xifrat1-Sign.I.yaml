@@ -13,6 +13,6 @@ versions:
     level: 3
     pk: 288
     sig: 96
-    signing_ms: 20.0
-    verification_ms: 60.0
+    signing_us: 20000.0
+    verification_us: 60000.0
   broken: secret key recovery

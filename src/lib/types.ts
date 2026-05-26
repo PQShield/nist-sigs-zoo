@@ -24,8 +24,8 @@ export interface ParameterSet {
 	pkPlusSig: number;
 	signingCycles: number;
 	verificationCycles: number;
-	signingMs: number | null;
-	verificationMs: number | null;
+	signingUs: number | null;
+	verificationUs: number | null;
 	extrapolated: boolean;
 	broken: false | string;
 	warning: false | string;
@@ -46,8 +46,8 @@ export interface ParameterSetYaml {
 	sig: number;
 	signing_cycles?: number;
 	verification_cycles?: number;
-	signing_ms?: number;
-	verification_ms?: number;
+	signing_us?: number;
+	verification_us?: number;
 	broken?: string;
 	warning?: string;
 	info?: string;
@@ -111,7 +111,9 @@ export type SortableColumn =
 	| 'sig'
 	| 'pkPlusSig'
 	| 'signingCycles'
-	| 'verificationCycles';
+	| 'verificationCycles'
+	| 'signingUs'
+	| 'verificationUs';
 
 export interface FilterState {
 	schemes: Set<string>;
@@ -126,6 +128,10 @@ export interface FilterState {
 	maxSigningCycles: number;
 	minVerificationCycles: number;
 	maxVerificationCycles: number;
+	minSigningUs: number;
+	maxSigningUs: number;
+	minVerificationUs: number;
+	maxVerificationUs: number;
 	sortCol: SortableColumn;
 	sortDir: 'asc' | 'desc';
 }
@@ -136,4 +142,6 @@ export interface DataRanges {
 	pkPlusSig: [number, number];
 	signingCycles: [number, number];
 	verificationCycles: [number, number];
+	signingUs: [number, number] | null;
+	verificationUs: [number, number] | null;
 }

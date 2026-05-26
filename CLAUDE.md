@@ -50,8 +50,8 @@ versions:
         sig: 2420
         signing_cycles: 1234567
         verification_cycles: 234567
-        signing_ms: null       # use cycles OR ms, not both
-        verification_ms: null
+        signing_us: null       # microseconds; use cycles OR us, not both
+        verification_us: null
         notes: null
 ```
 

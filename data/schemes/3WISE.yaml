@@ -13,18 +13,18 @@ versions:
     level: 5
     pk: 2860000
     sig: 64
-    signing_ms: 0.093
-    verification_ms: 15.33
+    signing_us: 93.0
+    verification_us: 15330.0
   - name: '192'
     level: 4
     pk: 918750
     sig: 48
-    signing_ms: 0.06
-    verification_ms: 5.22
+    signing_us: 60.0
+    verification_us: 5220.0
   - name: '128'
     level: 2
     pk: 187000
     sig: 32
-    signing_ms: 0.038
-    verification_ms: 1.11
+    signing_us: 38.0
+    verification_us: 1110.0
   broken: Broken

@@ -13,18 +13,18 @@ versions:
     level: 5
     pk: 243
     sig: 153
-    signing_ms: 43319.0
-    verification_ms: 22650.0
+    signing_us: 43319000.0
+    verification_us: 22650000.0
   - name: KAZ738
     level: 3
     pk: 185
     sig: 117
-    signing_ms: 20822.0
-    verification_ms: 10306.0
+    signing_us: 20822000.0
+    verification_us: 10306000.0
   - name: KAZ458
     level: 1
     pk: 115
     sig: 74
-    signing_ms: 9955.0
-    verification_ms: 2696.0
+    signing_us: 9955000.0
+    verification_us: 2696000.0
   broken: universal signature forgery
