@@ -140,15 +140,9 @@
 				{#if $roundStore === 'latest' || $roundStore === 'round-3'}
 					Cycle counts are from our own benchmarks on a {benchmarkEnv?.cpu.model ?? 'reference machine'} —
 					see the environment details below.
-					Any values marked with a
-					<span class="underline decoration-wavy decoration-pqs-scarlet">wavy underline</span>
-					are extrapolated from reported millisecond timings for schemes not yet covered by our benchmark suite.
 				{:else}
 					Timings are taken from the scheme submissions and may not reflect optimised implementations.
-					Cycle counts marked with a
-					<span class="underline decoration-wavy decoration-pqs-scarlet">wavy underline</span>
-					are extrapolated from reported millisecond timings assuming a 2.5 GHz processor —
-					comparisons across such values should be treated with caution.
+					Comparisons across schemes should be treated with caution.
 				{/if}
 			</div>
 
