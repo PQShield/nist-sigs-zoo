@@ -1,0 +1,34 @@
+name: ECDSA
+website: https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.186-5.pdf
+category: Pre-Quantum
+assumption: Elliptic Curves
+versions:
+- version: FIPS 186-5
+  date: '2023-02-03'
+  status: Classic cryptography
+  parametersets:
+  - name: P-256
+    level: Pre-Quantum
+    pk: 65
+    sig: 72
+    signing_cycles: 41259
+    verification_cycles: 122421
+    signing_us: 27.6
+    verification_us: 81.8
+  - name: P-384
+    level: Pre-Quantum
+    pk: 97
+    sig: 104
+    signing_cycles: 1056269
+    verification_cycles: 903506
+    signing_us: 705.3
+    verification_us: 603.3
+  - name: P-521
+    level: Pre-Quantum
+    pk: 133
+    sig: 139
+    signing_cycles: 2448756
+    verification_cycles: 1945082
+    signing_us: 1635.2
+    verification_us: 1298.9
+  broken: classical

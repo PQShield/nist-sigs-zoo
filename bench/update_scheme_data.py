@@ -72,10 +72,22 @@ BENCH_TO_YAML: dict[str, tuple[str, str]] = {
     "SDitH-Threshold-L3-P251": ("SDitH.yaml", "gf251-L3-thr"),
     "SDitH-Threshold-L5-GF256": ("SDitH.yaml", "gf256-L5-thr"),
     "SDitH-Threshold-L5-P251": ("SDitH.yaml", "gf251-L5-thr"),
-    # SNOVA — matched by exact (pk, sig) agreement with YAML v2.0
+    # SNOVA — q=16 original variants
     "SNOVA-24-5-16-4": ("SNOVA.yaml", "(24 5 4)"),
     "SNOVA-37-8-16-4": ("SNOVA.yaml", "(37 8 4)"),
     "SNOVA-60-10-16-4": ("SNOVA.yaml", "(60 10 4)"),
+    # SNOVA — updated l=2 variants, q=19 variants, and 4x5 structure
+    "SNOVA-28-5-19-4":   ("SNOVA.yaml", "SNOVA-28-5-19-4"),
+    "SNOVA-48-17-16-2":  ("SNOVA.yaml", "SNOVA-48-17-16-2"),
+    "SNOVA-48-16-19-2":  ("SNOVA.yaml", "SNOVA-48-16-19-2"),
+    "SNOVA-28-4-16-4x5": ("SNOVA.yaml", "SNOVA-28-4-16-4x5"),
+    "SNOVA-28-4-19-4x5": ("SNOVA.yaml", "SNOVA-28-4-19-4x5"),
+    "SNOVA-40-7-19-4":   ("SNOVA.yaml", "SNOVA-40-7-19-4"),
+    "SNOVA-72-25-16-2":  ("SNOVA.yaml", "SNOVA-72-25-16-2"),
+    "SNOVA-38-5-16-4x5": ("SNOVA.yaml", "SNOVA-38-5-16-4x5"),
+    "SNOVA-38-5-19-4x5": ("SNOVA.yaml", "SNOVA-38-5-19-4x5"),
+    "SNOVA-50-9-19-4":   ("SNOVA.yaml", "SNOVA-50-9-19-4"),
+    "SNOVA-97-33-16-2":  ("SNOVA.yaml", "SNOVA-97-33-16-2"),
     # UOV
     "UOV-Ip-pkc": ("UOV.yaml", "Ip-pkc"),
     "UOV-Ip-classic": ("UOV.yaml", "Ip-classic"),
@@ -148,6 +160,11 @@ BENCH_TO_YAML: dict[str, tuple[str, str]] = {
     "SQIsign-V": ("SQIsign.yaml", "V"),
     # Classic
     "RSA-2048 (PSS)": ("RSA.yaml", "2048"),
+    "RSA-3072 (PSS)": ("RSA.yaml", "3072"),
+    "RSA-4096 (PSS)": ("RSA.yaml", "4096"),
+    "ECDSA-P256 (SHA-256)": ("ECDSA.yaml", "P-256"),
+    "ECDSA-P384 (SHA-384)": ("ECDSA.yaml", "P-384"),
+    "ECDSA-P521 (SHA-512)": ("ECDSA.yaml", "P-521"),
     "Ed25519": ("EdDSA.yaml", "Ed25519"),
     "Ed448": ("EdDSA.yaml", "Ed448"),
 }
@@ -329,6 +346,55 @@ def main() -> None:
         print(f"\nNo YAML mapping for {len(not_mapped)} bench names:")
         for n in not_mapped:
             print(f"  {n}")
+
+    # Report what was NOT updated
+    run_bench_names = {row["name"] for row in rows}
+    yaml_to_bench: dict[tuple[str, str], str] = {(v[0], v[1]): k for k, v in BENCH_TO_YAML.items()}
+
+    # Bench-mapped parametersets absent from this run's results
+    not_in_run: dict[str, list[str]] = {}
+    for bench_name, (yaml_file, ps_name) in sorted(BENCH_TO_YAML.items()):
+        if bench_name not in run_bench_names:
+            not_in_run.setdefault(yaml_file, []).append(ps_name)
+
+    # Parametersets in YAML files with no bench mapping — grouped by round
+    # round_order defines display order; keys match the labels used below
+    ROUND_ORDER = ["round-2", "round-1", "untagged"]
+    no_bench: dict[str, dict[str, list[str]]] = {r: {} for r in ROUND_ORDER}
+    for yaml_path in sorted(SCHEMES_DIR.glob("*.yaml")):
+        with open(yaml_path) as f:
+            data = yaml.load(f)
+        for version in (data.get("versions") or []):
+            tags = version.get("tags") or []
+            if "round-2" in tags or "round-3" in tags:
+                round_key = "round-2"
+            elif "round-1" in tags:
+                round_key = "round-1"
+            else:
+                round_key = "untagged"
+            for ps in (version.get("parametersets") or []):
+                key = (yaml_path.name, str(ps.get("name", "")))
+                if key not in yaml_to_bench:
+                    no_bench[round_key].setdefault(yaml_path.name, []).append(str(ps.get("name", "")))
+
+    if not_in_run:
+        total = sum(len(v) for v in not_in_run.values())
+        print(f"\nBench-mapped but not in this run ({total}):")
+        for yaml_file, names in sorted(not_in_run.items()):
+            print(f"  {yaml_file}: {', '.join(names)}")
+
+    total_no_bench = sum(len(names) for r in ROUND_ORDER for names in no_bench[r].values())
+    if total_no_bench:
+        print(f"\nNo bench mapping ({total_no_bench}):")
+        labels = {"round-2": "Round 2", "round-1": "Round 1", "untagged": "Untagged"}
+        for round_key in ROUND_ORDER:
+            by_file = no_bench[round_key]
+            if not by_file:
+                continue
+            subtotal = sum(len(v) for v in by_file.values())
+            print(f"\n  {labels[round_key]} ({subtotal}):")
+            for yaml_file, names in sorted(by_file.items()):
+                print(f"    {yaml_file}: {', '.join(names)}")
 
     write_benchmark_env(meta, BENCH_ENV_FILE)
 

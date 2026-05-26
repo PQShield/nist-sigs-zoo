@@ -11,27 +11,35 @@ versions:
     level: 5
     pk: 5554
     sig: 964
-    signing_cycles: 1542035
-    verification_cycles: 687377
+    signing_cycles: 1508341
+    verification_cycles: 642619
+    signing_us: 1007.4
+    verification_us: 429.2
   - name: three
     level: 3
     pk: 2986
     sig: 681
-    signing_cycles: 852696
-    verification_cycles: 383956
+    signing_cycles: 738438
+    verification_cycles: 332724
+    signing_us: 493.1
+    verification_us: 222.2
   - name: two
     level: 1
     pk: 4912
     sig: 186
-    signing_cycles: 184372
-    verification_cycles: 32535
+    signing_cycles: 184218
+    verification_cycles: 32135
     broken: "Wedge attack (Ran, ePrint 2025/1143) reduces classical security to ~113 bits, below NIST Level I threshold (128 bits)"
+    signing_us: 123.0
+    verification_us: 21.5
   - name: one
     level: 1
     pk: 1420
     sig: 454
-    signing_cycles: 342767
-    verification_cycles: 149658
+    signing_cycles: 348644
+    verification_cycles: 154740
+    signing_us: 232.8
+    verification_us: 103.4
 - version: Round 2
   date: '2025-02-05'
   status: On-ramp

@@ -11,74 +11,98 @@ versions:
     level: 1
     pk: 24255
     sig: 200
-    signing_cycles: 2858606
-    verification_cycles: 2423296
+    signing_cycles: 2772410
+    verification_cycles: 2384617
+    signing_us: 1851.3
+    verification_us: 1592.4
   - name: I-(31 165 60 3)
     level: 1
     pk: 23641
     sig: 157
-    signing_cycles: 3661422
-    verification_cycles: 3100983
+    signing_cycles: 3670084
+    verification_cycles: 3190129
+    signing_us: 2450.7
+    verification_us: 2130.3
   - name: I-(31 600 70 10)
     level: 1
     pk: 12266
     sig: 435
-    signing_cycles: 17967992
-    verification_cycles: 17529884
+    signing_cycles: 17267492
+    verification_cycles: 16909717
+    signing_us: 11530.4
+    verification_us: 11291.5
   - name: I-(7 740 100 10)
     level: 1
     pk: 20641
     sig: 331
-    signing_cycles: 47814165
-    verification_cycles: 46479382
+    signing_cycles: 46629682
+    verification_cycles: 45353675
+    signing_us: 31137.0
+    verification_us: 30285.0
   - name: III-(127 228 78 3)
     level: 3
     pk: 71891
     sig: 292
-    signing_cycles: 9136486
-    verification_cycles: 7902075
+    signing_cycles: 8665493
+    verification_cycles: 7313391
+    signing_us: 5786.4
+    verification_us: 4883.5
   - name: III-(31 246 87 3)
     level: 3
     pk: 70983
     sig: 232
-    signing_cycles: 13279991
-    verification_cycles: 11778676
+    signing_cycles: 11274299
+    verification_cycles: 10075621
+    signing_us: 7528.4
+    verification_us: 6728.0
   - name: III-(31 890 100 10)
     level: 3
     pk: 34399
     sig: 643
-    signing_cycles: 58774092
-    verification_cycles: 57319973
+    signing_cycles: 55975760
+    verification_cycles: 52379869
+    signing_us: 37377.8
+    verification_us: 34976.8
   - name: III-(7 1100 140 10)
     level: 3
     pk: 55149
     sig: 489
-    signing_cycles: 158876559
-    verification_cycles: 152735909
+    signing_cycles: 157116273
+    verification_cycles: 151929628
+    signing_us: 104914.6
+    verification_us: 101451.1
   - name: V-(127 306 105 3)
     level: 5
     pk: 173676
     sig: 392
-    signing_cycles: 21352469
-    verification_cycles: 18161573
+    signing_cycles: 21912645
+    verification_cycles: 18713907
+    signing_us: 14632.2
+    verification_us: 12496.4
   - name: V-(31 1120 120 10)
     level: 5
     pk: 58532
     sig: 807
-    signing_cycles: 116350770
-    verification_cycles: 113159258
+    signing_cycles: 117418206
+    verification_cycles: 114559444
+    signing_us: 78406.3
+    verification_us: 76497.3
   - name: V-(31 324 114 3)
     level: 5
     pk: 158421
     sig: 306
-    signing_cycles: 29394467
-    verification_cycles: 25398160
+    signing_cycles: 28267980
+    verification_cycles: 24886359
+    signing_us: 18876.0
+    verification_us: 16618.1
   - name: V-(7 1490 190 10)
     level: 5
     pk: 135407
     sig: 662
-    signing_cycles: 407528577
-    verification_cycles: 381290720
+    signing_cycles: 399499752
+    verification_cycles: 370652844
+    signing_us: 266766.0
+    verification_us: 247503.9
   tags:
   - round-2
   - round-3  # Round 3 spec not yet available; showing current latest data

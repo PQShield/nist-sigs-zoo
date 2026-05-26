@@ -1,0 +1,166 @@
+# pq-sigs benchmark results
+# date:         2026-05-26T10:27:11Z
+# host:         development
+# os:           Debian GNU/Linux 13 (trixie)
+# kernel:       6.19.11-zabbly+
+# cpu:          12th Gen Intel(R) Core(TM) i7-12650H
+# cores:        8 (threads/core: 2)
+# max_freq_mhz: 4600 (cur: 400 MHz)
+# governor:     powersave
+# turbo:        enabled
+# flags:        fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf tsc_known_freq pni pclmulqdq dtes64 monitor ds_cpl vmx smx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb ssbd ibrs ibpb stibp ibrs_enhanced tpr_shadow flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid rdseed adx smap clflushopt clwb intel_pt sha_ni xsaveopt xsavec xgetbv1 xsaves split_lock_detect user_shstk avx_vnni dtherm ida arat pln pts hwp hwp_notify hwp_act_window hwp_epp hwp_pkg_req hfi vnmi umip pku ospke waitpkg gfni vaes vpclmulqdq rdpid movdiri movdir64b fsrm md_clear serialize arch_lbr ibt flush_l1d arch_capabilities
+#
+# compiler:     cc (Debian 14.2.0-19) 14.2.0
+# openssl:      OpenSSL 3.6.2 7 Apr 2026 (Library: OpenSSL 3.6.2 7 Apr 2026)
+# sources:
+#   schemes/faest/ref: https://github.com/faest-sign/faest-ref@77caab6dc19685adfc1197547dc21efd9940fa8c
+#   schemes/fndsa/ref: https://github.com/pornin/c-fn-dsa@33026d4d2734049a23f065f77eea11c35de58d76
+#   schemes/hawk/ref: https://github.com/hawk-sign/dev@1b9fef52559273fe7b40fe3e22968eaedd3a4c2a
+#   schemes/mayo/ref: https://github.com/PQCMayo/MAYO-C@4108b71d416ce5947398b48b8abcb2a8c6803f3b
+#   schemes/mldsa/ref: https://github.com/pq-crystals/dilithium.git@6e00625c5b29f516c6de973fe2ee2fbb150973f9
+#   schemes/mqom/ref: https://github.com/mqom/mqom-v2@9a5a4d5137c0c9e7974eb8879aa7f13fa6c8ab4d
+#   schemes/qruov/ref: https://github.com/qruov/round2.git@787f8dba4c158f713d3351e7531edbec4afddf97
+#   schemes/sdith/ref: https://github.com/sdith/sdith@fff41ae5b12ba3c6b90d8f97b2ede57aa277a92f
+#   schemes/slhdsa/ref: https://github.com/pq-code-package/slhdsa-c@fac08b7d0a93849de0ee163c63712395e012b38c
+#   schemes/snova/ref: https://github.com/PQCLAB-SNOVA/SNOVA.git@9da14981336ede257c41ef53cc069989051e8181
+#   schemes/sqisign/ref: https://github.com/SQISign/the-sqisign@91e9e464fe5400192d13e1f9240cbf180200a103
+#   schemes/uov/ref: https://github.com/pqov/pqov.git@49dc53c09717763759911c47c7e4c8000fda1cc5
+#   schemes/sdith2: https://sdith.org/docs/sdith-package-v2.zip
+#
+scheme                        keygen (cyc)  keygen (us)      sign (cyc)   sign (us)    verify (cyc)  verify (us)
+------                        ------------  -----------      ----------   ---------    ------------  ----------
+ML-DSA-44                            39034        26.1           90486        60.4           40045        26.8
+ML-DSA-65                            65744        43.9          148757        99.4           65163        43.5
+ML-DSA-87                            97108        64.9          175004       116.9           95936        64.1
+SLH-DSA-SHA2-128s                 99860182     66681.6       794913806    530804.2          803962       536.9
+SLH-DSA-SHAKE-128s               148582087     99215.6      1228591795    820392.3         1040376       694.7
+SLH-DSA-SHA2-128f                  1449830       968.2        33424188     22319.0         2131593      1423.4
+SLH-DSA-SHAKE-128f                 2708554      1808.7        61898361     41332.6         3754734      2507.3
+SLH-DSA-SHA2-192s                156600867    104570.2      1479105480    987672.8          941910       629.0
+SLH-DSA-SHAKE-192s               247090371    164995.0      2184438871   1458658.5         2160329      1442.6
+SLH-DSA-SHA2-192f                  2375375      1586.2        63958191     42708.1         3432096      2291.8
+SLH-DSA-SHAKE-192f                 3275743      2187.4        90084710     60154.2         4862565      3247.0
+SLH-DSA-SHA2-256s                 97559202     65146.3      1163401996    776861.8         1271181       848.9
+SLH-DSA-SHAKE-256s               149539751     99856.1      2026051716   1352896.1         3474562      2320.2
+SLH-DSA-SHA2-256f                  6349255      4239.7       132413759     88419.2         3608191      2409.4
+SLH-DSA-SHAKE-256f                10156344      6781.9       211484756    141219.0         5624587      3755.8
+FN-DSA-512                         4974586      3321.8          308023       205.7           31767        21.2
+FN-DSA-1024                       18787806     12545.6          635750       424.5           62255        41.6
+RSA-2048 (PSS)                    51643907     34485.2         1243858       830.6           31369        21.0
+RSA-3072 (PSS)                   215369644    143813.2         3796878      2535.4           78850        52.7
+RSA-4096 (PSS)                   534258627    356751.4         7860177      5248.9          132062        88.2
+ECDSA-P256 (SHA-256)                 27418        18.3           41259        27.6          122421        81.8
+ECDSA-P384 (SHA-384)               1029984       688.0         1056269       705.3          903506       603.3
+ECDSA-P521 (SHA-512)               2321622      1550.3         2448756      1635.2         1945082      1298.9
+Ed25519                              59736        39.9           59153        39.5          156060       104.2
+Ed448                               252596       168.7          257865       172.2          226464       151.2
+HAWK-512                           2264758      1512.3           36034        24.1           42577        28.4
+HAWK-1024                         14020279      9362.1           84756        56.6           96469        64.4
+MAYO-one                            117846        78.7          348644       232.8          154740       103.4
+MAYO-two (broken)                    75676        50.6          184218       123.0           32135        21.5
+MAYO-three                          288110       192.4          738438       493.1          332724       222.2
+MAYO-five                           594466       397.0         1508341      1007.4          642619       429.2
+FAEST-128s                            1231         0.8        69767644     46587.5        61460574     41040.5
+FAEST-128f                             735         0.5        23204092     15494.5        18810933     12561.1
+FAEST-EM-128s                         1297         0.9        25996017     17359.1        20415963     13633.0
+FAEST-EM-128f                          358         0.2        16337876     10909.7        11476216      7663.3
+FAEST-192s                            2186         1.4       258621098    172694.7       213335119    142454.9
+FAEST-192f                            1311         0.9       108141662     72211.7        78642406     52513.7
+FAEST-EM-192s                        49260        32.9        92997420     62099.2        67822272     45288.7
+FAEST-EM-192f                        55388        37.0        64984072     43393.2        45278621     30234.9
+FAEST-256s                            2235         1.4       426322173    284677.1       390337245    260648.2
+FAEST-256f                            2506         1.6       144358599     96396.1       115494609     77122.1
+FAEST-EM-256s                        89333        59.7       158653662    105941.4       123928764     82753.9
+FAEST-EM-256f                        76005        50.8       102894100     68707.8        72893096     48674.4
+SDitH-Hypercube-L1-GF256           6256415      4177.8         6965201      4651.1         6327323      4225.1
+SDitH-Hypercube-L1-P251            4305733      2875.2        11674578      7795.8        11051627      7379.8
+SDitH-Hypercube-L3-GF256           6983635      4663.4        14133044      9437.4        13575748      9065.2
+SDitH-Hypercube-L3-P251            5380801      3593.1        28888246     19290.4        26717181     17840.6
+SDitH-Hypercube-L5-GF256          12555275      8383.4        29817735     19910.8        28261364     18871.6
+SDitH-Hypercube-L5-P251            9126214      6094.0        46561409     31091.7        43811563     29255.4
+SDitH-Threshold-L1-GF256           2306111      1539.9        19779593     13207.9         2945265      1966.7
+SDitH-Threshold-L1-P251            1048605       700.2         3008990      2009.3          336510       224.7
+SDitH-Threshold-L3-GF256           2829836      1889.6        51664022     34498.7         9892350      6605.7
+SDitH-Threshold-L3-P251            1263007       843.4         6752485      4509.0          785804       524.8
+SDitH-Threshold-L5-GF256           5119602      3418.3       100066585     66819.8        22246025     14854.7
+SDitH-Threshold-L5-P251            2060385      1375.9        14133487      9437.7         1730972      1155.9
+SDitH2-L1-gf2-short                 701423       468.4        16710410     11158.4        14672938      9797.9
+SDitH2-L1-gf2-fast                  634223       423.5         4328831      2890.6         4104292      2740.7
+SDitH2-L3-gf2-short                2458306      1641.7        95293224     63632.4        91977877     61418.6
+SDitH2-L3-gf2-fast                 2441955      1630.7        15304021     10219.4        13766960      9193.0
+SDitH2-L5-gf2-short                3637812      2429.2       135967725     90792.8       131256313     87646.6
+SDitH2-L5-gf2-fast                 3388650      2262.8        21158837     14128.9        18432097     12308.1
+SNOVA-24-5-16-4                     133795        89.4          576635       385.1          156279       104.4
+SNOVA-28-5-19-4                     175298       117.1          345957       231.1          157563       105.2
+SNOVA-48-17-16-2                    725286       484.4         1233274       823.6          301551       201.4
+SNOVA-48-16-19-2                    932611       622.8          583455       389.7          309517       206.7
+SNOVA-28-4-16-4x5                   209371       139.8          588485       393.0          295093       197.1
+SNOVA-28-4-19-4x5                   228495       152.6          530239       354.1          190133       127.0
+SNOVA-40-7-19-4                     588655       393.1          893751       596.9          420975       281.2
+SNOVA-37-8-16-4                     621762       415.2         1576596      1052.8          455047       303.9
+SNOVA-72-25-16-2                   3506096      2341.3         4431607      2959.3          995536       665.0
+SNOVA-38-5-16-4x5                   399570       266.8         1277299       853.1          673888       450.1
+SNOVA-38-5-19-4x5                   680837       454.7         1145847       765.2          450631       301.0
+SNOVA-50-9-19-4                    1320254       881.7         1778074      1187.4          798409       533.2
+SNOVA-60-10-16-4                   2271499      1516.8         4574330      3054.6         1312834       876.8
+SNOVA-97-33-16-2                  10077310      6729.4        12324747      8230.0         2481048      1656.9
+UOV-Ip-pkc                         1146464       765.6           38119        25.5           72946        48.7
+UOV-Ip-classic                     1140329       761.5           37181        24.8           29432        19.7
+UOV-Is-pkc                         1794706      1198.4           40377        27.0           82838        55.3
+UOV-Is-classic                     1599641      1068.2           32886        22.0           20125        13.4
+UOV-III-pkc                        7005487      4677.9          127662        85.3          323543       216.1
+UOV-III-classic                    5832951      3895.0          103020        68.8           83753        55.9
+UOV-V-pkc                         19910079     13295.1          268097       179.1          793831       530.2
+UOV-V-classic                     16222818     10832.9          217888       145.6          186392       124.7
+QR-UOV-I-(127,156,54,3)           17284074     11541.6         2772410      1851.3         2384617      1592.4
+QR-UOV-I-(31,165,60,3)            22605917     15095.1         3670084      2450.7         3190129      2130.3
+QR-UOV-I-(31,600,70,10)           69264061     46251.1        17267492     11530.4        16909717     11291.5
+QR-UOV-I-(7,740,100,10)          222436023    148532.1        46629682     31137.0        45353675     30285.0
+QR-UOV-III-(127,228,78,3)         67366534     44984.1         8665493      5786.4         7313391      4883.5
+QR-UOV-III-(31,246,87,3)          89902070     60032.4        11274299      7528.4        10075621      6728.0
+QR-UOV-III-(31,890,100,10)       286489786    191304.1        55975760     37377.8        52379869     34976.8
+QR-UOV-III-(7,1100,140,10)       954269839    637213.6       157116273    104914.6       151929628    101451.1
+QR-UOV-V-(127,306,105,3)         229703310    153384.5        21912645     14632.2        18713907     12496.4
+QR-UOV-V-(31,324,114,3)          288860437    192887.2        28267980     18876.0        24886359     16618.1
+QR-UOV-V-(31,1120,120,10)        726329675    485006.9       117418206     78406.3       114559444     76497.3
+QR-UOV-V-(7,1490,190,10)        3182160506   2124886.6       399499752    266766.0       370652844    247503.9
+MQOM2-L1-gf2-fast-r3                350652       234.2         2592664      1731.3         2091746      1396.8
+MQOM2-L1-gf2-fast-r5                305288       203.9         2031160      1356.3         1786488      1193.0
+MQOM2-L1-gf2-short-r3               352341       235.3         3966578      2648.7         3310414      2210.6
+MQOM2-L1-gf2-short-r5               355941       237.7         3967321      2649.2         3421267      2284.6
+MQOM2-L1-gf16-fast-r3               109984        73.4         1428725       954.0         1112745       743.1
+MQOM2-L1-gf16-fast-r5               115087        76.9         1321882       882.7         1059997       707.8
+MQOM2-L1-gf16-short-r3              106301        71.0         4178937      2790.5         3053612      2039.1
+MQOM2-L1-gf16-short-r5              106278        71.0         3627545      2422.4         2953911      1972.5
+MQOM2-L1-gf256-fast-r3              102782        68.6         1835019      1225.4         1431024       955.6
+MQOM2-L1-gf256-fast-r5              110060        73.5         1777625      1187.0         1366889       912.8
+MQOM2-L1-gf256-short-r3              71675        47.9         4924500      3288.4         3238036      2162.2
+MQOM2-L1-gf256-short-r5              73843        49.3         4237102      2829.4         2752670      1838.2
+MQOM2-L3-gf2-fast-r3               2384480      1592.3         9899903      6610.7         9434025      6299.6
+MQOM2-L3-gf2-fast-r5               2461734      1643.9         9626749      6428.4         9319397      6223.2
+MQOM2-L3-gf2-short-r3              2846795      1901.0        21568903     14403.0        18193884     12149.3
+MQOM2-L3-gf2-short-r5              2931550      1957.6        21559438     14396.8        19941518     13316.1
+MQOM2-L3-gf16-fast-r3               522483       348.9         5650203      3773.0         5048532      3371.2
+MQOM2-L3-gf16-fast-r5               489857       327.1         5097417      3403.8         4849094      3238.0
+MQOM2-L3-gf16-short-r3              552078       368.7        18900171     12620.9        15649860     10450.2
+MQOM2-L3-gf16-short-r5              553570       369.6        17922005     11967.5        16330382     10904.7
+MQOM2-L3-gf256-fast-r3              564363       376.9         7317094      4886.0         6536590      4364.9
+MQOM2-L3-gf256-fast-r5              530490       354.3         6242669      4168.6         5587853      3731.3
+MQOM2-L3-gf256-short-r3             521853       348.5        24128808     16112.2        19431847     12975.8
+MQOM2-L3-gf256-short-r5             508067       339.3        19084635     12743.9        15302231     10218.2
+MQOM2-L5-gf2-fast-r3               3885031      2594.3        19948321     13320.6        18452522     12321.9
+MQOM2-L5-gf2-fast-r5               3253769      2172.8        16411482     10958.9        15000327     10016.6
+MQOM2-L5-gf2-short-r3              3535954      2361.0        26686721     17820.3        22360135     14931.2
+MQOM2-L5-gf2-short-r5              4265574      2848.4        30237117     20191.1        26741762     17857.0
+MQOM2-L5-gf16-fast-r3               856108       571.8         9131696      6097.8         8907978      5948.4
+MQOM2-L5-gf16-fast-r5               868116       579.7         9490368      6337.3         8893759      5938.9
+MQOM2-L5-gf16-short-r3              932217       622.6        24039485     16052.5        20574307     13738.6
+MQOM2-L5-gf16-short-r5              985154       657.9        24464792     16336.5        24094671     16089.4
+MQOM2-L5-gf256-fast-r3              820488       547.9        12591228      8407.9        10363099      6920.0
+MQOM2-L5-gf256-fast-r5              885631       591.4        12127870      8098.4        10888535      7270.9
+MQOM2-L5-gf256-short-r3             880665       588.1        36777879     24558.6        30021595     20047.3
+MQOM2-L5-gf256-short-r5             827257       552.4        26719114     17842.0        21849573     14590.3
+SQIsign-I                         33445956     22333.6        71845833     47975.2         5611950      3747.4
+SQIsign-III                       94521404     63116.7       220388169    147164.7        14436893      9640.3
+SQIsign-V                        126238880     84296.7       302607728    202066.7        22477683     15009.5
+
