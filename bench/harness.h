@@ -49,17 +49,17 @@ static uint64_t bench_median(uint64_t *arr, int n) {
 #define BENCH_ITER 1000
 #endif
 
-#define BENCH_FMT "%-26s  %14" PRIu64 "  %10.1f  %14" PRIu64 "  %10.1f  %14" PRIu64 "  %10.1f\n"
-#define BENCH_HDR "%-26s  %14s  %10s  %14s  %10s  %14s  %10s\n"
+#define BENCH_FMT "%-26s  %6d  %14" PRIu64 "  %10.1f  %14" PRIu64 "  %10.1f  %14" PRIu64 "  %10.1f\n"
+#define BENCH_HDR "%-26s  %6s  %14s  %10s  %14s  %10s  %14s  %10s\n"
 
 static void bench_print_header(void) {
     printf(BENCH_HDR,
-           "scheme",
+           "scheme",        "iters",
            "keygen (cyc)", "keygen (us)",
            "sign (cyc)",   "sign (us)",
            "verify (cyc)", "verify (us)");
     printf(BENCH_HDR,
-           "------",
+           "------",        "-----",
            "------------", "-----------",
            "----------",   "---------",
            "------------", "----------");
@@ -119,7 +119,7 @@ static void bench_run(const bench_scheme_t *s) {
 #undef TIME_OP
 
     printf(BENCH_FMT,
-           s->name,
+           s->name, n,
            bench_median(kg_cyc, n), bench_median(kg_ns, n) / 1000.0,
            bench_median(sg_cyc, n), bench_median(sg_ns, n) / 1000.0,
            bench_median(vf_cyc, n), bench_median(vf_ns, n) / 1000.0);
