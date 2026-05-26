@@ -16,7 +16,7 @@
 	url = https://github.com/PQCMayo/MAYO-C
 [submodule "bench/schemes/faest/ref"]
 	path = bench/schemes/faest/ref
-	url = https://github.com/faest-sign/faest-ref
+	url = https://github.com/faest-sign/faest-arch-opt
 [submodule "bench/schemes/sdith/ref"]
 	path = bench/schemes/sdith/ref
 	url = https://github.com/sdith/sdith

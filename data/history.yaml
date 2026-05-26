@@ -1,5 +1,10 @@
 - date: '2026-05-26'
   type: update
+  description: "Updated FAEST performance data to use the AVX2+AES-NI optimized implementation (<a href=\"https://github.com/faest-sign/faest-arch-opt\">faest-arch-opt</a>) instead of the reference implementation. Signing is 10–100× faster depending on the parameter set."
+  schemes: [FAEST]
+
+- date: '2026-05-26'
+  type: update
   description: "Updated SNOVA to v2.3 (2026-04-03). Split round-2 and round-3 data: round-3 now shows the 14 current parameter sets from the v2.3 spec (l=4 variants retained with warnings, new q=19 variants, rectangular 4×5 structure added per \"Rectangular signatures\" update)."
   schemes: [SNOVA]
 
