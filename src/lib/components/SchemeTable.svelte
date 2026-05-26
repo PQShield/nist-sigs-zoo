@@ -26,8 +26,8 @@
 		{ key: 'pk', label: 'pk (B)', numeric: true },
 		{ key: 'sig', label: 'sig (B)', numeric: true },
 		{ key: 'pkPlusSig', label: 'pk+sig (B)', numeric: true },
-		{ key: 'signingCycles', label: 'Sign', numeric: true },
-		{ key: 'verificationCycles', label: 'Verify', numeric: true },
+		{ key: 'signingCycles', label: 'Sign (cycles)', numeric: true },
+		{ key: 'verificationCycles', label: 'Verify (cycles)', numeric: true },
 	];
 
 	function setSort(col: SortableColumn) {
