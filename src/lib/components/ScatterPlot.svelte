@@ -53,7 +53,7 @@
 	}
 
 	function levelLabel(level: NistLevel): string {
-		if (level === 'Pre-Quantum') return 'Pre-Quantum';
+		if (level === 'Pre-Quantum') return 'N/A';
 		return `Level ${level}`;
 	}
 
@@ -107,7 +107,7 @@
 		});
 
 		// Colors per NIST security level — only levels present in data
-		const allLevelDomain = ['Pre-Quantum', 'Level 1', 'Level 2', 'Level 3', 'Level 4', 'Level 5'];
+		const allLevelDomain = ['N/A', 'Level 1', 'Level 2', 'Level 3', 'Level 4', 'Level 5'];
 		const allLevelColors = isDark
 			? ['#9CA3AF', '#60A5FA', '#34D399', '#FBBF24', '#F97316', '#F87171']
 			: ['#6B7280', '#1D4ED8', '#059669', '#D97706', '#EA580C', '#DC2626'];

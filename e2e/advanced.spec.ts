@@ -52,7 +52,7 @@ test.describe('Advanced page', () => {
 	test('changing Y axis updates heading', async ({ page }) => {
 		await page.goto('/advanced/');
 		await page.locator('select').nth(1).selectOption('signingCycles');
-		await expect(page.locator('section h2')).toContainText('pk size vs. signing time');
+		await expect(page.locator('section h2')).toContainText('pk size vs. signing (cycles)');
 	});
 
 	test('toggling X scale to linear updates heading', async ({ page }) => {
@@ -86,7 +86,7 @@ test.describe('Advanced page', () => {
 
 	test('URL state is restored on page load', async ({ page }) => {
 		await page.goto('/advanced/?x=pkPlusSig&y=signingCycles&ys=linear');
-		await expect(page.locator('section h2')).toContainText('pk+sig vs. signing time');
+		await expect(page.locator('section h2')).toContainText('pk+sig vs. signing (cycles)');
 		await expect(page.locator('section h2')).toContainText('log–linear');
 		// Select values reflect URL state
 		await expect(page.locator('select').first()).toHaveValue('pkPlusSig');

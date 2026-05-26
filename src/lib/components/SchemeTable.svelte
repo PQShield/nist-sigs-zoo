@@ -108,7 +108,7 @@
 					<td class="whitespace-nowrap px-3 py-1.5 font-mono text-xs">{row.parameterset}</td>
 					<!-- Level -->
 					<td class="px-3 py-1.5 text-right tabular-nums text-pqs-steel dark:text-pqs-bluegray">
-						{row.level}
+						{row.level === 'Pre-Quantum' ? 'N/A' : row.level}
 					</td>
 					<!-- pk -->
 					<td class="px-3 py-1.5 text-right tabular-nums">{fmt(row.pk)}</td>

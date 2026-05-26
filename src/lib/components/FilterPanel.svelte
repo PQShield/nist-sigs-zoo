@@ -132,7 +132,7 @@
 						class="accent-pqs-apricot"
 					/>
 					<span class="text-pqs-steel dark:text-pqs-bluegray">
-						{level === 'Pre-Quantum' ? 'Pre-Quantum' : `Level ${level}`}
+						{level === 'Pre-Quantum' ? 'N/A' : `Level ${level}`}
 					</span>
 				</label>
 			{/each}
