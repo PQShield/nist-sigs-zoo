@@ -98,6 +98,9 @@ _khz_to_mhz() { [ "$1" = "unknown" ] && echo "unknown" || echo "$(( $1 / 1000 ))
         echo "# sources:"
         printf "%s" "$SUBMODULE_INFO"
     fi
+    if [ -n "${BENCH_ITER:-}" ]; then
+        echo "# bench_iter:   $BENCH_ITER (env override)"
+    fi
     if [ $# -gt 0 ]; then
         echo "# filter:       $*"
     fi

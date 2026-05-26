@@ -5,5 +5,5 @@ uov_Is_pkc	UOV-Is-pkc	66576	348704	96	100
 uov_Is_classic	UOV-Is-classic	412160	348704	96	100
 uov_III_pkc	UOV-III-pkc	189232	1044320	200	50
 uov_III_classic	UOV-III-classic	1225440	1044320	200	50
-uov_V_pkc	UOV-V-pkc	446992	2436704	260	20
-uov_V_classic	UOV-V-classic	2869440	2436704	260	20
+uov_V_pkc	UOV-V-pkc	446992	2436704	260	50
+uov_V_classic	UOV-V-classic	2869440	2436704	260	50

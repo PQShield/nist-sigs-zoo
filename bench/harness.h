@@ -67,7 +67,13 @@ static void bench_print_header(void) {
 }
 
 static void bench_run(const bench_scheme_t *s) {
-    int      n    = s->iters > 0 ? s->iters : BENCH_ITER;
+    /* BENCH_ITER env var overrides per-scheme iters and compile-time default */
+    static int env_n = -1;
+    if (env_n < 0) {
+        const char *e = getenv("BENCH_ITER");
+        env_n = (e && atoi(e) > 0) ? atoi(e) : 0;
+    }
+    int      n    = env_n > 0 ? env_n : (s->iters > 0 ? s->iters : BENCH_ITER);
     uint8_t *pk   = malloc(s->pk_bytes);
     uint8_t *sk   = malloc(s->sk_bytes);
     uint8_t *sig  = malloc(s->sig_bytes);

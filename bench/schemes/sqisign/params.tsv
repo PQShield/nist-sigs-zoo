@@ -1,4 +1,4 @@
 file	name	pk	sk	sig	iters	level	ns_prefix
-sqisign_lvl1	SQIsign-I	65	353	148	3	lvl1	sqisign_lvl1_ref
-sqisign_lvl3	SQIsign-III	97	529	224	3	lvl3	sqisign_lvl3_ref
-sqisign_lvl5	SQIsign-V	129	701	292	3	lvl5	sqisign_lvl5_ref
+sqisign_lvl1	SQIsign-I	65	353	148	50	lvl1	sqisign_lvl1_ref
+sqisign_lvl3	SQIsign-III	97	529	224	50	lvl3	sqisign_lvl3_ref
+sqisign_lvl5	SQIsign-V	129	701	292	50	lvl5	sqisign_lvl5_ref
