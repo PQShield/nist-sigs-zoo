@@ -124,6 +124,7 @@
 							<span
 								class="underline decoration-wavy decoration-pqs-scarlet"
 								title="Estimated from {fmtCycles(row.signingCycles)} cycles @ 2.5 GHz"
+								aria-label="{fmtTime(row.signingCycles / 2500)} (estimated from {fmtCycles(row.signingCycles)} cycles @ 2.5 GHz)"
 							>
 								{fmtTime(row.signingCycles / 2500)}
 							</span>
@@ -139,6 +140,7 @@
 							<span
 								class="underline decoration-wavy decoration-pqs-scarlet"
 								title="Estimated from {fmtCycles(row.verificationCycles)} cycles @ 2.5 GHz"
+								aria-label="{fmtTime(row.verificationCycles / 2500)} (estimated from {fmtCycles(row.verificationCycles)} cycles @ 2.5 GHz)"
 							>
 								{fmtTime(row.verificationCycles / 2500)}
 							</span>
@@ -161,5 +163,18 @@
 	</table>
 	<div class="border-t border-pqs-ashgray bg-pqs-smoke px-3 py-1.5 font-heading text-xs text-pqs-steel dark:border-pqs-steel dark:bg-pqs-midnight-mid dark:text-pqs-bluegray">
 		{$filteredRows.length} parameter set{$filteredRows.length === 1 ? '' : 's'}
+	</div>
+	<div class="border-t border-pqs-ashgray bg-pqs-smoke px-3 py-2 text-xs text-pqs-steel/70 dark:border-pqs-steel dark:bg-pqs-midnight-mid dark:text-pqs-bluegray/70">
+		<span class="font-semibold text-pqs-steel dark:text-pqs-bluegray">Legend:</span>
+		<span class="ml-2">💣 pre-quantum (classical security only)</span>
+		<span class="ml-2">·</span>
+		<span class="ml-2">🧨 broken</span>
+		<span class="ml-2">·</span>
+		<span class="ml-2">⚠️ security warning</span>
+		<span class="ml-2">·</span>
+		<span class="ml-2">ℹ️ note</span>
+		<span class="ml-2">·</span>
+		<span class="ml-2"><span class="underline decoration-wavy decoration-pqs-scarlet">value</span> estimated from cycle counts</span>
+		<span class="ml-2">· tap icons for details</span>
 	</div>
 </div>
