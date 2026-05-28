@@ -1,16 +1,10 @@
 # NIST PQC Signatures Zoo
 
-Interactive comparison of post-quantum signature schemes submitted to the [NIST Additional Signatures on-ramp](https://csrc.nist.gov/projects/pqc-dig-sig/round-2-additional-signatures).
+Interactive comparison of post-quantum signature schemes submitted to the [NIST Additional Signatures on-ramp](https://csrc.nist.gov/projects/pqc-dig-sig/).
 
-Data reflects scheme specifications as submitted at the start of Round 2. Schemes may have been updated since; consult the individual scheme websites for current specifications.
+Data reflects scheme specifications as per the last version that we could find. Schemes may have been updated since; consult the individual scheme websites for current specifications. If you do find more up-to-date information, please let us know by creating an issue!
 
-Parameter sizes and performance timings are copied from the individual scheme submission documents — be aware of potential errors.
-
-## Data corrections
-
-Data is maintained in [Google Sheets](https://docs.google.com/spreadsheets/d/1Ba8MWRJzcn3DaoAQsAiCnIdRbbVRow1mWf01LzXk-14/edit?usp=sharing).
-
-To submit corrections: comment on the spreadsheet, or open an issue in this repository.
+Parameter sizes and performance timings (up to and including round 2) are copied from the individual scheme submission documents — be aware of potential errors. From round 3 on we do our own benchmarking.
 
 ## Development
 
