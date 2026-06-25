@@ -38,7 +38,8 @@ bench-kem/
 ├── run_bench.sh          # wrapper: collects sysinfo, tees output to results/
 └── schemes/
     ├── classic/          # ECDH (X25519, P-256) via system OpenSSL; no submodule
-    └── mlkem/            # pq-crystals/kyber (avx2); ref/ is a git submodule
+    ├── mlkem/            # pq-crystals/kyber (avx2); ref/ is a git submodule
+    └── hqc/              # gitlab.com/pqc-hqc/hqc (x86_64/avx256); ref/ is a git submodule
 ```
 
 `SO_PATHS[]` in `main.c` is **auto-generated** from `ALL_SOS` in `Makefile` into
@@ -97,6 +98,13 @@ The shim adapts upstream API conventions to the KEM contract. Notes:
   shared secret; decaps imports the peer public key from `ct` and derives. NIST-curve
   public keys are imported via `EVP_PKEY_fromdata` (no throwaway keygen — keeps decaps
   timing clean). See `schemes/classic/classic_common.h`.
+- **HQC** (gitlab.com/pqc-hqc/hqc) exports the *bare* NIST API (`crypto_kem_*`) from
+  its own objects, so the shim does **not** wrap them — the loader resolves HQC's
+  directly, and `RTLD_LOCAL` isolates the three variants' identical symbols. The shim
+  only adds `bench_info()` and a `__attribute__((constructor))` that seeds HQC's
+  SHAKE PRNG (`prng_init`) — the upstream expects the NIST KAT harness to do this.
+  Variant (HQC-1/3/5) is selected by include path; the x86_64/avx256 implementation
+  is built (needs `-mavx2 -mpclmul`), with `gf2x.c`/`reed_solomon.c` per-variant.
 
 ## Adding a new scheme
 
@@ -114,8 +122,6 @@ generates one `<file>_shim.c` per row of `params.tsv`, not committed — `.gitig
 
 ## Status / TODO
 
-- **HQC** not yet integrated — reference code is distributed as a zip on pqc-hqc.org
-  (no clean git submodule); will use a `.source` non-submodule pattern.
 - **Data wiring deferred**: there is no KEM equivalent of `bench/update_scheme_data.py`
   yet, and the `data/kems/*.yaml` schema + the `/kems/` page carry no performance fields.
   Feeding measured cycles into the site is a separate follow-up.
