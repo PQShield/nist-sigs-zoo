@@ -4,15 +4,33 @@ category: Lattices
 assumption: MLWE
 status: FIPS
 parametersets:
-  - name: ML-KEM-512
-    level: 1
-    pk: 800
-    ct: 768
-  - name: ML-KEM-768
-    level: 3
-    pk: 1184
-    ct: 1088
-  - name: ML-KEM-1024
-    level: 5
-    pk: 1568
-    ct: 1568
+- name: ML-KEM-512
+  level: 1
+  pk: 800
+  ct: 768
+  keygen_cycles: 11049
+  encaps_cycles: 11813
+  decaps_cycles: 12288
+  keygen_us: 7.4
+  encaps_us: 7.9
+  decaps_us: 8.2
+- name: ML-KEM-768
+  level: 3
+  pk: 1184
+  ct: 1088
+  keygen_cycles: 20016
+  encaps_cycles: 20067
+  decaps_cycles: 21264
+  keygen_us: 13.4
+  encaps_us: 13.4
+  decaps_us: 14.2
+- name: ML-KEM-1024
+  level: 5
+  pk: 1568
+  ct: 1568
+  keygen_cycles: 25573
+  encaps_cycles: 26502
+  decaps_cycles: 27715
+  keygen_us: 17.1
+  encaps_us: 17.7
+  decaps_us: 18.5

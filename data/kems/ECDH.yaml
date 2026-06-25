@@ -5,13 +5,25 @@ assumption: Elliptic Curves
 status: Classic cryptography
 broken: classical
 parametersets:
-  - name: X25519
-    level: Pre-Quantum
-    pk: 32
-    ct: 32
-    notes: Ciphertext is the ephemeral public key.
-  - name: P-256
-    level: Pre-Quantum
-    pk: 65
-    ct: 65
-    notes: Uncompressed point encoding; ciphertext is the ephemeral public key.
+- name: X25519
+  level: Pre-Quantum
+  pk: 32
+  ct: 32
+  notes: Ciphertext is the ephemeral public key.
+  keygen_cycles: 66142
+  encaps_cycles: 125231
+  decaps_cycles: 60662
+  keygen_us: 44.2
+  encaps_us: 83.6
+  decaps_us: 40.5
+- name: P-256
+  level: Pre-Quantum
+  pk: 65
+  ct: 65
+  notes: Uncompressed point encoding; ciphertext is the ephemeral public key.
+  keygen_cycles: 29056
+  encaps_cycles: 142130
+  decaps_cycles: 118431
+  keygen_us: 19.4
+  encaps_us: 95.0
+  decaps_us: 79.1

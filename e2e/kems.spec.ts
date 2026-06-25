@@ -48,6 +48,15 @@ test.describe('KEMs page', () => {
 		}
 	});
 
+	test('table has benchmark columns and the env panel is present', async ({ page }) => {
+		await page.goto('/kems/');
+		for (const col of ['Keygen', 'Encaps', 'Decaps']) {
+			await expect(page.getByRole('columnheader', { name: new RegExp(col) })).toBeVisible();
+		}
+		await expect(page.getByRole('cell', { name: /µs|ms/ }).first()).toBeVisible();
+		await expect(page.getByRole('heading', { name: 'Benchmark environment' })).toBeVisible();
+	});
+
 	test('filter panel narrows the rows by scheme', async ({ page }) => {
 		await page.goto('/kems/');
 		// First aside in the DOM is the desktop sidebar (visible at the default viewport).

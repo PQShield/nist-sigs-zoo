@@ -120,11 +120,19 @@ generates one `<file>_shim.c` per row of `params.tsv`, not committed — `.gitig
 3. `Makefile`: add `<NAME>_SOS`, the `schemes/<name>/.stamp` prereq line, `$(<NAME>_SOS):
    schemes/<name>/.stamp`, and add `<NAME>_SOS` to `ALL_SOS` / `<name>` to `SCHEME_DIRS`.
 
-## Status / TODO
+## Feeding results into the site
 
-- **Data wiring deferred**: there is no KEM equivalent of `bench/update_scheme_data.py`
-  yet, and the `data/kems/*.yaml` schema + the `/kems/` page carry no performance fields.
-  Feeding measured cycles into the site is a separate follow-up.
+`update_scheme_data.py` (KEM analogue of `bench/update_scheme_data.py`) parses a
+`results/*.txt` run and writes `keygen/encaps/decaps` cycles + µs into the matching
+`data/kems/*.yaml` parameter sets (flat schema, mapped via `BENCH_TO_YAML`), and writes
+`data/kem_benchmark_env.yaml`. Run after a benchmark:
+
+```bash
+./run_bench.sh                       # writes results/<ts>_<cpu>.txt
+uv run update_scheme_data.py         # uses the most recent results file
+```
+
+The `/kems/` page renders the timings (table columns) and the environment panel.
 
 ## Notes
 

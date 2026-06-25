@@ -76,13 +76,19 @@ export interface SchemeYaml {
 	versions: VersionYaml[];
 }
 
-// KEM schema types (standalone size comparison — no rounds, no benchmarks)
+// KEM schema types (standalone size comparison — no rounds)
 
 export interface KemParameterSetYaml {
 	name: string;
 	level: number | 'Pre-Quantum';
 	pk: number;
 	ct: number;
+	keygen_cycles?: number;
+	encaps_cycles?: number;
+	decaps_cycles?: number;
+	keygen_us?: number;
+	encaps_us?: number;
+	decaps_us?: number;
 	broken?: string;
 	warning?: string;
 	info?: string;
@@ -122,6 +128,12 @@ export interface KemParameterSet {
 	pk: number;
 	ct: number;
 	pkPlusCt: number;
+	keygenCycles: number;
+	encapsCycles: number;
+	decapsCycles: number;
+	keygenUs: number | null;
+	encapsUs: number | null;
+	decapsUs: number | null;
 	broken: false | string;
 	warning: false | string;
 	info: false | string;
@@ -139,7 +151,10 @@ export type KemSortableColumn =
 	| 'level'
 	| 'pk'
 	| 'ct'
-	| 'pkPlusCt';
+	| 'pkPlusCt'
+	| 'keygenUs'
+	| 'encapsUs'
+	| 'decapsUs';
 
 export interface KemDataRanges {
 	pk: [number, number];

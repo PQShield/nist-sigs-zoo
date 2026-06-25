@@ -107,9 +107,9 @@ Types: `update` (spec/data change), `attack` (new cryptanalysis result), `milest
 
 ### KEMs
 
-`data/kems/*.yaml` — one YAML file per KEM, source of truth for the standalone KEM size
+`data/kems/*.yaml` — one YAML file per KEM, source of truth for the standalone KEM
 comparison at `/kems/`. This is a **one-off** page, not tied to a NIST round: no version
-history, no round tags, no benchmarks — just sizes (pk, ct).
+history, no round tags. Carries sizes (pk, ct) and benchmark timings.
 
 ```yaml
 name: ML-KEM
@@ -125,8 +125,20 @@ parametersets:
     level: 3           # 1-5 or "Pre-Quantum"
     pk: 1184
     ct: 1088
+    keygen_cycles: 20016    # optional; written by bench-kem/update_scheme_data.py
+    encaps_cycles: 20067
+    decaps_cycles: 21264
+    keygen_us: 13.4
+    encaps_us: 13.4
+    decaps_us: 14.2
     notes: null
 ```
+
+Benchmark fields are optional and produced by `bench-kem/update_scheme_data.py` from a
+`bench-kem/results/*.txt` run; that script also writes `data/kem_benchmark_env.yaml`
+(loaded as `kemBenchmarkEnv`, shown via `BenchmarkEnvInfo` on the page). The table shows
+keygen/encaps/decaps µs; when only cycles are present the time is extrapolated (wavy
+underline) at `KEM_CPUSPEED` (2.5 GHz).
 
 Flags (`broken`/`warning`/`info`) set at scheme level apply to all parameter sets, overridable
 per parameter set. Loaded via `import.meta.glob` in `src/lib/kemSchemeData.ts`; flattened by

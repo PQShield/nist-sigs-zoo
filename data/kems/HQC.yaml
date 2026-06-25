@@ -5,15 +5,33 @@ assumption: Quasi-Cyclic Syndrome Decoding
 status: To be standardized
 info: Selected by NIST for standardisation (March 2025). Sizes from the 2025-08-22 specification.
 parametersets:
-  - name: HQC-128
-    level: 1
-    pk: 2241
-    ct: 4433
-  - name: HQC-192
-    level: 3
-    pk: 4514
-    ct: 8978
-  - name: HQC-256
-    level: 5
-    pk: 7237
-    ct: 14421
+- name: HQC-128
+  level: 1
+  pk: 2241
+  ct: 4433
+  keygen_cycles: 42795
+  encaps_cycles: 82002
+  decaps_cycles: 186582
+  keygen_us: 28.6
+  encaps_us: 54.8
+  decaps_us: 124.6
+- name: HQC-192
+  level: 3
+  pk: 4514
+  ct: 8978
+  keygen_cycles: 106883
+  encaps_cycles: 196341
+  decaps_cycles: 390929
+  keygen_us: 71.4
+  encaps_us: 131.1
+  decaps_us: 261.1
+- name: HQC-256
+  level: 5
+  pk: 7237
+  ct: 14421
+  keygen_cycles: 210112
+  encaps_cycles: 395737
+  decaps_cycles: 765275
+  keygen_us: 140.4
+  encaps_us: 264.3
+  decaps_us: 511.2

@@ -9,7 +9,8 @@
 		filterKemRows,
 		processKemSchemes
 	} from '$lib/kemData';
-	import { allKemData } from '$lib/kemSchemeData';
+	import BenchmarkEnvInfo from '$lib/components/BenchmarkEnvInfo.svelte';
+	import { allKemData, kemBenchmarkEnv } from '$lib/kemSchemeData';
 	import type { PageData } from './$types';
 
 	// load (+page.ts) drives prerendering; data is read from the module glob here
@@ -37,7 +38,8 @@
 		</p>
 		<p class="mt-1.5 text-xs text-pqs-steel/70 dark:text-pqs-bluegray/70">
 			Sizes reflect the latest known specifications (ML-KEM: FIPS 203; HQC: 2025-08-22 draft). For
-			ECDH the “ciphertext” is the ephemeral public key. Benchmarks are not yet included.
+			ECDH the “ciphertext” is the ephemeral public key and keygen/encaps/decaps map to the
+			static/ephemeral key generation and the two ECDH derivations.
 			See the <a href="{base}/" class="text-pqs-apricot hover:underline">signatures comparison</a>
 			for the NIST on-ramp signature schemes.
 		</p>
@@ -71,10 +73,25 @@
 				<KemScatterPlot rows={filteredRows} />
 			</section>
 
+			<!-- Performance note -->
+			{#if kemBenchmarkEnv}
+				<div class="rounded border border-pqs-apricot/40 bg-pqs-apricot/10 px-4 py-3 text-xs text-pqs-midnight dark:border-pqs-apricot/30 dark:bg-pqs-apricot/5 dark:text-pqs-smoke">
+					<strong class="font-heading font-semibold text-pqs-apricot">Performance note:</strong>
+					Keygen / encapsulation / decapsulation timings are from our own benchmarks on a
+					{kemBenchmarkEnv.cpu.model} (ML-KEM and HQC use AVX2; ECDH uses OpenSSL) — see the
+					environment details below.
+				</div>
+			{/if}
+
 			<!-- Table -->
 			<section>
 				<KemTable rows={filteredRows} />
 			</section>
+
+			<!-- Benchmark environment -->
+			{#if kemBenchmarkEnv}
+				<BenchmarkEnvInfo env={kemBenchmarkEnv} />
+			{/if}
 		</div>
 	</div>
 </div>

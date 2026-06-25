@@ -43,6 +43,39 @@ describe('processKemSchemes', () => {
 		expect(ps512.category).toBe('Lattices');
 	});
 
+	it('carries benchmark fields and extrapolates cycles from µs when absent', () => {
+		const withPerf: KemSchemeYaml = {
+			...mlkem,
+			parametersets: [
+				// full cycles + us present → used directly
+				{
+					name: 'A',
+					level: 1,
+					pk: 1,
+					ct: 1,
+					keygen_cycles: 11049,
+					encaps_cycles: 11813,
+					decaps_cycles: 12288,
+					keygen_us: 7.4,
+					encaps_us: 7.9,
+					decaps_us: 8.2
+				},
+				// only us → cycles extrapolated at 2.5 GHz; no perf → 0/null
+				{ name: 'B', level: 1, pk: 1, ct: 1, decaps_us: 100 }
+			]
+		};
+		const { parameterSets } = processKemSchemes([withPerf]);
+		const a = parameterSets.find((p) => p.parameterset === 'A')!;
+		expect(a.decapsCycles).toBe(12288);
+		expect(a.decapsUs).toBe(8.2);
+
+		const b = parameterSets.find((p) => p.parameterset === 'B')!;
+		expect(b.keygenUs).toBeNull();
+		expect(b.keygenCycles).toBe(0);
+		expect(b.decapsUs).toBe(100);
+		expect(b.decapsCycles).toBe(250000); // round(2.5e9 * 100 / 1e6)
+	});
+
 	it('marks pre-quantum schemes as classical via the broken flag', () => {
 		const { schemes, parameterSets } = processKemSchemes([ecdh]);
 		expect(schemes[0].classical).toBe(true);

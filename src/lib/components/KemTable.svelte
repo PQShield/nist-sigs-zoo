@@ -11,6 +11,20 @@
 		return n.toLocaleString();
 	}
 
+	function fmtCycles(n: number): string {
+		if (n <= 0) return '—';
+		if (n >= 1_000_000_000) return (n / 1_000_000_000).toFixed(2) + 'G';
+		if (n >= 1_000_000) return (n / 1_000_000).toFixed(1) + 'M';
+		if (n >= 1_000) return (n / 1_000).toFixed(0) + 'K';
+		return String(n);
+	}
+
+	function fmtTime(us: number): string {
+		if (us >= 1_000_000) return (us / 1_000_000).toFixed(2) + ' s';
+		if (us >= 1_000) return (us / 1_000).toFixed(2) + ' ms';
+		return us.toFixed(1) + ' µs';
+	}
+
 	const COLUMNS: { key: KemSortableColumn; label: string; numeric?: boolean }[] = [
 		{ key: 'scheme', label: 'Scheme' },
 		{ key: 'category', label: 'Category' },
@@ -19,7 +33,10 @@
 		{ key: 'level', label: 'Level', numeric: true },
 		{ key: 'pk', label: 'pk (B)', numeric: true },
 		{ key: 'ct', label: 'ct (B)', numeric: true },
-		{ key: 'pkPlusCt', label: 'pk+ct (B)', numeric: true }
+		{ key: 'pkPlusCt', label: 'pk+ct (B)', numeric: true },
+		{ key: 'keygenUs', label: 'Keygen', numeric: true },
+		{ key: 'encapsUs', label: 'Encaps', numeric: true },
+		{ key: 'decapsUs', label: 'Decaps', numeric: true }
 	];
 
 	const levelOrder: Record<string, number> = {
@@ -41,6 +58,12 @@
 				return a.ct - b.ct;
 			case 'pkPlusCt':
 				return a.pkPlusCt - b.pkPlusCt;
+			case 'keygenUs':
+				return (a.keygenUs ?? a.keygenCycles / 2500) - (b.keygenUs ?? b.keygenCycles / 2500);
+			case 'encapsUs':
+				return (a.encapsUs ?? a.encapsCycles / 2500) - (b.encapsUs ?? b.encapsCycles / 2500);
+			case 'decapsUs':
+				return (a.decapsUs ?? a.decapsCycles / 2500) - (b.decapsUs ?? b.decapsCycles / 2500);
 			default: {
 				const av = String(a[col] ?? '').toLowerCase();
 				const bv = String(b[col] ?? '').toLowerCase();
@@ -70,6 +93,22 @@
 		return sortDir === 'asc' ? ' ▲' : ' ▼';
 	}
 </script>
+
+{#snippet timeCell(us: number | null, cyc: number)}
+	<td class="px-3 py-1.5 text-right tabular-nums">
+		{#if us != null}
+			{fmtTime(us)}
+		{:else if cyc > 0}
+			<span
+				class="underline decoration-wavy decoration-pqs-scarlet"
+				title="Estimated from {fmtCycles(cyc)} cycles @ 2.5 GHz"
+				aria-label="{fmtTime(cyc / 2500)} (estimated from {fmtCycles(cyc)} cycles @ 2.5 GHz)"
+			>{fmtTime(cyc / 2500)}</span>
+		{:else}
+			<span class="text-pqs-bluegray">—</span>
+		{/if}
+	</td>
+{/snippet}
 
 <div class="overflow-x-auto rounded border border-pqs-ashgray shadow-sm dark:border-pqs-steel">
 	<table class="min-w-full text-sm">
@@ -135,13 +174,17 @@
 					<td class="px-3 py-1.5 text-right tabular-nums">{fmt(row.ct)}</td>
 					<!-- pk+ct -->
 					<td class="px-3 py-1.5 text-right tabular-nums">{fmt(row.pkPlusCt)}</td>
+					<!-- keygen / encaps / decaps -->
+					{@render timeCell(row.keygenUs, row.keygenCycles)}
+					{@render timeCell(row.encapsUs, row.encapsCycles)}
+					{@render timeCell(row.decapsUs, row.decapsCycles)}
 					<!-- Assumption -->
 					<td class="px-3 py-1.5 text-pqs-steel/80 dark:text-pqs-bluegray">{row.assumption}</td>
 				</tr>
 			{/each}
 			{#if sortedRows.length === 0}
 				<tr>
-					<td colspan="9" class="px-3 py-10 text-center text-pqs-bluegray">No KEMs to display.</td>
+					<td colspan="12" class="px-3 py-10 text-center text-pqs-bluegray">No KEMs to display.</td>
 				</tr>
 			{/if}
 		</tbody>
@@ -158,6 +201,8 @@
 		<span class="ml-2">⚠️ security warning</span>
 		<span class="ml-2">·</span>
 		<span class="ml-2">ℹ️ note</span>
+		<span class="ml-2">·</span>
+		<span class="ml-2"><span class="underline decoration-wavy decoration-pqs-scarlet">value</span> estimated from cycle counts</span>
 		<span class="ml-2">· tap icons for details</span>
 	</div>
 </div>
