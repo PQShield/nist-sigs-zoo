@@ -1,0 +1,18 @@
+name: ML-KEM
+website: https://csrc.nist.gov/pubs/fips/203/final
+category: Lattices
+assumption: MLWE
+status: FIPS
+parametersets:
+  - name: ML-KEM-512
+    level: 1
+    pk: 800
+    ct: 768
+  - name: ML-KEM-768
+    level: 3
+    pk: 1184
+    ct: 1088
+  - name: ML-KEM-1024
+    level: 5
+    pk: 1568
+    ct: 1568

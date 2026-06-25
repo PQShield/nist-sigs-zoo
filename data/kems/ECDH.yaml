@@ -1,0 +1,17 @@
+name: ECDH
+website: https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-56Ar3.pdf
+category: Pre-Quantum
+assumption: Elliptic Curves
+status: Classic cryptography
+broken: classical
+parametersets:
+  - name: X25519
+    level: Pre-Quantum
+    pk: 32
+    ct: 32
+    notes: Ciphertext is the ephemeral public key.
+  - name: P-256
+    level: Pre-Quantum
+    pk: 65
+    ct: 65
+    notes: Uncompressed point encoding; ciphertext is the ephemeral public key.

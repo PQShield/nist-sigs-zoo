@@ -72,6 +72,12 @@
 						</button>
 					</div>
 				{/if}
+				<a href="{base}/" class="text-pqs-bluegray hover:text-pqs-apricot transition-colors">
+					Signatures
+				</a>
+				<a href="{base}/kems/" class="text-pqs-bluegray hover:text-pqs-apricot transition-colors">
+					KEMs
+				</a>
 				<a href="{base}/history/" class="text-pqs-bluegray hover:text-pqs-apricot transition-colors">
 					History
 				</a>
@@ -157,6 +163,12 @@
 					</div>
 				{/if}
 				<div class="flex flex-col gap-3">
+					<a href="{base}/" onclick={closeMenu} class="text-pqs-bluegray hover:text-pqs-apricot transition-colors">
+						Signatures
+					</a>
+					<a href="{base}/kems/" onclick={closeMenu} class="text-pqs-bluegray hover:text-pqs-apricot transition-colors">
+						KEMs
+					</a>
 					<a href="{base}/history/" onclick={closeMenu} class="text-pqs-bluegray hover:text-pqs-apricot transition-colors">
 						History
 					</a>
