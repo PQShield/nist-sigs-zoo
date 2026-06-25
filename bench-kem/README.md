@@ -26,7 +26,7 @@ Output columns: `keygen`, `encaps`, `decaps` in cycles and µs, plus an `ok` col
 
 | Scheme  | Source                                      | Parameter sets            |
 |---------|---------------------------------------------|---------------------------|
-| ML-KEM  | `pq-crystals/kyber` (avx2), FIPS 203        | ML-KEM-512 / 768 / 1024   |
+| ML-KEM  | `pq-code-package/mlkem-native` (avx2)       | ML-KEM-512 / 768 / 1024   |
 | HQC     | `gitlab.com/pqc-hqc/hqc` (x86_64/avx256)    | HQC-128 / 192 / 256       |
 | ECDH    | OpenSSL 3 (EVP)                             | X25519, P-256             |
 

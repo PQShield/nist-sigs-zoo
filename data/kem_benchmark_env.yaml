@@ -1,7 +1,7 @@
 # Licensed under CC BY 4.0: https://creativecommons.org/licenses/by/4.0/
 license: CC-BY-4.0
 attribution: Thom Wiggers / PQShield
-date: '2026-06-25T10:53:24Z'
+date: '2026-06-25T11:09:11Z'
 cpu:
   model: 12th Gen Intel(R) Core(TM) i7-12650H
   cores: 8
@@ -16,4 +16,4 @@ openssl: 'OpenSSL 3.6.2 7 Apr 2026 (Library: OpenSSL 3.6.2 7 Apr 2026)'
 notes: 'KEM keygen/encapsulation/decapsulation. Median over 1000 iterations (fewer for slow schemes). Cycle counter: rdtsc + lfence (constant TSC rate, not execution cycles). Wall clock: clock_gettime(CLOCK_MONOTONIC).'
 sources:
   hqc: https://gitlab.com/pqc-hqc/hqc.git@161cd4fdf6b4a5198cf40b3a1243f9f27f13e03d
-  mlkem: https://github.com/pq-crystals/kyber.git@4768bd37c02f9c40a46cb49d4d1f4d5e612bb882
+  mlkem: https://github.com/pq-code-package/mlkem-native.git@2d1cc90f71bd59617062844e874ac6e70868e1f8

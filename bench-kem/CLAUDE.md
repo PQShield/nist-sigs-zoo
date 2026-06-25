@@ -38,7 +38,7 @@ bench-kem/
 ├── run_bench.sh          # wrapper: collects sysinfo, tees output to results/
 └── schemes/
     ├── classic/          # ECDH (X25519, P-256) via system OpenSSL; no submodule
-    ├── mlkem/            # pq-crystals/kyber (avx2); ref/ is a git submodule
+    ├── mlkem/            # pq-code-package/mlkem-native (avx2); ref/ is a git submodule
     └── hqc/              # gitlab.com/pqc-hqc/hqc (x86_64/avx256); ref/ is a git submodule
 ```
 
@@ -85,14 +85,15 @@ int crypto_kem_dec(uint8_t *ss, const uint8_t *ct, const uint8_t *sk);
 The shim adapts upstream API conventions to the KEM contract. Notes:
 
 - **Argument order**: the NIST KEM API is `enc(ct, ss, pk)` / `dec(ss, ct, sk)`.
-  pq-crystals/kyber matches it directly (no ctx args, unlike dilithium's signature API).
-- **Symbol namespacing**: kyber's avx2 symbols are `pqcrystals_kyber{512,768,1024}_avx2_*`,
-  selected at compile time by `-DKYBER_K={2,3,4}`. Declare the namespaced symbols and
-  wrap them with plain `crypto_kem_*` (token `@NS@`/`@K@` from `params.tsv`).
-- **`randombytes`**: kyber's avx2 dir ships `randombytes.c`; include it, don't redefine.
-- **Consistent `-march=native`**: compile all kyber sources (incl. the `keccak4x`
-  SIMD object) with the same AVX2 flags as the shim, or platform-detection macros
-  disagree and link fails.
+  mlkem-native matches it directly (no ctx args).
+- **ML-KEM build** (pq-code-package/mlkem-native): monolithic — compile `mlkem_native.c`
+  + `mlkem_native_asm.S` once per level with `-DMLK_CONFIG_PARAMETER_SET={512,768,1024}`.
+  The native AVX2 backends are off by default; enable with
+  `-DMLK_CONFIG_USE_NATIVE_BACKEND_ARITH -DMLK_CONFIG_USE_NATIVE_BACKEND_FIPS202` and AVX2
+  `-m` flags. Set `-DMLK_CONFIG_NAMESPACE_PREFIX=mlkem` so symbols are `mlkem_keypair/enc/dec`
+  (no level suffix — level is fixed per `.so`); the shim wraps those as `crypto_kem_*`.
+- **`randombytes`**: mlkem-native declares `randombytes()` but ships only a test RNG, so the
+  scheme dir provides `randombytes.c` (getrandom-backed) compiled into each `.so`.
 - **ECDH as a KEM** (OpenSSL): recipient static keypair stored module-level (`g_key`);
   encaps generates an ephemeral keypair, `ct` = ephemeral public key, `ss` = ECDH
   shared secret; decaps imports the peer public key from `ct` and derives. NIST-curve

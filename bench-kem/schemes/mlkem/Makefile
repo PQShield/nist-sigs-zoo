@@ -1,13 +1,16 @@
 CC      ?= cc
-CFLAGS  := -O3 -fomit-frame-pointer -fPIC -mavx2 -mbmi2 -mpopcnt -march=native \
-            -mtune=native -Wall -Wextra -I ref/avx2
-AVX2_DIR = ref/avx2
+CFLAGS  := -O3 -fomit-frame-pointer -fPIC -mavx2 -mbmi2 -mpopcnt -maes \
+            -march=native -mtune=native -Wall -Wextra
+REF      = ref/mlkem
 BUILD    = build
 
-# C and assembly sources for the AVX2 implementation.
-C_SRCS = kem.c indcpa.c polyvec.c poly.c consts.c rejsample.c cbd.c verify.c \
-         fips202.c fips202x4.c symmetric-shake.c randombytes.c
-S_SRCS = fq.S shuffle.S ntt.S invntt.S basemul.S
+# mlkem-native monolithic build: one C unit + one asm unit per security level.
+# - Native (AVX2) backends are off in the default config; enable them explicitly.
+# - The default namespace prefix is PQCP_MLKEM_NATIVE_*; set it to "mlkem" so the
+#   per-level symbols are mlkem<lvl>_* (matching the shim).
+NATIVE = -DMLK_CONFIG_USE_NATIVE_BACKEND_ARITH -DMLK_CONFIG_USE_NATIVE_BACKEND_FIPS202 \
+         -DMLK_CONFIG_NAMESPACE_PREFIX=mlkem
+INC    = -I$(REF)
 
 SHIM_FILES := mlkem512_shim.c mlkem768_shim.c mlkem1024_shim.c
 
@@ -17,49 +20,31 @@ all: $(SHIM_FILES) $(BUILD)/mlkem512.so $(BUILD)/mlkem768.so $(BUILD)/mlkem1024.
 $(SHIM_FILES): shim_template.c params.tsv
 	python3 ../../gen_shims.py shim_template.c params.tsv .
 
-# Per-KYBER_K compilation — the namespace (kyber512/768/1024) is selected by KYBER_K.
-define mode_rules
-$$(BUILD)/k$(1)/%.o: $$(AVX2_DIR)/%.c | $$(BUILD)/k$(1)
-	$$(CC) $$(CFLAGS) -DKYBER_K=$(1) -c $$< -o $$@
-
-$$(BUILD)/k$(1)/%.o: $$(AVX2_DIR)/%.S | $$(BUILD)/k$(1)
-	$$(CC) $$(CFLAGS) -DKYBER_K=$(1) -c $$< -o $$@
-
-# Keccak4x lives in a subdir; build it explicitly into the same per-K dir.
-$$(BUILD)/k$(1)/keccak4x.o: $$(AVX2_DIR)/keccak4x/KeccakP-1600-times4-SIMD256.c | $$(BUILD)/k$(1)
-	$$(CC) $$(CFLAGS) -DKYBER_K=$(1) -c $$< -o $$@
-
-$$(BUILD)/k$(1):
+# Per-level (= parameter set = namespace number) compilation.
+define lvl_rules
+$$(BUILD)/mlkem$(1):
 	mkdir -p $$@
+
+$$(BUILD)/mlkem$(1)/mlkem_native.o: $(REF)/mlkem_native.c | $$(BUILD)/mlkem$(1)
+	$$(CC) $$(CFLAGS) $$(NATIVE) -DMLK_CONFIG_PARAMETER_SET=$(1) $$(INC) -c $$< -o $$@
+
+$$(BUILD)/mlkem$(1)/mlkem_native_asm.o: $(REF)/mlkem_native_asm.S | $$(BUILD)/mlkem$(1)
+	$$(CC) $$(CFLAGS) $$(NATIVE) -DMLK_CONFIG_PARAMETER_SET=$(1) $$(INC) -c $$< -o $$@
+
+$$(BUILD)/mlkem$(1)/randombytes.o: randombytes.c | $$(BUILD)/mlkem$(1)
+	$$(CC) $$(CFLAGS) -c $$< -o $$@
+
+$$(BUILD)/mlkem$(1)_shim.o: mlkem$(1)_shim.c ../../scheme.h | $$(BUILD)
+	$$(CC) $$(CFLAGS) -c $$< -o $$@
+
+$$(BUILD)/mlkem$(1).so: $$(BUILD)/mlkem$(1)_shim.o $$(BUILD)/mlkem$(1)/mlkem_native.o \
+                        $$(BUILD)/mlkem$(1)/mlkem_native_asm.o $$(BUILD)/mlkem$(1)/randombytes.o
+	$$(CC) -shared -o $$@ $$^
 endef
 
-$(eval $(call mode_rules,2))
-$(eval $(call mode_rules,3))
-$(eval $(call mode_rules,4))
-
-ALL_SRCS = $(C_SRCS) $(S_SRCS)
-
-K2_OBJS = $(addprefix $(BUILD)/k2/, $(ALL_SRCS:.S=.o)) $(BUILD)/k2/keccak4x.o
-K3_OBJS = $(addprefix $(BUILD)/k3/, $(ALL_SRCS:.S=.o)) $(BUILD)/k3/keccak4x.o
-K4_OBJS = $(addprefix $(BUILD)/k4/, $(ALL_SRCS:.S=.o)) $(BUILD)/k4/keccak4x.o
-
-K2_OBJS := $(K2_OBJS:.c=.o)
-K3_OBJS := $(K3_OBJS:.c=.o)
-K4_OBJS := $(K4_OBJS:.c=.o)
-
-$(BUILD)/mlkem512_shim.o:  mlkem512_shim.c  ../../scheme.h | $(BUILD)
-	$(CC) $(CFLAGS) -c $< -o $@
-$(BUILD)/mlkem768_shim.o:  mlkem768_shim.c  ../../scheme.h | $(BUILD)
-	$(CC) $(CFLAGS) -c $< -o $@
-$(BUILD)/mlkem1024_shim.o: mlkem1024_shim.c ../../scheme.h | $(BUILD)
-	$(CC) $(CFLAGS) -c $< -o $@
-
-$(BUILD)/mlkem512.so:  $(BUILD)/mlkem512_shim.o  $(K2_OBJS)
-	$(CC) -shared -o $@ $^
-$(BUILD)/mlkem768.so:  $(BUILD)/mlkem768_shim.o  $(K3_OBJS)
-	$(CC) -shared -o $@ $^
-$(BUILD)/mlkem1024.so: $(BUILD)/mlkem1024_shim.o $(K4_OBJS)
-	$(CC) -shared -o $@ $^
+$(eval $(call lvl_rules,512))
+$(eval $(call lvl_rules,768))
+$(eval $(call lvl_rules,1024))
 
 $(BUILD):
 	mkdir -p $@
