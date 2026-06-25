@@ -1,5 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import {
+	applyKemUrlParams,
+	buildKemUrlParams,
 	computeKemRanges,
 	defaultKemFilter,
 	filterKemRows,
@@ -149,5 +151,46 @@ describe('KEM filtering', () => {
 		filter.maxCt = 100;
 		const out = filterKemRows(parameterSets, filter);
 		expect(out.map((r) => r.parameterset)).toEqual(['X25519']);
+	});
+});
+
+describe('KEM URL codec', () => {
+	const { schemes, parameterSets } = processKemSchemes([mlkem, ecdh]);
+	const ranges = computeKemRanges(parameterSets);
+	const names = schemes.map((s) => s.scheme);
+	const defaults = defaultKemFilter(ranges, names);
+
+	it('encodes nothing when state equals defaults', () => {
+		expect(buildKemUrlParams(defaultKemFilter(ranges, names), defaults).toString()).toBe('');
+	});
+
+	it('round-trips a modified filter through encode → decode', () => {
+		const modified = defaultKemFilter(ranges, names);
+		modified.schemes = new Set(['ECDH']);
+		modified.levels = new Set(['Pre-Quantum', 3]);
+		modified.maxCt = 100;
+		modified.minPk = 64;
+
+		const params = buildKemUrlParams(modified, defaults);
+		expect(params.get('s')).toBe('ECDH');
+		expect(params.get('l')).toBe('PQ,3');
+		expect(params.get('ctMax')).toBe('100');
+		expect(params.get('pkMin')).toBe('64');
+
+		const restored = applyKemUrlParams(defaults, params);
+		expect([...restored.schemes]).toEqual(['ECDH']);
+		expect(restored.levels.size).toBe(2);
+		expect(restored.levels.has(3)).toBe(true);
+		expect(restored.levels.has('Pre-Quantum')).toBe(true);
+		expect(restored.maxCt).toBe(100);
+		expect(restored.minPk).toBe(64);
+		// untouched fields keep their defaults
+		expect(restored.maxPk).toBe(defaults.maxPk);
+	});
+
+	it('decode leaves the defaults object unmutated', () => {
+		const params = new URLSearchParams('s=ECDH');
+		applyKemUrlParams(defaults, params);
+		expect(defaults.schemes.has('ML-KEM')).toBe(true);
 	});
 });

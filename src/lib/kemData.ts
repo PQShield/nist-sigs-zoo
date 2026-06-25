@@ -119,6 +119,68 @@ export function defaultKemFilter(
 	};
 }
 
+/** Encode non-default filter state as URL query params (mirrors the signatures codec). */
+export function buildKemUrlParams(
+	state: KemFilterState,
+	defaults: KemFilterState
+): URLSearchParams {
+	const p = new URLSearchParams();
+
+	if (
+		state.schemes.size !== defaults.schemes.size ||
+		![...state.schemes].every((s) => defaults.schemes.has(s))
+	) {
+		p.set('s', [...state.schemes].map(encodeURIComponent).join(','));
+	}
+
+	if (
+		state.levels.size !== defaults.levels.size ||
+		![...state.levels].every((l) => defaults.levels.has(l))
+	) {
+		p.set('l', [...state.levels].map((l) => (l === 'Pre-Quantum' ? 'PQ' : String(l))).join(','));
+	}
+
+	if (state.minPk !== defaults.minPk) p.set('pkMin', String(state.minPk));
+	if (state.maxPk !== defaults.maxPk) p.set('pkMax', String(state.maxPk));
+	if (state.minCt !== defaults.minCt) p.set('ctMin', String(state.minCt));
+	if (state.maxCt !== defaults.maxCt) p.set('ctMax', String(state.maxCt));
+	if (state.minPkPlusCt !== defaults.minPkPlusCt) p.set('pcMin', String(state.minPkPlusCt));
+	if (state.maxPkPlusCt !== defaults.maxPkPlusCt) p.set('pcMax', String(state.maxPkPlusCt));
+
+	return p;
+}
+
+/** Decode URL query params onto a copy of the default filter state. */
+export function applyKemUrlParams(
+	defaults: KemFilterState,
+	params: URLSearchParams
+): KemFilterState {
+	const s: KemFilterState = {
+		...defaults,
+		schemes: new Set(defaults.schemes),
+		levels: new Set(defaults.levels)
+	};
+
+	const schemesParam = params.get('s');
+	if (schemesParam) s.schemes = new Set(schemesParam.split(',').map(decodeURIComponent));
+
+	const levelsParam = params.get('l');
+	if (levelsParam) {
+		s.levels = new Set(
+			levelsParam.split(',').map((v) => (v === 'PQ' ? 'Pre-Quantum' : Number(v))) as NistLevel[]
+		);
+	}
+
+	if (params.has('pkMin')) s.minPk = Number(params.get('pkMin'));
+	if (params.has('pkMax')) s.maxPk = Number(params.get('pkMax'));
+	if (params.has('ctMin')) s.minCt = Number(params.get('ctMin'));
+	if (params.has('ctMax')) s.maxCt = Number(params.get('ctMax'));
+	if (params.has('pcMin')) s.minPkPlusCt = Number(params.get('pcMin'));
+	if (params.has('pcMax')) s.maxPkPlusCt = Number(params.get('pcMax'));
+
+	return s;
+}
+
 /** Apply scheme/level/size filters to the rows. */
 export function filterKemRows(
 	rows: KemParameterSet[],

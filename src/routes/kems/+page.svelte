@@ -1,9 +1,13 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
+	import { goto } from '$app/navigation';
 	import { base } from '$app/paths';
 	import KemFilterPanel from '$lib/components/KemFilterPanel.svelte';
 	import KemScatterPlot from '$lib/components/KemScatterPlot.svelte';
 	import KemTable from '$lib/components/KemTable.svelte';
 	import {
+		applyKemUrlParams,
+		buildKemUrlParams,
 		computeKemRanges,
 		defaultKemFilter,
 		filterKemRows,
@@ -21,9 +25,34 @@
 	const ranges = computeKemRanges(parameterSets);
 	const categories = [...new Set(schemes.map((s) => s.category))].sort();
 
+	const defaults = defaultKemFilter(ranges, schemes.map((s) => s.scheme));
 	let filter = $state(defaultKemFilter(ranges, schemes.map((s) => s.scheme)));
 
 	const filteredRows = $derived(filterKemRows(parameterSets, filter));
+
+	// URL state: filter params encoded as query params (mirrors the signatures page).
+	// Applied client-side in onMount (the page is prerendered); synced back, debounced.
+	let urlReady = $state(false);
+
+	onMount(() => {
+		const params = new URLSearchParams(window.location.search);
+		if (params.toString()) filter = applyKemUrlParams(defaults, params);
+		urlReady = true;
+	});
+
+	$effect(() => {
+		filter; // track filter changes
+		if (!urlReady) return;
+		const timer = setTimeout(() => {
+			const qs = buildKemUrlParams(filter, defaults).toString();
+			goto(qs ? `?${qs}` : window.location.pathname, {
+				replaceState: true,
+				keepFocus: true,
+				noScroll: true
+			});
+		}, 300);
+		return () => clearTimeout(timer);
+	});
 </script>
 
 <div class="mx-auto max-w-screen-2xl px-6 py-8">

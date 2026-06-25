@@ -78,4 +78,16 @@ test.describe('KEMs page', () => {
 		await expect(page.getByText('6 parameter sets')).toBeVisible();
 		await expect(page.getByText('X25519', { exact: true })).toHaveCount(0);
 	});
+
+	test('persists filter state in the URL across reload', async ({ page }) => {
+		await page.goto('/kems/');
+		const panel = page.locator('aside').first();
+		await panel.getByLabel('N/A').uncheck();
+		// debounced URL sync (300ms); toHaveURL polls until it matches
+		await expect(page).toHaveURL(/[?&]l=/);
+
+		await page.reload();
+		await expect(page.getByText('6 parameter sets')).toBeVisible();
+		await expect(page.getByText('X25519', { exact: true })).toHaveCount(0);
+	});
 });
