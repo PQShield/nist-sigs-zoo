@@ -42,8 +42,8 @@ test.describe('KEMs page', () => {
 	test('table lists all KEM parameter sets', async ({ page }) => {
 		await page.goto('/kems/');
 		await expect(page.locator('table')).toBeVisible();
-		await expect(page.getByText('16 parameter sets')).toBeVisible();
-		for (const name of ['ML-KEM-768', 'HQC-256', 'FrodoKEM-640-AES', 'X25519', 'P-256']) {
+		await expect(page.getByText('21 parameter sets')).toBeVisible();
+		for (const name of ['ML-KEM-768', 'HQC-256', 'FrodoKEM-640-AES', 'mceliece6960119', 'X25519', 'P-256']) {
 			await expect(page.getByText(name, { exact: true })).toBeVisible();
 		}
 	});
@@ -67,7 +67,7 @@ test.describe('KEMs page', () => {
 		await expect(page.getByText('0 parameter sets')).toBeVisible();
 
 		await panel.getByRole('button', { name: 'All' }).click();
-		await expect(page.getByText('16 parameter sets')).toBeVisible();
+		await expect(page.getByText('21 parameter sets')).toBeVisible();
 	});
 
 	test('level filter excludes pre-quantum schemes', async ({ page }) => {
@@ -75,7 +75,7 @@ test.describe('KEMs page', () => {
 		const panel = page.locator('aside').first();
 		// Unchecking the N/A (pre-quantum) level drops the four ECDH rows.
 		await panel.getByLabel('N/A').uncheck();
-		await expect(page.getByText('12 parameter sets')).toBeVisible();
+		await expect(page.getByText('17 parameter sets')).toBeVisible();
 		await expect(page.getByText('X25519', { exact: true })).toHaveCount(0);
 	});
 
@@ -87,7 +87,7 @@ test.describe('KEMs page', () => {
 		await expect(page).toHaveURL(/[?&]l=/);
 
 		await page.reload();
-		await expect(page.getByText('12 parameter sets')).toBeVisible();
+		await expect(page.getByText('17 parameter sets')).toBeVisible();
 		await expect(page.getByText('X25519', { exact: true })).toHaveCount(0);
 	});
 });

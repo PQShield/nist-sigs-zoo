@@ -1,0 +1,29 @@
+# pq-kems benchmark results
+# date:         2026-06-25T16:56:15Z
+# host:         development
+# os:           Debian GNU/Linux 13 (trixie)
+# kernel:       6.19.11-zabbly+
+# cpu:          12th Gen Intel(R) Core(TM) i7-12650H
+# cores:        8 (threads/core: 2)
+# max_freq_mhz: 4600 (cur: 2202 MHz)
+# governor:     powersave
+# turbo:        enabled
+# flags:        fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf tsc_known_freq pni pclmulqdq dtes64 monitor ds_cpl vmx smx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb ssbd ibrs ibpb stibp ibrs_enhanced tpr_shadow flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid rdseed adx smap clflushopt clwb intel_pt sha_ni xsaveopt xsavec xgetbv1 xsaves split_lock_detect user_shstk avx_vnni dtherm ida arat pln pts hwp hwp_notify hwp_act_window hwp_epp hwp_pkg_req hfi vnmi umip pku ospke waitpkg gfni vaes vpclmulqdq rdpid movdiri movdir64b fsrm md_clear serialize arch_lbr ibt flush_l1d arch_capabilities
+#
+# compiler:     cc (Debian 14.2.0-19) 14.2.0
+# openssl:      OpenSSL 3.6.2 7 Apr 2026 (Library: OpenSSL 3.6.2 7 Apr 2026)
+# sources:
+#   schemes/frodo/ref: https://github.com/Microsoft/PQCrypto-LWEKE@7a4e7219d06305e16aef734213001cd8fefbcc14
+#   schemes/hqc/ref: https://gitlab.com/pqc-hqc/hqc.git@161cd4fdf6b4a5198cf40b3a1243f9f27f13e03d
+#   schemes/mlkem/ref: https://github.com/pq-code-package/mlkem-native.git@2d1cc90f71bd59617062844e874ac6e70868e1f8
+#   schemes/mceliece: https://lib.mceliece.org/libmceliece-20260622.tar.gz
+# filter:       mceliece
+#
+scheme                       iters    keygen (cyc)  keygen (us)    encaps (cyc)  encaps (us)    decaps (cyc)  decaps (us)      ok
+------                       -----    ------------  -----------    ------------  -----------    ------------  -----------      --
+mceliece348864                  30        24435006     16317.0           18943        12.7           70152        46.9     yes
+mceliece460896                  30        70331276     46964.4           51460        34.4          154057       102.9     yes
+mceliece6688128                 30       169673959    113300.4           82010        54.9          163164       109.0     yes
+mceliece6960119                 30       194178722    129663.3          100513        67.1          162771       108.7     yes
+mceliece8192128                 30       201711420    134693.4          120759        80.7          188393       125.9     yes
+

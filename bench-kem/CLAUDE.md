@@ -40,7 +40,8 @@ bench-kem/
     ├── classic/          # ECDH (X25519, P-256) via system OpenSSL; no submodule
     ├── mlkem/            # pq-code-package/mlkem-native (avx2); ref/ is a git submodule
     ├── hqc/              # gitlab.com/pqc-hqc/hqc (x86_64/avx256); ref/ is a git submodule
-    └── frodo/            # Microsoft/PQCrypto-LWEKE (FAST AVX2); ref/ is a git submodule
+    ├── frodo/            # Microsoft/PQCrypto-LWEKE (FAST AVX2); ref/ is a git submodule
+    └── mceliece/         # lib.mceliece.org (libmceliece, tarball); build_libs.sh fetches+builds
 ```
 
 `SO_PATHS[]` in `main.c` is **auto-generated** from `ALL_SOS` in `Makefile` into
@@ -111,6 +112,18 @@ The shim adapts upstream API conventions to the KEM contract. Notes:
   timings differ. `config.h` demands an A-gen define even in files that never use one
   (`util.c`), so the shared generic objects carry a placeholder `-D_SHAKE128_FOR_A_`.
   Upstream's `random.c` (`/dev/urandom`) self-seeds — no constructor needed.
+- **Classic McEliece** (lib.mceliece.org / libmceliece) is **not** a git submodule —
+  it's a signed tarball with its own `./configure && make` and djb deps (librandombytes,
+  libcpucycles). `schemes/mceliece/build_libs.sh` fetches all three tarballs (pinned
+  version + SHA-256), builds them with `--no-valgrind` (the default build hard-includes
+  `<valgrind/memcheck.h>` for its constant-time tests), and harvests `libmceliece.a` +
+  `librandombytes-kernel.a` into `build/local/`. Each shim statically links those archives
+  → a self-contained per-set `.so` with no runtime library deps, matching the isolation
+  model of the other schemes. libmceliece exports IFUNC-dispatched, namespaced
+  `mceliece_kem_<set>_{keypair,enc,dec}` (`@SET@` = `348864`/`460896`/`6688128`/`6960119`/
+  `8192128`); enc/dec already match the NIST arg order, keypair returns void → shim returns 0.
+  Provenance is recorded via `schemes/mceliece/.source` (the `.source` mechanism, not a
+  submodule). Keygen is variable-time and slow (tens to ~135 ms), so `iters` is low (30).
 - **HQC** (gitlab.com/pqc-hqc/hqc) exports the *bare* NIST API (`crypto_kem_*`) from
   its own objects, so the shim does **not** wrap them — the loader resolves HQC's
   directly, and `RTLD_LOCAL` isolates the three variants' identical symbols. The shim
