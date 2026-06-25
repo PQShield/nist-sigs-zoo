@@ -28,7 +28,8 @@ Output columns: `keygen`, `encaps`, `decaps` in cycles and µs, plus an `ok` col
 |---------|---------------------------------------------|---------------------------|
 | ML-KEM  | `pq-code-package/mlkem-native` (avx2)       | ML-KEM-512 / 768 / 1024   |
 | HQC     | `gitlab.com/pqc-hqc/hqc` (x86_64/avx256)    | HQC-128 / 192 / 256       |
-| ECDH    | OpenSSL 3 (EVP)                             | X25519, P-256             |
+| FrodoKEM| `Microsoft/PQCrypto-LWEKE` (FAST avx2)      | 640 / 976 / 1344, AES + SHAKE |
+| ECDH    | OpenSSL 3 (EVP)                             | X25519, X448, P-256, P-384 |
 
 Each KEM lives under `schemes/<name>/`; see `CLAUDE.md` for the contract and how
 to add one.

@@ -44,3 +44,6 @@
 	path = bench-kem/schemes/mlkem/ref
 	url = https://github.com/pq-code-package/mlkem-native.git
   ignore = "dirty"
+[submodule "bench-kem/schemes/frodo/ref"]
+	path = bench-kem/schemes/frodo/ref
+	url = https://github.com/Microsoft/PQCrypto-LWEKE

@@ -39,7 +39,8 @@ bench-kem/
 └── schemes/
     ├── classic/          # ECDH (X25519, P-256) via system OpenSSL; no submodule
     ├── mlkem/            # pq-code-package/mlkem-native (avx2); ref/ is a git submodule
-    └── hqc/              # gitlab.com/pqc-hqc/hqc (x86_64/avx256); ref/ is a git submodule
+    ├── hqc/              # gitlab.com/pqc-hqc/hqc (x86_64/avx256); ref/ is a git submodule
+    └── frodo/            # Microsoft/PQCrypto-LWEKE (FAST AVX2); ref/ is a git submodule
 ```
 
 `SO_PATHS[]` in `main.c` is **auto-generated** from `ALL_SOS` in `Makefile` into
@@ -99,6 +100,17 @@ The shim adapts upstream API conventions to the KEM contract. Notes:
   shared secret; decaps imports the peer public key from `ct` and derives. NIST-curve
   public keys are imported via `EVP_PKEY_fromdata` (no throwaway keygen — keeps decaps
   timing clean). See `schemes/classic/classic_common.h`.
+- **FrodoKEM** (Microsoft/PQCrypto-LWEKE) renames its API per parameter set via macros
+  in `frodo<level>.c` (`crypto_kem_keypair_Frodo640` …), so the shim re-exports the bare
+  names (`@SUFFIX@` token = `Frodo640`/`976`/`1344`). Each `frodo<level>.c` `#include`s
+  `kem.c`/`noise.c`/`frodo_macrify.c` — compile **only** the `frodo<level>.c` files
+  (plus `util.c` and the generic `common/` sources), never the `#include`d `.c`s, or you
+  get duplicate symbols. The standard (ISO, salted) variant is built, `_FAST_` AVX2, no
+  OpenSSL (upstream's own `aes_ni.c`). Matrix-A generation is benchmarked **both ways**
+  (`_AES128_FOR_A_` / `_SHAKE128_FOR_A_`) → six `.so`s; sizes are identical per level, only
+  timings differ. `config.h` demands an A-gen define even in files that never use one
+  (`util.c`), so the shared generic objects carry a placeholder `-D_SHAKE128_FOR_A_`.
+  Upstream's `random.c` (`/dev/urandom`) self-seeds — no constructor needed.
 - **HQC** (gitlab.com/pqc-hqc/hqc) exports the *bare* NIST API (`crypto_kem_*`) from
   its own objects, so the shim does **not** wrap them — the loader resolves HQC's
   directly, and `RTLD_LOCAL` isolates the three variants' identical symbols. The shim
