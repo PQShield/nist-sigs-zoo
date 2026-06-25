@@ -1,3 +1,8 @@
+- date: '2026-06-04'
+  type: attack
+  description: "Improved MQ attack (Asanuma, Chen, Furue, Sakata &amp; Takagi, <a href=\"https://eprint.iacr.org/2026/1054\">ePrint 2026/1054</a>) reduces MAYO1 classical security estimate from 2^156 to 2^145. Still above NIST Level I threshold (128 bits); flagged as warning."
+  schemes: [MAYO]
+
 - date: '2026-05-26'
   type: update
   description: "Updated FAEST performance data to use the AVX2+AES-NI optimized implementation (<a href=\"https://github.com/faest-sign/faest-arch-opt\">faest-arch-opt</a>) instead of the reference implementation. Signing is 10–100× faster depending on the parameter set."
