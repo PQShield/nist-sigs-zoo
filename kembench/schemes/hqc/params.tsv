@@ -1,0 +1,12 @@
+# HQC shim parameters. Columns: file, name, pk, sk, ct, ss, iters, variant
+# variant: source/include subdir name in the upstream tree (hqc-1 / hqc-3 / hqc-5).
+# Sizes from src/common/<variant>/api.h (latest HQC reference at
+# https://gitlab.com/pqc-hqc/hqc). Built with the AVX2 implementation
+# (HQC_ARCH=x86_64, avx256) — x86-64 only. HQC's reference exposes BARE,
+# non-namespaced crypto_kem_* symbols and requires prng_init() before keygen;
+# isolation via per-variant .so + dlopen(RTLD_LOCAL) keeps the bare symbols
+# from colliding.
+file	name	pk	sk	ct	ss	iters	variant
+hqc128	HQC-128	2241	2321	4433	32	200	hqc-1
+hqc192	HQC-192	4514	4602	8978	32	100	hqc-3
+hqc256	HQC-256	7237	7333	14421	32	50	hqc-5

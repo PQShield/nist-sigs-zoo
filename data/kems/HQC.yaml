@@ -1,0 +1,21 @@
+name: HQC
+website: https://pqc-hqc.org/
+category: Code-based
+assumption: Quasi-cyclic syndrome decoding
+status: To be standardized
+parametersets:
+  - name: HQC-128
+    level: 1
+    pk: 2241
+    ct: 4433
+    sk: 2321
+  - name: HQC-192
+    level: 3
+    pk: 4514
+    ct: 8978
+    sk: 4602
+  - name: HQC-256
+    level: 5
+    pk: 7237
+    ct: 14421
+    sk: 7333

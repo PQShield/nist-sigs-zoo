@@ -150,3 +150,115 @@ export interface DataRanges {
 	signingUs: [number, number] | null;
 	verificationUs: [number, number] | null;
 }
+
+// KEM types (one-off size comparison, no benchmarks)
+
+export interface KemParameterSetYaml {
+	name: string;
+	level: number | 'Pre-Quantum';
+	pk: number;
+	ct: number;
+	sk?: number;
+	keygen_cycles?: number;
+	encaps_cycles?: number;
+	decaps_cycles?: number;
+	keygen_us?: number;
+	encaps_us?: number;
+	decaps_us?: number;
+	broken?: string;
+	warning?: string;
+	info?: string;
+	notes?: string;
+}
+
+export interface KemYaml {
+	name: string;
+	website: string;
+	category: string;
+	assumption: string;
+	status: string;
+	classical?: boolean;
+	perf_source?: string;
+	broken?: string;
+	warning?: string;
+	info?: string;
+	parametersets: KemParameterSetYaml[];
+}
+
+export interface Kem {
+	scheme: string;
+	category: string;
+}
+
+export interface KemParameterSet {
+	scheme: string;
+	parameterset: string;
+	category: string;
+	status: string;
+	level: NistLevel;
+	pk: number;
+	ct: number;
+	sk: number | null;
+	pkPlusCt: number;
+	keygenCycles: number;
+	encapsCycles: number;
+	decapsCycles: number;
+	keygenUs: number | null;
+	encapsUs: number | null;
+	decapsUs: number | null;
+	extrapolated: boolean;
+	broken: false | string;
+	warning: false | string;
+	info: false | string;
+	classical: boolean;
+	website: string;
+	assumption: string;
+	notes: string | null;
+	perfSource: string | null;
+}
+
+export type KemAxisField =
+	| 'pk'
+	| 'ct'
+	| 'pkPlusCt'
+	| 'sk'
+	| 'keygenCycles'
+	| 'encapsCycles'
+	| 'decapsCycles'
+	| 'keygenUs'
+	| 'encapsUs'
+	| 'decapsUs';
+
+export type KemSortableColumn =
+	| 'scheme'
+	| 'category'
+	| 'status'
+	| 'parameterset'
+	| 'level'
+	| 'pk'
+	| 'ct'
+	| 'pkPlusCt'
+	| 'sk'
+	| 'keygenUs'
+	| 'encapsUs'
+	| 'decapsUs';
+
+export interface KemDataRanges {
+	pk: [number, number];
+	ct: [number, number];
+	pkPlusCt: [number, number];
+	sk: [number, number];
+	keygenCycles: [number, number];
+	encapsCycles: [number, number];
+	decapsCycles: [number, number];
+	keygenUs: [number, number] | null;
+	encapsUs: [number, number] | null;
+	decapsUs: [number, number] | null;
+}
+
+export interface KemFilterState {
+	schemes: Set<string>;
+	levels: Set<NistLevel>;
+	sortCol: KemSortableColumn;
+	sortDir: 'asc' | 'desc';
+}

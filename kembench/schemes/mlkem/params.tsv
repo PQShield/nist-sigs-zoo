@@ -1,0 +1,7 @@
+# ML-KEM (FIPS 203) shim parameters. Columns: file, name, pk, sk, ct, ss, iters, variant
+# Source: pq-code-package/mlkem-native, AVX2 backend. Sizes from mlkem_native.h.
+# variant: MLK_CONFIG_PARAMETER_SET — the security level (512/768/1024).
+file	name	pk	sk	ct	ss	iters	variant
+mlkem512	ML-KEM-512	800	1632	768	32	0	512
+mlkem768	ML-KEM-768	1184	2400	1088	32	0	768
+mlkem1024	ML-KEM-1024	1568	3168	1568	32	0	1024

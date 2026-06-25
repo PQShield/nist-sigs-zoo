@@ -1,0 +1,17 @@
+name: ECDH
+website: https://cr.yp.to/ecdh.html
+category: Pre-Quantum
+assumption: Elliptic Curve Diffie-Hellman
+status: Classic cryptography
+classical: true
+parametersets:
+  - name: X25519
+    level: Pre-Quantum
+    pk: 32
+    ct: 32
+    sk: 32
+  - name: X448
+    level: Pre-Quantum
+    pk: 56
+    ct: 56
+    sk: 56
