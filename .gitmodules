@@ -36,3 +36,11 @@
 	path = bench/schemes/sqisign/ref
 	url = https://github.com/SQISign/the-sqisign
   ignore = "dirty"
+[submodule "bench-kem/schemes/mlkem/ref"]
+	path = bench-kem/schemes/mlkem/ref
+	url = https://github.com/pq-crystals/kyber.git
+  ignore = "dirty"
+[submodule "bench-kem/schemes/hqc/ref"]
+	path = bench-kem/schemes/hqc/ref
+	url = https://gitlab.com/pqc-hqc/hqc.git
+  ignore = "dirty"

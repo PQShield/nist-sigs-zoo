@@ -1,0 +1,10 @@
+# ML-KEM (FIPS 203) via pq-crystals/kyber avx2.
+# NOTE: the kyber README still says "Kyber round-3", but the code on master is
+# ML-KEM — keygen applies the FIPS 203 domain separation (indcpa.c: buf[SYMBYTES]
+# = KYBER_K before G) and the API exposes KEYPAIRCOINBYTES / *_derand. Labels are
+# therefore ML-KEM-*, matching data/kems/ML-KEM.yaml.
+# Columns: file, name, pk, sk, ct, ss, iters, k (KYBER_K), ns (namespace number)
+file	name	pk	sk	ct	ss	iters	k	ns
+mlkem512	ML-KEM-512	800	1632	768	32	0	2	512
+mlkem768	ML-KEM-768	1184	2400	1088	32	0	3	768
+mlkem1024	ML-KEM-1024	1568	3168	1568	32	0	4	1024

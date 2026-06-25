@@ -1,0 +1,6 @@
+# HQC (NIST-selected, code-based KEM) via gitlab.com/pqc-hqc/hqc reference impl.
+# Columns: file, name, pk, sk, ct, ss, iters, var (variant: 1=HQC-128, 3=HQC-192, 5=HQC-256)
+file	name	pk	sk	ct	ss	iters	var
+hqc1	HQC-128	2241	2321	4433	32	0	1
+hqc3	HQC-192	4514	4602	8978	32	0	3
+hqc5	HQC-256	7237	7333	14421	32	0	5
