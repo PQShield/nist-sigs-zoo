@@ -15,11 +15,11 @@ OSSL_LDFLAGS = -L$(OSSL_PREFIX)/lib -lcrypto -Wl,-rpath,$(OSSL_PREFIX)/lib
 
 CFLAGS := -O3 -fomit-frame-pointer -fPIC -Wall -Wextra $(OSSL_CFLAGS)
 
-X25519_SHIMS := ecdh_x25519_shim.c
-NIST_SHIMS   := ecdh_p256_shim.c
+X25519_SHIMS := ecdh_x25519_shim.c ecdh_x448_shim.c
+NIST_SHIMS   := ecdh_p256_shim.c ecdh_p384_shim.c
 SHIM_FILES   := $(X25519_SHIMS) $(NIST_SHIMS)
 
-SHIMS   = ecdh_x25519 ecdh_p256
+SHIMS   = ecdh_x25519 ecdh_x448 ecdh_p256 ecdh_p384
 TARGETS = $(addprefix $(BUILD)/, $(addsuffix .so, $(SHIMS)))
 
 .PHONY: all clean

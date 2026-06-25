@@ -30,7 +30,9 @@ BENCH_TO_YAML: dict[str, tuple[str, str]] = {
     "HQC-192": ("HQC.yaml", "HQC-192"),
     "HQC-256": ("HQC.yaml", "HQC-256"),
     "ECDH-X25519": ("ECDH.yaml", "X25519"),
+    "ECDH-X448": ("ECDH.yaml", "X448"),
     "ECDH-P256": ("ECDH.yaml", "P-256"),
+    "ECDH-P384": ("ECDH.yaml", "P-384"),
 }
 
 

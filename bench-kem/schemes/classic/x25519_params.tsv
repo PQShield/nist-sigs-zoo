@@ -1,4 +1,5 @@
-# X25519 ECDH-as-KEM. ct = ephemeral public key; ss = X-coordinate shared secret.
-# pk/sk sizes are raw key sizes (documented; buffers unused — module-level EVP_PKEY).
-file	name	pk	sk	ct	ss	iters
-ecdh_x25519	ECDH-X25519	32	32	32	32	0
+# Raw-key ECDH-as-KEM (X25519/X448). ct = ephemeral public key; ss = raw shared secret.
+# pk/sk = raw key sizes (documented; buffers unused). keytype = OpenSSL EVP_PKEY id.
+file	name	pk	sk	ct	ss	iters	keytype
+ecdh_x25519	ECDH-X25519	32	32	32	32	0	EVP_PKEY_X25519
+ecdh_x448	ECDH-X448	56	56	56	56	0	EVP_PKEY_X448

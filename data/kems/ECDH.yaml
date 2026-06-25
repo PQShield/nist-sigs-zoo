@@ -10,20 +10,42 @@ parametersets:
   pk: 32
   ct: 32
   notes: Ciphertext is the ephemeral public key.
-  keygen_cycles: 98813
-  encaps_cycles: 242358
-  decaps_cycles: 111272
-  keygen_us: 66.1
-  encaps_us: 161.9
-  decaps_us: 74.3
+  keygen_cycles: 66819
+  encaps_cycles: 125789
+  decaps_cycles: 60611
+  keygen_us: 44.6
+  encaps_us: 84.0
+  decaps_us: 40.5
+- name: X448
+  level: Pre-Quantum
+  pk: 56
+  ct: 56
+  notes: Ciphertext is the ephemeral public key.
+  keygen_cycles: 326451
+  encaps_cycles: 610248
+  decaps_cycles: 276161
+  keygen_us: 218.0
+  encaps_us: 407.6
+  decaps_us: 184.4
 - name: P-256
   level: Pre-Quantum
   pk: 65
   ct: 65
   notes: Uncompressed point encoding; ciphertext is the ephemeral public key.
-  keygen_cycles: 35832
-  encaps_cycles: 171885
-  decaps_cycles: 142159
-  keygen_us: 23.9
-  encaps_us: 114.8
-  decaps_us: 95.0
+  keygen_cycles: 27153
+  encaps_cycles: 134843
+  decaps_cycles: 111436
+  keygen_us: 18.1
+  encaps_us: 90.1
+  decaps_us: 74.5
+- name: P-384
+  level: Pre-Quantum
+  pk: 97
+  ct: 97
+  notes: Uncompressed point encoding; ciphertext is the ephemeral public key.
+  keygen_cycles: 1021894
+  encaps_cycles: 2050633
+  decaps_cycles: 1026355
+  keygen_us: 682.4
+  encaps_us: 1369.3
+  decaps_us: 685.4

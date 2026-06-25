@@ -2,7 +2,7 @@ CC     ?= cc
 CFLAGS := -O2 -Wall -Wextra
 BUILD   = build
 
-CLASSIC_SOS = $(addprefix schemes/classic/build/, ecdh_x25519.so ecdh_p256.so)
+CLASSIC_SOS = $(addprefix schemes/classic/build/, ecdh_x25519.so ecdh_x448.so ecdh_p256.so ecdh_p384.so)
 MLKEM_SOS   = $(addprefix schemes/mlkem/build/,   mlkem512.so mlkem768.so mlkem1024.so)
 HQC_SOS     = $(addprefix schemes/hqc/build/,     hqc1.so hqc3.so hqc5.so)
 
