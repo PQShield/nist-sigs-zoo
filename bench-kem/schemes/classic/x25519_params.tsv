@@ -1,0 +1,4 @@
+# X25519 ECDH-as-KEM. ct = ephemeral public key; ss = X-coordinate shared secret.
+# pk/sk sizes are raw key sizes (documented; buffers unused — module-level EVP_PKEY).
+file	name	pk	sk	ct	ss	iters
+ecdh_x25519	ECDH-X25519	32	32	32	32	0
