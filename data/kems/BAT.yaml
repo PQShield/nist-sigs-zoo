@@ -1,0 +1,27 @@
+name: BAT
+website: https://github.com/pornin/BAT
+category: Lattices
+assumption: NTRU
+status: Academic
+info: Compact NTRU-based KEM (Fouque, Kirchner, Pornin, Yu; TCHES 2022) with notably small public keys and ciphertexts. A research design — not submitted to NIST or ISO. The two real security levels are shown; the BAT-128-256 toy set is omitted. Sizes are the encoded (transmitted) byte lengths and the timings include (de)serialisation; key generation is NTRU-style and comparatively slow.
+parametersets:
+- name: BAT-257-512
+  level: 1
+  pk: 521
+  ct: 473
+  keygen_cycles: 9947979
+  encaps_cycles: 7214
+  decaps_cycles: 42650
+  keygen_us: 6642.8
+  encaps_us: 4.8
+  decaps_us: 28.5
+- name: BAT-769-1024
+  level: 5
+  pk: 1230
+  ct: 1006
+  keygen_cycles: 44798114
+  encaps_cycles: 14258
+  decaps_cycles: 79675
+  keygen_us: 29914.0
+  encaps_us: 9.5
+  decaps_us: 53.2

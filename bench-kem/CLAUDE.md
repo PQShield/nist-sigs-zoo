@@ -41,7 +41,8 @@ bench-kem/
     ├── mlkem/            # pq-code-package/mlkem-native (avx2); ref/ is a git submodule
     ├── hqc/              # gitlab.com/pqc-hqc/hqc (x86_64/avx256); ref/ is a git submodule
     ├── frodo/            # Microsoft/PQCrypto-LWEKE (FAST AVX2); ref/ is a git submodule
-    └── mceliece/         # lib.mceliece.org (libmceliece, tarball); build_libs.sh fetches+builds
+    ├── mceliece/         # lib.mceliece.org (libmceliece, tarball); build_libs.sh fetches+builds
+    └── bat/              # pornin/BAT (NTRU-based, AVX2); ref/ is a git submodule
 ```
 
 `SO_PATHS[]` in `main.c` is **auto-generated** from `ALL_SOS` in `Makefile` into
@@ -124,6 +125,16 @@ The shim adapts upstream API conventions to the KEM contract. Notes:
   `8192128`); enc/dec already match the NIST arg order, keypair returns void → shim returns 0.
   Provenance is recorded via `schemes/mceliece/.source` (the `.source` mechanism, not a
   submodule). Keygen is variable-time and slow (tens to ~135 ms), so `iters` is low (30).
+- **BAT** (pornin/BAT) has a Pornin-style struct API, not the bare NIST one: keygen
+  yields a `private_key` struct, encaps/decaps operate on `public_key`/`ciphertext`
+  structs, every op takes a caller-provided scratch buffer, and the transmitted byte
+  forms come from separate `encode`/`decode` calls. The shim adapts this to
+  `crypto_kem_*` over the **encoded** byte arrays — so the pk/ct sizes match what is
+  sent and the timings include (de)serialisation. Tokens `@Q@`/`@N@` build the
+  `bat_<q>_<n>_*` names; one static scratch buffer sized to `BAT_<q>_<n>_TMP_KEYGEN`
+  serves all ops. The generic `keygen.c`/`codec.c` dispatch into every q-variant, so
+  each `.so` links all three `kem<q>.o` (only `api_<q>_<n>.o` is per-set). The
+  BAT-128-256 toy set is omitted; keygen is NTRU-style and slow, so `iters` is low.
 - **HQC** (gitlab.com/pqc-hqc/hqc) exports the *bare* NIST API (`crypto_kem_*`) from
   its own objects, so the shim does **not** wrap them — the loader resolves HQC's
   directly, and `RTLD_LOCAL` isolates the three variants' identical symbols. The shim

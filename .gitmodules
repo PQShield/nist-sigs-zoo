@@ -47,3 +47,6 @@
 [submodule "bench-kem/schemes/frodo/ref"]
 	path = bench-kem/schemes/frodo/ref
 	url = https://github.com/Microsoft/PQCrypto-LWEKE
+[submodule "bench-kem/schemes/bat/ref"]
+	path = bench-kem/schemes/bat/ref
+	url = https://github.com/pornin/BAT

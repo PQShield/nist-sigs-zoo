@@ -40,6 +40,8 @@ BENCH_TO_YAML: dict[str, tuple[str, str]] = {
     "mceliece6688128": ("ClassicMcEliece.yaml", "mceliece6688128"),
     "mceliece6960119": ("ClassicMcEliece.yaml", "mceliece6960119"),
     "mceliece8192128": ("ClassicMcEliece.yaml", "mceliece8192128"),
+    "BAT-257-512": ("BAT.yaml", "BAT-257-512"),
+    "BAT-769-1024": ("BAT.yaml", "BAT-769-1024"),
     "ECDH-X25519": ("ECDH.yaml", "X25519"),
     "ECDH-X448": ("ECDH.yaml", "X448"),
     "ECDH-P256": ("ECDH.yaml", "P-256"),

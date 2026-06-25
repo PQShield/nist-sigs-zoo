@@ -1,7 +1,7 @@
 # Licensed under CC BY 4.0: https://creativecommons.org/licenses/by/4.0/
 license: CC-BY-4.0
 attribution: Thom Wiggers / PQShield
-date: '2026-06-25T16:56:15Z'
+date: '2026-06-25T21:10:45Z'
 cpu:
   model: 12th Gen Intel(R) Core(TM) i7-12650H
   cores: 8
@@ -15,6 +15,7 @@ compiler: cc (Debian 14.2.0-19) 14.2.0
 openssl: 'OpenSSL 3.6.2 7 Apr 2026 (Library: OpenSSL 3.6.2 7 Apr 2026)'
 notes: 'KEM keygen/encapsulation/decapsulation. Median over 1000 iterations (fewer for slow schemes). Cycle counter: rdtsc + lfence (constant TSC rate, not execution cycles). Wall clock: clock_gettime(CLOCK_MONOTONIC).'
 sources:
+  bat: https://github.com/pornin/BAT@8280af7c9d4d5cdd9a70914f72a5f0ad774c7b8d
   frodo: https://github.com/Microsoft/PQCrypto-LWEKE@7a4e7219d06305e16aef734213001cd8fefbcc14
   hqc: https://gitlab.com/pqc-hqc/hqc.git@161cd4fdf6b4a5198cf40b3a1243f9f27f13e03d
   mceliece: https://lib.mceliece.org/libmceliece-20260622.tar.gz
