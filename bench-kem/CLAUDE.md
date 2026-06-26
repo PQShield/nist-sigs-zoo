@@ -114,11 +114,13 @@ The shim adapts upstream API conventions to the KEM contract. Notes:
   (`util.c`), so the shared generic objects carry a placeholder `-D_SHAKE128_FOR_A_`.
   Upstream's `random.c` (`/dev/urandom`) self-seeds — no constructor needed.
 - **Classic McEliece** (lib.mceliece.org / libmceliece) is **not** a git submodule —
-  it's a signed tarball with its own `./configure && make` and djb deps (librandombytes,
-  libcpucycles). `schemes/mceliece/build_libs.sh` fetches all three tarballs (pinned
-  version + SHA-256), builds them with `--no-valgrind` (the default build hard-includes
-  `<valgrind/memcheck.h>` for its constant-time tests), and harvests `libmceliece.a` +
-  `librandombytes-kernel.a` into `build/local/`. Each shim statically links those archives
+  it's a signed tarball with its own `./configure && make` and a librandombytes dep.
+  `schemes/mceliece/build_libs.sh` fetches both tarballs (pinned version + SHA-256),
+  configures with `--no-valgrind` (the default build hard-includes `<valgrind/memcheck.h>`
+  for its constant-time tests), builds **only** the `package/lib/libmceliece.a` target —
+  not the default target, which also builds CLI binaries that pull in libcpucycles, a dep
+  the library itself never uses — and harvests `libmceliece.a` + `librandombytes-kernel.a`
+  into `build/local/`. Each shim statically links those archives
   → a self-contained per-set `.so` with no runtime library deps, matching the isolation
   model of the other schemes. libmceliece exports IFUNC-dispatched, namespaced
   `mceliece_kem_<set>_{keypair,enc,dec}` (`@SET@` = `348864`/`460896`/`6688128`/`6960119`/

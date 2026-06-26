@@ -33,7 +33,7 @@ Output columns: `keygen`, `encaps`, `decaps` in cycles and µs, plus an `ok` col
 | BAT     | `pornin/BAT` (NTRU-based, avx2)              | BAT-257-512, BAT-769-1024 |
 | ECDH    | OpenSSL 3 (EVP)                             | X25519, X448, P-256, P-384 |
 
-Classic McEliece is fetched and built (with its librandombytes/libcpucycles deps)
+Classic McEliece is fetched and built (with its librandombytes dependency)
 by `schemes/mceliece/build_libs.sh`, which `make` runs automatically — it needs
 network access on the first build. Everything else uses git submodules.
 
