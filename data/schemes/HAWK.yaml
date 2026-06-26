@@ -12,18 +12,18 @@ versions:
     level: 5
     pk: 2440
     sig: 1221
-    signing_cycles: 88921
-    verification_cycles: 101514
-    signing_us: 59.4
-    verification_us: 67.8
+    signing_cycles: 167180
+    verification_cycles: 190604
+    signing_us: 58.6
+    verification_us: 67.0
   - name: '512'
     level: 1
     pk: 1024
     sig: 555
-    signing_cycles: 36455
-    verification_cycles: 42476
-    signing_us: 24.4
-    verification_us: 28.4
+    signing_cycles: 77315
+    verification_cycles: 90728
+    signing_us: 26.8
+    verification_us: 31.6
   tags:
   - round-2
   - round-3  # Round 3 spec not yet available; showing current latest data

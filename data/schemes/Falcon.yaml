@@ -12,15 +12,15 @@ versions:
     level: 5
     pk: 1793
     sig: 1280
-    signing_cycles: 649071
-    verification_cycles: 62134
-    signing_us: 433.4
-    verification_us: 41.5
+    signing_cycles: 1253155
+    verification_cycles: 124210
+    signing_us: 448.2
+    verification_us: 44.9
   - name: '512'
     level: 1
     pk: 897
     sig: 666
-    signing_cycles: 316833
-    verification_cycles: 33253
-    signing_us: 211.6
-    verification_us: 22.2
+    signing_cycles: 623227
+    verification_cycles: 65140
+    signing_us: 224.4
+    verification_us: 23.3
