@@ -31,6 +31,7 @@ Output columns: `keygen`, `encaps`, `decaps` in cycles and µs, plus an `ok` col
 | FrodoKEM| `Microsoft/PQCrypto-LWEKE` (FAST avx2)      | 640 / 976 / 1344, AES + SHAKE |
 | McEliece| `lib.mceliece.org` (libmceliece, tarball)   | 348864 / 460896 / 6688128 / 6960119 / 8192128 |
 | BAT     | `pornin/BAT` (NTRU-based, avx2)              | BAT-257-512, BAT-769-1024 |
+| NTRU    | `jschanck/ntru` (avx2 + asm codegen)        | ntruhps2048509 / 2048677 / 4096821, ntruhrss701 |
 | ECDH    | OpenSSL 3 (EVP)                             | X25519, X448, P-256, P-384 |
 
 Classic McEliece is fetched and built (with its librandombytes dependency)

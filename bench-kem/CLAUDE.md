@@ -42,7 +42,8 @@ bench-kem/
     ├── hqc/              # gitlab.com/pqc-hqc/hqc (x86_64/avx256); ref/ is a git submodule
     ├── frodo/            # Microsoft/PQCrypto-LWEKE (FAST AVX2); ref/ is a git submodule
     ├── mceliece/         # lib.mceliece.org (libmceliece, tarball); build_libs.sh fetches+builds
-    └── bat/              # pornin/BAT (NTRU-based, AVX2); ref/ is a git submodule
+    ├── bat/              # pornin/BAT (NTRU-based, AVX2); ref/ is a git submodule
+    └── ntru/             # jschanck/ntru (AVX2 + per-set asm codegen); ref/ is a git submodule
 ```
 
 `SO_PATHS[]` in `main.c` is **auto-generated** from `ALL_SOS` in `Makefile` into
@@ -137,6 +138,16 @@ The shim adapts upstream API conventions to the KEM contract. Notes:
   serves all ops. The generic `keygen.c`/`codec.c` dispatch into every q-variant, so
   each `.so` links all three `kem<q>.o` (only `api_<q>_<n>.o` is per-set). The
   BAT-128-256 toy set is omitted; keygen is NTRU-style and slow, so `iters` is low.
+- **NTRU** (jschanck/ntru) renames the NIST API via `CRYPTO_NAMESPACE` to
+  `ntru_{keypair,enc,dec}` (set with `-DCRYPTO_NAMESPACE(s)=ntru_##s`); the shim
+  re-exports the bare names. The **AVX2 build needs a codegen step**: the `.s`
+  assembly and `poly_s3_inv.c` are generated per set by the upstream `make asm`
+  (python in `asmgen/` + `bitpermutations`, with a matching `NTRU_NAMESPACE=ntru_`).
+  The scheme Makefile runs that codegen then globs each set's `*.c` (minus
+  `cpucycles.c`) plus the generated `*.s` into one `.so` — the per-set C source list
+  differs (HRSS has no `crypto_sort_int32.c`/`poly_lift.c`). Codegen writes into the
+  submodule tree, so `ntru/ref` carries `ignore = "dirty"`; `make clean` runs the
+  upstream `clean`. `randombytes.c` is `/dev/urandom`-backed. pk == ct for all sets.
 - **HQC** (gitlab.com/pqc-hqc/hqc) exports the *bare* NIST API (`crypto_kem_*`) from
   its own objects, so the shim does **not** wrap them — the loader resolves HQC's
   directly, and `RTLD_LOCAL` isolates the three variants' identical symbols. The shim

@@ -1,7 +1,7 @@
 # Licensed under CC BY 4.0: https://creativecommons.org/licenses/by/4.0/
 license: CC-BY-4.0
 attribution: Thom Wiggers / PQShield
-date: '2026-06-25T21:10:45Z'
+date: '2026-06-26T07:40:18Z'
 cpu:
   model: 12th Gen Intel(R) Core(TM) i7-12650H
   cores: 8
@@ -20,3 +20,4 @@ sources:
   hqc: https://gitlab.com/pqc-hqc/hqc.git@161cd4fdf6b4a5198cf40b3a1243f9f27f13e03d
   mceliece: https://lib.mceliece.org/libmceliece-20260622.tar.gz
   mlkem: https://github.com/pq-code-package/mlkem-native.git@2d1cc90f71bd59617062844e874ac6e70868e1f8
+  ntru: https://github.com/jschanck/ntru@6d96ed3746000b6497392a425712fe483988fc80

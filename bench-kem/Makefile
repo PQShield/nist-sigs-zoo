@@ -8,9 +8,10 @@ HQC_SOS     = $(addprefix schemes/hqc/build/,     hqc1.so hqc3.so hqc5.so)
 FRODO_SOS   = $(addprefix schemes/frodo/build/,   frodo640aes.so frodo640shake.so frodo976aes.so frodo976shake.so frodo1344aes.so frodo1344shake.so)
 MCELIECE_SOS= $(addprefix schemes/mceliece/build/, mceliece348864.so mceliece460896.so mceliece6688128.so mceliece6960119.so mceliece8192128.so)
 BAT_SOS     = $(addprefix schemes/bat/build/,      bat257512.so bat7691024.so)
+NTRU_SOS    = $(addprefix schemes/ntru/build/,     ntruhps2048509.so ntruhps2048677.so ntruhps4096821.so ntruhrss701.so)
 
-ALL_SOS     = $(CLASSIC_SOS) $(MLKEM_SOS) $(HQC_SOS) $(FRODO_SOS) $(MCELIECE_SOS) $(BAT_SOS)
-SCHEME_DIRS = classic mlkem hqc frodo mceliece bat
+ALL_SOS     = $(CLASSIC_SOS) $(MLKEM_SOS) $(HQC_SOS) $(FRODO_SOS) $(MCELIECE_SOS) $(BAT_SOS) $(NTRU_SOS)
+SCHEME_DIRS = classic mlkem hqc frodo mceliece bat ntru
 STAMPS      = $(addprefix schemes/, $(addsuffix /.stamp, $(SCHEME_DIRS)))
 
 .PHONY: all clean
@@ -25,6 +26,7 @@ schemes/hqc/.stamp:     schemes/hqc/Makefile   schemes/hqc/shim_template.c   sch
 schemes/frodo/.stamp:   schemes/frodo/Makefile schemes/frodo/shim_template.c schemes/frodo/params.tsv
 schemes/mceliece/.stamp: schemes/mceliece/Makefile schemes/mceliece/shim_template.c schemes/mceliece/params.tsv schemes/mceliece/build_libs.sh
 schemes/bat/.stamp:     schemes/bat/Makefile   schemes/bat/shim_template.c   schemes/bat/params.tsv
+schemes/ntru/.stamp:    schemes/ntru/Makefile  schemes/ntru/shim_template.c  schemes/ntru/params.tsv
 
 # Shared recipe for every scheme stamp.
 $(STAMPS): schemes/%/.stamp:
@@ -38,6 +40,7 @@ $(HQC_SOS):     schemes/hqc/.stamp
 $(FRODO_SOS):   schemes/frodo/.stamp
 $(MCELIECE_SOS): schemes/mceliece/.stamp
 $(BAT_SOS):     schemes/bat/.stamp
+$(NTRU_SOS):    schemes/ntru/.stamp
 
 # Generate the SO path list included by main.c.
 $(BUILD)/so_paths.h: Makefile | $(BUILD)

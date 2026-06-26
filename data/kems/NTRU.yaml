@@ -1,0 +1,47 @@
+name: NTRU
+website: https://ntru.org/
+category: Lattices
+assumption: NTRU
+status: Round-3 finalist
+info: Merged NTRU-HPS and NTRU-HRSS submission. A NIST round-3 finalist, not selected for standardisation. AVX2 reference from github.com/jschanck/ntru; public key and ciphertext are the same size.
+parametersets:
+- name: ntruhps2048509
+  level: 1
+  pk: 699
+  ct: 699
+  keygen_cycles: 70838
+  encaps_cycles: 17510
+  decaps_cycles: 14285
+  keygen_us: 47.3
+  encaps_us: 11.7
+  decaps_us: 9.6
+- name: ntruhps2048677
+  level: 3
+  pk: 930
+  ct: 930
+  keygen_cycles: 133829
+  encaps_cycles: 27262
+  decaps_cycles: 24483
+  keygen_us: 89.4
+  encaps_us: 18.2
+  decaps_us: 16.4
+- name: ntruhps4096821
+  level: 5
+  pk: 1230
+  ct: 1230
+  keygen_cycles: 169617
+  encaps_cycles: 29194
+  decaps_cycles: 28942
+  keygen_us: 113.3
+  encaps_us: 19.5
+  decaps_us: 19.3
+- name: ntruhrss701
+  level: 1
+  pk: 1138
+  ct: 1138
+  keygen_cycles: 98205
+  encaps_cycles: 13163
+  decaps_cycles: 19796
+  keygen_us: 65.6
+  encaps_us: 8.8
+  decaps_us: 13.2
