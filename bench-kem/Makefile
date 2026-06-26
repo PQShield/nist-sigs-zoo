@@ -49,7 +49,7 @@ $(NTRUP_SOS):   schemes/ntruprime/.stamp
 $(BUILD)/so_paths.h: Makefile | $(BUILD)
 	@printf '"%s",\n' $(ALL_SOS) > $@
 
-$(BUILD)/main.o: main.c harness.h loader.h scheme.h $(BUILD)/so_paths.h | $(BUILD)
+$(BUILD)/main.o: main.c harness.h ../bench-common/harness_common.h loader.h scheme.h $(BUILD)/so_paths.h | $(BUILD)
 	$(CC) $(CFLAGS) -I$(BUILD) -c $< -o $@
 
 $(BUILD)/loader.o: loader.c loader.h scheme.h | $(BUILD)

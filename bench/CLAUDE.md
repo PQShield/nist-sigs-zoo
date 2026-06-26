@@ -32,7 +32,8 @@ Dependencies: C compiler (cc), make, git submodules initialized.
 bench/
 ├── scheme.h              # bench_scheme_info_t — metadata type used by shims
 ├── loader.h / loader.c   # dlopen loader: bench_scheme_t, bench_load/unload
-├── harness.h             # cycle counter + wall-clock timer + stats + bench_run()
+├── harness.h             # sig bench_run() + columns; shares cycle counter/stats/timing
+│                         #   with bench-kem/ via ../bench-common/harness_common.h
 ├── main.c                # includes build/so_paths.h + filter logic + main loop
 ├── gen_shims.py          # shim generator: substitutes @COLNAME@ tokens from params.tsv
 ├── Makefile              # builds ./bench; generates build/so_paths.h from ALL_SOS
@@ -86,7 +87,14 @@ int crypto_sign_verify(const uint8_t *sig, size_t siglen,
 
 ## Harness (`harness.h`)
 
-- **Cycle counter**: `rdtsc` + `lfence` on x86/x86-64; `cntvct_el0` on aarch64.
+- **Cycle counter**: prefers the core's **real** `CPU_CYCLES` PMC via `rdpmc` (no
+  root; `perf_event` mmap page + kernel-assigned index, avoiding the hybrid P/E-core
+  rdpmc bug), falling back to `rdtsc`+`lfence` (x86, a constant-rate off-core clock,
+  not real cycles) / `cntvct_el0` (aarch64) when perf/rdpmc is unavailable or
+  `BENCH_CYCLES=tsc`. User-space cycles only (kernel excluded). The worker thread is
+  pinned to one core (`BENCH_CPU`, default 0). The counter + stats + timing macro
+  live in the shared `../bench-common/harness_common.h` (used by `bench-kem/` too);
+  the active counter is printed as `# cyclecounter:` and recorded in the env notes.
 - **Wall clock**: `clock_gettime(CLOCK_MONOTONIC)` bracketing each operation.
 - **Stats**: median over `BENCH_ITER` (default 1000) iterations.
   Override at build time: `make BENCH_ITER=200`.
@@ -176,6 +184,9 @@ Matching is case-insensitive and ignores non-alphanumeric characters, so `mldsa`
 
 ## Notes
 
-- For stable numbers: disable turbo boost, pin to one core, performance governor.
-- `rdtsc` measures reference cycles (constant TSC rate on modern Intel/AMD), not execution cycles.
+- For stable numbers: disable turbo boost, performance governor (the harness
+  already pins to one core and reads real core cycles via the PMC when available).
+- The `rdpmc` PMC path reports real core cycles; the `rdtsc` fallback reports
+  reference cycles (constant TSC rate on modern Intel/AMD), which diverge from real
+  cycles under turbo/frequency scaling.
 - Message is a 32-byte zero buffer. Content does not affect cycle counts for lattice/hash schemes.

@@ -31,7 +31,8 @@ ML-KEM builds with AVX2 (`-march=native`).
 bench-kem/
 ├── scheme.h              # bench_scheme_info_t — name, pk/sk/ct/ss sizes, iters
 ├── loader.h / loader.c   # dlopen loader: resolves crypto_kem_keypair/enc/dec
-├── harness.h             # cycle counter + timer + stats + bench_run() + correctness check
+├── harness.h             # KEM bench_run() + columns + round-trip check; shares cycle
+│                         #   counter/stats/timing via ../bench-common/harness_common.h
 ├── main.c                # includes build/so_paths.h + filter logic + large-stack thread
 ├── gen_shims.py          # shim generator: substitutes @COLNAME@ tokens from params.tsv
 ├── Makefile              # builds ./bench-kem; generates build/so_paths.h from ALL_SOS
