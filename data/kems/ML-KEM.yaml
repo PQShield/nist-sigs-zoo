@@ -8,29 +8,29 @@ parametersets:
   level: 1
   pk: 800
   ct: 768
-  keygen_cycles: 11976
-  encaps_cycles: 14000
-  decaps_cycles: 17664
-  keygen_us: 8.0
-  encaps_us: 9.3
-  decaps_us: 11.8
+  keygen_cycles: 19160
+  encaps_cycles: 22295
+  decaps_cycles: 27974
+  keygen_us: 6.6
+  encaps_us: 7.7
+  decaps_us: 9.7
 - name: ML-KEM-768
   level: 3
   pk: 1184
   ct: 1088
-  keygen_cycles: 21347
-  encaps_cycles: 23120
-  decaps_cycles: 28905
-  keygen_us: 14.3
-  encaps_us: 15.4
-  decaps_us: 19.3
+  keygen_cycles: 32535
+  encaps_cycles: 35333
+  decaps_cycles: 44391
+  keygen_us: 11.6
+  encaps_us: 12.6
+  decaps_us: 15.9
 - name: ML-KEM-1024
   level: 5
   pk: 1568
   ct: 1568
-  keygen_cycles: 28435
-  encaps_cycles: 30913
-  decaps_cycles: 38128
-  keygen_us: 19.0
-  encaps_us: 20.7
-  decaps_us: 25.5
+  keygen_cycles: 46934
+  encaps_cycles: 51004
+  decaps_cycles: 63066
+  keygen_us: 17.3
+  encaps_us: 18.5
+  decaps_us: 22.7

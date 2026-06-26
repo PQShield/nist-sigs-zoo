@@ -72,7 +72,15 @@ int crypto_kem_dec(uint8_t *ss, const uint8_t *ct, const uint8_t *sk);
 
 ## Harness (`harness.h`)
 
-- **Cycle counter**: `rdtsc` + `lfence` on x86/x86-64; `cntvct_el0` on aarch64.
+- **Cycle counter**: prefers the core's **real** `CPU_CYCLES` PMC via `rdpmc` (no
+  root) — a `perf_event_open(CPU_CYCLES)` is opened per worker thread, its mmap page
+  read with the seqlock + kernel-assigned counter index (avoids the hybrid P/E-core
+  rdpmc index bug). Counts user-space cycles (kernel excluded — forced by
+  `perf_event_paranoid >= 2`). Falls back to `rdtsc`+`lfence` (x86, a constant-rate
+  *off-core* clock, **not** real cycles) / `cntvct_el0` (aarch64) when perf/rdpmc is
+  unavailable or `BENCH_CYCLES=tsc`. The worker thread is pinned to one core
+  (`BENCH_CPU`, default 0) — required for the per-core PMC, also steadier timing. The
+  active counter is printed as `# cyclecounter: …` and recorded in the env `notes`.
 - **Wall clock**: `clock_gettime(CLOCK_MONOTONIC)` bracketing each operation.
 - **Stats**: median over `BENCH_ITER` (default 1000) iterations.
   Override at build time `make BENCH_ITER=200` or at run time `BENCH_ITER=200 ./bench-kem`.
@@ -196,4 +204,7 @@ The `/kems/` page renders the timings (table columns) and the environment panel.
 ## Notes
 
 - For stable numbers: disable turbo boost, pin to one core, performance governor.
-- `rdtsc` measures reference cycles (constant TSC rate on modern Intel/AMD).
+- The `rdpmc` PMC path reports **real core cycles**; the `rdtsc` fallback reports
+  reference cycles (constant TSC rate on modern Intel/AMD), which diverge from real
+  cycles under turbo/frequency scaling. `bench/` (signatures) still uses `rdtsc`, so
+  its cycle column is not directly comparable to the KEM one (µs still are).

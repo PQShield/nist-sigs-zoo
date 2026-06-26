@@ -1,0 +1,60 @@
+# pq-kems benchmark results
+# date:         2026-06-26T12:43:44Z
+# host:         development
+# os:           Debian GNU/Linux 13 (trixie)
+# kernel:       6.19.11-zabbly+
+# cpu:          12th Gen Intel(R) Core(TM) i7-12650H
+# cores:        8 (threads/core: 2)
+# max_freq_mhz: 4600 (cur: 2260 MHz)
+# governor:     powersave
+# turbo:        enabled
+# flags:        fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf tsc_known_freq pni pclmulqdq dtes64 monitor ds_cpl vmx smx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb ssbd ibrs ibpb stibp ibrs_enhanced tpr_shadow flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid rdseed adx smap clflushopt clwb intel_pt sha_ni xsaveopt xsavec xgetbv1 xsaves split_lock_detect user_shstk avx_vnni dtherm ida arat pln pts hwp hwp_notify hwp_act_window hwp_epp hwp_pkg_req hfi vnmi umip pku ospke waitpkg gfni vaes vpclmulqdq rdpid movdiri movdir64b fsrm md_clear serialize arch_lbr ibt flush_l1d arch_capabilities
+#
+# compiler:     cc (Debian 14.2.0-19) 14.2.0
+# openssl:      OpenSSL 3.6.2 7 Apr 2026 (Library: OpenSSL 3.6.2 7 Apr 2026)
+# sources:
+#   schemes/bat/ref: https://github.com/pornin/BAT@8280af7c9d4d5cdd9a70914f72a5f0ad774c7b8d
+#   schemes/frodo/ref: https://github.com/Microsoft/PQCrypto-LWEKE@7a4e7219d06305e16aef734213001cd8fefbcc14
+#   schemes/hqc/ref: https://gitlab.com/pqc-hqc/hqc.git@161cd4fdf6b4a5198cf40b3a1243f9f27f13e03d
+#   schemes/mlkem/ref: https://github.com/pq-code-package/mlkem-native.git@2d1cc90f71bd59617062844e874ac6e70868e1f8
+#   schemes/ntru/ref: https://github.com/jschanck/ntru@6d96ed3746000b6497392a425712fe483988fc80
+#   schemes/mceliece: https://lib.mceliece.org/libmceliece-20260622.tar.gz
+#   schemes/ntruprime: https://libntruprime.cr.yp.to/libntruprime-20241021.tar.gz
+#
+# cyclecounter: rdpmc CPU_CYCLES (real core cycles, user-space)
+scheme                       iters    keygen (cyc)  keygen (us)    encaps (cyc)  encaps (us)    decaps (cyc)  decaps (us)      ok
+------                       -----    ------------  -----------    ------------  -----------    ------------  -----------      --
+ECDH-X25519                   1000          148848        59.6          273039       106.3          131281        47.9     yes
+ECDH-X448                     1000          684050       237.6         1238959       431.3          557509       201.1     yes
+ECDH-P256                     1000           54138        25.9          270764       128.8          223212       106.1     yes
+ECDH-P384                     1000         2056676       693.3         4082252      1383.5         2086349       697.0     yes
+ML-KEM-512                    1000           19160         6.6           22295         7.7           27974         9.7     yes
+ML-KEM-768                    1000           32535        11.6           35333        12.6           44391        15.9     yes
+ML-KEM-1024                   1000           46934        17.3           51004        18.5           63066        22.7     yes
+HQC-128                       1000           76505        28.1          146775        53.1          331203       120.7     yes
+HQC-192                       1000          194576        69.1          358163       125.6          718073       255.7     yes
+HQC-256                       1000          400465       142.5          744076       263.2         1440145       510.3     yes
+FrodoKEM-640-AES              1000          900572       325.4         1085656       392.3         1082248       391.0     yes
+FrodoKEM-640-SHAKE            1000         3034913      1082.7         3225731      1171.9         3224470      1163.3     yes
+FrodoKEM-976-AES              1000         1767798       650.7         2005980       746.1         1977994       731.2     yes
+FrodoKEM-976-SHAKE            1000         6500964      2375.4         6770381      2469.8         6744288      2461.6     yes
+FrodoKEM-1344-AES             1000         3045809      1097.6         3335477      1215.5         3299204      1186.3     yes
+FrodoKEM-1344-SHAKE           1000        11368599      4165.3        11769227      4360.2        11726834      4316.2     yes
+mceliece348864                  30        48837867     16764.9           39732        13.1          142348        48.9     yes
+mceliece460896                  30       141774683     52633.0           95556        30.7          294884       105.4     yes
+mceliece6688128                 30       378022283    130874.4          183678        65.4          335428       116.9     yes
+mceliece6960119                 30       269164970     93640.8          207199        83.8          318692       125.4     yes
+mceliece8192128                 30       340582164    124599.7          231510        79.7          340673       116.6     yes
+BAT-257-512                    200        18164782      6323.6           10715         4.3           72279        25.5     yes
+BAT-769-1024                   200       105676048     37598.8           28998        11.6          166515        59.4     yes
+ntruhps2048509                1000          109342        46.0           14348        11.4           25812         9.2     yes
+ntruhps2048677                1000          188472        76.3           20511        15.6           38444        13.7     yes
+ntruhps4096821                1000          268341       107.7           23740        18.3           50279        18.1     yes
+ntruhrss701                   1000          190825        70.4           16561         9.5           40846        14.2     yes
+sntrup653                     1000          599403       224.6           48892        18.2           56432        21.0     yes
+sntrup761                     1000          777815       274.4           54099        18.8           59782        20.8     yes
+sntrup857                     1000          973600       353.5           64558        23.1           75678        27.2     yes
+sntrup953                     1000         1163140       418.1           70803        25.3           80362        28.8     yes
+sntrup1013                    1000         1369031       490.1           72817        26.0           82330        29.5     yes
+sntrup1277                    1000         1988664       705.2           92113        32.3          103395        36.9     yes
+

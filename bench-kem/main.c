@@ -1,3 +1,4 @@
+#define _GNU_SOURCE   /* for sched_setaffinity / CPU_SET (used via harness.h) */
 #include <stdio.h>
 #include <string.h>
 #include <pthread.h>
@@ -68,6 +69,13 @@ static void bench_run_large_stack(const bench_scheme_t *s) {
 int main(int argc, char **argv) {
     int nfilters = argc - 1;
     char **filters = argv + 1;
+
+    /* Probe the cycle counter once up front and record which one is in use, so
+     * the results file documents whether cycles are real (rdpmc) or reference
+     * (rdtsc). The per-scheme threads re-open their own counter. */
+    cycles_setup();
+    printf("# cyclecounter: %s\n", cycles_counter_name());
+    cycles_teardown();
 
     bench_print_header();
 

@@ -143,11 +143,13 @@ def write_benchmark_env(meta: dict, path: Path) -> None:
     env["kernel"] = meta.get("kernel", "")
     env["compiler"] = meta.get("compiler", "")
     env["openssl"] = meta.get("openssl", "")
+    counter = meta.get("cyclecounter", "rdtsc + lfence (constant TSC rate, not execution cycles)")
     env["notes"] = (
         "KEM keygen/encapsulation/decapsulation. "
         "Median over 1000 iterations (fewer for slow schemes). "
-        "Cycle counter: rdtsc + lfence (constant TSC rate, not execution cycles). "
-        "Wall clock: clock_gettime(CLOCK_MONOTONIC)."
+        f"Cycle counter: {counter}. "
+        "Wall clock: clock_gettime(CLOCK_MONOTONIC). "
+        "Benchmark thread pinned to one core."
     )
 
     sources = meta.get("_sources", {})
