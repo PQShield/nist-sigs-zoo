@@ -43,7 +43,8 @@ bench-kem/
     ├── frodo/            # Microsoft/PQCrypto-LWEKE (FAST AVX2); ref/ is a git submodule
     ├── mceliece/         # lib.mceliece.org (libmceliece, tarball); build_libs.sh fetches+builds
     ├── bat/              # pornin/BAT (NTRU-based, AVX2); ref/ is a git submodule
-    └── ntru/             # jschanck/ntru (AVX2 + per-set asm codegen); ref/ is a git submodule
+    ├── ntru/             # jschanck/ntru (AVX2 + per-set asm codegen); ref/ is a git submodule
+    └── ntruprime/        # libntruprime.cr.yp.to (tarball); build_libs.sh fetches+builds (Streamlined only)
 ```
 
 `SO_PATHS[]` in `main.c` is **auto-generated** from `ALL_SOS` in `Makefile` into
@@ -148,6 +149,14 @@ The shim adapts upstream API conventions to the KEM contract. Notes:
   differs (HRSS has no `crypto_sort_int32.c`/`poly_lift.c`). Codegen writes into the
   submodule tree, so `ntru/ref` carries `ignore = "dirty"`; `make clean` runs the
   upstream `clean`. `randombytes.c` is `/dev/urandom`-backed. pk == ct for all sets.
+- **NTRU Prime** (libntruprime.cr.yp.to) is the libmceliece sibling — a Bernstein
+  tarball library packaging the SUPERCOP-optimised **Streamlined** NTRU Prime
+  (`sntrup*`); NTRU LPRime is not in it and is omitted. `build_libs.sh` mirrors the
+  McEliece one: fetch libntruprime + librandombytes (pinned + SHA-256), configure
+  `--no-valgrind`, build only `package/lib/libntruprime.a`, harvest, static-link into
+  each shim. AVX2 is selected at runtime by the library's IFUNC dispatch. The shim
+  wraps the IFUNC-dispatched `ntruprime_kem_<set>_{keypair,enc,dec}` (all return void
+  → return 0; enc/dec already match the NIST arg order).
 - **HQC** (gitlab.com/pqc-hqc/hqc) exports the *bare* NIST API (`crypto_kem_*`) from
   its own objects, so the shim does **not** wrap them — the loader resolves HQC's
   directly, and `RTLD_LOCAL` isolates the three variants' identical symbols. The shim

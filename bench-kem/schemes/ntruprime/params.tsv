@@ -1,0 +1,11 @@
+# Streamlined NTRU Prime via libntruprime.cr.yp.to (Bernstein's clean library
+# packaging the SUPERCOP-optimised code; AVX2 via runtime IFUNC dispatch).
+# NTRU LPRime is not provided by libntruprime and is omitted.
+# Columns: file, name, pk, sk, ct, ss, iters, set (libntruprime symbol infix ntruprime_kem_<set>_*)
+file	name	pk	sk	ct	ss	iters	set
+sntrup653	sntrup653	994	1518	897	32	0	sntrup653
+sntrup761	sntrup761	1158	1763	1039	32	0	sntrup761
+sntrup857	sntrup857	1322	1999	1184	32	0	sntrup857
+sntrup953	sntrup953	1505	2254	1349	32	0	sntrup953
+sntrup1013	sntrup1013	1623	2417	1455	32	0	sntrup1013
+sntrup1277	sntrup1277	2067	3059	1847	32	0	sntrup1277

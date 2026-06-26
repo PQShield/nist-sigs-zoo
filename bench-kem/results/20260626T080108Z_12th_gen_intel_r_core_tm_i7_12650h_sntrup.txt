@@ -1,0 +1,33 @@
+# pq-kems benchmark results
+# date:         2026-06-26T08:01:08Z
+# host:         development
+# os:           Debian GNU/Linux 13 (trixie)
+# kernel:       6.19.11-zabbly+
+# cpu:          12th Gen Intel(R) Core(TM) i7-12650H
+# cores:        8 (threads/core: 2)
+# max_freq_mhz: 4600 (cur: 3147 MHz)
+# governor:     powersave
+# turbo:        enabled
+# flags:        fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf tsc_known_freq pni pclmulqdq dtes64 monitor ds_cpl vmx smx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb ssbd ibrs ibpb stibp ibrs_enhanced tpr_shadow flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid rdseed adx smap clflushopt clwb intel_pt sha_ni xsaveopt xsavec xgetbv1 xsaves split_lock_detect user_shstk avx_vnni dtherm ida arat pln pts hwp hwp_notify hwp_act_window hwp_epp hwp_pkg_req hfi vnmi umip pku ospke waitpkg gfni vaes vpclmulqdq rdpid movdiri movdir64b fsrm md_clear serialize arch_lbr ibt flush_l1d arch_capabilities
+#
+# compiler:     cc (Debian 14.2.0-19) 14.2.0
+# openssl:      OpenSSL 3.6.2 7 Apr 2026 (Library: OpenSSL 3.6.2 7 Apr 2026)
+# sources:
+#   schemes/bat/ref: https://github.com/pornin/BAT@8280af7c9d4d5cdd9a70914f72a5f0ad774c7b8d
+#   schemes/frodo/ref: https://github.com/Microsoft/PQCrypto-LWEKE@7a4e7219d06305e16aef734213001cd8fefbcc14
+#   schemes/hqc/ref: https://gitlab.com/pqc-hqc/hqc.git@161cd4fdf6b4a5198cf40b3a1243f9f27f13e03d
+#   schemes/mlkem/ref: https://github.com/pq-code-package/mlkem-native.git@2d1cc90f71bd59617062844e874ac6e70868e1f8
+#   schemes/ntru/ref: https://github.com/jschanck/ntru@6d96ed3746000b6497392a425712fe483988fc80
+#   schemes/mceliece: https://lib.mceliece.org/libmceliece-20260622.tar.gz
+#   schemes/ntruprime: https://libntruprime.cr.yp.to/libntruprime-20241021.tar.gz
+# filter:       sntrup
+#
+scheme                       iters    keygen (cyc)  keygen (us)    encaps (cyc)  encaps (us)    decaps (cyc)  decaps (us)      ok
+------                       -----    ------------  -----------    ------------  -----------    ------------  -----------      --
+sntrup653                     1000          321577       214.9           26252        17.5           30234        20.2     yes
+sntrup761                     1000          436417       291.5           29965        20.0           33220        22.2     yes
+sntrup857                     1000          513967       343.2           33509        22.4           39260        26.2     yes
+sntrup953                     1000          667685       445.9           40251        26.9           45591        30.5     yes
+sntrup1013                    1000          737130       492.2           38176        25.5           42950        28.7     yes
+sntrup1277                    1000         1059396       707.5           47933        32.0           54786        36.6     yes
+

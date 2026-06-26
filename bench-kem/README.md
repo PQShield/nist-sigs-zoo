@@ -32,11 +32,13 @@ Output columns: `keygen`, `encaps`, `decaps` in cycles and µs, plus an `ok` col
 | McEliece| `lib.mceliece.org` (libmceliece, tarball)   | 348864 / 460896 / 6688128 / 6960119 / 8192128 |
 | BAT     | `pornin/BAT` (NTRU-based, avx2)              | BAT-257-512, BAT-769-1024 |
 | NTRU    | `jschanck/ntru` (avx2 + asm codegen)        | ntruhps2048509 / 2048677 / 4096821, ntruhrss701 |
+| NTRU Prime | `libntruprime.cr.yp.to` (tarball, avx2)  | sntrup653 / 761 / 857 / 953 / 1013 / 1277 (Streamlined) |
 | ECDH    | OpenSSL 3 (EVP)                             | X25519, X448, P-256, P-384 |
 
-Classic McEliece is fetched and built (with its librandombytes dependency)
-by `schemes/mceliece/build_libs.sh`, which `make` runs automatically — it needs
-network access on the first build. Everything else uses git submodules.
+Classic McEliece and NTRU Prime are tarball libraries (libmceliece / libntruprime),
+each fetched and built with its librandombytes dependency by the scheme's
+`build_libs.sh`, which `make` runs automatically — they need network access on the
+first build. Everything else uses git submodules.
 
 Each KEM lives under `schemes/<name>/`; see `CLAUDE.md` for the contract and how
 to add one.
