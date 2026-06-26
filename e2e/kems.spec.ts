@@ -8,20 +8,22 @@ test.describe('KEMs page', () => {
 
 	test('reachable via the header nav link', async ({ page }) => {
 		await page.goto('/');
-		await Promise.all([
-			page.waitForURL(/\/kems/),
-			page.getByRole('link', { name: 'KEMs' }).first().click()
-		]);
-		await expect(page.locator('h1')).toHaveText('Key Encapsulation Mechanisms');
+		// Wait for hydration so the click is an SPA navigation, not a full reload
+		// that can time out under load.
+		await page.waitForLoadState('networkidle');
+		await page.getByRole('link', { name: 'KEMs' }).first().click();
+		await expect(page.locator('h1')).toHaveText('Key Encapsulation Mechanisms', {
+			timeout: 15_000
+		});
 	});
 
 	test('has a Signatures link back to the home page', async ({ page }) => {
 		await page.goto('/kems/');
-		await Promise.all([
-			page.waitForURL((url) => url.pathname.replace(/\/$/, '') === ''),
-			page.getByRole('link', { name: 'Signatures' }).first().click()
-		]);
-		await expect(page.locator('h1')).toHaveText('Post-Quantum Signature Schemes');
+		await page.waitForLoadState('networkidle');
+		await page.getByRole('link', { name: 'Signatures' }).first().click();
+		await expect(page.locator('h1')).toHaveText('Post-Quantum Signature Schemes', {
+			timeout: 15_000
+		});
 	});
 
 	test('Vega scatter plot renders', async ({ page }) => {

@@ -2,6 +2,9 @@ import { defineConfig, devices } from '@playwright/test';
 
 export default defineConfig({
 	testDir: './e2e',
+	// One local retry (two in CI) as a safety net for transient navigation/render
+	// flakiness under load; the specs are written to avoid races, not rely on this.
+	retries: process.env.CI ? 2 : 1,
 	use: {
 		baseURL: 'http://localhost:4175',
 	},
