@@ -45,8 +45,10 @@ test.describe('KEMs page', () => {
 		await page.goto('/kems/');
 		await expect(page.locator('table')).toBeVisible();
 		await expect(page.getByText('33 parameter sets')).toBeVisible();
+		// The parameter-set cell may display a shortened name (scheme prefix
+		// stripped), but always carries the full name as its title attribute.
 		for (const name of ['ML-KEM-768', 'HQC-256', 'FrodoKEM-640-AES', 'mceliece6960119', 'BAT-769-1024', 'ntruhps2048509', 'sntrup761', 'X25519', 'P-256']) {
-			await expect(page.getByText(name, { exact: true })).toBeVisible();
+			await expect(page.locator(`td[title="${name}"]`)).toBeVisible();
 		}
 	});
 

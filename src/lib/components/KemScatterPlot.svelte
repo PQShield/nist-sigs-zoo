@@ -1,14 +1,39 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { themeStore } from '$lib/themeStore';
-	import type { KemParameterSet, NistLevel } from '$lib/types';
+	import type { KemAxisField, KemParameterSet, NistLevel, ScaleType } from '$lib/types';
 
-	let { rows }: { rows: KemParameterSet[] } = $props();
+	let {
+		rows,
+		xField = 'pk' as KemAxisField,
+		yField = 'ct' as KemAxisField,
+		xScale = 'log' as ScaleType,
+		yScale = 'log' as ScaleType,
+	}: {
+		rows: KemParameterSet[];
+		xField?: KemAxisField;
+		yField?: KemAxisField;
+		xScale?: ScaleType;
+		yScale?: ScaleType;
+	} = $props();
 
-	// Shape by family. KEMs span few families, so shape directly by category
-	// (no "Standardized" star promotion — it would collapse ML-KEM and HQC
-	// onto the same shape and leave the plot with only two visual classes).
+	const AXIS_TITLES: Record<KemAxisField, string> = {
+		pk: 'Public key (bytes)',
+		ct: 'Ciphertext (bytes)',
+		pkPlusCt: 'pk + ct (bytes)',
+		keygenCycles: 'Keygen (cycles)',
+		encapsCycles: 'Encapsulation (cycles)',
+		decapsCycles: 'Decapsulation (cycles)',
+		keygenUs: 'Keygen (µs)',
+		encapsUs: 'Encapsulation (µs)',
+		decapsUs: 'Decapsulation (µs)',
+	};
+
+	const STAR = 'M0,-1L0.224,-0.309L0.951,-0.309L0.363,0.118L0.588,0.809L0,0.382L-0.588,0.809L-0.363,0.118L-0.951,-0.309L-0.224,-0.309Z';
+
+	// Shape by family, except FIPS-standardized KEMs (currently just ML-KEM) get a star.
 	const CATEGORY_SHAPES: Record<string, string> = {
+		FIPS: STAR,
 		Lattices: 'square',
 		'Code-based': 'cross',
 		Multivariate: 'triangle-up',
@@ -16,6 +41,11 @@
 		'Pre-Quantum': 'triangle-left',
 		Other: 'triangle-right'
 	};
+
+	function shapeKey(d: KemParameterSet): string {
+		if (d.status === 'FIPS') return 'FIPS';
+		return CATEGORY_SHAPES[d.category] ? d.category : 'Other';
+	}
 
 	function securityStatus(d: KemParameterSet): string {
 		if (d.broken && !d.classical) return 'broken';
@@ -56,6 +86,12 @@
 				'pk (bytes)': d.pk.toLocaleString(),
 				'ct (bytes)': d.ct.toLocaleString(),
 				'pk+ct (bytes)': d.pkPlusCt.toLocaleString(),
+				...(d.keygenCycles > 0 ? { 'Keygen (cycles)': d.keygenCycles.toLocaleString() } : {}),
+				...(d.encapsCycles > 0 ? { 'Encapsulation (cycles)': d.encapsCycles.toLocaleString() } : {}),
+				...(d.decapsCycles > 0 ? { 'Decapsulation (cycles)': d.decapsCycles.toLocaleString() } : {}),
+				...(d.keygenUs != null ? { 'Keygen (µs)': d.keygenUs.toLocaleString() } : {}),
+				...(d.encapsUs != null ? { 'Encapsulation (µs)': d.encapsUs.toLocaleString() } : {}),
+				...(d.decapsUs != null ? { 'Decapsulation (µs)': d.decapsUs.toLocaleString() } : {}),
 				...(notes ? { Notes: notes } : {})
 			};
 
@@ -64,7 +100,14 @@
 				parameterset: d.parameterset,
 				pk: d.pk,
 				ct: d.ct,
-				shapeKey: CATEGORY_SHAPES[d.category] ? d.category : 'Other',
+				pkPlusCt: d.pkPlusCt,
+				keygenCycles: d.keygenCycles > 0 ? d.keygenCycles : null,
+				encapsCycles: d.encapsCycles > 0 ? d.encapsCycles : null,
+				decapsCycles: d.decapsCycles > 0 ? d.decapsCycles : null,
+				keygenUs: d.keygenUs,
+				encapsUs: d.encapsUs,
+				decapsUs: d.decapsUs,
+				shapeKey: shapeKey(d),
 				level: levelLabel(d.level),
 				security: securityStatus(d),
 				tooltip
@@ -124,6 +167,10 @@
 					],
 					mark: { type: 'point', filled: true, size: 120 },
 					encoding: {
+						size: {
+							condition: { test: "datum.shapeKey === 'FIPS'", value: 200 },
+							value: 120
+						},
 						color: {
 							field: 'level',
 							type: 'nominal',
@@ -151,16 +198,16 @@
 			],
 			encoding: {
 				x: {
-					field: 'pk',
+					field: xField,
 					type: 'quantitative',
-					scale: { type: 'log' },
-					axis: { title: 'Public key (bytes)', grid: true, format: 's' }
+					scale: { type: xScale },
+					axis: { title: AXIS_TITLES[xField], grid: true, format: 's' }
 				},
 				y: {
-					field: 'ct',
+					field: yField,
 					type: 'quantitative',
-					scale: { type: 'log' },
-					axis: { title: 'Ciphertext (bytes)', grid: true, format: 's' }
+					scale: { type: yScale },
+					axis: { title: AXIS_TITLES[yField], grid: true, format: 's' }
 				},
 				tooltip: { field: 'tooltip', type: 'nominal' }
 			},
@@ -193,6 +240,7 @@
 	$effect(() => {
 		rows;
 		$themeStore;
+		xField; yField; xScale; yScale;
 		render();
 	});
 </script>
