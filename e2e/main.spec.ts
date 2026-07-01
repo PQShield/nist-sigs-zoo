@@ -31,11 +31,11 @@ test.describe('Main page', () => {
 
 	test('navigating "Advanced graph →" lands on advanced page', async ({ page }) => {
 		await page.goto('/');
-		await Promise.all([
-			page.waitForURL(/\/advanced/),
-			page.getByRole('link', { name: 'Advanced graph →' }).click(),
-		]);
-		await expect(page.locator('h1')).toHaveText('Advanced Graph');
+		// Wait for hydration (dynamic chunks settle) so the click is an SPA
+		// navigation, not a full reload that can time out under load.
+		await page.waitForLoadState('networkidle');
+		await page.getByRole('link', { name: 'Advanced graph →' }).click();
+		await expect(page.locator('h1')).toHaveText('Advanced Graph', { timeout: 15_000 });
 	});
 
 	test('scheme table is present', async ({ page }) => {

@@ -1,0 +1,67 @@
+name: FrodoKEM
+website: https://frodokem.org/
+category: Lattices
+assumption: LWE
+status: ISO standardisation
+info: Conservative plain-LWE KEM (no algebraic ring structure). Sizes are the standard (ISO) FrodoKEM with the salt countermeasure — ciphertexts are slightly larger than older round-3 tables. Both AES128 and SHAKE128 matrix-A generation are shown; sizes are identical, only timings differ.
+parametersets:
+- name: FrodoKEM-640-AES
+  level: 1
+  pk: 9616
+  ct: 9752
+  keygen_cycles: 900572
+  encaps_cycles: 1085656
+  decaps_cycles: 1082248
+  keygen_us: 325.4
+  encaps_us: 392.3
+  decaps_us: 391.0
+- name: FrodoKEM-640-SHAKE
+  level: 1
+  pk: 9616
+  ct: 9752
+  keygen_cycles: 3034913
+  encaps_cycles: 3225731
+  decaps_cycles: 3224470
+  keygen_us: 1082.7
+  encaps_us: 1171.9
+  decaps_us: 1163.3
+- name: FrodoKEM-976-AES
+  level: 3
+  pk: 15632
+  ct: 15792
+  keygen_cycles: 1767798
+  encaps_cycles: 2005980
+  decaps_cycles: 1977994
+  keygen_us: 650.7
+  encaps_us: 746.1
+  decaps_us: 731.2
+- name: FrodoKEM-976-SHAKE
+  level: 3
+  pk: 15632
+  ct: 15792
+  keygen_cycles: 6500964
+  encaps_cycles: 6770381
+  decaps_cycles: 6744288
+  keygen_us: 2375.4
+  encaps_us: 2469.8
+  decaps_us: 2461.6
+- name: FrodoKEM-1344-AES
+  level: 5
+  pk: 21520
+  ct: 21696
+  keygen_cycles: 3045809
+  encaps_cycles: 3335477
+  decaps_cycles: 3299204
+  keygen_us: 1097.6
+  encaps_us: 1215.5
+  decaps_us: 1186.3
+- name: FrodoKEM-1344-SHAKE
+  level: 5
+  pk: 21520
+  ct: 21696
+  keygen_cycles: 11368599
+  encaps_cycles: 11769227
+  decaps_cycles: 11726834
+  keygen_us: 4165.3
+  encaps_us: 4360.2
+  decaps_us: 4316.2

@@ -1,0 +1,67 @@
+name: NTRU Prime
+website: https://ntruprime.cr.yp.to/
+category: Lattices
+assumption: NTRU
+status: Round-3 alternate
+info: Streamlined NTRU Prime, a NIST round-3 alternate candidate that uses a large-Galois-group ring to avoid structure relied on by some attacks. Widely deployed (the sntrup761 hybrid is a default in OpenSSH). AVX2 from libntruprime.cr.yp.to. NTRU LPRime is not shown. Security categories follow the team's conservative Core-SVP estimates.
+parametersets:
+- name: sntrup653
+  level: 2
+  pk: 994
+  ct: 897
+  keygen_cycles: 599403
+  encaps_cycles: 48892
+  decaps_cycles: 56432
+  keygen_us: 224.6
+  encaps_us: 18.2
+  decaps_us: 21.0
+- name: sntrup761
+  level: 2
+  pk: 1158
+  ct: 1039
+  keygen_cycles: 777815
+  encaps_cycles: 54099
+  decaps_cycles: 59782
+  keygen_us: 274.4
+  encaps_us: 18.8
+  decaps_us: 20.8
+- name: sntrup857
+  level: 3
+  pk: 1322
+  ct: 1184
+  keygen_cycles: 973600
+  encaps_cycles: 64558
+  decaps_cycles: 75678
+  keygen_us: 353.5
+  encaps_us: 23.1
+  decaps_us: 27.2
+- name: sntrup953
+  level: 4
+  pk: 1505
+  ct: 1349
+  keygen_cycles: 1163140
+  encaps_cycles: 70803
+  decaps_cycles: 80362
+  keygen_us: 418.1
+  encaps_us: 25.3
+  decaps_us: 28.8
+- name: sntrup1013
+  level: 4
+  pk: 1623
+  ct: 1455
+  keygen_cycles: 1369031
+  encaps_cycles: 72817
+  decaps_cycles: 82330
+  keygen_us: 490.1
+  encaps_us: 26.0
+  decaps_us: 29.5
+- name: sntrup1277
+  level: 5
+  pk: 2067
+  ct: 1847
+  keygen_cycles: 1988664
+  encaps_cycles: 92113
+  decaps_cycles: 103395
+  keygen_us: 705.2
+  encaps_us: 32.3
+  decaps_us: 36.9

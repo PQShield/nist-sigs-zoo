@@ -1,0 +1,36 @@
+name: ML-KEM
+website: https://csrc.nist.gov/pubs/fips/203/final
+category: Lattices
+assumption: MLWE
+status: FIPS
+parametersets:
+- name: ML-KEM-512
+  level: 1
+  pk: 800
+  ct: 768
+  keygen_cycles: 19160
+  encaps_cycles: 22295
+  decaps_cycles: 27974
+  keygen_us: 6.6
+  encaps_us: 7.7
+  decaps_us: 9.7
+- name: ML-KEM-768
+  level: 3
+  pk: 1184
+  ct: 1088
+  keygen_cycles: 32535
+  encaps_cycles: 35333
+  decaps_cycles: 44391
+  keygen_us: 11.6
+  encaps_us: 12.6
+  decaps_us: 15.9
+- name: ML-KEM-1024
+  level: 5
+  pk: 1568
+  ct: 1568
+  keygen_cycles: 46934
+  encaps_cycles: 51004
+  decaps_cycles: 63066
+  keygen_us: 17.3
+  encaps_us: 18.5
+  decaps_us: 22.7

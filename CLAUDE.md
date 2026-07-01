@@ -105,21 +105,68 @@ The YAML files are bundled at build time via a Vite plugin (`vite.config.ts`) an
 
 Types: `update` (spec/data change), `attack` (new cryptanalysis result), `milestone` (NIST process event).
 
+### KEMs
+
+`data/kems/*.yaml` — one YAML file per KEM, source of truth for the standalone KEM
+comparison at `/kems/`. This is a **one-off** page, not tied to a NIST round: no version
+history, no round tags. Carries sizes (pk, ct) and benchmark timings.
+
+```yaml
+name: ML-KEM
+website: https://...
+category: Lattices | Code-based | Pre-Quantum | ...
+assumption: ...
+status: FIPS | To be standardized | Classic cryptography | ...
+broken: false        # or "classical" (pre-quantum schemes) / description
+warning: false
+info: false
+parametersets:
+  - name: ML-KEM-768
+    level: 3           # 1-5 or "Pre-Quantum"
+    pk: 1184
+    ct: 1088
+    keygen_cycles: 20016    # optional; written by bench-kem/update_scheme_data.py
+    encaps_cycles: 20067
+    decaps_cycles: 21264
+    keygen_us: 13.4
+    encaps_us: 13.4
+    decaps_us: 14.2
+    notes: null
+```
+
+Benchmark fields are optional and produced by `bench-kem/update_scheme_data.py` from a
+`bench-kem/results/*.txt` run; that script also writes `data/kem_benchmark_env.yaml`
+(loaded as `kemBenchmarkEnv`, shown via `BenchmarkEnvInfo` on the page). The table shows
+keygen/encaps/decaps µs; when only cycles are present the time is extrapolated (wavy
+underline) at `KEM_CPUSPEED` (2.5 GHz).
+
+Flags (`broken`/`warning`/`info`) set at scheme level apply to all parameter sets, overridable
+per parameter set. Loaded via `import.meta.glob` in `src/lib/kemSchemeData.ts`; flattened by
+`processKemSchemes()` in `src/lib/kemData.ts` (pure, unit-tested). The page is self-contained
+and does **not** reuse the signature `filterStore` singleton: `kemData.ts` also exports pure
+`computeKemRanges()` / `defaultKemFilter()` / `filterKemRows()`, the page holds filter state in a
+`$state` rune and derives `filteredRows`, and `KemFilterPanel` (scheme/level/size, `bind:filter`),
+`KemTable` (local sort) and `KemScatterPlot` (pk vs ct, shape by category, colour by level) all
+take plain props.
+
 ## Architecture
 
 ```
 data/
-├── schemes/          # one .yaml per scheme (source of truth)
+├── schemes/          # one .yaml per signature scheme (source of truth)
+├── kems/             # one .yaml per KEM (source of truth for /kems/)
 └── history.yaml      # chronological event log (attacks, updates, milestones)
 
 src/
 ├── lib/
-│   ├── types.ts          # Scheme, ParameterSet, SchemeYaml, VersionYaml, FilterState types
+│   ├── types.ts          # Scheme, ParameterSet, SchemeYaml, VersionYaml, FilterState, Kem* types
 │   ├── constants.ts      # CPUSPEED, NIST_LEVELS
 │   ├── data.ts           # processYamlSchemes() — tag-filtered YAML → Scheme[] + ParameterSet[]
+│   ├── kemData.ts        # processKemSchemes() — KEM YAML → KemScheme[] + KemParameterSet[] (pure)
 │   ├── filterStore.ts    # Svelte writable store + derived filteredRows + URL codec
 │   ├── roundStore.ts     # writable<'round-1'|'round-2'|'round-3'|'latest'> — drives dataset selection
 │   ├── schemeData.ts     # import.meta.glob loader → allSchemeData: SchemeYaml[]
+│   ├── kemSchemeData.ts  # import.meta.glob loader → allKemData: KemSchemeYaml[]
 │   ├── themeStore.ts     # dark/light/system theme store → localStorage
 │   ├── yaml.d.ts         # TypeScript module declaration for *.yaml imports
 │   └── components/
@@ -127,22 +174,30 @@ src/
 │       ├── FilterPanel.svelte    # filter controls (categories, levels, ranges)
 │       ├── RangeField.svelte     # reusable number input
 │       ├── SchemeTable.svelte    # sortable table (one row per parameter set)
-│       └── ScatterPlot.svelte    # Vega-Lite scatter plot; accepts xField/yField/xScale/yScale props
+│       ├── ScatterPlot.svelte    # Vega-Lite scatter plot; accepts xField/yField/xScale/yScale props
+│       ├── KemTable.svelte       # KEM size table (rows prop, local sort)
+│       ├── KemScatterPlot.svelte # KEM pk-vs-ct Vega-Lite scatter (rows prop)
+│       └── KemFilterPanel.svelte # KEM scheme/level/size filters (bind:filter)
 └── routes/
-    ├── +layout.svelte    # nav (logo, round selector, dark toggle), footer
+    ├── +layout.svelte    # nav (logo, round selector, Signatures/KEMs/History links, dark toggle), footer
     ├── +page.ts          # load: processYamlSchemes('round-3', {useLatestVersion:true}), createFilterStore
     ├── +page.svelte      # page composition, round switching, URL state sync
-    └── advanced/
-        ├── +page.ts      # same load as main page
-        └── +page.svelte  # axis selectors, scale toggles, ScatterPlot, FilterPanel, SchemeTable
+    ├── advanced/
+    │   ├── +page.ts      # same load as main page
+    │   └── +page.svelte  # axis selectors, scale toggles, ScatterPlot, FilterPanel, SchemeTable
+    └── kems/
+        ├── +page.ts      # load: processKemSchemes(allKemData); trailingSlash 'always'
+        └── +page.svelte  # KEM hero, KemScatterPlot, KemTable
 
 tests/
 ├── src/lib/__tests__/   # Vitest unit tests (vitest.config.ts)
 │   ├── data.test.ts
+│   ├── kemData.test.ts
 │   └── filterStore.test.ts
 └── e2e/                 # Playwright E2E tests (playwright.config.ts)
     ├── main.spec.ts
-    └── advanced.spec.ts
+    ├── advanced.spec.ts
+    └── kems.spec.ts
 ```
 
 ### Data Processing

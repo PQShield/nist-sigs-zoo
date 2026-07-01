@@ -1,0 +1,62 @@
+# bench-kem
+
+Microbenchmark for post-quantum and classical **KEMs**. Measures median keygen,
+encapsulation, and decapsulation cost (CPU cycles + wall-clock µs) per parameter
+set, and checks that encaps/decaps agree on the shared secret.
+
+Companion to [`../bench`](../bench) (the signature benchmark); same isolation and
+codegen design, KEM op contract.
+
+## Quick start
+
+```bash
+git submodule update --init --recursive bench-kem/schemes/
+cd bench-kem
+make
+./bench-kem               # all schemes
+./bench-kem mlkem         # filter by name (case-insensitive, OR-ed)
+BENCH_ITER=200 ./bench-kem
+./run_bench.sh            # saves a timestamped run with system info to results/
+```
+
+Output columns: `keygen`, `encaps`, `decaps` in cycles and µs, plus an `ok` column
+(`yes` if every encaps/decaps round-trip agreed on the shared secret, else `FAIL`).
+Cycles are the core's real `CPU_CYCLES` PMC via `rdpmc` when available (no root
+needed; the worker thread is pinned to one core), falling back to `rdtsc` reference
+cycles otherwise — see the `# cyclecounter:` line in each results file. Force the
+fallback with `BENCH_CYCLES=tsc`; pick the core with `BENCH_CPU=N`.
+
+## Schemes
+
+| Scheme  | Source                                      | Parameter sets            |
+|---------|---------------------------------------------|---------------------------|
+| ML-KEM  | `pq-code-package/mlkem-native` (avx2)       | ML-KEM-512 / 768 / 1024   |
+| HQC     | `gitlab.com/pqc-hqc/hqc` (x86_64/avx256)    | HQC-128 / 192 / 256       |
+| FrodoKEM| `Microsoft/PQCrypto-LWEKE` (FAST avx2)      | 640 / 976 / 1344, AES + SHAKE |
+| McEliece| `lib.mceliece.org` (libmceliece, tarball)   | 348864 / 460896 / 6688128 / 6960119 / 8192128 |
+| BAT     | `pornin/BAT` (NTRU-based, avx2)              | BAT-257-512, BAT-769-1024 |
+| NTRU    | `jschanck/ntru` (avx2 + asm codegen)        | ntruhps2048509 / 2048677 / 4096821, ntruhrss701 |
+| NTRU Prime | `libntruprime.cr.yp.to` (tarball, avx2)  | sntrup653 / 761 / 857 / 953 / 1013 / 1277 (Streamlined) |
+| ECDH    | OpenSSL 3 (EVP)                             | X25519, X448, P-256, P-384 |
+
+Classic McEliece and NTRU Prime are tarball libraries (libmceliece / libntruprime),
+each fetched and built with its librandombytes dependency by the scheme's
+`build_libs.sh`, which `make` runs automatically — they need network access on the
+first build. Everything else uses git submodules.
+
+Each KEM lives under `schemes/<name>/`; see `CLAUDE.md` for the contract and how
+to add one.
+
+## How it works
+
+Every parameter set is compiled into a standalone `.so` exporting the standard NIST
+KEM API (`crypto_kem_keypair` / `crypto_kem_enc` / `crypto_kem_dec`) plus a metadata
+function. The runner `dlopen`s each with `RTLD_LOCAL`, so implementations that use
+identical, non-namespaced symbol names do not collide. A small generated shim adapts
+each upstream's calling convention to the standard names.
+
+## Requirements
+
+- C compiler, `make`, `python3`, git submodules.
+- OpenSSL 3.x for ECDH.
+- An x86-64 (AVX2) or aarch64 host for the cycle counter.

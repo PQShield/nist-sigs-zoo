@@ -1,0 +1,11 @@
+# FrodoKEM (standard, ISO draft — salted) via github.com/Microsoft/PQCrypto-LWEKE.
+# Both matrix-A generation methods are benchmarked: AES128 (AES-NI) and SHAKE128.
+# Sizes are identical within a level; only the timings differ.
+# Columns: file, name, pk, sk, ct, ss, iters, suffix (upstream symbol suffix crypto_kem_*_<suffix>)
+file	name	pk	sk	ct	ss	iters	suffix
+frodo640aes	FrodoKEM-640-AES	9616	19888	9752	16	0	Frodo640
+frodo640shake	FrodoKEM-640-SHAKE	9616	19888	9752	16	0	Frodo640
+frodo976aes	FrodoKEM-976-AES	15632	31296	15792	24	0	Frodo976
+frodo976shake	FrodoKEM-976-SHAKE	15632	31296	15792	24	0	Frodo976
+frodo1344aes	FrodoKEM-1344-AES	21520	43088	21696	32	0	Frodo1344
+frodo1344shake	FrodoKEM-1344-SHAKE	21520	43088	21696	32	0	Frodo1344

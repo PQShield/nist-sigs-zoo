@@ -8,11 +8,15 @@ test.describe('Advanced page', () => {
 
 	test('"← Back" link returns to main page', async ({ page }) => {
 		await page.goto('/advanced/');
+		// Wait for hydration before clicking so it's an SPA navigation, not a full
+		// reload that can time out under load.
+		await page.waitForLoadState('networkidle');
 		const back = page.getByRole('link', { name: '← Back' });
 		await expect(back).toBeVisible();
 		await back.click();
-		await page.waitForLoadState('networkidle');
-		await expect(page.locator('h1')).toHaveText('Post-Quantum Signature Schemes');
+		await expect(page.locator('h1')).toHaveText('Post-Quantum Signature Schemes', {
+			timeout: 15_000,
+		});
 	});
 
 	test('two axis select dropdowns present', async ({ page }) => {

@@ -1,0 +1,9 @@
+# NTRU (round-3 finalist, merged NTRU-HPS + NTRU-HRSS) via github.com/jschanck/ntru.
+# AVX2 implementation; the .s assembly is generated per set by the upstream codegen
+# (asmgen/ + bitpermutations, run via `make asm`). pk == ct for all NTRU sets.
+# Columns: file, name, pk, sk, ct, ss, iters
+file	name	pk	sk	ct	ss	iters
+ntruhps2048509	ntruhps2048509	699	935	699	32	0
+ntruhps2048677	ntruhps2048677	930	1234	930	32	0
+ntruhps4096821	ntruhps4096821	1230	1590	1230	32	0
+ntruhrss701	ntruhrss701	1138	1450	1138	32	0

@@ -1,0 +1,5 @@
+# NIST-curve ECDH-as-KEM. ct = uncompressed ephemeral point; ss = X-coordinate.
+# pk = uncompressed point size, sk = PKCS#8 DER size (documented; buffers unused).
+file	name	pk	sk	ct	ss	iters	curve
+ecdh_p256	ECDH-P256	65	121	65	32	0	P-256
+ecdh_p384	ECDH-P384	97	167	97	48	0	P-384

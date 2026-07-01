@@ -1,0 +1,7 @@
+# ML-KEM (FIPS 203) via pq-code-package/mlkem-native (AVX2 native backend).
+# Built per level: -DMLK_CONFIG_PARAMETER_SET=<lvl>; symbols namespaced mlkem<lvl>_*.
+# Columns: file, name, pk, sk, ct, ss, iters, lvl
+file	name	pk	sk	ct	ss	iters	lvl
+mlkem512	ML-KEM-512	800	1632	768	32	0	512
+mlkem768	ML-KEM-768	1184	2400	1088	32	0	768
+mlkem1024	ML-KEM-1024	1568	3168	1568	32	0	1024

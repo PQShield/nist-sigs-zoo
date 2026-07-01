@@ -1,7 +1,7 @@
 # Licensed under CC BY 4.0: https://creativecommons.org/licenses/by/4.0/
 license: CC-BY-4.0
 attribution: Thom Wiggers / PQShield
-date: '2026-05-26T19:04:46Z'
+date: '2026-06-26T13:51:07Z'
 cpu:
   model: 12th Gen Intel(R) Core(TM) i7-12650H
   cores: 8
@@ -13,7 +13,7 @@ os: Debian GNU/Linux 13 (trixie)
 kernel: 6.19.11-zabbly+
 compiler: cc (Debian 14.2.0-19) 14.2.0
 openssl: 'OpenSSL 3.6.2 7 Apr 2026 (Library: OpenSSL 3.6.2 7 Apr 2026)'
-notes: 'Median over 1000 iterations (fewer for slow schemes). Cycle counter: rdtsc + lfence (constant TSC rate, not execution cycles). Wall clock: clock_gettime(CLOCK_MONOTONIC).'
+notes: 'Median over 1000 iterations (fewer for slow schemes). Cycle counter: rdpmc CPU_CYCLES (real core cycles, user-space). Wall clock: clock_gettime(CLOCK_MONOTONIC). Benchmark thread pinned to one core.'
 sources:
   faest: https://github.com/faest-sign/faest-arch-opt@09b2ffbcd7a5fc3fbf931c9480d443056f79dfdd
   fndsa: https://github.com/pornin/c-fn-dsa@33026d4d2734049a23f065f77eea11c35de58d76

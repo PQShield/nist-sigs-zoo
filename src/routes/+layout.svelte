@@ -15,6 +15,7 @@
 	const themeLabel = $derived(`Theme: ${$themeStore} — click to cycle`);
 
 	const isHome = $derived($page.route.id === '/');
+	const isKems = $derived($page.route.id === '/kems');
 
 	let menuOpen = $state(false);
 
@@ -71,6 +72,15 @@
 							Round 1
 						</button>
 					</div>
+				{/if}
+				{#if isKems}
+					<a href="{base}/" class="text-pqs-bluegray hover:text-pqs-apricot transition-colors">
+						Signatures
+					</a>
+				{:else}
+					<a href="{base}/kems/" class="text-pqs-bluegray hover:text-pqs-apricot transition-colors">
+						KEMs
+					</a>
 				{/if}
 				<a href="{base}/history/" class="text-pqs-bluegray hover:text-pqs-apricot transition-colors">
 					History
@@ -157,6 +167,15 @@
 					</div>
 				{/if}
 				<div class="flex flex-col gap-3">
+					{#if isKems}
+						<a href="{base}/" onclick={closeMenu} class="text-pqs-bluegray hover:text-pqs-apricot transition-colors">
+							Signatures
+						</a>
+					{:else}
+						<a href="{base}/kems/" onclick={closeMenu} class="text-pqs-bluegray hover:text-pqs-apricot transition-colors">
+							KEMs
+						</a>
+					{/if}
 					<a href="{base}/history/" onclick={closeMenu} class="text-pqs-bluegray hover:text-pqs-apricot transition-colors">
 						History
 					</a>

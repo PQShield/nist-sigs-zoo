@@ -76,6 +76,103 @@ export interface SchemeYaml {
 	versions: VersionYaml[];
 }
 
+// KEM schema types (standalone size comparison — no rounds)
+
+export interface KemParameterSetYaml {
+	name: string;
+	level: number | 'Pre-Quantum';
+	pk: number;
+	ct: number;
+	keygen_cycles?: number;
+	encaps_cycles?: number;
+	decaps_cycles?: number;
+	keygen_us?: number;
+	encaps_us?: number;
+	decaps_us?: number;
+	broken?: string;
+	warning?: string;
+	info?: string;
+	notes?: string;
+}
+
+export interface KemSchemeYaml {
+	name: string;
+	website: string;
+	category: string;
+	assumption: string;
+	status: string;
+	broken?: string;
+	warning?: string;
+	info?: string;
+	parametersets: KemParameterSetYaml[];
+}
+
+export interface KemScheme {
+	scheme: string;
+	status: string;
+	website: string;
+	category: string;
+	assumption: string;
+	broken: false | string;
+	warning: false | string;
+	info: false | string;
+	classical: boolean;
+}
+
+export interface KemParameterSet {
+	scheme: string;
+	parameterset: string;
+	category: string;
+	status: string;
+	level: NistLevel;
+	pk: number;
+	ct: number;
+	pkPlusCt: number;
+	keygenCycles: number;
+	encapsCycles: number;
+	decapsCycles: number;
+	keygenUs: number | null;
+	encapsUs: number | null;
+	decapsUs: number | null;
+	broken: false | string;
+	warning: false | string;
+	info: false | string;
+	classical: boolean;
+	website: string;
+	assumption: string;
+	notes: string | null;
+}
+
+export type KemSortableColumn =
+	| 'scheme'
+	| 'category'
+	| 'status'
+	| 'parameterset'
+	| 'level'
+	| 'pk'
+	| 'ct'
+	| 'pkPlusCt'
+	| 'keygenUs'
+	| 'encapsUs'
+	| 'decapsUs';
+
+export interface KemDataRanges {
+	pk: [number, number];
+	ct: [number, number];
+	pkPlusCt: [number, number];
+}
+
+export interface KemFilterState {
+	schemes: Set<string>;
+	levels: Set<NistLevel>;
+	minPk: number;
+	maxPk: number;
+	minCt: number;
+	maxCt: number;
+	minPkPlusCt: number;
+	maxPkPlusCt: number;
+}
+
 export interface BenchmarkEnv {
 	license: string;
 	attribution: string;

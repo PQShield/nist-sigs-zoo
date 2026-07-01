@@ -1,0 +1,37 @@
+name: HQC
+website: https://pqc-hqc.org/
+category: Code-based
+assumption: Quasi-Cyclic Syndrome Decoding
+status: To be standardized
+info: Selected by NIST for standardisation (March 2025). Sizes from the 2025-08-22 specification.
+parametersets:
+- name: HQC-128
+  level: 1
+  pk: 2241
+  ct: 4433
+  keygen_cycles: 76505
+  encaps_cycles: 146775
+  decaps_cycles: 331203
+  keygen_us: 28.1
+  encaps_us: 53.1
+  decaps_us: 120.7
+- name: HQC-192
+  level: 3
+  pk: 4514
+  ct: 8978
+  keygen_cycles: 194576
+  encaps_cycles: 358163
+  decaps_cycles: 718073
+  keygen_us: 69.1
+  encaps_us: 125.6
+  decaps_us: 255.7
+- name: HQC-256
+  level: 5
+  pk: 7237
+  ct: 14421
+  keygen_cycles: 400465
+  encaps_cycles: 744076
+  decaps_cycles: 1440145
+  keygen_us: 142.5
+  encaps_us: 263.2
+  decaps_us: 510.3

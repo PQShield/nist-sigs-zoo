@@ -1,0 +1,11 @@
+# Classic McEliece (code-based KEM) via lib.mceliece.org (libmceliece).
+# The five base parameter sets are benchmarked; the "f" (fast keygen), "pc"
+# (plaintext-confirmation) and "pcf" variants from libmceliece are not shown.
+# Keygen is variable-time and slow (tens to hundreds of ms), so iters is low.
+# Columns: file, name, pk, sk, ct, ss, iters, set (libmceliece symbol infix mceliece_kem_<set>_*)
+file	name	pk	sk	ct	ss	iters	set
+mceliece348864	mceliece348864	261120	6492	96	32	30	348864
+mceliece460896	mceliece460896	524160	13608	156	32	30	460896
+mceliece6688128	mceliece6688128	1044992	13932	208	32	30	6688128
+mceliece6960119	mceliece6960119	1047319	13948	194	32	30	6960119
+mceliece8192128	mceliece8192128	1357824	14120	208	32	30	8192128

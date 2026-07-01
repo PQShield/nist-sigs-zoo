@@ -1,0 +1,8 @@
+# BAT (NTRU-based KEM, Fouque–Kirchner–Pornin–Yu, TCHES 2022) via github.com/pornin/BAT.
+# The two real security levels are benchmarked; the BAT-128-256 toy set (80-bit,
+# 10-byte shared secret) is omitted. Sizes are the encoded (transmitted) byte
+# lengths: encode/decode is included in each measured operation.
+# Columns: file, name, pk, sk, ct, ss, iters, q, n, logn (sk = long private-key encoding)
+file	name	pk	sk	ct	ss	iters	q	n	logn
+bat257512	BAT-257-512	521	2953	473	16	200	257	512	9
+bat7691024	BAT-769-1024	1230	6030	1006	32	200	769	1024	10

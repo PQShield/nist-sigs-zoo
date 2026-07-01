@@ -1,0 +1,24 @@
+# Licensed under CC BY 4.0: https://creativecommons.org/licenses/by/4.0/
+license: CC-BY-4.0
+attribution: Thom Wiggers / PQShield
+date: '2026-06-26T12:43:44Z'
+cpu:
+  model: 12th Gen Intel(R) Core(TM) i7-12650H
+  cores: 8
+  threads_per_core: 2
+  max_freq_mhz: 4600
+  governor: powersave
+  turbo: enabled
+os: Debian GNU/Linux 13 (trixie)
+kernel: 6.19.11-zabbly+
+compiler: cc (Debian 14.2.0-19) 14.2.0
+openssl: 'OpenSSL 3.6.2 7 Apr 2026 (Library: OpenSSL 3.6.2 7 Apr 2026)'
+notes: 'KEM keygen/encapsulation/decapsulation. Median over 1000 iterations (fewer for slow schemes). Cycle counter: rdpmc CPU_CYCLES (real core cycles, user-space). Wall clock: clock_gettime(CLOCK_MONOTONIC). Benchmark thread pinned to one core.'
+sources:
+  bat: https://github.com/pornin/BAT@8280af7c9d4d5cdd9a70914f72a5f0ad774c7b8d
+  frodo: https://github.com/Microsoft/PQCrypto-LWEKE@7a4e7219d06305e16aef734213001cd8fefbcc14
+  hqc: https://gitlab.com/pqc-hqc/hqc.git@161cd4fdf6b4a5198cf40b3a1243f9f27f13e03d
+  mceliece: https://lib.mceliece.org/libmceliece-20260622.tar.gz
+  mlkem: https://github.com/pq-code-package/mlkem-native.git@2d1cc90f71bd59617062844e874ac6e70868e1f8
+  ntru: https://github.com/jschanck/ntru@6d96ed3746000b6497392a425712fe483988fc80
+  ntruprime: https://libntruprime.cr.yp.to/libntruprime-20241021.tar.gz
