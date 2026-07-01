@@ -61,7 +61,7 @@
 				{#each Object.entries(env.sources).sort() as [scheme, url]}
 					{@const atIdx = url.lastIndexOf('@')}
 					{@const hasCommit = atIdx > 8}
-					{@const repoUrl = hasCommit ? url.slice(0, atIdx) : url}
+					{@const repoUrl = (hasCommit ? url.slice(0, atIdx) : url).replace(/\.git$/, '')}
 					{@const commit = hasCommit ? url.slice(atIdx + 1) : null}
 					<li class="flex gap-2">
 						<span class="w-16 shrink-0 text-pqs-steel dark:text-pqs-bluegray">{scheme}</span>
