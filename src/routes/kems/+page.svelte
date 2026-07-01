@@ -100,6 +100,11 @@
 					pk size vs. ciphertext size <span class="font-normal text-pqs-bluegray">(log–log scale)</span>
 				</h2>
 				<KemScatterPlot rows={filteredRows} />
+				<div class="mt-2 flex justify-end">
+					<a href="{base}/kems/advanced/" class="text-xs text-pqs-bluegray hover:text-pqs-apricot dark:text-pqs-steel dark:hover:text-pqs-apricot transition-colors">
+						Advanced graph →
+					</a>
+				</div>
 			</section>
 
 			<!-- Performance note -->

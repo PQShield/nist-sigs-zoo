@@ -1,9 +1,33 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { themeStore } from '$lib/themeStore';
-	import type { KemParameterSet, NistLevel } from '$lib/types';
+	import type { KemAxisField, KemParameterSet, NistLevel, ScaleType } from '$lib/types';
 
-	let { rows }: { rows: KemParameterSet[] } = $props();
+	let {
+		rows,
+		xField = 'pk' as KemAxisField,
+		yField = 'ct' as KemAxisField,
+		xScale = 'log' as ScaleType,
+		yScale = 'log' as ScaleType,
+	}: {
+		rows: KemParameterSet[];
+		xField?: KemAxisField;
+		yField?: KemAxisField;
+		xScale?: ScaleType;
+		yScale?: ScaleType;
+	} = $props();
+
+	const AXIS_TITLES: Record<KemAxisField, string> = {
+		pk: 'Public key (bytes)',
+		ct: 'Ciphertext (bytes)',
+		pkPlusCt: 'pk + ct (bytes)',
+		keygenCycles: 'Keygen (cycles)',
+		encapsCycles: 'Encapsulation (cycles)',
+		decapsCycles: 'Decapsulation (cycles)',
+		keygenUs: 'Keygen (µs)',
+		encapsUs: 'Encapsulation (µs)',
+		decapsUs: 'Decapsulation (µs)',
+	};
 
 	// Shape by family. KEMs span few families, so shape directly by category
 	// (no "Standardized" star promotion — it would collapse ML-KEM and HQC
@@ -56,6 +80,12 @@
 				'pk (bytes)': d.pk.toLocaleString(),
 				'ct (bytes)': d.ct.toLocaleString(),
 				'pk+ct (bytes)': d.pkPlusCt.toLocaleString(),
+				...(d.keygenCycles > 0 ? { 'Keygen (cycles)': d.keygenCycles.toLocaleString() } : {}),
+				...(d.encapsCycles > 0 ? { 'Encapsulation (cycles)': d.encapsCycles.toLocaleString() } : {}),
+				...(d.decapsCycles > 0 ? { 'Decapsulation (cycles)': d.decapsCycles.toLocaleString() } : {}),
+				...(d.keygenUs != null ? { 'Keygen (µs)': d.keygenUs.toLocaleString() } : {}),
+				...(d.encapsUs != null ? { 'Encapsulation (µs)': d.encapsUs.toLocaleString() } : {}),
+				...(d.decapsUs != null ? { 'Decapsulation (µs)': d.decapsUs.toLocaleString() } : {}),
 				...(notes ? { Notes: notes } : {})
 			};
 
@@ -64,6 +94,13 @@
 				parameterset: d.parameterset,
 				pk: d.pk,
 				ct: d.ct,
+				pkPlusCt: d.pkPlusCt,
+				keygenCycles: d.keygenCycles > 0 ? d.keygenCycles : null,
+				encapsCycles: d.encapsCycles > 0 ? d.encapsCycles : null,
+				decapsCycles: d.decapsCycles > 0 ? d.decapsCycles : null,
+				keygenUs: d.keygenUs,
+				encapsUs: d.encapsUs,
+				decapsUs: d.decapsUs,
 				shapeKey: CATEGORY_SHAPES[d.category] ? d.category : 'Other',
 				level: levelLabel(d.level),
 				security: securityStatus(d),
@@ -151,16 +188,16 @@
 			],
 			encoding: {
 				x: {
-					field: 'pk',
+					field: xField,
 					type: 'quantitative',
-					scale: { type: 'log' },
-					axis: { title: 'Public key (bytes)', grid: true, format: 's' }
+					scale: { type: xScale },
+					axis: { title: AXIS_TITLES[xField], grid: true, format: 's' }
 				},
 				y: {
-					field: 'ct',
+					field: yField,
 					type: 'quantitative',
-					scale: { type: 'log' },
-					axis: { title: 'Ciphertext (bytes)', grid: true, format: 's' }
+					scale: { type: yScale },
+					axis: { title: AXIS_TITLES[yField], grid: true, format: 's' }
 				},
 				tooltip: { field: 'tooltip', type: 'nominal' }
 			},
@@ -193,6 +230,7 @@
 	$effect(() => {
 		rows;
 		$themeStore;
+		xField; yField; xScale; yScale;
 		render();
 	});
 </script>

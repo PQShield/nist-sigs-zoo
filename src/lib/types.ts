@@ -143,6 +143,17 @@ export interface KemParameterSet {
 	notes: string | null;
 }
 
+export type KemAxisField =
+    | 'pk'
+    | 'ct'
+    | 'pkPlusCt'
+    | 'keygenCycles'
+    | 'encapsCycles'
+    | 'decapsCycles'
+    | 'keygenUs'
+    | 'encapsUs'
+    | 'decapsUs';
+
 export type KemSortableColumn =
 	| 'scheme'
 	| 'category'
