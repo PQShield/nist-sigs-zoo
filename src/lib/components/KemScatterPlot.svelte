@@ -29,10 +29,11 @@
 		decapsUs: 'Decapsulation (µs)',
 	};
 
-	// Shape by family. KEMs span few families, so shape directly by category
-	// (no "Standardized" star promotion — it would collapse ML-KEM and HQC
-	// onto the same shape and leave the plot with only two visual classes).
+	const STAR = 'M0,-1L0.224,-0.309L0.951,-0.309L0.363,0.118L0.588,0.809L0,0.382L-0.588,0.809L-0.363,0.118L-0.951,-0.309L-0.224,-0.309Z';
+
+	// Shape by family, except FIPS-standardized KEMs (currently just ML-KEM) get a star.
 	const CATEGORY_SHAPES: Record<string, string> = {
+		FIPS: STAR,
 		Lattices: 'square',
 		'Code-based': 'cross',
 		Multivariate: 'triangle-up',
@@ -40,6 +41,11 @@
 		'Pre-Quantum': 'triangle-left',
 		Other: 'triangle-right'
 	};
+
+	function shapeKey(d: KemParameterSet): string {
+		if (d.status === 'FIPS') return 'FIPS';
+		return CATEGORY_SHAPES[d.category] ? d.category : 'Other';
+	}
 
 	function securityStatus(d: KemParameterSet): string {
 		if (d.broken && !d.classical) return 'broken';
@@ -101,7 +107,7 @@
 				keygenUs: d.keygenUs,
 				encapsUs: d.encapsUs,
 				decapsUs: d.decapsUs,
-				shapeKey: CATEGORY_SHAPES[d.category] ? d.category : 'Other',
+				shapeKey: shapeKey(d),
 				level: levelLabel(d.level),
 				security: securityStatus(d),
 				tooltip
@@ -161,6 +167,10 @@
 					],
 					mark: { type: 'point', filled: true, size: 120 },
 					encoding: {
+						size: {
+							condition: { test: "datum.shapeKey === 'FIPS'", value: 200 },
+							value: 120
+						},
 						color: {
 							field: 'level',
 							type: 'nominal',
