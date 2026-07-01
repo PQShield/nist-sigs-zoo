@@ -18,7 +18,7 @@
 {#if classical}
 	<button class="badge" aria-label="Pre-quantum scheme (not quantum-resistant)" aria-expanded={expanded} onclick={toggle}>💣</button>
 	{#if expanded}
-		<span class="msg msg-muted">Pre-quantum: {broken}</span>
+		<span class="msg text-pqs-steel/80 dark:text-pqs-bluegray/80">Pre-quantum: {broken}</span>
 	{/if}
 {:else if broken}
 	<button class="badge" aria-label="Broken scheme" aria-expanded={expanded} onclick={toggle}>🧨</button>
@@ -33,7 +33,7 @@
 {:else if info}
 	<button class="badge" aria-label="Security note" aria-expanded={expanded} onclick={toggle}>ℹ️</button>
 	{#if expanded}
-		<span class="msg msg-info">Note: {info}</span>
+		<span class="msg text-pqs-steel dark:text-pqs-bluegray">Note: {info}</span>
 	{/if}
 {/if}
 
@@ -55,6 +55,4 @@
 	}
 	.msg-danger { color: var(--color-pqs-scarlet); }
 	.msg-warning { color: var(--color-pqs-tangerine); }
-	.msg-muted { color: var(--color-pqs-steel); opacity: 0.7; }
-	.msg-info { color: var(--color-pqs-bluegray); }
 </style>

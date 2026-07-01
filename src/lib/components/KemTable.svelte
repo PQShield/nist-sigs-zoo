@@ -25,6 +25,11 @@
 		return us.toFixed(1) + ' µs';
 	}
 
+	function shortParam(row: KemParameterSet): string {
+		const prefix = row.scheme + '-';
+		return row.parameterset.startsWith(prefix) ? row.parameterset.slice(prefix.length) : row.parameterset;
+	}
+
 	const COLUMNS: { key: KemSortableColumn; label: string; numeric?: boolean }[] = [
 		{ key: 'scheme', label: 'Scheme' },
 		{ key: 'category', label: 'Category' },
@@ -158,12 +163,18 @@
 							<span class="rounded bg-pqs-steel/10 px-1.5 py-0.5 text-xs font-semibold text-pqs-steel dark:text-pqs-bluegray">Std pending</span>
 						{:else if row.status === 'Classic cryptography'}
 							<span class="text-pqs-steel/70 dark:text-pqs-bluegray/70">Classic</span>
+						{:else if row.status === 'Round-3 finalist'}
+							<span class="text-pqs-steel/70 dark:text-pqs-bluegray/70" title="Round-3 finalist">R3 finalist</span>
+						{:else if row.status === 'Round-3 alternate'}
+							<span class="text-pqs-steel/70 dark:text-pqs-bluegray/70" title="Round-3 alternate">R3 alternate</span>
+						{:else if row.status === 'ISO standardisation'}
+							<span class="rounded bg-pqs-steel/10 px-1.5 py-0.5 text-xs font-semibold text-pqs-steel dark:text-pqs-bluegray" title="ISO standardisation">ISO</span>
 						{:else}
 							<span class="text-pqs-steel/70 dark:text-pqs-bluegray/70">{row.status}</span>
 						{/if}
 					</td>
 					<!-- Parameterset -->
-					<td class="whitespace-nowrap px-3 py-1.5 font-mono text-xs">{row.parameterset}</td>
+					<td class="whitespace-nowrap px-3 py-1.5 font-mono text-xs" title={row.parameterset}>{shortParam(row)}</td>
 					<!-- Level -->
 					<td class="px-3 py-1.5 text-right tabular-nums text-pqs-steel dark:text-pqs-bluegray">
 						{row.level === 'Pre-Quantum' ? 'N/A' : row.level}

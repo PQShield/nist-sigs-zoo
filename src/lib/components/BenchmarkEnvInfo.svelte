@@ -21,11 +21,11 @@
 
 	<div class="grid gap-x-8 gap-y-1 sm:grid-cols-2">
 		<div class="flex gap-2">
-			<span class="w-20 shrink-0 text-pqs-bluegray dark:text-pqs-bluegray">Date</span>
+			<span class="w-20 shrink-0 text-pqs-steel dark:text-pqs-bluegray">Date</span>
 			<span>{date}</span>
 		</div>
 		<div class="flex gap-2">
-			<span class="w-20 shrink-0 text-pqs-bluegray dark:text-pqs-bluegray">CPU</span>
+			<span class="w-20 shrink-0 text-pqs-steel dark:text-pqs-bluegray">CPU</span>
 			<span
 				>{env.cpu.model} &mdash; {env.cpu.cores} cores,
 				{env.cpu.threads_per_core} threads/core,
@@ -33,19 +33,19 @@
 			>
 		</div>
 		<div class="flex gap-2">
-			<span class="w-20 shrink-0 text-pqs-bluegray dark:text-pqs-bluegray">OS</span>
+			<span class="w-20 shrink-0 text-pqs-steel dark:text-pqs-bluegray">OS</span>
 			<span>{env.os} (kernel {env.kernel})</span>
 		</div>
 		<div class="flex gap-2">
-			<span class="w-20 shrink-0 text-pqs-bluegray dark:text-pqs-bluegray">Compiler</span>
+			<span class="w-20 shrink-0 text-pqs-steel dark:text-pqs-bluegray">Compiler</span>
 			<span>{env.compiler}</span>
 		</div>
 		<div class="flex gap-2">
-			<span class="w-20 shrink-0 text-pqs-bluegray dark:text-pqs-bluegray">OpenSSL</span>
+			<span class="w-20 shrink-0 text-pqs-steel dark:text-pqs-bluegray">OpenSSL</span>
 			<span>{env.openssl}</span>
 		</div>
 		<div class="flex gap-2">
-			<span class="w-20 shrink-0 text-pqs-bluegray dark:text-pqs-bluegray">Method</span>
+			<span class="w-20 shrink-0 text-pqs-steel dark:text-pqs-bluegray">Method</span>
 			<span>{env.notes}</span>
 		</div>
 	</div>
@@ -84,7 +84,7 @@
 		</details>
 	{/if}
 
-	<p class="mt-3 text-pqs-bluegray/80 dark:text-pqs-bluegray/60">
+	<p class="mt-3 text-pqs-steel/70 dark:text-pqs-bluegray/70">
 		Benchmark data licensed under
 		<a
 			href="https://creativecommons.org/licenses/by/4.0/"
