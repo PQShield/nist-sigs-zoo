@@ -1,4 +1,46 @@
-import { test, expect } from '@playwright/test';
+import fs from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+import yaml from 'js-yaml';
+import { test, expect, type Page } from '@playwright/test';
+
+// Real data rows carry a title attribute on the Parameter Set cell (4th column);
+// the "No KEMs to display" fallback row has a single colspan cell and never
+// matches, so these locators naturally exclude it without any literal counts.
+const paramSetCellSelector = 'tbody tr td:nth-child(4)[title]';
+const levelCellSelector = 'tbody tr td:nth-child(5)';
+
+// Expected counts come from data/kems/*.yaml directly (the source of truth), not
+// from the rendered page — asserting DOM against DOM would be tautological and
+// wouldn't catch a rendering/filtering bug that drops or duplicates rows.
+const KEMS_DIR = path.join(path.dirname(fileURLToPath(import.meta.url)), '..', 'data', 'kems');
+
+function loadSourceParameterSets(): { level: unknown }[] {
+	const files = fs.readdirSync(KEMS_DIR).filter((f) => f.endsWith('.yaml'));
+	const all: { level: unknown }[] = [];
+	for (const file of files) {
+		const doc = yaml.load(fs.readFileSync(path.join(KEMS_DIR, file), 'utf8')) as {
+			parametersets: { level: unknown }[];
+		};
+		all.push(...doc.parametersets);
+	}
+	return all;
+}
+
+const sourceParameterSets = loadSourceParameterSets();
+const expectedTotal = sourceParameterSets.length;
+const expectedNaCount = sourceParameterSets.filter((ps) => ps.level === 'Pre-Quantum').length;
+
+async function paramSetCount(page: Page): Promise<number> {
+	const text = await page.getByText(/^\d+ parameter sets?$/).innerText();
+	const match = text.match(/(\d+)/);
+	if (!match) throw new Error(`could not parse count from "${text}"`);
+	return parseInt(match[1], 10);
+}
+
+async function levelTexts(page: Page): Promise<string[]> {
+	return page.$$eval(levelCellSelector, (cells) => cells.map((c) => c.textContent?.trim() ?? ''));
+}
 
 test.describe('KEMs page', () => {
 	test('loads with correct heading', async ({ page }) => {
@@ -44,11 +86,19 @@ test.describe('KEMs page', () => {
 	test('table lists all KEM parameter sets', async ({ page }) => {
 		await page.goto('/kems/');
 		await expect(page.locator('table')).toBeVisible();
-		await expect(page.getByText('36 parameter sets')).toBeVisible();
+
+		const rowCount = await page.locator(paramSetCellSelector).count();
+		expect(rowCount).toBe(expectedTotal);
+		expect(await paramSetCount(page)).toBe(expectedTotal);
+
 		// The parameter-set cell may display a shortened name (scheme prefix
 		// stripped), but always carries the full name as its title attribute.
-		for (const name of ['ML-KEM-768', 'HQC-256', 'FrodoKEM-640-AES', 'mceliece6960119', 'BAT-769-1024', 'ntruhps2048509', 'sntrup761', 'Saber', 'X25519', 'P-256']) {
-			await expect(page.locator(`td[title="${name}"]`)).toBeVisible();
+		const cells = await page.$$eval(paramSetCellSelector, (els) =>
+			els.map((el) => ({ title: el.getAttribute('title') ?? '', text: el.textContent?.trim() ?? '' }))
+		);
+		for (const { title, text } of cells) {
+			expect(title.length).toBeGreaterThan(0);
+			expect(title.endsWith(text)).toBeTruthy();
 		}
 	});
 
@@ -67,31 +117,42 @@ test.describe('KEMs page', () => {
 		const panel = page.locator('aside').first();
 		await expect(panel.getByRole('heading', { name: 'Filters' })).toBeVisible();
 
+		await expect(page.getByText(`${expectedTotal} parameter set`)).toBeVisible();
+
 		await panel.getByRole('button', { name: 'None' }).click();
 		await expect(page.getByText('0 parameter sets')).toBeVisible();
 
 		await panel.getByRole('button', { name: 'All' }).click();
-		await expect(page.getByText('36 parameter sets')).toBeVisible();
+		await expect.poll(() => paramSetCount(page)).toBe(expectedTotal);
 	});
 
 	test('level filter excludes pre-quantum schemes', async ({ page }) => {
 		await page.goto('/kems/');
 		const panel = page.locator('aside').first();
-		// Unchecking the N/A (pre-quantum) level drops the four ECDH rows.
+
+		// Sanity check: the assertion below is meaningless if the source data has
+		// nothing pre-quantum to exclude.
+		expect(expectedNaCount).toBeGreaterThan(0);
+		expect(await paramSetCount(page)).toBe(expectedTotal);
+
 		await panel.getByLabel('N/A').uncheck();
-		await expect(page.getByText('32 parameter sets')).toBeVisible();
-		await expect(page.getByText('X25519', { exact: true })).toHaveCount(0);
+
+		await expect.poll(() => paramSetCount(page)).toBe(expectedTotal - expectedNaCount);
+		expect(await levelTexts(page)).not.toContain('N/A');
 	});
 
 	test('persists filter state in the URL across reload', async ({ page }) => {
 		await page.goto('/kems/');
 		const panel = page.locator('aside').first();
+
 		await panel.getByLabel('N/A').uncheck();
 		// debounced URL sync (300ms); toHaveURL polls until it matches
 		await expect(page).toHaveURL(/[?&]l=/);
 
 		await page.reload();
-		await expect(page.getByText('32 parameter sets')).toBeVisible();
-		await expect(page.getByText('X25519', { exact: true })).toHaveCount(0);
+		// Filter is re-applied from the URL in onMount, after hydration — poll rather
+		// than reading once, so we don't race the pre-hydration default-filter render.
+		await expect.poll(() => paramSetCount(page)).toBe(expectedTotal - expectedNaCount);
+		expect(await levelTexts(page)).not.toContain('N/A');
 	});
 });

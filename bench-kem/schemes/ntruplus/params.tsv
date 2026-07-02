@@ -1,0 +1,7 @@
+# NTRU+ (KpqC final algorithm) via github.com/ntruplus/ntruplus, AVX2 impl.
+# pk == ct for all sets (single-polynomial ciphertext).
+# Columns: file, name, pk, sk, ct, ss, iters
+file	name	pk	sk	ct	ss	iters
+ntruplus768	NTRU+768	1152	2336	1152	32	0
+ntruplus864	NTRU+864	1296	2624	1296	32	0
+ntruplus1152	NTRU+1152	1728	3488	1728	32	0
