@@ -9,59 +9,59 @@ parametersets:
   level: 1
   pk: 9616
   ct: 9752
-  keygen_cycles: 900572
-  encaps_cycles: 1085656
-  decaps_cycles: 1082248
-  keygen_us: 325.4
-  encaps_us: 392.3
-  decaps_us: 391.0
+  keygen_cycles: 896752
+  encaps_cycles: 1081365
+  decaps_cycles: 1079984
+  keygen_us: 315.2
+  encaps_us: 378.1
+  decaps_us: 373.1
 - name: FrodoKEM-640-SHAKE
   level: 1
   pk: 9616
   ct: 9752
-  keygen_cycles: 3034913
-  encaps_cycles: 3225731
-  decaps_cycles: 3224470
-  keygen_us: 1082.7
-  encaps_us: 1171.9
-  decaps_us: 1163.3
+  keygen_cycles: 3033912
+  encaps_cycles: 3225892
+  decaps_cycles: 3222179
+  keygen_us: 1030.5
+  encaps_us: 1089.8
+  decaps_us: 1093.9
 - name: FrodoKEM-976-AES
   level: 3
   pk: 15632
   ct: 15792
-  keygen_cycles: 1767798
-  encaps_cycles: 2005980
-  decaps_cycles: 1977994
-  keygen_us: 650.7
-  encaps_us: 746.1
-  decaps_us: 731.2
+  keygen_cycles: 1764613
+  encaps_cycles: 2003057
+  decaps_cycles: 1976793
+  keygen_us: 694.0
+  encaps_us: 779.6
+  decaps_us: 771.2
 - name: FrodoKEM-976-SHAKE
   level: 3
   pk: 15632
   ct: 15792
-  keygen_cycles: 6500964
-  encaps_cycles: 6770381
-  decaps_cycles: 6744288
-  keygen_us: 2375.4
-  encaps_us: 2469.8
-  decaps_us: 2461.6
+  keygen_cycles: 6492040
+  encaps_cycles: 6761014
+  decaps_cycles: 6733661
+  keygen_us: 2238.5
+  encaps_us: 2332.5
+  decaps_us: 2315.3
 - name: FrodoKEM-1344-AES
   level: 5
   pk: 21520
   ct: 21696
-  keygen_cycles: 3045809
-  encaps_cycles: 3335477
-  decaps_cycles: 3299204
-  keygen_us: 1097.6
-  encaps_us: 1215.5
-  decaps_us: 1186.3
+  keygen_cycles: 3039371
+  encaps_cycles: 3326717
+  decaps_cycles: 3289352
+  keygen_us: 1030.4
+  encaps_us: 1131.7
+  decaps_us: 1113.0
 - name: FrodoKEM-1344-SHAKE
   level: 5
   pk: 21520
   ct: 21696
-  keygen_cycles: 11368599
-  encaps_cycles: 11769227
-  decaps_cycles: 11726834
-  keygen_us: 4165.3
-  encaps_us: 4360.2
-  decaps_us: 4316.2
+  keygen_cycles: 11359926
+  encaps_cycles: 11757392
+  decaps_cycles: 11713791
+  keygen_us: 3927.4
+  encaps_us: 4067.4
+  decaps_us: 4053.4

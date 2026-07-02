@@ -1,3 +1,8 @@
+- date: '2026-07-02'
+  type: update
+  description: "Added SABER (NIST round-3 finalist, not selected) to the KEMs comparison page, with benchmarked keygen/encaps/decaps timings for LightSaber, Saber, and FireSaber."
+  schemes: [SABER]
+
 - date: '2026-07-01'
   type: update
   description: "Published a standalone KEMs comparison page — public-key and ciphertext sizes plus keygen/encaps/decaps benchmarks for ML-KEM, HQC, and classical ECDH."

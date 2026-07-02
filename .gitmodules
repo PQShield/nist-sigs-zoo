@@ -54,3 +54,7 @@
 	path = bench-kem/schemes/ntru/ref
 	url = https://github.com/jschanck/ntru
 	ignore = "dirty"
+[submodule "bench-kem/schemes/saber/ref"]
+	path = bench-kem/schemes/saber/ref
+	url = https://github.com/KULeuven-COSIC/SABER
+	ignore = "dirty"

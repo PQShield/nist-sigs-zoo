@@ -9,49 +9,49 @@ parametersets:
   level: 1
   pk: 261120
   ct: 96
-  keygen_cycles: 48837867
-  encaps_cycles: 39732
-  decaps_cycles: 142348
-  keygen_us: 16764.9
-  encaps_us: 13.1
-  decaps_us: 48.9
+  keygen_cycles: 53246463
+  encaps_cycles: 39397
+  decaps_cycles: 133207
+  keygen_us: 16960.2
+  encaps_us: 11.4
+  decaps_us: 39.2
 - name: mceliece460896
   level: 3
   pk: 524160
   ct: 156
-  keygen_cycles: 141774683
-  encaps_cycles: 95556
-  decaps_cycles: 294884
-  keygen_us: 52633.0
-  encaps_us: 30.7
-  decaps_us: 105.4
+  keygen_cycles: 167292896
+  encaps_cycles: 95285
+  decaps_cycles: 289173
+  keygen_us: 53125.6
+  encaps_us: 28.9
+  decaps_us: 90.7
 - name: mceliece6688128
   level: 5
   pk: 1044992
   ct: 208
-  keygen_cycles: 378022283
-  encaps_cycles: 183678
-  decaps_cycles: 335428
-  keygen_us: 130874.4
-  encaps_us: 65.4
-  decaps_us: 116.9
+  keygen_cycles: 375276314
+  encaps_cycles: 177337
+  decaps_cycles: 336191
+  keygen_us: 127112.5
+  encaps_us: 58.7
+  decaps_us: 117.3
 - name: mceliece6960119
   level: 5
   pk: 1047319
   ct: 194
-  keygen_cycles: 269164970
-  encaps_cycles: 207199
-  decaps_cycles: 318692
-  keygen_us: 93640.8
-  encaps_us: 83.8
-  decaps_us: 125.4
+  keygen_cycles: 418251040
+  encaps_cycles: 202751
+  decaps_cycles: 324677
+  keygen_us: 133963.7
+  encaps_us: 55.5
+  decaps_us: 103.3
 - name: mceliece8192128
   level: 5
   pk: 1357824
   ct: 208
-  keygen_cycles: 340582164
-  encaps_cycles: 231510
-  decaps_cycles: 340673
-  keygen_us: 124599.7
-  encaps_us: 79.7
-  decaps_us: 116.6
+  keygen_cycles: 368319700
+  encaps_cycles: 223558
+  decaps_cycles: 340184
+  keygen_us: 129485.4
+  encaps_us: 70.4
+  decaps_us: 107.5
