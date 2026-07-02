@@ -1,3 +1,7 @@
+import fs from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+import yaml from 'js-yaml';
 import { test, expect, type Page } from '@playwright/test';
 
 // Real data rows carry a title attribute on the Parameter Set cell (4th column);
@@ -5,6 +9,27 @@ import { test, expect, type Page } from '@playwright/test';
 // matches, so these locators naturally exclude it without any literal counts.
 const paramSetCellSelector = 'tbody tr td:nth-child(4)[title]';
 const levelCellSelector = 'tbody tr td:nth-child(5)';
+
+// Expected counts come from data/kems/*.yaml directly (the source of truth), not
+// from the rendered page — asserting DOM against DOM would be tautological and
+// wouldn't catch a rendering/filtering bug that drops or duplicates rows.
+const KEMS_DIR = path.join(path.dirname(fileURLToPath(import.meta.url)), '..', 'data', 'kems');
+
+function loadSourceParameterSets(): { level: unknown }[] {
+	const files = fs.readdirSync(KEMS_DIR).filter((f) => f.endsWith('.yaml'));
+	const all: { level: unknown }[] = [];
+	for (const file of files) {
+		const doc = yaml.load(fs.readFileSync(path.join(KEMS_DIR, file), 'utf8')) as {
+			parametersets: { level: unknown }[];
+		};
+		all.push(...doc.parametersets);
+	}
+	return all;
+}
+
+const sourceParameterSets = loadSourceParameterSets();
+const expectedTotal = sourceParameterSets.length;
+const expectedNaCount = sourceParameterSets.filter((ps) => ps.level === 'Pre-Quantum').length;
 
 async function paramSetCount(page: Page): Promise<number> {
 	const text = await page.getByText(/^\d+ parameter sets?$/).innerText();
@@ -63,8 +88,8 @@ test.describe('KEMs page', () => {
 		await expect(page.locator('table')).toBeVisible();
 
 		const rowCount = await page.locator(paramSetCellSelector).count();
-		expect(rowCount).toBeGreaterThan(0);
-		expect(await paramSetCount(page)).toBe(rowCount);
+		expect(rowCount).toBe(expectedTotal);
+		expect(await paramSetCount(page)).toBe(expectedTotal);
 
 		// The parameter-set cell may display a shortened name (scheme prefix
 		// stripped), but always carries the full name as its title attribute.
@@ -92,28 +117,27 @@ test.describe('KEMs page', () => {
 		const panel = page.locator('aside').first();
 		await expect(panel.getByRole('heading', { name: 'Filters' })).toBeVisible();
 
-		const initialCount = await paramSetCount(page);
-		expect(initialCount).toBeGreaterThan(0);
+		await expect(page.getByText(`${expectedTotal} parameter set`)).toBeVisible();
 
 		await panel.getByRole('button', { name: 'None' }).click();
 		await expect(page.getByText('0 parameter sets')).toBeVisible();
 
 		await panel.getByRole('button', { name: 'All' }).click();
-		expect(await paramSetCount(page)).toBe(initialCount);
+		await expect.poll(() => paramSetCount(page)).toBe(expectedTotal);
 	});
 
 	test('level filter excludes pre-quantum schemes', async ({ page }) => {
 		await page.goto('/kems/');
 		const panel = page.locator('aside').first();
 
-		const totalBefore = await paramSetCount(page);
-		const naCountBefore = (await levelTexts(page)).filter((l) => l === 'N/A').length;
-		// Sanity check: the assertions below are meaningless if there's nothing to exclude.
-		expect(naCountBefore).toBeGreaterThan(0);
+		// Sanity check: the assertion below is meaningless if the source data has
+		// nothing pre-quantum to exclude.
+		expect(expectedNaCount).toBeGreaterThan(0);
+		expect(await paramSetCount(page)).toBe(expectedTotal);
 
 		await panel.getByLabel('N/A').uncheck();
 
-		expect(await paramSetCount(page)).toBe(totalBefore - naCountBefore);
+		await expect.poll(() => paramSetCount(page)).toBe(expectedTotal - expectedNaCount);
 		expect(await levelTexts(page)).not.toContain('N/A');
 	});
 
@@ -121,16 +145,14 @@ test.describe('KEMs page', () => {
 		await page.goto('/kems/');
 		const panel = page.locator('aside').first();
 
-		const totalBefore = await paramSetCount(page);
-		const naCountBefore = (await levelTexts(page)).filter((l) => l === 'N/A').length;
-		expect(naCountBefore).toBeGreaterThan(0);
-
 		await panel.getByLabel('N/A').uncheck();
 		// debounced URL sync (300ms); toHaveURL polls until it matches
 		await expect(page).toHaveURL(/[?&]l=/);
 
 		await page.reload();
-		expect(await paramSetCount(page)).toBe(totalBefore - naCountBefore);
+		// Filter is re-applied from the URL in onMount, after hydration — poll rather
+		// than reading once, so we don't race the pre-hydration default-filter render.
+		await expect.poll(() => paramSetCount(page)).toBe(expectedTotal - expectedNaCount);
 		expect(await levelTexts(page)).not.toContain('N/A');
 	});
 });
