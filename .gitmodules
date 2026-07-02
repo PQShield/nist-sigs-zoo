@@ -61,3 +61,7 @@
 [submodule "bench-kem/schemes/ntruplus/ref"]
 	path = bench-kem/schemes/ntruplus/ref
 	url = https://github.com/ntruplus/ntruplus.git
+[submodule "bench-kem/schemes/smaugt/ref"]
+	path = bench-kem/schemes/smaugt/ref
+	url = https://github.com/hmchoe0528/SMAUG-T_public.git
+	ignore = "dirty"

@@ -1,0 +1,37 @@
+name: SMAUG-T
+website: https://kpqc.cryptolab.co.kr/smaug-t
+category: Lattices
+assumption: MLWE / MLWR
+status: KpqC standard
+info: Module-LWE/LWR KEM (CryptoLab) selected as a final algorithm in Korea's KpqC competition, merged with TiGER during round 2. Uses a sparse secret and the Fujisaki-Okamoto transform over an MLWE/MLWR IND-CPA PKE, in the style of Kyber/Saber.
+parametersets:
+- name: SMAUG-T128
+  level: 1
+  pk: 672
+  ct: 672
+  keygen_cycles: 30013
+  encaps_cycles: 20640
+  decaps_cycles: 32264
+  keygen_us: 12.8
+  encaps_us: 8.7
+  decaps_us: 12.9
+- name: SMAUG-T192
+  level: 3
+  pk: 1088
+  ct: 992
+  keygen_cycles: 46427
+  encaps_cycles: 40754
+  decaps_cycles: 56743
+  keygen_us: 15.8
+  encaps_us: 13.5
+  decaps_us: 18.4
+- name: SMAUG-T256
+  level: 5
+  pk: 1440
+  ct: 1376
+  keygen_cycles: 61387
+  encaps_cycles: 55805
+  decaps_cycles: 77290
+  keygen_us: 21.2
+  encaps_us: 18.4
+  decaps_us: 25.1

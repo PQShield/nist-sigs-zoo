@@ -1,0 +1,7 @@
+# SMAUG-T (KpqC round-2 finalist) via hmchoe0528/SMAUG-T_public, optimized (AVX2) impl.
+# Namespace is cryptolab_smaug<mode>_crypto_kem_*; -DSMAUG_MODE=<mode> selects the set.
+# Columns: file, name, pk, sk, ct, ss, iters, mode
+file	name	pk	sk	ct	ss	iters	mode
+smaugt1	SMAUG-T128	672	832	672	32	0	1
+smaugt3	SMAUG-T192	1088	1312	992	32	0	3
+smaugt5	SMAUG-T256	1440	1792	1376	32	0	5

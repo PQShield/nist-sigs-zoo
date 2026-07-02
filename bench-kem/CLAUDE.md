@@ -47,7 +47,8 @@ bench-kem/
     ├── ntru/             # jschanck/ntru (AVX2 + per-set asm codegen); ref/ is a git submodule
     ├── ntruprime/        # libntruprime.cr.yp.to (tarball); build_libs.sh fetches+builds (Streamlined only)
     ├── saber/            # KULeuven-COSIC/SABER (AVX2, per-set source copy); ref/ is a git submodule
-    └── ntruplus/         # ntruplus/ntruplus (AVX2, KpqC final algorithm); ref/ is a git submodule
+    ├── ntruplus/         # ntruplus/ntruplus (AVX2, KpqC final algorithm); ref/ is a git submodule
+    └── smaugt/           # hmchoe0528/SMAUG-T_public (AVX2, KpqC final algorithm); ref/ is a git submodule
 ```
 
 `SO_PATHS[]` in `main.c` is **auto-generated** from `ALL_SOS` in `Makefile` into
@@ -205,6 +206,16 @@ The shim adapts upstream API conventions to the KEM contract. Notes:
   defines `crypto_kem_*`) keeps default visibility so the loader can still `dlsym` it.
   `randombytes.c` is bundled and getrandom-backed/self-seeding, so no RNG constructor
   is needed.
+- **SMAUG-T** (hmchoe0528/SMAUG-T_public, `optimized_implementation/kem`, AVX2) exports
+  a mode-namespaced API — `cryptolab_smaug<mode>_crypto_kem_*` (`<mode>` = `1`/`3`/`5` for
+  the T128/T192/T256 sets), selected at build time via `-DSMAUG_MODE=<mode>` — so the
+  shim wraps it like mlkem's `@MODE@` token. `randombytes.c` is bundled and
+  getrandom-backed/self-seeding; `rng.c` (AES-CTR-DRBG via OpenSSL) exists only for the
+  upstream's own KAT harness and is never linked in. pk/ct sizes come straight from
+  `include/parameters.h`'s byte-count macros (verified against upstream's own
+  `api.h` `#define`s). The upstream repo also carries a `TiMER` variant (Level-1-only,
+  reference implementation only, no AVX2) — omitted here since it has no optimized
+  build to benchmark against the others on equal footing.
 
 ## Adding a new scheme
 

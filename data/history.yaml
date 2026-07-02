@@ -1,5 +1,10 @@
 - date: '2026-07-02'
   type: update
+  description: "Added SMAUG-T (finalist algorithm selected in Korea's KpqC competition) to the KEMs comparison page, with benchmarked keygen/encaps/decaps timings for SMAUG-T128, SMAUG-T192, and SMAUG-T256."
+  schemes: [SMAUG-T]
+
+- date: '2026-07-02'
+  type: update
   description: "Added NTRU+ (finalist algorithm selected in Korea's KpqC competition) to the KEMs comparison page, with benchmarked keygen/encaps/decaps timings for NTRU+768, NTRU+864, and NTRU+1152."
   schemes: [NTRU+]
 
