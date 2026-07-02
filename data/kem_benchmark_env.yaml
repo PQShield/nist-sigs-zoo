@@ -1,7 +1,7 @@
 # Licensed under CC BY 4.0: https://creativecommons.org/licenses/by/4.0/
 license: CC-BY-4.0
 attribution: Thom Wiggers / PQShield
-date: '2026-07-02T07:31:28Z'
+date: '2026-07-02T08:58:45Z'
 cpu:
   model: 12th Gen Intel(R) Core(TM) i7-12650H
   cores: 8
@@ -21,5 +21,6 @@ sources:
   mceliece: https://lib.mceliece.org/libmceliece-20260622.tar.gz
   mlkem: https://github.com/pq-code-package/mlkem-native.git@2d1cc90f71bd59617062844e874ac6e70868e1f8
   ntru: https://github.com/jschanck/ntru@6d96ed3746000b6497392a425712fe483988fc80
+  ntruplus: https://github.com/ntruplus/ntruplus.git@f4507621e2111af52bb87b1950249baac683a37d
   ntruprime: https://libntruprime.cr.yp.to/libntruprime-20241021.tar.gz
   saber: https://github.com/KULeuven-COSIC/SABER@f7f39e4db2f3e22a21e1dd635e0601caae2b4510

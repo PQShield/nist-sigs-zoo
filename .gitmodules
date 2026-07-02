@@ -58,3 +58,6 @@
 	path = bench-kem/schemes/saber/ref
 	url = https://github.com/KULeuven-COSIC/SABER
 	ignore = "dirty"
+[submodule "bench-kem/schemes/ntruplus/ref"]
+	path = bench-kem/schemes/ntruplus/ref
+	url = https://github.com/ntruplus/ntruplus.git

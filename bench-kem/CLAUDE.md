@@ -46,7 +46,8 @@ bench-kem/
     ├── bat/              # pornin/BAT (NTRU-based, AVX2); ref/ is a git submodule
     ├── ntru/             # jschanck/ntru (AVX2 + per-set asm codegen); ref/ is a git submodule
     ├── ntruprime/        # libntruprime.cr.yp.to (tarball); build_libs.sh fetches+builds (Streamlined only)
-    └── saber/            # KULeuven-COSIC/SABER (AVX2, per-set source copy); ref/ is a git submodule
+    ├── saber/            # KULeuven-COSIC/SABER (AVX2, per-set source copy); ref/ is a git submodule
+    └── ntruplus/         # ntruplus/ntruplus (AVX2, KpqC final algorithm); ref/ is a git submodule
 ```
 
 `SO_PATHS[]` in `main.c` is **auto-generated** from `ALL_SOS` in `Makefile` into
@@ -194,6 +195,16 @@ The shim adapts upstream API conventions to the KEM contract. Notes:
   test-harness `.c` `#include` `cpucycles.c` directly, so the scheme `Makefile`
   compiles it as an ordinary source file instead. A NIST round-3 finalist, not
   selected for standardisation.
+- **NTRU+** (ntruplus/ntruplus, KpqC-Final branch) exports the bare NIST API from its
+  own objects — same no-wrap shape as HQC/SABER — pk == ct for all sets. The AVX2
+  implementation's hand-written `.s` files address per-set lookup tables (`_16xv`,
+  `zetas`, …) `%rip`-relative; those relocations only resolve when linking a shared
+  object if the referenced symbols are DSO-local, so `consts.c` (where the tables are
+  defined) is compiled separately with `-fvisibility=hidden` — otherwise `ld` refuses
+  with "recompile with -fPIC" even though `-fPIC` is already set. `kem.c` (which
+  defines `crypto_kem_*`) keeps default visibility so the loader can still `dlsym` it.
+  `randombytes.c` is bundled and getrandom-backed/self-seeding, so no RNG constructor
+  is needed.
 
 ## Adding a new scheme
 

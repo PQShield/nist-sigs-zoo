@@ -1,0 +1,37 @@
+name: NTRU+
+website: https://www.ntruplus.org/specification
+category: Lattices
+assumption: NTRU
+status: KpqC standard
+info: NTT-friendly NTRU variant (Kim, Park) selected as a final algorithm in Korea's KpqC competition. Uses a new ACWC2+FO⊥ transform chain that avoids re-encryption during decapsulation, unlike most FO-transformed KEMs. Public key and ciphertext are the same size.
+parametersets:
+- name: NTRU+768
+  level: 1
+  pk: 1152
+  ct: 1152
+  keygen_cycles: 21482
+  encaps_cycles: 27986
+  decaps_cycles: 19308
+  keygen_us: 11.2
+  encaps_us: 14.2
+  decaps_us: 9.2
+- name: NTRU+864
+  level: 3
+  pk: 1296
+  ct: 1296
+  keygen_cycles: 23882
+  encaps_cycles: 32712
+  decaps_cycles: 23308
+  keygen_us: 12.4
+  encaps_us: 16.5
+  decaps_us: 11.1
+- name: NTRU+1152
+  level: 5
+  pk: 1728
+  ct: 1728
+  keygen_cycles: 37792
+  encaps_cycles: 42445
+  decaps_cycles: 29970
+  keygen_us: 14.7
+  encaps_us: 17.3
+  decaps_us: 11.6
