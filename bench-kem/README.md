@@ -37,6 +37,7 @@ fallback with `BENCH_CYCLES=tsc`; pick the core with `BENCH_CPU=N`.
 | BAT     | `pornin/BAT` (NTRU-based, avx2)              | BAT-257-512, BAT-769-1024 |
 | NTRU    | `jschanck/ntru` (avx2 + asm codegen)        | ntruhps2048509 / 2048677 / 4096821, ntruhrss701 |
 | NTRU Prime | `libntruprime.cr.yp.to` (tarball, avx2)  | sntrup653 / 761 / 857 / 953 / 1013 / 1277 (Streamlined) |
+| SABER   | `KULeuven-COSIC/SABER` (avx2)                | LightSaber / Saber / FireSaber |
 | ECDH    | OpenSSL 3 (EVP)                             | X25519, X448, P-256, P-384 |
 
 Classic McEliece and NTRU Prime are tarball libraries (libmceliece / libntruprime),

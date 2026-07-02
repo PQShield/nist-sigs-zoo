@@ -1,0 +1,6 @@
+# SABER (NIST round-3 finalist, not selected) via KULeuven-COSIC/SABER AVX2 impl.
+# Columns: file, name, pk, sk, ct, ss, iters, macro (SABER_TYPE value patched into api.h)
+file	name	pk	sk	ct	ss	iters	macro
+lightsaber	LightSaber	672	1568	736	32	0	LightSaber
+saber	Saber	992	2304	1088	32	0	Saber
+firesaber	FireSaber	1312	3040	1472	32	0	FireSaber

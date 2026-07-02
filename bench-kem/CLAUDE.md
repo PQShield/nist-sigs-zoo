@@ -45,7 +45,8 @@ bench-kem/
     ├── mceliece/         # lib.mceliece.org (libmceliece, tarball); build_libs.sh fetches+builds
     ├── bat/              # pornin/BAT (NTRU-based, AVX2); ref/ is a git submodule
     ├── ntru/             # jschanck/ntru (AVX2 + per-set asm codegen); ref/ is a git submodule
-    └── ntruprime/        # libntruprime.cr.yp.to (tarball); build_libs.sh fetches+builds (Streamlined only)
+    ├── ntruprime/        # libntruprime.cr.yp.to (tarball); build_libs.sh fetches+builds (Streamlined only)
+    └── saber/            # KULeuven-COSIC/SABER (AVX2, per-set source copy); ref/ is a git submodule
 ```
 
 `SO_PATHS[]` in `main.c` is **auto-generated** from `ALL_SOS` in `Makefile` into
@@ -173,6 +174,26 @@ The shim adapts upstream API conventions to the KEM contract. Notes:
   SHAKE PRNG (`prng_init`) — the upstream expects the NIST KAT harness to do this.
   Variant (HQC-1/3/5) is selected by include path; the x86_64/avx256 implementation
   is built (needs `-mavx2 -mpclmul`), with `gf2x.c`/`reed_solomon.c` per-variant.
+- **SABER** (KULeuven-COSIC/SABER) also exports the bare NIST API from its own
+  objects — same no-wrap shape as HQC — but the parameter set can't be chosen via
+  `-D` on the command line: `AVX_Implementation_KEM/api.h` hardcodes
+  `#define SABER_TYPE Saber` with no `#ifndef` guard, so a command-line macro of
+  the same name loses (the header's own `#define` is processed later and wins).
+  The scheme `Makefile` instead copies the whole reference tree into
+  `build/<set>/` per parameter set and `sed`s that *copy's* `api.h`; quoted
+  `#include "api.h"` resolves relative to the including file's own directory
+  first, so the patched copy shadows the submodule original without ever
+  touching the checked-out submodule. `SABER_indcpa.c` `#include`s
+  `polymul/toom-cook_4way.c` (which itself `#include`s `scm_avx.c`/`matrix.c`),
+  so those never get compiled as separate translation units — only the
+  top-level `.c` files are built. `rng.c` needs OpenSSL (`AES256_ECB` via EVP);
+  a `__attribute__((constructor))` seeds its global AES256-CTR-DRBG via
+  `randombytes_init`, without which every draw comes from a zero key/IV. `kem.c`
+  and `SABER_indcpa.c` also call `cpucycles()` for their own unused internal
+  profiling counters — upstream normally supplies the definition by having a
+  test-harness `.c` `#include` `cpucycles.c` directly, so the scheme `Makefile`
+  compiles it as an ordinary source file instead. A NIST round-3 finalist, not
+  selected for standardisation.
 
 ## Adding a new scheme
 

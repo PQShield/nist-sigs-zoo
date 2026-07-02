@@ -10,9 +10,10 @@ MCELIECE_SOS= $(addprefix schemes/mceliece/build/, mceliece348864.so mceliece460
 BAT_SOS     = $(addprefix schemes/bat/build/,      bat257512.so bat7691024.so)
 NTRU_SOS    = $(addprefix schemes/ntru/build/,     ntruhps2048509.so ntruhps2048677.so ntruhps4096821.so ntruhrss701.so)
 NTRUP_SOS   = $(addprefix schemes/ntruprime/build/, sntrup653.so sntrup761.so sntrup857.so sntrup953.so sntrup1013.so sntrup1277.so)
+SABER_SOS   = $(addprefix schemes/saber/build/,    lightsaber.so saber.so firesaber.so)
 
-ALL_SOS     = $(CLASSIC_SOS) $(MLKEM_SOS) $(HQC_SOS) $(FRODO_SOS) $(MCELIECE_SOS) $(BAT_SOS) $(NTRU_SOS) $(NTRUP_SOS)
-SCHEME_DIRS = classic mlkem hqc frodo mceliece bat ntru ntruprime
+ALL_SOS     = $(CLASSIC_SOS) $(MLKEM_SOS) $(HQC_SOS) $(FRODO_SOS) $(MCELIECE_SOS) $(BAT_SOS) $(NTRU_SOS) $(NTRUP_SOS) $(SABER_SOS)
+SCHEME_DIRS = classic mlkem hqc frodo mceliece bat ntru ntruprime saber
 STAMPS      = $(addprefix schemes/, $(addsuffix /.stamp, $(SCHEME_DIRS)))
 
 .PHONY: all clean
@@ -29,6 +30,7 @@ schemes/mceliece/.stamp: schemes/mceliece/Makefile schemes/mceliece/shim_templat
 schemes/bat/.stamp:     schemes/bat/Makefile   schemes/bat/shim_template.c   schemes/bat/params.tsv
 schemes/ntru/.stamp:    schemes/ntru/Makefile  schemes/ntru/shim_template.c  schemes/ntru/params.tsv
 schemes/ntruprime/.stamp: schemes/ntruprime/Makefile schemes/ntruprime/shim_template.c schemes/ntruprime/params.tsv schemes/ntruprime/build_libs.sh
+schemes/saber/.stamp:   schemes/saber/Makefile schemes/saber/shim_template.c schemes/saber/params.tsv
 
 # Shared recipe for every scheme stamp.
 $(STAMPS): schemes/%/.stamp:
@@ -44,6 +46,7 @@ $(MCELIECE_SOS): schemes/mceliece/.stamp
 $(BAT_SOS):     schemes/bat/.stamp
 $(NTRU_SOS):    schemes/ntru/.stamp
 $(NTRUP_SOS):   schemes/ntruprime/.stamp
+$(SABER_SOS):   schemes/saber/.stamp
 
 # Generate the SO path list included by main.c.
 $(BUILD)/so_paths.h: Makefile | $(BUILD)

@@ -9,19 +9,19 @@ parametersets:
   level: 1
   pk: 521
   ct: 473
-  keygen_cycles: 18164782
-  encaps_cycles: 10715
-  decaps_cycles: 72279
-  keygen_us: 6323.6
-  encaps_us: 4.3
-  decaps_us: 25.5
+  keygen_cycles: 18111066
+  encaps_cycles: 10501
+  decaps_cycles: 71795
+  keygen_us: 5724.9
+  encaps_us: 3.8
+  decaps_us: 23.0
 - name: BAT-769-1024
   level: 5
   pk: 1230
   ct: 1006
-  keygen_cycles: 105676048
-  encaps_cycles: 28998
-  decaps_cycles: 166515
-  keygen_us: 37598.8
-  encaps_us: 11.6
-  decaps_us: 59.4
+  keygen_cycles: 86901278
+  encaps_cycles: 24987
+  decaps_cycles: 158077
+  keygen_us: 28532.1
+  encaps_us: 8.7
+  decaps_us: 50.3
