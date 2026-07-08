@@ -6,9 +6,7 @@ import type {
 	KemSchemeYaml,
 	NistLevel
 } from './types';
-
-/** Extrapolate cycles from µs at the reference clock when only µs is present. */
-const KEM_CPUSPEED = 2_500_000_000;
+import { CPUSPEED } from './constants';
 
 /**
  * Flatten KEM YAML into schemes + parameter-set rows.
@@ -55,7 +53,7 @@ export function processKemSchemes(schemeData: KemSchemeYaml[]): {
 				cycles != null && cycles > 0
 					? cycles
 					: us != null
-						? Math.round((KEM_CPUSPEED * us) / 1_000_000)
+						? Math.round((CPUSPEED * us) / 1_000_000)
 						: 0;
 
 			rows.push({

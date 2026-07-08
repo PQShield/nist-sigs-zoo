@@ -61,10 +61,28 @@
 	let container = $state<HTMLDivElement | null>(null);
 	let viewHandle: { finalize(): void } | null = null;
 	let renderSeq = 0;
+	let renderQueue: Promise<void> = Promise.resolve();
+	let renderError = $state(false);
+	let innerWidth = $state(0);
+	const isMobile = $derived(innerWidth > 0 && innerWidth < 640);
 
-	async function render() {
-		if (!container) return;
+	// Serialize renders: concurrent vega-embed calls on the same container can
+	// leave a stale, finalized chart in the DOM when they resolve out of order.
+	function render() {
 		const seq = ++renderSeq;
+		renderQueue = renderQueue.then(async () => {
+			try {
+				await doRender(seq);
+				renderError = false;
+			} catch (err) {
+				console.error('scatter plot render failed', err);
+				renderError = true;
+			}
+		});
+	}
+
+	async function doRender(seq: number) {
+		if (!container || seq !== renderSeq) return;
 
 		const { default: embed } = await import('vega-embed');
 		const isDark = document.documentElement.classList.contains('dark');
@@ -131,7 +149,6 @@
 		const categoryDomain = presentShapeKeys;
 		const categoryShapeRange = presentShapeKeys.map((k) => CATEGORY_SHAPES[k]);
 
-		const isMobile = window.innerWidth < 640;
 		const mobileLegend = isMobile
 			? { orient: 'bottom', direction: 'horizontal', columns: 3, labelFontSize: 10 }
 			: {};
@@ -142,11 +159,15 @@
 			padding: 8,
 			...mobileLegend
 		};
-		const shapeLegendConfig = {
-			...legendConfig,
-			symbolFillColor: isDark ? '#94A3B8' : '#475569',
-			symbolStrokeColor: isDark ? '#94A3B8' : '#475569'
-		};
+		// Shape legend is too wide to show on mobile (matches ScatterPlot behaviour;
+		// the "Shape = family" note below the chart compensates).
+		const shapeLegendConfig = isMobile
+			? null
+			: {
+					...legendConfig,
+					symbolFillColor: isDark ? '#94A3B8' : '#475569',
+					symbolStrokeColor: isDark ? '#94A3B8' : '#475569'
+				};
 
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		const spec: any = {
@@ -181,7 +202,7 @@
 							field: 'shapeKey',
 							type: 'nominal',
 							scale: { domain: categoryDomain, range: categoryShapeRange },
-							legend: { title: 'Family', ...shapeLegendConfig }
+							legend: shapeLegendConfig ? { title: 'Family', ...shapeLegendConfig } : null
 						}
 					}
 				},
@@ -225,12 +246,8 @@
 		};
 
 		viewHandle?.finalize();
-		const result = await embed(container, spec, { actions: false, renderer: 'svg' });
-		if (seq !== renderSeq) {
-			result.finalize();
-			return;
-		}
-		viewHandle = result;
+		viewHandle = null;
+		viewHandle = await embed(container, spec, { actions: false, renderer: 'svg' });
 	}
 
 	onMount(() => {
@@ -241,11 +258,17 @@
 		rows;
 		$themeStore;
 		xField; yField; xScale; yScale;
+		isMobile;
 		render();
 	});
 </script>
 
+<svelte:window bind:innerWidth />
+
 <div bind:this={container} class="w-full"></div>
+{#if renderError}
+	<p class="mt-1 text-xs text-pqs-scarlet" role="alert">Chart failed to render.</p>
+{/if}
 <p class="sm:hidden mt-1 text-xs text-pqs-bluegray dark:text-pqs-steel">Shape = family · tap point for details</p>
 <div class="mt-1 flex items-center justify-between">
 	<p class="text-xs text-pqs-bluegray dark:text-pqs-steel">Scroll to zoom · drag to pan</p>

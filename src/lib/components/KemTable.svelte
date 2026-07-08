@@ -1,29 +1,13 @@
 <script lang="ts">
 	import type { KemParameterSet, KemSortableColumn } from '$lib/types';
+	import { CYCLES_PER_US, CPU_GHZ_LABEL } from '$lib/constants';
+	import { fmt, fmtCycles, fmtTime } from '$lib/format';
 	import SecurityBadge from './SecurityBadge.svelte';
 
 	let { rows }: { rows: KemParameterSet[] } = $props();
 
 	let sortCol = $state<KemSortableColumn>('pkPlusCt');
 	let sortDir = $state<'asc' | 'desc'>('asc');
-
-	function fmt(n: number) {
-		return n.toLocaleString();
-	}
-
-	function fmtCycles(n: number): string {
-		if (n <= 0) return '—';
-		if (n >= 1_000_000_000) return (n / 1_000_000_000).toFixed(2) + 'G';
-		if (n >= 1_000_000) return (n / 1_000_000).toFixed(1) + 'M';
-		if (n >= 1_000) return (n / 1_000).toFixed(0) + 'K';
-		return String(n);
-	}
-
-	function fmtTime(us: number): string {
-		if (us >= 1_000_000) return (us / 1_000_000).toFixed(2) + ' s';
-		if (us >= 1_000) return (us / 1_000).toFixed(2) + ' ms';
-		return us.toFixed(1) + ' µs';
-	}
 
 	function shortParam(row: KemParameterSet): string {
 		const prefix = row.scheme + '-';
@@ -53,6 +37,13 @@
 		5: 5
 	};
 
+	// Displayed time in µs, or null when the row has no timing data (shown as "—").
+	const TIME_VALUE: Partial<Record<KemSortableColumn, (r: KemParameterSet) => number | null>> = {
+		keygenUs: (r) => r.keygenUs ?? (r.keygenCycles > 0 ? r.keygenCycles / CYCLES_PER_US : null),
+		encapsUs: (r) => r.encapsUs ?? (r.encapsCycles > 0 ? r.encapsCycles / CYCLES_PER_US : null),
+		decapsUs: (r) => r.decapsUs ?? (r.decapsCycles > 0 ? r.decapsCycles / CYCLES_PER_US : null)
+	};
+
 	function compare(a: KemParameterSet, b: KemParameterSet, col: KemSortableColumn): number {
 		switch (col) {
 			case 'level':
@@ -63,12 +54,6 @@
 				return a.ct - b.ct;
 			case 'pkPlusCt':
 				return a.pkPlusCt - b.pkPlusCt;
-			case 'keygenUs':
-				return (a.keygenUs ?? a.keygenCycles / 2500) - (b.keygenUs ?? b.keygenCycles / 2500);
-			case 'encapsUs':
-				return (a.encapsUs ?? a.encapsCycles / 2500) - (b.encapsUs ?? b.encapsCycles / 2500);
-			case 'decapsUs':
-				return (a.decapsUs ?? a.decapsCycles / 2500) - (b.decapsUs ?? b.decapsCycles / 2500);
 			default: {
 				const av = String(a[col] ?? '').toLowerCase();
 				const bv = String(b[col] ?? '').toLowerCase();
@@ -79,6 +64,16 @@
 
 	const sortedRows = $derived(
 		[...rows].sort((a, b) => {
+			// Time columns keep rows without data last regardless of direction.
+			const timeValue = TIME_VALUE[sortCol];
+			if (timeValue) {
+				const av = timeValue(a);
+				const bv = timeValue(b);
+				if (av == null && bv == null) return 0;
+				if (av == null) return 1;
+				if (bv == null) return -1;
+				return sortDir === 'asc' ? av - bv : bv - av;
+			}
 			const cmp = compare(a, b, sortCol);
 			return sortDir === 'asc' ? cmp : -cmp;
 		})
@@ -97,6 +92,11 @@
 		if (sortCol !== col) return '';
 		return sortDir === 'asc' ? ' ▲' : ' ▼';
 	}
+
+	function ariaSort(col: KemSortableColumn): 'ascending' | 'descending' | undefined {
+		if (sortCol !== col) return undefined;
+		return sortDir === 'asc' ? 'ascending' : 'descending';
+	}
 </script>
 
 {#snippet timeCell(us: number | null, cyc: number)}
@@ -106,9 +106,8 @@
 		{:else if cyc > 0}
 			<span
 				class="underline decoration-wavy decoration-pqs-scarlet"
-				title="Estimated from {fmtCycles(cyc)} cycles @ 2.5 GHz"
-				aria-label="{fmtTime(cyc / 2500)} (estimated from {fmtCycles(cyc)} cycles @ 2.5 GHz)"
-			>{fmtTime(cyc / 2500)}</span>
+				title="Estimated from {fmtCycles(cyc)} cycles @ {CPU_GHZ_LABEL}"
+			>{fmtTime(cyc / CYCLES_PER_US)}<span class="sr-only"> (estimated from {fmtCycles(cyc)} cycles @ {CPU_GHZ_LABEL})</span></span>
 		{:else}
 			<span class="text-pqs-bluegray">—</span>
 		{/if}
@@ -120,12 +119,13 @@
 		<thead class="sticky top-0 z-10">
 			<tr class="bg-pqs-steel font-heading text-xs text-white">
 				{#each COLUMNS as col}
-					<th
-						scope="col"
-						class="cursor-pointer select-none whitespace-nowrap px-3 py-2.5 text-left font-semibold hover:bg-pqs-steel-light {col.numeric ? 'text-right' : ''}"
-						onclick={() => setSort(col.key)}
-					>
-						{col.label}{sortIndicator(col.key)}
+					<th scope="col" aria-sort={ariaSort(col.key)} class="whitespace-nowrap p-0">
+						<button
+							onclick={() => setSort(col.key)}
+							class="w-full cursor-pointer select-none px-3 py-2.5 font-semibold hover:bg-pqs-steel-light {col.numeric ? 'text-right' : 'text-left'}"
+						>
+							{col.label}{sortIndicator(col.key)}
+						</button>
 					</th>
 				{/each}
 				<th scope="col" class="px-3 py-2.5 text-left text-xs font-semibold">Assumption</th>

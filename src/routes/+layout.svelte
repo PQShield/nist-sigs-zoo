@@ -15,7 +15,7 @@
 	const themeLabel = $derived(`Theme: ${$themeStore} — click to cycle`);
 
 	const isHome = $derived($page.route.id === '/');
-	const isKems = $derived($page.route.id === '/kems');
+	const isKems = $derived($page.route.id?.startsWith('/kems') ?? false);
 
 	let menuOpen = $state(false);
 
