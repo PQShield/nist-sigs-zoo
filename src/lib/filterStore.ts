@@ -1,6 +1,7 @@
 import { derived, writable } from 'svelte/store';
 import type { Readable, Writable } from 'svelte/store';
 import type { DataRanges, FilterState, NistLevel, ParameterSet, SortableColumn } from './types';
+import { CYCLES_PER_US } from './constants';
 
 const DEFAULT_SORT_COL: SortableColumn = 'scheme';
 const DEFAULT_SORT_DIR = 'asc' as const;
@@ -106,6 +107,14 @@ export function buildUrlParams(state: FilterState, defaults: FilterState): URLSe
 	return params;
 }
 
+/** Displayed time in µs, or null when the row has no timing data (shown as "—"). */
+function timeValue(row: ParameterSet, col: 'signingUs' | 'verificationUs'): number | null {
+	if (col === 'signingUs') {
+		return row.signingUs ?? (row.signingCycles > 0 ? row.signingCycles / CYCLES_PER_US : null);
+	}
+	return row.verificationUs ?? (row.verificationCycles > 0 ? row.verificationCycles / CYCLES_PER_US : null);
+}
+
 function compareValues(a: ParameterSet, b: ParameterSet, col: SortableColumn): number {
 	const levelOrder: Record<string, number> = {
 		'Pre-Quantum': 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5,
@@ -122,14 +131,26 @@ function compareValues(a: ParameterSet, b: ParameterSet, col: SortableColumn): n
 		case 'pkPlusSig': return a.pkPlusSig - b.pkPlusSig;
 		case 'signingCycles': return a.signingCycles - b.signingCycles;
 		case 'verificationCycles': return a.verificationCycles - b.verificationCycles;
-		case 'signingUs': return (a.signingUs ?? a.signingCycles / 2500) - (b.signingUs ?? b.signingCycles / 2500);
-		case 'verificationUs': return (a.verificationUs ?? a.verificationCycles / 2500) - (b.verificationUs ?? b.verificationCycles / 2500);
 		default: {
 			const av = String(a[col] ?? '').toLowerCase();
 			const bv = String(b[col] ?? '').toLowerCase();
 			return av < bv ? -1 : av > bv ? 1 : 0;
 		}
 	}
+}
+
+/** Sort comparator: time columns keep rows without data last regardless of direction. */
+export function sortRows(a: ParameterSet, b: ParameterSet, col: SortableColumn, dir: 'asc' | 'desc'): number {
+	if (col === 'signingUs' || col === 'verificationUs') {
+		const av = timeValue(a, col);
+		const bv = timeValue(b, col);
+		if (av == null && bv == null) return 0;
+		if (av == null) return 1;
+		if (bv == null) return -1;
+		return dir === 'asc' ? av - bv : bv - av;
+	}
+	const cmp = compareValues(a, b, col);
+	return dir === 'asc' ? cmp : -cmp;
 }
 
 // Stable module-level stores — created once, updated in place on round changes
@@ -184,10 +205,7 @@ export function createFilterStore(
 						return false;
 					return true;
 				})
-				.sort((a, b) => {
-					const cmp = compareValues(a, b, $state.sortCol);
-					return $state.sortDir === 'asc' ? cmp : -cmp;
-				});
+				.sort((a, b) => sortRows(a, b, $state.sortCol, $state.sortDir));
 		});
 	} else {
 		// Round change: reset filter state to new defaults, data already updated via _allRows

@@ -1,27 +1,11 @@
 <script lang="ts">
 	import type { SortableColumn } from '$lib/types';
 	import { getFilterStore } from '$lib/filterStore';
+	import { CYCLES_PER_US, CPU_GHZ_LABEL } from '$lib/constants';
+	import { fmt, fmtCycles, fmtTime } from '$lib/format';
 	import SecurityBadge from './SecurityBadge.svelte';
 
 	const { store, filteredRows } = getFilterStore();
-
-	function fmt(n: number) {
-		return n.toLocaleString();
-	}
-
-	function fmtCycles(n: number): string {
-		if (n <= 0) return '—';
-		if (n >= 1_000_000_000) return (n / 1_000_000_000).toFixed(2) + 'G';
-		if (n >= 1_000_000) return (n / 1_000_000).toFixed(1) + 'M';
-		if (n >= 1_000) return (n / 1_000).toFixed(0) + 'K';
-		return String(n);
-	}
-
-	function fmtTime(us: number): string {
-		if (us >= 1_000_000) return (us / 1_000_000).toFixed(2) + ' s';
-		if (us >= 1_000) return (us / 1_000).toFixed(2) + ' ms';
-		return us.toFixed(1) + ' µs';
-	}
 
 	const COLUMNS: { key: SortableColumn; label: string; numeric?: boolean }[] = [
 		{ key: 'scheme', label: 'Scheme' },
@@ -48,19 +32,40 @@
 		if ($store.sortCol !== col) return '';
 		return $store.sortDir === 'asc' ? ' ▲' : ' ▼';
 	}
+
+	function ariaSort(col: SortableColumn): 'ascending' | 'descending' | undefined {
+		if ($store.sortCol !== col) return undefined;
+		return $store.sortDir === 'asc' ? 'ascending' : 'descending';
+	}
 </script>
+
+{#snippet timeCell(us: number | null, cyc: number)}
+	<td class="px-3 py-1.5 text-right tabular-nums">
+		{#if us != null}
+			{fmtTime(us)}
+		{:else if cyc > 0}
+			<span
+				class="underline decoration-wavy decoration-pqs-scarlet"
+				title="Estimated from {fmtCycles(cyc)} cycles @ {CPU_GHZ_LABEL}"
+			>{fmtTime(cyc / CYCLES_PER_US)}<span class="sr-only"> (estimated from {fmtCycles(cyc)} cycles @ {CPU_GHZ_LABEL})</span></span>
+		{:else}
+			<span class="text-pqs-bluegray">—</span>
+		{/if}
+	</td>
+{/snippet}
 
 <div class="overflow-x-auto rounded border border-pqs-ashgray shadow-sm dark:border-pqs-steel">
 	<table class="min-w-full text-sm">
 		<thead class="sticky top-0 z-10">
 			<tr class="bg-pqs-steel font-heading text-xs text-white">
 				{#each COLUMNS as col}
-					<th
-						scope="col"
-						class="cursor-pointer select-none whitespace-nowrap px-3 py-2.5 text-left font-semibold hover:bg-pqs-steel-light {col.numeric ? 'text-right' : ''}"
-						onclick={() => setSort(col.key)}
-					>
-						{col.label}{sortIndicator(col.key)}
+					<th scope="col" aria-sort={ariaSort(col.key)} class="whitespace-nowrap p-0">
+						<button
+							onclick={() => setSort(col.key)}
+							class="w-full cursor-pointer select-none px-3 py-2.5 font-semibold hover:bg-pqs-steel-light {col.numeric ? 'text-right' : 'text-left'}"
+						>
+							{col.label}{sortIndicator(col.key)}
+						</button>
 					</th>
 				{/each}
 				<th scope="col" class="px-3 py-2.5 text-left text-xs font-semibold">
@@ -116,38 +121,9 @@
 					<td class="px-3 py-1.5 text-right tabular-nums">{fmt(row.sig)}</td>
 					<!-- pk+sig -->
 					<td class="px-3 py-1.5 text-right tabular-nums">{fmt(row.pkPlusSig)}</td>
-					<!-- signing time -->
-					<td class="px-3 py-1.5 text-right tabular-nums">
-						{#if row.signingUs != null}
-							{fmtTime(row.signingUs)}
-						{:else if row.signingCycles > 0}
-							<span
-								class="underline decoration-wavy decoration-pqs-scarlet"
-								title="Estimated from {fmtCycles(row.signingCycles)} cycles @ 2.5 GHz"
-								aria-label="{fmtTime(row.signingCycles / 2500)} (estimated from {fmtCycles(row.signingCycles)} cycles @ 2.5 GHz)"
-							>
-								{fmtTime(row.signingCycles / 2500)}
-							</span>
-						{:else}
-							<span class="text-pqs-bluegray">—</span>
-						{/if}
-					</td>
-					<!-- verification time -->
-					<td class="px-3 py-1.5 text-right tabular-nums">
-						{#if row.verificationUs != null}
-							{fmtTime(row.verificationUs)}
-						{:else if row.verificationCycles > 0}
-							<span
-								class="underline decoration-wavy decoration-pqs-scarlet"
-								title="Estimated from {fmtCycles(row.verificationCycles)} cycles @ 2.5 GHz"
-								aria-label="{fmtTime(row.verificationCycles / 2500)} (estimated from {fmtCycles(row.verificationCycles)} cycles @ 2.5 GHz)"
-							>
-								{fmtTime(row.verificationCycles / 2500)}
-							</span>
-						{:else}
-							<span class="text-pqs-bluegray">—</span>
-						{/if}
-					</td>
+					<!-- signing / verification time -->
+					{@render timeCell(row.signingUs, row.signingCycles)}
+					{@render timeCell(row.verificationUs, row.verificationCycles)}
 					<!-- Assumption -->
 					<td class="px-3 py-1.5 text-pqs-steel/80 dark:text-pqs-bluegray">{row.assumption}</td>
 				</tr>

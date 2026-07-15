@@ -26,6 +26,25 @@
 	let container = $state<HTMLDivElement | null>(null);
 	let viewHandle: { finalize(): void } | null = null;
 	let renderSeq = 0;
+	let renderQueue: Promise<void> = Promise.resolve();
+	let renderError = $state(false);
+	let innerWidth = $state(0);
+	const isMobile = $derived(innerWidth > 0 && innerWidth < 640);
+
+	// Serialize renders: concurrent vega-embed calls on the same container can
+	// leave a stale, finalized chart in the DOM when they resolve out of order.
+	function render() {
+		const seq = ++renderSeq;
+		renderQueue = renderQueue.then(async () => {
+			try {
+				await doRender(seq);
+				renderError = false;
+			} catch (err) {
+				console.error('scatter plot render failed', err);
+				renderError = true;
+			}
+		});
+	}
 
 	const STAR = 'M0,-1L0.224,-0.309L0.951,-0.309L0.363,0.118L0.588,0.809L0,0.382L-0.588,0.809L-0.363,0.118L-0.951,-0.309L-0.224,-0.309Z';
 
@@ -57,9 +76,8 @@
 		return `Level ${level}`;
 	}
 
-	async function render() {
-		if (!container) return;
-		const seq = ++renderSeq;
+	async function doRender(seq: number) {
+		if (!container || seq !== renderSeq) return;
 
 		const { default: embed } = await import('vega-embed');
 		const data = $filteredRows;
@@ -124,7 +142,6 @@
 		const categoryDomain = presentShapeKeys;
 		const categoryShapeRange = presentShapeKeys.map((k) => CATEGORY_SHAPES[k]);
 
-		const isMobile = window.innerWidth < 640;
 		const mobileLegend = isMobile
 			? { orient: 'bottom', direction: 'horizontal', columns: 3, labelFontSize: 10 }
 			: {};
@@ -151,7 +168,7 @@
 			height: 350,
 			autosize: { type: 'fit-x', resize: true },
 			data: { values },
-			resolve: { scale: { x: 'shared', y: 'shared', color: 'independent', shape: 'independent', opacity: 'independent' } },
+			resolve: { scale: { x: 'shared', y: 'shared', color: 'independent', shape: 'independent' } },
 			layer: [
 				{
 					params: [
@@ -228,12 +245,8 @@
 		};
 
 		viewHandle?.finalize();
-		const result = await embed(container, spec, { actions: false, renderer: 'svg' });
-		if (seq !== renderSeq) {
-			result.finalize();
-			return;
-		}
-		viewHandle = result;
+		viewHandle = null;
+		viewHandle = await embed(container, spec, { actions: false, renderer: 'svg' });
 	}
 
 	onMount(() => {
@@ -244,11 +257,17 @@
 		$filteredRows;
 		$themeStore;
 		xField; yField; xScale; yScale;
+		isMobile;
 		render();
 	});
 </script>
 
+<svelte:window bind:innerWidth />
+
 <div bind:this={container} class="w-full"></div>
+{#if renderError}
+	<p class="mt-1 text-xs text-pqs-scarlet" role="alert">Chart failed to render.</p>
+{/if}
 <p class="sm:hidden mt-1 text-xs text-pqs-bluegray dark:text-pqs-steel">Shape = family · tap point for details</p>
 <div class="mt-1 flex items-center justify-between">
 	<p class="text-xs text-pqs-bluegray dark:text-pqs-steel">Scroll to zoom · drag to pan</p>

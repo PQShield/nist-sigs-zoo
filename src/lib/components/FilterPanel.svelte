@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { DataRanges, FilterState, NistLevel, Scheme } from '$lib/types';
 	import { getFilterStore } from '$lib/filterStore';
+	import { ALL_LEVELS } from '$lib/constants';
 	import RangeField from './RangeField.svelte';
 
 	interface Props {
@@ -17,8 +18,6 @@
 			categories.map((cat) => [cat, schemes.filter((s) => s.category === cat)])
 		)
 	);
-
-	const ALL_LEVELS: NistLevel[] = ['Pre-Quantum', 1, 2, 3, 4, 5];
 
 	function categoryState(cat: string): 'all' | 'some' | 'none' {
 		const catSchemes = schemesByCategory[cat];

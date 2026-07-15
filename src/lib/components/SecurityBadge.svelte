@@ -7,33 +7,32 @@
 	}
 	let { broken, warning, info, classical }: Props = $props();
 	let expanded = $state(false);
+	const msgId = $props.id();
 
-	function toggle(e: MouseEvent | KeyboardEvent) {
-		if (e instanceof KeyboardEvent && e.key !== 'Enter' && e.key !== ' ') return;
-		e.preventDefault();
+	function toggle() {
 		expanded = !expanded;
 	}
 </script>
 
 {#if classical}
-	<button class="badge" aria-label="Pre-quantum scheme (not quantum-resistant)" aria-expanded={expanded} onclick={toggle}>💣</button>
+	<button class="badge" aria-label="Pre-quantum scheme (not quantum-resistant)" aria-expanded={expanded} aria-controls={expanded ? msgId : undefined} onclick={toggle}>💣</button>
 	{#if expanded}
-		<span class="msg text-pqs-steel/80 dark:text-pqs-bluegray/80">Pre-quantum: {broken}</span>
+		<span class="msg text-pqs-steel/80 dark:text-pqs-bluegray/80" id={msgId}>Pre-quantum: {broken}</span>
 	{/if}
 {:else if broken}
-	<button class="badge" aria-label="Broken scheme" aria-expanded={expanded} onclick={toggle}>🧨</button>
+	<button class="badge" aria-label="Broken scheme" aria-expanded={expanded} aria-controls={expanded ? msgId : undefined} onclick={toggle}>🧨</button>
 	{#if expanded}
-		<span class="msg msg-danger">Broken: {broken}</span>
+		<span class="msg msg-danger" id={msgId}>Broken: {broken}</span>
 	{/if}
 {:else if warning}
-	<button class="badge" aria-label="Security warning" aria-expanded={expanded} onclick={toggle}>⚠️</button>
+	<button class="badge" aria-label="Security warning" aria-expanded={expanded} aria-controls={expanded ? msgId : undefined} onclick={toggle}>⚠️</button>
 	{#if expanded}
-		<span class="msg msg-warning">Warning: {warning}</span>
+		<span class="msg msg-warning" id={msgId}>Warning: {warning}</span>
 	{/if}
 {:else if info}
-	<button class="badge" aria-label="Security note" aria-expanded={expanded} onclick={toggle}>ℹ️</button>
+	<button class="badge" aria-label="Security note" aria-expanded={expanded} aria-controls={expanded ? msgId : undefined} onclick={toggle}>ℹ️</button>
 	{#if expanded}
-		<span class="msg text-pqs-steel dark:text-pqs-bluegray">Note: {info}</span>
+		<span class="msg text-pqs-steel dark:text-pqs-bluegray" id={msgId}>Note: {info}</span>
 	{/if}
 {/if}
 
@@ -42,7 +41,7 @@
 		background: none;
 		border: none;
 		padding: 0;
-		cursor: help;
+		cursor: pointer;
 		font: inherit;
 		vertical-align: baseline;
 	}

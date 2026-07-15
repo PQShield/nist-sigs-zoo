@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { KemDataRanges, KemFilterState, KemScheme, NistLevel } from '$lib/types';
 	import { defaultKemFilter } from '$lib/kemData';
+	import { ALL_LEVELS } from '$lib/constants';
 	import RangeField from './RangeField.svelte';
 
 	interface Props {
@@ -16,8 +17,6 @@
 	const schemesByCategory = $derived(
 		Object.fromEntries(categories.map((cat) => [cat, schemes.filter((s) => s.category === cat)]))
 	);
-
-	const ALL_LEVELS: NistLevel[] = ['Pre-Quantum', 1, 2, 3, 4, 5];
 
 	function categoryState(cat: string): 'all' | 'some' | 'none' {
 		const catSchemes = schemesByCategory[cat];
