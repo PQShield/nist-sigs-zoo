@@ -212,6 +212,13 @@
 					rel="noopener noreferrer"
 					class="text-pqs-apricot hover:underline">GitHub</a
 				>
+				·
+				<a
+					href="https://bench.cr.yp.to"
+					target="_blank"
+					rel="noopener noreferrer"
+					class="text-pqs-apricot hover:underline">eBACS</a
+				>: more comprehensive benchmarks on more platforms
 			</p>
 		</div>
 	</footer>
