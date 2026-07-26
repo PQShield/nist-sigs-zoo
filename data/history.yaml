@@ -1,3 +1,8 @@
+- date: '2026-07-26'
+  type: attack
+  description: "Improved algorithm for the supersingular isogeny problem (<a href=\"https://eprint.iacr.org/2026/1486\">ePrint 2026/1486</a>) achieves time/memory p^{1/3+o(1)}, down from the previous best p^{1/2}. Relies on an unproven heuristic smoothness assumption and has a superpolynomial overhead plus high memory cost; concrete impact on SQIsign's parameters not yet clarified. Flagged as warning."
+  schemes: [SQIsign]
+
 - date: '2026-07-02'
   type: update
   description: "Added SMAUG-T (finalist algorithm selected in Korea's KpqC competition) to the KEMs comparison page, with benchmarked keygen/encaps/decaps timings for SMAUG-T128, SMAUG-T192, and SMAUG-T256."
