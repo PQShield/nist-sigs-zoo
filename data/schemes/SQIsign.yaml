@@ -7,6 +7,7 @@ versions:
   date: '2025-07-07'
   status: On-ramp
   perf_source: submission document
+  warning: "Improved algorithm for the supersingular isogeny problem (ePrint 2026/1486) achieves time/memory p^{1/3+o(1)}, vs. previous best p^{1/2}; relies on an unproven heuristic smoothness assumption and carries a superpolynomial o(1) overhead plus high memory cost — concrete impact on SQIsign's parameters not yet clarified"
   parametersets:
   - name: V
     level: 5
@@ -36,6 +37,7 @@ versions:
   date: '2025-02-05'
   status: On-ramp
   perf_source: submission document
+  warning: "Improved algorithm for the supersingular isogeny problem (ePrint 2026/1486) achieves time/memory p^{1/3+o(1)}, vs. previous best p^{1/2}; relies on an unproven heuristic smoothness assumption and carries a superpolynomial o(1) overhead plus high memory cost — concrete impact on SQIsign's parameters not yet clarified"
   parametersets:
   - name: V
     level: 5
