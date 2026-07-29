@@ -7,6 +7,7 @@ versions:
   date: '2025-02-05'
   status: On-ramp
   perf_source: submission document
+  broken: "Key-recovery reduces to SVP in dimension n/2+1 via a second Galois involution (Straznickas &amp; Weis, Anthropic, <a href=\"https://www-cdn.anthropic.com/e8d50c167ad47beeb03d6109a4a484be95cb38ea/hawk_key_recovery.pdf\">paper</a>), lowering key-recovery cost below the NIST level threshold for both parameter sets; the smaller HAWK-256 challenge parameter set was fully broken in practice (secret key recovered end-to-end in hours)"
   parametersets:
   - name: '1024'
     level: 5
@@ -16,6 +17,7 @@ versions:
     verification_cycles: 190604
     signing_us: 58.6
     verification_us: 67.0
+    notes: "Attack reduces key-recovery cost from 2^288 to 2^182 gates, below the Level 5 threshold"
   - name: '512'
     level: 1
     pk: 1024
@@ -24,6 +26,7 @@ versions:
     verification_cycles: 90728
     signing_us: 26.8
     verification_us: 31.6
+    notes: "Attack reduces key-recovery cost from 2^150 to 2^108 gates, below the Level 1 threshold (128 bits)"
   tags:
   - round-2
   - round-3  # Round 3 spec not yet available; showing current latest data
