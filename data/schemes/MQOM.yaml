@@ -7,6 +7,7 @@ versions:
   date: '2025-09-22'
   status: On-ramp
   perf_source: submission document
+  warning: "Passive full-key-recovery attack via saltless GGM root expansion (Delgado, <a href=\"https://eprint.iacr.org/2026/1542\">ePrint 2026/1542</a>): the v2.x spec (Algorithm 10) derives correlated roots with a fixed zero-salt PRG call, so repeated master seeds across signatures/keys/salts leak linear equations in the MQ witness, enabling full key recovery. Requires signature/query volumes at NIST's outer Q=2^64 permitted bound (~39% success) or substantial precomputation (tens of GiB&ndash;PiB of tables) to push higher; affects all of Categories I/III/V, confirmed against every official tag v2.0.0&ndash;v2.1.1. Fix (salt-bound, domain-separated root expansion) is straightforward."
   parametersets:
   - name: L1-gf2-short-3r
     level: 1
@@ -300,6 +301,7 @@ versions:
   date: '2025-02-05'
   status: On-ramp
   perf_source: submission document
+  warning: "Passive full-key-recovery attack via saltless GGM root expansion (Delgado, <a href=\"https://eprint.iacr.org/2026/1542\">ePrint 2026/1542</a>): the v2.x spec (Algorithm 10) derives correlated roots with a fixed zero-salt PRG call, so repeated master seeds across signatures/keys/salts leak linear equations in the MQ witness, enabling full key recovery. Requires signature/query volumes at NIST's outer Q=2^64 permitted bound (~39% success) or substantial precomputation (tens of GiB&ndash;PiB of tables) to push higher; affects all of Categories I/III/V, confirmed against every official tag v2.0.0&ndash;v2.1.1. Fix (salt-bound, domain-separated root expansion) is straightforward."
   parametersets:
   - name: L1-gf2-short-3r
     level: 1
