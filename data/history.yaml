@@ -1,3 +1,8 @@
+- date: '2026-08-07'
+  type: attack
+  description: "Passive full-key-recovery attack on MQOM v2 (Delgado, <a href=\"https://eprint.iacr.org/2026/1542\">ePrint 2026/1542</a>): every v2.x release derives correlated GGM roots from a fresh master seed via a fixed, zero-salt PRG call, so repeated seeds across signatures, keys, and salts leak linear equations in the MQ witness. A parity-indexed XOR-collision attack recovers the complete signing key; at the permitted Q=2^64 signing-query bound, Category I succeeds with probability ~0.39 (rising above 0.63 with reusable precomputed tables), and the same fixed root functions break Categories I, III, and V alike. Verified against every official tag from v2.0.0 through v2.1.1. Fix: salt-bound, domain-separated root expansion. v1.0 unaffected. Flagged as broken."
+  schemes: [MQOM]
+
 - date: '2026-07-29'
   type: attack
   description: "Deterministic key-recovery attack (Straznickas &amp; Weis, Anthropic, <a href=\"https://www-cdn.anthropic.com/e8d50c167ad47beeb03d6109a4a484be95cb38ea/hawk_key_recovery.pdf\">paper</a>) reduces HAWK-n key recovery to poly(n) calls to an exact-SVP oracle in dimension n/2+1, using a second Galois involution (τ: ζ↦−ζ) beyond the complex conjugation prior module-LIP attacks relied on. Lowers key-recovery cost from 2^150 to 2^108 gates (HAWK-512) and from 2^288 to 2^182 gates (HAWK-1024), both below their NIST level thresholds. The smaller HAWK-256 challenge parameter set was fully broken in practice: secret key recovered end-to-end in a few hours on a single 96-core server. Falcon is unaffected. Flagged as broken."

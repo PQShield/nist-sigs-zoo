@@ -7,6 +7,7 @@ versions:
   date: '2025-09-22'
   status: On-ramp
   perf_source: submission document
+  broken: "Passive full-key-recovery attack via saltless GGM root expansion (Delgado, <a href=\"https://eprint.iacr.org/2026/1542\">ePrint 2026/1542</a>): all v2.x releases derive correlated roots from a fixed zero-salt PRG call, so repeated master seeds across signatures/keys/salts leak linear equations in the MQ witness. A parity-indexed XOR-collision attack recovers the full signing key; at the permitted Q=2^64 query bound, Category I succeeds with probability ~0.39, rising above 0.63 with precomputed tables, affecting all of Categories I/III/V. Confirmed against every official tag v2.0.0&ndash;v2.1.1."
   parametersets:
   - name: L1-gf2-short-3r
     level: 1
@@ -300,6 +301,7 @@ versions:
   date: '2025-02-05'
   status: On-ramp
   perf_source: submission document
+  broken: "Passive full-key-recovery attack via saltless GGM root expansion (Delgado, <a href=\"https://eprint.iacr.org/2026/1542\">ePrint 2026/1542</a>): all v2.x releases derive correlated roots from a fixed zero-salt PRG call, so repeated master seeds across signatures/keys/salts leak linear equations in the MQ witness. A parity-indexed XOR-collision attack recovers the full signing key; at the permitted Q=2^64 query bound, Category I succeeds with probability ~0.39, rising above 0.63 with precomputed tables, affecting all of Categories I/III/V. Confirmed against every official tag v2.0.0&ndash;v2.1.1."
   parametersets:
   - name: L1-gf2-short-3r
     level: 1
