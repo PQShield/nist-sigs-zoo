@@ -4,6 +4,11 @@
   schemes: [MQOM]
 
 - date: '2026-07-29'
+  type: milestone
+  description: "The HAWK team withdrew HAWK from NIST's additional signature standardisation process, citing the key-recovery attack below: naïve fixes such as doubling parameters or moving to higher-rank modules make HAWK uncompetitive with other lattice signatures. NIST confirmed the withdrawal and updated the <a href=\"https://csrc.nist.gov/Projects/pqc-dig-sig/round-3-additional-signatures\">round-3 candidates page</a> accordingly. <a href=\"https://groups.google.com/a/list.nist.gov/g/pqc-forum/c/2r2u6SbHun4/m/0_I2KOZ_CQAJ\">pqc-forum announcement</a>."
+  schemes: [HAWK]
+
+- date: '2026-07-29'
   type: attack
   description: "Deterministic key-recovery attack (Straznickas &amp; Weis, Anthropic, <a href=\"https://www-cdn.anthropic.com/e8d50c167ad47beeb03d6109a4a484be95cb38ea/hawk_key_recovery.pdf\">paper</a>) reduces HAWK-n key recovery to poly(n) calls to an exact-SVP oracle in dimension n/2+1, using a second Galois involution (τ: ζ↦−ζ) beyond the complex conjugation prior module-LIP attacks relied on. Lowers key-recovery cost from 2^150 to 2^108 gates (HAWK-512) and from 2^288 to 2^182 gates (HAWK-1024), both below their NIST level thresholds. The smaller HAWK-256 challenge parameter set was fully broken in practice: secret key recovered end-to-end in a few hours on a single 96-core server. Falcon is unaffected. Flagged as broken."
   schemes: [HAWK]

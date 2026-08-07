@@ -7,7 +7,7 @@ versions:
   date: '2025-02-05'
   status: On-ramp
   perf_source: submission document
-  broken: "Key-recovery reduces to SVP in dimension n/2+1 via a second Galois involution (Straznickas &amp; Weis, Anthropic, <a href=\"https://www-cdn.anthropic.com/e8d50c167ad47beeb03d6109a4a484be95cb38ea/hawk_key_recovery.pdf\">paper</a>), lowering key-recovery cost below the NIST level threshold for both parameter sets; the smaller HAWK-256 challenge parameter set was fully broken in practice (secret key recovered end-to-end in hours)"
+  broken: "Key-recovery reduces to SVP in dimension n/2+1 via a second Galois involution (Straznickas &amp; Weis, Anthropic, <a href=\"https://www-cdn.anthropic.com/e8d50c167ad47beeb03d6109a4a484be95cb38ea/hawk_key_recovery.pdf\">paper</a>), lowering key-recovery cost below the NIST level threshold for both parameter sets; the smaller HAWK-256 challenge parameter set was fully broken in practice (secret key recovered end-to-end in hours). The HAWK team withdrew the candidate from NIST's additional signature standardisation process on 2026-07-29 (<a href=\"https://groups.google.com/a/list.nist.gov/g/pqc-forum/c/2r2u6SbHun4/m/0_I2KOZ_CQAJ\">pqc-forum</a>): naïve fixes (doubling parameters or moving to higher-rank modules) make HAWK uncompetitive."
   parametersets:
   - name: '1024'
     level: 5
@@ -29,7 +29,7 @@ versions:
     notes: "Attack reduces key-recovery cost from 2^150 to 2^108 gates, below the Level 1 threshold (128 bits)"
   tags:
   - round-2
-  - round-3  # Round 3 spec not yet available; showing current latest data
+  - round-3  # selected as round-3 candidate 2026-05-14; withdrew 2026-07-29 but kept tagged for historical record
 - version: v1.0
   date: '2023-06-01'
   status: On-ramp
