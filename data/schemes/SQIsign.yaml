@@ -3,6 +3,38 @@ website: https://sqisign.org/
 category: Isogenies
 assumption: Isogenies
 versions:
+- version: v3.0
+  date: '2026-09-01'
+  status: On-ramp
+  perf_source: submission document
+  warning: "Third-round parameters revised in direct response to the improved algorithm for the supersingular isogeny problem (ePrint 2026/1486, time/memory p^{1/3+o(1)}); the spec's own concrete-security estimates (~150/222/285 bits for levels I/III/V) exceed NIST's targets (143/207/272) by only 7-14 bits, and the authors note the polylogarithmic cost factors underlying that estimate are sensitive to further algorithmic improvements"
+  tags:
+  - round-3
+  parametersets:
+  - name: V
+    level: 5
+    pk: 169
+    sig: 406
+    signing_cycles: 674700000
+    verification_cycles: 77600000
+    signing_us: 198441.2
+    verification_us: 22823.5
+  - name: III
+    level: 3
+    pk: 129
+    sig: 306
+    signing_cycles: 320300000
+    verification_cycles: 31500000
+    signing_us: 94205.9
+    verification_us: 9264.7
+  - name: I
+    level: 1
+    pk: 83
+    sig: 200
+    signing_cycles: 93900000
+    verification_cycles: 12100000
+    signing_us: 27617.6
+    verification_us: 3558.8
 - version: v2.0.1
   date: '2025-07-07'
   status: On-ramp
@@ -59,7 +91,6 @@ versions:
     verification_cycles: 5100000
   tags:
   - round-2
-  - round-3  # Round 3 spec not yet available; showing current latest data
 - version: v1.0
   date: '2023-06-01'
   status: On-ramp
