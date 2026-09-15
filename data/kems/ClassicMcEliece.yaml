@@ -1,11 +1,13 @@
 name: Classic McEliece
 website: https://classic.mceliece.org/
 category: Code-based
-assumption: Syndrome Decoding (binary Goppa)
+assumption: Syndrome Decoding (disguised binary Goppa)
 status: ISO standardisation
-info: Conservative code-based KEM with a very long security track record. Public keys are enormous (255 KB–1.3 MB) but ciphertexts are tiny. Key generation is variable-time and slow. The five base parameter sets are shown; libmceliece also offers f (fast-keygen), pc and pcf variants. Selected for ISO standardisation; also a NIST round-4 candidate.
+info: Code-based KEM based on the difficulty of decoding a disguised binary Goppa code. Public keys are enormous (255 KB–1.3 MB) but ciphertexts are tiny. Key generation is variable-time and slow. The five base parameter sets are shown; libmceliece also offers f (fast-keygen), pc and pcf variants. Selected for ISO standardisation; also a NIST round-4 candidate.
+broken: 'Quasipolynomial-time "hold-out" key-recovery attack (eprint 2026/1984, improving on eprint 2026/1630) reduces classical security of all parameter sets to well below NIST Level 1 threshold. Repairing the scheme requires impractical public key sizes.'
 parametersets:
 - name: mceliece348864
+  broken: 'Hold-out key-recovery attack (eprint 2026/1984, improving on eprint 2026/1630) reduces classical security to 94 bits, below NIST Level 1 threshold'
   level: 1
   pk: 261120
   ct: 96
@@ -15,7 +17,8 @@ parametersets:
   keygen_us: 16960.2
   encaps_us: 11.4
   decaps_us: 39.2
-- name: mceliece460896
+- name: mceliece406896
+  broken: 'Hold-out key-recovery attack (eprint 2026/1984, improving on eprint 2026/1630) reduces classical security to 99.1 bits, below NIST Level 1 threshold'
   level: 3
   pk: 524160
   ct: 156
@@ -26,6 +29,7 @@ parametersets:
   encaps_us: 28.9
   decaps_us: 90.7
 - name: mceliece6688128
+  broken: 'Hold-out key-recovery attack (eprint 2026/1984, improving on eprint 2026/1630) reduces classical security to 102.2 bits, below NIST Level 1 threshold'
   level: 5
   pk: 1044992
   ct: 208
@@ -36,6 +40,7 @@ parametersets:
   encaps_us: 58.7
   decaps_us: 117.3
 - name: mceliece6960119
+  broken: 'Hold-out key-recovery attack (eprint 2026/1984, improving on eprint 2026/1630) reduces classical security to 101.4 bits, below NIST Level 1 threshold'
   level: 5
   pk: 1047319
   ct: 194
@@ -46,6 +51,7 @@ parametersets:
   encaps_us: 55.5
   decaps_us: 103.3
 - name: mceliece8192128
+  broken: 'Hold-out key-recovery attack (eprint 2026/1984, improving on eprint 2026/1630) reduces classical security to 102.2 bits, below NIST Level 1 threshold'
   level: 5
   pk: 1357824
   ct: 208
