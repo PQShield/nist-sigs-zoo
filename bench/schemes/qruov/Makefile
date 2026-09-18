@@ -2,7 +2,14 @@
 
 CC      ?= cc
 BUILD    = build
-REFDIR   = ref/src/ref
+# Upstream's optimised platforms: avx512 (needs AVX-512F/BW/VNNI) or avx2.
+# Upstream builds these with -fopenmp; we leave it out so every scheme is
+# measured single-threaded.
+HAVE_AVX512 := $(shell python3 ../../cpu_features.py avx512f avx512bw avx512_vnni)
+QRUOV_PLATFORM := $(if $(HAVE_AVX512),avx512,avx2)
+PLATFORM_CFLAGS := $(if $(HAVE_AVX512),-mavx512f -mavx512bw -mavx512vnni,-mavx2)
+REFDIR   = ref/src/$(QRUOV_PLATFORM)
+$(info QR-UOV platform: $(QRUOV_PLATFORM))
 
 # OpenSSL: needed for AES (PRG) and SHA3/EVP (MGF/hash).
 OSSL_PREFIX := $(shell brew --prefix openssl 2>/dev/null)
@@ -28,7 +35,7 @@ OSSL_LDFLAGS     := -L$(OSSL_LIBDIR) -lcrypto -Wl,-rpath,$(OSSL_LIBDIR)
 # link the static library to pull them in for the SHAKE MGF implementation.
 OSSL_STATIC_LIB  := $(OSSL_LIBDIR)/libcrypto.a
 
-BASE_CFLAGS := -O3 -fPIC -DNDEBUG -Wall -Wno-unused-parameter \
+BASE_CFLAGS := -O3 -march=native -mtune=native $(PLATFORM_CFLAGS) -fomit-frame-pointer -fwrapv -fPIC -DNDEBUG -Wall -Wno-unused-parameter \
                -Wno-unused-result -Wno-deprecated-declarations \
                -Wno-unused-function -Wno-unused-variable \
                -Wno-stringop-overflow \
@@ -110,7 +117,7 @@ $(BUILD)/$(1):
 
 # Generate qruov_config.h by compiling and running the upstream generator.
 $(BUILD)/$(1)/qruov_config.h: $(REFDIR)/qruov_config_h_gen.c | $(BUILD)/$(1)
-	$$(CC) $(pf_$(1)) -DQRUOV_PLATFORM=ref -DQRUOV_PRG_SHAKE \
+	$$(CC) $(pf_$(1)) -DQRUOV_PLATFORM=$(QRUOV_PLATFORM) -DQRUOV_PRG_SHAKE \
 	    -DQRUOV_CONFIG_H_GEN -I$(REFDIR) \
 	    -o $(BUILD)/$(1)/cfg_gen $$<
 	$(BUILD)/$(1)/cfg_gen > $$@
