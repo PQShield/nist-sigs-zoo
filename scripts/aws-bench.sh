@@ -247,6 +247,8 @@ apt-get -o DPkg::Lock::Timeout=600 update -q
 apt-get -o DPkg::Lock::Timeout=600 install -y -q --no-install-recommends \\
     build-essential git python3 cmake meson ninja-build libgmp-dev libssl-dev zlib1g-dev libzstd-dev openssl pkg-config \\
     curl ca-certificates tar unzip xz-utils rsync util-linux
+# Ubuntu >= 26.04's static libcrypto.a links jitterentropy; absent on older releases.
+apt-get -o DPkg::Lock::Timeout=600 install -y -q --no-install-recommends libjitterentropy3-dev || true
 EOF
 
 log "launching spot $INSTANCE_TYPE in $REGION (Ubuntu $UBUNTU, AMI $AMI_ID, TTL ${TTL_MIN}m)"
