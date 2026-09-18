@@ -65,3 +65,6 @@
 	path = bench-kem/schemes/smaugt/ref
 	url = https://github.com/hmchoe0528/SMAUG-T_public.git
 	ignore = "dirty"
+[submodule "bench/schemes/sdith2/ref"]
+	path = bench/schemes/sdith2/ref
+	url = https://github.com/sdith/sdith
