@@ -3,6 +3,11 @@
   description: "SDitH round-3 update (v3.0.0, <a href=\"https://github.com/sdith/sdith/releases/tag/v3.0.0\">github.com/sdith/sdith</a>): the VOLEitH-based construction gets minor signature-size growth across all six gf2 parameter sets (Category I short/fast: 3705&rarr;3721 / 4484&rarr;4914 bytes; III: 7964&rarr;8484 / 9916&rarr;10852; V: 14121&rarr;15147 / 17540&rarr;19144), public-key sizes unchanged. Sizes verified against the tag's kat_r3 KAT vectors; no reference-hardware benchmark numbers available yet. A separate CIPHERPOW build variant is also introduced but not yet tracked here."
   schemes: [SDitH]
 
+- date: '2026-09-07'
+  type: update
+  description: "UOV round-3 parameter update (<a href=\"https://github.com/pqov/pqov/commit/f82ec0a9\">pqov/pqov</a>): grows n at Levels I and III (Ip: n 112&rarr;119, m 44&rarr;45; III: n 184&rarr;193, m unchanged) and Level V (n 244&rarr;259, m unchanged), and adds a GFNI-optimized backend. Expanded-pk and signature sizes grow accordingly (compact-pk sizes are unchanged where m stayed fixed); Is (Level I, GF(16)) parameters are untouched. Not yet reflected on uovsig.org, which still serves the Feb-2025 round-2 package. Whether this fully re-addresses the intersection attack (Furue &amp; Ikematsu, ePrint 2026/298) at the new parameter sizes has not been independently re-analyzed, so existing broken/warning flags are carried forward unchanged pending that analysis."
+  schemes: [UOV]
+
 - date: '2026-09-01'
   type: update
   description: "SQIsign 3.0 released as the third-round submission spec: parameters revised in response to the improved supersingular isogeny-problem algorithm (ePrint 2026/1486), and the reference implementation drops its GMP dependency for a from-scratch fixed-precision integer library. Public key and signature sizes grow (level I: 65/148 &rarr; 83/200 bytes; level III: 97/224 &rarr; 129/306; level V: 129/292 &rarr; 169/406 bytes), and both signing and verification are considerably faster than v2.0.1."
