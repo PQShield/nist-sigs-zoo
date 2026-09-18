@@ -29,11 +29,9 @@ SDITH_SOS   = $(addprefix schemes/sdith/build/, \
     sdith_threshold_cat3_gf256.so sdith_threshold_cat3_p251.so \
     sdith_threshold_cat5_gf256.so sdith_threshold_cat5_p251.so)
 SNOVA_SOS   = $(addprefix schemes/snova/build/, \
-    snova_24_5_16_4.so   snova_28_5_19_4.so   snova_48_17_16_2.so  snova_48_16_19_2.so  \
-    snova_28_4_16_4x5.so snova_28_4_19_4x5.so                                            \
-    snova_40_7_19_4.so   snova_37_8_16_4.so   snova_72_25_16_2.so                        \
-    snova_38_5_16_4x5.so snova_38_5_19_4x5.so                                            \
-    snova_50_9_19_4.so   snova_60_10_16_4.so  snova_97_33_16_2.so)
+    snova_i_k.so   snova_i_b.so   snova_i_s.so   \
+    snova_iii_k.so snova_iii_b.so snova_iii_s.so \
+    snova_v_k.so   snova_v_b.so   snova_v_s.so)
 UOV_SOS     = $(addprefix schemes/uov/build/, \
     uov_Ip_pkc.so uov_Ip_classic.so \
     uov_Is_pkc.so uov_Is_classic.so \
