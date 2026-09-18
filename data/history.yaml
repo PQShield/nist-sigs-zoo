@@ -13,6 +13,11 @@
   description: "SQIsign 3.0 released as the third-round submission spec: parameters revised in response to the improved supersingular isogeny-problem algorithm (ePrint 2026/1486), and the reference implementation drops its GMP dependency for a from-scratch fixed-precision integer library. Public key and signature sizes grow (level I: 65/148 &rarr; 83/200 bytes; level III: 97/224 &rarr; 129/306; level V: 129/292 &rarr; 169/406 bytes), and both signing and verification are considerably faster than v2.0.1."
   schemes: [SQIsign]
 
+- date: '2026-09-01'
+  type: update
+  description: "FAEST v3.0.0 released (<a href=\"https://github.com/faest-sign/faest-ref/releases/tag/v3.0.0\">release notes</a>), the round-3 spec update. It restructures the VOLE-commitment construction around a new CRT-based scheme and, per <a href=\"https://github.com/faest-sign/faest-ref/issues/18\">issue #18</a>, aligns the spec text for the first Fiat-Shamir challenge (<code>chall_1</code>) with what the implementation already computed (no forgery or key-recovery &mdash; a transcript-binding clarification). Signature sizes shrink by roughly 10&ndash;15% across all parameter sets (e.g. 128s: 4506&rarr;4066 bytes, 256f: 26548&rarr;20856 bytes); public-key sizes are unchanged. v2.0 is not broken, just superseded as the pinned round-3 submission."
+  schemes: [FAEST]
+
 - date: '2026-08-31'
   type: update
   description: "SNOVA 3.0 (round-3 submission) reformulates the public map to support rectangular signature matrices, extending the scheme to seven parameters (v, o, q, l, r, m1, m2) and adding parameter sets over odd-characteristic fields. The recommended parameter sets (SNOVA_{I,III,V}_{K,B,S}) replace the previous v2.3 candidates; per the spec's security analysis (Tables 9&ndash;11), the Wedge product attack (Bros et al., ePrint 2026/237) that flagged several v2.3 parameter sets as broken/warning no longer applies to the reformulated public map. The &ldquo;Expanded Secret Key&rdquo; option is removed; only seeded secret keys remain."
