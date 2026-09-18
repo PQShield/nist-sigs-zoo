@@ -29,11 +29,9 @@ SDITH_SOS   = $(addprefix schemes/sdith/build/, \
     sdith_threshold_cat3_gf256.so sdith_threshold_cat3_p251.so \
     sdith_threshold_cat5_gf256.so sdith_threshold_cat5_p251.so)
 SNOVA_SOS   = $(addprefix schemes/snova/build/, \
-    snova_24_5_16_4.so   snova_28_5_19_4.so   snova_48_17_16_2.so  snova_48_16_19_2.so  \
-    snova_28_4_16_4x5.so snova_28_4_19_4x5.so                                            \
-    snova_40_7_19_4.so   snova_37_8_16_4.so   snova_72_25_16_2.so                        \
-    snova_38_5_16_4x5.so snova_38_5_19_4x5.so                                            \
-    snova_50_9_19_4.so   snova_60_10_16_4.so  snova_97_33_16_2.so)
+    snova_i_k.so   snova_i_b.so   snova_i_s.so   \
+    snova_iii_k.so snova_iii_b.so snova_iii_s.so \
+    snova_v_k.so   snova_v_b.so   snova_v_s.so)
 UOV_SOS     = $(addprefix schemes/uov/build/, \
     uov_Ip_pkc.so uov_Ip_classic.so \
     uov_Is_pkc.so uov_Is_classic.so \
@@ -53,24 +51,15 @@ SDITH2_SOS  = $(addprefix schemes/sdith2/build/, \
     sdith2_cat3_short.so sdith2_cat3_fast.so \
     sdith2_cat5_short.so sdith2_cat5_fast.so)
 MQOM_SOS    = $(addprefix schemes/mqom/build/, \
-    mqom_cat1_gf2_fast_r3.so   mqom_cat1_gf2_fast_r5.so   \
-    mqom_cat1_gf2_short_r3.so  mqom_cat1_gf2_short_r5.so  \
-    mqom_cat1_gf16_fast_r3.so  mqom_cat1_gf16_fast_r5.so  \
-    mqom_cat1_gf16_short_r3.so mqom_cat1_gf16_short_r5.so \
-    mqom_cat1_gf256_fast_r3.so mqom_cat1_gf256_fast_r5.so \
-    mqom_cat1_gf256_short_r3.so mqom_cat1_gf256_short_r5.so \
-    mqom_cat3_gf2_fast_r3.so   mqom_cat3_gf2_fast_r5.so   \
-    mqom_cat3_gf2_short_r3.so  mqom_cat3_gf2_short_r5.so  \
-    mqom_cat3_gf16_fast_r3.so  mqom_cat3_gf16_fast_r5.so  \
-    mqom_cat3_gf16_short_r3.so mqom_cat3_gf16_short_r5.so \
-    mqom_cat3_gf256_fast_r3.so mqom_cat3_gf256_fast_r5.so \
-    mqom_cat3_gf256_short_r3.so mqom_cat3_gf256_short_r5.so \
-    mqom_cat5_gf2_fast_r3.so   mqom_cat5_gf2_fast_r5.so   \
-    mqom_cat5_gf2_short_r3.so  mqom_cat5_gf2_short_r5.so  \
-    mqom_cat5_gf16_fast_r3.so  mqom_cat5_gf16_fast_r5.so  \
-    mqom_cat5_gf16_short_r3.so mqom_cat5_gf16_short_r5.so \
-    mqom_cat5_gf256_fast_r3.so mqom_cat5_gf256_fast_r5.so \
-    mqom_cat5_gf256_short_r3.so mqom_cat5_gf256_short_r5.so)
+    mqom3_cat1_gf2_shorter_ct.so mqom3_cat1_gf2_shorter_ot.so \
+    mqom3_cat1_gf16_short_ct.so  mqom3_cat1_gf16_short_ot.so  \
+    mqom3_cat1_gf16_fast_ct.so   mqom3_cat1_gf16_fast_ot.so   \
+    mqom3_cat3_gf2_shorter_ct.so mqom3_cat3_gf2_shorter_ot.so \
+    mqom3_cat3_gf16_short_ct.so  mqom3_cat3_gf16_short_ot.so  \
+    mqom3_cat3_gf16_fast_ct.so   mqom3_cat3_gf16_fast_ot.so   \
+    mqom3_cat5_gf2_shorter_ct.so mqom3_cat5_gf2_shorter_ot.so \
+    mqom3_cat5_gf16_short_ct.so  mqom3_cat5_gf16_short_ot.so  \
+    mqom3_cat5_gf16_fast_ct.so   mqom3_cat5_gf16_fast_ot.so)
 
 ALL_SOS     = $(MLDSA_SOS) $(SLHDSA_SOS) $(FNDSA_SOS) $(CLASSIC_SOS) $(HAWK_SOS) $(MAYO_SOS) $(FAEST_SOS) $(SDITH_SOS) $(SDITH2_SOS) $(SNOVA_SOS) $(UOV_SOS) $(QRUOV_SOS) $(MQOM_SOS) $(SQISIGN_SOS)
 SCHEME_DIRS = mldsa slhdsa fndsa classic hawk mayo faest sdith sdith2 snova uov qruov mqom sqisign

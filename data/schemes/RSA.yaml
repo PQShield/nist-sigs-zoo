@@ -12,24 +12,24 @@ versions:
     level: Pre-Quantum
     pk: 272
     sig: 256
-    signing_cycles: 1900646
-    verification_cycles: 72382
-    signing_us: 524.4
-    verification_us: 21.6
+    signing_cycles: 1901821
+    verification_cycles: 72147
+    signing_us: 523.9
+    verification_us: 20.2
   - name: '3072'
     level: Pre-Quantum
     pk: 422
     sig: 384
-    signing_cycles: 4366154
-    verification_cycles: 145706
-    signing_us: 1192.0
-    verification_us: 39.6
+    signing_cycles: 4363581
+    verification_cycles: 145640
+    signing_us: 1179.7
+    verification_us: 39.5
   - name: '4096'
     level: Pre-Quantum
     pk: 550
     sig: 512
-    signing_cycles: 8092242
-    verification_cycles: 240013
-    signing_us: 2181.8
-    verification_us: 64.3
+    signing_cycles: 8077782
+    verification_cycles: 239985
+    signing_us: 2164.5
+    verification_us: 64.4
   broken: classical

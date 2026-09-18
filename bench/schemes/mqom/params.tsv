@@ -1,37 +1,19 @@
-file	name	pk	sk	sig	iters	seed_size
-mqom_cat1_gf2_fast_r3	MQOM2-L1-gf2-fast-r3	52	72	3212	200	16
-mqom_cat1_gf2_fast_r5	MQOM2-L1-gf2-fast-r5	52	72	3144	200	16
-mqom_cat1_gf2_short_r3	MQOM2-L1-gf2-short-r3	52	72	2868	200	16
-mqom_cat1_gf2_short_r5	MQOM2-L1-gf2-short-r5	52	72	2820	200	16
-mqom_cat1_gf16_fast_r3	MQOM2-L1-gf16-fast-r3	60	88	3484	200	16
-mqom_cat1_gf16_fast_r5	MQOM2-L1-gf16-fast-r5	60	88	3280	200	16
-mqom_cat1_gf16_short_r3	MQOM2-L1-gf16-short-r3	60	88	3060	200	16
-mqom_cat1_gf16_short_r5	MQOM2-L1-gf16-short-r5	60	88	2916	200	16
-mqom_cat1_gf256_fast_r3	MQOM2-L1-gf256-fast-r3	80	128	4164	200	16
-mqom_cat1_gf256_fast_r5	MQOM2-L1-gf256-fast-r5	80	128	3620	200	16
-mqom_cat1_gf256_short_r3	MQOM2-L1-gf256-short-r3	80	128	3540	200	16
-mqom_cat1_gf256_short_r5	MQOM2-L1-gf256-short-r5	80	128	3156	200	16
-mqom_cat3_gf2_fast_r3	MQOM2-L3-gf2-fast-r3	78	108	7576	100	24
-mqom_cat3_gf2_fast_r5	MQOM2-L3-gf2-fast-r5	78	108	7414	100	24
-mqom_cat3_gf2_short_r3	MQOM2-L3-gf2-short-r3	78	108	6388	100	24
-mqom_cat3_gf2_short_r5	MQOM2-L3-gf2-short-r5	78	108	6280	100	24
-mqom_cat3_gf16_fast_r3	MQOM2-L3-gf16-fast-r3	90	132	8224	100	24
-mqom_cat3_gf16_fast_r5	MQOM2-L3-gf16-fast-r5	90	132	7738	100	24
-mqom_cat3_gf16_short_r3	MQOM2-L3-gf16-short-r3	90	132	6820	100	24
-mqom_cat3_gf16_short_r5	MQOM2-L3-gf16-short-r5	90	132	6496	100	24
-mqom_cat3_gf256_fast_r3	MQOM2-L3-gf256-fast-r3	120	192	9844	100	24
-mqom_cat3_gf256_fast_r5	MQOM2-L3-gf256-fast-r5	120	192	8548	100	24
-mqom_cat3_gf256_short_r3	MQOM2-L3-gf256-short-r3	120	192	7900	100	24
-mqom_cat3_gf256_short_r5	MQOM2-L3-gf256-short-r5	120	192	7036	100	24
-mqom_cat5_gf2_fast_r3	MQOM2-L5-gf2-fast-r3	104	144	13412	50	32
-mqom_cat5_gf2_fast_r5	MQOM2-L5-gf2-fast-r5	104	144	13124	50	32
-mqom_cat5_gf2_short_r3	MQOM2-L5-gf2-short-r3	104	144	11764	50	32
-mqom_cat5_gf2_short_r5	MQOM2-L5-gf2-short-r5	104	144	11564	50	32
-mqom_cat5_gf16_fast_r3	MQOM2-L5-gf16-fast-r3	122	180	14708	50	32
-mqom_cat5_gf16_fast_r5	MQOM2-L5-gf16-fast-r5	122	180	13772	50	32
-mqom_cat5_gf16_short_r3	MQOM2-L5-gf16-short-r3	122	180	12664	50	32
-mqom_cat5_gf16_short_r5	MQOM2-L5-gf16-short-r5	122	180	12014	50	32
-mqom_cat5_gf256_fast_r3	MQOM2-L5-gf256-fast-r3	160	256	17444	50	32
-mqom_cat5_gf256_fast_r5	MQOM2-L5-gf256-fast-r5	160	256	15140	50	32
-mqom_cat5_gf256_short_r3	MQOM2-L5-gf256-short-r3	160	256	14564	50	32
-mqom_cat5_gf256_short_r5	MQOM2-L5-gf256-short-r5	160	256	12964	50	32
+file	name	pk	sk	sig	iters	security	base_field	tradeoff	ot_variant
+mqom3_cat1_gf2_shorter_ct	MQOM3-L1-gf2-shorter-ct	52	72	2492	200	128	1	2	0
+mqom3_cat1_gf2_shorter_ot	MQOM3-L1-gf2-shorter-ot	52	72	2492	200	128	1	2	1
+mqom3_cat1_gf16_short_ct	MQOM3-L1-gf16-short-ct	64	96	2932	200	128	4	1	0
+mqom3_cat1_gf16_short_ot	MQOM3-L1-gf16-short-ot	64	96	2932	200	128	4	1	1
+mqom3_cat1_gf16_fast_ct	MQOM3-L1-gf16-fast-ct	64	96	3316	200	128	4	0	0
+mqom3_cat1_gf16_fast_ot	MQOM3-L1-gf16-fast-ot	64	96	3316	200	128	4	0	1
+mqom3_cat3_gf2_shorter_ct	MQOM3-L3-gf2-shorter-ct	78	108	5932	100	192	1	2	0
+mqom3_cat3_gf2_shorter_ot	MQOM3-L3-gf2-shorter-ot	78	108	5890	100	192	1	2	1
+mqom3_cat3_gf16_short_ct	MQOM3-L3-gf16-short-ct	96	144	6556	100	192	4	1	0
+mqom3_cat3_gf16_short_ot	MQOM3-L3-gf16-short-ot	96	144	6556	100	192	4	1	1
+mqom3_cat3_gf16_fast_ct	MQOM3-L3-gf16-fast-ct	96	144	7564	100	192	4	0	0
+mqom3_cat3_gf16_fast_ot	MQOM3-L3-gf16-fast-ot	96	144	7660	100	192	4	0	1
+mqom3_cat5_gf2_shorter_ct	MQOM3-L5-gf2-shorter-ct	104	144	10836	50	256	1	2	0
+mqom3_cat5_gf2_shorter_ot	MQOM3-L5-gf2-shorter-ot	104	144	10804	50	256	1	2	1
+mqom3_cat5_gf16_short_ct	MQOM3-L5-gf16-short-ct	128	192	12100	50	256	4	1	0
+mqom3_cat5_gf16_short_ot	MQOM3-L5-gf16-short-ot	128	192	11716	50	256	4	1	1
+mqom3_cat5_gf16_fast_ct	MQOM3-L5-gf16-fast-ct	128	192	13540	50	256	4	0	0
+mqom3_cat5_gf16_fast_ot	MQOM3-L5-gf16-fast-ot	128	192	13380	50	256	4	0	1

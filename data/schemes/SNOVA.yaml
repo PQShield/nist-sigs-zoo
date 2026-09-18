@@ -3,11 +3,88 @@ website: http://snova.pqclab.org/
 category: Multivariate
 assumption: Non-comm. Ring UOV
 versions:
-- version: v2.3
-  date: '2026-04-03'
+- version: v3.0
+  date: '2026-08-31'
   status: On-ramp
   tags:
   - round-3
+  perf_source: official spec (AVX2, SHAKE128 public XOF)
+  parametersets:
+  - name: SNOVA_I_K
+    level: 1
+    pk: 376
+    sig: 528
+    signing_cycles: 851092
+    verification_cycles: 393937
+    signing_us: 225.3
+    verification_us: 104.9
+  - name: SNOVA_I_B
+    level: 1
+    pk: 656
+    sig: 388
+    signing_cycles: 911821
+    verification_cycles: 351847
+    signing_us: 241.4
+    verification_us: 93.8
+  - name: SNOVA_I_S
+    level: 1
+    pk: 1016
+    sig: 272
+    signing_cycles: 603970
+    verification_cycles: 263393
+    signing_us: 160.1
+    verification_us: 70.5
+  - name: SNOVA_III_K
+    level: 3
+    pk: 912
+    sig: 688
+    signing_cycles: 1778734
+    verification_cycles: 836019
+    signing_us: 474.2
+    verification_us: 221.6
+  - name: SNOVA_III_B
+    level: 3
+    pk: 1416
+    sig: 532
+    signing_cycles: 2001535
+    verification_cycles: 820919
+    signing_us: 533.8
+    verification_us: 217.3
+  - name: SNOVA_III_S
+    level: 3
+    pk: 2032
+    sig: 456
+    signing_cycles: 2146670
+    verification_cycles: 842558
+    signing_us: 571.8
+    verification_us: 222.9
+  - name: SNOVA_V_K
+    level: 5
+    pk: 1216
+    sig: 896
+    signing_cycles: 4169421
+    verification_cycles: 1552891
+    signing_us: 1110.2
+    verification_us: 411.6
+  - name: SNOVA_V_B
+    level: 5
+    pk: 1891
+    sig: 691
+    signing_cycles: 4191766
+    verification_cycles: 1293744
+    signing_us: 1115.2
+    verification_us: 342.0
+  - name: SNOVA_V_S
+    level: 5
+    pk: 2716
+    sig: 591
+    signing_cycles: 4281053
+    verification_cycles: 1598344
+    signing_us: 1139.8
+    verification_us: 423.2
+- version: v2.3
+  date: '2026-04-03'
+  status: On-ramp
   parametersets:
   # Level 5
   - name: SNOVA-60-10-16-4

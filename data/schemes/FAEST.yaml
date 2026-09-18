@@ -3,10 +3,115 @@ website: https://faest.info
 category: Symmetric
 assumption: AES
 versions:
+- version: v3.0.0
+  date: '2026-09-01'
+  status: On-ramp
+  perf_source: faest-arch-opt (AVX2+AES-NI optimized implementation)
+  tags:
+  - round-3
+  parametersets:
+  - name: 128s
+    level: 1
+    pk: 32
+    sig: 4066
+    signing_us: 3009.9
+    verification_us: 2621.5
+    signing_cycles: 9897766
+    verification_cycles: 8536610
+  - name: 128f
+    level: 1
+    pk: 32
+    sig: 5170
+    signing_us: 423.4
+    verification_us: 307.8
+    signing_cycles: 1581966
+    verification_cycles: 1150536
+  - name: EM-128s
+    level: 1
+    pk: 32
+    sig: 3466
+    signing_us: 1800.3
+    verification_us: 1520.9
+    signing_cycles: 6763025
+    verification_cycles: 5717788
+  - name: EM-128f
+    level: 1
+    pk: 32
+    sig: 4170
+    signing_us: 350.4
+    verification_us: 234.8
+    signing_cycles: 1314340
+    verification_cycles: 886860
+  - name: 192s
+    level: 3
+    pk: 48
+    sig: 9410
+    signing_us: 11817.8
+    verification_us: 9924.8
+    signing_cycles: 40109670
+    verification_cycles: 33119958
+  - name: 192f
+    level: 3
+    pk: 48
+    sig: 11738
+    signing_us: 1818.3
+    verification_us: 1408.8
+    signing_cycles: 6787407
+    verification_cycles: 5282614
+  - name: EM-192s
+    level: 3
+    pk: 48
+    sig: 7874
+    signing_us: 8471.6
+    verification_us: 7981.0
+    signing_cycles: 27415285
+    verification_cycles: 25819650
+  - name: EM-192f
+    level: 3
+    pk: 48
+    sig: 9818
+    signing_us: 1181.9
+    verification_us: 891.4
+    signing_cycles: 4426941
+    verification_cycles: 3348965
+  - name: 256s
+    level: 5
+    pk: 48
+    sig: 16626
+    signing_us: 17269.4
+    verification_us: 16740.5
+    signing_cycles: 56136431
+    verification_cycles: 54294183
+  - name: 256f
+    level: 5
+    pk: 48
+    sig: 20856
+    signing_us: 2569.1
+    verification_us: 2025.7
+    signing_cycles: 9565052
+    verification_cycles: 7589750
+  - name: EM-256s
+    level: 5
+    pk: 64
+    sig: 14554
+    signing_us: 11747.2
+    verification_us: 11054.8
+    signing_cycles: 43978176
+    verification_cycles: 41432289
+  - name: EM-256f
+    level: 5
+    pk: 64
+    sig: 18084
+    signing_us: 2165.8
+    verification_us: 1643.0
+    signing_cycles: 8077989
+    verification_cycles: 6146193
 - version: v2.0
   date: '2025-02-07'
   status: On-ramp
   perf_source: faest-arch-opt (AVX2+AES-NI optimized implementation)
+  tags:
+  - round-2
   parametersets:
   - name: 128s
     level: 1
@@ -104,9 +209,6 @@ versions:
     verification_cycles: 6705604
     signing_us: 1833.6
     verification_us: 1792.4
-  tags:
-  - round-2
-  - round-3  # Round 3 spec not yet available; showing current latest data
 - version: v1.0
   date: '2023-06-01'
   status: On-ramp

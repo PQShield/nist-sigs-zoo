@@ -24,7 +24,7 @@ output to `results/<timestamp>_<cpu>.txt`:
 
 Dependencies: C compiler (cc), make, git submodules initialized.
 - OpenSSL 3.x for classic schemes (detected via `brew --prefix openssl`, `pkg-config`, or `/usr` fallback).
-- CMake ≥ 3.13 + libgmp-dev for SQIsign (`sudo apt-get install cmake libgmp-dev`).
+- CMake ≥ 3.13 for SQIsign (`sudo apt-get install cmake`) — nist-v3 dropped the GMP dependency.
 
 ## Architecture
 
@@ -51,8 +51,8 @@ bench/
     ├── snova/            # PQCLAB-SNOVA/SNOVA
     ├── uov/              # pqov/pqov
     ├── qruov/            # qruov/round2
-    ├── mqom/             # mqom/mqom-v2
-    ├── sqisign/          # SQISign/the-sqisign (CMake build)
+    ├── mqom/             # mqom/mqom-v3
+    ├── sqisign/          # SQISign/the-sqisign (CMake build; SQISIGN_BUILD_TYPE=broadwell by default, x86-64 asm field arithmetic)
     └── <name>/
         ├── params.tsv       # one row per parameter set; columns substituted into template
         ├── shim_template.c  # C template with @COLNAME@ tokens
@@ -119,7 +119,8 @@ The shim adapts upstream API conventions to the bench contract. Common issues:
   Use `malloc` for the temporary sm buffer (size = CRYPTO_BYTES + msglen).
 - **Symbol namespacing**: some upstreams (e.g. SQIsign) `#define` all public names to
   namespaced forms via a namespace header. The compiled `.a` will have e.g.
-  `sqisign_lvl1_ref_crypto_sign_keypair` rather than `crypto_sign_keypair`.
+  `sqisign_p324_3_broadwell_crypto_sign_keypair` rather than `crypto_sign_keypair`
+  (SQIsign: the build-type part is filled in by the Makefile via `-DSQISIGN_NS_TYPE`).
   Check with `nm lib.a | grep crypto_sign`.  Fix: declare the namespaced symbols as
   `extern` in the shim (using a `@NS_PREFIX@` token from params.tsv) and wrap them
   with plain-name functions.

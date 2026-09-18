@@ -1,7 +1,7 @@
 # Licensed under CC BY 4.0: https://creativecommons.org/licenses/by/4.0/
 license: CC-BY-4.0
 attribution: Thom Wiggers / PQShield
-date: '2026-09-18T14:25:28Z'
+date: '2026-09-18T15:33:34Z'
 cpu:
   model: Intel(R) Xeon(R) Platinum 8488C
   cores: 16
@@ -14,16 +14,16 @@ compiler: cc (Ubuntu 15.2.0-16ubuntu1) 15.2.0
 openssl: 'OpenSSL 3.5.5 27 Jan 2026 (Library: OpenSSL 3.5.5 27 Jan 2026)'
 notes: 'Median over 1000 iterations (fewer for slow schemes). Cycle counter: rdpmc CPU_CYCLES (real core cycles, user-space). Wall clock: clock_gettime(CLOCK_MONOTONIC). Benchmark thread pinned to one core.'
 sources:
-  faest: https://github.com/faest-sign/faest-arch-opt@09b2ffbcd7a5fc3fbf931c9480d443056f79dfdd
+  faest: https://github.com/faest-sign/faest-arch-opt@1d8330979cb467c54edac43ffe695da249fa3417
   fndsa: https://github.com/pornin/c-fn-dsa@33026d4d2734049a23f065f77eea11c35de58d76
   hawk: https://github.com/hawk-sign/dev@1b9fef52559273fe7b40fe3e22968eaedd3a4c2a
-  mayo: https://github.com/PQCMayo/MAYO-C@4108b71d416ce5947398b48b8abcb2a8c6803f3b
+  mayo: https://github.com/PQCMayo/MAYO-C@74de637a7c4a7f9fafa888183bc05f5cf920cd2d
   mldsa: https://github.com/pq-crystals/dilithium.git@6e00625c5b29f516c6de973fe2ee2fbb150973f9
-  mqom: https://github.com/mqom/mqom-v2@9a5a4d5137c0c9e7974eb8879aa7f13fa6c8ab4d
+  mqom: https://github.com/mqom/mqom-v3@d9c64e386b186ee186684a0389fc32009bd67cd1
   qruov: https://github.com/qruov/round2.git@787f8dba4c158f713d3351e7531edbec4afddf97
   sdith: https://github.com/sdith/sdith@fff41ae5b12ba3c6b90d8f97b2ede57aa277a92f
-  sdith2: https://sdith.org/docs/sdith-package-v2.zip
+  sdith2: https://github.com/sdith/sdith@ce7adf06476674d4ff990f378f83f9981cd6745b
   slhdsa: https://github.com/pq-code-package/slhdsa-c@fac08b7d0a93849de0ee163c63712395e012b38c
-  snova: https://github.com/PQCLAB-SNOVA/SNOVA.git@9da14981336ede257c41ef53cc069989051e8181
-  sqisign: https://github.com/SQISign/the-sqisign@91e9e464fe5400192d13e1f9240cbf180200a103
-  uov: https://github.com/pqov/pqov.git@49dc53c09717763759911c47c7e4c8000fda1cc5
+  snova: https://github.com/PQCLAB-SNOVA/SNOVA.git@9b29c1e332cbd85757c8d6362a57b9a8c8298a38
+  sqisign: https://github.com/SQISign/the-sqisign@6d017708db403bf83977fa70770fc4f7f9e9ff21
+  uov: https://github.com/pqov/pqov.git@fac2ec1fe6d8ea508eab4b98eb5341e1eed930a4

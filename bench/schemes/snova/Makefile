@@ -6,34 +6,30 @@ BASE_CFLAGS := -O3 -fPIC -DNDEBUG -Wall -Wextra -Wno-unused-parameter \
                -Wno-sign-compare -DSNOVA_OPT=opt -mavx2 -maes
 
 PARAMS := \
-    snova_24_5_16_4   snova_28_5_19_4   snova_48_17_16_2  snova_48_16_19_2  \
-    snova_28_4_16_4x5 snova_28_4_19_4x5                                      \
-    snova_40_7_19_4   snova_37_8_16_4   snova_72_25_16_2                     \
-    snova_38_5_16_4x5 snova_38_5_19_4x5                                      \
-    snova_50_9_19_4   snova_60_10_16_4  snova_97_33_16_2
+    snova_i_k   snova_i_b   snova_i_s   \
+    snova_iii_k snova_iii_b snova_iii_s \
+    snova_v_k   snova_v_b   snova_v_s
 
 SOS        := $(addprefix $(BUILD)/, $(addsuffix .so, $(PARAMS)))
 SHIM_FILES := $(addsuffix _shim.c, $(PARAMS))
 
-# Per-variant SNOVA parameter flags (v, o, q, l, and optionally r for rectangular)
-pf_snova_24_5_16_4   := -DSNOVA_v=24 -DSNOVA_o=5  -DSNOVA_q=16 -DSNOVA_l=4
-pf_snova_28_5_19_4   := -DSNOVA_v=28 -DSNOVA_o=5  -DSNOVA_q=19 -DSNOVA_l=4
-pf_snova_48_17_16_2  := -DSNOVA_v=48 -DSNOVA_o=17 -DSNOVA_q=16 -DSNOVA_l=2
-pf_snova_48_16_19_2  := -DSNOVA_v=48 -DSNOVA_o=16 -DSNOVA_q=19 -DSNOVA_l=2
-pf_snova_28_4_16_4x5 := -DSNOVA_v=28 -DSNOVA_o=4  -DSNOVA_q=16 -DSNOVA_l=4 -DSNOVA_r=5
-pf_snova_28_4_19_4x5 := -DSNOVA_v=28 -DSNOVA_o=4  -DSNOVA_q=19 -DSNOVA_l=4 -DSNOVA_r=5
-pf_snova_40_7_19_4   := -DSNOVA_v=40 -DSNOVA_o=7  -DSNOVA_q=19 -DSNOVA_l=4
-pf_snova_37_8_16_4   := -DSNOVA_v=37 -DSNOVA_o=8  -DSNOVA_q=16 -DSNOVA_l=4
-pf_snova_72_25_16_2  := -DSNOVA_v=72 -DSNOVA_o=25 -DSNOVA_q=16 -DSNOVA_l=2
-pf_snova_38_5_16_4x5 := -DSNOVA_v=38 -DSNOVA_o=5  -DSNOVA_q=16 -DSNOVA_l=4 -DSNOVA_r=5
-pf_snova_38_5_19_4x5 := -DSNOVA_v=38 -DSNOVA_o=5  -DSNOVA_q=19 -DSNOVA_l=4 -DSNOVA_r=5
-pf_snova_50_9_19_4   := -DSNOVA_v=50 -DSNOVA_o=9  -DSNOVA_q=19 -DSNOVA_l=4
-pf_snova_60_10_16_4  := -DSNOVA_v=60 -DSNOVA_o=10 -DSNOVA_q=16 -DSNOVA_l=4
-pf_snova_97_33_16_2  := -DSNOVA_v=97 -DSNOVA_o=33 -DSNOVA_q=16 -DSNOVA_l=2
+# Per-variant SNOVA round-3 parameter flags (v, o, q, l, r, m1); m2 is derived
+# internally by the reference code as o*l*r. All recommended sets use q=16.
+pf_snova_i_k   := -DSNOVA_v=29 -DSNOVA_o=3 -DSNOVA_q=16 -DSNOVA_l=4 -DSNOVA_r=8 -DSNOVA_m1=5 -DSNOVA_NAME=SNOVA_I_K
+pf_snova_i_b   := -DSNOVA_v=27 -DSNOVA_o=4 -DSNOVA_q=16 -DSNOVA_l=4 -DSNOVA_r=6 -DSNOVA_m1=5 -DSNOVA_NAME=SNOVA_I_B
+pf_snova_i_s   := -DSNOVA_v=27 -DSNOVA_o=5 -DSNOVA_q=16 -DSNOVA_l=4 -DSNOVA_r=4 -DSNOVA_m1=5 -DSNOVA_NAME=SNOVA_I_S
+pf_snova_iii_k := -DSNOVA_v=38 -DSNOVA_o=4 -DSNOVA_q=16 -DSNOVA_l=4 -DSNOVA_r=8 -DSNOVA_m1=7 -DSNOVA_NAME=SNOVA_III_K
+pf_snova_iii_b := -DSNOVA_v=38 -DSNOVA_o=5 -DSNOVA_q=16 -DSNOVA_l=4 -DSNOVA_r=6 -DSNOVA_m1=7 -DSNOVA_NAME=SNOVA_III_B
+pf_snova_iii_s := -DSNOVA_v=38 -DSNOVA_o=6 -DSNOVA_q=16 -DSNOVA_l=4 -DSNOVA_r=5 -DSNOVA_m1=7 -DSNOVA_NAME=SNOVA_III_S
+pf_snova_v_k   := -DSNOVA_v=40 -DSNOVA_o=4 -DSNOVA_q=16 -DSNOVA_l=5 -DSNOVA_r=8 -DSNOVA_m1=6 -DSNOVA_NAME=SNOVA_V_K
+pf_snova_v_b   := -DSNOVA_v=40 -DSNOVA_o=5 -DSNOVA_q=16 -DSNOVA_l=5 -DSNOVA_r=6 -DSNOVA_m1=6 -DSNOVA_NAME=SNOVA_V_B
+pf_snova_v_s   := -DSNOVA_v=40 -DSNOVA_o=6 -DSNOVA_q=16 -DSNOVA_l=5 -DSNOVA_r=5 -DSNOVA_m1=6 -DSNOVA_NAME=SNOVA_V_S
 
-# Sources compiled into each per-param static library.
+# Sources compiled into each per-param static library. Round 3 replaced the
+# generic snova_opt.c with a q=16-specific snova_opt_16.c (all recommended
+# sets use q=16); it auto-detects AVX2/GFNI via __AVX2__/__GFNI__ from BASE_CFLAGS.
 # rng.c excluded — shim provides randombytes via getrandom().
-SRCS := $(SRC)/snova_opt.c $(SRC)/symmetric.c $(SRC)/sign.c $(SRC)/aes.c
+SRCS := $(SRC)/snova_opt_16.c $(SRC)/symmetric.c $(SRC)/sign.c $(SRC)/aes.c
 
 .PHONY: all clean check_ref
 

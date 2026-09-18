@@ -28,7 +28,7 @@ make
 | Scheme family | Extra requirement |
 |---|---|
 | Classic (RSA, ECDSA, EdDSA) | OpenSSL 3.x (`libssl-dev` / `openssl@3`) |
-| SQIsign | CMake ≥ 3.13 + GMP (`cmake libgmp-dev`) |
+| SQIsign | CMake ≥ 3.13 (`cmake`) |
 | All others | C compiler, make, git |
 
 ## Schemes
@@ -96,7 +96,7 @@ bench/
     ├── uov/          # pqov/pqov
     ├── qruov/        # qruov/round2
     ├── mqom/         # mqom/mqom-v2
-    └── sqisign/      # SQISign/the-sqisign (nist-v2 tag)
+    └── sqisign/      # SQISign/the-sqisign (nist-v3 tag)
 ```
 
 Each scheme directory contains:

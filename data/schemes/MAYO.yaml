@@ -3,6 +3,45 @@ website: https://pqmayo.org
 category: Multivariate
 assumption: Multivariate Quadratic
 versions:
+- version: Round 3
+  date: '2026-08-31'
+  status: On-ramp
+  perf_source: submission document (Table 3.1, Intel Xeon E3-1225 v3 Haswell, optimized C + AES-NI)
+  tags:
+  - round-3
+  parametersets:
+  - name: five
+    level: 5
+    pk: 5554
+    sig: 964
+    signing_cycles: 1976908
+    verification_cycles: 939168
+    signing_us: 525.8
+    verification_us: 248.4
+  - name: three
+    level: 3
+    pk: 2986
+    sig: 681
+    signing_cycles: 948823
+    verification_cycles: 450885
+    signing_us: 251.8
+    verification_us: 119.8
+  - name: two
+    level: 1
+    pk: 2928
+    sig: 239
+    signing_cycles: 212858
+    verification_cycles: 94345
+    signing_us: 57.2
+    verification_us: 26.0
+  - name: one
+    level: 1
+    pk: 1456
+    sig: 464
+    signing_cycles: 440127
+    verification_cycles: 203111
+    signing_us: 117.6
+    verification_us: 56.6
 - version: Round 2
   date: '2025-03-26'
   status: On-ramp
@@ -75,7 +114,6 @@ versions:
     warning: "Improved MQ attack (Asanuma et al., ePrint 2026/1054) reduces classical security estimate from 2^156 to 2^145 — still above NIST Level I threshold (128 bits)"
   tags:
   - round-2
-  - round-3  # Round 3 spec not yet available; showing current latest data
 - version: Round 1
   date: '2023-06-01'
   status: On-ramp
