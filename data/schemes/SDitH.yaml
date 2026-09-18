@@ -14,50 +14,50 @@ versions:
     level: 1
     pk: 70
     sig: 3721
-    signing_cycles: 9368145
-    verification_cycles: 8275548
-    signing_us: 2488.2
-    verification_us: 2211.9
+    signing_cycles: 9305331
+    verification_cycles: 8295645
+    signing_us: 2464.5
+    verification_us: 2218.9
   - name: SDitH2-L1-gf2-fast
     level: 1
     pk: 70
     sig: 4914
-    signing_cycles: 1990220
-    verification_cycles: 1710064
-    signing_us: 525.3
-    verification_us: 458.2
+    signing_cycles: 1991409
+    verification_cycles: 1706443
+    signing_us: 531.5
+    verification_us: 450.2
   - name: SDitH2-L3-gf2-short
     level: 3
     pk: 98
     sig: 8484
-    signing_cycles: 42405578
-    verification_cycles: 41731080
-    signing_us: 11256.9
-    verification_us: 11072.2
+    signing_cycles: 42438614
+    verification_cycles: 41732848
+    signing_us: 11259.5
+    verification_us: 11069.5
   - name: SDitH2-L3-gf2-fast
     level: 3
     pk: 98
     sig: 10852
-    signing_cycles: 9577363
-    verification_cycles: 8965080
-    signing_us: 2543.5
-    verification_us: 2377.4
+    signing_cycles: 9557976
+    verification_cycles: 8964371
+    signing_us: 2534.3
+    verification_us: 2378.5
   - name: SDitH2-L5-gf2-short
     level: 5
     pk: 132
     sig: 15147
-    signing_cycles: 65836779
-    verification_cycles: 65062480
-    signing_us: 17481.5
-    verification_us: 17264.1
+    signing_cycles: 65854817
+    verification_cycles: 65061426
+    signing_us: 17475.1
+    verification_us: 17265.4
   - name: SDitH2-L5-gf2-fast
     level: 5
     pk: 132
     sig: 19144
-    signing_cycles: 14317062
-    verification_cycles: 13487767
-    signing_us: 3802.3
-    verification_us: 3581.4
+    signing_cycles: 14344463
+    verification_cycles: 13487371
+    signing_us: 3807.0
+    verification_us: 3580.4
 - version: v2.0
   date: '2025-02-05'
   status: On-ramp
@@ -124,96 +124,96 @@ versions:
     level: 5
     pk: 234
     sig: 33370
-    signing_cycles: 94373330
-    verification_cycles: 90465541
-    signing_us: 25165.9
-    verification_us: 24072.1
+    signing_cycles: 94743511
+    verification_cycles: 90937574
+    signing_us: 25279.6
+    verification_us: 24259.9
   - name: gf256-L5-hyp
     level: 5
     pk: 234
     sig: 33370
-    signing_cycles: 57518048
-    verification_cycles: 53286886
-    signing_us: 15270.8
-    verification_us: 14161.6
+    signing_cycles: 57792583
+    verification_cycles: 53584460
+    signing_us: 15342.6
+    verification_us: 14235.6
   - name: gf251-L3-hyp
     level: 3
     pk: 183
     sig: 19161
-    signing_cycles: 51133647
-    verification_cycles: 48726254
-    signing_us: 13622.8
-    verification_us: 12984.8
+    signing_cycles: 51253276
+    verification_cycles: 48882958
+    signing_us: 13659.6
+    verification_us: 13020.5
   - name: gf256-L3-hyp
     level: 3
     pk: 183
     sig: 19161
-    signing_cycles: 29665142
-    verification_cycles: 27131366
-    signing_us: 7869.3
-    verification_us: 7220.8
+    signing_cycles: 29646882
+    verification_cycles: 27107731
+    signing_us: 7861.9
+    verification_us: 7214.2
   - name: gf256-L5-thr
     level: 5
     pk: 234
     sig: 43943
-    signing_cycles: 191849733
-    verification_cycles: 42719236
-    signing_us: 50960.9
-    verification_us: 11332.8
+    signing_cycles: 191844298
+    verification_cycles: 42727443
+    signing_us: 50920.0
+    verification_us: 11330.6
   - name: gf251-L5-thr
     level: 5
     pk: 234
     sig: 43943
-    signing_cycles: 29010899
-    verification_cycles: 3510577
-    signing_us: 7704.6
-    verification_us: 931.9
+    signing_cycles: 29006113
+    verification_cycles: 3506841
+    signing_us: 7703.4
+    verification_us: 931.2
   - name: gf251-L1-hyp
     level: 1
     pk: 120
     sig: 8241
-    signing_cycles: 23671031
-    verification_cycles: 22710763
-    signing_us: 6288.6
-    verification_us: 6040.8
+    signing_cycles: 23699740
+    verification_cycles: 22711700
+    signing_us: 6300.1
+    verification_us: 6038.7
   - name: gf256-L3-thr
     level: 3
     pk: 183
     sig: 24918
-    signing_cycles: 101006745
-    verification_cycles: 18927730
-    signing_us: 26784.5
-    verification_us: 5020.2
+    signing_cycles: 101027061
+    verification_cycles: 18909061
+    signing_us: 26786.6
+    verification_us: 5015.6
   - name: gf256-L1-hyp
     level: 1
     pk: 120
     sig: 8241
-    signing_cycles: 12579632
-    verification_cycles: 11661376
-    signing_us: 3349.6
-    verification_us: 3093.6
+    signing_cycles: 12524014
+    verification_cycles: 11663719
+    signing_us: 3333.7
+    verification_us: 3094.1
   - name: gf251-L3-thr
     level: 3
     pk: 183
     sig: 24918
-    signing_cycles: 13388936
-    verification_cycles: 1639096
-    signing_us: 3577.2
-    verification_us: 434.7
+    signing_cycles: 13389283
+    verification_cycles: 1640724
+    signing_us: 3580.2
+    verification_us: 436.6
   - name: gf256-L1-thr
     level: 1
     pk: 120
     sig: 10117
-    signing_cycles: 38918918
-    verification_cycles: 5830382
-    signing_us: 10319.9
-    verification_us: 1546.0
+    signing_cycles: 38853056
+    verification_cycles: 5839370
+    signing_us: 10303.3
+    verification_us: 1548.8
   - name: gf251-L1-thr
     level: 1
     pk: 120
     sig: 10117
-    signing_cycles: 5580069
-    verification_cycles: 679169
-    signing_us: 1481.9
+    signing_cycles: 5574421
+    verification_cycles: 679654
+    signing_us: 1485.7
     verification_us: 180.4
   info: few bits security loss in original parameters

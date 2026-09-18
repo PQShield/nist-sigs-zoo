@@ -11,24 +11,24 @@ versions:
     level: Pre-Quantum
     pk: 65
     sig: 72
-    signing_cycles: 79826
-    verification_cycles: 237588
+    signing_cycles: 79894
+    verification_cycles: 237644
     signing_us: 22.3
     verification_us: 63.7
   - name: P-384
     level: Pre-Quantum
     pk: 97
     sig: 104
-    signing_cycles: 606502
-    verification_cycles: 1380296
-    signing_us: 161.3
-    verification_us: 366.9
+    signing_cycles: 607362
+    verification_cycles: 1377336
+    signing_us: 161.7
+    verification_us: 366.1
   - name: P-521
     level: Pre-Quantum
     pk: 133
     sig: 139
-    signing_cycles: 772014
-    verification_cycles: 1469115
-    signing_us: 204.8
-    verification_us: 390.8
+    signing_cycles: 772628
+    verification_cycles: 1470346
+    signing_us: 205.1
+    verification_us: 391.1
   broken: classical
