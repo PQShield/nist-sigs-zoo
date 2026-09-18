@@ -9,59 +9,59 @@ parametersets:
   level: 2
   pk: 994
   ct: 897
-  keygen_cycles: 599055
-  encaps_cycles: 48946
-  decaps_cycles: 56446
-  keygen_us: 207.8
-  encaps_us: 16.7
-  decaps_us: 19.4
+  keygen_cycles: 591458
+  encaps_cycles: 49046
+  decaps_cycles: 50473
+  keygen_us: 156.8
+  encaps_us: 14.1
+  decaps_us: 14.4
 - name: sntrup761
   level: 2
   pk: 1158
   ct: 1039
-  keygen_cycles: 778305
-  encaps_cycles: 54143
-  decaps_cycles: 59816
-  keygen_us: 338.8
-  encaps_us: 23.5
-  decaps_us: 26.0
+  keygen_cycles: 771437
+  encaps_cycles: 53891
+  decaps_cycles: 52550
+  keygen_us: 204.3
+  encaps_us: 15.3
+  decaps_us: 15.0
 - name: sntrup857
   level: 3
   pk: 1322
   ct: 1184
-  keygen_cycles: 973142
-  encaps_cycles: 64578
-  decaps_cycles: 75691
-  keygen_us: 415.5
-  encaps_us: 26.9
-  decaps_us: 32.1
+  keygen_cycles: 963712
+  encaps_cycles: 63429
+  decaps_cycles: 69533
+  keygen_us: 254.9
+  encaps_us: 17.9
+  decaps_us: 19.5
 - name: sntrup953
   level: 4
   pk: 1505
   ct: 1349
-  keygen_cycles: 1160734
-  encaps_cycles: 70981
-  decaps_cycles: 80889
-  keygen_us: 392.0
-  encaps_us: 23.0
-  decaps_us: 26.2
+  keygen_cycles: 1155692
+  encaps_cycles: 69072
+  decaps_cycles: 73308
+  keygen_us: 307.0
+  encaps_us: 19.3
+  decaps_us: 20.5
 - name: sntrup1013
   level: 4
   pk: 1623
   ct: 1455
-  keygen_cycles: 1368206
-  encaps_cycles: 72869
-  decaps_cycles: 82335
-  keygen_us: 444.0
-  encaps_us: 23.4
-  decaps_us: 26.2
+  keygen_cycles: 1362515
+  encaps_cycles: 71166
+  decaps_cycles: 75711
+  keygen_us: 366.1
+  encaps_us: 19.9
+  decaps_us: 21.1
 - name: sntrup1277
   level: 5
   pk: 2067
   ct: 1847
-  keygen_cycles: 1987319
-  encaps_cycles: 92090
-  decaps_cycles: 102736
-  keygen_us: 677.8
-  encaps_us: 30.7
-  decaps_us: 34.3
+  keygen_cycles: 2005365
+  encaps_cycles: 93322
+  decaps_cycles: 100768
+  keygen_us: 535.4
+  encaps_us: 25.7
+  decaps_us: 27.7

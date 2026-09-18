@@ -2,8 +2,9 @@ CC      ?= cc
 BUILD    = build
 IMPL_BASE = ref/Optimized_Implementation
 
-# Common flags for all variants
-BASE_CFLAGS := -O3 -fPIC -DNDEBUG -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare
+# Common flags for all variants. -std=gnu17: the hypercube sdith.c does
+# `typedef int bool;`, which is an error under C23 (GCC >= 15 default).
+BASE_CFLAGS := -std=gnu17 -O3 -fPIC -DNDEBUG -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare
 
 # Hypercube: uses AVX2 field arithmetic
 HC_CFLAGS   := $(BASE_CFLAGS) -DAVX2 -mavx2 -mpclmul -mgfni -mavx -maes

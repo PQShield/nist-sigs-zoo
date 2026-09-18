@@ -242,6 +242,46 @@ Post-round-3 spec updates should be added as new version entries **without** any
 Cycles extrapolated from ms values use `CPUSPEED = 2_500_000_000` (2.5 GHz).
 Extrapolated values shown with wavy red underline (`decoration-wavy decoration-red-500`).
 
+### Cloud benchmark runs — `scripts/aws-bench.sh`
+
+Runs `bench/` and/or `bench-kem/` on a throwaway EC2 spot instance and copies the
+`results/*.txt` files back into the working copy. Import them afterwards with the
+suite's `update_scheme_data.py`, after reviewing them.
+
+```bash
+aws sso login --profile bench
+AWS_PROFILE=bench scripts/aws-bench.sh                          # both suites
+AWS_PROFILE=bench scripts/aws-bench.sh --suite kems mlkem       # one suite, filtered
+BENCH_ITER=5 AWS_PROFILE=bench scripts/aws-bench.sh --suite sigs  # quick smoke test
+```
+
+Options: `--suite sigs|kems|both`, `--instance-type` (default `c7i.4xlarge`),
+`--ubuntu` (default `26.04`), `--ttl` minutes (default 60). Positional args are
+`run_bench.sh` filters. `BENCH_ITER` / `BENCH_CYCLES` / `BENCH_CPU` are forwarded.
+
+- **Builds the local `HEAD`**, cloned from the public GitHub repo. The script refuses
+  to run with uncommitted changes. Commits not yet on origin are sent as a git bundle.
+  Only top-level submodules are initialised, over anonymous HTTPS.
+- **Lifetime:** the instance self-terminates at the TTL (`shutdown -h` in user-data +
+  shutdown-behaviour `terminate`) even if the script dies. On exit, including Ctrl-C,
+  the script fetches partial results, terminates the instance and deletes the
+  per-run security group and key pair. All resources are tagged
+  `Name=nist-sigs-zoo-bench-*`.
+- **Credentials:** IAM Identity Center profile with the permission set from
+  `scripts/aws-bench-iam-policy.json` (create/destroy limited to that tag). Region
+  comes from the profile or `AWS_REGION`.
+- **Cycle counter:** `c7i.4xlarge` exposes a virtual PMU, so results use `rdpmc`.
+  The script warns if a results file fell back to `rdtsc`. Use a `*.metal*` type
+  to avoid noise from other tenants on the host.
+- **Smoke-test changes cheaply first** (`BENCH_ITER=5`, a filter). Those results
+  files are junk: don't commit or import them.
+- **New build dependency?** Add it to the user-data `apt-get` list in the script.
+  The VM is a stock Ubuntu with GCC 15 (C23 by default) and multiarch OpenSSL. If a
+  scheme breaks there, fix its Makefile, not the script (see `bench/schemes/sdith`,
+  `qruov`).
+- **Orphan check:** `aws ec2 describe-instances --filters 'Name=tag:Name,Values=nist-sigs-zoo-bench-*'`
+  (also `describe-security-groups`, `describe-key-pairs`).
+
 ## Deploy
 
 GitHub Actions workflow at `.github/workflows/deploy.yml`:

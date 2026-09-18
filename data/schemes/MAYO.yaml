@@ -12,35 +12,35 @@ versions:
     level: 5
     pk: 5554
     sig: 964
-    signing_cycles: 2972563
-    verification_cycles: 1276019
-    signing_us: 999.4
-    verification_us: 425.8
+    signing_cycles: 2866750
+    verification_cycles: 1244780
+    signing_us: 766.7
+    verification_us: 333.0
   - name: three
     level: 3
     pk: 2986
     sig: 681
-    signing_cycles: 1485370
-    verification_cycles: 652784
-    signing_us: 496.9
-    verification_us: 217.7
+    signing_cycles: 1402602
+    verification_cycles: 640184
+    signing_us: 375.8
+    verification_us: 171.5
   - name: two
     level: 1
     pk: 4912
     sig: 186
-    signing_cycles: 337887
-    verification_cycles: 59957
+    signing_cycles: 338917
+    verification_cycles: 59346
     broken: "Wedge attack (Ran, ePrint 2025/1143) reduces classical security to ~113 bits, below NIST Level I threshold (128 bits)"
-    signing_us: 120.7
-    verification_us: 21.5
+    signing_us: 91.6
+    verification_us: 16.8
   - name: one
     level: 1
     pk: 1420
     sig: 454
-    signing_cycles: 690513
-    verification_cycles: 312615
-    signing_us: 244.0
-    verification_us: 110.9
+    signing_cycles: 668264
+    verification_cycles: 284905
+    signing_us: 179.5
+    verification_us: 77.4
     warning: "Improved MQ attack (Asanuma et al., ePrint 2026/1054) reduces classical security estimate from 2^156 to 2^145 — still above NIST Level I threshold (128 bits)"
 - version: Round 2
   date: '2025-02-05'
