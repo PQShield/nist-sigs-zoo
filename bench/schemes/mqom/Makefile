@@ -62,7 +62,7 @@ COMMON_SRCS := \
     $(addprefix $(REF)/rijndael/, \
         rijndael_ref.c rijndael_table.c rijndael_aes_ni.c \
         rijndael_ct64.c rijndael_external.c rijndael_vaes.c) \
-    $(REF)/piop/piop_bitslice.c
+    $(REF)/piop/piop_default.c
 
 # CT (Correlated-Tree) and OT (One-Tree) each need their own BLC + GGM-tree
 # implementation (blc.h dispatches on MQOM3_PARAM_OT_VARIANT at compile time,
@@ -78,13 +78,14 @@ INCLUDES := \
     -I$(REF)/piop -I$(REF)/fields -I$(REF)/fields_bitsliced \
     -I$(REF)
 
-# -DPIOP_BITSLICE -DBLC_SEEDEXPAND_CACHE -DUSE_PIOP_CACHE -DUSE_XOF_X4
-# -DUSE_ENC_X8 match the "default" implementation's compile_opts from
-# integration/liboqs/META_*.yml (portable, no liboqs/mupq namespacing —
-# each parameter set already gets its own .so, so namespacing is unneeded).
+# Flags match the "avx2" implementation's compile_opts in
+# integration/liboqs/META_*.yml (minus liboqs namespacing: each parameter
+# set already gets its own .so). Not the portable "default" profile: its
+# -DPIOP_BITSLICE path is 3-5x slower on x86. AES is left to auto-detect
+# (VAES > AES-NI with -march=native) rather than pinned to AES-NI.
 CFLAGS_BASE := -O2 -march=native $(VAES_CFLAGS) -fPIC -std=c99 \
-    -DNDEBUG -DNO_ALLOC_PROBE -DNO_MISALIGNED_ACCESSES -DNO_EMBEDDED_SRAM_SECTION \
-    -DPIOP_BITSLICE -DBLC_SEEDEXPAND_CACHE -DUSE_PIOP_CACHE -DUSE_XOF_X4 -DUSE_ENC_X8 \
+    -DNDEBUG -DNO_ALLOC_PROBE -DNO_EMBEDDED_SRAM_SECTION \
+    -DBLC_SEEDEXPAND_CACHE -DUSE_PIOP_CACHE -DUSE_XOF_X4 -DUSE_ENC_X8 -DFIELDS_AVX2 \
     $(KECCAK_CFLAGS)
 
 # ------- Variant rule template -------
