@@ -78,14 +78,16 @@ INCLUDES := \
     -I$(REF)/piop -I$(REF)/fields -I$(REF)/fields_bitsliced \
     -I$(REF)
 
-# Flags match the "avx2" implementation's compile_opts in
-# integration/liboqs/META_*.yml (minus liboqs namespacing: each parameter
-# set already gets its own .so). Not the portable "default" profile: its
-# -DPIOP_BITSLICE path is 3-5x slower on x86. AES is left to auto-detect
-# (VAES > AES-NI with -march=native) rather than pinned to AES-NI.
-CFLAGS_BASE := -O2 -march=native $(VAES_CFLAGS) -fPIC -std=c99 \
+# Flags match what upstream's own Makefile uses by default on x86-64
+# (`make -n` in ref/; see also issue #58): -O3 plus the PIOP cache, x4 XOF,
+# x4 AES grinding, x8 encryption and x8 breadth-first large-tree expansion.
+# Field and Rijndael backends (AVX2/AVX-512, AES-NI/VAES, GFNI) are picked
+# at compile time from -march=native. Not the liboqs META "default" profile:
+# its -DPIOP_BITSLICE path is 3-5x slower on x86.
+CFLAGS_BASE := -O3 -march=native $(VAES_CFLAGS) -fPIC -std=c99 \
     -DNDEBUG -DNO_ALLOC_PROBE -DNO_EMBEDDED_SRAM_SECTION \
-    -DBLC_SEEDEXPAND_CACHE -DUSE_PIOP_CACHE -DUSE_XOF_X4 -DUSE_ENC_X8 -DFIELDS_AVX2 \
+    -DUSE_PIOP_CACHE -DUSE_XOF_X4 -DAES_GRINDING_X4 -DUSE_ENC_X8 \
+    -DLARGE_TREE_BFS -DLARGE_TREE_BFS_X8 \
     $(KECCAK_CFLAGS)
 
 # ------- Variant rule template -------

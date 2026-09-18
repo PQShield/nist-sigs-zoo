@@ -48,22 +48,27 @@ static int scheme_matches(const char *name, int nfilters, char **filters) {
 #define BENCH_STACK_SIZE (256 * 1024 * 1024)  /* 256 MB */
 
 static void *bench_run_thread(void *arg) {
-    bench_run((const bench_scheme_t *)arg);
-    return NULL;
+    static int failed;  /* threads are joined one at a time */
+    failed = bench_run((const bench_scheme_t *)arg);
+    return &failed;
 }
 
-static void bench_run_large_stack(const bench_scheme_t *s) {
+static int bench_run_large_stack(const bench_scheme_t *s) {
     pthread_t thr;
     pthread_attr_t attr;
+    int failed;
     pthread_attr_init(&attr);
     pthread_attr_setstacksize(&attr, BENCH_STACK_SIZE);
     if (pthread_create(&thr, &attr, bench_run_thread, (void *)s) != 0) {
         fprintf(stderr, "pthread_create failed for %s, running inline\n", s->name);
-        bench_run(s);
+        failed = bench_run(s);
     } else {
-        pthread_join(thr, NULL);
+        void *ret;
+        pthread_join(thr, &ret);
+        failed = *(int *)ret;
     }
     pthread_attr_destroy(&attr);
+    return failed;
 }
 
 int main(int argc, char **argv) {
@@ -79,12 +84,15 @@ int main(int argc, char **argv) {
 
     bench_print_header();
 
+    int nfailed = 0;
     for (int i = 0; SO_PATHS[i]; i++) {
         bench_scheme_t *s = bench_load(SO_PATHS[i]);
         if (!s) continue;
         if (scheme_matches(s->name, nfilters, filters))
-            bench_run_large_stack(s);
+            nfailed += bench_run_large_stack(s);
         bench_unload(s);
     }
-    return 0;
+    if (nfailed)
+        fprintf(stderr, "FAIL: %d scheme(s) failed correctness checks\n", nfailed);
+    return nfailed ? 1 : 0;
 }

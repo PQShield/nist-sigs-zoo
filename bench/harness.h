@@ -24,7 +24,10 @@ static void bench_print_header(void) {
     fflush(stdout);
 }
 
-static void bench_run(const bench_scheme_t *s) {
+/* Returns 0 on success, 1 if the scheme failed a correctness check (in which
+ * case no results row is printed, so a broken build can't be imported). */
+static int bench_run(const bench_scheme_t *s) {
+    int failed = 1;
     /* BENCH_ITER env var overrides per-scheme iters and compile-time default */
     static int env_n = -1;
     if (env_n < 0) {
@@ -55,14 +58,42 @@ static void bench_run(const bench_scheme_t *s) {
      * back to rdtsc). Per-scheme because each scheme runs on its own thread. */
     cycles_setup();
 
-    /* warm up */
-    s->keygen_fn(pk, sk);
-    s->sign_fn(sig, &siglen, msg, sizeof(msg), sk);
+    /* Warm up, and check the build actually works: a fresh signature must
+     * verify, and a tampered signature or message must be rejected. */
+    const char *why = NULL;
+    if (s->keygen_fn(pk, sk) != 0)
+        why = "keygen failed";
+    else if (s->sign_fn(sig, &siglen, msg, sizeof(msg), sk) != 0)
+        why = "sign failed";
+    else if (siglen == 0 || siglen > s->sig_bytes)
+        why = "bad signature length";
+    else if (s->verify_fn(sig, siglen, msg, sizeof(msg), pk) != 0)
+        why = "valid signature rejected";
+    else {
+        sig[siglen / 2] ^= 1;
+        if (s->verify_fn(sig, siglen, msg, sizeof(msg), pk) == 0)
+            why = "tampered signature accepted";
+        sig[siglen / 2] ^= 1;
+        msg[0] ^= 1;
+        if (!why && s->verify_fn(sig, siglen, msg, sizeof(msg), pk) == 0)
+            why = "tampered message accepted";
+        msg[0] ^= 1;
+    }
+    if (why) {
+        fprintf(stderr, "FAIL %s: %s\n", s->name, why);
+        goto cleanup;
+    }
 
+    int rc_kg = 0, rc_sg = 0, rc_vf = 0;
     for (int i = 0; i < n; i++) {
-        BENCH_TIME_OP(kg_cyc, kg_ns, i, s->keygen_fn(pk, sk));
-        BENCH_TIME_OP(sg_cyc, sg_ns, i, s->sign_fn(sig, &siglen, msg, sizeof(msg), sk));
-        BENCH_TIME_OP(vf_cyc, vf_ns, i, s->verify_fn(sig, siglen, msg, sizeof(msg), pk));
+        BENCH_TIME_OP(kg_cyc, kg_ns, i, rc_kg |= s->keygen_fn(pk, sk));
+        BENCH_TIME_OP(sg_cyc, sg_ns, i, rc_sg |= s->sign_fn(sig, &siglen, msg, sizeof(msg), sk));
+        BENCH_TIME_OP(vf_cyc, vf_ns, i, rc_vf |= s->verify_fn(sig, siglen, msg, sizeof(msg), pk));
+    }
+    if (rc_kg || rc_sg || rc_vf) {
+        fprintf(stderr, "FAIL %s: %s returned an error during the timed loop\n", s->name,
+                rc_kg ? "keygen" : rc_sg ? "sign" : "verify");
+        goto cleanup;
     }
 
     printf(BENCH_FMT,
@@ -71,10 +102,12 @@ static void bench_run(const bench_scheme_t *s) {
            bench_median(sg_cyc, n), bench_median(sg_ns, n) / 1000.0,
            bench_median(vf_cyc, n), bench_median(vf_ns, n) / 1000.0);
     fflush(stdout);
+    failed = 0;
 
 cleanup:
     cycles_teardown();
     free(pk); free(sk); free(sig);
     free(kg_cyc); free(sg_cyc); free(vf_cyc);
     free(kg_ns);  free(sg_ns);  free(vf_ns);
+    return failed;
 }

@@ -36,6 +36,8 @@ bench/
 │                         #   with bench-kem/ via ../bench-common/harness_common.h
 ├── main.c                # includes build/so_paths.h + filter logic + main loop
 ├── gen_shims.py          # shim generator: substitutes @COLNAME@ tokens from params.tsv
+├── cpu_features.py       # prints 1 if the host CPU has all named features (/proc/cpuinfo);
+│                         #   scheme Makefiles use it to pick GFNI/AVX-512 backends
 ├── Makefile              # builds ./bench; generates build/so_paths.h from ALL_SOS
 ├── run_bench.sh          # wrapper: collects sysinfo, tees output to results/
 ├── results/              # saved benchmark runs (committed)
@@ -100,6 +102,10 @@ int crypto_sign_verify(const uint8_t *sig, size_t siglen,
   Override at build time: `make BENCH_ITER=200`.
 - **Per-scheme override**: set `iters` field in `bench_scheme_info_t` to a non-zero value.
 - **bench_run()**: one warm-up, then `n` timed iterations; prints one line with six columns.
+- **Correctness check**: before timing, a fresh signature must verify and a tampered
+  signature / message must be rejected; return codes are also checked in the timed loop.
+  A failing scheme prints `FAIL <name>: <reason>` on stderr and **no results row**, and
+  `./bench` exits 1, so a broken build can't be imported.
 
 ## Shim pattern
 
@@ -182,6 +188,24 @@ Generated shim files are not committed — each scheme dir has a `.gitignore` wi
 `./bench [filter...]` runs only schemes whose names match at least one filter.
 Matching is case-insensitive and ignores non-alphanumeric characters, so `mldsa`,
 `ml-dsa`, and `ML_DSA` all match `ML-DSA-44`.
+
+## Optimised builds
+
+Benchmark upstream's **fastest x86-64 build**, as its own build system produces it by
+default. Check this against upstream's Makefile/CMake (e.g. `make -n` in `ref/`), not a
+liboqs META profile: MQOM's portable "default" profile was 3-5x slower (see #58).
+Backends that need ISA extensions are chosen with `cpu_features.py`, e.g.
+
+```make
+HAVE_AVX512 := $(shell python3 ../../cpu_features.py avx512f avx512bw avx512_vnni)
+```
+
+Also pass the matching `-m` flags explicitly so the fast path can be compile-tested on
+another machine (`make HAVE_AVX512=1`). `BENCH_DISABLE_FEATURES="gfni avx512f"`
+forces the fallback. Current choices: MAYO `gfni` (GFNI+AVX-512) else `avx2`; QR-UOV
+`avx512` else `avx2`; UOV `PROJ=gfni` else `avx2`; SQIsign `broadwell`; SNOVA, FAEST,
+MQOM, ML-DSA etc. rely on `-march=native`. Multithreading (e.g. QR-UOV's
+`-fopenmp`) is left off: every scheme is measured on one core.
 
 ## Notes
 

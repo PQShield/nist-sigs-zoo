@@ -2,8 +2,11 @@ CC      ?= cc
 BUILD    = build
 SRC      = ref/src
 
+# Upstream's default build: OPT=OPT (SNOVA_OPT=10, snova_opt_16.c) with
+# -march=native, which enables the GFNI and AVX-512 Keccak paths where the
+# CPU has them (snova_opt_16.c / symmetric.c test __GFNI__ / __AVX512F__).
 BASE_CFLAGS := -O3 -fPIC -DNDEBUG -Wall -Wextra -Wno-unused-parameter \
-               -Wno-sign-compare -DSNOVA_OPT=opt -mavx2 -maes
+               -Wno-sign-compare -DSNOVA_OPT=10 -march=native -mtune=native
 
 PARAMS := \
     snova_i_k   snova_i_b   snova_i_s   \
@@ -27,7 +30,7 @@ pf_snova_v_s   := -DSNOVA_v=40 -DSNOVA_o=6 -DSNOVA_q=16 -DSNOVA_l=5 -DSNOVA_r=5 
 
 # Sources compiled into each per-param static library. Round 3 replaced the
 # generic snova_opt.c with a q=16-specific snova_opt_16.c (all recommended
-# sets use q=16); it auto-detects AVX2/GFNI via __AVX2__/__GFNI__ from BASE_CFLAGS.
+# sets use q=16); it auto-detects AVX2/GFNI via __AVX2__/__GFNI__ (from -march=native).
 # rng.c excluded — shim provides randombytes via getrandom().
 SRCS := $(SRC)/snova_opt_16.c $(SRC)/symmetric.c $(SRC)/sign.c $(SRC)/aes.c
 
