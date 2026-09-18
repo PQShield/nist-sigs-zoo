@@ -33,10 +33,10 @@
 #      failure/timeout), then terminates the instance and deletes the key pair
 #      and security group.
 #
-# Cycle counts: bench/ and bench-kem/ read the real core-cycle PMC via rdpmc,
-# which EC2 only exposes to guests on bare-metal (*.metal*) instance types.
-# On other types they silently fall back to rdtsc reference cycles; this script
-# warns if the fetched results say so.
+# Cycle counts: bench/ and bench-kem/ read the real core-cycle PMC via rdpmc.
+# Recent Nitro types expose a virtual PMU (verified on c7i.4xlarge); where it
+# is missing they silently fall back to rdtsc reference cycles, and this
+# script warns if the fetched results say so.
 set -euo pipefail
 
 SUITE=both
@@ -245,7 +245,7 @@ sysctl -w kernel.perf_event_paranoid=1
 export DEBIAN_FRONTEND=noninteractive
 apt-get -o DPkg::Lock::Timeout=600 update -q
 apt-get -o DPkg::Lock::Timeout=600 install -y -q --no-install-recommends \\
-    build-essential git python3 cmake libgmp-dev libssl-dev openssl pkg-config \\
+    build-essential git python3 cmake meson ninja-build libgmp-dev libssl-dev openssl pkg-config \\
     curl ca-certificates tar unzip xz-utils rsync util-linux
 EOF
 
@@ -277,7 +277,7 @@ IP="$(aws ec2 describe-instances --instance-ids "$INSTANCE_ID" \
     --query 'Reservations[0].Instances[0].PublicIpAddress' --output text)"
 [ -n "$IP" ] && [ "$IP" != "None" ] || die "instance has no public IP"
 
-log "waiting for SSH on $IP (bare-metal types can take ~10 min to boot)"
+log "waiting for SSH on $IP "
 until rssh true 2>/dev/null; do
     [ "$(date +%s)" -lt "$DEADLINE" ] || die "SSH never came up"
     sleep 10
@@ -334,14 +334,18 @@ RUNNER="$WORK/run.sh"
     echo 'set -uo pipefail'
     echo "$REMOTE_ENV"
     echo 'cd ~/repo'
+    # GCC >= 15 defaults to C23 (bool/true/false keywords, f() means f(void)),
+    # which breaks several reference implementations; pin the GCC <= 14 default.
+    echo 'export CC="${CC:-cc} -std=gnu17"'
     echo 'rc=0'
     echo 'nproc_=$(nproc)'
     for s in bench bench-kem; do
         case "$SUITE:$s" in sigs:bench-kem|kems:bench) continue ;; esac
         cat <<EOF
 echo "=== building $s ==="
-# parallel build first; fall back to serial if a Makefile is not -j safe
-make -C $s -j"\$nproc_" || make -C $s || { echo "=== $s build FAILED ==="; rc=1; }
+# parallel build first; fall back to serial if a Makefile is not -j safe.
+# -k: build every scheme that can be built, report all failures at once
+make -k -C $s -j"\$nproc_" || make -k -C $s || { echo "=== $s build FAILED ==="; rc=1; }
 if [ -x $s/$s ]; then
     echo "=== running $s ==="
     $s/run_bench.sh $FILTER_ARGS || rc=1
@@ -351,7 +355,7 @@ EOF
     echo 'echo "$rc" > ~/bench.done'
 } >"$RUNNER"
 rsync -a -e "ssh ${ssh_opts[*]}" "$RUNNER" "ubuntu@$IP:run.sh"
-rssh 'touch .bench-start && chmod +x run.sh && nohup ./run.sh > bench.log 2>&1 < /dev/null &'
+rssh 'touch .bench-start; chmod +x run.sh; setsid -f ./run.sh > bench.log 2>&1 < /dev/null'
 
 log "benchmark running; streaming bench.log"
 offset=0
