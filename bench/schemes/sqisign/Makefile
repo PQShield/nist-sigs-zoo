@@ -5,7 +5,12 @@ CMAKE  ?= cmake
 
 REF    := ref
 BUILD  := build
-CBUILD := $(BUILD)/cmake
+# SQIsign build type: broadwell = reference code + x86-64 assembly field
+# arithmetic (Broadwell and later, the fastest x86 option upstream offers);
+# ref = portable C. Only the gf module differs between the two.
+SQISIGN_BUILD_TYPE ?= broadwell
+GF_IMPL := $(if $(filter ref opt,$(SQISIGN_BUILD_TYPE)),ref,$(SQISIGN_BUILD_TYPE))
+CBUILD := $(BUILD)/cmake-$(SQISIGN_BUILD_TYPE)
 CSRC   := $(CBUILD)/src
 
 PARAM_SETS :=
@@ -18,7 +23,7 @@ PARAM_SETS :=
 define SQISIGN_RULES
 PARAM_SETS += $(1)
 $(BUILD)/$(1).so: $(1)_shim.c $(CSRC)/libsqisign_$(2)_nistapi.a | $(BUILD)
-	$$(CC) -O2 -fPIC -std=c99 -shared \
+	$$(CC) -O2 -fPIC -std=c99 -shared -DSQISIGN_NS_TYPE=$(SQISIGN_BUILD_TYPE) \
 	    $(1)_shim.c \
 	    $(CSRC)/libsqisign_$(2)_nistapi.a \
 	    $(CSRC)/libsqisign_$(2).a \
@@ -28,7 +33,7 @@ $(BUILD)/$(1).so: $(1)_shim.c $(CSRC)/libsqisign_$(2)_nistapi.a | $(BUILD)
 	    $(CSRC)/quaternion/ref/$(2)/libsqisign_quaternion_$(2).a \
 	    $(CSRC)/hd/ref/$(2)/libsqisign_hd_$(2).a \
 	    $(CSRC)/ec/ref/$(2)/libsqisign_ec_$(2).a \
-	    $(CSRC)/gf/ref/$(2)/libsqisign_gf_$(2).a \
+	    $(CSRC)/gf/$(GF_IMPL)/$(2)/libsqisign_gf_$(2).a \
 	    $(CSRC)/mp/ref/$(2)/libsqisign_mp_$(2).a \
 	    $(CSRC)/precomp/ref/$(2)/libsqisign_precomp_$(2).a \
 	    $(CSRC)/common/generic/libsqisign_common_sys.a \
@@ -65,7 +70,7 @@ $(CSRC)/libsqisign_p664_17_nistapi.a: $(CBUILD)/.built
 $(CBUILD)/.built: $(REF)/CMakeLists.txt | $(CBUILD)
 	cd $(CBUILD) && $(CMAKE) ../../$(REF) \
 	    -DCMAKE_BUILD_TYPE=Release \
-	    -DSQISIGN_BUILD_TYPE=ref \
+	    -DSQISIGN_BUILD_TYPE=$(SQISIGN_BUILD_TYPE) \
 	    -DENABLE_TESTS=OFF \
 	    -DCMAKE_POSITION_INDEPENDENT_CODE=ON
 	$(MAKE) -C $(CBUILD)
