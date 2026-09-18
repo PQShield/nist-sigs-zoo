@@ -43,7 +43,8 @@ BENCH_TO_YAML: dict[str, tuple[str, str]] = {
     "HAWK-1024": ("HAWK.yaml", "1024"),
     # MAYO
     "MAYO-one": ("MAYO.yaml", "one"),
-    "MAYO-two (broken)": ("MAYO.yaml", "two"),
+    "MAYO-two": ("MAYO.yaml", "two"),  # round 3: MAYO-two re-parameterised
+    "MAYO-two (broken)": ("MAYO.yaml", "two"),  # round-2 results files
     "MAYO-three": ("MAYO.yaml", "three"),
     "MAYO-five": ("MAYO.yaml", "five"),
     # FAEST
