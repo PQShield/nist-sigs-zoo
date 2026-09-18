@@ -245,7 +245,7 @@ sysctl -w kernel.perf_event_paranoid=1
 export DEBIAN_FRONTEND=noninteractive
 apt-get -o DPkg::Lock::Timeout=600 update -q
 apt-get -o DPkg::Lock::Timeout=600 install -y -q --no-install-recommends \\
-    build-essential git python3 cmake meson ninja-build libgmp-dev libssl-dev openssl pkg-config \\
+    build-essential git python3 cmake meson ninja-build libgmp-dev libssl-dev zlib1g-dev libzstd-dev openssl pkg-config \\
     curl ca-certificates tar unzip xz-utils rsync util-linux
 EOF
 
