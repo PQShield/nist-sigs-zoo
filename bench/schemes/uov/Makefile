@@ -53,14 +53,14 @@ PARAMS := \
 SOS        := $(addprefix $(BUILD)/, $(addsuffix .so, $(PARAMS)))
 SHIM_FILES := $(addsuffix _shim.c, $(PARAMS))
 
-pf_uov_Ip_pkc      := -D_OV256_112_44 -D_OV_PKC
-pf_uov_Ip_classic  := -D_OV256_112_44 -D_OV_CLASSIC
+pf_uov_Ip_pkc      := -D_OV256_119_45 -D_OV_PKC
+pf_uov_Ip_classic  := -D_OV256_119_45 -D_OV_CLASSIC
 pf_uov_Is_pkc      := -D_OV16_160_64  -D_OV_PKC
 pf_uov_Is_classic  := -D_OV16_160_64  -D_OV_CLASSIC
-pf_uov_III_pkc     := -D_OV256_184_72 -D_OV_PKC
-pf_uov_III_classic := -D_OV256_184_72 -D_OV_CLASSIC
-pf_uov_V_pkc       := -D_OV256_244_96 -D_OV_PKC
-pf_uov_V_classic   := -D_OV256_244_96 -D_OV_CLASSIC
+pf_uov_III_pkc     := -D_OV256_193_72 -D_OV_PKC
+pf_uov_III_classic := -D_OV256_193_72 -D_OV_CLASSIC
+pf_uov_V_pkc       := -D_OV256_259_96 -D_OV_PKC
+pf_uov_V_classic   := -D_OV256_259_96 -D_OV_CLASSIC
 
 .PHONY: all clean check_ref
 

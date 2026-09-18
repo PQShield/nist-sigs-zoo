@@ -1,3 +1,8 @@
+- date: '2026-09-07'
+  type: update
+  description: "UOV round-3 parameter update (<a href=\"https://github.com/pqov/pqov/commit/f82ec0a9\">pqov/pqov</a>): grows n at Levels I and III (Ip: n 112&rarr;119, m 44&rarr;45; III: n 184&rarr;193, m unchanged) and Level V (n 244&rarr;259, m unchanged), and adds a GFNI-optimized backend. Expanded-pk and signature sizes grow accordingly (compact-pk sizes are unchanged where m stayed fixed); Is (Level I, GF(16)) parameters are untouched. Not yet reflected on uovsig.org, which still serves the Feb-2025 round-2 package. Whether this fully re-addresses the intersection attack (Furue &amp; Ikematsu, ePrint 2026/298) at the new parameter sizes has not been independently re-analyzed, so existing broken/warning flags are carried forward unchanged pending that analysis."
+  schemes: [UOV]
+
 - date: '2026-08-07'
   type: attack
   description: "Passive full-key-recovery attack on MQOM v2 (Delgado, <a href=\"https://eprint.iacr.org/2026/1542\">ePrint 2026/1542</a>): the v2.x spec derives correlated GGM roots from a fresh master seed via a fixed, zero-salt PRG call (Algorithm 10), so repeated seeds across signatures, keys, and salts leak linear equations in the MQ witness. A parity-indexed XOR-collision attack recovers the complete signing key, but requires signature/query volumes at NIST's outer Q=2^64 permitted bound (~39% success in Category I) or substantial precomputation (tens of GiB&ndash;PiB of tables) to push higher; affects Categories I, III, and V, verified against every official tag from v2.0.0 through v2.1.1. Fix: salt-bound, domain-separated root expansion. v1.0 unaffected. Flagged as warning."
