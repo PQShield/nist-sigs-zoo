@@ -24,7 +24,7 @@ output to `results/<timestamp>_<cpu>.txt`:
 
 Dependencies: C compiler (cc), make, git submodules initialized.
 - OpenSSL 3.x for classic schemes (detected via `brew --prefix openssl`, `pkg-config`, or `/usr` fallback).
-- CMake ≥ 3.13 + libgmp-dev for SQIsign (`sudo apt-get install cmake libgmp-dev`).
+- CMake ≥ 3.13 for SQIsign (`sudo apt-get install cmake`) — nist-v3 dropped the GMP dependency.
 
 ## Architecture
 
@@ -119,7 +119,7 @@ The shim adapts upstream API conventions to the bench contract. Common issues:
   Use `malloc` for the temporary sm buffer (size = CRYPTO_BYTES + msglen).
 - **Symbol namespacing**: some upstreams (e.g. SQIsign) `#define` all public names to
   namespaced forms via a namespace header. The compiled `.a` will have e.g.
-  `sqisign_lvl1_ref_crypto_sign_keypair` rather than `crypto_sign_keypair`.
+  `sqisign_p324_3_ref_crypto_sign_keypair` rather than `crypto_sign_keypair`.
   Check with `nm lib.a | grep crypto_sign`.  Fix: declare the namespaced symbols as
   `extern` in the shim (using a `@NS_PREFIX@` token from params.tsv) and wrap them
   with plain-name functions.
