@@ -14,9 +14,13 @@ ifeq ($(OSSL_PREFIX),)
 endif
 # Library dir: Debian/Ubuntu keep libcrypto in a multiarch dir (e.g.
 # /usr/lib/x86_64-linux-gnu), not $(OSSL_PREFIX)/lib; ask pkg-config then.
+# The distro libcrypto.a may be built with zlib/zstd; pkg-config --static
+# lists what it needs (Libs.private).
 OSSL_LIBDIR := $(OSSL_PREFIX)/lib
+OSSL_STATIC_DEPS :=
 ifeq ($(wildcard $(OSSL_LIBDIR)/libcrypto.a),)
   OSSL_LIBDIR := $(shell pkg-config --variable=libdir openssl 2>/dev/null)
+  OSSL_STATIC_DEPS := $(filter-out -L% -lcrypto,$(shell pkg-config --static --libs libcrypto 2>/dev/null))
 endif
 OSSL_CFLAGS      := -I$(OSSL_PREFIX)/include
 OSSL_LDFLAGS     := -L$(OSSL_LIBDIR) -lcrypto -Wl,-rpath,$(OSSL_LIBDIR)
@@ -133,7 +137,7 @@ $$(lib_$(1)): $$(objs_$(1))
 
 $(BUILD)/$(1).so: $(1)_shim.c $$(lib_$(1)) | $(BUILD)
 	$$(CC) $$(cflags_$(1)) -shared $$< $$(lib_$(1)) \
-	    $(OSSL_STATIC_LIB) $(OSSL_LDFLAGS) -o $$@
+	    $(OSSL_STATIC_LIB) $(OSSL_STATIC_DEPS) $(OSSL_LDFLAGS) -o $$@
 
 endef
 
