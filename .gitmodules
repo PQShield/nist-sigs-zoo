@@ -31,7 +31,7 @@
 	url = https://github.com/qruov/round2.git
 [submodule "bench/schemes/mqom/ref"]
 	path = bench/schemes/mqom/ref
-	url = https://github.com/mqom/mqom-v2
+	url = https://github.com/mqom/mqom-v3
 [submodule "bench/schemes/sqisign/ref"]
 	path = bench/schemes/sqisign/ref
 	url = https://github.com/SQISign/the-sqisign

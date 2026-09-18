@@ -3,6 +3,157 @@ website: https://mqom.org
 category: MPCitH
 assumption: Multivariate Quadratic
 versions:
+- version: v3.0
+  date: '2026-08-31'
+  status: On-ramp
+  perf_source: "submission document (Table 10: AVX2+VAES implementation, Intel Core Ultra 7 265U)"
+  tags:
+  - round-3
+  parametersets:
+  - name: L1-gf2-shorter-ct
+    level: 1
+    pk: 52
+    sig: 2492
+    signing_cycles: 17500000
+    verification_cycles: 9720000
+    signing_us: 8420.0
+    verification_us: 4610.0
+  - name: L1-gf2-shorter-ot
+    level: 1
+    pk: 52
+    sig: 2492
+    signing_cycles: 30800000
+    verification_cycles: 30500000
+    signing_us: 14700.0
+    verification_us: 14610.0
+  - name: L1-gf16-short-ct
+    level: 1
+    pk: 64
+    sig: 2932
+    signing_cycles: 4630000
+    verification_cycles: 4510000
+    signing_us: 2230.0
+    verification_us: 2150.0
+  - name: L1-gf16-short-ot
+    level: 1
+    pk: 64
+    sig: 2932
+    signing_cycles: 8570000
+    verification_cycles: 8600000
+    signing_us: 4100.0
+    verification_us: 4100.0
+  - name: L1-gf16-fast-ct
+    level: 1
+    pk: 64
+    sig: 3316
+    signing_cycles: 1830000
+    verification_cycles: 1730000
+    signing_us: 890.0
+    verification_us: 830.0
+  - name: L1-gf16-fast-ot
+    level: 1
+    pk: 64
+    sig: 3316
+    signing_cycles: 2540000
+    verification_cycles: 2380000
+    signing_us: 1240.0
+    verification_us: 1170.0
+  - name: L3-gf2-shorter-ct
+    level: 3
+    pk: 78
+    sig: 5932
+    signing_cycles: 50400000
+    verification_cycles: 44100000
+    signing_us: 24120.0
+    verification_us: 21060.0
+  - name: L3-gf2-shorter-ot
+    level: 3
+    pk: 78
+    sig: 5890
+    signing_cycles: 84900000
+    verification_cycles: 79800000
+    signing_us: 40630.0
+    verification_us: 38320.0
+  - name: L3-gf16-short-ct
+    level: 3
+    pk: 96
+    sig: 6556
+    signing_cycles: 22900000
+    verification_cycles: 22100000
+    signing_us: 10930.0
+    verification_us: 10560.0
+  - name: L3-gf16-short-ot
+    level: 3
+    pk: 96
+    sig: 6556
+    signing_cycles: 42900000
+    verification_cycles: 41800000
+    signing_us: 20500.0
+    verification_us: 20030.0
+  - name: L3-gf16-fast-ct
+    level: 3
+    pk: 96
+    sig: 7564
+    signing_cycles: 8090000
+    verification_cycles: 7650000
+    signing_us: 3860.0
+    verification_us: 3670.0
+  - name: L3-gf16-fast-ot
+    level: 3
+    pk: 96
+    sig: 7660
+    signing_cycles: 11000000
+    verification_cycles: 10500000
+    signing_us: 5280.0
+    verification_us: 5030.0
+  - name: L5-gf2-shorter-ct
+    level: 5
+    pk: 104
+    sig: 10836
+    signing_cycles: 91500000
+    verification_cycles: 86500000
+    signing_us: 43780.0
+    verification_us: 41270.0
+  - name: L5-gf2-shorter-ot
+    level: 5
+    pk: 104
+    sig: 10804
+    signing_cycles: 136000000
+    verification_cycles: 130000000
+    signing_us: 64860.0
+    verification_us: 62440.0
+  - name: L5-gf16-short-ct
+    level: 5
+    pk: 128
+    sig: 12100
+    signing_cycles: 38700000
+    verification_cycles: 37400000
+    signing_us: 18500.0
+    verification_us: 17850.0
+  - name: L5-gf16-short-ot
+    level: 5
+    pk: 128
+    sig: 11716
+    signing_cycles: 63500000
+    verification_cycles: 61700000
+    signing_us: 30310.0
+    verification_us: 29650.0
+  - name: L5-gf16-fast-ct
+    level: 5
+    pk: 128
+    sig: 13540
+    signing_cycles: 17300000
+    verification_cycles: 16200000
+    signing_us: 8630.0
+    verification_us: 7980.0
+  - name: L5-gf16-fast-ot
+    level: 5
+    pk: 128
+    sig: 13380
+    signing_cycles: 22800000
+    verification_cycles: 20000000
+    signing_us: 11200.0
+    verification_us: 9890.0
 - version: v2.1
   date: '2025-09-22'
   status: On-ramp
@@ -449,7 +600,6 @@ versions:
     verification_cycles: 33690000
   tags:
   - round-2
-  - round-3  # Round 3 spec not yet available; showing current latest data
 - version: v1.0
   date: '2023-05-31'
   status: On-ramp

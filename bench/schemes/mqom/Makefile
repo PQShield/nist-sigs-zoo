@@ -9,6 +9,7 @@ BUILD := build
 # ------- Platform detection -------
 AVX512_DETECT  := $(shell $(CC) -O0 -march=native -dM -E - < /dev/null 2>/dev/null | grep __AVX512F__)
 AVX2_DETECT    := $(shell $(CC) -O0 -march=native -dM -E - < /dev/null 2>/dev/null | grep __AVX2__)
+VAES_DETECT    := $(shell $(CC) -O0 -march=native -dM -E - < /dev/null 2>/dev/null | grep __VAES__)
 
 ifneq ($(AVX512_DETECT),)
   KECCAK_PLATFORM := avx512
@@ -21,7 +22,13 @@ else
   KECCAK_CFLAGS   :=
 endif
 
-# ------- SHA3 sources -------
+ifneq ($(VAES_DETECT),)
+  VAES_CFLAGS := -mvaes -maes
+else
+  VAES_CFLAGS := -maes
+endif
+
+# ------- SHA3 sources (shared across all variants) -------
 SHA3     := $(REF)/sha3
 SHA3_INC := -I$(SHA3) -I$(SHA3)/$(KECCAK_PLATFORM)
 
@@ -48,21 +55,22 @@ SHA3_OBJS := $(patsubst $(SHA3)/%,$(BUILD)/sha3/%.o,$(SHA3_SRCS))
 SHA3_LIB  := $(BUILD)/libhash.a
 SHA3_CFLAGS := -O2 -march=native -fPIC -std=gnu99 -DNO_MISALIGNED_ACCESSES $(KECCAK_CFLAGS) $(SHA3_INC)
 
-# ------- All per-variant sources (rijndael included so platform flags stay consistent) -------
-VARIANT_SRCS := \
+# ------- Sources common to every variant, independent of CT/OT -------
+COMMON_SRCS := \
+    $(REF)/keygen.c $(REF)/sign.c $(REF)/expand_mq.c $(REF)/prg.c \
+    $(REF)/xof.c $(REF)/seed_expand.c \
     $(addprefix $(REF)/rijndael/, \
         rijndael_ref.c rijndael_table.c rijndael_aes_ni.c \
-        rijndael_ct64.c rijndael_external.c) \
-    $(REF)/xof.c $(REF)/prg.c $(REF)/expand_mq.c \
-    $(REF)/keygen.c $(REF)/sign.c $(REF)/sign_memopt.c \
-    $(addprefix $(REF)/ggm_tree/, \
-        ggm_tree.c ggm_tree_incr_x1_base.c ggm_tree_incr_x2.c \
-        ggm_tree_incr_x4.c ggm_tree_incr_x1_adv.c ggm_tree_incr_batch.c) \
-    $(addprefix $(REF)/blc/, \
-        blc_default.c blc_memopt.c blc_memopt_x1.c \
-        blc_memopt_x2.c blc_memopt_x4.c) \
-    $(addprefix $(REF)/piop/, \
-        piop_default.c piop_memopt.c piop_bitslice.c)
+        rijndael_ct64.c rijndael_external.c rijndael_vaes.c) \
+    $(REF)/piop/piop_bitslice.c
+
+# CT (Correlated-Tree) and OT (One-Tree) each need their own BLC + GGM-tree
+# implementation (blc.h dispatches on MQOM3_PARAM_OT_VARIANT at compile time,
+# but the concrete .c files still have to be picked and linked by hand).
+CT_SRCS := $(REF)/blc/blc_ct_default.c \
+    $(addprefix $(REF)/ggm_tree/, ggm_tree_small.c ggm_tree_small_incr.c ggm_tree_small_incr_batch.c)
+OT_SRCS := $(REF)/blc/blc_ot_default.c \
+    $(addprefix $(REF)/ggm_tree/, ggm_tree_large_bfs.c ggm_tree_large_dfs.c ggm_tree_large_incr.c ggm_tree_large_incr_batch.c ggm_tree_large_common_impl.c)
 
 INCLUDES := \
     $(SHA3_INC) \
@@ -70,70 +78,57 @@ INCLUDES := \
     -I$(REF)/piop -I$(REF)/fields -I$(REF)/fields_bitsliced \
     -I$(REF)
 
-CFLAGS_BASE := -O2 -march=native -fPIC -std=c99 \
-    -DNDEBUG -DNO_ALLOC_PROBE \
-    -DUSE_PRG_CACHE -DUSE_PIOP_CACHE -DUSE_XOF_X4 -DUSE_ENC_X8 \
+# -DPIOP_BITSLICE -DBLC_SEEDEXPAND_CACHE -DUSE_PIOP_CACHE -DUSE_XOF_X4
+# -DUSE_ENC_X8 match the "default" implementation's compile_opts from
+# integration/liboqs/META_*.yml (portable, no liboqs/mupq namespacing —
+# each parameter set already gets its own .so, so namespacing is unneeded).
+CFLAGS_BASE := -O2 -march=native $(VAES_CFLAGS) -fPIC -std=c99 \
+    -DNDEBUG -DNO_ALLOC_PROBE -DNO_MISALIGNED_ACCESSES -DNO_EMBEDDED_SRAM_SECTION \
+    -DPIOP_BITSLICE -DBLC_SEEDEXPAND_CACHE -DUSE_PIOP_CACHE -DUSE_XOF_X4 -DUSE_ENC_X8 \
     $(KECCAK_CFLAGS)
 
 # ------- Variant rule template -------
-# $(1) = file stem         (e.g. mqom_cat1_gf2_fast_r3)
-# $(2) = SECURITY          (128/192/256)
-# $(3) = MQOM2_PARAM_BASE_FIELD (1/4/8)
-# $(4) = TRADEOFF          (0=fast, 1=short)
-# $(5) = NBROUNDS          (3/5)
+# $(1) = file stem          (e.g. mqom3_cat1_gf2_shorter_ct)
+# $(2) = SECURITY           (128/192/256)
+# $(3) = MQOM3_PARAM_BASE_FIELD (1=gf2/4=gf16)
+# $(4) = MQOM3_PARAM_TRADEOFF   (0=fast/1=short/2=shorter)
+# $(5) = MQOM3_PARAM_OT_VARIANT (0=ct/1=ot)
+# $(6) = variant-specific sources (CT_SRCS or OT_SRCS)
 
 PARAM_SETS :=
 
 define MQOM_RULES
 PARAM_SETS += $(1)
-$(BUILD)/$(1).so: $(1)_shim.c $$(VARIANT_SRCS) $$(SHA3_LIB) | $$(BUILD)
+$(BUILD)/$(1).so: $(1)_shim.c $$(COMMON_SRCS) $(6) $$(SHA3_LIB) | $$(BUILD)
 	$$(CC) $$(CFLAGS_BASE) \
-	    -DMQOM2_PARAM_SECURITY=$(2) -DMQOM2_PARAM_BASE_FIELD=$(3) \
-	    -DMQOM2_PARAM_TRADEOFF=$(4) -DMQOM2_PARAM_NBROUNDS=$(5) \
+	    -DMQOM3_PARAM_SECURITY=$(2) -DMQOM3_PARAM_BASE_FIELD=$(3) \
+	    -DMQOM3_PARAM_TRADEOFF=$(4) -DMQOM3_PARAM_OT_VARIANT=$(5) \
 	    $$(INCLUDES) -shared \
-	    $(1)_shim.c $$(VARIANT_SRCS) $$(SHA3_LIB) \
+	    $(1)_shim.c $$(COMMON_SRCS) $(6) $$(SHA3_LIB) \
 	    -o $$@
 endef
 
-# cat1 variants
-$(eval $(call MQOM_RULES,mqom_cat1_gf2_fast_r3,128,1,0,3))
-$(eval $(call MQOM_RULES,mqom_cat1_gf2_fast_r5,128,1,0,5))
-$(eval $(call MQOM_RULES,mqom_cat1_gf2_short_r3,128,1,1,3))
-$(eval $(call MQOM_RULES,mqom_cat1_gf2_short_r5,128,1,1,5))
-$(eval $(call MQOM_RULES,mqom_cat1_gf16_fast_r3,128,4,0,3))
-$(eval $(call MQOM_RULES,mqom_cat1_gf16_fast_r5,128,4,0,5))
-$(eval $(call MQOM_RULES,mqom_cat1_gf16_short_r3,128,4,1,3))
-$(eval $(call MQOM_RULES,mqom_cat1_gf16_short_r5,128,4,1,5))
-$(eval $(call MQOM_RULES,mqom_cat1_gf256_fast_r3,128,8,0,3))
-$(eval $(call MQOM_RULES,mqom_cat1_gf256_fast_r5,128,8,0,5))
-$(eval $(call MQOM_RULES,mqom_cat1_gf256_short_r3,128,8,1,3))
-$(eval $(call MQOM_RULES,mqom_cat1_gf256_short_r5,128,8,1,5))
-# cat3 variants
-$(eval $(call MQOM_RULES,mqom_cat3_gf2_fast_r3,192,1,0,3))
-$(eval $(call MQOM_RULES,mqom_cat3_gf2_fast_r5,192,1,0,5))
-$(eval $(call MQOM_RULES,mqom_cat3_gf2_short_r3,192,1,1,3))
-$(eval $(call MQOM_RULES,mqom_cat3_gf2_short_r5,192,1,1,5))
-$(eval $(call MQOM_RULES,mqom_cat3_gf16_fast_r3,192,4,0,3))
-$(eval $(call MQOM_RULES,mqom_cat3_gf16_fast_r5,192,4,0,5))
-$(eval $(call MQOM_RULES,mqom_cat3_gf16_short_r3,192,4,1,3))
-$(eval $(call MQOM_RULES,mqom_cat3_gf16_short_r5,192,4,1,5))
-$(eval $(call MQOM_RULES,mqom_cat3_gf256_fast_r3,192,8,0,3))
-$(eval $(call MQOM_RULES,mqom_cat3_gf256_fast_r5,192,8,0,5))
-$(eval $(call MQOM_RULES,mqom_cat3_gf256_short_r3,192,8,1,3))
-$(eval $(call MQOM_RULES,mqom_cat3_gf256_short_r5,192,8,1,5))
-# cat5 variants
-$(eval $(call MQOM_RULES,mqom_cat5_gf2_fast_r3,256,1,0,3))
-$(eval $(call MQOM_RULES,mqom_cat5_gf2_fast_r5,256,1,0,5))
-$(eval $(call MQOM_RULES,mqom_cat5_gf2_short_r3,256,1,1,3))
-$(eval $(call MQOM_RULES,mqom_cat5_gf2_short_r5,256,1,1,5))
-$(eval $(call MQOM_RULES,mqom_cat5_gf16_fast_r3,256,4,0,3))
-$(eval $(call MQOM_RULES,mqom_cat5_gf16_fast_r5,256,4,0,5))
-$(eval $(call MQOM_RULES,mqom_cat5_gf16_short_r3,256,4,1,3))
-$(eval $(call MQOM_RULES,mqom_cat5_gf16_short_r5,256,4,1,5))
-$(eval $(call MQOM_RULES,mqom_cat5_gf256_fast_r3,256,8,0,3))
-$(eval $(call MQOM_RULES,mqom_cat5_gf256_fast_r5,256,8,0,5))
-$(eval $(call MQOM_RULES,mqom_cat5_gf256_short_r3,256,8,1,3))
-$(eval $(call MQOM_RULES,mqom_cat5_gf256_short_r5,256,8,1,5))
+# cat1 (128-bit)
+$(eval $(call MQOM_RULES,mqom3_cat1_gf2_shorter_ct,128,1,2,0,$$(CT_SRCS)))
+$(eval $(call MQOM_RULES,mqom3_cat1_gf2_shorter_ot,128,1,2,1,$$(OT_SRCS)))
+$(eval $(call MQOM_RULES,mqom3_cat1_gf16_short_ct,128,4,1,0,$$(CT_SRCS)))
+$(eval $(call MQOM_RULES,mqom3_cat1_gf16_short_ot,128,4,1,1,$$(OT_SRCS)))
+$(eval $(call MQOM_RULES,mqom3_cat1_gf16_fast_ct,128,4,0,0,$$(CT_SRCS)))
+$(eval $(call MQOM_RULES,mqom3_cat1_gf16_fast_ot,128,4,0,1,$$(OT_SRCS)))
+# cat3 (192-bit)
+$(eval $(call MQOM_RULES,mqom3_cat3_gf2_shorter_ct,192,1,2,0,$$(CT_SRCS)))
+$(eval $(call MQOM_RULES,mqom3_cat3_gf2_shorter_ot,192,1,2,1,$$(OT_SRCS)))
+$(eval $(call MQOM_RULES,mqom3_cat3_gf16_short_ct,192,4,1,0,$$(CT_SRCS)))
+$(eval $(call MQOM_RULES,mqom3_cat3_gf16_short_ot,192,4,1,1,$$(OT_SRCS)))
+$(eval $(call MQOM_RULES,mqom3_cat3_gf16_fast_ct,192,4,0,0,$$(CT_SRCS)))
+$(eval $(call MQOM_RULES,mqom3_cat3_gf16_fast_ot,192,4,0,1,$$(OT_SRCS)))
+# cat5 (256-bit)
+$(eval $(call MQOM_RULES,mqom3_cat5_gf2_shorter_ct,256,1,2,0,$$(CT_SRCS)))
+$(eval $(call MQOM_RULES,mqom3_cat5_gf2_shorter_ot,256,1,2,1,$$(OT_SRCS)))
+$(eval $(call MQOM_RULES,mqom3_cat5_gf16_short_ct,256,4,1,0,$$(CT_SRCS)))
+$(eval $(call MQOM_RULES,mqom3_cat5_gf16_short_ot,256,4,1,1,$$(OT_SRCS)))
+$(eval $(call MQOM_RULES,mqom3_cat5_gf16_fast_ct,256,4,0,0,$$(CT_SRCS)))
+$(eval $(call MQOM_RULES,mqom3_cat5_gf16_fast_ot,256,4,0,1,$$(OT_SRCS)))
 
 TARGETS    := $(addprefix $(BUILD)/, $(addsuffix .so, $(PARAM_SETS)))
 SHIM_FILES := $(addsuffix _shim.c, $(PARAM_SETS))
