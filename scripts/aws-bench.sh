@@ -34,10 +34,10 @@
 #      failure/timeout), then terminates the instance and deletes the key pair
 #      and security group.
 #
-# Cycle counts: bench/ and bench-kem/ read the real core-cycle PMC via rdpmc.
-# Recent Nitro types expose a virtual PMU (verified on c7i.4xlarge); where it
-# is missing they silently fall back to rdtsc reference cycles, and this
-# script warns if the fetched results say so.
+# Cycle counts: bench/ and bench-kem/ read the core-cycle PMC via rdpmc.
+# Whether EC2 exposes a (virtual) PMU depends on the instance type; c7i.4xlarge
+# does (verified). Without one they silently fall back to rdtsc reference
+# cycles, and this script warns if the fetched results say so.
 set -euo pipefail
 
 SUITE=both
@@ -101,6 +101,10 @@ RUN_ID="nist-sigs-zoo-bench-$(date -u +%Y%m%dT%H%M%SZ)-$$"
 WORK="$(mktemp -d "${TMPDIR:-/tmp}/aws-bench.XXXXXX")"
 KEY="$WORK/id_ed25519"
 KNOWN_HOSTS="$WORK/known_hosts"
+# Short private dir for the ssh ControlMaster socket: $WORK may exceed the
+# ~104-byte socket path limit, and a fixed /tmp name could be pre-created by
+# another user.
+CM_DIR="$(mktemp -d /tmp/awsb.XXXXXX)"
 
 # --- cleanup (always runs) ------------------------------------------------------
 
@@ -110,12 +114,13 @@ KEY_CREATED=0
 IP=""
 FETCHED=0
 
-# ControlPath lives in /tmp: $WORK may exceed the ~104-byte socket path limit.
 ssh_opts=(-i "$KEY" -o UserKnownHostsFile="$KNOWN_HOSTS" -o StrictHostKeyChecking=accept-new
-          -o ControlMaster=auto -o "ControlPath=/tmp/aws-bench-%C" -o ControlPersist=120
+          -o ControlMaster=auto -o "ControlPath=$CM_DIR/%C" -o ControlPersist=120
           -o ConnectTimeout=10 -o ServerAliveInterval=30 -o ServerAliveCountMax=4
           -o BatchMode=yes -o LogLevel=ERROR)
 rssh() { ssh "${ssh_opts[@]}" "ubuntu@$IP" "$@"; }
+# rsync -e splits on whitespace and honours double quotes (not backslashes).
+RSYNC_RSH="ssh $(printf '"%s" ' "${ssh_opts[@]}")"
 
 fetch_results() {
     [ -n "$IP" ] || return 0
@@ -124,10 +129,10 @@ fetch_results() {
     for suite in bench bench-kem; do
         dir="$REPO_ROOT/$suite/results"
         mkdir -p "$dir"
-        rsync -a --ignore-existing -e "ssh ${ssh_opts[*]}" \
+        rsync -a --ignore-existing -e "$RSYNC_RSH" \
             "ubuntu@$IP:repo/$suite/results/" "$dir/" 2>/dev/null || true
     done
-    rsync -a -e "ssh ${ssh_opts[*]}" "ubuntu@$IP:bench.log" "$WORK/bench.log" 2>/dev/null || true
+    rsync -a -e "$RSYNC_RSH" "ubuntu@$IP:bench.log" "$WORK/bench.log" 2>/dev/null || true
 }
 
 instance_state() {
@@ -137,7 +142,9 @@ instance_state() {
 
 cleanup() {
     local rc=$?
-    trap - EXIT INT TERM
+    # Ignore further Ctrl-C: an interrupted teardown would leak the SG/key pair.
+    trap - EXIT
+    trap 'log "cleanup in progress, please wait"' INT TERM
     set +e
     if [ "$FETCHED" = 0 ] && [ -n "$IP" ]; then
         log "fetching whatever results exist before teardown"
@@ -145,21 +152,31 @@ cleanup() {
     fi
     if [ -n "$INSTANCE_ID" ]; then
         log "terminating $INSTANCE_ID"
-        aws ec2 terminate-instances --instance-ids "$INSTANCE_ID" >/dev/null
-        aws ec2 wait instance-terminated --instance-ids "$INSTANCE_ID"
+        if aws ec2 terminate-instances --instance-ids "$INSTANCE_ID" >/dev/null; then
+            aws ec2 wait instance-terminated --instance-ids "$INSTANCE_ID" \
+                || log "WARNING: $INSTANCE_ID not yet terminated; check the console"
+        else
+            log "WARNING: could not terminate $INSTANCE_ID; it self-terminates at the TTL"
+        fi
     fi
     if [ -n "$SG_ID" ]; then
         log "deleting security group $SG_ID"
         # ENI detachment can lag the 'terminated' state by a few seconds
+        local deleted=0
         for _ in 1 2 3 4 5 6 7 8 9 10 11 12; do
-            aws ec2 delete-security-group --group-id "$SG_ID" 2>/dev/null && break
+            if aws ec2 delete-security-group --group-id "$SG_ID" 2>/dev/null; then
+                deleted=1; break
+            fi
             sleep 10
         done
+        [ "$deleted" = 1 ] || log "WARNING: could not delete security group $SG_ID; delete it manually"
     fi
     if [ "$KEY_CREATED" = 1 ]; then
-        aws ec2 delete-key-pair --key-name "$RUN_ID" >/dev/null
+        aws ec2 delete-key-pair --key-name "$RUN_ID" >/dev/null \
+            || log "WARNING: could not delete key pair $RUN_ID; delete it manually"
     fi
     [ -n "$IP" ] && ssh "${ssh_opts[@]}" -O exit "ubuntu@$IP" 2>/dev/null
+    rm -rf "$CM_DIR"
     if [ -f "$WORK/bench.log" ]; then
         find "$WORK" -mindepth 1 ! -name bench.log -delete
         log "remote log kept at $WORK/bench.log"
@@ -178,7 +195,7 @@ trap 'exit 130' INT TERM
 
 BUNDLE=""
 git fetch --quiet origin || log "warning: 'git fetch origin' failed; using cached remote refs"
-if [ -z "$(git branch -r --contains "$HEAD_SHA" 2>/dev/null)" ]; then
+if [ -z "$(git branch -r --list 'origin/*' --contains "$HEAD_SHA" 2>/dev/null)" ]; then
     BUNDLE="$WORK/local.bundle"
     log "HEAD $HEAD_SHA is not on origin; bundling local commits"
     git bundle create "$BUNDLE" HEAD --not --remotes=origin >/dev/null 2>&1 \
@@ -241,6 +258,7 @@ cat >"$USER_DATA" <<EOF
 #!/bin/bash
 # Dead-man switch: power off (=> terminate) after the TTL no matter what.
 shutdown -h +$TTL_MIN "aws-bench TTL reached"
+set -e
 # Ubuntu defaults to 4, which blocks unprivileged perf_event_open (rdpmc).
 sysctl -w kernel.perf_event_paranoid=1
 export DEBIAN_FRONTEND=noninteractive
@@ -272,7 +290,10 @@ for subnet in "${SUBNETS[@]}"; do
     log "launch in $subnet failed: $(echo "$out" | tail -1)"
 done
 [ -n "$INSTANCE_ID" ] || die "could not launch spot $INSTANCE_TYPE in any AZ (capacity or quota?)"
-DEADLINE=$(( $(date +%s) + TTL_MIN * 60 - 180 ))
+# Stop 7 min before the TTL: shutdown(8) blocks new logins (pam_nologin) for
+# its last 5 minutes, and the partial-results fetch may need a new connection.
+DEADLINE=$(( $(date +%s) + TTL_MIN * 60 - 420 ))
+BOOT_DEADLINE=$(( $(date +%s) + 600 ))
 log "instance $INSTANCE_ID launched; waiting for it to run"
 
 aws ec2 wait instance-running --instance-ids "$INSTANCE_ID"
@@ -282,12 +303,13 @@ IP="$(aws ec2 describe-instances --instance-ids "$INSTANCE_ID" \
 
 log "waiting for SSH on $IP "
 until rssh true 2>/dev/null; do
-    [ "$(date +%s)" -lt "$DEADLINE" ] || die "SSH never came up"
+    [ "$(date +%s)" -lt "$BOOT_DEADLINE" ] \
+        || die "SSH never came up (is $MY_IP really this machine's egress IP?)"
     sleep 10
 done
 
 log "waiting for cloud-init (package install)"
-if ! rssh 'cloud-init status --wait >/dev/null; cloud-init status | grep -q "status: done"'; then
+if ! rssh 'timeout 900 cloud-init status --wait >/dev/null; cloud-init status | grep -q "status: done"'; then
     rssh 'sudo tail -n 40 /var/log/cloud-init-output.log' >&2 || true
     die "cloud-init failed"
 fi
@@ -295,7 +317,7 @@ fi
 # --- fetch source on the VM -----------------------------------------------------
 
 if [ -n "$BUNDLE" ]; then
-    rsync -a -e "ssh ${ssh_opts[*]}" "$BUNDLE" "ubuntu@$IP:local.bundle"
+    rsync -a -e "$RSYNC_RSH" "$BUNDLE" "ubuntu@$IP:local.bundle"
 fi
 
 SUBMODULE_PATHS=()
@@ -306,7 +328,7 @@ case "$SUITE" in
 esac
 
 log "cloning $REPO_URL @ ${HEAD_SHA:0:12} on the VM"
-rssh bash -s -- "$REPO_URL" "$HEAD_SHA" "${SUBMODULE_PATHS[@]}" <<'EOF'
+rssh "bash -s -- $(printf '%q ' "$REPO_URL" "$HEAD_SHA" "${SUBMODULE_PATHS[@]}")" <<'EOF'
 set -euo pipefail
 url="$1"; sha="$2"; shift 2
 git clone -q --no-checkout "$url" repo
@@ -352,9 +374,9 @@ if [ -x $s/$s ]; then
 fi
 EOF
     done
-    echo 'echo "$rc" > ~/bench.done'
+    echo 'echo "$rc" > ~/bench.done.tmp && mv ~/bench.done.tmp ~/bench.done'
 } >"$RUNNER"
-rsync -a -e "ssh ${ssh_opts[*]}" "$RUNNER" "ubuntu@$IP:run.sh"
+rsync -a -e "$RSYNC_RSH" "$RUNNER" "ubuntu@$IP:run.sh"
 rssh 'touch .bench-start; chmod +x run.sh; setsid -f ./run.sh > bench.log 2>&1 < /dev/null'
 
 log "benchmark running; streaming bench.log"
@@ -391,8 +413,9 @@ fetch_results
 log "results copied into bench/results/ and bench-kem/results/"
 
 # rdpmc vs rdtsc sanity check on what we just fetched
-if rssh 'find repo/bench/results repo/bench-kem/results -name "*.txt" -newer .bench-start \
-             -exec grep -h "^# cyclecounter:" {} +' 2>/dev/null | grep -qv rdpmc; then
+counters="$(rssh 'find repo/bench/results repo/bench-kem/results -name "*.txt" -newer .bench-start \
+             -exec grep -h "^# cyclecounter:" {} + ; true' 2>/dev/null || true)"
+if [ -n "$counters" ] && grep -qv rdpmc <<<"$counters"; then
     log "WARNING: some results fell back to rdtsc reference cycles (no PMU access on $INSTANCE_TYPE)"
 fi
 
