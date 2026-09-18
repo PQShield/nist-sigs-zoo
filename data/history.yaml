@@ -1,3 +1,8 @@
+- date: '2026-09-08'
+  type: update
+  description: "SDitH round-3 update (v3.0.0, <a href=\"https://github.com/sdith/sdith/releases/tag/v3.0.0\">github.com/sdith/sdith</a>): the VOLEitH-based construction gets minor signature-size growth across all six gf2 parameter sets (Category I short/fast: 3705&rarr;3721 / 4484&rarr;4914 bytes; III: 7964&rarr;8484 / 9916&rarr;10852; V: 14121&rarr;15147 / 17540&rarr;19144), public-key sizes unchanged. Sizes verified against the tag's kat_r3 KAT vectors; no reference-hardware benchmark numbers available yet. A separate CIPHERPOW build variant is also introduced but not yet tracked here."
+  schemes: [SDitH]
+
 - date: '2026-09-01'
   type: update
   description: "SQIsign 3.0 released as the third-round submission spec: parameters revised in response to the improved supersingular isogeny-problem algorithm (ePrint 2026/1486), and the reference implementation drops its GMP dependency for a from-scratch fixed-precision integer library. Public key and signature sizes grow (level I: 65/148 &rarr; 83/200 bytes; level III: 97/224 &rarr; 129/306; level V: 129/292 &rarr; 169/406 bytes), and both signing and verification are considerably faster than v2.0.1."
