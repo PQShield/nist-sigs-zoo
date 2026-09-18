@@ -14,56 +14,74 @@ versions:
     level: 1
     pk: 376
     sig: 528
-    signing_cycles: 679577
-    verification_cycles: 196547
+    signing_cycles: 849119
+    verification_cycles: 393099
+    signing_us: 224.8
+    verification_us: 104.6
   - name: SNOVA_I_B
     level: 1
     pk: 656
     sig: 388
-    signing_cycles: 644571
-    verification_cycles: 178763
+    signing_cycles: 914124
+    verification_cycles: 350833
+    signing_us: 242.2
+    verification_us: 93.5
   - name: SNOVA_I_S
     level: 1
     pk: 1016
     sig: 272
-    signing_cycles: 525243
-    verification_cycles: 176473
+    signing_cycles: 606455
+    verification_cycles: 262429
+    signing_us: 160.8
+    verification_us: 70.2
   - name: SNOVA_III_K
     level: 3
     pk: 912
     sig: 688
-    signing_cycles: 1455292
-    verification_cycles: 418243
+    signing_cycles: 1774112
+    verification_cycles: 831737
+    signing_us: 473.5
+    verification_us: 220.1
   - name: SNOVA_III_B
     level: 3
     pk: 1416
     sig: 532
-    signing_cycles: 1459126
-    verification_cycles: 419616
+    signing_cycles: 2003284
+    verification_cycles: 818564
+    signing_us: 534.7
+    verification_us: 216.7
   - name: SNOVA_III_S
     level: 3
     pk: 2032
     sig: 456
-    signing_cycles: 1557053
-    verification_cycles: 433881
+    signing_cycles: 2151581
+    verification_cycles: 845743
+    signing_us: 573.6
+    verification_us: 223.8
   - name: SNOVA_V_K
     level: 5
     pk: 1216
     sig: 896
-    signing_cycles: 3491655
-    verification_cycles: 679375
+    signing_cycles: 4153595
+    verification_cycles: 1566664
+    signing_us: 1113.8
+    verification_us: 420.4
   - name: SNOVA_V_B
     level: 5
     pk: 1891
     sig: 691
-    signing_cycles: 3561227
-    verification_cycles: 782471
+    signing_cycles: 4195112
+    verification_cycles: 1297906
+    signing_us: 1128.8
+    verification_us: 345.3
   - name: SNOVA_V_S
     level: 5
     pk: 2716
     sig: 591
-    signing_cycles: 3864611
-    verification_cycles: 859675
+    signing_cycles: 4288722
+    verification_cycles: 1599182
+    signing_us: 1154.1
+    verification_us: 429.2
 - version: v2.3
   date: '2026-04-03'
   status: On-ramp

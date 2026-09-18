@@ -14,74 +14,98 @@ versions:
     level: 1
     pk: 32
     sig: 4066
-    signing_us: 5332.9
-    verification_us: 4258.7
+    signing_us: 3065.4
+    verification_us: 2640.9
+    signing_cycles: 10074511
+    verification_cycles: 8531813
   - name: 128f
     level: 1
     pk: 32
     sig: 5170
-    signing_us: 717.3
-    verification_us: 509.6
+    signing_us: 427.0
+    verification_us: 309.7
+    signing_cycles: 1590598
+    verification_cycles: 1151268
   - name: EM-128s
     level: 1
     pk: 32
     sig: 3466
-    signing_us: 3112.7
-    verification_us: 2413.4
+    signing_us: 1846.1
+    verification_us: 1524.6
+    signing_cycles: 6916877
+    verification_cycles: 5709038
   - name: EM-128f
     level: 1
     pk: 32
     sig: 4170
-    signing_us: 596.2
-    verification_us: 375.9
+    signing_us: 357.0
+    verification_us: 236.1
+    signing_cycles: 1332863
+    verification_cycles: 886731
   - name: 192s
     level: 3
     pk: 48
     sig: 9410
-    signing_us: 20261.4
-    verification_us: 16696.9
+    signing_us: 11710.1
+    verification_us: 9928.0
+    signing_cycles: 39658114
+    verification_cycles: 33103051
   - name: 192f
     level: 3
     pk: 48
     sig: 11738
-    signing_us: 2967.6
-    verification_us: 2404.0
+    signing_us: 1830.6
+    verification_us: 1412.6
+    signing_cycles: 6785010
+    verification_cycles: 5278505
   - name: EM-192s
     level: 3
     pk: 48
     sig: 7874
-    signing_us: 12628.3
-    verification_us: 11506.9
+    signing_us: 8472.7
+    verification_us: 7982.4
+    signing_cycles: 27568355
+    verification_cycles: 25804442
   - name: EM-192f
     level: 3
     pk: 48
     sig: 9818
-    signing_us: 1917.9
-    verification_us: 1508.7
+    signing_us: 1192.5
+    verification_us: 892.8
+    signing_cycles: 4430270
+    verification_cycles: 3348953
   - name: 256s
     level: 5
     pk: 48
     sig: 16626
-    signing_us: 29298.4
-    verification_us: 28112.0
+    signing_us: 17215.0
+    verification_us: 16711.0
+    signing_cycles: 55966802
+    verification_cycles: 54171950
   - name: 256f
     level: 5
     pk: 48
     sig: 20856
-    signing_us: 4312.7
-    verification_us: 3612.2
+    signing_us: 2584.1
+    verification_us: 2021.5
+    signing_cycles: 9550252
+    verification_cycles: 7560604
   - name: EM-256s
     level: 5
     pk: 64
     sig: 14554
-    signing_us: 22440.0
-    verification_us: 20541.6
+    signing_us: 11688.7
+    verification_us: 11022.6
+    signing_cycles: 43589647
+    verification_cycles: 41164191
   - name: EM-256f
     level: 5
     pk: 64
     sig: 18084
-    signing_us: 3517.4
-    verification_us: 2839.1
+    signing_us: 2178.9
+    verification_us: 1637.5
+    signing_cycles: 8078818
+    verification_cycles: 6110928
 - version: v2.0
   date: '2025-02-07'
   status: On-ramp
