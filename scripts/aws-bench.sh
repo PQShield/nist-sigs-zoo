@@ -312,7 +312,11 @@ if [ -f ~/local.bundle ]; then
     git fetch -q ~/local.bundle HEAD
 fi
 git -c advice.detachedHead=false checkout -q "$sha"
-git submodule update -q --init --recursive --jobs 8 -- "$@"
+# Anonymous HTTPS only: some upstreams record git@github.com: URLs.
+git config --global url."https://github.com/".insteadOf git@github.com:
+# Top-level scheme submodules only; nested ones (e.g. SABER's pqm4) are
+# embedded-target code the x86 build never uses.
+git submodule update -q --init --jobs 8 -- "$@"
 EOF
 
 # --- build + run in the background -----------------------------------------------
