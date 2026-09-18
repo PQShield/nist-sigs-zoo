@@ -9,29 +9,29 @@ parametersets:
   level: 1
   pk: 1152
   ct: 1152
-  keygen_cycles: 21482
-  encaps_cycles: 27986
-  decaps_cycles: 19308
-  keygen_us: 11.2
-  encaps_us: 14.2
-  decaps_us: 9.2
+  keygen_cycles: 22420
+  encaps_cycles: 29475
+  decaps_cycles: 19995
+  keygen_us: 7.5
+  encaps_us: 9.4
+  decaps_us: 6.4
 - name: NTRU+864
   level: 3
   pk: 1296
   ct: 1296
-  keygen_cycles: 23882
-  encaps_cycles: 32712
-  decaps_cycles: 23308
-  keygen_us: 12.4
-  encaps_us: 16.5
-  decaps_us: 11.1
+  keygen_cycles: 24846
+  encaps_cycles: 34072
+  decaps_cycles: 24348
+  keygen_us: 8.2
+  encaps_us: 10.7
+  decaps_us: 7.5
 - name: NTRU+1152
   level: 5
   pk: 1728
   ct: 1728
-  keygen_cycles: 37792
-  encaps_cycles: 42445
-  decaps_cycles: 29970
-  keygen_us: 14.7
-  encaps_us: 17.3
-  decaps_us: 11.6
+  keygen_cycles: 32377
+  encaps_cycles: 43600
+  decaps_cycles: 30759
+  keygen_us: 10.4
+  encaps_us: 13.3
+  decaps_us: 9.2
