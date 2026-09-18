@@ -1,3 +1,8 @@
+- date: '2026-09-18'
+  type: update
+  description: "Removed the broken/warning flags from UOV's round-3 parameter sets. Re-running the complexity estimator from Furue &amp; Ikematsu (<a href=\"https://eprint.iacr.org/2026/298\">ePrint 2026/298</a>, App. D), which reproduces their round-2 figures, on the round-3 parameters puts the best key-recovery attack (log<sub>2</sub> gates) at 144.7 for Ip (256,119,45), 158.5 for Is (16,160,64, unchanged), 213.1 for III (256,193,72) and 272.1 for V (256,259,96): above the Level I/III/V thresholds of 143/207/272, although Ip and V only barely. The later extended wedge attack (<a href=\"https://eprint.iacr.org/2026/1830\">ePrint 2026/1830</a>) is equivalent to the same truncated Macaulay matrix, and <a href=\"https://eprint.iacr.org/2026/1620\">ePrint 2026/1620</a> does not apply to plain UOV. Round-2 flags are unchanged."
+  schemes: [UOV]
+
 - date: '2026-09-08'
   type: update
   description: "SDitH round-3 update (v3.0.0, <a href=\"https://github.com/sdith/sdith/releases/tag/v3.0.0\">github.com/sdith/sdith</a>): the VOLEitH-based construction gets minor signature-size growth across all six gf2 parameter sets (Category I short/fast: 3705&rarr;3721 / 4484&rarr;4914 bytes; III: 7964&rarr;8484 / 9916&rarr;10852; V: 14121&rarr;15147 / 17540&rarr;19144), public-key sizes unchanged. Sizes verified against the tag's kat_r3 KAT vectors. A separate CIPHERPOW build variant is also introduced but not yet tracked here."
