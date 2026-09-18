@@ -164,7 +164,7 @@ cleanup() {
         # ENI detachment can lag the 'terminated' state by a few seconds
         local deleted=0
         for _ in 1 2 3 4 5 6 7 8 9 10 11 12; do
-            if aws ec2 delete-security-group --group-id "$SG_ID" 2>/dev/null; then
+            if aws ec2 delete-security-group --group-id "$SG_ID" >/dev/null 2>&1; then
                 deleted=1; break
             fi
             sleep 10
