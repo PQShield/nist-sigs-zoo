@@ -12,11 +12,17 @@ endif
 ifeq ($(OSSL_PREFIX),)
   OSSL_PREFIX := /usr
 endif
+# Library dir: Debian/Ubuntu keep libcrypto in a multiarch dir (e.g.
+# /usr/lib/x86_64-linux-gnu), not $(OSSL_PREFIX)/lib; ask pkg-config then.
+OSSL_LIBDIR := $(OSSL_PREFIX)/lib
+ifeq ($(wildcard $(OSSL_LIBDIR)/libcrypto.a),)
+  OSSL_LIBDIR := $(shell pkg-config --variable=libdir openssl 2>/dev/null)
+endif
 OSSL_CFLAGS      := -I$(OSSL_PREFIX)/include
-OSSL_LDFLAGS     := -L$(OSSL_PREFIX)/lib -lcrypto -Wl,-rpath,$(OSSL_PREFIX)/lib
+OSSL_LDFLAGS     := -L$(OSSL_LIBDIR) -lcrypto -Wl,-rpath,$(OSSL_LIBDIR)
 # SHA3_absorb / SHA3_squeeze are internal symbols not exported from shared libcrypto;
 # link the static library to pull them in for the SHAKE MGF implementation.
-OSSL_STATIC_LIB  := $(OSSL_PREFIX)/lib/libcrypto.a
+OSSL_STATIC_LIB  := $(OSSL_LIBDIR)/libcrypto.a
 
 BASE_CFLAGS := -O3 -fPIC -DNDEBUG -Wall -Wno-unused-parameter \
                -Wno-unused-result -Wno-deprecated-declarations \
