@@ -51,24 +51,15 @@ SDITH2_SOS  = $(addprefix schemes/sdith2/build/, \
     sdith2_cat3_short.so sdith2_cat3_fast.so \
     sdith2_cat5_short.so sdith2_cat5_fast.so)
 MQOM_SOS    = $(addprefix schemes/mqom/build/, \
-    mqom_cat1_gf2_fast_r3.so   mqom_cat1_gf2_fast_r5.so   \
-    mqom_cat1_gf2_short_r3.so  mqom_cat1_gf2_short_r5.so  \
-    mqom_cat1_gf16_fast_r3.so  mqom_cat1_gf16_fast_r5.so  \
-    mqom_cat1_gf16_short_r3.so mqom_cat1_gf16_short_r5.so \
-    mqom_cat1_gf256_fast_r3.so mqom_cat1_gf256_fast_r5.so \
-    mqom_cat1_gf256_short_r3.so mqom_cat1_gf256_short_r5.so \
-    mqom_cat3_gf2_fast_r3.so   mqom_cat3_gf2_fast_r5.so   \
-    mqom_cat3_gf2_short_r3.so  mqom_cat3_gf2_short_r5.so  \
-    mqom_cat3_gf16_fast_r3.so  mqom_cat3_gf16_fast_r5.so  \
-    mqom_cat3_gf16_short_r3.so mqom_cat3_gf16_short_r5.so \
-    mqom_cat3_gf256_fast_r3.so mqom_cat3_gf256_fast_r5.so \
-    mqom_cat3_gf256_short_r3.so mqom_cat3_gf256_short_r5.so \
-    mqom_cat5_gf2_fast_r3.so   mqom_cat5_gf2_fast_r5.so   \
-    mqom_cat5_gf2_short_r3.so  mqom_cat5_gf2_short_r5.so  \
-    mqom_cat5_gf16_fast_r3.so  mqom_cat5_gf16_fast_r5.so  \
-    mqom_cat5_gf16_short_r3.so mqom_cat5_gf16_short_r5.so \
-    mqom_cat5_gf256_fast_r3.so mqom_cat5_gf256_fast_r5.so \
-    mqom_cat5_gf256_short_r3.so mqom_cat5_gf256_short_r5.so)
+    mqom3_cat1_gf2_shorter_ct.so mqom3_cat1_gf2_shorter_ot.so \
+    mqom3_cat1_gf16_short_ct.so  mqom3_cat1_gf16_short_ot.so  \
+    mqom3_cat1_gf16_fast_ct.so   mqom3_cat1_gf16_fast_ot.so   \
+    mqom3_cat3_gf2_shorter_ct.so mqom3_cat3_gf2_shorter_ot.so \
+    mqom3_cat3_gf16_short_ct.so  mqom3_cat3_gf16_short_ot.so  \
+    mqom3_cat3_gf16_fast_ct.so   mqom3_cat3_gf16_fast_ot.so   \
+    mqom3_cat5_gf2_shorter_ct.so mqom3_cat5_gf2_shorter_ot.so \
+    mqom3_cat5_gf16_short_ct.so  mqom3_cat5_gf16_short_ot.so  \
+    mqom3_cat5_gf16_fast_ct.so   mqom3_cat5_gf16_fast_ot.so)
 
 ALL_SOS     = $(MLDSA_SOS) $(SLHDSA_SOS) $(FNDSA_SOS) $(CLASSIC_SOS) $(HAWK_SOS) $(MAYO_SOS) $(FAEST_SOS) $(SDITH_SOS) $(SDITH2_SOS) $(SNOVA_SOS) $(UOV_SOS) $(QRUOV_SOS) $(MQOM_SOS) $(SQISIGN_SOS)
 SCHEME_DIRS = mldsa slhdsa fndsa classic hawk mayo faest sdith sdith2 snova uov qruov mqom sqisign

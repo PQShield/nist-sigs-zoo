@@ -51,7 +51,7 @@ bench/
     ├── snova/            # PQCLAB-SNOVA/SNOVA
     ├── uov/              # pqov/pqov
     ├── qruov/            # qruov/round2
-    ├── mqom/             # mqom/mqom-v2
+    ├── mqom/             # mqom/mqom-v3
     ├── sqisign/          # SQISign/the-sqisign (CMake build)
     └── <name>/
         ├── params.tsv       # one row per parameter set; columns substituted into template
