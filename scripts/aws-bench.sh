@@ -334,9 +334,6 @@ RUNNER="$WORK/run.sh"
     echo 'set -uo pipefail'
     echo "$REMOTE_ENV"
     echo 'cd ~/repo'
-    # GCC >= 15 defaults to C23 (bool/true/false keywords, f() means f(void)),
-    # which breaks several reference implementations; pin the GCC <= 14 default.
-    echo 'export CC="${CC:-cc} -std=gnu17"'
     echo 'rc=0'
     echo 'nproc_=$(nproc)'
     for s in bench bench-kem; do
