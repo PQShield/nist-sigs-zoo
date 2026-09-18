@@ -14,16 +14,34 @@ endif
 OSSL_CFLAGS  = -I$(OSSL_PREFIX)/include
 OSSL_LDFLAGS = -L$(OSSL_PREFIX)/lib -lcrypto -Wl,-rpath,$(OSSL_PREFIX)/lib
 
+# Upstream's PROJ=gfni (AVX2 + GFNI) when the CPU has GFNI, else PROJ=avx2.
+# As in upstream's Makefile, gfni only keeps _MUL_WITH_MULTAB_ for the GF(16)
+# parameter set (PARAM=1, i.e. Is); avx2 uses it everywhere.
+HAVE_GFNI := $(shell python3 ../../cpu_features.py avx2 gfni)
+ifneq ($(HAVE_GFNI),)
+  UOV_PROJ      := gfni
+  PROJ_CFLAGS   := -mavx2 -mgfni -maes -D_BLAS_AVX2_ -D_BLAS_GFNI_
+  MULTAB_GF16   := -D_MUL_WITH_MULTAB_
+  PROJ_INC      := -I$(SRC_DIR)/gfni
+  PROJ_SRCS     := $(SRC_DIR)/gfni/blas_matrix_avx2_gfni.c
+else
+  UOV_PROJ      := avx2
+  PROJ_CFLAGS   := -mavx2 -maes -D_BLAS_AVX2_ -D_MUL_WITH_MULTAB_
+  MULTAB_GF16   :=
+  PROJ_INC      :=
+  PROJ_SRCS     :=
+endif
+$(info UOV PROJ: $(UOV_PROJ))
+
 BASE_CFLAGS := -O3 -fPIC -DNDEBUG -Wall -Wno-unused-parameter -Wno-sign-compare \
-               -mavx2 -maes \
-               -D_BLAS_AVX2_ -D_MUL_WITH_MULTAB_ \
+               $(PROJ_CFLAGS) \
                $(OSSL_CFLAGS)
 
 INC := -I$(SRC_DIR) -I$(SRC_DIR)/ref -I$(SRC_DIR)/amd64 \
-       -I$(SRC_DIR)/ssse3 -I$(SRC_DIR)/avx2 \
+       -I$(SRC_DIR)/ssse3 -I$(SRC_DIR)/avx2 $(PROJ_INC) \
        -I$(UTIL_DIR) -I$(UTIL_DIR)/x86aesni
 
-# AVX2 source set. utils_randombytes.c excluded (shim provides randombytes).
+# AVX2 source set (plus the GFNI BLAS for PROJ=gfni). utils_randombytes.c excluded (shim provides randombytes).
 # aes128_4r_ffs.c excluded (config.h auto-selects AESNI when _BLAS_AVX2_ is set).
 # fips202.c excluded (config.h auto-selects _UTILS_OPENSSL_ for hash).
 SRCS := \
@@ -42,7 +60,8 @@ SRCS := \
     $(UTIL_DIR)/utils.c \
     $(UTIL_DIR)/utils_hash.c \
     $(UTIL_DIR)/utils_prng.c \
-    $(UTIL_DIR)/x86aesni/x86aesni.c
+    $(UTIL_DIR)/x86aesni/x86aesni.c \
+    $(PROJ_SRCS)
 
 PARAMS := \
     uov_Ip_pkc uov_Ip_classic \
@@ -55,8 +74,8 @@ SHIM_FILES := $(addsuffix _shim.c, $(PARAMS))
 
 pf_uov_Ip_pkc      := -D_OV256_119_45 -D_OV_PKC
 pf_uov_Ip_classic  := -D_OV256_119_45 -D_OV_CLASSIC
-pf_uov_Is_pkc      := -D_OV16_160_64  -D_OV_PKC
-pf_uov_Is_classic  := -D_OV16_160_64  -D_OV_CLASSIC
+pf_uov_Is_pkc      := -D_OV16_160_64  -D_OV_PKC     $(MULTAB_GF16)
+pf_uov_Is_classic  := -D_OV16_160_64  -D_OV_CLASSIC $(MULTAB_GF16)
 pf_uov_III_pkc     := -D_OV256_193_72 -D_OV_PKC
 pf_uov_III_classic := -D_OV256_193_72 -D_OV_CLASSIC
 pf_uov_V_pkc       := -D_OV256_259_96 -D_OV_PKC
