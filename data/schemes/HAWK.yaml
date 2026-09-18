@@ -13,19 +13,19 @@ versions:
     level: 5
     pk: 2440
     sig: 1221
-    signing_cycles: 185258
-    verification_cycles: 184025
-    signing_us: 51.9
-    verification_us: 51.0
+    signing_cycles: 184660
+    verification_cycles: 183320
+    signing_us: 50.6
+    verification_us: 50.6
     notes: "Attack reduces key-recovery cost from 2^288 to 2^182 gates, below the Level 5 threshold"
   - name: '512'
     level: 1
     pk: 1024
     sig: 555
-    signing_cycles: 78461
-    verification_cycles: 88602
-    signing_us: 21.8
-    verification_us: 24.5
+    signing_cycles: 78880
+    verification_cycles: 89341
+    signing_us: 21.9
+    verification_us: 24.7
     notes: "Attack reduces key-recovery cost from 2^150 to 2^108 gates, below the Level 1 threshold (128 bits)"
   tags:
   - round-2

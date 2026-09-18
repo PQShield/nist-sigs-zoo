@@ -10,7 +10,7 @@
 
 - date: '2026-09-01'
   type: update
-  description: "SQIsign 3.0 released as the third-round submission spec: parameters revised in response to the improved supersingular isogeny-problem algorithm (ePrint 2026/1486), and the reference implementation drops its GMP dependency for a from-scratch fixed-precision integer library. Public key and signature sizes grow (level I: 65/148 &rarr; 83/200 bytes; level III: 97/224 &rarr; 129/306; level V: 129/292 &rarr; 169/406 bytes). On our reference-implementation benchmark (GMP-free v3.0 vs. GMP-based v2.0.1) level I signing is somewhat faster, while level III/V signing and all verification are slower."
+  description: "SQIsign 3.0 released as the third-round submission spec: parameters revised in response to the improved supersingular isogeny-problem algorithm (ePrint 2026/1486), and the reference implementation drops its GMP dependency for a from-scratch fixed-precision integer library. Public key and signature sizes grow (level I: 65/148 &rarr; 83/200 bytes; level III: 97/224 &rarr; 129/306; level V: 129/292 &rarr; 169/406 bytes). On our benchmark (v3.0 with its x86-64 assembly field arithmetic vs. the v2.0.1 reference build) signing is faster at levels I and III (&minus;35% / &minus;9%) but slower at level V (+12%), and verification is 12&ndash;38% slower at every level."
   schemes: [SQIsign]
 
 - date: '2026-09-01'
