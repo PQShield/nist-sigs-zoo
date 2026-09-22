@@ -7,17 +7,16 @@
 #include "../../scheme.h"
 
 /* Replace NIST KAT DRBG with getrandom(). */
-int randombytes(unsigned char *x, unsigned long long xlen) {
+void randombytes(unsigned char *x, unsigned long long xlen) {
     uint8_t *p = x; size_t len = (size_t)xlen;
     while (len > 0) {
         ssize_t r = getrandom(p, len, 0);
         if (r > 0) { p += (size_t)r; len -= (size_t)r; }
         else if (errno != EINTR) break;
     }
-    return 0;
 }
 
-/* Combined-API symbols from sign.c (compiled into libqruov.a). */
+/* Combined-API symbols from upstream src/sign.c. */
 extern int crypto_sign_keypair(unsigned char *pk, unsigned char *sk);
 extern int crypto_sign(unsigned char *sm, unsigned long long *smlen,
                        const unsigned char *m, unsigned long long mlen,

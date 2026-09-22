@@ -2,16 +2,19 @@
 
 CC      ?= cc
 BUILD    = build
-# Upstream's optimised platforms: avx512 (needs AVX-512F/BW/VNNI) or avx2.
-# Upstream builds these with -fopenmp; we leave it out so every scheme is
-# measured single-threaded.
-HAVE_AVX512 := $(shell python3 ../../cpu_features.py avx512f avx512bw avx512_vnni)
-QRUOV_PLATFORM := $(if $(HAVE_AVX512),avx512,avx2)
-PLATFORM_CFLAGS := $(if $(HAVE_AVX512),-mavx512f -mavx512bw -mavx512vnni,-mavx2)
-REFDIR   = ref/src/$(QRUOV_PLATFORM)
-$(info QR-UOV platform: $(QRUOV_PLATFORM))
+REFDIR   = ref
 
-# OpenSSL: needed for AES (PRG) and SHA3/EVP (MGF/hash).
+# Upstream ships ref / opt / avx2; avx2 is the fastest x86-64 build and the one
+# the Round 3 specification benchmarks (spec Table 5).  Round 3 dropped the
+# Round 2 avx512 implementation.
+IMPL            := avx2
+IMPL_CFLAGS     := -mavx2 -mbmi2 -maes -DPRIM_AES_BACKEND_X86AESNI=1
+# PRG for the public seed: AES-128-CTR (upstream default, spec Table 5) or SHAKE128.
+PRG_CFLAGS      := -DPRG_IS_AES=1
+
+# OpenSSL: needed for SHA3/SHAKE (EVP).  Only the shared library is required;
+# prim.h falls back to a cached EVP_DigestFinalXOF when EVP_DigestSqueeze
+# (OpenSSL 3.3+) is unavailable.
 OSSL_PREFIX := $(shell brew --prefix openssl 2>/dev/null)
 ifeq ($(OSSL_PREFIX),)
   OSSL_PREFIX := $(shell pkg-config --variable=prefix openssl 2>/dev/null)
@@ -19,71 +22,54 @@ endif
 ifeq ($(OSSL_PREFIX),)
   OSSL_PREFIX := /usr
 endif
-# Library dir: Debian/Ubuntu keep libcrypto in a multiarch dir (e.g.
-# /usr/lib/x86_64-linux-gnu), not $(OSSL_PREFIX)/lib; ask pkg-config then.
-# The distro libcrypto.a may be built with zlib/zstd; pkg-config --static
-# lists what it needs (Libs.private).
-OSSL_LIBDIR := $(OSSL_PREFIX)/lib
-OSSL_STATIC_DEPS :=
-ifeq ($(wildcard $(OSSL_LIBDIR)/libcrypto.a),)
-  OSSL_LIBDIR := $(shell pkg-config --variable=libdir openssl 2>/dev/null)
-  OSSL_STATIC_DEPS := $(filter-out -L% -lcrypto,$(shell pkg-config --static --libs libcrypto 2>/dev/null))
+# Debian/Ubuntu keep libcrypto in a multiarch dir, not $(OSSL_PREFIX)/lib.
+OSSL_LIBDIR := $(shell pkg-config --variable=libdir openssl 2>/dev/null)
+ifeq ($(OSSL_LIBDIR),)
+  OSSL_LIBDIR := $(OSSL_PREFIX)/lib
 endif
-OSSL_CFLAGS      := -I$(OSSL_PREFIX)/include
-OSSL_LDFLAGS     := -L$(OSSL_LIBDIR) -lcrypto -Wl,-rpath,$(OSSL_LIBDIR)
-# SHA3_absorb / SHA3_squeeze are internal symbols not exported from shared libcrypto;
-# link the static library to pull them in for the SHAKE MGF implementation.
-OSSL_STATIC_LIB  := $(OSSL_LIBDIR)/libcrypto.a
+OSSL_CFLAGS  := -I$(OSSL_PREFIX)/include
+OSSL_LDFLAGS := -L$(OSSL_LIBDIR) -lcrypto -Wl,-rpath,$(OSSL_LIBDIR)
 
-BASE_CFLAGS := -O3 -march=native -mtune=native $(PLATFORM_CFLAGS) -fomit-frame-pointer -fwrapv -fPIC -DNDEBUG -Wall -Wno-unused-parameter \
-               -Wno-unused-result -Wno-deprecated-declarations \
-               -Wno-unused-function -Wno-unused-variable \
-               -Wno-stringop-overflow \
-               $(OSSL_CFLAGS)
+# Upstream's own CFLAGS are -O3 -flto=auto; -march=native matches the SUPERCOP
+# methodology the spec's numbers were produced with.
+CFLAGS := -O3 -flto=auto -march=native -mtune=native $(IMPL_CFLAGS) $(PRG_CFLAGS) \
+          -fomit-frame-pointer -fPIC -DNDEBUG -Wall \
+          -Wno-unused-parameter -Wno-unused-result \
+          -I$(REFDIR)/src -I$(REFDIR)/src/$(IMPL) $(OSSL_CFLAGS)
 
-PARAMS := \
-    qruov1q127L3v156m54  qruov1q31L3v165m60   qruov1q31L10v600m70   qruov1q7L10v740m100  \
-    qruov3q127L3v228m78  qruov3q31L3v246m87   qruov3q31L10v890m100  qruov3q7L10v1100m140 \
-    qruov5q127L3v306m105 qruov5q31L3v324m114  qruov5q31L10v1120m120 qruov5q7L10v1490m190
+# rng.c is excluded — the shim provides randombytes() via getrandom() instead of
+# the NIST KAT DRBG.  PQCgenKAT_sign.c has a main().
+SRCS := $(REFDIR)/src/sign.c $(REFDIR)/src/qruov_common.c $(REFDIR)/src/qrop.c \
+        $(REFDIR)/src/prg.c $(REFDIR)/src/prim.c $(REFDIR)/src/linsys.c \
+        $(REFDIR)/src/$(IMPL)/qruov.c $(REFDIR)/src/$(IMPL)/emi_transform.c \
+        $(REFDIR)/src/$(IMPL)/emi_matrix.c $(REFDIR)/src/$(IMPL)/emi_transform_gen.c \
+        $(REFDIR)/src/$(IMPL)/helpers.c $(REFDIR)/src/$(IMPL)/kernel.c \
+        $(REFDIR)/src/$(IMPL)/x86aesni.c
+
+# The Round 3 specification proposes six parameter sets, all with q = 127
+# (spec Tables 1 and 4).  Upstream's build system still accepts the Round 2
+# q = 31 / q = 7 sets, but they are no longer part of the submission.
+PARAMS := qruov1q127L3v156m54  qruov1q127L10v540m60  \
+          qruov3q127L3v228m78  qruov3q127L10v820m90  \
+          qruov5q127L3v306m105 qruov5q127L10v1040m110
+
+# Parameter selection is a single -D; Round 3 has no generated config headers.
+pf_qruov1q127L3v156m54    := -DQRUOV_PARAM_1q127L3
+pf_qruov1q127L10v540m60   := -DQRUOV_PARAM_1q127L10
+pf_qruov3q127L3v228m78    := -DQRUOV_PARAM_3q127L3
+pf_qruov3q127L10v820m90   := -DQRUOV_PARAM_3q127L10
+pf_qruov5q127L3v306m105   := -DQRUOV_PARAM_5q127L3
+pf_qruov5q127L10v1040m110 := -DQRUOV_PARAM_5q127L10
 
 SOS        := $(addprefix $(BUILD)/, $(addsuffix .so, $(PARAMS)))
 SHIM_FILES := $(addsuffix _shim.c, $(PARAMS))
-
-# Per-variant parameter -D flags (platform, PRG variant added in template).
-pf_qruov1q127L3v156m54   := -DQRUOV_security_strength_category=1 -DQRUOV_q=127 -DQRUOV_L=3  -DQRUOV_v=156  -DQRUOV_m=54  -DQRUOV_fc=1 -DQRUOV_fe=1 -DQRUOV_fc0=1
-pf_qruov1q31L3v165m60    := -DQRUOV_security_strength_category=1 -DQRUOV_q=31  -DQRUOV_L=3  -DQRUOV_v=165  -DQRUOV_m=60  -DQRUOV_fc=1 -DQRUOV_fe=1 -DQRUOV_fc0=1
-pf_qruov1q31L10v600m70   := -DQRUOV_security_strength_category=1 -DQRUOV_q=31  -DQRUOV_L=10 -DQRUOV_v=600  -DQRUOV_m=70  -DQRUOV_fc=5 -DQRUOV_fe=3 -DQRUOV_fc0=1
-pf_qruov1q7L10v740m100   := -DQRUOV_security_strength_category=1 -DQRUOV_q=7   -DQRUOV_L=10 -DQRUOV_v=740  -DQRUOV_m=100 -DQRUOV_fc=2 -DQRUOV_fe=1 -DQRUOV_fc0=1
-pf_qruov3q127L3v228m78   := -DQRUOV_security_strength_category=3 -DQRUOV_q=127 -DQRUOV_L=3  -DQRUOV_v=228  -DQRUOV_m=78  -DQRUOV_fc=1 -DQRUOV_fe=1 -DQRUOV_fc0=1
-pf_qruov3q31L3v246m87    := -DQRUOV_security_strength_category=3 -DQRUOV_q=31  -DQRUOV_L=3  -DQRUOV_v=246  -DQRUOV_m=87  -DQRUOV_fc=1 -DQRUOV_fe=1 -DQRUOV_fc0=1
-pf_qruov3q31L10v890m100  := -DQRUOV_security_strength_category=3 -DQRUOV_q=31  -DQRUOV_L=10 -DQRUOV_v=890  -DQRUOV_m=100 -DQRUOV_fc=5 -DQRUOV_fe=3 -DQRUOV_fc0=1
-pf_qruov3q7L10v1100m140  := -DQRUOV_security_strength_category=3 -DQRUOV_q=7   -DQRUOV_L=10 -DQRUOV_v=1100 -DQRUOV_m=140 -DQRUOV_fc=2 -DQRUOV_fe=1 -DQRUOV_fc0=1
-pf_qruov5q127L3v306m105  := -DQRUOV_security_strength_category=5 -DQRUOV_q=127 -DQRUOV_L=3  -DQRUOV_v=306  -DQRUOV_m=105 -DQRUOV_fc=1 -DQRUOV_fe=1 -DQRUOV_fc0=1
-pf_qruov5q31L3v324m114   := -DQRUOV_security_strength_category=5 -DQRUOV_q=31  -DQRUOV_L=3  -DQRUOV_v=324  -DQRUOV_m=114 -DQRUOV_fc=1 -DQRUOV_fe=1 -DQRUOV_fc0=1
-pf_qruov5q31L10v1120m120 := -DQRUOV_security_strength_category=5 -DQRUOV_q=31  -DQRUOV_L=10 -DQRUOV_v=1120 -DQRUOV_m=120 -DQRUOV_fc=5 -DQRUOV_fe=3 -DQRUOV_fc0=1
-pf_qruov5q7L10v1490m190  := -DQRUOV_security_strength_category=5 -DQRUOV_q=7   -DQRUOV_L=10 -DQRUOV_v=1490 -DQRUOV_m=190 -DQRUOV_fc=2 -DQRUOV_fe=1 -DQRUOV_fc0=1
-
-# mgf.c needs a compatibility patch for OpenSSL 3.3+ (EVP_DigestSqueeze API).
-# Build a patched copy in build/ so ref/ stays untouched.
-PATCHED_MGF := $(BUILD)/patched_mgf.c
-
-$(PATCHED_MGF): $(REFDIR)/mgf.c mgf_openssl36.patch | $(BUILD)
-	cp $(REFDIR)/mgf.c $@
-	patch $@ mgf_openssl36.patch
-
-# Sources compiled into each per-param static library.
-# rng.c excluded — shim provides randombytes via getrandom().
-# PQCgenKAT_sign.c, qruov_config_h_gen.c, api_h_gen.c excluded (have main()).
-# mgf.c replaced by patched copy above.
-SRCS := $(REFDIR)/Fql.c $(REFDIR)/qruov.c $(REFDIR)/sign.c \
-        $(REFDIR)/matrix.c
 
 .PHONY: all clean check_ref
 
 all: check_ref $(SHIM_FILES) $(SOS)
 
 check_ref:
-	@if [ ! -f $(REFDIR)/sign.c ]; then \
+	@if [ ! -f $(REFDIR)/src/sign.c ]; then \
 	    echo "ERROR: bench/schemes/qruov/ref/ not populated." >&2; \
 	    echo "Run: git submodule update --init bench/schemes/qruov/ref" >&2; \
 	    exit 1; \
@@ -95,60 +81,10 @@ $(SHIM_FILES): shim_template.c params.tsv
 $(BUILD):
 	mkdir -p $@
 
-# ---------------------------------------------------------------------------
-# Rule template — instantiated once per param set via $(eval $(call ...))
-# $(1) = param name (e.g. qruov1q127L3v156m54)
-#
-# Each variant needs its own qruov_config.h and api.h (generated from the
-# upstream generator programs, compiled with per-variant -D flags).
-# ---------------------------------------------------------------------------
-
-define QRUOV_RULES
-
-# Param defines come from generated qruov_config.h (via -I); don't repeat on
-# command line to avoid redefined-macro warnings.
-cflags_$(1)    := $(BASE_CFLAGS) -I$(BUILD)/$(1) -I$(REFDIR)
-objs_ref_$(1)  := $(patsubst $(REFDIR)/%.c,$(BUILD)/$(1)/%.o,$(SRCS))
-objs_$(1)      := $$(objs_ref_$(1)) $(BUILD)/$(1)/mgf.o
-lib_$(1)       := $(BUILD)/$(1)/libqruov.a
-
-$(BUILD)/$(1):
-	mkdir -p $$@
-
-# Generate qruov_config.h by compiling and running the upstream generator.
-$(BUILD)/$(1)/qruov_config.h: $(REFDIR)/qruov_config_h_gen.c | $(BUILD)/$(1)
-	$$(CC) $(pf_$(1)) -DQRUOV_PLATFORM=$(QRUOV_PLATFORM) -DQRUOV_PRG_SHAKE \
-	    -DQRUOV_CONFIG_H_GEN -I$(REFDIR) \
-	    -o $(BUILD)/$(1)/cfg_gen $$<
-	$(BUILD)/$(1)/cfg_gen > $$@
-	rm $(BUILD)/$(1)/cfg_gen
-
-# Generate api.h (includes CRYPTO_* sizes); needs qruov_config.h first.
-$(BUILD)/$(1)/api.h: $(REFDIR)/api_h_gen.c $(BUILD)/$(1)/qruov_config.h
-	$$(CC) -I$(BUILD)/$(1) -I$(REFDIR) \
-	    -o $(BUILD)/$(1)/api_gen $(REFDIR)/api_h_gen.c
-	$(BUILD)/$(1)/api_gen > $$@
-	rm $(BUILD)/$(1)/api_gen
-
-$$(objs_ref_$(1)): $(BUILD)/$(1)/%.o: $(REFDIR)/%.c \
-    | $(BUILD)/$(1)/qruov_config.h $(BUILD)/$(1)/api.h
-	mkdir -p $$(dir $$@)
-	$$(CC) $$(cflags_$(1)) -c $$< -o $$@
-
-$(BUILD)/$(1)/mgf.o: $(PATCHED_MGF) \
-    | $(BUILD)/$(1)/qruov_config.h $(BUILD)/$(1)/api.h
-	$$(CC) $$(cflags_$(1)) -c $$< -o $$@
-
-$$(lib_$(1)): $$(objs_$(1))
-	ar rcs $$@ $$^
-
-$(BUILD)/$(1).so: $(1)_shim.c $$(lib_$(1)) | $(BUILD)
-	$$(CC) $$(cflags_$(1)) -shared $$< $$(lib_$(1)) \
-	    $(OSSL_STATIC_LIB) $(OSSL_STATIC_DEPS) $(OSSL_LDFLAGS) -o $$@
-
-endef
-
-$(foreach P,$(PARAMS),$(eval $(call QRUOV_RULES,$(P))))
+# Everything is compiled per parameter set straight into the .so: the parameter
+# -D changes every compilation unit, so there is nothing to share between them.
+$(BUILD)/%.so: %_shim.c $(SRCS) | $(BUILD)
+	$(CC) $(CFLAGS) $(pf_$*) -shared $< $(SRCS) $(OSSL_LDFLAGS) -o $@
 
 clean:
 	rm -rf $(BUILD)

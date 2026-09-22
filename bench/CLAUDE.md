@@ -52,7 +52,7 @@ bench/
     ├── sdith/            # sdith/sdith
     ├── snova/            # PQCLAB-SNOVA/SNOVA
     ├── uov/              # pqov/pqov
-    ├── qruov/            # qruov/round2
+    ├── qruov/            # qruov/round3 (IMPL=avx2, PRG=aes; six q=127 parameter sets)
     ├── mqom/             # mqom/mqom-v3
     ├── sqisign/          # SQISign/the-sqisign (CMake build; SQISIGN_BUILD_TYPE=broadwell by default, x86-64 asm field arithmetic)
     └── <name>/
@@ -203,9 +203,9 @@ HAVE_AVX512 := $(shell python3 ../../cpu_features.py avx512f avx512bw avx512_vnn
 Also pass the matching `-m` flags explicitly so the fast path can be compile-tested on
 another machine (`make HAVE_AVX512=1`). `BENCH_DISABLE_FEATURES="gfni avx512f"`
 forces the fallback. Current choices: MAYO `gfni` (GFNI+AVX-512) else `avx2`; QR-UOV
-`avx512` else `avx2`; UOV `PROJ=gfni` else `avx2`; SQIsign `broadwell`; SNOVA, FAEST,
-MQOM, ML-DSA etc. rely on `-march=native`. Multithreading (e.g. QR-UOV's
-`-fopenmp`) is left off: every scheme is measured on one core.
+`IMPL=avx2` (Round 3 dropped the Round 2 avx512 implementation); UOV `PROJ=gfni`
+else `avx2`; SQIsign `broadwell`; SNOVA, FAEST,
+MQOM, ML-DSA etc. rely on `-march=native`.
 
 ## Notes
 
