@@ -9,6 +9,7 @@ versions:
   tags:
   - round-3
   perf_source: official spec (AVX2, SHAKE128 public XOF)
+  info: "The round-3 vinegar sampler reduces uniform bytes modulo q^g, which is biased for odd q; Beullens &amp; Hess recover secret keys from signatures for the six odd-characteristic alternative parameter sets (LPN/BKW attack, to appear on ePrint). The recommended sets below use q = 16 and are unaffected. Easily fixed by sampling vinegar uniformly."
   parametersets:
   - name: SNOVA_I_K
     level: 1
