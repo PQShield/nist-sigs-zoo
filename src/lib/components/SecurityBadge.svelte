@@ -18,22 +18,22 @@
 	{#if classical}
 		<button class="badge" aria-label="Pre-quantum scheme (not quantum-resistant)" aria-expanded={expanded} aria-controls={expanded ? msgId : undefined} onclick={toggle}>💣</button>
 		{#if expanded}
-			<span class="msg text-pqs-steel/80 dark:text-pqs-bluegray/80" id={msgId}>Pre-quantum: {broken}</span>
+			<span class="msg text-pqs-steel/80 dark:text-pqs-bluegray/80" id={msgId}>Pre-quantum: {@html broken}</span>
 		{/if}
 	{:else if broken}
 		<button class="badge" aria-label="Broken scheme" aria-expanded={expanded} aria-controls={expanded ? msgId : undefined} onclick={toggle}>🧨</button>
 		{#if expanded}
-			<span class="msg msg-danger" id={msgId}>Broken: {broken}</span>
+			<span class="msg msg-danger" id={msgId}>Broken: {@html broken}</span>
 		{/if}
 	{:else if warning}
 		<button class="badge" aria-label="Security warning" aria-expanded={expanded} aria-controls={expanded ? msgId : undefined} onclick={toggle}>⚠️</button>
 		{#if expanded}
-			<span class="msg msg-warning" id={msgId}>Warning: {warning}</span>
+			<span class="msg msg-warning" id={msgId}>Warning: {@html warning}</span>
 		{/if}
 	{:else if info}
 		<button class="badge" aria-label="Security note" aria-expanded={expanded} aria-controls={expanded ? msgId : undefined} onclick={toggle}>ℹ️</button>
 		{#if expanded}
-			<span class="msg text-pqs-steel dark:text-pqs-bluegray" id={msgId}>Note: {info}</span>
+			<span class="msg text-pqs-steel dark:text-pqs-bluegray" id={msgId}>Note: {@html info}</span>
 		{/if}
 	{/if}
 </span>
@@ -69,6 +69,10 @@
 	}
 	:global(.dark) span.msg {
 		background: var(--color-pqs-midnight-mid, #1a1a2e);
+	}
+	span.msg :global(a) {
+		color: var(--color-pqs-apricot);
+		text-decoration: underline;
 	}
 	.msg-danger { color: var(--color-pqs-scarlet); }
 	.msg-warning { color: var(--color-pqs-tangerine); }
