@@ -38,12 +38,9 @@ UOV_SOS     = $(addprefix schemes/uov/build/, \
     uov_III_pkc.so uov_III_classic.so \
     uov_V_pkc.so uov_V_classic.so)
 QRUOV_SOS   = $(addprefix schemes/qruov/build/, \
-    qruov1q127L3v156m54.so  qruov1q31L3v165m60.so   \
-    qruov1q31L10v600m70.so  qruov1q7L10v740m100.so  \
-    qruov3q127L3v228m78.so  qruov3q31L3v246m87.so   \
-    qruov3q31L10v890m100.so qruov3q7L10v1100m140.so \
-    qruov5q127L3v306m105.so qruov5q31L3v324m114.so  \
-    qruov5q31L10v1120m120.so qruov5q7L10v1490m190.so)
+    qruov1q127L3v156m54.so   qruov1q127L10v540m60.so  \
+    qruov3q127L3v228m78.so   qruov3q127L10v820m90.so  \
+    qruov5q127L3v306m105.so  qruov5q127L10v1040m110.so)
 SQISIGN_SOS = $(addprefix schemes/sqisign/build/, \
     sqisign_lvl1.so sqisign_lvl3.so sqisign_lvl5.so)
 SDITH2_SOS  = $(addprefix schemes/sdith2/build/, \

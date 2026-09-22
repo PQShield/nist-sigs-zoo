@@ -92,19 +92,15 @@ BENCH_TO_YAML: dict[str, tuple[str, str]] = {
     "UOV-III-classic": ("UOV.yaml", "III-classic"),
     "UOV-V-pkc": ("UOV.yaml", "V-pkc"),
     "UOV-V-classic": ("UOV.yaml", "V-classic"),
-    # QR-UOV — bench uses commas, YAML uses spaces inside parens
+    # QR-UOV Round 3 — bench uses commas, YAML uses spaces inside parens.
+    # Round 3 dropped the q=31/q=7 sets, so only the six q=127 sets are built;
+    # the Round 2 version entry keeps its own (Round 2 implementation) numbers.
     "QR-UOV-I-(127,156,54,3)": ("QR-UOV.yaml", "I-(127 156 54 3)"),
-    "QR-UOV-I-(31,165,60,3)": ("QR-UOV.yaml", "I-(31 165 60 3)"),
-    "QR-UOV-I-(31,600,70,10)": ("QR-UOV.yaml", "I-(31 600 70 10)"),
-    "QR-UOV-I-(7,740,100,10)": ("QR-UOV.yaml", "I-(7 740 100 10)"),
+    "QR-UOV-I-(127,540,60,10)": ("QR-UOV.yaml", "I-(127 540 60 10)"),
     "QR-UOV-III-(127,228,78,3)": ("QR-UOV.yaml", "III-(127 228 78 3)"),
-    "QR-UOV-III-(31,246,87,3)": ("QR-UOV.yaml", "III-(31 246 87 3)"),
-    "QR-UOV-III-(31,890,100,10)": ("QR-UOV.yaml", "III-(31 890 100 10)"),
-    "QR-UOV-III-(7,1100,140,10)": ("QR-UOV.yaml", "III-(7 1100 140 10)"),
+    "QR-UOV-III-(127,820,90,10)": ("QR-UOV.yaml", "III-(127 820 90 10)"),
     "QR-UOV-V-(127,306,105,3)": ("QR-UOV.yaml", "V-(127 306 105 3)"),
-    "QR-UOV-V-(31,324,114,3)": ("QR-UOV.yaml", "V-(31 324 114 3)"),
-    "QR-UOV-V-(31,1120,120,10)": ("QR-UOV.yaml", "V-(31 1120 120 10)"),
-    "QR-UOV-V-(7,1490,190,10)": ("QR-UOV.yaml", "V-(7 1490 190 10)"),
+    "QR-UOV-V-(127,1040,110,10)": ("QR-UOV.yaml", "V-(127 1040 110 10)"),
     # MQOM v3.0 (round 3) — bench MQOM3- prefix dropped in YAML
     "MQOM3-L1-gf2-shorter-ct": ("MQOM.yaml", "L1-gf2-shorter-ct"),
     "MQOM3-L1-gf2-shorter-ot": ("MQOM.yaml", "L1-gf2-shorter-ot"),

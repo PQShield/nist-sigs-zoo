@@ -277,8 +277,7 @@ Options: `--suite sigs|kems|both`, `--instance-type` (default `c7i.4xlarge`),
   files are junk: don't commit or import them.
 - **New build dependency?** Add it to the user-data `apt-get` list in the script.
   The VM is a stock Ubuntu with GCC 15 (C23 by default) and multiarch OpenSSL. If a
-  scheme breaks there, fix its Makefile, not the script (see `bench/schemes/sdith`,
-  `qruov`).
+  scheme breaks there, fix its Makefile, not the script (see `bench/schemes/sdith`).
 - **Orphan check:** `aws ec2 describe-instances --filters 'Name=tag:Name,Values=nist-sigs-zoo-bench-*'`
   (also `describe-security-groups`, `describe-key-pairs`).
 
