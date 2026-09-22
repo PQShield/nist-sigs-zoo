@@ -6,7 +6,6 @@ versions:
 - version: Round 3
   date: '2026-08-31'
   status: On-ramp
-  info: "Round 3 keeps only q = 127 parameter sets; the q = 31 and q = 7 sets from Round 2 were dropped. Adds three small-public-key sets with l = 10."
   tags:
   - round-3
   parametersets:
