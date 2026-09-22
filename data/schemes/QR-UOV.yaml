@@ -6,7 +6,6 @@ versions:
 - version: Round 3
   date: '2026-08-31'
   status: On-ramp
-  perf_source: "submission document (Table 5: AVX2 implementation, AES-based PRG, AMD Ryzen Threadripper PRO 9995WX)"
   info: "Round 3 keeps only q = 127 parameter sets; the q = 31 and q = 7 sets from Round 2 were dropped. Adds three small-public-key sets with l = 10."
   tags:
   - round-3
@@ -15,50 +14,50 @@ versions:
     level: 1
     pk: 24256
     sig: 200
-    signing_cycles: 520000
-    verification_cycles: 353000
-    signing_us: null
-    verification_us: null
+    signing_cycles: 535278
+    verification_cycles: 299978
+    signing_us: 142.2
+    verification_us: 80.6
   - name: I-(127 540 60 10)
     level: 1
     pk: 11041
     sig: 541
-    signing_cycles: 2524000
-    verification_cycles: 1016000
-    signing_us: null
-    verification_us: null
+    signing_cycles: 2720403
+    verification_cycles: 864884
+    signing_us: 725.7
+    verification_us: 230.8
   - name: III-(127 228 78 3)
     level: 3
     pk: 71884
     sig: 292
-    signing_cycles: 1342000
-    verification_cycles: 1014000
-    signing_us: null
-    verification_us: null
+    signing_cycles: 1463668
+    verification_cycles: 864840
+    signing_us: 393.4
+    verification_us: 232.5
   - name: III-(127 820 90 10)
     level: 3
     pk: 35454
     sig: 821
-    signing_cycles: 7860000
-    verification_cycles: 3099000
-    signing_us: null
-    verification_us: null
+    signing_cycles: 9110474
+    verification_cycles: 2698045
+    signing_us: 2430.5
+    verification_us: 721.9
   - name: V-(127 306 105 3)
     level: 5
     pk: 173660
     sig: 392
-    signing_cycles: 3120000
-    verification_cycles: 2374000
-    signing_us: null
-    verification_us: null
+    signing_cycles: 3619488
+    verification_cycles: 2010990
+    signing_us: 963.9
+    verification_us: 540.9
   - name: V-(127 1040 110 10)
     level: 5
     pk: 63541
     sig: 1039
-    signing_cycles: 13351000
-    verification_cycles: 5929000
-    signing_us: null
-    verification_us: null
+    signing_cycles: 16437168
+    verification_cycles: 5324171
+    signing_us: 4387.2
+    verification_us: 1419.4
 - version: Round 2
   date: '2025-02-05'
   status: On-ramp
