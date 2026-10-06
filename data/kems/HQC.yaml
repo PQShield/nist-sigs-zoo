@@ -9,29 +9,29 @@ parametersets:
   level: 1
   pk: 2241
   ct: 4433
-  keygen_cycles: 65529
-  encaps_cycles: 128901
-  decaps_cycles: 294066
-  keygen_us: 18.5
+  keygen_cycles: 65287
+  encaps_cycles: 128814
+  decaps_cycles: 294092
+  keygen_us: 18.4
   encaps_us: 35.2
   decaps_us: 78.7
 - name: HQC-192
   level: 3
   pk: 4514
   ct: 8978
-  keygen_cycles: 149140
-  encaps_cycles: 291704
-  decaps_cycles: 592427
-  keygen_us: 40.6
-  encaps_us: 78.4
-  decaps_us: 157.7
+  keygen_cycles: 150674
+  encaps_cycles: 293423
+  decaps_cycles: 593209
+  keygen_us: 41.1
+  encaps_us: 78.9
+  decaps_us: 158.3
 - name: HQC-256
   level: 5
   pk: 7237
   ct: 14421
-  keygen_cycles: 298809
-  encaps_cycles: 609758
-  decaps_cycles: 1176205
-  keygen_us: 81.3
-  encaps_us: 163.8
-  decaps_us: 315.3
+  keygen_cycles: 300841
+  encaps_cycles: 611028
+  decaps_cycles: 1180634
+  keygen_us: 81.6
+  encaps_us: 163.7
+  decaps_us: 315.4
