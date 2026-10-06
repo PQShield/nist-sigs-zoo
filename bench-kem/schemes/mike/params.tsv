@@ -1,0 +1,9 @@
+# MIKE (module isogeny NIKE) via tensor-mike/mike_c, wrapped as a KEM: see shim_template.c.
+# Columns: file, name, pk, sk, ct, ss, iters, variant (upstream prime), choice (fast|conservative)
+file	name	pk	sk	ct	ss	iters	variant	choice
+mikefast1	MIKE-fast-I	80	29	80	32	0	p308_633	fast
+mikefast3	MIKE-fast-III	122	43	122	32	0	p474_593	fast
+mikefast5	MIKE-fast-V	160	57	160	32	0	p628_317	fast
+mikerigorous1	MIKE-rigorous-I	96	29	96	32	0	p374_117	conservative
+mikerigorous3	MIKE-rigorous-III	144	43	144	32	0	p566_77	conservative
+mikerigorous5	MIKE-rigorous-V	192	71	192	32	0	p758_41	conservative

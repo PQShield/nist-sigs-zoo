@@ -1,0 +1,79 @@
+# pq-kems benchmark results
+# date:         2026-10-06T11:06:27Z
+# host:         ip-172-31-3-31
+# os:           Ubuntu 26.04.1 LTS
+# kernel:       7.0.0-1014-aws
+# cpu:          Intel(R) Xeon(R) Platinum 8488C
+# cores:        16 (threads/core: 2)
+# max_freq_mhz: unknown (cur: unknown MHz)
+# governor:     unknown
+# turbo:        unknown
+# flags:        fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ss ht syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon rep_good nopl xtopology nonstop_tsc cpuid aperfmperf tsc_known_freq pni pclmulqdq monitor ssse3 fma cx16 pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand hypervisor lahf_lm abm 3dnowprefetch cpuid_fault ssbd ibrs ibpb stibp ibrs_enhanced fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid avx512f avx512dq rdseed adx smap avx512ifma clflushopt clwb avx512cd sha_ni avx512bw avx512vl xsaveopt xsavec xgetbv1 xsaves avx_vnni avx512_bf16 wbnoinvd ida arat avx512vbmi umip pku ospke waitpkg avx512_vbmi2 gfni vaes vpclmulqdq avx512_vnni avx512_bitalg tme avx512_vpopcntdq rdpid cldemote movdiri movdir64b md_clear serialize amx_bf16 avx512_fp16 amx_tile amx_int8 flush_l1d arch_capabilities
+#
+# compiler:     cc (Ubuntu 15.2.0-16ubuntu1) 15.2.0
+# openssl:      OpenSSL 3.5.5 27 Jan 2026 (Library: OpenSSL 3.5.5 27 Jan 2026)
+# sources:
+#   schemes/bat/ref: https://github.com/pornin/BAT@8280af7c9d4d5cdd9a70914f72a5f0ad774c7b8d
+#   schemes/frodo/ref: https://github.com/Microsoft/PQCrypto-LWEKE@7a4e7219d06305e16aef734213001cd8fefbcc14
+#   schemes/hqc/ref: https://gitlab.com/pqc-hqc/hqc.git@161cd4fdf6b4a5198cf40b3a1243f9f27f13e03d
+#   schemes/mike/ref: https://github.com/tensor-mike/mike_c.git@f1ceb09cf1ff74eb381f3a67324e958684659817
+#   schemes/mlkem/ref: https://github.com/pq-code-package/mlkem-native.git@2d1cc90f71bd59617062844e874ac6e70868e1f8
+#   schemes/ntru/ref: https://github.com/jschanck/ntru@6d96ed3746000b6497392a425712fe483988fc80
+#   schemes/ntruplus/ref: https://github.com/ntruplus/ntruplus.git@f4507621e2111af52bb87b1950249baac683a37d
+#   schemes/saber/ref: https://github.com/KULeuven-COSIC/SABER@f7f39e4db2f3e22a21e1dd635e0601caae2b4510
+#   schemes/smaugt/ref: https://github.com/hmchoe0528/SMAUG-T_public.git@2c039df23134a2de3c7aa86a4904c9a4734f9def
+#   schemes/mceliece: https://lib.mceliece.org/libmceliece-20260622.tar.gz
+#   schemes/ntruprime: https://libntruprime.cr.yp.to/libntruprime-20241021.tar.gz
+#
+# cyclecounter: rdpmc CPU_CYCLES (real core cycles, user-space)
+scheme                       iters    keygen (cyc)  keygen (us)    encaps (cyc)  encaps (us)    decaps (cyc)  decaps (us)      ok
+------                       -----    ------------  -----------    ------------  -----------    ------------  -----------      --
+ECDH-X25519                   1000          120466        33.0          232801        62.5          116693        31.8     yes
+ECDH-X448                     1000          498783       133.9         1102305       298.0          612049       162.9     yes
+ECDH-P256                     1000           54873        15.7          273502        73.3          224541        60.3     yes
+ECDH-P384                     1000          463937       124.0         1604118       428.0         1104372       294.7     yes
+ML-KEM-512                    1000           22549         7.0           25839         7.9           31137         9.3     yes
+ML-KEM-768                    1000           35959        10.6           39085        11.4           46929        13.5     yes
+ML-KEM-1024                   1000           51549        14.7           56158        15.9           66850        18.7     yes
+HQC-128                       1000           65287        18.4          128814        35.2          294092        78.7     yes
+HQC-192                       1000          150674        41.1          293423        78.9          593209       158.3     yes
+HQC-256                       1000          300841        81.6          611028       163.7         1180634       315.4     yes
+FrodoKEM-640-AES              1000          889776       238.1         1056264       283.4         1060573       282.6     yes
+FrodoKEM-640-SHAKE            1000         2283380       610.9         2456934       655.1         2450253       652.7     yes
+FrodoKEM-976-AES              1000         1805077       481.5         1993653       531.1         1961145       522.3     yes
+FrodoKEM-976-SHAKE            1000         4711803      1257.4         4917318      1312.4         4888080      1301.0     yes
+FrodoKEM-1344-AES             1000         3073322       819.7         3355790       892.0         3248602       865.0     yes
+FrodoKEM-1344-SHAKE           1000         8063555      2148.6         8285022      2209.2         8329428      2217.1     yes
+mceliece348864                  30        49317543     13146.5           27094         8.6          115616        31.8     yes
+mceliece460896                  30       162370482     43361.6           59432        17.1          244303        65.7     yes
+mceliece6688128                 30       292004353     77518.7          112652        31.0          283368        76.1     yes
+mceliece6960119                 30       288042429     76356.3          110141        30.4          274073        73.6     yes
+mceliece8192128                 30       422083156    111889.1          145980        40.1          289836        78.0     yes
+BAT-257-512                    200        17611073      4668.1           11715         4.5           72149        20.1     yes
+BAT-769-1024                   200        88357297     23415.2           22631         7.4          143963        39.0     yes
+ntruhps2048509                1000          112859        36.5           17620        11.0           29433         8.9     yes
+ntruhps2048677                1000          189950        58.4           25319        14.7           42830        12.4     yes
+ntruhps4096821                1000          259976        78.2           26696        16.4           54199        15.4     yes
+ntruhrss701                   1000          188622        54.4           19252         9.4           45725        13.2     yes
+sntrup653                     1000          591180       156.7           48985        14.0           50413        14.4     yes
+sntrup761                     1000          768193       203.9           53538        15.2           52525        15.0     yes
+sntrup857                     1000          963445       254.7           63469        17.8           69480        19.4     yes
+sntrup953                     1000         1155499       305.3           69044        19.3           73458        20.5     yes
+sntrup1013                    1000         1362240       360.0           71156        19.9           75685        21.1     yes
+sntrup1277                    1000         2005298       535.0           93279        25.7          100813        27.7     yes
+LightSaber                    1000           48909        14.0           47989        13.8           41220        12.0     yes
+Saber                         1000           71308        19.9           72959        20.3           65978        18.5     yes
+FireSaber                     1000          100472        27.6          104649        28.7           98266        27.0     yes
+NTRU+768                      1000           22472         7.5           29630         9.4           20028         6.4     yes
+NTRU+864                      1000           24948         8.2           34188        10.6           24281         7.5     yes
+NTRU+1152                     1000           33949        11.9           43620        13.2           30727         9.2     yes
+SMAUG-T128                    1000           25540         8.4           21391         7.0           32452         9.7     yes
+SMAUG-T192                    1000           39302        12.0           38677        11.6           54321        15.4     yes
+SMAUG-T256                    1000           49805        14.8           49784        14.5           70061        19.6     yes
+MIKE-fast-I                   1000         1978271       527.1        16039396      4251.2        14064036      3728.6     yes
+MIKE-fast-III                 1000         6461372      1713.7        51954772     13794.9        45606124     12085.6     yes
+MIKE-fast-V                   1000        13424417      3559.8       102702189     27219.9        89285992     23662.6     yes
+MIKE-rigorous-I               1000         2527569       672.2        21196093      5618.5        18672064      4949.2     yes
+MIKE-rigorous-III             1000         7863555      2085.0        62374508     16530.5        54514314     14447.5     yes
+MIKE-rigorous-V               1000        22999655      6095.9       177416116     47022.0       154434357     40930.1     yes
+

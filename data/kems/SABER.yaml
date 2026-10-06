@@ -9,29 +9,29 @@ parametersets:
   level: 1
   pk: 672
   ct: 736
-  keygen_cycles: 48926
-  encaps_cycles: 48067
-  decaps_cycles: 41885
-  keygen_us: 14.1
+  keygen_cycles: 48909
+  encaps_cycles: 47989
+  decaps_cycles: 41220
+  keygen_us: 14.0
   encaps_us: 13.8
-  decaps_us: 12.2
+  decaps_us: 12.0
 - name: Saber
   level: 3
   pk: 992
   ct: 1088
-  keygen_cycles: 71287
-  encaps_cycles: 72908
-  decaps_cycles: 66440
-  keygen_us: 20.0
-  encaps_us: 20.4
-  decaps_us: 18.8
+  keygen_cycles: 71308
+  encaps_cycles: 72959
+  decaps_cycles: 65978
+  keygen_us: 19.9
+  encaps_us: 20.3
+  decaps_us: 18.5
 - name: FireSaber
   level: 5
   pk: 1312
   ct: 1472
-  keygen_cycles: 100555
-  encaps_cycles: 104777
-  decaps_cycles: 98646
-  keygen_us: 27.7
-  encaps_us: 28.8
-  decaps_us: 27.3
+  keygen_cycles: 100472
+  encaps_cycles: 104649
+  decaps_cycles: 98266
+  keygen_us: 27.6
+  encaps_us: 28.7
+  decaps_us: 27.0
