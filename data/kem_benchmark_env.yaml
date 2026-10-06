@@ -1,7 +1,7 @@
 # Licensed under CC BY 4.0: https://creativecommons.org/licenses/by/4.0/
 license: CC-BY-4.0
 attribution: Thom Wiggers / PQShield
-date: '2026-10-06T11:06:27Z'
+date: '2026-10-06T14:06:40Z'
 cpu:
   model: Intel(R) Xeon(R) Platinum 8488C
   cores: 16
@@ -18,7 +18,7 @@ sources:
   frodo: https://github.com/Microsoft/PQCrypto-LWEKE@7a4e7219d06305e16aef734213001cd8fefbcc14
   hqc: https://gitlab.com/pqc-hqc/hqc.git@161cd4fdf6b4a5198cf40b3a1243f9f27f13e03d
   mceliece: https://lib.mceliece.org/libmceliece-20260622.tar.gz
-  mike: https://github.com/tensor-mike/mike_c.git@f1ceb09cf1ff74eb381f3a67324e958684659817
+  mike: https://github.com/tensor-mike/mike_c.git@6057473e460165cc8721c05dc3fbbb73a009d147
   mlkem: https://github.com/pq-code-package/mlkem-native.git@2d1cc90f71bd59617062844e874ac6e70868e1f8
   ntru: https://github.com/jschanck/ntru@6d96ed3746000b6497392a425712fe483988fc80
   ntruplus: https://github.com/ntruplus/ntruplus.git@f4507621e2111af52bb87b1950249baac683a37d

@@ -9,29 +9,29 @@ parametersets:
   level: 1
   pk: 672
   ct: 672
-  keygen_cycles: 25540
-  encaps_cycles: 21391
-  decaps_cycles: 32452
-  keygen_us: 8.4
-  encaps_us: 7.0
-  decaps_us: 9.7
+  keygen_cycles: 25458
+  encaps_cycles: 21427
+  decaps_cycles: 32472
+  keygen_us: 9.1
+  encaps_us: 7.7
+  decaps_us: 10.5
 - name: SMAUG-T192
   level: 3
   pk: 1088
   ct: 992
-  keygen_cycles: 39302
-  encaps_cycles: 38677
-  decaps_cycles: 54321
-  keygen_us: 12.0
-  encaps_us: 11.6
-  decaps_us: 15.4
+  keygen_cycles: 39242
+  encaps_cycles: 38662
+  decaps_cycles: 54341
+  keygen_us: 13.1
+  encaps_us: 12.6
+  decaps_us: 16.8
 - name: SMAUG-T256
   level: 5
   pk: 1440
   ct: 1376
-  keygen_cycles: 49805
-  encaps_cycles: 49784
-  decaps_cycles: 70061
-  keygen_us: 14.8
-  encaps_us: 14.5
-  decaps_us: 19.6
+  keygen_cycles: 49620
+  encaps_cycles: 49709
+  decaps_cycles: 69982
+  keygen_us: 16.1
+  encaps_us: 15.8
+  decaps_us: 21.3

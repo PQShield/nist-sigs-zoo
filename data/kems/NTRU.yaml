@@ -9,39 +9,39 @@ parametersets:
   level: 1
   pk: 699
   ct: 699
-  keygen_cycles: 112859
-  encaps_cycles: 17620
-  decaps_cycles: 29433
-  keygen_us: 36.5
-  encaps_us: 11.0
-  decaps_us: 8.9
+  keygen_cycles: 113303
+  encaps_cycles: 17605
+  decaps_cycles: 29467
+  keygen_us: 42.2
+  encaps_us: 12.7
+  decaps_us: 10.3
 - name: ntruhps2048677
   level: 3
   pk: 930
   ct: 930
-  keygen_cycles: 189950
-  encaps_cycles: 25319
-  decaps_cycles: 42830
-  keygen_us: 58.4
-  encaps_us: 14.7
-  decaps_us: 12.4
+  keygen_cycles: 190260
+  encaps_cycles: 25200
+  decaps_cycles: 42620
+  keygen_us: 65.4
+  encaps_us: 16.4
+  decaps_us: 13.8
 - name: ntruhps4096821
   level: 5
   pk: 1230
   ct: 1230
-  keygen_cycles: 259976
-  encaps_cycles: 26696
-  decaps_cycles: 54199
-  keygen_us: 78.2
-  encaps_us: 16.4
-  decaps_us: 15.4
+  keygen_cycles: 260266
+  encaps_cycles: 26685
+  decaps_cycles: 54355
+  keygen_us: 90.0
+  encaps_us: 18.8
+  decaps_us: 17.7
 - name: ntruhrss701
   level: 1
   pk: 1138
   ct: 1138
-  keygen_cycles: 188622
-  encaps_cycles: 19252
-  decaps_cycles: 45725
-  keygen_us: 54.4
-  encaps_us: 9.4
-  decaps_us: 13.2
+  keygen_cycles: 189157
+  encaps_cycles: 19254
+  decaps_cycles: 45712
+  keygen_us: 59.4
+  encaps_us: 10.3
+  decaps_us: 14.4
