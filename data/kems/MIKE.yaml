@@ -42,7 +42,7 @@ parametersets:
   level: 1
   pk: 96
   ct: 96
-  notes: Secret key 29 bytes. Ciphertext is the ephemeral public key.
+  notes: Secret key 47 bytes. Ciphertext is the ephemeral public key.
   keygen_us: 672.2
   encaps_us: 5618.5
   decaps_us: 4949.2
@@ -53,7 +53,7 @@ parametersets:
   level: 3
   pk: 144
   ct: 144
-  notes: Secret key 43 bytes. Ciphertext is the ephemeral public key.
+  notes: Secret key 71 bytes. Ciphertext is the ephemeral public key.
   keygen_us: 2085.0
   encaps_us: 16530.5
   decaps_us: 14447.5
@@ -64,7 +64,7 @@ parametersets:
   level: 5
   pk: 192
   ct: 192
-  notes: Secret key 71 bytes. Ciphertext is the ephemeral public key.
+  notes: Secret key 95 bytes. Ciphertext is the ephemeral public key.
   keygen_us: 6095.9
   encaps_us: 47022.0
   decaps_us: 40930.1
