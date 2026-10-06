@@ -3,7 +3,7 @@ website: https://mike.isogeni.es/
 category: Isogenies
 assumption: Module isogeny action (fast variants additionally assume supersingular curves are indistinguishable from random samples)
 status: Research proposal
-info: MIKE is a non-interactive key exchange (NIKE), not a KEM; shown here for size comparison. Ciphertext is the ephemeral public key. Timings shown are the authors' paper figures (AMD Ryzen 7 PRO 7840U @ 3.3 GHz): encaps/decaps are both one shared-key computation, whereas a KEM wrapper would also generate an ephemeral key in encaps. They are not yet from this site's benchmark suite (bench-kem/schemes/mike).
+info: "MIKE is a non-interactive key exchange (NIKE), not a KEM; shown here for size comparison. Ciphertext is the ephemeral public key. Timings shown are the authors' paper figures (AMD Ryzen 7 PRO 7840U @ 3.3 GHz): encaps/decaps are both one shared-key computation, whereas a KEM wrapper would also generate an ephemeral key in encaps. They are not yet from this site's benchmark suite (bench-kem/schemes/mike)."
 parametersets:
 - name: MIKE-fast-I
   level: 1
