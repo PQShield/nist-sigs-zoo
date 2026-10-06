@@ -1,7 +1,7 @@
 name: MIKE
 website: https://mike.isogeni.es/
 category: Isogenies
-assumption: Module isogeny action (fast variants additionally assume supersingular curves are indistinguishable from random samples)
+assumption: Module isogeny action
 status: Research proposal
 info: "MIKE is a non-interactive key exchange (NIKE), not a KEM; shown here for size comparison. Ciphertext is the ephemeral public key. Timings come from a KEM wrapper (bench-kem/schemes/mike): encaps generates an ephemeral keypair and does one key exchange, decaps does one key exchange. Uses the upstream x86_64 assembly (broadwell) implementation."
 parametersets:
