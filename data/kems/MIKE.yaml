@@ -1,0 +1,55 @@
+name: MIKE
+website: https://mike.isogeni.es/
+category: Isogenies
+assumption: Module isogeny action (fast variants additionally assume supersingular curves are indistinguishable from random samples)
+status: Research proposal
+info: MIKE is a non-interactive key exchange (NIKE), not a KEM; shown here for size comparison. Ciphertext is the ephemeral public key. Timings shown are the authors' paper figures (AMD Ryzen 7 PRO 7840U @ 3.3 GHz): encaps/decaps are both one shared-key computation, whereas a KEM wrapper would also generate an ephemeral key in encaps. They are not yet from this site's benchmark suite (bench-kem/schemes/mike).
+parametersets:
+- name: MIKE-fast-I
+  level: 1
+  pk: 80
+  ct: 80
+  notes: Secret key 29 bytes. Ciphertext is the ephemeral public key.
+  keygen_us: 650
+  encaps_us: 4900
+  decaps_us: 4900
+- name: MIKE-fast-III
+  level: 3
+  pk: 122
+  ct: 122
+  notes: Secret key 43 bytes. Ciphertext is the ephemeral public key.
+  keygen_us: 2120
+  encaps_us: 15200
+  decaps_us: 15200
+- name: MIKE-fast-V
+  level: 5
+  pk: 160
+  ct: 160
+  notes: Secret key 57 bytes. Ciphertext is the ephemeral public key.
+  keygen_us: 4210
+  encaps_us: 28600
+  decaps_us: 28600
+- name: MIKE-rigorous-I
+  level: 1
+  pk: 96
+  ct: 96
+  notes: Secret key 29 bytes. Ciphertext is the ephemeral public key.
+  keygen_us: 860
+  encaps_us: 6200
+  decaps_us: 6200
+- name: MIKE-rigorous-III
+  level: 3
+  pk: 144
+  ct: 144
+  notes: Secret key 43 bytes. Ciphertext is the ephemeral public key.
+  keygen_us: 2570
+  encaps_us: 18000
+  decaps_us: 18000
+- name: MIKE-rigorous-V
+  level: 5
+  pk: 192
+  ct: 192
+  notes: Secret key 71 bytes. Ciphertext is the ephemeral public key.
+  keygen_us: 8120
+  encaps_us: 51100
+  decaps_us: 51100

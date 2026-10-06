@@ -68,3 +68,7 @@
 [submodule "bench/schemes/sdith2/ref"]
 	path = bench/schemes/sdith2/ref
 	url = https://github.com/sdith/sdith
+[submodule "bench-kem/schemes/mike/ref"]
+	path = bench-kem/schemes/mike/ref
+	url = https://github.com/tensor-mike/mike_c.git
+  ignore = "dirty"
