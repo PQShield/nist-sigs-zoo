@@ -198,17 +198,26 @@ export interface KemDataRanges {
 	pk: [number, number];
 	ct: [number, number];
 	pkPlusCt: [number, number];
+	/** Displayed times in µs (extrapolated from cycles where needed); null when no row has one. */
+	keygenUs: [number, number] | null;
+	encapsUs: [number, number] | null;
+	decapsUs: [number, number] | null;
 }
 
-export interface KemFilterState {
+export interface KemFilterState extends CommonFilter {
 	schemes: Set<string>;
-	levels: Set<NistLevel>;
 	minPk: number;
 	maxPk: number;
 	minCt: number;
 	maxCt: number;
 	minPkPlusCt: number;
 	maxPkPlusCt: number;
+	minKeygenUs: number;
+	maxKeygenUs: number;
+	minEncapsUs: number;
+	maxEncapsUs: number;
+	minDecapsUs: number;
+	maxDecapsUs: number;
 }
 
 export interface BenchmarkEnv {

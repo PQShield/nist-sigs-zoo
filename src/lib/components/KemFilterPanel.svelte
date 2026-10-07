@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { KemDataRanges, KemFilterState, KemScheme, NistLevel } from '$lib/types';
+	import type { KemDataRanges, KemFilterState, KemScheme, NistLevel, ProgrammeGroup } from '$lib/types';
 	import { defaultKemFilter } from '$lib/kemData';
 	import { ALL_LEVELS } from '$lib/constants';
 	import RangeField from './RangeField.svelte';
@@ -8,9 +8,10 @@
 		schemes: KemScheme[];
 		categories: string[];
 		ranges: KemDataRanges;
+		groups: ProgrammeGroup[];
 		filter: KemFilterState;
 	}
-	let { schemes, categories, ranges, filter = $bindable() }: Props = $props();
+	let { schemes, categories, ranges, groups, filter = $bindable() }: Props = $props();
 
 	const allSchemeNames = $derived(schemes.map((s) => s.scheme));
 
@@ -60,7 +61,7 @@
 	}
 
 	function reset() {
-		filter = defaultKemFilter(ranges, allSchemeNames);
+		filter = { ...defaultKemFilter(ranges, allSchemeNames, groups), chart: filter.chart };
 	}
 
 	function indeterminate(el: HTMLInputElement, value: boolean) {

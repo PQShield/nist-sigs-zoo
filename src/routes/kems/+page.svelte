@@ -2,6 +2,7 @@
 	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
 	import { base } from '$app/paths';
+	import { presentProgrammeGroups } from '$lib/compareFilters';
 	import KemFilterPanel from '$lib/components/KemFilterPanel.svelte';
 	import KemScatterPlot from '$lib/components/KemScatterPlot.svelte';
 	import KemTable from '$lib/components/KemTable.svelte';
@@ -24,9 +25,10 @@
 	const { schemes, parameterSets } = processKemSchemes(allKemData);
 	const ranges = computeKemRanges(parameterSets);
 	const categories = [...new Set(schemes.map((s) => s.category))].sort();
+	const groups = presentProgrammeGroups(parameterSets);
 
-	const defaults = defaultKemFilter(ranges, schemes.map((s) => s.scheme));
-	let filter = $state(defaultKemFilter(ranges, schemes.map((s) => s.scheme)));
+	const defaults = defaultKemFilter(ranges, schemes.map((s) => s.scheme), groups);
+	let filter = $state(defaultKemFilter(ranges, schemes.map((s) => s.scheme), groups));
 
 	const filteredRows = $derived(filterKemRows(parameterSets, filter));
 
@@ -78,7 +80,7 @@
 		<!-- Sidebar filter panel -->
 		<div class="hidden w-60 shrink-0 lg:block">
 			<div class="sticky top-4">
-				<KemFilterPanel {schemes} {categories} {ranges} bind:filter />
+				<KemFilterPanel {schemes} {categories} {ranges} {groups} bind:filter />
 			</div>
 		</div>
 
@@ -90,7 +92,7 @@
 					Filters ▼
 				</summary>
 				<div class="mt-2 rounded border border-pqs-ashgray bg-white p-3 dark:border-pqs-steel dark:bg-pqs-midnight-mid">
-					<KemFilterPanel {schemes} {categories} {ranges} bind:filter />
+					<KemFilterPanel {schemes} {categories} {ranges} {groups} bind:filter />
 				</div>
 			</details>
 
