@@ -36,11 +36,15 @@ npm run test:e2e      # E2E tests (Playwright, builds site first)
 
 Vitest with node environment. Tests pure TypeScript functions only — no Svelte components, no browser.
 
-- `data.test.ts` — `processYamlSchemes()`: tag filtering, version selection, field computation, flag propagation
+- `data.test.ts` — `processYamlSchemes()`: stage filtering, version selection, field computation, flag propagation
+- `kemData.test.ts` — `processKemSchemes()`, KEM ranges/filter helpers
 - `filterStore.test.ts` — `buildUrlParams()`: URL encoding of filter state
 - `compareFilters.test.ts` — programme groups, `CommonFilter` predicate, common URL codec
-- `badges.test.ts`, `chartLegend.test.ts`, `chartData.test.ts`, `timing.test.ts` — badges/chips, legend + colour scales, chart axis values, displayed times
-- `kemData.test.ts`, `legacy.test.ts`, `programmes.test.ts`, `dataFiles.test.ts`, `html.test.ts`
+- `badges.test.ts` — badge derivation and programme chips
+- `chartData.test.ts`, `chartLegend.test.ts` — chart axis values; legend + colour/shape scales
+- `timing.test.ts` — displayed (extrapolated) times, shared by sorting, filters and tables
+- `legacy.test.ts` — legacy URL forwarding; `programmes.test.ts` — programme definitions
+- `html.test.ts` — HTML sanitising; `dataFiles.test.ts` — validates `data/**/*.yaml`
 
 **Adding unit tests:** create `src/lib/__tests__/<module>.test.ts`. Import directly from `$lib/...`.
 Pass mock `SchemeYaml[]` objects to `processYamlSchemes` — no fixture files needed.
@@ -50,8 +54,8 @@ Do not import from `$app/*` or `$lib/schemeData` (these need the Vite/SvelteKit 
 
 Playwright against a built static site. The playwright config runs `npm run build && npm run preview -- --port 4175` automatically (`reuseExistingServer: true`, so a running preview server is reused for speed).
 
-- `signatures.spec.ts` — signatures page (`/signatures/`): heading, Vega chart render, advanced link, round selector, table
-- `advanced.spec.ts` — advanced page: axis controls, heading updates, URL encoding/restoration, filter panel
+- `signatures.spec.ts` — signatures page (`/signatures/`): heading, Vega chart render, advanced link, round selector, table, shared-link filters
+- `advanced.spec.ts` — signatures advanced page: axis controls, heading updates, URL encoding/restoration, filter panel
 - `kems.spec.ts` — KEM compare page: filters, table, badges, chart (expected counts read from `data/kems/*.yaml`)
 - `redirects.spec.ts` — legacy URLs (`/?filters`, `/advanced/`, `/history/`) forward to their new homes
 - `home.spec.ts` — home page: programme table, KpqC picks, compare links, latest changes, no redirect on plain visit
@@ -165,7 +169,7 @@ per parameter set. Loaded via `import.meta.glob` in `src/lib/kemSchemeData.ts`; 
 `processKemSchemes()` in `src/lib/kemData.ts` (pure, unit-tested). The page is self-contained
 and does **not** reuse the signature `filterStore` singleton: `kemData.ts` also exports pure
 `computeKemRanges()` / `defaultKemFilter()` / `filterKemRows()`, the page holds filter state in a
-`$state` rune and derives `filteredRows`, and `KemFilterPanel` (scheme/size/time, `bind:filter`),
+`$state` rune and derives `filteredRows`, and `KemFilterPanel` (scheme/level/size/time, `bind:filter`),
 `KemTable` (local sort) and `KemScatterPlot` (pk vs ct) all take plain props.
 
 Both compare pages share programme, NIST/NGCC level, Recommended/All and "Hide …" filters
@@ -215,7 +219,7 @@ src/
 │       ├── LegacyRedirect.svelte # redirect stub body (meta refresh fallback + JS redirect keeping search/hash)
 │       ├── KemTable.svelte       # KEM size table (rows prop, local sort)
 │       ├── KemScatterPlot.svelte # KEM pk-vs-ct Vega-Lite scatter (rows prop)
-│       └── KemFilterPanel.svelte # KEM scheme/level/size filters (bind:filter)
+│       └── KemFilterPanel.svelte # KEM scheme/level/size/time filters (bind:filter)
 └── routes/
     ├── +layout.svelte    # nav (logo, Signatures, KEMs, Timeline, Contribute, theme toggle; no round selector), footer
     ├── +page.ts          # load: programme summaries, scheme/KEM counts, 3 latest history entries
@@ -231,18 +235,18 @@ src/
     ├── history/          # redirect stub → /timeline/ (LegacyRedirect)
     └── kems/
         ├── +page.ts      # load: processKemSchemes(allKemData); trailingSlash 'always'
-        └── +page.svelte  # KEM hero, KemScatterPlot, KemTable
+        ├── +page.svelte  # KEM hero, KemScatterPlot, KemTable
+        └── advanced/     # /kems/advanced/: axis selectors, scale toggles, KemScatterPlot, KemFilterPanel, KemTable
 
-tests/
-├── src/lib/__tests__/   # Vitest unit tests (vitest.config.ts)
-│   ├── data.test.ts
-│   ├── kemData.test.ts
-│   └── filterStore.test.ts
-└── e2e/                 # Playwright E2E tests (playwright.config.ts)
-    ├── signatures.spec.ts
-    ├── advanced.spec.ts
-    ├── redirects.spec.ts
-    └── kems.spec.ts
+src/lib/__tests__/       # Vitest unit tests (vitest.config.ts): badges, chartData, chartLegend,
+                         # compareFilters, data, dataFiles, filterStore, html, kemData, legacy,
+                         # programmes, timing
+e2e/                     # Playwright E2E tests (playwright.config.ts)
+├── signatures.spec.ts
+├── advanced.spec.ts
+├── kems.spec.ts
+├── home.spec.ts
+└── redirects.spec.ts
 ```
 
 ### Data Processing
@@ -308,6 +312,13 @@ region, url, primitives, stages). Scheme versions and KEMs reference programmes 
 in their `programmes:` maps. `src/lib/__tests__/dataFiles.test.ts` checks that every reference
 resolves to a known programme and stage, that no legacy `tags` remain, and the on-ramp round counts.
 `scripts/migrate_programmes.py` was the one-off tags → programmes migration.
+
+### Parameter-set labels
+
+Both compare pages' Recommended/All radio reads "Recommended (where designers name them)"; it
+shows only the sets flagged `recommended: true` in versions/KEMs that flag any. Table footers just
+count parameter sets. Pre-quantum rows show level "Pre-quantum" (not "N/A"); the YAML/URL value
+stays `Pre-Quantum`.
 
 ### Performance Data
 
