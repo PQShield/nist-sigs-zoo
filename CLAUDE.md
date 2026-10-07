@@ -46,6 +46,11 @@ Vitest with node environment. Tests pure TypeScript functions only — no Svelte
 - `legacy.test.ts` — legacy URL forwarding; `programmes.test.ts` — programme definitions
 - `programmePage.test.ts` — programme-page helpers (members, stage views, NGCC targets, findings summary, compare links, facts)
 - `programmeRegistry.test.ts` — page fields in `data/programmes.yaml` (dates, links, level tables, NGCC values)
+- `slugs.test.ts` — slugs and the cross-primitive index
+- `versionCompare.test.ts` — version comparison (sets matched by name, percentage changes, flags per version, perf sources)
+- `schemeHistory.test.ts`, `dates.test.ts` — history slice; date format (`fmtDate`, the single formatter, partial dates)
+- `schemePage.test.ts` — scheme page model
+- `chartNav.test.ts` — chart click vs. drag
 - `html.test.ts` — HTML sanitising; `dataFiles.test.ts` — validates `data/**/*.yaml`
 
 **Adding unit tests:** create `src/lib/__tests__/<module>.test.ts`. Import directly from `$lib/...`.
@@ -61,6 +66,7 @@ Playwright against a built static site. The playwright config runs `npm run buil
 - `kems.spec.ts` — KEM compare page: filters, table, badges, chart (expected counts read from `data/kems/*.yaml`)
 - `redirects.spec.ts` — legacy URLs (`/?filters`, `/advanced/`, `/history/`) forward to their new homes
 - `home.spec.ts` — home page: programme table, KpqC picks, compare links, latest changes, no redirect on plain visit
+- `schemes.spec.ts` — scheme pages, version comparison, links from tables and chart points
 - `programmes.spec.ts` — `/programmes/` index and every `/programmes/<id>/` page: breadcrumb, facts, timeline, level table, findings box, stage / primitive toggles, NGCC empty state (reads `data/schemes`, so it passes with or without NGCC data), nav and home links
 
 **Adding E2E tests:** add to `e2e/signatures.spec.ts` or `e2e/advanced.spec.ts`, or create a new `e2e/<feature>.spec.ts`.
@@ -77,6 +83,8 @@ name: SchemeName
 website: https://...
 category: Lattice | Multivariate | Hash-based | ...
 assumption: ...
+slug: ntru-plus        # optional; URL slug for /schemes/<slug>/. Default: slugify(name). Needed only
+                       # when two schemes (signature or KEM) clash or the name has no ASCII letters/digits
 versions:
   - version: "FIPS 206"        # human-readable version label
     date: "2024-08-13"         # ISO date, used to pick latest
@@ -136,6 +144,8 @@ name: ML-KEM
 website: https://...
 category: Lattices | Code-based | Pre-Quantum | ...
 assumption: ...
+slug: ntru-plus        # optional; URL slug for /schemes/<slug>/. Default: slugify(name). Needed only
+                       # when two schemes (signature or KEM) clash or the name has no ASCII letters/digits
 status: FIPS | To be standardized | Classic cryptography | ...
 programmes:          # programme id → stage id (see data/programmes.yaml); optional
   nist-pqc: standardised
@@ -205,6 +215,14 @@ src/
 │   ├── programmes.ts     # programme data model
 │   ├── programmeData.ts  # programme YAML loader
 │   ├── programmePage.ts  # programme pages: members, stage views, NGCC targets, findings summary, facts, compare links
+│   ├── slugs.ts          # slugify, buildSchemeIndex (fails on slug/name clashes), schemeHref
+│   ├── schemeIndex.ts    # the built index over all signatures and KEMs (names ↔ slugs)
+│   ├── versionCompare.ts # version comparison: sets matched by name, % changes, flags, perf sources
+│   ├── schemeHistory.ts  # a scheme's slice of the history log (via `schemes:` names)
+│   ├── historyData.ts    # single runtime loader for data/history.yaml (throws if missing)
+│   ├── dates.ts          # fmtDate: the single date formatter (YYYY, YYYY-MM, YYYY-MM-DD)
+│   ├── schemePage.ts     # scheme page model (pure): header, tables, flag notes, events
+│   ├── chartNav.ts       # chart point click → scheme page; attachChartNav (capturing pointerdown tells click from drag)
 │   ├── schemeData.ts     # import.meta.glob loader → allSchemeData: SchemeYaml[]
 │   ├── kemSchemeData.ts  # import.meta.glob loader → allKemData: KemSchemeYaml[]
 │   ├── themeStore.ts     # dark/light/system theme store → localStorage
@@ -216,6 +234,7 @@ src/
 │       ├── ChartLegend.svelte    # HTML legend beside the chart (below on phones)
 │       ├── ChartModeToggle.svelte # Sizes / Speed
 │       ├── SegmentedToggle.svelte # generic fieldset of aria-pressed buttons (programme pages)
+│       ├── scheme/               # scheme page: SchemeHeader, ParamSetTable, FlagNotes, VersionCompare, SchemeEvents
 │       ├── programme/            # ProgrammeView, ProgrammeTimeline, SecurityLevelsTable, FindingsSummary, SignatureCandidates, KemCandidates
 │       ├── FilterPanel.svelte    # filter controls (categories, levels, ranges)
 │       ├── RangeField.svelte     # reusable number input
@@ -237,6 +256,8 @@ src/
     │       ├── +page.ts      # same load as signatures page
     │       └── +page.svelte  # axis selectors, scale toggles, ScatterPlot, FilterPanel, SchemeTable
     ├── programmes/       # index (+page.ts: programmeCards) and [id]/ (entries() per registry id; {#key} ProgrammeView)
+    ├── schemes/[slug]/   # one prerendered page per signature or KEM (entries() from schemeIndex):
+    │                     # header, parameter sets, security flags, version comparison (signatures), history slice
     ├── timeline/         # history panel (was /history/)
     ├── advanced/         # redirect stub → /signatures/advanced/ (LegacyRedirect)
     ├── history/          # redirect stub → /timeline/ (LegacyRedirect)
@@ -247,13 +268,15 @@ src/
 
 src/lib/__tests__/       # Vitest unit tests (vitest.config.ts): badges, chartData, chartLegend,
                          # compareFilters, data, dataFiles, filterStore, html, kemData, legacy,
-                         # programmePage, programmeRegistry, programmes, timing
+                         # programmePage, programmeRegistry, programmes, timing, slugs, versionCompare, schemeHistory,
+                         # dates, schemePage, chartNav
 e2e/                     # Playwright E2E tests (playwright.config.ts)
 ├── signatures.spec.ts
 ├── advanced.spec.ts
 ├── kems.spec.ts
 ├── home.spec.ts
 ├── programmes.spec.ts
+├── schemes.spec.ts
 └── redirects.spec.ts
 ```
 
@@ -338,6 +361,20 @@ as the on-ramp round selector). NGCC targets are focused with `ngccLevels` only.
 counts each member once under its worst flag (`broken` not classical > `implementation` > `warning`)
 plus members with `findings_url`; nothing is hard-coded. With no members, sections show
 "No … from this programme are in our data yet."
+
+### Scheme pages
+
+`/schemes/<slug>/` serves signatures and KEMs from one route; `schemeIndex` (built by
+`buildSchemeIndex()` in `src/lib/slugs.ts`) maps names to slugs and fails the build on a slug or
+name clash across both primitives (fix with `slug:` in the YAML). Table scheme names and chart
+points link there (`schemeHref(base, slugOf(name))`; chart clicks go through `attachChartNav`, which
+reads the press position from a capturing `pointerdown` because Vega suppresses the mouse events).
+The header's programme chips link to `/programmes/<id>/`: `Chip.programme` carries the id and
+`ProgrammeChips` links it when given `link`. The version comparison matches parameter sets
+by name; flags shown per version are today's assessment of that version (see the history slice for
+when attacks were published). Cycle comparisons always state each version's `perf_source`: machines
+differ between versions. History entries reach a scheme page through their `schemes:` names. All
+dates are shown with `fmtDate` from `src/lib/dates.ts`.
 
 ### Parameter-set labels
 

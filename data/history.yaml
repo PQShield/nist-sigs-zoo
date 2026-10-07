@@ -1,5 +1,8 @@
 - date: '2026-10-07'
   type: update
+  description: "Every signature scheme and KEM now has its own page, with its programmes, parameter sets, security flags, a version-by-version comparison of sizes and cycle counts, and its slice of this history. Scheme names in the tables and points in the charts link to it."
+- date: '2026-10-07'
+  type: update
   description: "Scheme data now records which standardisation programmes each scheme belongs to (NIST PQC, NIST on-ramp, KpqC, ISO), in preparation for tracking China's NGCC programme."
 - date: '2026-09-22'
   type: attack
