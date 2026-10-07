@@ -38,6 +38,17 @@ function atStage(v: { programmes?: Record<string, string | string[]> }, programm
 	return versionProgrammes(v)[programmeId]?.includes(stage) ?? false;
 }
 
+/** Finite placeholder ranges for no rows (processYamlSchemes([]) yields +-Infinity). */
+const EMPTY_RANGES: DataRanges = {
+	pk: [0, 0],
+	sig: [0, 0],
+	pkPlusSig: [0, 0],
+	signingCycles: [0, 0],
+	verificationCycles: [0, 0],
+	signingUs: null,
+	verificationUs: null
+};
+
 export function signatureMembers(programmeId: string, sigs: SchemeYaml[]): SchemeYaml[] {
 	return sigs.filter((s) => s.versions.some((v) => inProgramme(v, programmeId)));
 }
@@ -78,11 +89,13 @@ export function programmeSignatureRows(
 	view: string
 ): { parameterSets: ParameterSet[]; ranges: DataRanges } {
 	const members = signatureMembers(programmeId, sigs);
+	if (members.length === 0) return { parameterSets: [], ranges: EMPTY_RANGES };
 	if (view === CURRENT_VIEW) {
 		const { parameterSets, ranges } = processYamlSchemes(members);
 		return { parameterSets, ranges };
 	}
 	const entrants = members.filter((s) => s.versions.some((v) => atStage(v, programmeId, view)));
+	if (entrants.length === 0) return { parameterSets: [], ranges: EMPTY_RANGES };
 	const { parameterSets, ranges } = processYamlSchemes(entrants, { programme: programmeId, stage: view });
 	return { parameterSets, ranges };
 }
@@ -200,6 +213,7 @@ export function formatDate(date: string): string {
 	if (!m) return date;
 	const [, year, month, day] = m;
 	if (!month) return year;
+	if (Number(month) < 1 || Number(month) > 12) return date;
 	const mon = MONTHS[Number(month) - 1];
 	return day ? `${Number(day)} ${mon} ${year}` : `${mon} ${year}`;
 }

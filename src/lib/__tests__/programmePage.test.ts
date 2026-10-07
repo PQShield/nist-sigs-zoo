@@ -158,6 +158,12 @@ describe('programmeSignatureRows', () => {
 	it('returns no rows for a programme without members', () => {
 		expect(programmeSignatureRows('china-ngcc', SIGS, CURRENT_VIEW).parameterSets).toEqual([]);
 		expect(programmeSignatureRows('china-ngcc', [], CURRENT_VIEW).parameterSets).toEqual([]);
+		for (const view of [CURRENT_VIEW, 'round-1']) {
+			const { ranges } = programmeSignatureRows('china-ngcc', SIGS, view);
+			for (const r of Object.values(ranges)) {
+				if (r !== null) expect(r.every(Number.isFinite)).toBe(true);
+			}
+		}
 	});
 });
 
@@ -228,7 +234,12 @@ describe('findingsSummary', () => {
 		expect(s).toEqual({ candidates: 4, design: 1, implementation: 1, warning: 1, none: 1, reports: 2 });
 	});
 	it('does not count a pre-quantum scheme as broken by design', () => {
-		expect(findingsSummary([row('RSA', { classical: true, broken: 'classical' })]).design).toBe(0);
+		expect(findingsSummary([row('RSA', { classical: true, broken: 'classical' })])).toEqual({
+			candidates: 1, design: 0, implementation: 0, warning: 0, none: 1, reports: 0
+		});
+		expect(
+			findingsSummary([row('RSA', { classical: true, broken: 'classical', implementation: 'bug' })])
+		).toEqual({ candidates: 1, design: 0, implementation: 1, warning: 0, none: 0, reports: 0 });
 	});
 	it('is all zeros without candidates', () => {
 		expect(findingsSummary([])).toEqual({ candidates: 0, design: 0, implementation: 0, warning: 0, none: 0, reports: 0 });
@@ -258,6 +269,7 @@ describe('dates and facts', () => {
 		expect(formatDate('2025-01')).toBe('Jan 2025');
 		expect(formatDate('2021')).toBe('2021');
 		expect(formatDate('soon')).toBe('soon');
+		expect(formatDate('2025-13')).toBe('2025-13');
 	});
 	it('finds the current timeline entry', () => {
 		expect(currentStage(NGCC)?.label).toBe('Round 1');
