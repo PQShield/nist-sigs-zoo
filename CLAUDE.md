@@ -38,6 +38,9 @@ Vitest with node environment. Tests pure TypeScript functions only — no Svelte
 
 - `data.test.ts` — `processYamlSchemes()`: tag filtering, version selection, field computation, flag propagation
 - `filterStore.test.ts` — `buildUrlParams()`: URL encoding of filter state
+- `compareFilters.test.ts` — programme groups, `CommonFilter` predicate, common URL codec
+- `badges.test.ts`, `chartLegend.test.ts`, `chartData.test.ts`, `timing.test.ts` — badges/chips, legend + colour scales, chart axis values, displayed times
+- `kemData.test.ts`, `legacy.test.ts`, `programmes.test.ts`, `dataFiles.test.ts`, `html.test.ts`
 
 **Adding unit tests:** create `src/lib/__tests__/<module>.test.ts`. Import directly from `$lib/...`.
 Pass mock `SchemeYaml[]` objects to `processYamlSchemes` — no fixture files needed.
@@ -49,6 +52,7 @@ Playwright against a built static site. The playwright config runs `npm run buil
 
 - `signatures.spec.ts` — signatures page (`/signatures/`): heading, Vega chart render, advanced link, round selector, table
 - `advanced.spec.ts` — advanced page: axis controls, heading updates, URL encoding/restoration, filter panel
+- `kems.spec.ts` — KEM compare page: filters, table, badges, chart (expected counts read from `data/kems/*.yaml`)
 - `redirects.spec.ts` — legacy URLs (`/?filters`, `/advanced/`, `/history/`) forward to their new homes
 - `home.spec.ts` — home page: programme table, KpqC picks, compare links, latest changes, no redirect on plain visit
 
@@ -161,9 +165,13 @@ per parameter set. Loaded via `import.meta.glob` in `src/lib/kemSchemeData.ts`; 
 `processKemSchemes()` in `src/lib/kemData.ts` (pure, unit-tested). The page is self-contained
 and does **not** reuse the signature `filterStore` singleton: `kemData.ts` also exports pure
 `computeKemRanges()` / `defaultKemFilter()` / `filterKemRows()`, the page holds filter state in a
-`$state` rune and derives `filteredRows`, and `KemFilterPanel` (scheme/level/size, `bind:filter`),
-`KemTable` (local sort) and `KemScatterPlot` (pk vs ct, shape by category, colour by level) all
-take plain props.
+`$state` rune and derives `filteredRows`, and `KemFilterPanel` (scheme/size/time, `bind:filter`),
+`KemTable` (local sort) and `KemScatterPlot` (pk vs ct) all take plain props.
+
+Both compare pages share programme, NIST/NGCC level, Recommended/All and "Hide …" filters
+(`CommonFilter`), the table layout (Programmes column, badge detail rows, `TableLegend`) and the
+chart (HTML legend, Sizes/Speed toggle). NGCC targets have their own filter group and purple
+colour scale and are never mapped onto NIST levels.
 
 ## Architecture
 
@@ -179,6 +187,11 @@ src/
 │   ├── constants.ts      # CPUSPEED, NIST_LEVELS
 │   ├── data.ts           # processYamlSchemes() — tag-filtered YAML → Scheme[] + ParameterSet[]
 │   ├── kemData.ts        # processKemSchemes() — KEM YAML → KemScheme[] + KemParameterSet[] (pure)
+│   ├── compareFilters.ts # programme groups, CommonFilter predicate + URL codec (both compare pages)
+│   ├── badges.ts         # security badges (incl. implementation findings) + Programmes-column chips
+│   ├── chartLegend.ts    # family shapes, NIST + NGCC colour scales, HTML legend groups
+│   ├── chartData.ts      # axis values, leaving out unbenchmarked rows (Speed view); timeTooltip() marks estimated times
+│   ├── timing.ts         # displayed µs (measured, else extrapolated from cycles)
 │   ├── filterStore.ts    # Svelte writable store + derived filteredRows + URL codec
 │   ├── roundStore.ts     # writable<'round-1'|'round-2'|'round-3'|'latest'> — drives dataset selection
 │   ├── legacy.ts         # legacyHomeRedirect / legacyPathRedirect (old URL forwarding)
@@ -189,12 +202,16 @@ src/
 │   ├── themeStore.ts     # dark/light/system theme store → localStorage
 │   ├── yaml.d.ts         # TypeScript module declaration for *.yaml imports
 │   └── components/
-│       ├── SecurityBadge.svelte  # broken/warning/info badges with aria-labels
+│       ├── FilterSidebar.svelte  # single filter column; collapsed on phones, sticky on desktop
+│       ├── ProgrammeFilter / LevelFilter / ParamSetFilter / StatusFilter.svelte  # shared filter sections
+│       ├── BadgeIcon / ProgrammeChips / TableLegend.svelte  # shared table pieces; badge detail rows always rendered (hidden when closed) so aria-controls resolves
+│       ├── ChartLegend.svelte    # HTML legend beside the chart (below on phones)
+│       ├── ChartModeToggle.svelte # Sizes / Speed
 │       ├── FilterPanel.svelte    # filter controls (categories, levels, ranges)
 │       ├── RangeField.svelte     # reusable number input
-│       ├── SchemeTable.svelte    # sortable table (one row per parameter set)
+│       ├── SchemeTable.svelte    # sortable table (one row per parameter set); scroll wrapper is `relative overflow-x-auto`
 │       ├── ScatterPlot.svelte    # Vega-Lite scatter plot; accepts xField/yField/xScale/yScale props
-│       ├── RoundSelect.svelte    # "Dataset" <select> on /signatures/, writes roundStore
+│       ├── RoundSelect.svelte    # "On-ramp round" <select> in the programme filter, writes roundStore
 │       ├── LegacyRedirect.svelte # redirect stub body (meta refresh fallback + JS redirect keeping search/hash)
 │       ├── KemTable.svelte       # KEM size table (rows prop, local sort)
 │       ├── KemScatterPlot.svelte # KEM pk-vs-ct Vega-Lite scatter (rows prop)
@@ -235,9 +252,13 @@ tests/
 - With a filter: picks the latest version whose normalised stage list for `filter.programme`
   `includes(filter.stage)` (a version spanning several stages uses list form, e.g. HAWK v1.1
   `nist-onramp: [round-2, round-3]`).
-- Fallback: reference schemes (see `isReferenceScheme()` in `src/lib/programmes.ts`: only `nist-pqc`
-  memberships or none, e.g. ML-DSA) are always included.
-- Schemes that have other memberships but none matching the filter are excluded.
+- Option `includeOtherProgrammes` (`roundToFilter()` sets it true only for `'latest'`): the stage
+  only scopes that programme's entrants. A scheme with no memberships, or with a membership in any
+  other programme (standards, KpqC, NGCC), is included at its newest version; the page's programme
+  filter decides whether it is shown.
+- Round 1/2/3 (option false) keep the narrower rule: on-ramp entrants at the stage plus reference
+  schemes (`isReferenceScheme()` in `src/lib/programmes.ts`: only `nist-pqc` memberships or none, e.g. ML-DSA).
+- Schemes whose memberships include `filter.programme` but never reached the stage are excluded.
 - Every `Scheme` / `ParameterSet` (and KEM equivalent) carries `programmes: ProgrammeMembership[]`.
 
 ### Filter Store
@@ -249,19 +270,29 @@ hold valid references — no stale subscription bugs.
 
 Category checkbox state is **derived** from the scheme set, not stored separately.
 
-URL state: filter params encoded as query params, applied client-side in `onMount`.
-Round encoded as `?r=1` for round-1, `?r=2` for round-2. No param = latest (default).
+URL state: filter params encoded as query params, applied client-side in `onMount`. The URL is
+the source of truth on load: the round is applied from it first (no `r` = latest), defaults are
+read at sync time, and the hash is kept.
+Round encoded as `?r=1|2|3`. Common keys (both compare pages,
+`encodeCommonFilters`/`decodeCommonFilters` in `compareFilters.ts`): `p` programme groups,
+`l` NIST levels (`PQ` = pre-quantum), `nl` NGCC targets (`l` without `nl` = old link, no NGCC
+targets), `ps=all`, `hb`/`hi`/`hw` hide broken / implementation findings / warnings, `v=speed`.
+Every signature key must be in `SIGNATURE_PARAMS` (`src/lib/legacy.ts`). KEM-only:
+`pkMin…pcMax` sizes and `kuMin kuMax euMin euMax duMin duMax` µs.
+Changing the on-ramp round keeps the common filters and the sort.
 
 ### Round Selector
 
-`RoundSelect.svelte` is a "Dataset" `<select>` on `/signatures/` (not in the nav). Choosing a value
-updates `roundStore`, which triggers `applyRound()` in `signatures/+page.svelte`, which calls `createFilterStore()` with new data.
+`RoundSelect.svelte` ("On-ramp round", visually hidden label) sits under "NIST on-ramp" in the
+programme filter on `/signatures/` and is disabled while that is unticked (not in the nav). Choosing
+a value updates `roundStore`, which triggers `applyRound()` in `signatures/+page.svelte`, which
+calls `createFilterStore()` with new data.
 
 ### Latest View
 
 "Latest" (default) and "Round 3" both use `roundToFilter()` -> `StageFilter { programme: 'nist-onramp', stage: 'round-3' }` with `useLatestVersion=true`.
-Inclusion: scheme must have at least one version with `nist-onramp: round-3` (or be a reference
-scheme). Data shown: `sorted[0]` (newest version by date, regardless of programmes).
+Inclusion: scheme must have at least one version with `nist-onramp: round-3`, or (Latest only,
+`includeOtherProgrammes`) belong to no or another programme. Data shown: `sorted[0]` (newest version by date, regardless of programmes).
 `roundToFilter()` in `src/lib/roundStore.ts` maps a round to its filter.
 
 Round 2 view uses the `nist-onramp` / `round-2` filter without `useLatestVersion` — shows the pinned
