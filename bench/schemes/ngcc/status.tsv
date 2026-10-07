@@ -1,0 +1,4 @@
+file	name	id	instance	impl	build	kat	hash
+sign_01_aigis_sig_i	NGCC-Aigis-Sig+-I	sign-01	Aigis-Sig+-I	ref	ok	PASS	placeholder
+sign_01_aigis_sig_ii	NGCC-Aigis-Sig+-II	sign-01	Aigis-Sig+-II	ref	ok	PASS	placeholder
+sign_01_aigis_sig_iii	NGCC-Aigis-Sig+-III	sign-01	Aigis-Sig+-III	ref	ok	PASS	placeholder

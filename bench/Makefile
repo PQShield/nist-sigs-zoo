@@ -62,6 +62,12 @@ ALL_SOS     = $(MLDSA_SOS) $(SLHDSA_SOS) $(FNDSA_SOS) $(CLASSIC_SOS) $(HAWK_SOS)
 SCHEME_DIRS = mldsa slhdsa fndsa classic hawk mayo faest sdith sdith2 snova uov qruov mqom sqisign
 STAMPS      = $(addprefix schemes/, $(addsuffix /.stamp, $(SCHEME_DIRS)))
 
+# China NGCC round-1 candidates: one generic ICCS-API shim, data-driven from
+# schemes/ngcc/params.tsv. Best effort: instances that fail to build are skipped,
+# and only the .so files in schemes/ngcc/build/built.list are benchmarked.
+NGCC_DIR    = schemes/ngcc
+NGCC_STAMP  = $(NGCC_DIR)/.stamp
+
 .PHONY: all clean
 
 all: bench
@@ -83,6 +89,11 @@ schemes/qruov/.stamp:   schemes/qruov/Makefile schemes/qruov/shim_template.c sch
 schemes/mqom/.stamp:    schemes/mqom/Makefile  schemes/mqom/shim_template.c  schemes/mqom/params.tsv
 schemes/sdith2/.stamp:  schemes/sdith2/Makefile  schemes/sdith2/shim_template.c  schemes/sdith2/params.tsv
 schemes/sqisign/.stamp: schemes/sqisign/Makefile schemes/sqisign/shim_template.c schemes/sqisign/params.tsv
+$(NGCC_STAMP): $(NGCC_DIR)/Makefile $(NGCC_DIR)/shim_template.c $(NGCC_DIR)/params.tsv \
+    ../bench-common/ngcc/ngcc.mk ../bench-common/ngcc/gen_rules.py \
+    $(wildcard $(NGCC_DIR)/patches/*/*) $(wildcard ../bench-common/ngcc/src/.extracted)
+	$(MAKE) -C $(NGCC_DIR) CC=$(CC)
+	touch $@
 
 # Shared recipe for every scheme stamp.
 $(STAMPS): schemes/%/.stamp:
@@ -106,8 +117,9 @@ $(MQOM_SOS):    schemes/mqom/.stamp
 $(SQISIGN_SOS): schemes/sqisign/.stamp
 
 # Generate the SO path list included by main.c.
-$(BUILD)/so_paths.h: Makefile | $(BUILD)
+$(BUILD)/so_paths.h: Makefile $(NGCC_STAMP) | $(BUILD)
 	@printf '"%s",\n' $(ALL_SOS) > $@
+	@sed 's/.*/"&",/' $(NGCC_DIR)/build/built.list >> $@
 
 $(BUILD)/main.o: main.c harness.h ../bench-common/harness_common.h loader.h scheme.h $(BUILD)/so_paths.h | $(BUILD)
 	$(CC) $(CFLAGS) -I$(BUILD) -c $< -o $@
@@ -125,3 +137,5 @@ clean:
 	rm -rf $(BUILD)
 	rm -f $(STAMPS)
 	for d in $(SCHEME_DIRS); do $(MAKE) -C schemes/$$d clean; done
+	$(MAKE) -C $(NGCC_DIR) clean
+	rm -f $(NGCC_STAMP)

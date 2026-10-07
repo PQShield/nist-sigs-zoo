@@ -1,0 +1,5 @@
+# Toy signature instances for test_suite_sig.py
+file	name	id	instance	impl	srcdir	srcs	kat	defs
+toy_sig_1	NGCC-Toy-Sig-1	sign-99	Toy-Sig-1	ref	Reference_Implementation/Toy-Sig-1	*	KAT/KAT_SIG_Toy-Sig-1.txt	
+toy_sig_long	NGCC-Toy-Sig-Long	sign-99	Toy-Sig-1	ref	Reference_Implementation/Toy-Sig-1	*	-	-DTOY_LONG_PK
+toy_missing	NGCC-Toy-Missing	sign-99	Toy-Missing	ref	Reference_Implementation/Missing	*	-	

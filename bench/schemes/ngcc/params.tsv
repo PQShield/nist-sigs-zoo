@@ -1,0 +1,9 @@
+# China NGCC round-1 signature instances. Columns: see bench-common/ngcc/gen_rules.py.
+# One row per ALGORITHM_INSTANCE. Explain non-obvious srcs/defs/patches in a comment line above the row.
+file	name	id	instance	impl	srcdir	srcs	incs	defs	shimdefs	ldlibs	iters	katn	kat
+# Aigis-Sig+: aigis_sig.c is the vendor speed-test main (needs speed.c/cpucycles.c). randombytes.c reads /dev/urandom; rng.c already routes randombytes() to drng_algorithm, so drop it.
+# Parameter set: -DPARAMS=1|2|3 (params.h has no default). KDF: -DUSE_ICCS is the only choice that reproduces the submitted KAT (USE_SM3 and USE_SHA3 give MISMATCH); it routes XOF/hash through the ICCS placeholders pseudoXOF/pseudohash, which status.tsv records as hash=placeholder.
+# SM3 comes from the bundled ippcpsm3/ subdirectory, which '*' does not descend into; patches/sign-01/sm3_block.c compiles its UpdateSM3 block function (never included by a .c file upstream).
+sign_01_aigis_sig_i	NGCC-Aigis-Sig+-I	sign-01	Aigis-Sig+-I	ref	Implementations/Implementations/Reference_Implementation/Aigis-Sig+-I	* -aigis_sig.c -randombytes.c ippcpsm3/pcpsm3ca.c ippcpsm3/pcpsm3messagedigest.c ippcpsm3/pcpsm3update.c patches/sign-01/sm3_block.c	ippcpsm3	-DPARAMS=1 -DUSE_ICCS			0	10	Test_Vectors/KAT_SIG_Aigis-sig1.txt
+sign_01_aigis_sig_ii	NGCC-Aigis-Sig+-II	sign-01	Aigis-Sig+-II	ref	Implementations/Implementations/Reference_Implementation/Aigis-Sig+-II	* -aigis_sig.c -randombytes.c ippcpsm3/pcpsm3ca.c ippcpsm3/pcpsm3messagedigest.c ippcpsm3/pcpsm3update.c patches/sign-01/sm3_block.c	ippcpsm3	-DPARAMS=2 -DUSE_ICCS			0	10	Test_Vectors/KAT_SIG_Aigis-sig2.txt
+sign_01_aigis_sig_iii	NGCC-Aigis-Sig+-III	sign-01	Aigis-Sig+-III	ref	Implementations/Implementations/Reference_Implementation/Aigis-Sig+-III	* -aigis_sig.c -randombytes.c ippcpsm3/pcpsm3ca.c ippcpsm3/pcpsm3messagedigest.c ippcpsm3/pcpsm3update.c patches/sign-01/sm3_block.c	ippcpsm3	-DPARAMS=3 -DUSE_ICCS			0	10	Test_Vectors/KAT_SIG_Aigis-sig3.txt

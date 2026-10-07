@@ -72,8 +72,23 @@ static int bench_run_large_stack(const bench_scheme_t *s) {
 }
 
 int main(int argc, char **argv) {
-    int nfilters = argc - 1;
-    char **filters = argv + 1;
+    /* --sizes: print the claimed sizes from bench_info() as TSV and exit without
+     * running anything. Used for the NGCC import (results/ngcc_sizes.tsv). */
+    int sizes_only = argc > 1 && strcmp(argv[1], "--sizes") == 0;
+    int nfilters = argc - 1 - sizes_only;
+    char **filters = argv + 1 + sizes_only;
+
+    if (sizes_only) {
+        printf("scheme\tpk\tsk\tsig\n");
+        for (int i = 0; SO_PATHS[i]; i++) {
+            bench_scheme_t *s = bench_load(SO_PATHS[i]);
+            if (!s) continue;
+            if (scheme_matches(s->name, nfilters, filters))
+                printf("%s\t%zu\t%zu\t%zu\n", s->name, s->pk_bytes, s->sk_bytes, s->sig_bytes);
+            bench_unload(s);
+        }
+        return 0;
+    }
 
     /* Probe the cycle counter once up front and record which one is in use, so
      * the results file documents whether cycles are real (rdpmc) or reference
