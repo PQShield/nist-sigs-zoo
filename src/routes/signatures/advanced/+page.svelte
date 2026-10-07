@@ -116,7 +116,7 @@
 			<h1 class="font-heading text-3xl font-bold text-pqs-midnight dark:text-white">
 				Advanced Graph
 			</h1>
-			<a href="{base}/signatures/" class="text-sm text-pqs-bluegray hover:text-pqs-apricot dark:text-pqs-steel dark:hover:text-pqs-apricot transition-colors">
+			<a href="{base}/signatures/" class="text-sm text-pqs-steel hover:text-pqs-apricot dark:text-pqs-bluegray dark:hover:text-pqs-apricot transition-colors">
 				← Back
 			</a>
 		</div>
@@ -136,13 +136,13 @@
 			<section class="rounded border border-pqs-ashgray bg-white p-4 shadow-sm dark:border-pqs-steel dark:bg-pqs-midnight-mid">
 				<h2 class="mb-4 font-heading text-base font-semibold text-pqs-steel dark:text-pqs-apricot">
 					{AXIS_SHORT[xField]} vs. {AXIS_SHORT[yField]}
-					<span class="font-normal text-pqs-bluegray">({xScale}–{yScale} scale)</span>
+					<span class="font-normal text-pqs-steel dark:text-pqs-bluegray">({xScale}–{yScale} scale)</span>
 				</h2>
 
 				<!-- Axis controls -->
 				<div class="mb-4 grid grid-cols-1 gap-3 sm:grid-cols-2">
 					<div class="flex items-center gap-2">
-						<span class="w-14 shrink-0 font-heading text-xs font-semibold uppercase tracking-wider text-pqs-bluegray dark:text-pqs-steel">X axis</span>
+						<span class="w-14 shrink-0 font-heading text-xs font-semibold uppercase tracking-wider text-pqs-steel dark:text-pqs-bluegray">X axis</span>
 						<select bind:value={xField} class="{selectClass} flex-1">
 							{#each AXIS_OPTIONS as opt}
 								<option value={opt.value}>{opt.label}</option>
@@ -151,16 +151,16 @@
 						<div class="flex rounded border border-pqs-ashgray dark:border-pqs-steel overflow-hidden shrink-0">
 							<button
 								onclick={() => (xScale = 'log')}
-								class="px-2 py-1 text-xs font-heading transition-colors {xScale === 'log' ? 'bg-pqs-apricot text-pqs-midnight font-semibold' : 'bg-white text-pqs-bluegray hover:text-pqs-midnight dark:bg-pqs-midnight-mid dark:text-pqs-steel dark:hover:text-white'}"
+								class="px-2 py-1 text-xs font-heading transition-colors {xScale === 'log' ? 'bg-pqs-apricot text-pqs-midnight font-semibold' : 'bg-white text-pqs-steel hover:text-pqs-midnight dark:bg-pqs-midnight-mid dark:text-pqs-bluegray dark:hover:text-white'}"
 							>log</button>
 							<button
 								onclick={() => (xScale = 'linear')}
-								class="px-2 py-1 text-xs font-heading transition-colors {xScale === 'linear' ? 'bg-pqs-apricot text-pqs-midnight font-semibold' : 'bg-white text-pqs-bluegray hover:text-pqs-midnight dark:bg-pqs-midnight-mid dark:text-pqs-steel dark:hover:text-white'}"
+								class="px-2 py-1 text-xs font-heading transition-colors {xScale === 'linear' ? 'bg-pqs-apricot text-pqs-midnight font-semibold' : 'bg-white text-pqs-steel hover:text-pqs-midnight dark:bg-pqs-midnight-mid dark:text-pqs-bluegray dark:hover:text-white'}"
 							>linear</button>
 						</div>
 					</div>
 					<div class="flex items-center gap-2">
-						<span class="w-14 shrink-0 font-heading text-xs font-semibold uppercase tracking-wider text-pqs-bluegray dark:text-pqs-steel">Y axis</span>
+						<span class="w-14 shrink-0 font-heading text-xs font-semibold uppercase tracking-wider text-pqs-steel dark:text-pqs-bluegray">Y axis</span>
 						<select bind:value={yField} class="{selectClass} flex-1">
 							{#each AXIS_OPTIONS as opt}
 								<option value={opt.value}>{opt.label}</option>
@@ -169,11 +169,11 @@
 						<div class="flex rounded border border-pqs-ashgray dark:border-pqs-steel overflow-hidden shrink-0">
 							<button
 								onclick={() => (yScale = 'log')}
-								class="px-2 py-1 text-xs font-heading transition-colors {yScale === 'log' ? 'bg-pqs-apricot text-pqs-midnight font-semibold' : 'bg-white text-pqs-bluegray hover:text-pqs-midnight dark:bg-pqs-midnight-mid dark:text-pqs-steel dark:hover:text-white'}"
+								class="px-2 py-1 text-xs font-heading transition-colors {yScale === 'log' ? 'bg-pqs-apricot text-pqs-midnight font-semibold' : 'bg-white text-pqs-steel hover:text-pqs-midnight dark:bg-pqs-midnight-mid dark:text-pqs-bluegray dark:hover:text-white'}"
 							>log</button>
 							<button
 								onclick={() => (yScale = 'linear')}
-								class="px-2 py-1 text-xs font-heading transition-colors {yScale === 'linear' ? 'bg-pqs-apricot text-pqs-midnight font-semibold' : 'bg-white text-pqs-bluegray hover:text-pqs-midnight dark:bg-pqs-midnight-mid dark:text-pqs-steel dark:hover:text-white'}"
+								class="px-2 py-1 text-xs font-heading transition-colors {yScale === 'linear' ? 'bg-pqs-apricot text-pqs-midnight font-semibold' : 'bg-white text-pqs-steel hover:text-pqs-midnight dark:bg-pqs-midnight-mid dark:text-pqs-bluegray dark:hover:text-white'}"
 							>linear</button>
 						</div>
 					</div>
