@@ -1,4 +1,23 @@
+import fs from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+import yaml from 'js-yaml';
 import { test, expect } from '@playwright/test';
+
+// NGCC data arrives with plan 3; expectations are read from data/ so these tests pass with or without it.
+const SCHEMES_DIR = path.join(path.dirname(fileURLToPath(import.meta.url)), '..', 'data', 'schemes');
+
+function signatureMemberCount(programme: string): number {
+	return fs
+		.readdirSync(SCHEMES_DIR)
+		.filter((f) => f.endsWith('.yaml'))
+		.filter((f) => {
+			const s = yaml.load(fs.readFileSync(path.join(SCHEMES_DIR, f), 'utf8')) as {
+				versions: { programmes?: Record<string, unknown> }[];
+			};
+			return s.versions.some((v) => v.programmes !== undefined && programme in v.programmes);
+		}).length;
+}
 
 const IDS = ['nist-pqc', 'nist-onramp', 'china-ngcc', 'kpqc', 'iso'];
 
@@ -34,5 +53,61 @@ test.describe('Programme pages', () => {
 		await page.goto('/programmes/nist-onramp/');
 		await expect(page.getByRole('region', { name: 'Security levels' }).locator('tbody tr')).toHaveCount(5);
 		await expect(page.getByRole('region', { name: 'Published findings' })).toHaveCount(0);
+	});
+
+	test('on-ramp stage toggle shows each round’s entrants', async ({ page }) => {
+		await page.goto('/programmes/nist-onramp/');
+		await page.waitForLoadState('networkidle');
+		const candidates = page.getByRole('region', { name: 'Candidates' });
+		const stages = candidates.getByRole('group', { name: 'Stage' });
+		await expect(stages.getByRole('button', { name: 'All, latest specs' })).toHaveAttribute('aria-pressed', 'true');
+
+		await stages.getByRole('button', { name: 'Round 1' }).click();
+		await expect(stages.getByRole('button', { name: 'Round 1' })).toHaveAttribute('aria-pressed', 'true');
+		await expect(candidates.locator('tbody')).toContainText('3WISE');
+		await expect(candidates.getByRole('link', { name: /signature comparison/ })).toHaveAttribute('href', /\/signatures\/\?p=nist-onramp&r=1$/);
+
+		await stages.getByRole('button', { name: 'Round 2' }).click();
+		await expect(candidates.locator('tbody')).not.toContainText('3WISE');
+		await expect(candidates.locator('tbody')).toContainText('MAYO');
+	});
+
+	test('NIST PQC primitive toggle switches between signatures and KEMs', async ({ page }) => {
+		await page.goto('/programmes/nist-pqc/');
+		await page.waitForLoadState('networkidle');
+		const candidates = page.getByRole('region', { name: 'Standards and candidates' });
+		const kinds = candidates.getByRole('group', { name: 'Primitive' });
+		await expect(candidates.locator('tbody')).toContainText('ML-DSA');
+		await kinds.getByRole('button', { name: /^KEMs/ }).click();
+		await expect(kinds.getByRole('button', { name: /^KEMs/ })).toHaveAttribute('aria-pressed', 'true');
+		await expect(candidates.locator('tbody')).toContainText('ML-KEM');
+	});
+
+	test('ISO page lists its KEMs without a primitive toggle', async ({ page }) => {
+		await page.goto('/programmes/iso/');
+		const candidates = page.getByRole('region', { name: 'Schemes in the amendment' });
+		await expect(candidates.getByRole('group', { name: 'Primitive' })).toHaveCount(0);
+		await expect(candidates.locator('tbody')).toContainText('FrodoKEM');
+	});
+
+	test('China NGCC candidates render with or without imported data', async ({ page }) => {
+		await page.goto('/programmes/china-ngcc/');
+		const candidates = page.getByRole('region', { name: 'Round 1 candidates' });
+		if (signatureMemberCount('china-ngcc') === 0) {
+			await expect(candidates).toContainText('No signatures from this programme are in our data yet.');
+			await expect(candidates.locator('table')).toHaveCount(0);
+		} else {
+			await expect(candidates.locator('tbody tr').first()).toBeVisible();
+			await expect(candidates.getByRole('link', { name: /signature comparison/ })).toHaveAttribute('href', /\/signatures\/\?p=china-ngcc/);
+		}
+	});
+
+	test('leaving a programme page restores the full signature comparison', async ({ page }) => {
+		await page.goto('/programmes/kpqc/');
+		await page.waitForLoadState('networkidle');
+		await expect(page.getByRole('region', { name: 'Candidates' }).locator('tbody')).not.toContainText('ML-DSA');
+		await page.getByRole('banner').getByRole('link', { name: 'Signatures', exact: true }).click();
+		await expect(page.locator('h1')).toHaveText('Post-Quantum Signature Schemes', { timeout: 15_000 });
+		await expect(page.locator('tbody')).toContainText('ML-DSA');
 	});
 });

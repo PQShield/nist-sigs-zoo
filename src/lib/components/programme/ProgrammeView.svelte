@@ -14,7 +14,10 @@
 		signatureMembers
 	} from '$lib/programmePage';
 	import type { ProgrammeYaml } from '$lib/types';
+	import SegmentedToggle from '../SegmentedToggle.svelte';
 	import FindingsSummary from './FindingsSummary.svelte';
+	import KemCandidates from './KemCandidates.svelte';
+	import SignatureCandidates from './SignatureCandidates.svelte';
 	import ProgrammeTimeline from './ProgrammeTimeline.svelte';
 	import SecurityLevelsTable from './SecurityLevelsTable.svelte';
 
@@ -35,6 +38,13 @@
 			: []),
 		...(hasKems ? [{ label: 'KEMs', count: findingsSummary(programmeKemRows(p.id, allKemData)) }] : [])
 	];
+
+	type Kind = 'signature' | 'kem';
+	const kindOptions: { value: Kind; label: string }[] = [
+		...(hasSigs ? [{ value: 'signature' as Kind, label: `Signatures (${sigCount})` }] : []),
+		...(hasKems ? [{ value: 'kem' as Kind, label: `KEMs (${kemCount})` }] : [])
+	];
+	let kind = $state<Kind>(hasSigs ? 'signature' : 'kem');
 
 	const LINK = 'text-pqs-steel underline hover:text-pqs-apricot dark:text-pqs-apricot';
 	const H2 = 'mb-3 font-heading text-2xl font-bold';
@@ -98,4 +108,18 @@
 			<FindingsSummary source={p.findings} groups={findingGroups} />
 		</section>
 	{/if}
+
+	<section aria-labelledby="candidates-h" class="space-y-4">
+		<h2 id="candidates-h" class={H2}>{p.candidates_heading ?? 'Schemes'}</h2>
+		{#if kindOptions.length > 1}
+			<SegmentedToggle label="Primitive" options={kindOptions} value={kind} onchange={(k) => (kind = k)} />
+		{:else}
+			<p class="font-heading text-sm font-semibold">{kindOptions[0].label}</p>
+		{/if}
+		{#if kind === 'signature'}
+			<SignatureCandidates programme={p} />
+		{:else}
+			<KemCandidates programme={p} />
+		{/if}
+	</section>
 </div>
