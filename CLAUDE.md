@@ -50,6 +50,7 @@ Playwright against a built static site. The playwright config runs `npm run buil
 - `signatures.spec.ts` — signatures page (`/signatures/`): heading, Vega chart render, advanced link, round selector, table
 - `advanced.spec.ts` — advanced page: axis controls, heading updates, URL encoding/restoration, filter panel
 - `redirects.spec.ts` — legacy URLs (`/?filters`, `/advanced/`, `/history/`) forward to their new homes
+- `home.spec.ts` — home page: programme table, KpqC picks, compare links, latest changes, no redirect on plain visit
 
 **Adding E2E tests:** add to `e2e/signatures.spec.ts` or `e2e/advanced.spec.ts`, or create a new `e2e/<feature>.spec.ts`.
 Use `page.waitForFunction(() => [...document.querySelectorAll('svg')].some(s => s.querySelector('g')), { timeout: 15_000 })` to wait for the Vega chart to render before asserting on it.
@@ -197,7 +198,8 @@ src/
 │       └── KemFilterPanel.svelte # KEM scheme/level/size filters (bind:filter)
 └── routes/
     ├── +layout.svelte    # nav (logo, round selector, Signatures/KEMs/History links, dark toggle), footer
-    ├── +page.svelte      # temporary home; forwards legacy /?filters links to /signatures/ (legacyHomeRedirect)
+    ├── +page.ts          # load: programme summaries, scheme/KEM counts, 3 latest history entries
+    ├── +page.svelte      # home: hero, programme table, latest changes; forwards legacy /?filters links (legacyHomeRedirect)
     ├── signatures/
     │   ├── +page.ts      # load: processYamlSchemes('round-3', {useLatestVersion:true}), createFilterStore
     │   ├── +page.svelte  # page composition, round switching, URL state sync
