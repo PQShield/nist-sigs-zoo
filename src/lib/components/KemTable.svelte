@@ -135,7 +135,7 @@
 {/snippet}
 
 <div class="overflow-hidden rounded border border-pqs-ashgray shadow-sm dark:border-pqs-steel">
-	<div class="overflow-x-auto">
+	<div class="relative overflow-x-auto">
 		<table class="min-w-full text-sm">
 			<thead class="sticky top-0 z-10">
 				<tr class="bg-pqs-steel font-heading text-xs text-white">
