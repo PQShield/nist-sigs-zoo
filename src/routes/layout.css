@@ -52,6 +52,12 @@
   --color-pqs-bluegray: #C5CADA;
   --color-pqs-ashgray: #E1E6EE;
   --color-pqs-smoke: #F5F7FA;
+  /* Omitted-rows note; violet matches the NGCC level scale in chartLegend.ts */
+  --color-pqs-violet: #A855F7;
+  --color-pqs-violet-pale: #faf5ff;
+  --color-pqs-violet-ink: #4c1d95;
+  --color-pqs-violet-deep: #2e1065;
+  --color-pqs-violet-mist: #e9d5ff;
 }
 
 body {

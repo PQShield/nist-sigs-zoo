@@ -20,10 +20,11 @@
 		STANDARDISED,
 		type LegendGroup
 	} from '$lib/chartLegend';
-	import { omittedNote, partitionPlottable, sigAxisValue, timeTooltip } from '$lib/chartData';
+	import { partitionPlottable, sigAxisValue, timeTooltip } from '$lib/chartData';
 	import { CPU_GHZ_LABEL } from '$lib/constants';
 	import type { AxisField, ScaleType } from '$lib/types';
 	import ChartLegend from './ChartLegend.svelte';
+	import OmittedNote from './OmittedNote.svelte';
 
 	let {
 		xField = 'pk' as AxisField,
@@ -244,11 +245,7 @@
 		{#if renderError}
 			<p class="mt-1 text-xs text-pqs-scarlet" role="alert">Chart failed to render.</p>
 		{/if}
-		{#if omitted > 0}
-			<p role="note" class="mt-2 rounded border border-dashed border-[#A855F7] bg-[#faf5ff] px-2.5 py-1.5 text-xs text-[#4c1d95] dark:bg-[#2e1065]/40 dark:text-[#e9d5ff]">
-				{omittedNote(omitted)} They will appear once they are added to our benchmark harness.
-			</p>
-		{/if}
+		<OmittedNote count={omitted} />
 		<div class="mt-1 flex items-center justify-between">
 			<p class="text-xs text-pqs-steel dark:text-pqs-bluegray">Scroll to zoom · drag to pan<span class="sm:hidden"> · tap a point for details</span></p>
 			<button

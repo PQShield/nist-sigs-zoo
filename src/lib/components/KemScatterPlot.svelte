@@ -19,10 +19,11 @@
 		STANDARDISED,
 		type LegendGroup
 	} from '$lib/chartLegend';
-	import { kemAxisValue, omittedNote, partitionPlottable, timeTooltip } from '$lib/chartData';
+	import { kemAxisValue, partitionPlottable, timeTooltip } from '$lib/chartData';
 	import { CPU_GHZ_LABEL } from '$lib/constants';
 	import type { KemAxisField, KemParameterSet, ScaleType } from '$lib/types';
 	import ChartLegend from './ChartLegend.svelte';
+	import OmittedNote from './OmittedNote.svelte';
 
 	let {
 		rows,
@@ -253,6 +254,7 @@
 		{#if renderError}
 			<p class="mt-1 text-xs text-pqs-scarlet" role="alert">Chart failed to render.</p>
 		{/if}
+		<OmittedNote count={omitted} />
 		<div class="mt-1 flex items-center justify-between">
 			<p class="text-xs text-pqs-steel dark:text-pqs-bluegray">Scroll to zoom · drag to pan<span class="sm:hidden"> · tap a point for details</span></p>
 			<button
