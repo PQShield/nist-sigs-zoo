@@ -22,6 +22,7 @@ import csv
 import hashlib
 import os
 import sys
+import time
 import urllib.request
 from pathlib import Path
 
@@ -68,32 +69,73 @@ def sha256_file(path: Path) -> str:
     return h.hexdigest()
 
 
+MAGICS = (b"PK\x03\x04", b"Rar!")
+
+
 def download(url: str, dest: Path) -> None:
+    """Download url to dest, refusing short, empty or non-archive bodies."""
     dest.parent.mkdir(parents=True, exist_ok=True)
     part = dest.with_name(dest.name + ".part")
     req = urllib.request.Request(url, headers={"User-Agent": USER_AGENT})
-    with urllib.request.urlopen(req, timeout=300) as resp, open(part, "wb") as out:
-        while chunk := resp.read(1 << 20):
-            out.write(chunk)
+    try:
+        with urllib.request.urlopen(req, timeout=300) as resp, open(part, "wb") as out:
+            expected = resp.headers.get("Content-Length")
+            while chunk := resp.read(1 << 20):
+                out.write(chunk)
+        size = part.stat().st_size
+        if expected is not None and int(expected) != size:
+            raise ArchiveError(
+                f"truncated download of {url}: got {size} of {expected} bytes"
+            )
+        if size == 0:
+            raise ArchiveError(f"empty download of {url}")
+        with open(part, "rb") as f:
+            if not f.read(4).startswith(MAGICS):
+                raise ArchiveError(f"download of {url} is not a zip/rar archive")
+    except OSError as e:
+        part.unlink(missing_ok=True)
+        raise ArchiveError(f"{url}: {e}") from e
+    except ArchiveError:
+        part.unlink(missing_ok=True)
+        raise
     part.replace(dest)
 
 
+def set_aside(dest: Path) -> Path:
+    stamp = time.strftime("%Y%m%dT%H%M%S")
+    aside = dest.with_name(f"{dest.name}.mismatch-{stamp}")
+    dest.replace(aside)
+    return aside
+
+
 def fetch_one(row: dict, cache: Path, record: bool) -> str:
-    """Make sure cache/<id>.zip exists and matches its pin; with record, pin an unpinned row."""
+    """Make sure cache/<id>.zip exists and matches its pin; with record, pin an unpinned row.
+
+    Pinning always uses a fresh download; an existing cached file must match it.
+    """
     dest = cache / f"{row['id']}.zip"
+    if not row["sha256"]:
+        if not record:
+            raise ArchiveError("no pinned sha256; run fetch.py --record to pin it")
+        fresh = cache / f"{row['id']}.zip.fresh"
+        download(row["url"], fresh)
+        digest, size = sha256_file(fresh), str(fresh.stat().st_size)
+        if dest.exists() and sha256_file(dest) != digest:
+            fresh.unlink()
+            raise ArchiveError(
+                "cached archive differs from a fresh download; refusing to pin (remove the cache file to retry)"
+            )
+        fresh.replace(dest)
+        row["sha256"], row["bytes"] = digest, size
+        return "recorded"
     fetched = not dest.exists()
     if fetched:
         download(row["url"], dest)
     digest, size = sha256_file(dest), str(dest.stat().st_size)
-    if not row["sha256"]:
-        if not record:
-            raise ArchiveError("no pinned sha256; run fetch.py --record to pin it")
-        row["sha256"], row["bytes"] = digest, size
-        return "recorded"
     if digest != row["sha256"] or size != row["bytes"]:
-        dest.replace(dest.with_name(dest.name + ".mismatch"))
+        aside = set_aside(dest)
         raise ArchiveError(
-            f"archive differs from its pin (moved aside as {dest.name}.mismatch)"
+            f"archive differs from its pin (moved aside as {aside.name})"
         )
     return "downloaded" if fetched else "cached"
 
