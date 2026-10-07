@@ -14,6 +14,8 @@
 		STANDARDISED,
 		type LegendGroup
 	} from '$lib/chartLegend';
+	import { kemAxisValue, omittedNote, partitionPlottable } from '$lib/chartData';
+	import { CPU_GHZ_LABEL } from '$lib/constants';
 	import type { KemAxisField, KemParameterSet, ScaleType } from '$lib/types';
 	import ChartLegend from './ChartLegend.svelte';
 
@@ -41,6 +43,9 @@
 		keygenUs: 'Keygen (µs)',
 		encapsUs: 'Encapsulation (µs)',
 		decapsUs: 'Decapsulation (µs)',
+		keygenTime: 'Keygen time (µs)',
+		encapsTime: 'Encapsulation time (µs)',
+		decapsTime: 'Decapsulation time (µs)',
 	};
 
 	let container = $state<HTMLDivElement | null>(null);
@@ -49,6 +54,11 @@
 	let renderQueue: Promise<void> = Promise.resolve();
 	let renderError = $state(false);
 	let legend = $state<LegendGroup[]>([]);
+	let omitted = $state(0);
+
+	const TIME_FIELDS = new Set<KemAxisField>(['keygenTime', 'encapsTime', 'decapsTime']);
+	const timeAxes = $derived(TIME_FIELDS.has(xField) || TIME_FIELDS.has(yField));
+	const TIME_FOOTNOTE = `Timings in µs. Where only cycle counts exist, time is extrapolated at ${CPU_GHZ_LABEL}.`;
 
 	// Serialize renders: concurrent vega-embed calls on the same container can
 	// leave a stale, finalized chart in the DOM when they resolve out of order.
@@ -69,7 +79,8 @@
 		if (!container || seq !== renderSeq) return;
 
 		const { default: embed } = await import('vega-embed');
-		const data = rows;
+		const { plotted: data, omitted: missing } = partitionPlottable(rows, kemAxisValue, xField, yField);
+		omitted = missing.length;
 		const isDark = document.documentElement.classList.contains('dark');
 
 		const values = data.map((d) => {
@@ -110,6 +121,9 @@
 				keygenUs: d.keygenUs,
 				encapsUs: d.encapsUs,
 				decapsUs: d.decapsUs,
+				keygenTime: kemAxisValue(d, 'keygenTime'),
+				encapsTime: kemAxisValue(d, 'encapsTime'),
+				decapsTime: kemAxisValue(d, 'decapsTime'),
 				family: familyKey(d),
 				level: levelKey(d.level, d.ngccLevel),
 				security: securityStatus(d),
@@ -225,5 +239,5 @@
 			>Reset zoom</button>
 		</div>
 	</div>
-	<ChartLegend groups={legend} />
+	<ChartLegend groups={legend} footnote={timeAxes ? TIME_FOOTNOTE : undefined} />
 </div>

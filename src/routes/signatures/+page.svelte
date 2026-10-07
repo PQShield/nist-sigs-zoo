@@ -5,6 +5,7 @@
 	import { onMount } from 'svelte';
 	import { get } from 'svelte/store';
 	import BenchmarkEnvInfo from '$lib/components/BenchmarkEnvInfo.svelte';
+	import ChartModeToggle from '$lib/components/ChartModeToggle.svelte';
 	import RoundSelect from '$lib/components/RoundSelect.svelte';
 	import FilterSidebar from '$lib/components/FilterSidebar.svelte';
 	import { encodeCommonFilters, filterSummary, presentProgrammeGroups } from '$lib/compareFilters';
@@ -135,10 +136,17 @@
 		<div class="min-w-0 flex-1 space-y-6">
 			<!-- Scatter plot -->
 			<section class="rounded border border-pqs-ashgray bg-white p-4 shadow-sm dark:border-pqs-steel dark:bg-pqs-midnight-mid">
-				<h2 class="mb-3 font-heading text-base font-semibold text-pqs-steel dark:text-pqs-apricot">
-					pk size vs. sig size <span class="font-normal text-pqs-bluegray">(log–log scale)</span>
-				</h2>
-				<ScatterPlot />
+				<div class="mb-3 flex flex-wrap items-center justify-between gap-3">
+					<h2 class="font-heading text-base font-semibold text-pqs-steel dark:text-pqs-apricot">
+						{$store.chart === 'speed' ? 'Signing vs. verification time' : 'pk size vs. sig size'}
+						<span class="font-normal text-pqs-bluegray">(log–log scale)</span>
+					</h2>
+					<ChartModeToggle mode={$store.chart} onchange={(chart) => store.update((f) => ({ ...f, chart }))} />
+				</div>
+				<ScatterPlot
+					xField={$store.chart === 'speed' ? 'signingTime' : 'pk'}
+					yField={$store.chart === 'speed' ? 'verificationTime' : 'sig'}
+				/>
 				<div class="mt-2 flex justify-end">
 					<a href="{base}/signatures/advanced/" class="text-xs text-pqs-bluegray hover:text-pqs-apricot dark:text-pqs-steel dark:hover:text-pqs-apricot transition-colors">
 						Advanced graph →

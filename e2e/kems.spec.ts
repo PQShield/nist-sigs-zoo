@@ -202,4 +202,12 @@ test.describe('KEMs page', () => {
 		}
 		await expect(page.getByRole('button', { name: 'Reset filters' })).toBeVisible();
 	});
+
+	test('Speed toggle switches the chart to encapsulation vs. decapsulation time', async ({ page }) => {
+		await page.goto('/kems/');
+		await page.waitForLoadState('networkidle');
+		await page.getByRole('group', { name: 'Chart axes' }).getByRole('button', { name: 'Speed' }).click();
+		await expect(page.locator('section h2').first()).toContainText('Encapsulation vs. decapsulation time');
+		await expect(page).toHaveURL(/[?&]v=speed/);
+	});
 });

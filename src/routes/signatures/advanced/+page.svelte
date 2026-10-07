@@ -53,6 +53,8 @@
 		verificationCycles: 'verification (cycles)',
 		signingUs: 'signing (µs)',
 		verificationUs: 'verification (µs)',
+		signingTime: 'signing time',
+		verificationTime: 'verification time',
 	};
 
 	const VALID_FIELDS = new Set<string>(['pk', 'sig', 'pkPlusSig', 'signingCycles', 'verificationCycles', 'signingUs', 'verificationUs']);

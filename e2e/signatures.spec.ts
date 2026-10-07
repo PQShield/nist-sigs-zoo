@@ -115,6 +115,19 @@ test.describe('Signatures page', () => {
 		await expect(legend).toContainText('not yet benchmarked');
 	});
 
+	test('Speed toggle switches the chart to signing vs. verification time', async ({ page }) => {
+		await page.goto('/signatures/');
+		await page.waitForLoadState('networkidle');
+		const axes = page.getByRole('group', { name: 'Chart axes' });
+		await expect(axes.getByRole('button', { name: 'Sizes' })).toHaveAttribute('aria-pressed', 'true');
+		await axes.getByRole('button', { name: 'Speed' }).click();
+		await expect(axes.getByRole('button', { name: 'Speed' })).toHaveAttribute('aria-pressed', 'true');
+		await expect(page.locator('section h2').first()).toContainText('Signing vs. verification time');
+		await expect(page).toHaveURL(/[?&]v=speed/);
+		await page.reload();
+		await expect(page.locator('section h2').first()).toContainText('Signing vs. verification time');
+	});
+
 	test.describe('shared links keep their filters', () => {
 		async function schemeCells(page: import('@playwright/test').Page) {
 			await page.waitForSelector('table tbody tr');

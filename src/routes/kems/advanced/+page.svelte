@@ -59,7 +59,10 @@
 		decapsCycles: 'decaps (cycles)',
 		keygenUs: 'keygen (µs)',
 		encapsUs: 'encaps (µs)',
-		decapsUs: 'decaps (µs)'
+		decapsUs: 'decaps (µs)',
+		keygenTime: 'keygen time',
+		encapsTime: 'encaps time',
+		decapsTime: 'decaps time'
 	};
 
 	const VALID_FIELDS = new Set<string>([

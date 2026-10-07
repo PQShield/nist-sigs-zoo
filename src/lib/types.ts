@@ -179,7 +179,10 @@ export type KemAxisField =
     | 'decapsCycles'
     | 'keygenUs'
     | 'encapsUs'
-    | 'decapsUs';
+    | 'decapsUs'
+    | 'keygenTime'
+    | 'encapsTime'
+    | 'decapsTime';
 
 export type KemSortableColumn =
 	| 'scheme'
@@ -247,7 +250,10 @@ export interface HistoryEntry {
 	schemes?: string[];
 }
 
-export type AxisField = 'pk' | 'sig' | 'pkPlusSig' | 'signingCycles' | 'verificationCycles' | 'signingUs' | 'verificationUs';
+/** `signingTime` / `verificationTime`: displayed µs (measured, else extrapolated from cycles). */
+export type AxisField =
+	| 'pk' | 'sig' | 'pkPlusSig' | 'signingCycles' | 'verificationCycles' | 'signingUs' | 'verificationUs'
+	| 'signingTime' | 'verificationTime';
 export type ScaleType = 'log' | 'linear';
 
 export type SortableColumn =

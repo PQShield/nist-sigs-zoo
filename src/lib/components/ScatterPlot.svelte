@@ -15,6 +15,8 @@
 		STANDARDISED,
 		type LegendGroup
 	} from '$lib/chartLegend';
+	import { omittedNote, partitionPlottable, sigAxisValue } from '$lib/chartData';
+	import { CPU_GHZ_LABEL } from '$lib/constants';
 	import type { AxisField, ScaleType } from '$lib/types';
 	import ChartLegend from './ChartLegend.svelte';
 
@@ -33,6 +35,8 @@
 		verificationCycles: 'Verification (cycles)',
 		signingUs: 'Signing (µs)',
 		verificationUs: 'Verification (µs)',
+		signingTime: 'Signing time (µs)',
+		verificationTime: 'Verification time (µs)',
 	};
 
 	const { filteredRows } = getFilterStore();
@@ -43,6 +47,11 @@
 	let renderQueue: Promise<void> = Promise.resolve();
 	let renderError = $state(false);
 	let legend = $state<LegendGroup[]>([]);
+	let omitted = $state(0);
+
+	const TIME_FIELDS = new Set<AxisField>(['signingTime', 'verificationTime']);
+	const timeAxes = $derived(TIME_FIELDS.has(xField) || TIME_FIELDS.has(yField));
+	const TIME_FOOTNOTE = `Timings in µs. Where only cycle counts exist, time is extrapolated at ${CPU_GHZ_LABEL}.`;
 
 	// Serialize renders: concurrent vega-embed calls on the same container can
 	// leave a stale, finalized chart in the DOM when they resolve out of order.
@@ -63,7 +72,8 @@
 		if (!container || seq !== renderSeq) return;
 
 		const { default: embed } = await import('vega-embed');
-		const data = $filteredRows;
+		const { plotted: data, omitted: missing } = partitionPlottable($filteredRows, sigAxisValue, xField, yField);
+		omitted = missing.length;
 		const isDark = document.documentElement.classList.contains('dark');
 
 		const values = data.map((d) => {
@@ -100,6 +110,8 @@
 				verificationCycles: d.verificationCycles > 0 ? d.verificationCycles : null,
 				signingUs: d.signingUs,
 				verificationUs: d.verificationUs,
+				signingTime: sigAxisValue(d, 'signingTime'),
+				verificationTime: sigAxisValue(d, 'verificationTime'),
 				family: familyKey(d),
 				level: levelKey(d.level, d.ngccLevel),
 				security: securityStatus(d),
@@ -209,6 +221,11 @@
 		{#if renderError}
 			<p class="mt-1 text-xs text-pqs-scarlet" role="alert">Chart failed to render.</p>
 		{/if}
+		{#if omitted > 0}
+			<p role="note" class="mt-2 rounded border border-dashed border-[#A855F7] bg-[#faf5ff] px-2.5 py-1.5 text-xs text-[#4c1d95] dark:bg-[#2e1065]/40 dark:text-[#e9d5ff]">
+				{omittedNote(omitted)} They will appear once they are added to our benchmark harness.
+			</p>
+		{/if}
 		<div class="mt-1 flex items-center justify-between">
 			<p class="text-xs text-pqs-bluegray dark:text-pqs-steel">Scroll to zoom · drag to pan<span class="sm:hidden"> · tap a point for details</span></p>
 			<button
@@ -218,5 +235,5 @@
 			>Reset zoom</button>
 		</div>
 	</div>
-	<ChartLegend groups={legend} />
+	<ChartLegend groups={legend} footnote={timeAxes ? TIME_FOOTNOTE : undefined} />
 </div>

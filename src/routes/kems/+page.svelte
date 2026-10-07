@@ -4,6 +4,7 @@
 	import { base } from '$app/paths';
 	import FilterSidebar from '$lib/components/FilterSidebar.svelte';
 	import KemFilterPanel from '$lib/components/KemFilterPanel.svelte';
+	import ChartModeToggle from '$lib/components/ChartModeToggle.svelte';
 	import KemScatterPlot from '$lib/components/KemScatterPlot.svelte';
 	import KemTable from '$lib/components/KemTable.svelte';
 	import BenchmarkEnvInfo from '$lib/components/BenchmarkEnvInfo.svelte';
@@ -87,10 +88,18 @@
 		<div class="min-w-0 flex-1 space-y-6">
 			<!-- Scatter plot -->
 			<section class="rounded border border-pqs-ashgray bg-white p-4 shadow-sm dark:border-pqs-steel dark:bg-pqs-midnight-mid">
-				<h2 class="mb-3 font-heading text-base font-semibold text-pqs-steel dark:text-pqs-apricot">
-					pk size vs. ciphertext size <span class="font-normal text-pqs-bluegray">(log–log scale)</span>
-				</h2>
-				<KemScatterPlot rows={filteredRows} />
+				<div class="mb-3 flex flex-wrap items-center justify-between gap-3">
+					<h2 class="font-heading text-base font-semibold text-pqs-steel dark:text-pqs-apricot">
+						{filter.chart === 'speed' ? 'Encapsulation vs. decapsulation time' : 'pk size vs. ciphertext size'}
+						<span class="font-normal text-pqs-bluegray">(log–log scale)</span>
+					</h2>
+					<ChartModeToggle mode={filter.chart} onchange={(chart) => (filter = { ...filter, chart })} />
+				</div>
+				<KemScatterPlot
+					rows={filteredRows}
+					xField={filter.chart === 'speed' ? 'encapsTime' : 'pk'}
+					yField={filter.chart === 'speed' ? 'decapsTime' : 'ct'}
+				/>
 				<div class="mt-2 flex justify-end">
 					<a href="{base}/kems/advanced/" class="text-xs text-pqs-bluegray hover:text-pqs-apricot dark:text-pqs-steel dark:hover:text-pqs-apricot transition-colors">
 						Advanced graph →
