@@ -222,3 +222,29 @@ test.describe('Signatures filters', () => {
 		await expect(page.locator('aside')).toHaveCount(1);
 	});
 });
+
+test.describe('Signatures chart legend', () => {
+	async function waitForChart(page: import('@playwright/test').Page) {
+		await page.waitForFunction(
+			() => [...document.querySelectorAll('svg')].some((s) => s.querySelector('g')),
+			{ timeout: 15_000 }
+		);
+	}
+
+	test('sits beside the plot on desktop and below it on a phone', async ({ page }) => {
+		await page.goto('/signatures/');
+		await waitForChart(page);
+		const legend = page.getByRole('group', { name: 'Legend' });
+		await expect(legend).toContainText('Family');
+		await expect(legend).toContainText('NIST category');
+		const chart = page.locator('section svg').filter({ has: page.locator('g') }).first();
+		const l = (await legend.boundingBox())!;
+		const c = (await chart.boundingBox())!;
+		expect(l.x).toBeGreaterThanOrEqual(c.x + c.width - 1);
+
+		await page.setViewportSize({ width: 390, height: 844 });
+		await expect
+			.poll(async () => (await legend.boundingBox())!.y - ((await chart.boundingBox())!.y + (await chart.boundingBox())!.height))
+			.toBeGreaterThanOrEqual(-1);
+	});
+});
