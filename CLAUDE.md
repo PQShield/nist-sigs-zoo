@@ -285,9 +285,18 @@ Options: `--suite sigs|kems|both`, `--instance-type` (default `c7i.4xlarge`),
 
 GitHub Actions workflow at `.github/workflows/deploy.yml`:
 1. `npm ci && npm run build` → `dist/`
-2. Copy `round-1/` into `dist/round-1/` (untouched static snapshot)
-3. Copy `.nojekyll` into `dist/`
-4. Deploy `dist/` to GitHub Pages
+2. Copy `.nojekyll` into `dist/`
+3. Deploy `dist/` to GitHub Pages
+
+### PR previews
+
+`.github/workflows/preview.yml` builds each same-repo PR (no `BASE_PATH`) and uploads
+`dist/` to the Cloudflare Pages Direct Upload project `nist-sigs-zoo` with
+`wrangler pages deploy --branch=pr-N`. A sticky PR comment links
+`https://pr-N.nist-sigs-zoo.pages.dev` and the per-commit URL. Needs repo secrets
+`CLOUDFLARE_API_TOKEN` (Account → Cloudflare Pages → Edit) and `CLOUDFLARE_ACCOUNT_ID`.
+Fork PRs are skipped (no secrets). Production stays on GitHub Pages; `main` is never
+deployed to Cloudflare.
 
 ## round-1/
 
