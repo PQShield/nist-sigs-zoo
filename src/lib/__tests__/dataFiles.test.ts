@@ -73,6 +73,22 @@ describe('programme references in scheme data', () => {
 			.flatMap((f) => checkMembership(f, load<KemSchemeYaml>(join(dir, f)).programmes));
 		expect(errors).toEqual([]);
 	});
+	it('every membership is in a programme that covers that primitive', () => {
+		const primitivesOf = new Map(programmes.map((p) => [p.id, p.primitives]));
+		const wrong = (file: string, ids: string[], primitive: 'signature' | 'kem') =>
+			ids
+				.filter((id) => primitivesOf.has(id) && !primitivesOf.get(id)!.includes(primitive))
+				.map((id) => `${file}: programme "${id}" does not cover ${primitive}s`);
+		const sigErrors = readdirSync(join(DATA, 'schemes'))
+			.filter((f) => f.endsWith('.yaml'))
+			.flatMap((f) =>
+				wrong(f, [...new Set(load<SchemeYaml>(join(DATA, 'schemes', f)).versions.flatMap((v) => Object.keys(versionProgrammes(v))))], 'signature')
+			);
+		const kemErrors = readdirSync(join(DATA, 'kems'))
+			.filter((f) => f.endsWith('.yaml'))
+			.flatMap((f) => wrong(f, Object.keys(versionProgrammes(load<KemSchemeYaml>(join(DATA, 'kems', f)))), 'kem'));
+		expect([...sigErrors, ...kemErrors]).toEqual([]);
+	});
 });
 
 describe('security levels in data', () => {

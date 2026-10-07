@@ -157,6 +157,14 @@ describe('common URL codec', () => {
 		expect(s.chart).toBe('sizes');
 	});
 
+	it('ignores unknown hide-flag values and lets 0 switch a flag off', () => {
+		const on: CommonFilter = { ...ALL, hideBroken: true, hideImplementation: true, hideWarnings: true };
+		const s = decodeCommonFilters(on, new URLSearchParams('hb=0&hi=yes&hw=2'));
+		expect(s.hideBroken).toBe(false);
+		expect(s.hideImplementation).toBe(true);
+		expect(s.hideWarnings).toBe(true);
+	});
+
 	it('decodes an empty programme list as "none selected"', () => {
 		expect(decodeCommonFilters(ALL, new URLSearchParams('p=')).programmes.size).toBe(0);
 	});
