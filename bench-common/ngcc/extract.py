@@ -38,7 +38,15 @@ KEEP_NAME = re.compile(
     re.IGNORECASE,
 )
 MAX_MEMBER = 256 << 20
+KAT_PREFIX_CAP = 512 << 20
+MAX_NESTED = 1 << 30
+MAX_DEPTH = 3
+KAT_NAME = re.compile(r"^KAT_(SIG|KEM)_[A-Za-z0-9_+.-]+\.txt$", re.IGNORECASE)
 S_IFMT, S_IFLNK = 0o170000, 0o120000
+
+
+class _Skip(Exception):
+    pass
 
 
 def decode_name(info: zipfile.ZipInfo) -> str:
@@ -78,19 +86,69 @@ def classify(p: PurePosixPath) -> str | None:
 
 
 class Extractor:
-    def __init__(self, src_out: Path, spec_out: Path):
+    def __init__(
+        self,
+        src_out: Path,
+        spec_out: Path,
+        max_member: int = MAX_MEMBER,
+        prefix_cap: int = KAT_PREFIX_CAP,
+    ):
         self.out = {"src": src_out, "spec": spec_out}
         self.counts = {"src": 0, "spec": 0}
         self.skipped: list[str] = []
+        self.truncated: list[str] = []
+        self.max_member = max_member
+        self.prefix_cap = prefix_cap
 
-    def write(self, kind: str, rel: PurePosixPath, stream) -> None:
+    def write(
+        self, kind: str, rel: PurePosixPath, stream, size: int | None = None
+    ) -> None:
+        """Write one member. Oversize KAT files keep their first 10 records."""
+        truncate = (
+            size is not None
+            and size > self.max_member
+            and kind == "src"
+            and KAT_NAME.match(rel.name)
+        )
+        if size is not None and size > self.max_member and not truncate:
+            self.skipped.append(f"too large: {rel}")
+            return
         dest = self.out[kind] / rel
-        dest.parent.mkdir(parents=True, exist_ok=True)
-        with open(dest, "wb") as out:
-            shutil.copyfileobj(stream, out)
+        try:
+            dest.parent.mkdir(parents=True, exist_ok=True)
+            with open(dest, "wb") as out:
+                if truncate:
+                    if not self.copy_kat_prefix(stream, out):
+                        raise _Skip(f"KAT prefix exceeds cap: {rel}")
+                else:
+                    shutil.copyfileobj(stream, out)
+        except _Skip as e:
+            dest.unlink(missing_ok=True)
+            self.skipped.append(str(e))
+            return
+        except (OSError, RuntimeError, zipfile.BadZipFile, EOFError) as e:
+            # directory/file collisions, encrypted members, CRC errors
+            if dest.is_file():
+                dest.unlink(missing_ok=True)
+            self.skipped.append(f"cannot extract {rel}: {type(e).__name__}: {e}")
+            return
+        if truncate:
+            self.truncated.append(f"truncated KAT (first 10 records): {rel}")
         self.counts[kind] += 1
 
-    def zip(self, zf: zipfile.ZipFile, prefix: PurePosixPath) -> None:
+    def copy_kat_prefix(self, stream, out) -> bool:
+        """Copy lines up to (not including) the first 'Count = 10'. False if over the byte cap."""
+        written = 0
+        for line in stream:
+            if line.startswith(b"Count = 10"):
+                break
+            written += len(line)
+            if written > self.prefix_cap:
+                return False
+            out.write(line)
+        return True
+
+    def zip(self, zf: zipfile.ZipFile, prefix: PurePosixPath, depth: int = 0) -> None:
         for info in zf.infolist():
             if info.is_dir() or (info.external_attr >> 16) & S_IFMT == S_IFLNK:
                 continue
@@ -102,16 +160,21 @@ class Extractor:
             kind = classify(rel)
             if kind is None:
                 continue
-            if kind != "archive" and info.file_size > MAX_MEMBER:
-                self.skipped.append(f"too large: {rel}")
+            if kind == "archive" and (
+                depth >= MAX_DEPTH or info.file_size > MAX_NESTED
+            ):
+                self.skipped.append(f"nested archive too deep or large: {rel}")
                 continue
-            with zf.open(info) as stream:
-                if kind == "archive":
-                    self.nested(rel, stream)
-                else:
-                    self.write(kind, rel, stream)
+            try:
+                with zf.open(info) as stream:
+                    if kind == "archive":
+                        self.nested(rel, stream, depth + 1)
+                    else:
+                        self.write(kind, rel, stream, info.file_size)
+            except (RuntimeError, zipfile.BadZipFile, OSError, EOFError) as e:
+                self.skipped.append(f"cannot read {rel}: {type(e).__name__}: {e}")
 
-    def nested(self, rel: PurePosixPath, stream) -> None:
+    def nested(self, rel: PurePosixPath, stream, depth: int = 1) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             path = Path(tmp) / "inner"
             with open(path, "wb") as out:
@@ -120,7 +183,7 @@ class Extractor:
             if rel.suffix.lower() == ".zip":
                 try:
                     with zipfile.ZipFile(path) as inner:
-                        self.zip(inner, prefix)
+                        self.zip(inner, prefix, depth)
                 except zipfile.BadZipFile:
                     self.skipped.append(f"bad nested zip: {rel}")
             else:
@@ -135,24 +198,32 @@ class Extractor:
             return
         with tempfile.TemporaryDirectory() as tmp:
             # bsdtar refuses absolute and '..' member paths unless -P is given.
-            subprocess.run([bsdtar, "-xf", str(path), "-C", tmp], check=True)
+            try:
+                subprocess.run([bsdtar, "-xf", str(path), "-C", tmp], check=True)
+            except subprocess.CalledProcessError as e:
+                self.skipped.append(f"bsdtar failed ({e.returncode}): {rel}")
+                return
             root = Path(tmp)
             for f in sorted(root.rglob("*")):
                 if f.is_symlink() or not f.is_file():
                     continue
                 sub = safe_relpath(f.relative_to(root).as_posix())
                 kind = classify(sub) if sub else None
-                if kind in ("src", "spec") and f.stat().st_size <= MAX_MEMBER:
+                if kind in ("src", "spec"):
                     with open(f, "rb") as stream:
-                        self.write(kind, prefix / sub, stream)
+                        self.write(kind, prefix / sub, stream, f.stat().st_size)
 
 
 def extract_archive(
-    zip_path: Path, cand_id: str, src_root: Path = SRC_OUT, spec_root: Path = SPEC_OUT
+    zip_path: Path,
+    cand_id: str,
+    src_root: Path = SRC_OUT,
+    spec_root: Path = SPEC_OUT,
+    **limits,
 ) -> Extractor:
     for root in (src_root, spec_root):
         shutil.rmtree(root / cand_id, ignore_errors=True)
-    ex = Extractor(src_root / cand_id, spec_root / cand_id)
+    ex = Extractor(src_root / cand_id, spec_root / cand_id, **limits)
     with zipfile.ZipFile(zip_path) as zf:
         ex.zip(zf, PurePosixPath())
     return ex
@@ -181,10 +252,15 @@ def main(argv: list[str] | None = None) -> int:
         print(
             f"{row['id']:8} {ex.counts['src']:5} source files {ex.counts['spec']:3} PDFs"
         )
+        for s in ex.truncated:
+            print(f"         {s}")
         for s in ex.skipped:
             print(f"         skipped {s}")
-    SRC_OUT.mkdir(exist_ok=True)
-    (SRC_OUT / ".extracted").write_text(datetime.now(timezone.utc).isoformat() + "\n")
+    if not ids and not failed:
+        SRC_OUT.mkdir(exist_ok=True)
+        (SRC_OUT / ".extracted").write_text(
+            datetime.now(timezone.utc).isoformat() + "\n"
+        )
     return 1 if failed else 0
 
 

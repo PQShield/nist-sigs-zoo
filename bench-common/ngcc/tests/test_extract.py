@@ -90,3 +90,55 @@ def test_replaces_a_previous_extraction(tmp_path):
     make_zip(z, {"new.c": b""})
     extract_archive(z, "sign-01", tmp_path / "src", tmp_path / "specs")
     assert files_under(tmp_path / "src") == ["sign-01/new.c"]
+
+
+def test_truncates_oversize_kat_to_ten_records_and_skips_other_oversize(tmp_path):
+    kat = b"".join(b"Count = %d\nmsg = AA\n\n" % i for i in range(30))
+    z = tmp_path / "a.zip"
+    make_zip(z, {"C/KAT_SIG_X.txt": kat, "C/big.c": b"x" * len(kat), "C/ok.c": b"y"})
+    ex = extract_archive(
+        z, "sign-01", tmp_path / "src", tmp_path / "specs", max_member=100
+    )
+    out = (tmp_path / "src/sign-01/C/KAT_SIG_X.txt").read_bytes()
+    assert out.count(b"Count = ") == 10 and b"Count = 9\n" in out
+    assert b"Count = 10" not in out
+    assert ex.truncated == ["truncated KAT (first 10 records): C/KAT_SIG_X.txt"]
+    assert ex.skipped == ["too large: C/big.c"]
+    assert not (tmp_path / "src/sign-01/C/big.c").exists()
+
+
+def test_kat_prefix_over_cap_is_skipped(tmp_path):
+    z = tmp_path / "a.zip"
+    make_zip(z, {"C/KAT_SIG_X.txt": b"Count = 0\n" + b"a" * 500 + b"\n"})
+    ex = extract_archive(
+        z,
+        "sign-01",
+        tmp_path / "src",
+        tmp_path / "specs",
+        max_member=100,
+        prefix_cap=50,
+    )
+    assert files_under(tmp_path / "src") == []
+    assert len(ex.skipped) == 1 and "prefix exceeds cap" in ex.skipped[0]
+
+
+def test_file_collision_is_skipped_not_fatal(tmp_path):
+    z = tmp_path / "a.zip"
+    make_zip(z, {"C/a.c": b"x", "C/a.c/b.c": b"y", "C/z.c": b"z"})
+    ex = extract_archive(z, "sign-01", tmp_path / "src", tmp_path / "specs")
+    assert "sign-01/C/z.c" in files_under(tmp_path / "src")
+    assert len(ex.skipped) == 1 and "C/a.c/b.c" in ex.skipped[0]
+
+
+def test_nested_depth_limit(tmp_path):
+    data = b"int a;"
+    for i in range(5):
+        buf = io.BytesIO()
+        with zipfile.ZipFile(buf, "w") as zf:
+            zf.writestr("a.c" if i == 0 else f"d{i - 1}.zip", data)
+        data = buf.getvalue()
+    z = tmp_path / "a.zip"
+    make_zip(z, {"d4.zip": data})
+    ex = extract_archive(z, "sign-01", tmp_path / "src", tmp_path / "specs")
+    assert files_under(tmp_path / "src") == []
+    assert any("too deep" in s for s in ex.skipped)
