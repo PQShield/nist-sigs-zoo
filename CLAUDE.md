@@ -74,9 +74,14 @@ versions:
     broken: false              # or string description / "classical"
     warning: false             # or string description
     info: false                # or string description
+    findings_url: https://ngcc.dev/reports/sign-02.html   # optional link to third-party findings
+    implementation: "..."      # optional; bugs in submitted code (never sets broken); ps-level overrides
     parametersets:
       - name: ML-DSA-44
-        level: 2               # 1-5 or "Pre-Quantum"
+        level: 2               # NIST category 1-5 or "Pre-Quantum" ...
+        ngcc_level: 128        # ... OR China NGCC classical bits (128/256/384/512); never both
+        recommended: true      # optional; if any set in a version has it, only those show by default
+        implementation: "..."  # optional; bugs in submitted code (never sets broken)
         pk: 1312
         sig: 2420
         signing_cycles: 1234567
@@ -123,9 +128,14 @@ programmes:          # programme id → stage id (see data/programmes.yaml); opt
 broken: false        # or "classical" (pre-quantum schemes) / description
 warning: false
 info: false
+implementation: "..."   # optional; bugs in submitted code (never sets broken)
+findings_url: https://...   # optional link to third-party findings
 parametersets:
   - name: ML-KEM-768
-    level: 3           # 1-5 or "Pre-Quantum"
+    level: 3           # NIST category 1-5 or "Pre-Quantum" ...
+    ngcc_level: 128    # ... OR China NGCC classical bits (128/256/384/512); never both
+    recommended: true  # optional; if any set has it, only those show by default
+    implementation: "..."  # optional
     pk: 1184
     ct: 1088
     keygen_cycles: 20016    # optional; written by bench-kem/update_scheme_data.py
@@ -255,6 +265,7 @@ resolves to a known programme and stage, that no legacy `tags` remain, and the o
 
 Cycles extrapolated from ms values use `CPUSPEED = 2_500_000_000` (2.5 GHz).
 Extrapolated values shown with wavy red underline (`decoration-wavy decoration-red-500`).
+Never import third-party benchmark numbers; timings come from `bench/` and `bench-kem/` only.
 
 ### Cloud benchmark runs — `scripts/aws-bench.sh`
 

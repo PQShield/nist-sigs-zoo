@@ -65,3 +65,29 @@ describe('programme references in scheme data', () => {
 		expect(errors).toEqual([]);
 	});
 });
+
+describe('security levels in data', () => {
+	const NGCC = new Set([128, 256, 384, 512]);
+	type Ps = { name: string; level?: unknown; ngcc_level?: unknown };
+	function check(file: string, sets: Ps[]): string[] {
+		return sets.flatMap((ps) => {
+			const hasNist = ps.level !== undefined;
+			const hasNgcc = ps.ngcc_level !== undefined;
+			if (hasNist === hasNgcc) return [`${file} ${ps.name}: needs exactly one of level / ngcc_level`];
+			if (hasNgcc && !NGCC.has(ps.ngcc_level as number)) return [`${file} ${ps.name}: ngcc_level must be 128, 256, 384 or 512`];
+			return [];
+		});
+	}
+	it('every signature parameter set states exactly one level scale', () => {
+		const dir = join(DATA, 'schemes');
+		const errors = readdirSync(dir).filter((f) => f.endsWith('.yaml'))
+			.flatMap((f) => load<SchemeYaml>(join(dir, f)).versions.flatMap((v) => check(f, v.parametersets as Ps[])));
+		expect(errors).toEqual([]);
+	});
+	it('every KEM parameter set states exactly one level scale', () => {
+		const dir = join(DATA, 'kems');
+		const errors = readdirSync(dir).filter((f) => f.endsWith('.yaml'))
+			.flatMap((f) => check(f, load<KemSchemeYaml>(join(dir, f)).parametersets as Ps[]));
+		expect(errors).toEqual([]);
+	});
+});

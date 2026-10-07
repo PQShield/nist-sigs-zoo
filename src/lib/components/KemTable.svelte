@@ -177,7 +177,7 @@
 					<td class="whitespace-nowrap px-3 py-1.5 font-mono text-xs" title={row.parameterset}>{shortParam(row)}</td>
 					<!-- Level -->
 					<td class="px-3 py-1.5 text-right tabular-nums text-pqs-steel dark:text-pqs-bluegray">
-						{row.level === 'Pre-Quantum' ? 'N/A' : row.level}
+						{row.level === null ? (row.ngccLevel ? `${row.ngccLevel}-bit` : '—') : row.level === 'Pre-Quantum' ? 'N/A' : row.level}
 					</td>
 					<!-- pk -->
 					<td class="px-3 py-1.5 text-right tabular-nums">{fmt(row.pk)}</td>

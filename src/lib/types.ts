@@ -1,5 +1,8 @@
 export type NistLevel = 'Pre-Quantum' | 1 | 2 | 3 | 4 | 5;
 
+/** China NGCC claimed classical security, in bits. Not a NIST category; never converted to one. */
+export type NgccLevel = 128 | 256 | 384 | 512;
+
 export interface Scheme {
 	scheme: string;
 	status: string;
@@ -18,7 +21,7 @@ export interface ParameterSet {
 	parameterset: string;
 	category: string;
 	status: string;
-	level: NistLevel;
+	level: NistLevel | null;
 	pk: number;
 	sig: number;
 	pkPlusSig: number;
@@ -37,13 +40,20 @@ export interface ParameterSet {
 	version: string;
 	perfSource: string | null;
 	programmes: ProgrammeMembership[];
+	ngccLevel: NgccLevel | null;
+	recommended: boolean;
+	implementation: false | string;
+	findingsUrl: string | null;
 }
 
 // YAML schema types
 
 export interface ParameterSetYaml {
 	name: string;
-	level: number | 'Pre-Quantum';
+	level?: number | 'Pre-Quantum';
+	ngcc_level?: NgccLevel;
+	recommended?: boolean;
+	implementation?: string;
 	pk: number;
 	sig: number;
 	signing_cycles?: number;
@@ -61,6 +71,8 @@ export interface VersionYaml {
 	date: string;
 	status: string;
 	perf_source?: string;
+	implementation?: string;
+	findings_url?: string;
 	/** Programme id → stage id, e.g. { 'nist-onramp': 'round-3' } */
 	programmes?: Record<string, string | string[]>;
 	notes?: string;
@@ -82,7 +94,10 @@ export interface SchemeYaml {
 
 export interface KemParameterSetYaml {
 	name: string;
-	level: number | 'Pre-Quantum';
+	level?: number | 'Pre-Quantum';
+	ngcc_level?: NgccLevel;
+	recommended?: boolean;
+	implementation?: string;
 	pk: number;
 	ct: number;
 	keygen_cycles?: number;
@@ -103,6 +118,8 @@ export interface KemSchemeYaml {
 	category: string;
 	assumption: string;
 	status: string;
+	implementation?: string;
+	findings_url?: string;
 	/** Programme id → stage id, e.g. { 'nist-pqc': 'standardised' } */
 	programmes?: Record<string, string | string[]>;
 	broken?: string;
@@ -129,7 +146,7 @@ export interface KemParameterSet {
 	parameterset: string;
 	category: string;
 	status: string;
-	level: NistLevel;
+	level: NistLevel | null;
 	pk: number;
 	ct: number;
 	pkPlusCt: number;
@@ -147,6 +164,10 @@ export interface KemParameterSet {
 	assumption: string;
 	notes: string | null;
 	programmes: ProgrammeMembership[];
+	ngccLevel: NgccLevel | null;
+	recommended: boolean;
+	implementation: false | string;
+	findingsUrl: string | null;
 }
 
 export type KemAxisField =

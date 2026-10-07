@@ -1,6 +1,8 @@
 import { describe, it, expect } from 'vitest';
-import { buildUrlParams } from '$lib/filterStore';
-import type { FilterState, DataRanges } from '$lib/types';
+import { buildUrlParams, sortRows, createFilterStore } from '$lib/filterStore';
+import { get } from 'svelte/store';
+import { processYamlSchemes } from '$lib/data';
+import type { FilterState, DataRanges, SchemeYaml } from '$lib/types';
 
 function makeDefaults(): FilterState {
 	return {
@@ -90,5 +92,29 @@ describe('buildUrlParams', () => {
 		expect(params.get('sort')).toBe('sig');
 		expect(params.get('dir')).toBe('desc');
 		expect(params.get('pkMin')).toBe('300');
+	});
+});
+
+describe('NGCC-scale rows and the NIST level filter', () => {
+	it('never match a NIST level, even with every level selected', () => {
+		const data: SchemeYaml[] = [
+			{ name: 'Nist', website: '', category: 'Lattices', assumption: '', versions: [{ version: 'v1', date: '2024-01-01', status: 'On-ramp', parametersets: [{ name: 'L1', level: 1, pk: 100, sig: 200, signing_cycles: 1000, verification_cycles: 1000 }] }] },
+			{ name: 'Ngcc', website: '', category: 'Lattices', assumption: '', versions: [{ version: 'R1', date: '2026-09-20', status: 'NGCC', parametersets: [{ name: 'X-128', ngcc_level: 128, pk: 100, sig: 200, signing_cycles: 1000, verification_cycles: 1000 }] }] }
+		];
+		const { parameterSets, ranges } = processYamlSchemes(data);
+		const { filteredRows } = createFilterStore(parameterSets, ranges, new URLSearchParams());
+		expect(get(filteredRows).map((r) => r.scheme)).toEqual(['Nist']);
+	});
+
+	it('sort by level keeps NGCC-scale rows last without throwing', () => {
+		const data: SchemeYaml[] = [
+			{ name: 'A', website: '', category: 'Lattices', assumption: '', versions: [{ version: 'v', date: '2026-01-01', status: 'x', parametersets: [
+				{ name: 'n', ngcc_level: 256, pk: 1, sig: 1, signing_cycles: 1, verification_cycles: 1 },
+				{ name: 'l', level: 3, pk: 1, sig: 1, signing_cycles: 1, verification_cycles: 1 }
+			] }] }
+		];
+		const { parameterSets } = processYamlSchemes(data);
+		const sorted = [...parameterSets].sort((a, b) => sortRows(a, b, 'level', 'asc'));
+		expect(sorted.map((r) => r.parameterset)).toEqual(['l', 'n']);
 	});
 });

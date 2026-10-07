@@ -54,7 +54,8 @@
 		return 'ok';
 	}
 
-	function levelLabel(level: NistLevel): string {
+	function levelLabel(level: NistLevel | null): string {
+		if (level === null) return 'Not a NIST level';
 		if (level === 'Pre-Quantum') return 'N/A';
 		return `Level ${level}`;
 	}

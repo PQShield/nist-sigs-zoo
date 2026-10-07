@@ -116,6 +116,10 @@ export function parseParameterSets(
 			version: '',
 			perfSource: null,
 			programmes: [],
+			ngccLevel: null,
+			recommended: true,
+			implementation: false,
+			findingsUrl: null,
 		};
 	});
 
@@ -199,9 +203,14 @@ export function processYamlSchemes(
 		};
 		schemes.push(scheme);
 
+		const anyRecommended = latest.parametersets.some((p) => p.recommended);
 		for (const ps of latest.parametersets) {
-			const level: NistLevel =
-				ps.level === 'Pre-Quantum' ? 'Pre-Quantum' : (ps.level as 1 | 2 | 3 | 4 | 5);
+			const level: NistLevel | null =
+				ps.level === undefined
+					? null
+					: ps.level === 'Pre-Quantum'
+						? 'Pre-Quantum'
+						: (ps.level as 1 | 2 | 3 | 4 | 5);
 
 			const signingUs = ps.signing_us ?? null;
 			const verificationUs = ps.verification_us ?? null;
@@ -225,6 +234,7 @@ export function processYamlSchemes(
 			const broken = ps.broken ?? latest.broken ?? false;
 			const warning = ps.warning ?? latest.warning ?? false;
 			const info = ps.info ?? latest.info ?? false;
+			const implementation = ps.implementation ?? latest.implementation ?? false;
 
 			const pk = ps.pk;
 			const sig = ps.sig;
@@ -253,6 +263,10 @@ export function processYamlSchemes(
 				version: latest.version,
 				perfSource: latest.perf_source ?? null,
 				programmes,
+				ngccLevel: ps.ngcc_level ?? null,
+				recommended: anyRecommended ? ps.recommended === true : true,
+				implementation,
+				findingsUrl: latest.findings_url ?? null,
 			});
 		}
 	}

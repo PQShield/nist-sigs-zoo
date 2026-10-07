@@ -160,6 +160,14 @@ describe('KEM filtering', () => {
 		const out = filterKemRows(parameterSets, filter);
 		expect(out.map((r) => r.parameterset)).toEqual(['X25519']);
 	});
+
+	it('never lets an NGCC-scale KEM match a NIST level filter', () => {
+		const ngcc = { ...mlkem, name: 'Aigis-Enc+', parametersets: [{ name: 'Aigis-enc1', ngcc_level: 128 as const, pk: 656, ct: 896 }] };
+		const { schemes, parameterSets } = processKemSchemes([mlkem, ngcc]);
+		const filter = defaultKemFilter(computeKemRanges(parameterSets), schemes.map((s) => s.scheme));
+		expect(filterKemRows(parameterSets, filter).map((r) => r.scheme)).not.toContain('Aigis-Enc+');
+		expect(parameterSets.find((r) => r.scheme === 'Aigis-Enc+')!.ngccLevel).toBe(128);
+	});
 });
 
 describe('KEM URL codec', () => {

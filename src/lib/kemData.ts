@@ -44,14 +44,20 @@ export function processKemSchemes(schemeData: KemSchemeYaml[]): {
 			programmes,
 		});
 
+		const anyRecommended = yaml.parametersets.some((p) => p.recommended);
 		for (const ps of yaml.parametersets) {
-			const level: NistLevel =
-				ps.level === 'Pre-Quantum' ? 'Pre-Quantum' : (ps.level as 1 | 2 | 3 | 4 | 5);
+			const level: NistLevel | null =
+				ps.level === undefined
+					? null
+					: ps.level === 'Pre-Quantum'
+						? 'Pre-Quantum'
+						: (ps.level as 1 | 2 | 3 | 4 | 5);
 
 			// Parameter-set flags fall back to scheme-level flags.
 			const broken = ps.broken ?? yaml.broken ?? false;
 			const warning = ps.warning ?? yaml.warning ?? false;
 			const info = ps.info ?? yaml.info ?? false;
+			const implementation = ps.implementation ?? yaml.implementation ?? false;
 
 			const keygenUs = ps.keygen_us ?? null;
 			const encapsUs = ps.encaps_us ?? null;
@@ -86,6 +92,10 @@ export function processKemSchemes(schemeData: KemSchemeYaml[]): {
 				assumption: yaml.assumption,
 				notes: ps.notes ?? null,
 				programmes,
+				ngccLevel: ps.ngcc_level ?? null,
+				recommended: anyRecommended ? ps.recommended === true : true,
+				implementation,
+				findingsUrl: yaml.findings_url ?? null,
 			});
 		}
 	}
@@ -194,7 +204,7 @@ export function filterKemRows(
 ): KemParameterSet[] {
 	return rows.filter((row) => {
 		if (!filter.schemes.has(row.scheme)) return false;
-		if (!filter.levels.has(row.level)) return false;
+		if (row.level === null || !filter.levels.has(row.level)) return false;
 		if (row.pk < filter.minPk || row.pk > filter.maxPk) return false;
 		if (row.ct < filter.minCt || row.ct > filter.maxCt) return false;
 		if (row.pkPlusCt < filter.minPkPlusCt || row.pkPlusCt > filter.maxPkPlusCt) return false;

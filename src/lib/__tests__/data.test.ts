@@ -163,4 +163,45 @@ describe('processYamlSchemes', () => {
 		expect(processYamlSchemes(data, { programme: 'nist-onramp', stage: 'round-1' }).schemes).toEqual([]);
 		expect(processYamlSchemes(data).schemes[0].programmes).toEqual([{ programme: 'nist-onramp', stage: 'round-3' }]);
 	});
+
+	it('reads an NGCC level and leaves the NIST level empty', () => {
+		const ps = { name: 'BiT-128', ngcc_level: 128 as const, pk: 1048, sig: 1504 };
+		const data = [scheme({ versions: [{ version: 'Round 1', date: '2026-09-20', status: 'NGCC', programmes: { 'china-ngcc': 'round-1' }, parametersets: [ps] }] })];
+		const [row] = processYamlSchemes(data).parameterSets;
+		expect(row.level).toBeNull();
+		expect(row.ngccLevel).toBe(128);
+	});
+
+	it('marks every parameter set recommended when the version sets no flags', () => {
+		const data = [scheme({ versions: [{ version: 'v1', date: '2024-01-01', status: 'On-ramp', parametersets: [BASE_PS, { ...BASE_PS, name: 'Test-256' }] }] })];
+		expect(processYamlSchemes(data).parameterSets.map((r) => r.recommended)).toEqual([true, true]);
+	});
+
+	it('marks only flagged parameter sets recommended when any are flagged', () => {
+		const data = [scheme({ versions: [{ version: 'v1', date: '2024-01-01', status: 'On-ramp', parametersets: [
+			{ ...BASE_PS, name: 'fast', recommended: true },
+			{ ...BASE_PS, name: 'small' }
+		] }] })];
+		expect(processYamlSchemes(data).parameterSets.map((r) => [r.parameterset, r.recommended])).toEqual([['fast', true], ['small', false]]);
+	});
+
+	it('keeps implementation findings separate from design breaks', () => {
+		const data = [scheme({ versions: [{
+			version: 'v1', date: '2024-01-01', status: 'NGCC', implementation: 'Stack write on malformed hints',
+			findings_url: 'https://ngcc.dev/reports/sign-01.html', parametersets: [BASE_PS]
+		}] })];
+		const [row] = processYamlSchemes(data).parameterSets;
+		expect(row.implementation).toBe('Stack write on malformed hints');
+		expect(row.broken).toBe(false);
+		expect(row.classical).toBe(false);
+		expect(row.findingsUrl).toBe('https://ngcc.dev/reports/sign-01.html');
+	});
+
+	it('lets a parameter set override the version implementation flag', () => {
+		const data = [scheme({ versions: [{
+			version: 'v1', date: '2024-01-01', status: 'NGCC', implementation: 'version-level',
+			parametersets: [{ ...BASE_PS, implementation: 'ps-level' }]
+		}] })];
+		expect(processYamlSchemes(data).parameterSets[0].implementation).toBe('ps-level');
+	});
 });

@@ -178,7 +178,7 @@ export function createFilterStore(
 			return $rows
 				.filter((row) => {
 					if (!$state.schemes.has(row.scheme)) return false;
-					if (!$state.levels.has(row.level)) return false;
+					if (row.level === null || !$state.levels.has(row.level)) return false;
 					if (row.pk < $state.minPk || row.pk > $state.maxPk) return false;
 					if (row.sig < $state.minSig || row.sig > $state.maxSig) return false;
 					if (row.pkPlusSig < $state.minPkPlusSig || row.pkPlusSig > $state.maxPkPlusSig)
