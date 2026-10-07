@@ -20,6 +20,8 @@ const config = {
 			// round-1/ is copied into dist/ post-build, not part of the SvelteKit app
 			handleHttpError: ({ path, message }) => {
 				if (path.startsWith('/round-1')) return;
+				// TEMPORARY (plan 4 Task 3 -> Task 5): the /programmes/ index route does not exist yet.
+				if (path === '/programmes/') return;
 				throw new Error(message);
 			},
 		},
