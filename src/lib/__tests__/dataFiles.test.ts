@@ -5,6 +5,7 @@ import yaml from 'js-yaml';
 import { isProgrammeGroup } from '$lib/compareFilters';
 import { versionProgrammes } from '$lib/programmes';
 import { buildSchemeIndex } from '$lib/slugs';
+import { isHistoryType } from '$lib/timeline';
 import type { HistoryEntry, KemSchemeYaml, ProgrammeYaml, SchemeYaml } from '$lib/types';
 
 const DATA = join(process.cwd(), 'data');
@@ -120,5 +121,63 @@ describe('scheme pages', () => {
 			(e.schemes ?? []).filter((n) => !names.has(n)).map((n) => `${e.date}: "${n}"`)
 		);
 		expect(unknown).toEqual([]);
+	});
+});
+
+describe('data/history.yaml', () => {
+	type Entry = { date?: unknown; type?: unknown; description?: unknown; schemes?: unknown; programmes?: unknown };
+
+	// Scheme names are checked by 'every history entry names a scheme or KEM that has a page' (scheme pages block).
+	/** One message per problem, naming the entry by position and date. */
+	function historyErrors(entries: Entry[], programmeIds: Set<string>): string[] {
+		return entries.flatMap((e, i) => {
+			const where = `history.yaml entry ${i + 1} (${String(e.date)})`;
+			const errors: string[] = [];
+			if (typeof e.date !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(e.date)) {
+				errors.push(`${where}: date must be a quoted 'YYYY-MM-DD' string`);
+			}
+			if (!isHistoryType(e.type)) errors.push(`${where}: unknown type "${String(e.type)}"`);
+			if (typeof e.description !== 'string' || e.description.trim() === '') errors.push(`${where}: empty description`);
+			if (e.schemes !== undefined && (!Array.isArray(e.schemes) || e.schemes.length === 0)) {
+				errors.push(`${where}: schemes must be a non-empty list`);
+			}
+			if (e.programmes !== undefined) {
+				if (!Array.isArray(e.programmes) || e.programmes.length === 0) {
+					errors.push(`${where}: programmes must be a non-empty list`);
+				} else {
+					for (const v of e.programmes) if (!programmeIds.has(v)) errors.push(`${where}: unknown programme "${v}"`);
+				}
+			}
+			return errors;
+		});
+	}
+
+	const programmeIds = new Set(programmes.map((p) => p.id));
+
+	it('every entry is well formed and names only known programmes', () => {
+		const history = load<Entry[]>(join(DATA, 'history.yaml'));
+		expect(history.length).toBeGreaterThan(0);
+		expect(historyErrors(history, programmeIds)).toEqual([]);
+	});
+
+	it('reports an unknown programme, naming the entry', () => {
+		const bad: Entry[] = [{ date: '2026-01-02', type: 'attack', description: 'x', programmes: ['ngcc'] }];
+		expect(historyErrors(bad, new Set(['kpqc']))).toEqual([
+			'history.yaml entry 1 (2026-01-02): unknown programme "ngcc"'
+		]);
+	});
+
+	it('rejects an unquoted date (js-yaml reads it as a Date)', () => {
+		const parsed = yaml.load('- date: 2026-01-02\n  type: update\n  description: x\n') as Entry[];
+		expect(historyErrors(parsed, programmeIds)[0]).toMatch(/entry 1 .*date must be a quoted/);
+	});
+
+	it('rejects an unknown type, an empty description and an empty list', () => {
+		const bad: Entry[] = [{ date: '2026-01-02', type: 'standardisation', description: ' ', schemes: [] }];
+		expect(historyErrors(bad, programmeIds)).toEqual([
+			'history.yaml entry 1 (2026-01-02): unknown type "standardisation"',
+			'history.yaml entry 1 (2026-01-02): empty description',
+			'history.yaml entry 1 (2026-01-02): schemes must be a non-empty list'
+		]);
 	});
 });
