@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { kemAxisValue, omittedNote, partitionPlottable, sigAxisValue } from '$lib/chartData';
+import { kemAxisValue, omittedNote, timeTooltip, partitionPlottable, sigAxisValue } from '$lib/chartData';
 import { processYamlSchemes } from '$lib/data';
 import { processKemSchemes } from '$lib/kemData';
 import { CYCLES_PER_US } from '$lib/constants';
@@ -54,5 +54,18 @@ describe('omittedNote', () => {
 	it('says how many parameter sets are missing and why', () => {
 		expect(omittedNote(1)).toBe('1 parameter set is not shown: not yet benchmarked.');
 		expect(omittedNote(4)).toBe('4 parameter sets are not shown: not yet benchmarked.');
+	});
+});
+
+describe('timeTooltip', () => {
+	it('shows measured times plainly, extrapolated ones marked, and skips missing', () => {
+		const t = timeTooltip([
+			{ label: 'Signing', us: 12.34, cycles: 0 },
+			{ label: 'Verification', us: null, cycles: 5000 },
+			{ label: 'Keygen', us: null, cycles: 0 }
+		]);
+		expect(t['Signing time']).toBe('12.3 µs');
+		expect(t['Verification time']).toBe('2.0 µs (estimated from cycles)');
+		expect(t).not.toHaveProperty('Keygen time');
 	});
 });

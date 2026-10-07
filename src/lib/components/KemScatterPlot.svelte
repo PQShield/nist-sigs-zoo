@@ -14,7 +14,7 @@
 		STANDARDISED,
 		type LegendGroup
 	} from '$lib/chartLegend';
-	import { kemAxisValue, omittedNote, partitionPlottable } from '$lib/chartData';
+	import { kemAxisValue, omittedNote, partitionPlottable, timeTooltip } from '$lib/chartData';
 	import { CPU_GHZ_LABEL } from '$lib/constants';
 	import type { KemAxisField, KemParameterSet, ScaleType } from '$lib/types';
 	import ChartLegend from './ChartLegend.svelte';
@@ -103,9 +103,11 @@
 				...(d.keygenCycles > 0 ? { 'Keygen (cycles)': d.keygenCycles.toLocaleString() } : {}),
 				...(d.encapsCycles > 0 ? { 'Encapsulation (cycles)': d.encapsCycles.toLocaleString() } : {}),
 				...(d.decapsCycles > 0 ? { 'Decapsulation (cycles)': d.decapsCycles.toLocaleString() } : {}),
-				...(d.keygenUs != null ? { 'Keygen (µs)': d.keygenUs.toLocaleString() } : {}),
-				...(d.encapsUs != null ? { 'Encapsulation (µs)': d.encapsUs.toLocaleString() } : {}),
-				...(d.decapsUs != null ? { 'Decapsulation (µs)': d.decapsUs.toLocaleString() } : {}),
+				...timeTooltip([
+					{ label: 'Keygen', us: d.keygenUs, cycles: d.keygenCycles },
+					{ label: 'Encapsulation', us: d.encapsUs, cycles: d.encapsCycles },
+					{ label: 'Decapsulation', us: d.decapsUs, cycles: d.decapsCycles }
+				]),
 				...(notes ? { Notes: notes } : {})
 			};
 

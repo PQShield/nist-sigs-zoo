@@ -1,4 +1,5 @@
-import { kemTimes, sigTimes } from './timing';
+import { fmtTime } from './format';
+import { displayUs, kemTimes, sigTimes } from './timing';
 import type { AxisField, KemAxisField, KemParameterSet, ParameterSet } from './types';
 
 /** Chart value of a signature row on an axis; null when the row has no value there. */
@@ -53,4 +54,17 @@ export function omittedNote(n: number): string {
 	return n === 1
 		? '1 parameter set is not shown: not yet benchmarked.'
 		: `${n} parameter sets are not shown: not yet benchmarked.`;
+}
+
+/** Tooltip entries for operation times: formatted like the tables, marked when extrapolated from cycles. */
+export function timeTooltip(
+	ops: { label: string; us: number | null; cycles: number }[]
+): Record<string, string> {
+	const out: Record<string, string> = {};
+	for (const { label, us, cycles } of ops) {
+		const t = displayUs(us, cycles);
+		if (t == null) continue;
+		out[`${label} time`] = us == null ? `${fmtTime(t)} (estimated from cycles)` : fmtTime(t);
+	}
+	return out;
 }

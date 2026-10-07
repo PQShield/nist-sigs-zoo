@@ -15,7 +15,7 @@
 		STANDARDISED,
 		type LegendGroup
 	} from '$lib/chartLegend';
-	import { omittedNote, partitionPlottable, sigAxisValue } from '$lib/chartData';
+	import { omittedNote, partitionPlottable, sigAxisValue, timeTooltip } from '$lib/chartData';
 	import { CPU_GHZ_LABEL } from '$lib/constants';
 	import type { AxisField, ScaleType } from '$lib/types';
 	import ChartLegend from './ChartLegend.svelte';
@@ -95,8 +95,10 @@
 				'pk+sig (bytes)': d.pkPlusSig.toLocaleString(),
 				...(d.signingCycles > 0 ? { 'Signing (cycles)': d.signingCycles.toLocaleString() } : {}),
 				...(d.verificationCycles > 0 ? { 'Verification (cycles)': d.verificationCycles.toLocaleString() } : {}),
-				...(d.signingUs != null ? { 'Signing (µs)': d.signingUs.toLocaleString() } : {}),
-				...(d.verificationUs != null ? { 'Verification (µs)': d.verificationUs.toLocaleString() } : {}),
+				...timeTooltip([
+					{ label: 'Signing', us: d.signingUs, cycles: d.signingCycles },
+					{ label: 'Verification', us: d.verificationUs, cycles: d.verificationCycles }
+				]),
 				...(notes ? { Notes: notes } : {})
 			};
 
