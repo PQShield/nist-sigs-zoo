@@ -154,4 +154,11 @@ test.describe('KEMs page', () => {
 		await expect.poll(() => paramSetCount(page)).toBe(expectedTotal - expectedNaCount);
 		expect(await levelTexts(page)).not.toContain('N/A');
 	});
+
+	test('table has a Programmes column in place of Status', async ({ page }) => {
+		await page.goto('/kems/');
+		await expect(page.getByRole('columnheader', { name: 'Programmes' })).toBeVisible();
+		await expect(page.locator('tbody')).toContainText('FIPS');
+		await expect(page.locator('tbody')).toContainText('KpqC selected');
+	});
 });

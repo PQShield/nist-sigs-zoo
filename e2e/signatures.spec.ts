@@ -57,6 +57,39 @@ test.describe('Signatures page', () => {
 		await page.waitForURL(/[?&]r=2/, { timeout: 15_000 });
 	});
 
+	test('table has a Programmes column with membership chips', async ({ page }) => {
+		await page.goto('/signatures/');
+		await expect(page.getByRole('columnheader', { name: 'Programmes' })).toBeVisible();
+		await expect(page.getByRole('columnheader', { name: /^Status/ })).toHaveCount(0);
+		await expect(page.locator('tbody')).toContainText('On-ramp round 3');
+		await expect(page.locator('tbody')).toContainText('FIPS 204');
+	});
+
+	test('a security badge expands a detail row under its parameter set', async ({ page }) => {
+		await page.goto('/signatures/?ps=all');
+		await page.waitForLoadState('networkidle');
+		const badge = page.locator('tbody').getByRole('button', { name: /: show details$/ }).first();
+		await expect(badge).toHaveAttribute('aria-expanded', 'false');
+		await badge.click();
+		await expect(badge).toHaveAttribute('aria-expanded', 'true');
+		const id = await badge.getAttribute('aria-controls');
+		expect(id).toBeTruthy();
+		const detail = page.locator(`[id="${id}"]`);
+		await expect(detail).toBeVisible();
+		expect(await detail.evaluate((el) => el.tagName)).toBe('TR');
+		await badge.click();
+		await expect(badge).toHaveAttribute('aria-expanded', 'false');
+		await expect(detail).toHaveCount(0);
+	});
+
+	test('table legend lists implementation findings separately from broken', async ({ page }) => {
+		await page.goto('/signatures/');
+		const legend = page.getByText('Select an icon for details').locator('..');
+		await expect(legend).toContainText('broken by design');
+		await expect(legend).toContainText('implementation findings');
+		await expect(legend).toContainText('not yet benchmarked');
+	});
+
 	test.describe('shared links keep their filters', () => {
 		async function schemeCells(page: import('@playwright/test').Page) {
 			await page.waitForSelector('table tbody tr');

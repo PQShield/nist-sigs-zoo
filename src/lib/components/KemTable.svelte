@@ -1,10 +1,17 @@
 <script lang="ts">
+	import { programmeChips, securityBadges, type BadgeKind } from '$lib/badges';
 	import type { KemParameterSet, KemSortableColumn } from '$lib/types';
+	import { allProgrammes } from '$lib/programmeData';
 	import { CYCLES_PER_US, CPU_GHZ_LABEL } from '$lib/constants';
 	import { fmt, fmtCycles, fmtTime } from '$lib/format';
-	import SecurityBadge from './SecurityBadge.svelte';
+	import { kemTimes } from '$lib/timing';
+	import BadgeIcon from './BadgeIcon.svelte';
+	import ProgrammeChips from './ProgrammeChips.svelte';
+	import TableLegend from './TableLegend.svelte';
 
-	let { rows }: { rows: KemParameterSet[] } = $props();
+	let { rows, recommendedOnly }: { rows: KemParameterSet[]; recommendedOnly: boolean } = $props();
+
+	const idPrefix = $props.id();
 
 	let sortCol = $state<KemSortableColumn>('pkPlusCt');
 	let sortDir = $state<'asc' | 'desc'>('asc');
@@ -14,10 +21,10 @@
 		return row.parameterset.startsWith(prefix) ? row.parameterset.slice(prefix.length) : row.parameterset;
 	}
 
+	/** Sortable columns; the Programmes column (not sortable) is inserted before index 2. */
 	const COLUMNS: { key: KemSortableColumn; label: string; numeric?: boolean }[] = [
 		{ key: 'scheme', label: 'Scheme' },
 		{ key: 'category', label: 'Category' },
-		{ key: 'status', label: 'Status' },
 		{ key: 'parameterset', label: 'Parameter Set' },
 		{ key: 'level', label: 'Level', numeric: true },
 		{ key: 'pk', label: 'pk (B)', numeric: true },
@@ -27,21 +34,23 @@
 		{ key: 'encapsUs', label: 'Encaps', numeric: true },
 		{ key: 'decapsUs', label: 'Decaps', numeric: true }
 	];
+	const COLSPAN = COLUMNS.length + 2; // + Programmes + Assumption
 
-	const levelOrder: Record<string, number> = {
-		'Pre-Quantum': 0,
-		1: 1,
-		2: 2,
-		3: 3,
-		4: 4,
-		5: 5
+	const DETAIL_TONE: Record<BadgeKind, string> = {
+		'pre-quantum': 'bg-pqs-smoke dark:bg-pqs-steel/20',
+		broken: 'bg-[#fdf2f2] dark:bg-[#3b1219]',
+		implementation: 'bg-[#fff4ec] dark:bg-[#3a1d0c]',
+		warning: 'bg-[#fdf6e7] dark:bg-[#33270a]',
+		note: 'bg-pqs-smoke dark:bg-pqs-steel/20'
 	};
+
+	const levelOrder: Record<string, number> = { 'Pre-Quantum': 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5 };
 
 	// Displayed time in µs, or null when the row has no timing data (shown as "—").
 	const TIME_VALUE: Partial<Record<KemSortableColumn, (r: KemParameterSet) => number | null>> = {
-		keygenUs: (r) => r.keygenUs ?? (r.keygenCycles > 0 ? r.keygenCycles / CYCLES_PER_US : null),
-		encapsUs: (r) => r.encapsUs ?? (r.encapsCycles > 0 ? r.encapsCycles / CYCLES_PER_US : null),
-		decapsUs: (r) => r.decapsUs ?? (r.decapsCycles > 0 ? r.decapsCycles / CYCLES_PER_US : null)
+		keygenUs: (r) => kemTimes(r).keygen,
+		encapsUs: (r) => kemTimes(r).encaps,
+		decapsUs: (r) => kemTimes(r).decaps
 	};
 
 	function compare(a: KemParameterSet, b: KemParameterSet, col: KemSortableColumn): number {
@@ -79,6 +88,17 @@
 		})
 	);
 
+	/** Which badge's detail row is open, per parameter set. */
+	let open = $state<Record<string, BadgeKind | undefined>>({});
+
+	function rowKey(row: KemParameterSet): string {
+		return `${row.scheme}/${row.parameterset}`;
+	}
+
+	function toggle(key: string, kind: BadgeKind) {
+		open[key] = open[key] === kind ? undefined : kind;
+	}
+
 	function setSort(col: KemSortableColumn) {
 		if (sortCol === col) {
 			sortDir = sortDir === 'asc' ? 'desc' : 'asc';
@@ -109,111 +129,100 @@
 				title="Estimated from {fmtCycles(cyc)} cycles @ {CPU_GHZ_LABEL}"
 			>{fmtTime(cyc / CYCLES_PER_US)}<span class="sr-only"> (estimated from {fmtCycles(cyc)} cycles @ {CPU_GHZ_LABEL})</span></span>
 		{:else}
-			<span class="text-pqs-bluegray">—</span>
+			<span class="text-pqs-bluegray" title="Not yet benchmarked">—<span class="sr-only"> not yet benchmarked</span></span>
 		{/if}
 	</td>
 {/snippet}
 
-<div class="overflow-x-auto rounded border border-pqs-ashgray shadow-sm dark:border-pqs-steel">
-	<table class="min-w-full text-sm">
-		<thead class="sticky top-0 z-10">
-			<tr class="bg-pqs-steel font-heading text-xs text-white">
-				{#each COLUMNS as col}
-					<th scope="col" aria-sort={ariaSort(col.key)} class="whitespace-nowrap p-0">
-						<button
-							onclick={() => setSort(col.key)}
-							class="w-full cursor-pointer select-none px-3 py-2.5 font-semibold hover:bg-pqs-steel-light {col.numeric ? 'text-right' : 'text-left'}"
-						>
-							{col.label}{sortIndicator(col.key)}
-						</button>
-					</th>
-				{/each}
-				<th scope="col" class="px-3 py-2.5 text-left text-xs font-semibold">Assumption</th>
-			</tr>
-		</thead>
-		<tbody class="divide-y divide-pqs-ashgray bg-white dark:divide-pqs-steel dark:bg-pqs-midnight-mid">
-			{#each sortedRows as row (row.scheme + row.parameterset)}
-				<tr class="hover:bg-pqs-smoke dark:hover:bg-pqs-steel/30">
-					<!-- Scheme -->
-					<td class="whitespace-nowrap px-3 py-1.5">
-						<a
-							href={row.website}
-							target="_blank"
-							rel="noopener noreferrer"
-							class="font-heading font-semibold text-pqs-steel hover:text-pqs-apricot dark:text-pqs-apricot dark:hover:text-pqs-apricot-light"
-						>
-							{row.scheme}
-						</a>
-						<SecurityBadge
-							broken={row.broken}
-							warning={row.warning}
-							info={row.info}
-							classical={row.classical}
-						/>
-					</td>
-					<!-- Category -->
-					<td class="whitespace-nowrap px-3 py-1.5 text-pqs-steel dark:text-pqs-bluegray">
-						{row.category}
-					</td>
-					<!-- Status -->
-					<td class="whitespace-nowrap px-3 py-1.5">
-						{#if row.status === 'FIPS'}
-							<span class="rounded bg-pqs-apricot/20 px-1.5 py-0.5 text-xs font-semibold text-pqs-apricot">FIPS</span>
-						{:else if row.status === 'To be standardized'}
-							<span class="rounded bg-pqs-steel/10 px-1.5 py-0.5 text-xs font-semibold text-pqs-steel dark:text-pqs-bluegray">Std pending</span>
-						{:else if row.status === 'Classic cryptography'}
-							<span class="text-pqs-steel/70 dark:text-pqs-bluegray/70">Classic</span>
-						{:else if row.status === 'Round-3 finalist'}
-							<span class="text-pqs-steel/70 dark:text-pqs-bluegray/70" title="Round-3 finalist">R3 finalist</span>
-						{:else if row.status === 'Round-3 alternate'}
-							<span class="text-pqs-steel/70 dark:text-pqs-bluegray/70" title="Round-3 alternate">R3 alternate</span>
-						{:else if row.status === 'ISO standardisation'}
-							<span class="rounded bg-pqs-steel/10 px-1.5 py-0.5 text-xs font-semibold text-pqs-steel dark:text-pqs-bluegray" title="ISO standardisation">ISO</span>
-						{:else}
-							<span class="text-pqs-steel/70 dark:text-pqs-bluegray/70">{row.status}</span>
+<div class="overflow-hidden rounded border border-pqs-ashgray shadow-sm dark:border-pqs-steel">
+	<div class="overflow-x-auto">
+		<table class="min-w-full text-sm">
+			<thead class="sticky top-0 z-10">
+				<tr class="bg-pqs-steel font-heading text-xs text-white">
+					{#each COLUMNS as col, i (col.key)}
+						{#if i === 2}
+							<th scope="col" class="whitespace-nowrap px-3 py-2.5 text-left font-semibold">Programmes</th>
 						{/if}
-					</td>
-					<!-- Parameterset -->
-					<td class="whitespace-nowrap px-3 py-1.5 font-mono text-xs" title={row.parameterset}>{shortParam(row)}</td>
-					<!-- Level -->
-					<td class="px-3 py-1.5 text-right tabular-nums text-pqs-steel dark:text-pqs-bluegray">
-						{row.level === null ? (row.ngccLevel ? `${row.ngccLevel}-bit` : '—') : row.level === 'Pre-Quantum' ? 'N/A' : row.level}
-					</td>
-					<!-- pk -->
-					<td class="px-3 py-1.5 text-right tabular-nums">{fmt(row.pk)}</td>
-					<!-- ct -->
-					<td class="px-3 py-1.5 text-right tabular-nums">{fmt(row.ct)}</td>
-					<!-- pk+ct -->
-					<td class="px-3 py-1.5 text-right tabular-nums">{fmt(row.pkPlusCt)}</td>
-					<!-- keygen / encaps / decaps -->
-					{@render timeCell(row.keygenUs, row.keygenCycles)}
-					{@render timeCell(row.encapsUs, row.encapsCycles)}
-					{@render timeCell(row.decapsUs, row.decapsCycles)}
-					<!-- Assumption -->
-					<td class="px-3 py-1.5 text-pqs-steel/80 dark:text-pqs-bluegray">{row.assumption}</td>
+						<th scope="col" aria-sort={ariaSort(col.key)} class="whitespace-nowrap p-0">
+							<button
+								type="button"
+								onclick={() => setSort(col.key)}
+								class="w-full cursor-pointer select-none px-3 py-2.5 font-semibold hover:bg-pqs-steel-light {col.numeric ? 'text-right' : 'text-left'}"
+							>
+								{col.label}{sortIndicator(col.key)}
+							</button>
+						</th>
+					{/each}
+					<th scope="col" class="px-3 py-2.5 text-left text-xs font-semibold">Assumption</th>
 				</tr>
-			{/each}
-			{#if sortedRows.length === 0}
-				<tr>
-					<td colspan="12" class="px-3 py-10 text-center text-pqs-bluegray">No KEMs to display.</td>
-				</tr>
-			{/if}
-		</tbody>
-	</table>
+			</thead>
+			<tbody class="divide-y divide-pqs-ashgray bg-white dark:divide-pqs-steel dark:bg-pqs-midnight-mid">
+				{#each sortedRows as row, i (rowKey(row))}
+					{@const key = rowKey(row)}
+					{@const badges = securityBadges(row)}
+					{@const openBadge = badges.find((b) => b.kind === open[key])}
+					{@const detailId = `${idPrefix}-detail-${i}`}
+					<tr class="hover:bg-pqs-smoke dark:hover:bg-pqs-steel/30">
+						<td class="whitespace-nowrap px-3 py-1.5">
+							<a
+								href={row.website}
+								target="_blank"
+								rel="noopener noreferrer"
+								class="font-heading font-semibold text-pqs-steel hover:text-pqs-apricot dark:text-pqs-apricot dark:hover:text-pqs-apricot-light"
+							>{row.scheme}</a>
+							{#each badges as badge (badge.kind)}
+								<button
+									type="button"
+									class="ml-1 inline-grid h-6 w-6 place-items-center rounded align-middle hover:bg-pqs-ashgray focus-visible:outline-2 focus-visible:outline-pqs-apricot dark:hover:bg-pqs-steel/40"
+									aria-label="{badge.title}: show details"
+									aria-expanded={open[key] === badge.kind}
+									aria-controls={open[key] === badge.kind ? detailId : undefined}
+									onclick={() => toggle(key, badge.kind)}
+								><BadgeIcon kind={badge.kind} /></button>
+							{/each}
+						</td>
+						<td class="whitespace-nowrap px-3 py-1.5 text-pqs-steel dark:text-pqs-bluegray">{row.category}</td>
+						<td class="px-3 py-1.5"><ProgrammeChips chips={programmeChips(row, allProgrammes)} /></td>
+						<td class="whitespace-nowrap px-3 py-1.5 font-mono text-xs" title={row.parameterset}>{shortParam(row)}</td>
+						<td class="px-3 py-1.5 text-right tabular-nums text-pqs-steel dark:text-pqs-bluegray">
+							{#if row.level !== null}
+								{row.level === 'Pre-Quantum' ? 'N/A' : row.level}
+							{:else if row.ngccLevel !== null}
+								<span class="font-semibold text-[#6b21a8] dark:text-[#d8b4fe]" title="China NGCC target in classical bits; not a NIST level">{row.ngccLevel}-bit</span>
+							{:else}
+								—
+							{/if}
+						</td>
+						<td class="px-3 py-1.5 text-right tabular-nums">{fmt(row.pk)}</td>
+						<td class="px-3 py-1.5 text-right tabular-nums">{fmt(row.ct)}</td>
+						<td class="px-3 py-1.5 text-right tabular-nums">{fmt(row.pkPlusCt)}</td>
+						{@render timeCell(row.keygenUs, row.keygenCycles)}
+						{@render timeCell(row.encapsUs, row.encapsCycles)}
+						{@render timeCell(row.decapsUs, row.decapsCycles)}
+						<td class="px-3 py-1.5 text-pqs-steel/80 dark:text-pqs-bluegray">{row.assumption}</td>
+					</tr>
+					{#if openBadge}
+						<tr id={detailId} class={DETAIL_TONE[openBadge.kind]}>
+							<td colspan={COLSPAN} class="whitespace-normal px-3 py-2.5 pl-9 text-sm leading-relaxed text-pqs-midnight dark:text-pqs-smoke [&_a]:text-pqs-apricot [&_a]:underline">
+								<strong class="font-heading">{openBadge.title}:</strong>
+								{@html openBadge.html}
+								{#if openBadge.href && /^https?:\/\//.test(openBadge.href)}
+									<a href={openBadge.href} target="_blank" rel="noopener noreferrer">Full findings report</a>
+								{/if}
+							</td>
+						</tr>
+					{/if}
+				{/each}
+				{#if sortedRows.length === 0}
+					<tr>
+						<td colspan={COLSPAN} class="px-3 py-10 text-center text-pqs-bluegray">No KEMs to display.</td>
+					</tr>
+				{/if}
+			</tbody>
+		</table>
+	</div>
 	<div class="border-t border-pqs-ashgray bg-pqs-smoke px-3 py-1.5 font-heading text-xs text-pqs-steel dark:border-pqs-steel dark:bg-pqs-midnight-mid dark:text-pqs-bluegray">
-		{sortedRows.length} parameter set{sortedRows.length === 1 ? '' : 's'}
+		<span>{sortedRows.length} parameter set{sortedRows.length === 1 ? '' : 's'}</span>{#if recommendedOnly}<span> shown (recommended sets)</span>{/if}
 	</div>
-	<div class="border-t border-pqs-ashgray bg-pqs-smoke px-3 py-2 text-xs text-pqs-steel/70 dark:border-pqs-steel dark:bg-pqs-midnight-mid dark:text-pqs-bluegray/70">
-		<span class="font-semibold text-pqs-steel dark:text-pqs-bluegray">Legend:</span>
-		<span class="ml-2">💣 pre-quantum (classical security only)</span>
-		<span class="ml-2">·</span>
-		<span class="ml-2">🧨 broken</span>
-		<span class="ml-2">·</span>
-		<span class="ml-2">⚠️ security warning</span>
-		<span class="ml-2">·</span>
-		<span class="ml-2">ℹ️ note</span>
-		<span class="ml-2">·</span>
-		<span class="ml-2"><span class="underline decoration-wavy decoration-pqs-scarlet">value</span> estimated from cycle counts</span>
-		<span class="ml-2">· tap icons for details</span>
-	</div>
+	<TableLegend />
 </div>

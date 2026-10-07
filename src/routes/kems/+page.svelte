@@ -121,7 +121,7 @@
 
 			<!-- Table -->
 			<section>
-				<KemTable rows={filteredRows} />
+				<KemTable rows={filteredRows} recommendedOnly={filter.paramSets === 'recommended'} />
 			</section>
 
 			<!-- Benchmark environment -->
