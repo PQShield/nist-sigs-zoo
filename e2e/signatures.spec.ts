@@ -70,16 +70,20 @@ test.describe('Signatures page', () => {
 		await page.waitForLoadState('networkidle');
 		const badge = page.locator('tbody').getByRole('button', { name: /: show details$/ }).first();
 		await expect(badge).toHaveAttribute('aria-expanded', 'false');
-		await badge.click();
-		await expect(badge).toHaveAttribute('aria-expanded', 'true');
 		const id = await badge.getAttribute('aria-controls');
 		expect(id).toBeTruthy();
 		const detail = page.locator(`[id="${id}"]`);
+		await expect(detail).toHaveCount(1);
+		await expect(detail).toBeHidden();
+		const title = (await badge.getAttribute('aria-label'))!.replace(': show details', '');
+		await badge.click();
+		await expect(badge).toHaveAttribute('aria-expanded', 'true');
+		await expect(detail).toContainText(title);
 		await expect(detail).toBeVisible();
 		expect(await detail.evaluate((el) => el.tagName)).toBe('TR');
 		await badge.click();
 		await expect(badge).toHaveAttribute('aria-expanded', 'false');
-		await expect(detail).toHaveCount(0);
+		await expect(detail).toBeHidden();
 	});
 
 	test('table legend lists implementation findings separately from broken', async ({ page }) => {
@@ -94,7 +98,7 @@ test.describe('Signatures page', () => {
 		async function schemeCells(page: import('@playwright/test').Page) {
 			await page.waitForSelector('table tbody tr');
 			await page.waitForTimeout(1000);
-			const rows = page.locator('table tbody tr').filter({ hasNotText: 'No parameter sets match' });
+			const rows = page.locator('table tbody tr:not([hidden])').filter({ hasNotText: 'No parameter sets match' });
 			const n = await rows.count();
 			const names: string[] = [];
 			for (let i = 0; i < n; i++) names.push(((await rows.nth(i).locator('td a').first().innerText()) ?? '').trim());

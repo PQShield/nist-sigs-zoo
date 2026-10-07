@@ -65,7 +65,7 @@
 </script>
 
 {#snippet timeCell(us: number | null, cyc: number)}
-	<td class="px-3 py-1.5 text-right tabular-nums">
+	<td class="whitespace-nowrap px-3 py-1.5 text-right tabular-nums">
 		{#if us != null}
 			{fmtTime(us)}
 		{:else if cyc > 0}
@@ -121,7 +121,7 @@
 									class="ml-1 inline-grid h-6 w-6 place-items-center rounded align-middle hover:bg-pqs-ashgray focus-visible:outline-2 focus-visible:outline-pqs-apricot dark:hover:bg-pqs-steel/40"
 									aria-label="{badge.title}: show details"
 									aria-expanded={open[key] === badge.kind}
-									aria-controls={open[key] === badge.kind ? detailId : undefined}
+									aria-controls={detailId}
 									onclick={() => toggle(key, badge.kind)}
 								><BadgeIcon kind={badge.kind} /></button>
 							{/each}
@@ -145,13 +145,15 @@
 						{@render timeCell(row.verificationUs, row.verificationCycles)}
 						<td class="px-3 py-1.5 text-pqs-steel/80 dark:text-pqs-bluegray">{row.assumption}</td>
 					</tr>
-					{#if openBadge}
-						<tr id={detailId} class={DETAIL_TONE[openBadge.kind]}>
+					{#if badges.length > 0}
+						<tr id={detailId} hidden={!openBadge} class={openBadge ? DETAIL_TONE[openBadge.kind] : ''}>
 							<td colspan={COLSPAN} class="whitespace-normal px-3 py-2.5 pl-9 text-sm leading-relaxed text-pqs-midnight dark:text-pqs-smoke [&_a]:text-pqs-apricot [&_a]:underline">
-								<strong class="font-heading">{openBadge.title}:</strong>
-								{@html openBadge.html}
-								{#if openBadge.href && /^https?:\/\//.test(openBadge.href)}
-									<a href={openBadge.href} target="_blank" rel="noopener noreferrer">Full findings report</a>
+								{#if openBadge}
+									<strong class="font-heading">{openBadge.title}:</strong>
+									{@html openBadge.html}
+									{#if openBadge.href && /^https?:\/\//.test(openBadge.href)}
+										<a href={openBadge.href} target="_blank" rel="noopener noreferrer">Full findings report</a>
+									{/if}
 								{/if}
 							</td>
 						</tr>
@@ -168,7 +170,7 @@
 		</table>
 	</div>
 	<div class="border-t border-pqs-ashgray bg-pqs-smoke px-3 py-1.5 font-heading text-xs text-pqs-steel dark:border-pqs-steel dark:bg-pqs-midnight-mid dark:text-pqs-bluegray">
-		<span>{$filteredRows.length} parameter set{$filteredRows.length === 1 ? '' : 's'}</span>{#if $store.paramSets === 'recommended'}<span> shown (recommended sets)</span>{/if}
+		<span>{$filteredRows.length} parameter set{$filteredRows.length === 1 ? '' : 's'}</span>{#if $store.paramSets === 'recommended'}{' '}<span>shown (recommended sets)</span>{/if}
 	</div>
 	<TableLegend />
 </div>
