@@ -292,7 +292,8 @@ GitHub Actions workflow at `.github/workflows/deploy.yml`:
 
 `.github/workflows/preview.yml` builds each same-repo PR (no `BASE_PATH`) and uploads
 `dist/` to the Cloudflare Pages Direct Upload project `nist-sigs-zoo` with
-`wrangler pages deploy --branch=pr-N`. A sticky PR comment links
+`npx wrangler pages deploy --branch=pr-N` (the repo only allows GitHub-owned actions, so no
+third-party actions). A sticky PR comment (`actions/github-script`) links
 `https://pr-N.nist-sigs-zoo.pages.dev` and the per-commit URL. Needs repo secrets
 `CLOUDFLARE_API_TOKEN` (Account → Cloudflare Pages → Edit) and `CLOUDFLARE_ACCOUNT_ID`.
 Fork PRs are skipped (no secrets). Production stays on GitHub Pages; `main` is never
