@@ -51,7 +51,8 @@ Vitest with node environment. Tests pure TypeScript functions only — no Svelte
 - `schemeHistory.test.ts`, `dates.test.ts` — history slice; date format (`fmtDate`, the single formatter, partial dates)
 - `schemePage.test.ts` — scheme page model
 - `chartNav.test.ts` — chart click vs. drag
-- `html.test.ts` — HTML sanitising; `dataFiles.test.ts` — validates `data/**/*.yaml`
+- `timeline.test.ts` — entry programmes, timeline filter and URL codec; `urlSync.test.ts` — when the URL sync is skipped
+- `html.test.ts` — HTML sanitising; `dataFiles.test.ts` — validates `data/**/*.yaml` (incl. history dates/types/programmes and programme primitives)
 
 **Adding unit tests:** create `src/lib/__tests__/<module>.test.ts`. Import directly from `$lib/...`.
 Pass mock `SchemeYaml[]` objects to `processYamlSchemes` — no fixture files needed.
@@ -67,6 +68,7 @@ Playwright against a built static site. The playwright config runs `npm run buil
 - `redirects.spec.ts` — legacy URLs (`/?filters`, `/advanced/`, `/history/`) forward to their new homes
 - `home.spec.ts` — home page: programme table, KpqC picks, compare links, latest changes, no redirect on plain visit
 - `schemes.spec.ts` — scheme pages, version comparison, links from tables and chart points
+- `timeline.spec.ts` — timeline filters (type, programme), URL round trip, empty state
 - `programmes.spec.ts` — `/programmes/` index and every `/programmes/<id>/` page: breadcrumb, facts, timeline, level table, findings box, stage / primitive toggles, NGCC empty state (reads `data/schemes`, so it passes with or without NGCC data), nav and home links
 
 **Adding E2E tests:** add to `e2e/signatures.spec.ts` or `e2e/advanced.spec.ts`, or create a new `e2e/<feature>.spec.ts`.
@@ -120,17 +122,32 @@ The YAML files are bundled at build time via a Vite plugin (`vite.config.ts`) an
 
 ### History
 
-`data/history.yaml` — chronological log of notable events shown in the site's history panel.
-**Update this file whenever scheme data changes** (spec updates, new attacks, milestone events).
+`data/history.yaml` — chronological log of notable events, shown on `/timeline/` (filterable) and
+in the home page's "Latest changes". **Update this file whenever scheme data changes** (spec
+updates, new attacks, milestone events).
 
 ```yaml
-- date: '2026-05-26'          # ISO date
-  type: update                 # update | attack | milestone
+- date: '2026-05-26'          # ISO date, quoted (unquoted dates become Date objects and fail the data test)
+  type: update                 # update | attack | milestone | standardization
   description: "HTML string. Link tags allowed."
-  schemes: [SNOVA]             # optional; list of affected scheme names
+  schemes: [SNOVA]             # optional; signature or KEM `name:`s — each must exist (checked in dataFiles.test.ts; the build fails via slugOf)
+  programmes: [china-ngcc]     # optional; programme ids from data/programmes.yaml
 ```
 
-Types: `update` (spec/data change), `attack` (new cryptanalysis result), `milestone` (NIST process event).
+Types: `update` (spec/data change), `attack` (new cryptanalysis result), `milestone` (programme
+process event), `standardization` (a standard published; shown as "Standardisation").
+
+An entry's programmes are the union of its `schemes:`' memberships (any version) and its explicit
+`programmes:`. Use `programmes:` for events with no scheme (e.g. an NGCC round announcement).
+Entries with neither are "Site updates". `dataFiles.test.ts` checks dates, types, scheme names and
+programme ids.
+
+Timeline URL params: `p` (programme ids, plus `site`) and `t` (types), comma-separated. A missing
+param means all, `p=` means none, and unknown values are ignored. Logic is in `src/lib/timeline.ts`
+(pure, unit-tested). The page keeps the filter in a `$state` rune and syncs it with
+`goto(…, { replaceState: true })`. Scheme names link to `/schemes/<slug>/`
+(`schemeHref(base, slugOf(name))`); programme chips link to `/programmes/<id>/`. Dates are shown
+with `fmtDate`.
 
 ### KEMs
 
@@ -220,6 +237,8 @@ src/
 │   ├── versionCompare.ts # version comparison: sets matched by name, % changes, flags, perf sources
 │   ├── schemeHistory.ts  # a scheme's slice of the history log (via `schemes:` names)
 │   ├── historyData.ts    # single runtime loader for data/history.yaml (throws if missing)
+│   ├── timeline.ts       # timeline: scheme→programme index, entry programmes, filter, URL codec (p, t)
+│   ├── urlSync.ts        # urlSyncTarget(): debounced filter→URL sync skips no-op and in-flight navigations
 │   ├── dates.ts          # fmtDate: the single date formatter (YYYY, YYYY-MM, YYYY-MM-DD)
 │   ├── schemePage.ts     # scheme page model (pure): header, tables, flag notes, events
 │   ├── chartNav.ts       # chart point click → scheme page; attachChartNav (capturing pointerdown tells click from drag)
@@ -233,6 +252,7 @@ src/
 │       ├── BadgeIcon / ProgrammeChips / TableLegend.svelte  # shared table pieces; badge detail rows always rendered (hidden when closed) so aria-controls resolves
 │       ├── ChartLegend.svelte    # HTML legend beside the chart (below on phones)
 │       ├── ChartModeToggle.svelte # Sizes / Speed
+│       ├── OmittedNote.svelte    # "N parameter sets are not shown: not yet benchmarked" under both scatter plots
 │       ├── SegmentedToggle.svelte # generic fieldset of aria-pressed buttons (programme pages)
 │       ├── scheme/               # scheme page: SchemeHeader, ParamSetTable, FlagNotes, VersionCompare, SchemeEvents
 │       ├── programme/            # ProgrammeView, ProgrammeTimeline, SecurityLevelsTable, FindingsSummary, SignatureCandidates, KemCandidates
@@ -258,7 +278,7 @@ src/
     ├── programmes/       # index (+page.ts: programmeCards) and [id]/ (entries() per registry id; {#key} ProgrammeView)
     ├── schemes/[slug]/   # one prerendered page per signature or KEM (entries() from schemeIndex):
     │                     # header, parameter sets, security flags, version comparison (signatures), history slice
-    ├── timeline/         # history panel (was /history/)
+    ├── timeline/         # /timeline/: events filtered by programme and type (URL p, t), programme chips
     ├── advanced/         # redirect stub → /signatures/advanced/ (LegacyRedirect)
     ├── history/          # redirect stub → /timeline/ (LegacyRedirect)
     └── kems/
@@ -269,7 +289,7 @@ src/
 src/lib/__tests__/       # Vitest unit tests (vitest.config.ts): badges, chartData, chartLegend,
                          # compareFilters, data, dataFiles, filterStore, html, kemData, legacy,
                          # programmePage, programmeRegistry, programmes, timing, slugs, versionCompare, schemeHistory,
-                         # dates, schemePage, chartNav
+                         # dates, schemePage, chartNav, timeline, urlSync
 e2e/                     # Playwright E2E tests (playwright.config.ts)
 ├── signatures.spec.ts
 ├── advanced.spec.ts
@@ -277,6 +297,7 @@ e2e/                     # Playwright E2E tests (playwright.config.ts)
 ├── home.spec.ts
 ├── programmes.spec.ts
 ├── schemes.spec.ts
+├── timeline.spec.ts
 └── redirects.spec.ts
 ```
 
@@ -304,6 +325,10 @@ and resets `_store` in place. This means components calling `getFilterStore()` a
 hold valid references — no stale subscription bugs.
 
 Category checkbox state is **derived** from the scheme set, not stored separately.
+
+Cycle filters: rows with no timing (0 cycles, shown as "—") pass the signature cycle min/max
+filters, mirroring KEM `outside()` in `kemData.ts`; the default minimums are computed over
+benchmarked rows only. Without this, unbenchmarked sets would vanish by default.
 
 URL state: filter params encoded as query params, applied client-side in `onMount`. The URL is
 the source of truth on load: the round is applied from it first (no `r` = latest), defaults are
@@ -374,7 +399,17 @@ The header's programme chips link to `/programmes/<id>/`: `Chip.programme` carri
 by name; flags shown per version are today's assessment of that version (see the history slice for
 when attacks were published). Cycle comparisons always state each version's `perf_source`: machines
 differ between versions. History entries reach a scheme page through their `schemes:` names. All
-dates are shown with `fmtDate` from `src/lib/dates.ts`.
+dates are shown with `fmtDate` from `src/lib/dates.ts`. The standard chip (FIPS / Std pending)
+links to `/programmes/nist-pqc/` like the others; the header omits an assumption equal to the
+category, and KEM pages show their status once (no Parameter-sets subtitle).
+
+### Page conventions
+
+- Titles: `<page> · {SITE_NAME}` (" · " everywhere); `app.html`'s static `og:title` equals `SITE_NAME`.
+- Every `target="_blank"` link carries `<span class="sr-only"> (opens in a new tab)</span>`.
+- Debounced filter→URL syncs (`replaceState` `goto`) go through `urlSyncTarget()`, which skips a
+  no-op URL and any sync while `navigating.to` is set; otherwise the mount-time sync cancels a
+  click on a scheme link.
 
 ### Parameter-set labels
 
