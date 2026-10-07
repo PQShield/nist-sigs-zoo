@@ -136,7 +136,7 @@
 								{#if change.symbol}<span aria-hidden="true">{change.symbol}</span>{" "}{/if}{change.text}{#if change.direction === 'down' || change.direction === 'up'}<span class="sr-only"> {WORDS[mode][change.direction]}</span>{/if}
 							</td>
 						{/each}
-						<td class="whitespace-nowrap px-3 py-1.5 font-heading text-xs font-semibold {flag.tone}" title={flag.title || undefined}>{flag.text}</td>
+						<td class="whitespace-nowrap px-3 py-1.5 font-heading text-xs font-semibold {flag.tone}" title={flag.title || undefined}>{flag.text}{#if flag.title}<span class="sr-only">. {flag.title}</span>{/if}</td>
 					</tr>
 				{/each}
 			</tbody>
@@ -148,7 +148,7 @@
 		{#if mode === 'sizes'}Sizes in bytes.{/if}
 		Flags are today's assessment of each version's parameter sets; the history below shows when each attack was published.
 	</p>
-	{#if mode === 'cycles'}
+	{#if mode === 'cycles' && fromId !== toId}
 		<p data-testid="perf-note" class="mt-2 rounded bg-[#fdf6e7] px-3 py-2 text-xs text-pqs-midnight dark:bg-[#33270a] dark:text-pqs-smoke">
 			Cycle counts as recorded for each version. {fromOpt.label} ({fmtDate(fromOpt.date)}): {comparison.perf.from ?? 'source not recorded'}.
 			{toOpt.label} ({fmtDate(toOpt.date)}): {comparison.perf.to ?? 'source not recorded'}.

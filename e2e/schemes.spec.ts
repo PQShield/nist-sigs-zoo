@@ -104,6 +104,7 @@ test.describe('Compare versions (MAYO)', () => {
 		await expect(two).toContainText('▼ 40%');
 		await expect(two).toContainText('▲ 28%');
 		await expect(two).toContainText('Flag cleared');
+		await expect(two.locator('.sr-only').filter({ hasText: 'Was Broken' })).toHaveCount(1);
 		await expect(setRow(page, 'three')).toContainText('same');
 	});
 
@@ -123,6 +124,13 @@ test.describe('Compare versions (MAYO)', () => {
 		const note = page.getByTestId('perf-note');
 		await expect(note).toContainText('submission document (Table 3.1');
 		await expect(note).toContainText('machines and implementations can differ');
+	});
+
+	test('cycles mode drops the duplicated source note when From equals To', async ({ page }) => {
+		await page.getByRole('button', { name: 'Cycles' }).click();
+		await expect(page.getByTestId('perf-note')).toBeVisible();
+		await page.getByLabel('From', { exact: true }).selectOption('2026-08-31');
+		await expect(page.getByTestId('perf-note')).toHaveCount(0);
 	});
 
 	test('picking an older From version re-matches the sets', async ({ page }) => {

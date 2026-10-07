@@ -14,7 +14,7 @@ const VALID_SLUG = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 export function slugify(name: string): string {
 	return name
 		.normalize('NFKD')
-		.replace(/[̀-ͯ]/g, '')
+		.replace(/[\u0300-\u036f]/g, '')
 		.replace(/\+/g, ' plus ')
 		.toLowerCase()
 		.replace(/[^a-z0-9]+/g, '-')
@@ -57,7 +57,7 @@ export function buildSchemeIndex(
 		bySlug.set(ref.slug, ref);
 		byName.set(ref.name, ref);
 	}
-	return refs.sort((a, b) => a.slug.localeCompare(b.slug));
+	return refs.sort((a, b) => (a.slug < b.slug ? -1 : a.slug > b.slug ? 1 : 0));
 }
 
 export function schemeHref(base: string, slug: string): string {

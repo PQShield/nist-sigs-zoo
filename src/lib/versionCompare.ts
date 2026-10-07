@@ -189,7 +189,7 @@ export interface ChangeText {
 
 /** "▼ 40%", "▲ 0.5%", "▲ <0.1%", "same" or "—" (no comparable values). */
 export function formatChange(pct: number | null): ChangeText {
-	if (pct === null) return { symbol: '', text: '—', direction: null };
+	if (pct === null || !Number.isFinite(pct)) return { symbol: '', text: '—', direction: null };
 	if (pct === 0) return { symbol: '', text: 'same', direction: 'same' };
 	const abs = Math.abs(pct);
 	const shown = abs < 1 ? abs.toFixed(1) : String(Math.round(abs));

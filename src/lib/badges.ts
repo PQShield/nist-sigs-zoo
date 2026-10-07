@@ -13,6 +13,11 @@ export interface Badge {
 	href: string | null;
 }
 
+/** The URL if it is http(s), else null: the one sanitiser for any href built from YAML data. */
+export function httpUrl(url: string | null | undefined): string | null {
+	return url && /^https?:\/\//i.test(url) ? url : null;
+}
+
 /** Legend wording per badge kind. */
 export const BADGE_LEGEND: Record<BadgeKind, string> = {
 	'pre-quantum': 'pre-quantum',
@@ -40,7 +45,7 @@ export function securityBadges(row: {
 		badges.push({ kind: 'broken', title: 'Broken', html: row.broken, href: null });
 	}
 	if (row.implementation) {
-		badges.push({ kind: 'implementation', title: 'Implementation findings', html: row.implementation, href: row.findingsUrl });
+		badges.push({ kind: 'implementation', title: 'Implementation findings', html: row.implementation, href: httpUrl(row.findingsUrl) });
 	}
 	if (row.warning) badges.push({ kind: 'warning', title: 'Warning', html: row.warning, href: null });
 	if (row.info) badges.push({ kind: 'note', title: 'Note', html: row.info, href: null });

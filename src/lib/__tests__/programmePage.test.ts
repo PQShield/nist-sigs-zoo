@@ -7,7 +7,6 @@ import {
 	currentStage,
 	findingsSummary,
 	focusTarget,
-	formatDate,
 	kemMembers,
 	ngccTargets,
 	programmeCards,
@@ -264,13 +263,6 @@ describe('compareHref', () => {
 });
 
 describe('dates and facts', () => {
-	it('formats day, month and year precision without a locale', () => {
-		expect(formatDate('2026-09-20')).toBe('20 Sep 2026');
-		expect(formatDate('2025-01')).toBe('Jan 2025');
-		expect(formatDate('2021')).toBe('2021');
-		expect(formatDate('soon')).toBe('soon');
-		expect(formatDate('2025-13')).toBe('2025-13');
-	});
 	it('finds the current timeline entry', () => {
 		expect(currentStage(NGCC)?.label).toBe('Round 1');
 		expect(currentStage(KPQC)).toBeNull();

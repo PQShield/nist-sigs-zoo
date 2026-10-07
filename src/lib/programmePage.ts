@@ -1,4 +1,5 @@
 import { NGCC_LEVELS } from './constants';
+import { fmtDate } from './dates';
 import { processYamlSchemes } from './data';
 import { processKemSchemes } from './kemData';
 import { STANDARDS_PROGRAMME, versionProgrammes } from './programmes';
@@ -26,7 +27,6 @@ export interface StageView {
 }
 
 const ROUND = /^round-(\d+)$/;
-const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
 const capitalise = (t: string) => t.charAt(0).toUpperCase() + t.slice(1);
 
@@ -207,17 +207,6 @@ export function compareHref(
 	return `${base}/${kind === 'signature' ? 'signatures' : 'kems'}/?${params}`;
 }
 
-/** "20 Sep 2026", "Jan 2025" or "2021"; anything else is returned unchanged. */
-export function formatDate(date: string): string {
-	const m = /^(\d{4})(?:-(\d{2})(?:-(\d{2}))?)?$/.exec(date);
-	if (!m) return date;
-	const [, year, month, day] = m;
-	if (!month) return year;
-	if (Number(month) < 1 || Number(month) > 12) return date;
-	const mon = MONTHS[Number(month) - 1];
-	return day ? `${Number(day)} ${mon} ${year}` : `${mon} ${year}`;
-}
-
 export function currentStage(programme: ProgrammeYaml): ProgrammeTimelineEntry | null {
 	return programme.timeline?.find((e) => e.current) ?? null;
 }
@@ -226,7 +215,7 @@ export function currentStage(programme: ProgrammeYaml): ProgrammeTimelineEntry |
 export function stageText(programme: ProgrammeYaml): string | null {
 	const cur = currentStage(programme);
 	if (!cur) return null;
-	return cur.date ? `${cur.label}, since ${formatDate(cur.date)}` : cur.label;
+	return cur.date ? `${cur.label}, since ${fmtDate(cur.date)}` : cur.label;
 }
 
 export interface Fact {

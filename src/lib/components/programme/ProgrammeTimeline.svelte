@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { formatDate } from '$lib/programmePage';
+	import { fmtDate } from '$lib/dates';
 	import type { ProgrammeTimelineEntry } from '$lib/types';
 
 	let { entries }: { entries: ProgrammeTimelineEntry[] } = $props();
@@ -19,7 +19,7 @@
 			{#if e.current || e.date}
 				<p class="text-xs text-pqs-steel dark:text-pqs-bluegray">
 					{#if e.current}<span class="font-semibold text-pqs-midnight dark:text-pqs-apricot">Current</span>{#if e.date}{' · '}{/if}{/if}
-					{#if e.date}<time datetime={e.date}>{formatDate(e.date)}</time>{/if}
+					{#if e.date}<time datetime={e.date}>{fmtDate(e.date)}</time>{/if}
 				</p>
 			{/if}
 		</li>

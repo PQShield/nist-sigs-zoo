@@ -1,4 +1,4 @@
-import { programmeChips, securityBadges, type Badge, type BadgeKind, type Chip } from './badges';
+import { httpUrl, programmeChips, securityBadges, type Badge, type BadgeKind, type Chip } from './badges';
 import { CPU_GHZ_LABEL, CYCLES_PER_US } from './constants';
 import { processYamlSchemes } from './data';
 import { fmt, fmtCycles, fmtTime } from './format';
@@ -156,8 +156,7 @@ export function flagNotes(rows: (Parameters<typeof securityBadges>[0] & { parame
 			if (hit) {
 				hit.sets.push(r.parameterset);
 			} else {
-				const href = b.href && /^https?:\/\//.test(b.href) ? b.href : null;
-				notes.push({ ...b, href, sets: [r.parameterset], allSets: false });
+				notes.push({ ...b, href: httpUrl(b.href), sets: [r.parameterset], allSets: false });
 			}
 		}
 	}
@@ -179,6 +178,7 @@ export function flagSummary(notes: FlagNote[], total: number): string {
 }
 
 export function signaturePage(yaml: SchemeYaml, history: HistoryEntry[], registry: ProgrammeYaml[]): SignaturePage {
+	if (yaml.versions.length === 0) throw new Error(`scheme "${yaml.name}" has no versions`);
 	const versions = [...yaml.versions].sort((a, b) => b.date.localeCompare(a.date));
 	const latest = versions[0];
 	const options = versionOptions(versions);

@@ -86,6 +86,53 @@ describe('signaturePage', () => {
 	});
 });
 
+describe('signaturePage flags and versions', () => {
+	const set = (extra: object) => ({ name: 'a', level: 1, pk: 1, sig: 1, signing_cycles: 1, verification_cycles: 1, ...extra });
+	const mk = (versions: object[]): SchemeYaml =>
+		({ name: 'Flagged', website: 'https://x.example/', category: 'c', assumption: 'a', versions }) as SchemeYaml;
+	const ver = (date: string, extra: object, sets: object[]) => ({ version: date, date, status: 'On-ramp', ...extra, parametersets: sets });
+
+	it('never yields a broken note for a classical scheme', () => {
+		const page = signaturePage(mk([ver('2025-01-01', { broken: 'classical' }, [set({})])]), [], REGISTRY);
+		expect(page.flagNotes.map((n) => n.kind)).toEqual(['pre-quantum']);
+	});
+
+	it('lets a set-level false override a version-level flag', () => {
+		const page = signaturePage(
+			mk([ver('2025-01-01', { warning: 'v-level' }, [set({ name: 'a', warning: false }), set({ name: 'b' })])]),
+			[],
+			REGISTRY
+		);
+		expect(page.flagNotes).toEqual([expect.objectContaining({ kind: 'warning', sets: ['b'], allSets: false })]);
+	});
+
+	it('takes findings from the latest version only', () => {
+		const page = signaturePage(
+			mk([
+				ver('2024-01-01', { findings_url: 'https://old.example/r' }, [set({})]),
+				ver('2025-01-01', {}, [set({})])
+			]),
+			[],
+			REGISTRY
+		);
+		expect(page.findings).toBeNull();
+	});
+
+	it('rejects a scheme without versions', () => {
+		expect(() => signaturePage(mk([]), [], REGISTRY)).toThrow(/no versions/);
+	});
+
+	it('drops non-http badge links', () => {
+		const page = signaturePage(
+			mk([ver('2025-01-01', { implementation: 'bug', findings_url: 'javascript:alert(1)' }, [set({})])]),
+			[],
+			REGISTRY
+		);
+		expect(page.flagNotes[0].href).toBeNull();
+		expect(page.table.rows[0].badges[0].href).toBeNull();
+	});
+});
+
 describe('kemPage', () => {
 	const page = kemPage(KEM, HISTORY, REGISTRY);
 

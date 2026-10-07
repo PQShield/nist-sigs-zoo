@@ -142,9 +142,16 @@ describe('formatChange', () => {
 		[2.535, '▲', '3%', 'up'],
 		[0.5, '▲', '0.5%', 'up'],
 		[-0.96, '▼', '1.0%', 'down'],
-		[0.04, '▲', '<0.1%', 'up']
+		[0.04, '▲', '<0.1%', 'up'],
+		[-0.04, '▼', '<0.1%', 'down'],
+		[Number.NaN, '', '—', null],
+		[Number.POSITIVE_INFINITY, '', '—', null]
 	])('%s -> %s %s', (pct, symbol, text, direction) => {
 		expect(formatChange(pct)).toEqual({ symbol, text, direction });
+	});
+
+	it('shows a tiny rise computed from sizes as <0.1%', () => {
+		expect(formatChange(percentChange(10000, 10004))).toEqual({ symbol: '▲', text: '<0.1%', direction: 'up' });
 	});
 });
 
