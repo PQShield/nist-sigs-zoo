@@ -307,6 +307,36 @@ export interface ProgrammeStageYaml {
 	label: string;
 }
 
+export interface ProgrammeLinkYaml {
+	label: string;
+	url: string;
+}
+
+/** One step on a programme page's timeline. `date` is YYYY, YYYY-MM or YYYY-MM-DD; omit when not announced. */
+export interface ProgrammeTimelineEntry {
+	date?: string;
+	label: string;
+	note?: string;
+	/** The step the programme is at now (at most one per programme). */
+	current?: boolean;
+}
+
+/** A programme's security-level scale, shown as a table. The first cell of each row is its row header. */
+export interface SecurityLevelTableYaml {
+	intro: string;
+	note?: string;
+	columns: string[];
+	rows: string[][];
+}
+
+/** Where a programme's published findings come from, and how we credit them. */
+export interface FindingsSourceYaml {
+	label: string;
+	url: string;
+	credit: string;
+	note?: string;
+}
+
 export interface ProgrammeYaml {
 	id: string;
 	name: string;
@@ -316,6 +346,21 @@ export interface ProgrammeYaml {
 	url?: string;
 	primitives: ('signature' | 'kem')[];
 	stages: ProgrammeStageYaml[];
+	// Programme page content (all optional; the page omits what is missing)
+	/** Breadcrumb, card and tab title, e.g. "China NGCC". Falls back to `short`. */
+	nav_label?: string;
+	/** Facts-box organiser, e.g. "ICCS, Beijing". Falls back to `organiser`. */
+	organiser_detail?: string;
+	description?: string;
+	links?: ProgrammeLinkYaml[];
+	/** Facts-box "Not tracked" text, e.g. "9 key exchange, 35 hash functions". */
+	out_of_scope?: string;
+	candidates_heading?: string;
+	/** Official candidate counts at the current stage, for "34 candidates · 0 in our data". */
+	official_counts?: { signature?: number; kem?: number };
+	timeline?: ProgrammeTimelineEntry[];
+	security_levels?: SecurityLevelTableYaml;
+	findings?: FindingsSourceYaml;
 }
 
 /** One programme a scheme took part in, and how far it got. */

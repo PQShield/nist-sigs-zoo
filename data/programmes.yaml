@@ -1,5 +1,6 @@
 # Standardisation programmes tracked on the site.
 # Referenced from data/schemes/*.yaml (versions[].programmes) and data/kems/*.yaml (programmes).
+# Page fields (nav_label … findings) drive /programmes/<id>/; see src/lib/types.ts (ProgrammeYaml).
 - id: nist-pqc
   name: NIST post-quantum cryptography standardisation
   short: NIST
@@ -14,6 +15,40 @@
     - { id: round-4, label: round 4 }
     - { id: selected, label: selected }
     - { id: standardised, label: standard }
+  nav_label: NIST PQC
+  organiser_detail: NIST, Gaithersburg
+  description: >-
+    NIST's public process to select quantum-resistant public-key algorithms, opened with a call
+    for proposals in December 2016. It produced FIPS 203 (ML-KEM), FIPS 204 (ML-DSA) and FIPS 205
+    (SLH-DSA) in August 2024. Falcon (FN-DSA) and HQC were also selected and are being
+    standardised. Round-3 and round-4 KEMs that were not selected are listed for reference.
+  links:
+    - { label: NIST PQC project page, url: 'https://csrc.nist.gov/projects/post-quantum-cryptography' }
+    - { label: Third-round report (NIST IR 8413), url: 'https://doi.org/10.6028/NIST.IR.8413' }
+    - { label: Fourth-round report (NIST IR 8545), url: 'https://csrc.nist.gov/pubs/ir/8545/final' }
+  candidates_heading: Standards and candidates
+  timeline:
+    - { date: '2016-12-20', label: Call for proposals }
+    - { date: '2017-11-30', label: Submissions closed }
+    - { date: '2017-12-21', label: Round 1, note: 69 candidates }
+    - { date: '2019-01-30', label: Round 2, note: 26 candidates }
+    - { date: '2020-07-22', label: Round 3, note: '7 finalists, 8 alternates' }
+    - { date: '2022-07-05', label: First selections and round 4, note: '4 selected, 4 KEMs to round 4' }
+    - { date: '2024-08-13', label: 'FIPS 203, 204 and 205 published' }
+    - { date: '2025-03-11', label: HQC selected }
+    - { label: FN-DSA and HQC standards, note: in progress, current: true }
+  security_levels: &nist-levels
+    intro: >-
+      NIST defines five security categories by comparison with attacks on AES and SHA-2/SHA-3.
+      Each parameter set claims a category. This site shows each scheme on its own programme's
+      scale and does not convert between scales.
+    columns: [Category, At least as hard to break as]
+    rows:
+      - ['1', Key search on AES-128]
+      - ['2', Collision search on SHA-256 / SHA3-256]
+      - ['3', Key search on AES-192]
+      - ['4', Collision search on SHA-384 / SHA3-384]
+      - ['5', Key search on AES-256]
 - id: nist-onramp
   name: Additional digital signature schemes
   short: On-ramp
@@ -25,6 +60,26 @@
     - { id: round-1, label: round 1 }
     - { id: round-2, label: round 2 }
     - { id: round-3, label: round 3 }
+  nav_label: NIST on-ramp
+  organiser_detail: NIST, Gaithersburg
+  description: >-
+    NIST's call for additional post-quantum signature schemes, to diversify beyond lattice-based
+    signatures, with interest in short signatures and fast verification. Use the stage toggle to
+    see each round's entrants as submitted, or every entrant at its latest specification.
+  links:
+    - { label: On-ramp project page, url: 'https://csrc.nist.gov/projects/pqc-dig-sig' }
+    - { label: First-round report (NIST IR 8528), url: 'https://csrc.nist.gov/pubs/ir/8528/final' }
+    - { label: Second-round report (NIST IR 8610), url: 'https://csrc.nist.gov/pubs/ir/8610/final' }
+    - { label: Round 3 announcement, url: 'https://www.nist.gov/news-events/news/2026/05/nine-candidates-advance-third-round-additional-digital-signatures-pqc' }
+  candidates_heading: Candidates
+  official_counts: { signature: 9 }
+  timeline:
+    - { date: '2022-09-06', label: Call for proposals }
+    - { date: '2023-06-01', label: Submissions closed }
+    - { date: '2023-07-17', label: Round 1, note: 40 candidates }
+    - { date: '2024-10-24', label: Round 2, note: 14 candidates }
+    - { date: '2026-05-14', label: Round 3, note: 9 candidates, current: true }
+  security_levels: *nist-levels
 - id: china-ngcc
   name: Next-generation commercial cryptographic algorithms
   short: NGCC
@@ -34,6 +89,49 @@
   primitives: [signature, kem]
   stages:
     - { id: round-1, label: round 1 }
+  nav_label: China NGCC
+  organiser_detail: ICCS, Beijing
+  description: >-
+    China's open call for post-quantum public-key algorithms and hash functions, run by the
+    Institute of Commercial Cryptography Standards (ICCS). Algorithms already standardised by NIST
+    were not eligible. This site tracks the signatures and KEMs; the 9 key-exchange protocols and
+    35 hash functions in round 1 are out of scope.
+  links:
+    - { label: ICCS programme page, url: 'https://www.niccs.org.cn/en/' }
+    - { label: 'Independent analysis: ngcc.dev', url: 'https://ngcc.dev/' }
+  out_of_scope: 9 key exchange, 35 hash functions
+  candidates_heading: Round 1 candidates
+  official_counts: { signature: 34, kem: 41 }
+  timeline:
+    - { date: '2025-02-05', label: Programme launched }
+    - { date: '2025-10-09', label: Call for proposals }
+    - { date: '2026-06-30', label: Submissions closed }
+    - { date: '2026-09-20', label: Round 1, note: 119 candidates, current: true }
+    - { label: Round 2, note: not announced }
+  security_levels:
+    intro: >-
+      NGCC sets its targets in bits of classical security, each with a minimum quantum security.
+      NIST categories are defined by comparison with brute-force attacks on AES and SHA, so the
+      two scales do not line up. This site shows each scheme on its own programme's scale and
+      does not convert between them.
+    note: >-
+      Even the lowest NGCC target asks for 128-bit classical security; the 512-bit target is
+      beyond any NIST category.
+    columns: [NGCC target, Classical (bits), Quantum (bits), Status]
+    rows:
+      - [128-bit, '128', '≥ 80', Required]
+      - [256-bit, '256', '≥ 128', Required]
+      - [384-bit, '384', '—', Optional]
+      - [512-bit, '512', '≥ 256', Required]
+  findings:
+    label: ngcc.dev
+    url: https://ngcc.dev/
+    note: >-
+      Many design findings cap only the 256- or 512-bit parameter sets, so a candidate with a
+      design finding may still meet its 128-bit target.
+    credit: >-
+      Findings were published by Markku-Juhani O. Saarinen's evaluation effort and outside
+      researchers; each report credits its authors. Our summaries are in our own words.
 - id: kpqc
   name: Korean post-quantum cryptography competition
   short: KpqC
@@ -45,6 +143,19 @@
     - { id: round-1, label: round 1 }
     - { id: round-2, label: round 2 }
     - { id: selected, label: selected }
+  nav_label: KpqC
+  description: >-
+    South Korea's national post-quantum competition. In January 2025 it selected HAETAE and AIMer
+    (signatures) and SMAUG-T and NTRU+ (KEMs). Only the selected schemes are in our data so far.
+  links:
+    - { label: KpqC competition site, url: 'https://kpqc.or.kr' }
+  candidates_heading: Candidates
+  official_counts: { signature: 2, kem: 2 }
+  timeline:
+    - { date: '2021-11', label: Competition launched }
+    - { date: '2022-11', label: Round 1, note: 16 candidates }
+    - { date: '2023-12', label: Round 2, note: 8 candidates }
+    - { date: '2025-01', label: Final selection, note: '2 signatures, 2 KEMs', current: true }
 - id: iso
   name: ISO/IEC 18033-2 amendment
   short: ISO
@@ -53,3 +164,14 @@
   primitives: [kem]
   stages:
     - { id: in-progress, label: in progress }
+  nav_label: ISO/IEC 18033-2
+  organiser_detail: ISO/IEC JTC 1/SC 27
+  description: >-
+    Amendment 2 to ISO/IEC 18033-2 (asymmetric encryption), published in June 2026, which adds
+    post-quantum KEMs including FrodoKEM. Our data covers FrodoKEM and Classic McEliece, the
+    conservative choices that NIST did not standardise.
+  links:
+    - { label: ISO/IEC 18033-2:2006/Amd 2:2026 at ISO, url: 'https://www.iso.org/standard/86890.html' }
+  candidates_heading: Schemes in the amendment
+  timeline:
+    - { date: '2026-06', label: Amendment published, current: true }
