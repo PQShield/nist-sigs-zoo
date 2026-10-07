@@ -406,29 +406,29 @@
   instances:
     - instance: GreatWall128f
       omit: "Additional variant: submitters assign it to no NGCC level (Clarification4GreatWall.pdf Table 1, p. 1)"
-      ref: "Clarification4GreatWall.pdf, Table 1 (p. 1); spec Sec. 3.4, Table 3 (PDF p. 32)"
+      ref: "Clarification4GreatWall.pdf, Table 1 (p. 1); spec Sec. 3.4, Table 3 (PDF p. 31)"
     - instance: GreatWall128s
       omit: "Additional variant: submitters assign it to no NGCC level (Clarification4GreatWall.pdf Table 1, p. 1)"
-      ref: "Clarification4GreatWall.pdf, Table 1 (p. 1); spec Sec. 3.4, Table 3 (PDF p. 32)"
+      ref: "Clarification4GreatWall.pdf, Table 1 (p. 1); spec Sec. 3.4, Table 3 (PDF p. 31)"
     # Per the submitters' clarification (Clarification4GreatWall.pdf Table 1), the 192-bit variants are the NGCC 128 sets.
     - instance: GreatWall192f
       ngcc_level: 128
-      ref: "Clarification4GreatWall.pdf, Table 1 (p. 1); spec Sec. 3.4, Table 3 (PDF p. 32)"
+      ref: "Clarification4GreatWall.pdf, Table 1 (p. 1); spec Sec. 3.4, Table 3 (PDF p. 31)"
     - instance: GreatWall192s
       ngcc_level: 128
-      ref: "Clarification4GreatWall.pdf, Table 1 (p. 1); spec Sec. 3.4, Table 3 (PDF p. 32)"
+      ref: "Clarification4GreatWall.pdf, Table 1 (p. 1); spec Sec. 3.4, Table 3 (PDF p. 31)"
     - instance: GreatWall256f
       ngcc_level: 256
-      ref: "Clarification4GreatWall.pdf, Table 1 (p. 1); spec Sec. 3.4, Table 3 (PDF p. 32)"
+      ref: "Clarification4GreatWall.pdf, Table 1 (p. 1); spec Sec. 3.4, Table 3 (PDF p. 31)"
     - instance: GreatWall256s
       ngcc_level: 256
-      ref: "Clarification4GreatWall.pdf, Table 1 (p. 1); spec Sec. 3.4, Table 3 (PDF p. 32)"
+      ref: "Clarification4GreatWall.pdf, Table 1 (p. 1); spec Sec. 3.4, Table 3 (PDF p. 31)"
     - instance: GreatWall512f
       ngcc_level: 512
-      ref: "Clarification4GreatWall.pdf, Table 1 (p. 1); spec Sec. 3.4, Table 3 (PDF p. 32)"
+      ref: "Clarification4GreatWall.pdf, Table 1 (p. 1); spec Sec. 3.4, Table 3 (PDF p. 31)"
     - instance: GreatWall512s
       ngcc_level: 512
-      ref: "Clarification4GreatWall.pdf, Table 1 (p. 1); spec Sec. 3.4, Table 3 (PDF p. 32)"
+      ref: "Clarification4GreatWall.pdf, Table 1 (p. 1); spec Sec. 3.4, Table 3 (PDF p. 31)"
 # Sec. 6.1: Lynxer-160 is the set for the 128-bit classical / 80-bit quantum level. No recommended set.
 - id: sign-14
   kind: signature
