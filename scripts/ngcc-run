@@ -1,44 +1,32 @@
 #!/usr/bin/env bash
 # Run a command inside a throwaway, network-less container.
 #
-#   scripts/ngcc-run <cmd ...>      run <cmd> in /work (the repo, read-only)
+#   scripts/ngcc-run <cmd ...>      run <cmd> in a writable copy of the repo at /work
 #   scripts/ngcc-run --self-test    verify the sandbox (PASS/FAIL per check)
 #
 # All builds, KAT replays, `--sizes` extraction and smoke benchmarks of NGCC
 # candidate code (untrusted) must go through this wrapper, never the host.
 #
-# Isolation: --network none, all capabilities dropped, no-new-privileges, pid
-# and memory limits, repo mounted read-only; only the OUT_DIRS/OUT_FILES below
-# are writable. Extracted NGCC sources/specs are mounted read-only.
+# Isolation: --network none, all capabilities dropped, no-new-privileges,
+# read-only rootfs, pid/memory limits. The repo is mounted read-only at /repo;
+# entry.sh copies it into a throwaway writable /work (tmpfs), runs the command
+# there, and exports ONLY allowlisted text outputs (status/sizes TSVs, results
+# *.txt, *.log, KAT *.rsp/KAT*.txt) into the git-ignored .ngcc-out/ with exec
+# bits stripped. Binaries, .so, .mk, .c, .h are never exported, and the host
+# must never run or make anything produced in the container. Review the text
+# in .ngcc-out/ and copy it to its committed location by hand.
 #
 # Env: BENCH_ITER, BENCH_CYCLES, BENCH_CPU are forwarded if set.
 #      NGCC_DOCKER overrides the docker command (default: docker); a
 #      `sg docker -c "scripts/ngcc-run ..."` invocation works as well.
 #
+# NGCC_KEEP=1 keeps the workspace in a named tmpfs volume (name printed) for
+# debugging; remove with `docker volume rm <name>`. Default: discarded.
+#
 # Caveat: perf counters (rdpmc / perf_event_open) are usually unavailable in
 # the container, so cycle counts fall back to rdtsc. Local runs are smoke
 # tests only; real numbers come from scripts/aws-bench.sh.
 set -euo pipefail
-
-# Writable bind mounts (relative to the repo root). Everything else is ro.
-OUT_DIRS=(
-    bench/build
-    bench/results
-    bench/schemes/ngcc/build
-    bench-kem/build
-    bench-kem/results
-    bench-kem/schemes/ngcc/build
-)
-# Writable single files (the linked benchmark binaries).
-OUT_FILES=(
-    bench/bench
-    bench-kem/bench-kem
-)
-# Git-ignored extracted NGCC inputs: mounted read-only (when present).
-RO_DIRS=(
-    bench-common/ngcc/src
-    bench-common/ngcc/specs
-)
 
 REPO="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 DOCKERFILE_DIR="$REPO/scripts/ngcc-container"
@@ -60,25 +48,29 @@ if ! "${DOCKER[@]}" image inspect "$TAG" >/dev/null 2>&1; then
         -t "$TAG" "$DOCKERFILE_DIR" >&2
 fi
 
-ARGS=(run --rm --network none --cap-drop ALL --security-opt no-new-privileges
-    --pids-limit 4096 --memory 16g --user "$(id -u):$(id -g)"
-    --tmpfs /tmp:exec,size=4g -e HOME=/tmp -v "$REPO:/work:ro" -w /work)
+OUT="$REPO/.ngcc-out"
+mkdir -p "$OUT"
+UIDGID="$(id -u):$(id -g)"
+WORK_OPTS="exec,size=12g,uid=$(id -u),gid=$(id -g)"
 
-for d in "${OUT_DIRS[@]}"; do
-    mkdir -p "$REPO/$d"
-    ARGS+=(-v "$REPO/$d:/work/$d:rw")
-done
-for f in "${OUT_FILES[@]}"; do
-    # The file must exist to be bind-mounted. It is git-ignored; a missing one
-    # is created empty with epoch mtime so make treats it as stale and relinks.
-    if [ ! -e "$REPO/$f" ]; then
-        : >"$REPO/$f"
-        touch -d @0 "$REPO/$f"
+ARGS=(run --rm --network none --cap-drop ALL --security-opt no-new-privileges
+    --read-only --pids-limit 4096 --memory 16g --memory-swap 16g
+    --cpus "$(nproc)" --user "$UIDGID"
+    --tmpfs "/tmp:exec,size=4g,uid=$(id -u),gid=$(id -g)"
+    -e HOME=/tmp -v "$REPO:/repo:ro" -v "$OUT:/out:rw" -w /repo)
+if [ "${NGCC_KEEP:-}" = 1 ]; then
+    VOL="ngcc-work-$(date +%s)"
+    "${DOCKER[@]}" volume create --driver local --opt type=tmpfs --opt device=tmpfs \
+        --opt "o=$WORK_OPTS" "$VOL" >/dev/null
+    echo "ngcc-run: workspace kept in volume $VOL (docker volume rm $VOL)" >&2
+    ARGS+=(-v "$VOL:/work")
+else
+    ARGS+=(--tmpfs "/work:$WORK_OPTS")
+fi
+for d in src specs; do
+    if [ -d "$REPO/bench-common/ngcc/$d" ]; then
+        ARGS+=(-v "$REPO/bench-common/ngcc/$d:/repo/bench-common/ngcc/$d:ro")
     fi
-    ARGS+=(-v "$REPO/$f:/work/$f:rw")
-done
-for d in "${RO_DIRS[@]}"; do
-    if [ -d "$REPO/$d" ]; then ARGS+=(-v "$REPO/$d:/work/$d:ro"); fi
 done
 for v in BENCH_ITER BENCH_CYCLES BENCH_CPU; do
     if [ -n "${!v:-}" ]; then ARGS+=(-e "$v=${!v}"); fi
@@ -86,40 +78,21 @@ done
 if [ -t 0 ]; then ARGS+=(-i); fi
 if [ -t 0 ] && [ -t 1 ]; then ARGS+=(-t); fi
 
+ENTRY=/repo/scripts/ngcc-container/entry.sh
+
 if [ "$SELF_TEST" = 1 ]; then
-    ARGS+=(-e "NGCC_OUT_DIRS=${OUT_DIRS[*]}")
     set +e
-    "${DOCKER[@]}" "${ARGS[@]}" "$TAG" bash -c '
-fail=0
-check() { # name, status
-    if [ "$2" = 0 ]; then echo "PASS  $1"; else echo "FAIL  $1"; fail=1; fi
-}
-# (a) no network
-if getent hosts example.org >/dev/null 2>&1; then r=1; else r=0; fi
-check "no DNS (getent hosts example.org fails)" $r
-if curl -sS -m 5 -o /dev/null https://example.org 2>/dev/null; then r=1; else r=0; fi
-check "no network (curl fails)" $r
-n=$(ls /sys/class/net | grep -vc "^lo$" || true)
-check "only loopback interface" "$([ "$n" = 0 ] && echo 0 || echo 1)"
-# (b) /work read-only except output dirs
-if touch /work/.selftest 2>/dev/null; then rm -f /work/.selftest; r=1; else r=0; fi
-check "/work root is read-only" $r
-if touch /work/scripts/.selftest 2>/dev/null; then rm -f /work/scripts/.selftest; r=1; else r=0; fi
-check "/work/scripts is read-only" $r
-r=0
-for d in $NGCC_OUT_DIRS; do
-    if touch "/work/$d/.selftest" 2>/dev/null; then rm -f "/work/$d/.selftest"; else r=1; echo "      not writable: $d"; fi
-done
-check "listed output dirs are writable" $r
-# (c) non-root
-check "non-root (uid $(id -u))" "$([ "$(id -u)" != 0 ] && echo 0 || echo 1)"
-# (d) gcc >= 14
-v=$(gcc -dumpversion | cut -d. -f1)
-echo "      gcc major: $v"
-check "gcc >= 14" "$([ "$v" -ge 14 ] 2>/dev/null && echo 0 || echo 1)"
-exit $fail
-'
-    exit $?
+    rm -f "$OUT"/bench/results/selftest.txt "$OUT"/bench/schemes/ngcc/build/selftest.*
+    "${DOCKER[@]}" "${ARGS[@]}" "$TAG" "$ENTRY" /repo/scripts/ngcc-container/selftest.sh
+    fail=$?
+    chk() { if [ "$2" = 0 ]; then echo "PASS  $1"; else echo "FAIL  $1"; fail=1; fi; }
+    f="$OUT/bench/results/selftest.txt"
+    [ -f "$f" ]; chk "allowlisted text output is exported" $?
+    [ -f "$f" ] && [ -z "$(find "$f" -perm /111)" ]; chk "exported file has no exec bit" $?
+    [ ! -e "$OUT/bench/schemes/ngcc/build/selftest.so" ] && [ ! -e "$OUT/bench/schemes/ngcc/build/selftest.mk" ]
+    chk "non-allowlisted files (.so, .mk) are not exported" $?
+    rm -f "$f"
+    exit $fail
 fi
 
-exec "${DOCKER[@]}" "${ARGS[@]}" "$TAG" "$@"
+exec "${DOCKER[@]}" "${ARGS[@]}" "$TAG" "$ENTRY" "$@"

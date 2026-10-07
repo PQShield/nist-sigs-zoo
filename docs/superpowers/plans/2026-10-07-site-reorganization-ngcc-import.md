@@ -3672,6 +3672,13 @@ Stop and ask Thom to review this commit before anything else builds on it.
 NGCC candidates' C code is untrusted. The local build, KAT, `--sizes` and smoke
 benchmark commands in Tasks 4, 5, 6, 7, 11 and 12 (every `make -C
 <suite>/schemes/ngcc`, `./bench`/`./bench-kem` invocation, and `run_bench.sh`
-smoke run) must be run as `scripts/ngcc-run <command>` (inside a network-less
-container), not directly on the host. AWS benchmark runs (`scripts/aws-bench.sh`)
-are unchanged.
+smoke run) must be run as `scripts/ngcc-run <command>`. The command runs in a
+network-less container on a throwaway writable copy of the repo; only allowlisted
+text outputs (status/sizes TSVs, results `*.txt`, logs, KAT outputs, text under
+`/tmp`) are exported to `.ngcc-out/` (same relative paths; `/tmp` files under
+`.ngcc-out/tmp/`). After each such run, review the text there and copy it into its
+committed location (`status.tsv`, `results/ngcc_sizes.tsv`, ...). The host never
+runs or `make`s container outputs (binaries, `.so`, `build/rules.mk`). Host
+`make -C bench` for non-NGCC work must run with NGCC disabled or after
+`rm -rf bench/schemes/ngcc/build bench-kem/schemes/ngcc/build`. AWS benchmark
+runs (`scripts/aws-bench.sh`) are unchanged.

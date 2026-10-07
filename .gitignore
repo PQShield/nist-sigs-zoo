@@ -27,3 +27,5 @@ vite.config.ts.timestamp-*
 /test-results
 /playwright-report
 .claude/settings.local.json
+# NGCC container exports
+/.ngcc-out
