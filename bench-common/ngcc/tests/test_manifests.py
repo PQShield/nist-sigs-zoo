@@ -9,7 +9,7 @@ from gen_rules import read_params
 
 REPO = Path(__file__).resolve().parents[3]
 SUITES = {"sig": (REPO / "bench", 34, "sign"), "kem": (REPO / "bench-kem", 41, "kem")}
-POPULATED = ["sig"]
+POPULATED = ["sig", "kem"]
 KAT = {"PASS", "MISMATCH", "NOKAT", "CRYPTOFAIL", "LOADFAIL", "CRASH", "TIMEOUT", "-"}
 
 
