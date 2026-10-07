@@ -114,11 +114,13 @@ class Extractor:
             self.skipped.append(f"too large: {rel}")
             return
         dest = self.out[kind] / rel
+        kept = 0
         try:
             dest.parent.mkdir(parents=True, exist_ok=True)
             with open(dest, "wb") as out:
                 if truncate:
-                    if not self.copy_kat_prefix(stream, out):
+                    kept = self.copy_kat_prefix(stream, out)
+                    if kept is None:
                         raise _Skip(f"KAT prefix exceeds cap: {rel}")
                 else:
                     shutil.copyfileobj(stream, out)
@@ -133,20 +135,30 @@ class Extractor:
             self.skipped.append(f"cannot extract {rel}: {type(e).__name__}: {e}")
             return
         if truncate:
-            self.truncated.append(f"truncated KAT (first 10 records): {rel}")
+            self.truncated.append(f"truncated KAT (first {kept} records): {rel}")
         self.counts[kind] += 1
 
-    def copy_kat_prefix(self, stream, out) -> bool:
-        """Copy lines up to (not including) the first 'Count = 10'. False if over the byte cap."""
-        written = 0
+    def copy_kat_prefix(self, stream, out) -> int | None:
+        """Copy up to 10 whole records, fewer if the byte cap is hit.
+
+        Returns the number of records kept, or None if not even one fits.
+        """
+        written = seen = rec_start = 0
         for line in stream:
-            if line.startswith(b"Count = 10"):
-                break
+            if line.startswith(b"Count = "):
+                if seen == 10:
+                    break
+                seen += 1
+                rec_start = written
             written += len(line)
             if written > self.prefix_cap:
-                return False
+                if seen <= 1:
+                    return None
+                out.seek(rec_start)
+                out.truncate()
+                return seen - 1
             out.write(line)
-        return True
+        return seen
 
     def zip(self, zf: zipfile.ZipFile, prefix: PurePosixPath, depth: int = 0) -> None:
         for info in zf.infolist():

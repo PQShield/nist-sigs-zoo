@@ -107,9 +107,27 @@ def test_truncates_oversize_kat_to_ten_records_and_skips_other_oversize(tmp_path
     assert not (tmp_path / "src/sign-01/C/big.c").exists()
 
 
-def test_kat_prefix_over_cap_is_skipped(tmp_path):
+def test_kat_keeps_whole_records_that_fit_under_the_cap(tmp_path):
+    rec = b"Count = %d\n" + b"a" * 40 + b"\n\n"
+    kat = b"".join(rec % i for i in range(30))
     z = tmp_path / "a.zip"
-    make_zip(z, {"C/KAT_SIG_X.txt": b"Count = 0\n" + b"a" * 500 + b"\n"})
+    make_zip(z, {"C/KAT_SIG_X.txt": kat})
+    ex = extract_archive(
+        z,
+        "sign-01",
+        tmp_path / "src",
+        tmp_path / "specs",
+        max_member=100,
+        prefix_cap=len(rec % 0) * 2 + 5,
+    )
+    out = (tmp_path / "src/sign-01/C/KAT_SIG_X.txt").read_bytes()
+    assert out == rec % 0 + rec % 1
+    assert ex.truncated == ["truncated KAT (first 2 records): C/KAT_SIG_X.txt"]
+
+
+def test_kat_with_first_record_over_cap_is_skipped(tmp_path):
+    z = tmp_path / "a.zip"
+    make_zip(z, {"C/KAT_SIG_X.txt": b"Count = 0\n" + b"a" * 500 + b"\nCount = 1\n"})
     ex = extract_archive(
         z,
         "sign-01",
