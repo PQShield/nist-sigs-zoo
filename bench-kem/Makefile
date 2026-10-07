@@ -20,6 +20,13 @@ ALL_SOS     = $(CLASSIC_SOS) $(MLKEM_SOS) $(HQC_SOS) $(FRODO_SOS) $(MCELIECE_SOS
 SCHEME_DIRS = classic mlkem hqc frodo mceliece bat ntru ntruprime saber ntruplus smaugt mike
 STAMPS      = $(addprefix schemes/, $(addsuffix /.stamp, $(SCHEME_DIRS)))
 
+# China NGCC round-1 candidates: one generic ICCS-API shim, data-driven from
+# schemes/ngcc/params.tsv. Opt-in (NGCC_BUILD=1, set by the scripts/ngcc-run image):
+# the host never compiles or loads candidate code. Best effort: instances that fail
+# to build are skipped, and only the .so files in schemes/ngcc/build/built.list are benchmarked.
+NGCC_DIR    = schemes/ngcc
+NGCC_STAMP  = $(NGCC_DIR)/.stamp
+
 .PHONY: all clean
 
 all: bench-kem
@@ -38,6 +45,12 @@ schemes/saber/.stamp:   schemes/saber/Makefile schemes/saber/shim_template.c sch
 schemes/ntruplus/.stamp: schemes/ntruplus/Makefile schemes/ntruplus/shim_template.c schemes/ntruplus/params.tsv
 schemes/smaugt/.stamp:  schemes/smaugt/Makefile schemes/smaugt/shim_template.c schemes/smaugt/params.tsv
 schemes/mike/.stamp:     schemes/mike/Makefile  schemes/mike/shim_template.c  schemes/mike/params.tsv
+$(NGCC_STAMP): $(NGCC_DIR)/Makefile $(NGCC_DIR)/shim_template.c $(NGCC_DIR)/params.tsv \
+    ../bench-common/ngcc/ngcc.mk ../bench-common/ngcc/gen_rules.py \
+    $(wildcard $(NGCC_DIR)/patches/*/*) $(wildcard ../bench-common/ngcc/src/.extracted)
+	@if [ "$(NGCC_BUILD)" = 1 ]; then $(MAKE) -C $(NGCC_DIR) CC=$(CC); \
+	else echo "NGCC: skipped outside the container (set NGCC_BUILD=1; use scripts/ngcc-run)"; fi
+	touch $@
 
 # Shared recipe for every scheme stamp.
 $(STAMPS): schemes/%/.stamp:
@@ -59,8 +72,11 @@ $(SMAUGT_SOS):  schemes/smaugt/.stamp
 $(MIKE_SOS):     schemes/mike/.stamp
 
 # Generate the SO path list included by main.c.
-$(BUILD)/so_paths.h: Makefile | $(BUILD)
+$(BUILD)/so_paths.h: Makefile $(NGCC_STAMP) | $(BUILD)
 	@printf '"%s",\n' $(ALL_SOS) > $@
+ifeq ($(NGCC_BUILD),1)
+	@if [ -f $(NGCC_DIR)/build/built.list ]; then sed 's/.*/"&",/' $(NGCC_DIR)/build/built.list >> $@; fi
+endif
 
 $(BUILD)/main.o: main.c harness.h ../bench-common/harness_common.h loader.h scheme.h $(BUILD)/so_paths.h | $(BUILD)
 	$(CC) $(CFLAGS) -I$(BUILD) -c $< -o $@
@@ -78,3 +94,5 @@ clean:
 	rm -rf $(BUILD)
 	rm -f $(STAMPS)
 	for d in $(SCHEME_DIRS); do $(MAKE) -C schemes/$$d clean; done
+	$(MAKE) -C $(NGCC_DIR) clean
+	rm -f $(NGCC_STAMP)
