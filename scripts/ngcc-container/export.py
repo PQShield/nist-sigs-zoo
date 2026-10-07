@@ -107,7 +107,8 @@ def export_tar(fileobj, out: str, repo: str | None = None, log=sys.stderr):
             path = os.path.join(out, dest)
             parent = os.path.dirname(path)
             os.makedirs(parent, exist_ok=True)
-            if not os.path.realpath(parent).startswith(out + os.sep):
+            real_parent = os.path.realpath(parent)
+            if real_parent != out and not real_parent.startswith(out + os.sep):
                 reject(m.name, "destination escapes --out")
                 continue
             tmp = path + ".part"
