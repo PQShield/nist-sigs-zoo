@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import { base } from '$app/paths';
-	import { chartClickHref, type Point } from '$lib/chartNav';
+	import { attachChartNav } from '$lib/chartNav';
 	import { slugOf } from '$lib/schemeIndex';
 	import { schemeHref } from '$lib/slugs';
 	import { onMount } from 'svelte';
@@ -55,6 +55,8 @@
 
 	let container = $state<HTMLDivElement | null>(null);
 	let viewHandle: { finalize(): void } | null = null;
+	let alive = true;
+	let detachNav: (() => void) | null = null;
 	let renderSeq = 0;
 	let renderQueue: Promise<void> = Promise.resolve();
 	let renderError = $state(false);
@@ -81,9 +83,10 @@
 	}
 
 	async function doRender(seq: number) {
-		if (!container || seq !== renderSeq) return;
+		if (!alive || !container || seq !== renderSeq) return;
 
 		const { default: embed } = await import('vega-embed');
+		if (!alive || seq !== renderSeq) return;
 		const { plotted: data, omitted: missing } = partitionPlottable(rows, kemAxisValue, xField, yField);
 		omitted = missing.length;
 		const isDark = document.documentElement.classList.contains('dark');
@@ -216,24 +219,24 @@
 			}
 		};
 
+		detachNav?.();
 		viewHandle?.finalize();
 		viewHandle = null;
 		const result = await embed(container, spec, { actions: false, renderer: 'svg' });
+		if (!alive) {
+			result.finalize();
+			return;
+		}
 		viewHandle = result;
-		let down: Point | null = null;
-		result.view.addEventListener('mousedown', (event) => {
-			const e = event as MouseEvent;
-			down = { x: e.clientX, y: e.clientY };
-		});
-		result.view.addEventListener('click', (event, item) => {
-			const e = event as MouseEvent;
-			const href = chartClickHref(item?.datum, down, { x: e.clientX, y: e.clientY });
-			if (href) goto(href);
-		});
+		detachNav = attachChartNav(container, result.view, goto);
 	}
 
 	onMount(() => {
-		return () => viewHandle?.finalize();
+		return () => {
+			alive = false;
+			detachNav?.();
+			viewHandle?.finalize();
+		};
 	});
 
 	$effect(() => {

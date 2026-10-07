@@ -178,3 +178,24 @@ test.describe('Chart points open scheme pages', () => {
 		});
 	}
 });
+
+test.describe('Dragging the chart does not navigate', () => {
+	for (const route of ['/signatures/', '/kems/']) {
+		test(`a pan released over a point on ${route} stays on the page`, async ({ page }) => {
+			await page.goto(route);
+			await page.waitForFunction(() => document.querySelector('.mark-symbol path') !== null, { timeout: 15_000 });
+			await page.waitForLoadState('networkidle');
+			const box = await page.locator('.mark-symbol path').first().boundingBox();
+			expect(box).not.toBeNull();
+			const x = box!.x + box!.width / 2;
+			const y = box!.y + box!.height / 2;
+			// The point pans with the cursor, so the release lands on it again.
+			await page.mouse.move(x, y);
+			await page.mouse.down();
+			await page.mouse.move(x + 40, y, { steps: 8 });
+			await page.mouse.up();
+			await page.waitForTimeout(500);
+			await expect(page).toHaveURL(new RegExp(`${route}(\\?.*)?$`));
+		});
+	}
+});

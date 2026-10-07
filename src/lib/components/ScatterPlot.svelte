@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import { base } from '$app/paths';
-	import { chartClickHref, type Point } from '$lib/chartNav';
+	import { attachChartNav } from '$lib/chartNav';
 	import { slugOf } from '$lib/schemeIndex';
 	import { schemeHref } from '$lib/slugs';
 	import { onMount } from 'svelte';
@@ -50,6 +50,7 @@
 	let viewHandle: { finalize(): void } | null = null;
 	let renderSeq = 0;
 	let alive = true;
+	let detachNav: (() => void) | null = null;
 	let renderQueue: Promise<void> = Promise.resolve();
 	let renderError = $state(false);
 	let legend = $state<LegendGroup[]>([]);
@@ -209,6 +210,7 @@
 			}
 		};
 
+		detachNav?.();
 		viewHandle?.finalize();
 		viewHandle = null;
 		const result = await embed(container, spec, { actions: false, renderer: 'svg' });
@@ -217,21 +219,13 @@
 			return;
 		}
 		viewHandle = result;
-		let down: Point | null = null;
-		result.view.addEventListener('mousedown', (event) => {
-			const e = event as MouseEvent;
-			down = { x: e.clientX, y: e.clientY };
-		});
-		result.view.addEventListener('click', (event, item) => {
-			const e = event as MouseEvent;
-			const href = chartClickHref(item?.datum, down, { x: e.clientX, y: e.clientY });
-			if (href) goto(href);
-		});
+		detachNav = attachChartNav(container, result.view, goto);
 	}
 
 	onMount(() => {
 		return () => {
 			alive = false;
+			detachNav?.();
 			viewHandle?.finalize();
 		};
 	});

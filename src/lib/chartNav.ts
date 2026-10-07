@@ -13,3 +13,27 @@ export function chartClickHref(datum: unknown, down: Point | null, up: Point): s
 	const href = (datum as { href?: unknown }).href;
 	return typeof href === 'string' && href.length > 0 ? href : null;
 }
+
+interface NavView {
+	addEventListener(type: 'click', handler: (event: Event, item?: { datum?: unknown } | null) => void): unknown;
+}
+
+/**
+ * Make chart points navigable. Vega preventDefaults `pointerdown`, which suppresses the
+ * compatibility mouse events, so the press position is taken from a capturing `pointerdown`
+ * listener on the container. Returns a cleanup function.
+ */
+export function attachChartNav(container: HTMLElement, view: NavView, navigate: (href: string) => void): () => void {
+	let down: Point | null = null;
+	const onDown = (e: PointerEvent) => {
+		down = { x: e.clientX, y: e.clientY };
+	};
+	container.addEventListener('pointerdown', onDown, { capture: true });
+	view.addEventListener('click', (event, item) => {
+		const e = event as MouseEvent;
+		const href = chartClickHref(item?.datum, down, { x: e.clientX, y: e.clientY });
+		down = null;
+		if (href) navigate(href);
+	});
+	return () => container.removeEventListener('pointerdown', onDown, { capture: true });
+}
