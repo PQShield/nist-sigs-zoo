@@ -27,8 +27,8 @@
 
 	createFilterStore(_init.parameterSets, _init.ranges, new URLSearchParams());
 
-	const { applyUrl } = getFilterStore();
-	const { store } = getFilterStore();
+	// Stable module-level stores: one lookup serves the whole page.
+	const { applyUrl, store } = getFilterStore();
 
 	let xField = $state<AxisField>('pk');
 	let yField = $state<AxisField>('sig');
@@ -93,7 +93,6 @@
 
 		if (params.toString()) applyUrl(params);
 
-		const { store } = getFilterStore();
 		const unsubFilter = store.subscribe(syncUrl);
 
 		return () => {

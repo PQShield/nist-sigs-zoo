@@ -5,9 +5,9 @@
 	import { programmeChips, securityBadges, type BadgeKind } from '$lib/badges';
 	import type { KemParameterSet, KemSortableColumn } from '$lib/types';
 	import { allProgrammes } from '$lib/programmeData';
-	import { CYCLES_PER_US, CPU_GHZ_LABEL } from '$lib/constants';
+	import { CPU_GHZ_LABEL } from '$lib/constants';
 	import { fmt, fmtCycles, fmtTime } from '$lib/format';
-	import { kemTimes } from '$lib/timing';
+	import { displayUs, kemTimes } from '$lib/timing';
 	import BadgeIcon from './BadgeIcon.svelte';
 	import ProgrammeChips from './ProgrammeChips.svelte';
 	import TableLegend from './TableLegend.svelte';
@@ -123,14 +123,15 @@
 </script>
 
 {#snippet timeCell(us: number | null, cyc: number)}
+	{@const shown = displayUs(us, cyc)}
 	<td class="whitespace-nowrap px-2 py-1.5 text-right tabular-nums">
 		{#if us != null}
 			{fmtTime(us)}
-		{:else if cyc > 0}
+		{:else if shown != null}
 			<span
 				class="underline decoration-wavy decoration-pqs-scarlet"
 				title="Estimated from {fmtCycles(cyc)} cycles @ {CPU_GHZ_LABEL}"
-			>{fmtTime(cyc / CYCLES_PER_US)}<span class="sr-only"> (estimated from {fmtCycles(cyc)} cycles @ {CPU_GHZ_LABEL})</span></span>
+			>{fmtTime(shown)}<span class="sr-only"> (estimated from {fmtCycles(cyc)} cycles @ {CPU_GHZ_LABEL})</span></span>
 		{:else}
 			<span class="text-pqs-bluegray" title="Not yet benchmarked">—<span class="sr-only"> not yet benchmarked</span></span>
 		{/if}
