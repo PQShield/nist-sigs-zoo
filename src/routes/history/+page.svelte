@@ -1,5 +1,6 @@
 <script lang="ts">
 	import type { HistoryEntry } from '$lib/types';
+	import { SITE_NAME } from '$lib/constants';
 
 	let { data }: { data: { entries: HistoryEntry[] } } = $props();
 
@@ -19,7 +20,7 @@
 </script>
 
 <svelte:head>
-	<title>History — NIST Signatures Zoo</title>
+	<title>History — {SITE_NAME}</title>
 </svelte:head>
 
 <div class="mx-auto max-w-screen-md px-6 py-10">

@@ -6,6 +6,7 @@
 	import { themeStore } from '$lib/themeStore';
 	import { roundStore, type Round } from '$lib/roundStore';
 	import { lastUpdated } from '$lib/schemeData';
+	import { SITE_NAME } from '$lib/constants';
 
 	let { children } = $props();
 
@@ -39,7 +40,7 @@
 			<a href="{base}/" class="flex items-center gap-2 text-white" onclick={closeMenu}>
 				<span class="font-heading text-xl font-bold tracking-tight">PQShield</span>
 				<span class="rounded bg-pqs-apricot px-2 py-0.5 font-heading text-xs font-semibold text-pqs-midnight">
-					NIST Signatures Zoo
+					{SITE_NAME}
 				</span>
 			</a>
 
