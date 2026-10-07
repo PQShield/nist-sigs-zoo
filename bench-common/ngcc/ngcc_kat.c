@@ -34,7 +34,8 @@ typedef int (*kem_enc_fn)(unsigned char *, ull, unsigned char *, ull *, unsigned
 typedef int (*kem_dec_fn)(unsigned char *, ull, unsigned char *, ull, unsigned char *, ull *);
 
 #define SEED_LEN 64
-/* Storage for the driver's own DRNG contexts (the ICCS DRNG_ctx is 165 bytes). */
+/* Storage for the driver's own DRNG contexts. Assumes the instance's DRNG_ctx fits
+ * (the ICCS DRNG_ctx is 3 x 55 = 165 bytes); a larger context would need a bigger value. */
 typedef struct { _Alignas(64) unsigned char bytes[4096]; } drng_storage;
 
 static void *lib;
@@ -55,7 +56,13 @@ static void pstr(FILE *f, const char *id, const unsigned char *b, ull n) {
     fputc('\n', f);
 }
 
+#define MAX_LEN (64ULL << 20) /* sanity cap on any getter-reported size */
+
 static unsigned char *buf(ull n) {
+    if (n > MAX_LEN) {
+        fprintf(stderr, "ngcc_kat: size getter reports %llu bytes, over the %llu cap\n", n, MAX_LEN);
+        exit(3);
+    }
     unsigned char *p = calloc(n ? n : 1, 1);
     if (!p) { perror("ngcc_kat: calloc"); exit(1); }
     return p;
@@ -156,8 +163,9 @@ static int run_kem(FILE *out, int records) {
         pstr(out, "CT = ", ct, ct_len);
         fprintf(out, "SS_Len = %llu\n", ss_len);
         pstr(out, "SS = ", ss, ss_len);
-        if (dec(sk, sk_len, ct, ct_len, ss1, &ss_len)) return fail("kem_dec failed", i);
-        if (ss_len > ss_cap || memcmp(ss, ss1, ss_len)) return fail("shared secrets differ", i);
+        ull ss1_len = ss_cap;
+        if (dec(sk, sk_len, ct, ct_len, ss1, &ss1_len)) return fail("kem_dec failed", i);
+        if (ss1_len != ss_len || memcmp(ss, ss1, ss_len)) return fail("shared secrets differ", i);
         fputc('\n', out);
         fflush(out);
     }

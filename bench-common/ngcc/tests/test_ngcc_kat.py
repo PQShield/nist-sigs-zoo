@@ -10,14 +10,14 @@ TOY = {
 API = {"sig": "SIG_AlgorithmInstance.c", "kem": "KEM_AlgorithmInstance.c"}
 
 
-def build(tmp_path, kind, with_api=True):
+def build(tmp_path, kind, with_api=True, defs=()):
     d = TOY[kind]
     so = tmp_path / f"toy_{kind}.so"
     srcs = [str(d / "drng.c"), str(HERE / "drng_def.c")] + (
         [str(d / API[kind])] if with_api else []
     )
     subprocess.run(
-        ["cc", "-shared", "-fPIC", f"-I{d}", "-o", str(so), *srcs], check=True
+        ["cc", "-shared", "-fPIC", f"-I{d}", *defs, "-o", str(so), *srcs], check=True
     )
     exe = tmp_path / "ngcc_kat"
     subprocess.run(
@@ -94,3 +94,8 @@ def test_kem_records_follow_the_iccs_layout(tmp_path):
 def test_missing_api_symbol_is_a_load_failure(tmp_path):
     exe, so = build(tmp_path, "sig", with_api=False)
     assert run(exe, "sig", so, tmp_path / "kat.txt").returncode == 2
+
+
+def test_truncated_decapsulated_secret_is_a_crypto_failure(tmp_path):
+    exe, so = build(tmp_path, "kem", defs=["-DTOY_SHORT_DEC"])
+    assert run(exe, "kem", so, tmp_path / "kat.txt", "2").returncode == 3

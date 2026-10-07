@@ -33,6 +33,10 @@ int kem_dec(unsigned char *sk, unsigned long long sk_len_bytes, unsigned char *c
             unsigned char *ss, unsigned long long *ss_len_bytes) {
     if (sk_len_bytes != TOY || ct_len_bytes != TOY) return -1;
     for (int i = 0; i < TOY; i++) ss[i] = ct[i] ^ sk[i];
+#ifdef TOY_SHORT_DEC
+    *ss_len_bytes = TOY - 1; /* truncated decapsulation: the driver must refuse */
+#else
     *ss_len_bytes = TOY;
+#endif
     return 0;
 }

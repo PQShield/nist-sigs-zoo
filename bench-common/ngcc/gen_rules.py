@@ -53,6 +53,16 @@ DRIVER = re.compile(r"^(KAT_|PQCgenKAT|main|test|bench|speed|cpucycles)", re.IGN
 SOURCE_SUFFIXES = {".c", ".S", ".s"}
 LABEL = re.compile(r"^[a-z0-9_]+$")
 ID = re.compile(r"^(sign|kem)-\d\d$")
+NAME = re.compile(r"^NGCC-[A-Za-z0-9._+-]+$")
+INSTANCE = re.compile(r"^[A-Za-z0-9._+-]+$")
+SAFE_PATH = re.compile(
+    r"^[A-Za-z0-9._+/-]+$"
+)  # anything that reaches a make target or recipe
+FORBIDDEN = set(";&|`<>()\\$\n\r\t")
+MACRO = re.compile(
+    r"""^-[DU][A-Za-z_][A-Za-z0-9_]*(=([A-Za-z0-9_./+-]*|'"[A-Za-z0-9_./+-]*"'))?$"""
+)
+LIB = re.compile(r"^-l[A-Za-z0-9_+.-]+$")
 
 GOOD = """\
 NGCC_SOS += $(BUILD)/{file}.so
@@ -75,6 +85,33 @@ class ParamsError(ValueError):
     pass
 
 
+def unsafe_relpath(p: str) -> bool:
+    return p.startswith("/") or ".." in p.replace("\\", "/").split("/") or "\\" in p
+
+
+def check_row_values(row: dict, where: str) -> None:
+    if unsafe_relpath(row["srcdir"]):
+        raise ParamsError(f"{where}: srcdir must be relative without '..'")
+    for item in row["srcs"].split():
+        path = item.removeprefix("-")
+        if path != "*" and (unsafe_relpath(path) or not SAFE_PATH.match(path)):
+            raise ParamsError(f"{where}: unsafe srcs item {item!r}")
+    for d in row["incs"].split():
+        if unsafe_relpath(d) or not SAFE_PATH.match(d):
+            raise ParamsError(f"{where}: unsafe incs item {d!r}")
+    if row["kat"] != "-" and unsafe_relpath(row["kat"]):
+        raise ParamsError(f"{where}: kat must be relative without '..'")
+    for col in ("defs", "shimdefs"):
+        for tok in row[col].split():
+            if not MACRO.match(tok):
+                raise ParamsError(
+                    f"{where}: {col} token {tok!r} is not a plain -D/-U macro"
+                )
+    for tok in row["ldlibs"].split():
+        if not LIB.match(tok):
+            raise ParamsError(f"{where}: ldlibs token {tok!r} is not -l<name>")
+
+
 def read_params(path: Path) -> list[dict]:
     with open(path, newline="", encoding="utf-8") as f:
         body = [ln for ln in f if not ln.startswith("#")]
@@ -93,12 +130,17 @@ def read_params(path: Path) -> list[dict]:
         for k in REQUIRED:
             if not row[k]:
                 raise ParamsError(f"{where}: empty '{k}'")
-        if any("$" in v for v in row.values()):
-            raise ParamsError(f"{where}: '$' is not allowed")
+        if bad := sorted({c for v in row.values() for c in v if c in FORBIDDEN}):
+            raise ParamsError(f"{where}: forbidden character(s) {bad!r}")
         if not LABEL.match(row["file"]):
             raise ParamsError(f"{where}: file label must match [a-z0-9_]+")
-        if not row["name"].startswith("NGCC-"):
-            raise ParamsError(f"{where}: name must be NGCC-<instance>")
+        if not NAME.match(row["name"]):
+            raise ParamsError(
+                f"{where}: name must be NGCC-<instance> with [A-Za-z0-9._+-]"
+            )
+        if not INSTANCE.match(row["instance"]):
+            raise ParamsError(f"{where}: instance must match [A-Za-z0-9._+-]+")
+        check_row_values(row, where)
         if not ID.match(row["id"]):
             raise ParamsError(f"{where}: bad candidate id {row['id']!r}")
         if row["impl"] not in ("ref", "opt"):
@@ -164,15 +206,41 @@ def inc_flags(row: dict) -> str:
     return " ".join([*patches, f"-I$(BUILD)/src/{row['file']}", *others])
 
 
-def problem(sources: list[Path], paths: list[str]) -> str | None:
+def under(p: Path, root: Path) -> bool:
+    return p.resolve().is_relative_to(root.resolve())
+
+
+def problem(
+    row: dict, sources: list[Path], paths: list[str], src_root: Path, suite_dir: Path
+) -> str | None:
+    cand = src_root / row["id"]
+    patches = suite_dir / "patches" / row["id"]
+    if not under(instance_dir(row, src_root), cand):
+        return "srcdir escapes the candidate directory"
     if not sources:
         return "no sources (is src/ extracted and srcdir right?)"
+    for p in sources:
+        if not (under(p, cand) or under(p, patches)):
+            return "source outside the candidate or its patches"
+    for d in row["incs"].split():
+        base = (
+            suite_dir / d
+            if d.startswith("patches/")
+            else instance_dir(row, src_root) / d
+        )
+        if not (under(base, cand) or under(base, patches)):
+            return "include dir escapes the candidate or its patches"
+    if any(
+        not SAFE_PATH.match(
+            rp.replace("$(BUILD)", "BUILD").replace("(", "").replace(")", "")
+        )
+        for rp in paths
+    ):
+        return "source path has characters outside [A-Za-z0-9._+/-]"
     if missing := [p for p in sources if not p.is_file()]:
-        return f"missing source {missing[0].name}"
+        return "missing source " + re.sub(r"[^A-Za-z0-9._+-]", "?", missing[0].name)
     if not any("drng" in p.name.lower() for p in sources):
         return "no drng source in srcs (randomness must come from drng_algorithm)"
-    if any(any(c.isspace() for c in rp) for rp in paths):
-        return "whitespace in a source path below srcdir"
     return None
 
 
@@ -184,11 +252,13 @@ def render_rules(rows: list[dict], src_root: Path, suite_dir: Path) -> str:
     for row in rows:
         sources = resolve_sources(row, src_root, suite_dir)
         paths = [rule_path(p, row, src_root, suite_dir) for p in sources]
-        why = problem(sources, paths)
+        why = problem(row, sources, paths, src_root, suite_dir)
         if why:
             out.append(
                 BAD.format(
-                    file=row["file"], name=row["name"], why=why.replace('"', "'")
+                    file=row["file"],
+                    name=row["name"],
+                    why=re.sub(r"[^A-Za-z0-9 ._()/?,'-]", "?", why),
                 )
             )
         else:

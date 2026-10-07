@@ -101,3 +101,102 @@ def test_shims_get_defaults_for_absent_optional_columns(tmp_path):
     (tmp_path / "t.c").write_text('"@NAME@" @ITERS@ @IMPL@ @KATN@\n')
     write_shims(rows, tmp_path / "t.c", tmp_path)
     assert (tmp_path / "x_shim.c").read_text() == '"NGCC-X" 0 ref 10\n'
+
+
+def rules_for(tmp_path, row, files=("a.c", "drng.c")):
+    make_instance(tmp_path / "src", list(files))
+    return render_rules(
+        read_params(write_params(tmp_path, row)), tmp_path / "src", tmp_path
+    )
+
+
+@pytest.mark.parametrize(
+    "name", ["NGCC-X`id`", 'NGCC-X"; rm', "NGCC-X$(y)", "NGCC-", "NGCC-a b"]
+)
+def test_malicious_name_rejected(tmp_path, name):
+    with pytest.raises(ParamsError):
+        read_params(write_params(tmp_path, ("x", name) + ROW[2:]))
+
+
+def test_malicious_instance_rejected(tmp_path):
+    with pytest.raises(ParamsError, match="instance"):
+        read_params(write_params(tmp_path, ROW[:3] + ("X`id`",) + ROW[4:]))
+
+
+@pytest.mark.parametrize("srcdir", ["../x", "R/ok/../../..", "/etc"])
+def test_traversal_srcdir_rejected(tmp_path, srcdir):
+    with pytest.raises(ParamsError, match="srcdir"):
+        read_params(write_params(tmp_path, ROW[:5] + (srcdir,) + ROW[6:]))
+
+
+@pytest.mark.parametrize("srcs", ["* ../evil.c", "/etc/passwd", "patches/../../x.c"])
+def test_traversal_srcs_rejected(tmp_path, srcs):
+    with pytest.raises(ParamsError, match="srcs"):
+        read_params(write_params(tmp_path, ROW[:6] + (srcs, "-", "")))
+
+
+def test_symlinked_srcdir_escape_is_a_failing_rule(tmp_path):
+    (tmp_path / "outside").mkdir()
+    (tmp_path / "outside" / "drng.c").write_text("int x;\n")
+    (tmp_path / "src" / "sign-01").mkdir(parents=True)
+    (tmp_path / "src" / "sign-01" / "Ref").symlink_to(tmp_path / "outside")
+    rows = read_params(write_params(tmp_path, ROW[:5] + ("Ref",) + ROW[6:]))
+    assert "escapes" in render_rules(rows, tmp_path / "src", tmp_path)
+
+
+def test_bad_source_file_name_is_a_failing_rule(tmp_path):
+    text = rules_for(tmp_path, ROW, files=("a.c", "drng.c", "e$(x).c"))
+    assert "FAIL  NGCC-X: source path has characters" in text
+    assert "e$(x)" not in text
+
+
+@pytest.mark.parametrize(
+    "col,value",
+    [
+        ("defs", "-Dx=$(shell id)"),
+        ("defs", "-Dx;id"),
+        ("defs", "-Dx`id`"),
+        ("defs", "-Iother"),
+        ("defs", "-Dx=a b|c"),
+        ("shimdefs", '-Dx="y"'),
+        ("ldlibs", "-lm;id"),
+        ("ldlibs", "-L/tmp"),
+        ("incs", "../x"),
+        ("incs", "/abs"),
+    ],
+)
+def test_injected_flags_rejected(tmp_path, col, value):
+    row = dict(zip(HEADER.split(), ROW, strict=False))
+    cols = ["file", "name", "id", "instance", "impl", "srcdir", "srcs", "kat", col]
+    vals = [row.get(c, "") for c in cols[:-1]] + [value]
+    p = tmp_path / "params.tsv"
+    p.write_text("\t".join(cols) + "\n" + "\t".join(vals) + "\n")
+    with pytest.raises(ParamsError):
+        read_params(p)
+
+
+def test_documented_shimdefs_example_is_accepted(tmp_path):
+    cols = [
+        "file",
+        "name",
+        "id",
+        "instance",
+        "impl",
+        "srcdir",
+        "srcs",
+        "kat",
+        "shimdefs",
+    ]
+    vals = list(ROW[:8]) + [
+        "-DNGCC_INSTANCE_HEADER='\"kat_test/SIG_AlgorithmInstance.h\"' -DNGCC_NO_DRNG"
+    ]
+    p = tmp_path / "params.tsv"
+    p.write_text("\t".join(cols) + "\n" + "\t".join(vals) + "\n")
+    assert read_params(p)[0]["shimdefs"].startswith("-DNGCC_INSTANCE_HEADER=")
+
+
+def test_newline_in_a_field_rejected(tmp_path):
+    p = tmp_path / "params.tsv"
+    p.write_text(HEADER + 'x\tNGCC-X\tsign-01\tX\tref\tRef/X\t*\t-\t"-Da\n-Db"\n')
+    with pytest.raises(ParamsError, match="forbidden"):
+        read_params(p)
