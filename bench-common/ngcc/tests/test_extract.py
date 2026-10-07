@@ -76,6 +76,12 @@ def test_decodes_gbk_names():
     assert decode_name(info) == name
 
 
+def test_keeps_names_that_are_already_unicode():
+    info = zipfile.ZipInfo("Cand/a\uff08b\uff09.c")
+    info.flag_bits = 0
+    assert decode_name(info) == "Cand/a\uff08b\uff09.c"
+
+
 def test_replaces_a_previous_extraction(tmp_path):
     stale = tmp_path / "src/sign-01/old.c"
     stale.parent.mkdir(parents=True)

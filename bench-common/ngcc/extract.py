@@ -45,7 +45,10 @@ def decode_name(info: zipfile.ZipInfo) -> str:
     """zipfile decodes names without the UTF-8 flag as cp437; these archives often use GBK."""
     if info.flag_bits & 0x800:
         return info.filename
-    raw = info.filename.encode("cp437")
+    try:
+        raw = info.filename.encode("cp437")
+    except UnicodeEncodeError:  # already decoded from a Unicode path extra field
+        return info.filename
     for encoding in ("utf-8", "gbk"):
         try:
             return raw.decode(encoding)
