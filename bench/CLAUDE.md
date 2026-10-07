@@ -215,3 +215,22 @@ MQOM, ML-DSA etc. rely on `-march=native`.
   reference cycles (constant TSC rate on modern Intel/AMD), which diverge from real
   cycles under turbo/frequency scaling.
 - Message is a 32-byte zero buffer. Content does not affect cycle counts for lattice/hash schemes.
+
+## Running NGCC candidates
+
+NGCC candidates' C code is untrusted. Every build, KAT replay, `--sizes`
+extraction and local smoke benchmark of it goes through `scripts/ngcc-run`,
+never directly on the host:
+
+```bash
+scripts/ngcc-run make -C bench/schemes/ngcc -j"$(nproc)"
+scripts/ngcc-run sh -c 'cd bench && ./bench --sizes NGCC'
+scripts/ngcc-run --self-test     # verify the sandbox
+```
+
+It runs a throwaway container (`scripts/ngcc-container/Dockerfile`, Ubuntu 26.04)
+with `--network none`, all capabilities dropped, non-root, the repo mounted
+read-only and only the build/results paths writable (listed at the top of the
+script). If your shell lacks the docker group: `sg docker -c "scripts/ngcc-run …"`.
+`rdpmc` is usually unavailable inside the container, so local timings are smoke
+tests only; real numbers come from `scripts/aws-bench.sh`.

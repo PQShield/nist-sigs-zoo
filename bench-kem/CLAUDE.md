@@ -264,3 +264,9 @@ The `/kems/` page renders the timings (table columns) and the environment panel.
   reference cycles (constant TSC rate on modern Intel/AMD), which diverge from real
   cycles under turbo/frequency scaling. `bench/` (signatures) still uses `rdtsc`, so
   its cycle column is not directly comparable to the KEM one (µs still are).
+
+## Running NGCC candidates
+
+Build, KAT, `--sizes` and smoke runs of NGCC candidate code must go through
+`scripts/ngcc-run`, never directly on the host. See "Running NGCC candidates" in
+`bench/CLAUDE.md`.

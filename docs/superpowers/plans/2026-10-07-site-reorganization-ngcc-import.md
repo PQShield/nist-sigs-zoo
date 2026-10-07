@@ -3666,3 +3666,12 @@ Stop and ask Thom to review this commit before anything else builds on it.
 
 - Spec coverage: reproducible fetch (T1), safe extraction (T2), one generic adapter + manifest (T3–T7), failures and KAT mismatches recorded (status.tsv, T4–T7), placeholder-hash use explicit and shown in notes (`hash_usage.py`, `ps_notes`), sizes via ICCS getters emitted by our harness (`--sizes`, T4–T7) and imported by the extended `update_scheme_data.py` (T9), curated claims with spec refs and unit test (T8), unmapped instances (`omit` + `check_coverage` errors), family/assumption mapping (T8), local and AWS benchmarks with env merge (T12–T13), findings gated (T14), history/home/e2e/CLAUDE.md (T10), 75 files pass `dataFiles` (T9).
 - Names used across tasks: `NGCC-<instance>`, `params.tsv` columns, `status.tsv` columns, `ngcc_sizes.tsv` headers, `ngcc_data.*` functions and `--ngcc-sizes`. All are defined once, in the task that produces them.
+
+## Controller amendment (Task C)
+
+NGCC candidates' C code is untrusted. The local build, KAT, `--sizes` and smoke
+benchmark commands in Tasks 4, 5, 6, 7, 11 and 12 (every `make -C
+<suite>/schemes/ngcc`, `./bench`/`./bench-kem` invocation, and `run_bench.sh`
+smoke run) must be run as `scripts/ngcc-run <command>` (inside a network-less
+container), not directly on the host. AWS benchmark runs (`scripts/aws-bench.sh`)
+are unchanged.
