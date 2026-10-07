@@ -18,7 +18,7 @@
 			</p>
 			{#if e.current || e.date}
 				<p class="text-xs text-pqs-steel dark:text-pqs-bluegray">
-					{#if e.current}<span class="font-semibold text-pqs-midnight dark:text-pqs-apricot">Current</span>{#if e.date} · {/if}{/if}
+					{#if e.current}<span class="font-semibold text-pqs-midnight dark:text-pqs-apricot">Current</span>{#if e.date}{' · '}{/if}{/if}
 					{#if e.date}<time datetime={e.date}>{formatDate(e.date)}</time>{/if}
 				</p>
 			{/if}

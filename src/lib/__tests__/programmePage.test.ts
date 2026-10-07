@@ -285,6 +285,11 @@ describe('dates and facts', () => {
 			{ term: 'Not tracked', detail: '9 key exchange, 35 hash functions' }
 		]);
 	});
+	it('labels the official count when our data spans more rounds', () => {
+		const onramp = { ...NGCC, official_counts: { signature: 9 } };
+		const f = programmeFacts(onramp, { signature: 41, kem: 0 }).find((x) => x.term === 'Signatures');
+		expect(f?.detail).toBe('9 candidates (official) · 41 entrants across all rounds in our data');
+	});
 	it('falls back to the organiser, an undated stage and plain counts', () => {
 		expect(programmeFacts(ISO, { signature: 0, kem: 1 })).toEqual([
 			{ term: 'Organiser', detail: 'ISO/IEC' },

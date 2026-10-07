@@ -237,7 +237,10 @@ export interface Fact {
 function countText(tracked: number, official: number | undefined): string {
 	if (official === undefined) return `${tracked} ${tracked === 1 ? 'scheme' : 'schemes'}`;
 	const head = `${official} ${official === 1 ? 'candidate' : 'candidates'}`;
-	return tracked === official ? head : `${head} · ${tracked} in our data`;
+	if (tracked === official) return head;
+	// More tracked than official: our data spans several rounds, so say so.
+	if (tracked > official) return `${head} (official) · ${tracked} entrants across all rounds in our data`;
+	return `${head} · ${tracked} in our data`;
 }
 
 export function programmeFacts(programme: ProgrammeYaml, counts: { signature: number; kem: number }): Fact[] {

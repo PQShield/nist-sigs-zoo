@@ -5,8 +5,8 @@
 
 	let { data }: { data: PageData } = $props();
 
-	const count = (n: number | null, word: string) =>
-		n === null ? `${word}: not in scope` : `${n} ${word.toLowerCase()} in our data`;
+	const count = (n: number | null, one: string, many: string) =>
+		n === null ? `${many}: not in scope` : `${n} ${n === 1 ? one : many} in our data`;
 </script>
 
 <svelte:head>
@@ -31,9 +31,9 @@
 				</h2>
 				<p class="mt-1 text-sm">{c.programme.name}</p>
 				<p class="mt-1 text-xs text-pqs-steel dark:text-pqs-bluegray">
-					{c.programme.organiser} · {c.programme.region}{#if c.stage} · {c.stage}{/if}
+					{c.programme.organiser} · {c.programme.region}{#if c.stage}{' · '}{c.stage}{/if}
 				</p>
-				<p class="mt-3 text-sm">{count(c.signatures, 'Signatures')} · {count(c.kems, 'KEMs')}</p>
+				<p class="mt-3 text-sm">{count(c.signatures, 'signature', 'signatures')} · {count(c.kems, 'KEM', 'KEMs')}</p>
 			</li>
 		{/each}
 	</ul>

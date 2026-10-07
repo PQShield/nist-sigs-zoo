@@ -137,6 +137,22 @@ test.describe('Programme pages', () => {
 		}
 	});
 
+	test('index cards pluralise counts and keep the separator spaces', async ({ page }) => {
+		await page.goto('/programmes/');
+		const main = page.locator('main');
+		await expect(main).toContainText(/\d+ KEMs? in our data/);
+		const text = (await main.textContent()) ?? '';
+		expect(text).not.toMatch(/\d+ kems/); // case-sensitive: must read "KEMs"
+		expect(text).not.toMatch(/\b1 signatures/);
+		expect(text).not.toMatch(/\S· /);
+	});
+
+	test('on-ramp facts distinguish official from tracked counts', async ({ page }) => {
+		await page.goto('/programmes/nist-onramp/');
+		await expect(page.locator('main')).toContainText('(official) ·');
+		await expect(page.locator('main')).toContainText('entrants across all rounds in our data');
+	});
+
 	test('nav links to the programme index and marks it current on programme pages', async ({ page }) => {
 		await page.goto('/programmes/kpqc/');
 		const link = page.getByRole('banner').getByRole('link', { name: 'Programmes', exact: true });
