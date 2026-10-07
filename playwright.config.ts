@@ -18,6 +18,6 @@ export default defineConfig({
 			: 'corepack npm run build && corepack npm run preview -- --port 4175',
 		url: 'http://localhost:4175',
 		reuseExistingServer: !process.env.CI,
-		timeout: 30_000,
+		timeout: 120_000,
 	},
 });
