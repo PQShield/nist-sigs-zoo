@@ -224,7 +224,8 @@ export function getFilterStore() {
 		defaults,
 		filteredRows: _filteredRows as Readable<ParameterSet[]>,
 		applyUrl(params: URLSearchParams) {
-			store.set(applyUrlParams(defaults, params));
+			// read _defaults at call time: createFilterStore() may have replaced them since
+			store.set(applyUrlParams(_defaults ?? defaults, params));
 		},
 	};
 }

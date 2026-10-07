@@ -3,6 +3,7 @@
 	import { page } from '$app/stores';
 	import { base } from '$app/paths';
 	import { onMount } from 'svelte';
+	import { get } from 'svelte/store';
 	import BenchmarkEnvInfo from '$lib/components/BenchmarkEnvInfo.svelte';
 	import RoundSelect from '$lib/components/RoundSelect.svelte';
 	import FilterPanel from '$lib/components/FilterPanel.svelte';
@@ -21,52 +22,54 @@
 	let categories = $state([...new Set(_init.schemes.map((s) => s.category))].sort());
 	let ranges = $state(_init.ranges);
 
-	const { applyUrl } = getFilterStore();
-
-	function applyRound(round: Round) {
+	function applyRound(round: Round, urlParams: URLSearchParams = new URLSearchParams()) {
 		const { filter, useLatestVersion } = roundToFilter(round);
 		const result = processYamlSchemes(allSchemeData, filter, { useLatestVersion });
 		schemes = result.schemes;
 		categories = [...new Set(result.schemes.map((s) => s.category))].sort();
 		ranges = result.ranges;
-		createFilterStore(result.parameterSets, result.ranges, new URLSearchParams());
+		createFilterStore(result.parameterSets, result.ranges, urlParams);
+	}
+
+	function roundFromUrl(params: URLSearchParams): Round {
+		switch (params.get('r')) {
+			case '1': return 'round-1';
+			case '2': return 'round-2';
+			case '3': return 'round-3';
+			default: return 'latest';
+		}
 	}
 
 	onMount(() => {
-		// Apply round from URL (?r=1 or ?r=2)
+		// The URL is the source of truth on load: pick the round first, then build the
+		// filter store for that round with the URL's filter params already applied.
 		const params = new URLSearchParams(window.location.search);
-		const rParam = params.get('r');
-		if (rParam === '1') {
-			roundStore.set('round-1');
-			applyRound('round-1');
-		} else if (rParam === '2') {
-			roundStore.set('round-2');
-			applyRound('round-2');
-		} else if (rParam === '3') {
-			roundStore.set('round-3');
-			applyRound('round-3');
-		}
+		let currentRound = roundFromUrl(params);
+		roundStore.set(currentRound);
+		applyRound(currentRound, params);
 
-		// Apply filter URL params
-		if (params.toString()) applyUrl(params);
-
-		// Debounced URL sync on filter changes
+		// Debounced URL sync on filter changes. Defaults are read at sync time because
+		// they change whenever applyRound() builds a store for another round.
 		let urlSyncTimer: ReturnType<typeof setTimeout> | null = null;
-		const { store, defaults } = getFilterStore();
-		const unsubFilter = store.subscribe((state) => {
+		const unsubFilter = getFilterStore().store.subscribe((state) => {
 			if (urlSyncTimer) clearTimeout(urlSyncTimer);
 			urlSyncTimer = setTimeout(() => {
-				const p = buildUrlParams(state, defaults);
-				const round = $roundStore === 'round-1' ? '1' : $roundStore === 'round-2' ? '2' : $roundStore === 'round-3' ? '3' : null;
+				const p = buildUrlParams(state, getFilterStore().defaults);
+				const r = get(roundStore);
+				const round = r === 'round-1' ? '1' : r === 'round-2' ? '2' : r === 'round-3' ? '3' : null;
 				if (round) p.set('r', round);
 				const qs = p.toString();
-				const newUrl = qs ? `?${qs}` : $page.url.pathname;
+				const newUrl = (qs ? `?${qs}` : $page.url.pathname) + window.location.hash;
 				goto(newUrl, { replaceState: true, keepFocus: true, noScroll: true });
 			}, 300);
 		});
 
-		// Re-process when round changes — store stays stable, data updates in place
+		// Round changes after load reset filters to that round's defaults. subscribe() fires
+		// synchronously with the current value; the round-equality guard skips that call so
+		// it cannot wipe the URL-applied filters.
 		const unsubRound = roundStore.subscribe((round) => {
+			if (round === currentRound) return;
+			currentRound = round;
 			applyRound(round);
 		});
 

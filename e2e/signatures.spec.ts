@@ -56,4 +56,50 @@ test.describe('Signatures page', () => {
 		await page.getByLabel('Dataset').selectOption('round-2');
 		await page.waitForURL(/[?&]r=2/, { timeout: 15_000 });
 	});
+
+	test.describe('shared links keep their filters', () => {
+		async function schemeCells(page: import('@playwright/test').Page) {
+			await page.waitForSelector('table tbody tr');
+			await page.waitForTimeout(1000);
+			const rows = page.locator('table tbody tr').filter({ hasNotText: 'No parameter sets match' });
+			const n = await rows.count();
+			const names: string[] = [];
+			for (let i = 0; i < n; i++) names.push(((await rows.nth(i).locator('td a').first().innerText()) ?? '').trim());
+			return names;
+		}
+
+		test('?r=2&s=MAYO,UOV&sort=sig shows only MAYO and UOV and keeps the URL', async ({ page }) => {
+			await page.goto('/signatures/?r=2&s=MAYO,UOV&sort=sig');
+			const names = await schemeCells(page);
+			expect(names.length).toBeGreaterThan(0);
+			for (const n of names) expect(['MAYO', 'UOV']).toContain(n);
+			expect(names).toContain('MAYO');
+			expect(names).toContain('UOV');
+			expect(page.url()).toMatch(/s=MAYO/);
+			expect(page.url()).toMatch(/[?&]r=2/);
+			expect(page.url()).toMatch(/sort=sig/);
+		});
+
+		test('?s=MAYO shows only MAYO', async ({ page }) => {
+			await page.goto('/signatures/?s=MAYO');
+			const names = await schemeCells(page);
+			expect(names.length).toBeGreaterThan(0);
+			for (const n of names) expect(n).toBe('MAYO');
+			expect(page.url()).toMatch(/s=MAYO/);
+		});
+
+		test('hash survives the URL sync', async ({ page }) => {
+			await page.goto('/signatures/?s=MAYO#table');
+			await schemeCells(page);
+			expect(await page.evaluate(() => location.hash)).toBe('#table');
+		});
+
+		test('old home link with round and filters ends up filtered', async ({ page }) => {
+			await page.goto('/?r=2&s=MAYO,UOV');
+			await page.waitForURL(/\/signatures\//, { timeout: 15_000 });
+			const names = await schemeCells(page);
+			expect(names.length).toBeGreaterThan(0);
+			for (const n of names) expect(['MAYO', 'UOV']).toContain(n);
+		});
+	});
 });

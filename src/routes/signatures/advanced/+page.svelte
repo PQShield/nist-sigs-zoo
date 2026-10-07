@@ -67,7 +67,7 @@
 			if (xScale !== 'log') p.set('xs', xScale);
 			if (yScale !== 'log') p.set('ys', yScale);
 			const qs = p.toString();
-			const newUrl = qs ? `?${qs}` : $page.url.pathname;
+			const newUrl = (qs ? `?${qs}` : $page.url.pathname) + window.location.hash;
 			goto(newUrl, { replaceState: true, keepFocus: true, noScroll: true });
 		}, 300);
 	}
