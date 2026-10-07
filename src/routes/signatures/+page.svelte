@@ -17,14 +17,14 @@
 
 	let { data: _ }: { data: PageData } = $props();
 
-	const _init = processYamlSchemes(allSchemeData, roundToFilter('latest').filter, { useLatestVersion: true });
+	const _init = processYamlSchemes(allSchemeData, roundToFilter('latest').filter, { useLatestVersion: true, includeOtherProgrammes: true });
 	let schemes = $state(_init.schemes);
 	let categories = $state([...new Set(_init.schemes.map((s) => s.category))].sort());
 	let ranges = $state(_init.ranges);
 
 	function applyRound(round: Round, urlParams: URLSearchParams = new URLSearchParams()) {
-		const { filter, useLatestVersion } = roundToFilter(round);
-		const result = processYamlSchemes(allSchemeData, filter, { useLatestVersion });
+		const { filter, useLatestVersion, includeOtherProgrammes } = roundToFilter(round);
+		const result = processYamlSchemes(allSchemeData, filter, { useLatestVersion, includeOtherProgrammes });
 		schemes = result.schemes;
 		categories = [...new Set(result.schemes.map((s) => s.category))].sort();
 		ranges = result.ranges;

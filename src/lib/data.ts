@@ -157,7 +157,10 @@ export function parseParameterSets(
 export function processYamlSchemes(
 	schemeData: SchemeYaml[],
 	filter?: StageFilter,
-	{ useLatestVersion = false }: { useLatestVersion?: boolean } = {}
+	{
+		useLatestVersion = false,
+		includeOtherProgrammes = false
+	}: { useLatestVersion?: boolean; includeOtherProgrammes?: boolean } = {}
 ): {
 	schemes: Scheme[];
 	parameterSets: ParameterSet[];
@@ -178,7 +181,15 @@ export function processYamlSchemes(
 			);
 			if (atStage.length > 0) {
 				latest = useLatestVersion ? sorted[0] : atStage[0];
-			} else if (isReferenceScheme(yaml.versions)) {
+			} else if (
+				includeOtherProgrammes
+					? // Latest view: the stage only scopes this programme's entrants. Standards,
+						// other programmes and pre-quantum schemes show their newest spec; the
+						// programme filter on the page decides whether they are visible.
+						schemeProgrammes(yaml.versions).length === 0 ||
+						schemeProgrammes(yaml.versions).some((m) => m.programme !== filter.programme)
+					: isReferenceScheme(yaml.versions)
+			) {
 				latest = sorted[0];
 			} else {
 				continue; // a competition entrant that was not at this stage

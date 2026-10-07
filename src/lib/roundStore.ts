@@ -5,11 +5,16 @@ export type Round = 'round-1' | 'round-2' | 'round-3' | 'latest';
 
 export const roundStore = writable<Round>('latest');
 
-/** "Latest" and "Round 3" both select round-3 entrants; "Latest" shows their newest spec. */
-export function roundToFilter(round: Round): { filter: StageFilter; useLatestVersion: boolean } {
+/** "Latest" and "Round 3" both select round-3 entrants; "Latest" shows their newest spec and, unlike the pinned rounds, also includes other programmes' schemes. */
+export function roundToFilter(round: Round): {
+	filter: StageFilter;
+	useLatestVersion: boolean;
+	includeOtherProgrammes: boolean;
+} {
 	const stage = round === 'latest' ? 'round-3' : round;
 	return {
 		filter: { programme: 'nist-onramp', stage },
-		useLatestVersion: round === 'latest' || round === 'round-3'
+		useLatestVersion: round === 'latest' || round === 'round-3',
+		includeOtherProgrammes: round === 'latest'
 	};
 }

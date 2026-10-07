@@ -1,6 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { processYamlSchemes } from '$lib/data';
 import { CPUSPEED } from '$lib/constants';
+import { roundToFilter } from '$lib/roundStore';
 import type { SchemeYaml } from '$lib/types';
 
 function scheme(overrides: Partial<SchemeYaml> = {}): SchemeYaml {
@@ -145,6 +146,42 @@ describe('processYamlSchemes', () => {
 		];
 		const { schemes } = processYamlSchemes(data, ONRAMP_R2);
 		expect(schemes).toEqual([]);
+	});
+
+	it('with includeOtherProgrammes, shows other-programme schemes at their newest version', () => {
+		const data = [
+			scheme({ name: 'KpqcOnly', versions: [
+				{ version: 'v1', date: '2023-01-01', status: 'KpqC', programmes: { kpqc: 'round-1' }, parametersets: [{ ...BASE_PS, pk: 1 }] },
+				{ version: 'v2', date: '2024-01-01', status: 'KpqC', programmes: { kpqc: 'selected' }, parametersets: [{ ...BASE_PS, pk: 2 }] }
+			] }),
+			scheme({ name: 'NgccOnly', versions: [{ version: 'v1', date: '2026-09-20', status: 'NGCC', programmes: { 'china-ngcc': 'round-1' }, parametersets: [BASE_PS] }] })
+		];
+		const { schemes, parameterSets } = processYamlSchemes(data, ONRAMP_R2, { includeOtherProgrammes: true });
+		expect(schemes.map((s) => s.scheme)).toEqual(['KpqcOnly', 'NgccOnly']);
+		expect(parameterSets.find((r) => r.scheme === 'KpqcOnly')!.pk).toBe(2);
+	});
+
+	it('with includeOtherProgrammes, keeps an entrant that left the on-ramp but is in another programme (HAETAE in KpqC)', () => {
+		const data = [scheme({ name: 'HAETAE', versions: [{ version: 'Round 1', date: '2023-05-31', status: 'On-ramp', programmes: { 'nist-onramp': 'round-1', kpqc: 'selected' }, parametersets: [BASE_PS] }] })];
+		expect(processYamlSchemes(data, ONRAMP_R2, { includeOtherProgrammes: true }).schemes.map((s) => s.scheme)).toEqual(['HAETAE']);
+	});
+
+	it('still drops on-ramp-only entrants that did not reach the stage, even with an untagged newer version', () => {
+		const data = [scheme({ name: 'Dropped', versions: [
+			{ version: 'Round 1', date: '2023-05-31', status: 'On-ramp', programmes: { 'nist-onramp': 'round-1' }, parametersets: [BASE_PS] },
+			{ version: 'v2', date: '2025-01-01', status: 'On-ramp', parametersets: [BASE_PS] }
+		] })];
+		expect(processYamlSchemes(data, ONRAMP_R2, { includeOtherProgrammes: true }).schemes).toEqual([]);
+	});
+
+	it('with includeOtherProgrammes, shows pre-quantum schemes (no programme)', () => {
+		const data = [scheme({ name: 'ECDSA', versions: [{ version: 'FIPS 186-5', date: '2023-02-03', status: 'Classic cryptography', broken: 'classical', parametersets: [{ ...BASE_PS, level: 'Pre-Quantum' as const }] }] })];
+		expect(processYamlSchemes(data, ONRAMP_R2, { includeOtherProgrammes: true }).schemes.map((s) => s.scheme)).toEqual(['ECDSA']);
+	});
+
+	it('roundToFilter only includes other programmes for the Latest view', () => {
+		expect(roundToFilter('latest').includeOtherProgrammes).toBe(true);
+		expect(roundToFilter('round-2').includeOtherProgrammes).toBe(false);
 	});
 
 	it('exposes every programme membership on schemes and parameter sets', () => {
