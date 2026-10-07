@@ -3673,8 +3673,9 @@ NGCC candidates' C code is untrusted. The local build, KAT, `--sizes` and smoke
 benchmark commands in Tasks 4, 5, 6, 7, 11 and 12 (every `make -C
 <suite>/schemes/ngcc`, `./bench`/`./bench-kem` invocation, and `run_bench.sh`
 smoke run) must be run as `scripts/ngcc-run <command>`. The command runs in a
-network-less container on a throwaway writable copy of the repo; only allowlisted
-text outputs (status/sizes TSVs, results `*.txt`, logs, KAT outputs, text under
+network-less container on a throwaway writable copy of the repo with no
+host-writable mount; the host then pulls only allowlisted
+plain-text outputs through `scripts/ngcc-container/export.py` (status/sizes TSVs, results `*.txt`, logs, KAT outputs, text under
 `/tmp`) are exported to `.ngcc-out/` (same relative paths; `/tmp` files under
 `.ngcc-out/tmp/`). After each such run, review the text there and copy it into its
 committed location (`status.tsv`, `results/ngcc_sizes.tsv`, ...). The host never

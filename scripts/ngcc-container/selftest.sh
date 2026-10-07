@@ -26,4 +26,6 @@ mkdir -p bench/results bench/schemes/ngcc/build
 echo ok >bench/results/selftest.txt && chmod 755 bench/results/selftest.txt
 echo ok >bench/schemes/ngcc/build/selftest.so
 echo ok >bench/schemes/ngcc/build/selftest.mk
+cp /bin/true bench/results/selftest-elf.log
+ln -s /repo/bench bench/results/selftest-link.txt
 exit $fail

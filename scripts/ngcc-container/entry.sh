@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Runs INSIDE the container (see scripts/ngcc-run). Copies the read-only repo
-# at /repo into the writable /work, runs the command there, then exports only
-# allowlisted text outputs to /out (the host's .ngcc-out/), exec bits stripped.
+# at /repo into the writable /work and runs the command there. Nothing is
+# exported from here: the host pulls /work afterwards via scripts/ngcc-container/export.py.
 set -uo pipefail
 
 mkdir -p /work
@@ -16,31 +16,14 @@ for d in src specs; do
         ln -sfn "/repo/bench-common/ngcc/$d" "/work/bench-common/ngcc/$d"
     fi
 done
-touch /tmp/.ngcc-marker
-sleep 1
 cd /work || exit 125
 
 "$@"
 status=$?
 
-export_files() { # root, relative-to-/out prefix, find expression
-    local root="$1" prefix="$2"; shift 2
-    [ -d "$root" ] || return 0
-    (
-        cd "$root" || exit 0
-        find . -type f -newer /tmp/.ngcc-marker -size -64M \
-            \( "$@" \) \
-            -not -path './bench-common/ngcc/src/*' -not -path './bench-common/ngcc/specs/*' \
-            -print0 |
-            while IFS= read -r -d '' f; do
-                dst="/out/${prefix}${f#./}"
-                mkdir -p "$(dirname "$dst")" && cat -- "$f" >"$dst" && chmod 0644 "$dst"
-            done
-    )
-}
-export_files /work "" -path '*/schemes/ngcc/*.tsv' -o -name 'ngcc_sizes.tsv' \
-    -o -path '*/results/*.txt' -o -name '*.log' \
-    -o -path '*/build/*.rsp' -o -path '*/build/KAT*.txt'
-# Scratch outputs the plan writes under /tmp: text only.
-export_files /tmp "tmp/" -name '*.tsv' -o -name '*.txt' -o -name '*.log' -o -name '*.rsp'
+# Stage text scratch files from /tmp (the plan writes some there) so the host
+# can pull them with /work. The host exporter applies all the content checks.
+mkdir -p /work/.ngcc-tmp
+find /tmp -maxdepth 2 -type f \( -name '*.tsv' -o -name '*.txt' -o -name '*.log' -o -name '*.rsp' \) \
+    -not -name '.ngcc-marker' -exec cp -t /work/.ngcc-tmp {} + 2>/dev/null
 exit "$status"

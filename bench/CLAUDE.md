@@ -230,15 +230,18 @@ scripts/ngcc-run --self-test     # verify the sandbox
 
 It runs a throwaway container (`scripts/ngcc-container/Dockerfile`, Ubuntu 26.04):
 `--network none`, capabilities dropped, non-root, read-only rootfs. The repo is
-mounted read-only and copied into a writable tmpfs `/work`; the command runs
-there. Afterwards only allowlisted text outputs (`*/schemes/ngcc/*.tsv`,
-`ngcc_sizes.tsv`, `*/results/*.txt`, `*.log`, KAT `*.rsp`/`KAT*.txt`, and text
-files under `/tmp`) are exported to the git-ignored `.ngcc-out/`, exec bits
-stripped. Review them, then copy them to their committed locations by hand.
+mounted read-only and copied into a writable `/work` volume; the command runs
+there, and no host-writable path is mounted while it runs. Afterwards the host
+pulls `/work` through the trusted `scripts/ngcc-container/export.py`, which writes
+to the git-ignored `.ngcc-out/` only allowlisted regular files
+(`*/schemes/ngcc/*.tsv`, `ngcc_sizes.tsv`, `*/results/*.txt`, `*.log`, KAT
+`*.rsp`/`KAT*.txt`, text staged from `/tmp` as `.ngcc-out/tmp/*`) that are plain
+UTF-8 text with no NUL bytes, mode 0644. Symlinks, binaries and oversize files
+are rejected and listed on stderr. Review them, then copy them to their committed locations by hand.
 Binaries, `.so` and `.mk` files never leave the container, and the host never
 runs or `make`s container output. Host `make -C bench` for non-NGCC work must
 run with NGCC disabled, or after removing `bench*/schemes/ngcc/build`.
-`NGCC_KEEP=1` keeps the workspace in a named volume for debugging. If your shell
+`NGCC_KEEP=1` keeps the stopped container for debugging. If your shell
 lacks the docker group: `sg docker -c "scripts/ngcc-run …"`. `rdpmc` is usually
 unavailable in the container, so local timings are smoke tests only; real numbers
 come from `scripts/aws-bench.sh`.

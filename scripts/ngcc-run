@@ -9,19 +9,20 @@
 #
 # Isolation: --network none, all capabilities dropped, no-new-privileges,
 # read-only rootfs, pid/memory limits. The repo is mounted read-only at /repo;
-# entry.sh copies it into a throwaway writable /work (tmpfs), runs the command
-# there, and exports ONLY allowlisted text outputs (status/sizes TSVs, results
-# *.txt, *.log, KAT *.rsp/KAT*.txt) into the git-ignored .ngcc-out/ with exec
-# bits stripped. Binaries, .so, .mk, .c, .h are never exported, and the host
-# must never run or make anything produced in the container. Review the text
-# in .ngcc-out/ and copy it to its committed location by hand.
+# entry.sh copies it into a writable anonymous volume at /work and runs the
+# command there. NO host-writable mount exists while untrusted code runs.
+# Afterwards the host pulls /work (`docker cp ... -`) through
+# scripts/ngcc-container/export.py, which writes into the git-ignored
+# .ngcc-out/ only allowlisted regular files that are plain UTF-8 text (no NUL),
+# mode 0644; everything else is rejected. Review the text there and copy it to
+# its committed location by hand. The host never runs or makes container output.
 #
 # Env: BENCH_ITER, BENCH_CYCLES, BENCH_CPU are forwarded if set.
 #      NGCC_DOCKER overrides the docker command (default: docker); a
 #      `sg docker -c "scripts/ngcc-run ..."` invocation works as well.
 #
-# NGCC_KEEP=1 keeps the workspace in a named tmpfs volume (name printed) for
-# debugging; remove with `docker volume rm <name>`. Default: discarded.
+# NGCC_KEEP=1 keeps the stopped container (name printed) for debugging; remove
+# it with `docker rm -v <name>`. Default: removed with its volume.
 #
 # Caveat: perf counters (rdpmc / perf_event_open) are usually unavailable in
 # the container, so cycle counts fall back to rdtsc. Local runs are smoke
@@ -50,23 +51,13 @@ fi
 
 OUT="$REPO/.ngcc-out"
 mkdir -p "$OUT"
-UIDGID="$(id -u):$(id -g)"
-WORK_OPTS="exec,size=12g,uid=$(id -u),gid=$(id -g)"
+CTR="ngcc-run-$$-$(date +%s)"
 
-ARGS=(run --rm --network none --cap-drop ALL --security-opt no-new-privileges
+ARGS=(run --name "$CTR" --network none --cap-drop ALL --security-opt no-new-privileges
     --read-only --pids-limit 4096 --memory 16g --memory-swap 16g
-    --cpus "$(nproc)" --user "$UIDGID"
+    --cpus "$(nproc)" --user "$(id -u):$(id -g)"
     --tmpfs "/tmp:exec,size=4g,uid=$(id -u),gid=$(id -g)"
-    -e HOME=/tmp -v "$REPO:/repo:ro" -v "$OUT:/out:rw" -w /repo)
-if [ "${NGCC_KEEP:-}" = 1 ]; then
-    VOL="ngcc-work-$(date +%s)"
-    "${DOCKER[@]}" volume create --driver local --opt type=tmpfs --opt device=tmpfs \
-        --opt "o=$WORK_OPTS" "$VOL" >/dev/null
-    echo "ngcc-run: workspace kept in volume $VOL (docker volume rm $VOL)" >&2
-    ARGS+=(-v "$VOL:/work")
-else
-    ARGS+=(--tmpfs "/work:$WORK_OPTS")
-fi
+    -e HOME=/tmp -v "$REPO:/repo:ro" -v /work -w /repo)
 for d in src specs; do
     if [ -d "$REPO/bench-common/ngcc/$d" ]; then
         ARGS+=(-v "$REPO/bench-common/ngcc/$d:/repo/bench-common/ngcc/$d:ro")
@@ -80,19 +71,43 @@ if [ -t 0 ] && [ -t 1 ]; then ARGS+=(-t); fi
 
 ENTRY=/repo/scripts/ngcc-container/entry.sh
 
+cleanup() {
+    if [ "${NGCC_KEEP:-}" = 1 ]; then
+        echo "ngcc-run: kept container $CTR (docker rm -v $CTR)" >&2
+    else
+        "${DOCKER[@]}" rm -f -v "$CTR" >/dev/null 2>&1 || true
+    fi
+}
+trap cleanup EXIT
+
 if [ "$SELF_TEST" = 1 ]; then
-    set +e
-    rm -f "$OUT"/bench/results/selftest.txt "$OUT"/bench/schemes/ngcc/build/selftest.*
-    "${DOCKER[@]}" "${ARGS[@]}" "$TAG" "$ENTRY" /repo/scripts/ngcc-container/selftest.sh
-    fail=$?
-    chk() { if [ "$2" = 0 ]; then echo "PASS  $1"; else echo "FAIL  $1"; fail=1; fi; }
+    CMD=(/repo/scripts/ngcc-container/selftest.sh)
+else
+    CMD=("$@")
+fi
+
+set +e
+"${DOCKER[@]}" "${ARGS[@]}" "$TAG" "$ENTRY" "${CMD[@]}"
+status=$?
+# Host pulls: a tar stream of /work through the trusted exporter.
+"${DOCKER[@]}" cp "$CTR:/work" - 2>/dev/null |
+    python3 -I "$REPO/scripts/ngcc-container/export.py" --out "$OUT" --repo "$REPO" >&2
+if [ "${PIPESTATUS[1]}" != 0 ]; then
+    echo "ngcc-run: export failed" >&2
+    [ "$status" = 0 ] && status=70
+fi
+
+if [ "$SELF_TEST" = 1 ]; then
+    chk() { if [ "$2" = 0 ]; then echo "PASS  $1"; else echo "FAIL  $1"; status=1; fi; }
     f="$OUT/bench/results/selftest.txt"
     [ -f "$f" ]; chk "allowlisted text output is exported" $?
     [ -f "$f" ] && [ -z "$(find "$f" -perm /111)" ]; chk "exported file has no exec bit" $?
     [ ! -e "$OUT/bench/schemes/ngcc/build/selftest.so" ] && [ ! -e "$OUT/bench/schemes/ngcc/build/selftest.mk" ]
     chk "non-allowlisted files (.so, .mk) are not exported" $?
+    [ ! -e "$OUT/bench/results/selftest-elf.log" ] && [ ! -L "$OUT/bench/results/selftest-link.txt" ]
+    chk "ELF named .log and symlink written by inner command do not appear on host" $?
+    [ -z "$(find "$OUT" -type f -perm /111 2>/dev/null)" ] && [ -z "$(find "$OUT" -type l 2>/dev/null)" ]
+    chk "no executable file or symlink anywhere in .ngcc-out" $?
     rm -f "$f"
-    exit $fail
 fi
-
-exec "${DOCKER[@]}" "${ARGS[@]}" "$TAG" "$ENTRY" "$@"
+exit "$status"

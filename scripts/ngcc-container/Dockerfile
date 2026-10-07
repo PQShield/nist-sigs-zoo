@@ -27,5 +27,7 @@ RUN (userdel -r ubuntu 2>/dev/null || true) \
  && groupadd -g "${GID}" bench \
  && useradd -m -u "${UID}" -g "${GID}" -s /bin/bash bench
 
+# Writable workspace (an anonymous volume at run time inherits this ownership).
+RUN mkdir -p /work && chown bench:bench /work
 WORKDIR /work
 USER bench
