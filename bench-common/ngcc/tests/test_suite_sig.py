@@ -21,15 +21,16 @@ class SigInfo(ctypes.Structure):
     ]
 
 
-def make(build, *goals):
+def make(build, *goals, params=None):
     return subprocess.run(
         [
             "make",
             "-C",
             str(SUITE),
-            f"PARAMS={FIX / 'params_sig.tsv'}",
+            f"PARAMS={params or FIX / 'params_sig.tsv'}",
             f"NGCC_SRC={FIX / 'src'}",
             f"BUILD={build}",
+            "NGCC_BUILD=1",
             *goals,
         ],
         capture_output=True,
@@ -92,3 +93,17 @@ def test_status_records_build_kat_and_hash(tmp_path):
         "FAIL",
         "-",
     )
+
+
+def test_status_nokat_when_no_submitted_file(tmp_path):
+    header, toy, *_ = (FIX / "params_sig.tsv").read_text().splitlines()[1:]
+    params = tmp_path / "params.tsv"
+    cols = toy.split("\t")
+    cols[0], cols[1], cols[7] = "toy_nokat", "NGCC-Toy-NoKat", "-"
+    params.write_text(header + "\n" + "\t".join(cols) + "\n")
+    build = tmp_path / "b"
+    make(build, params=params)
+    out = tmp_path / "status.tsv"
+    make(build, "status", f"STATUS={out}", params=params)
+    rows = list(csv.DictReader(out.open(), delimiter="\t"))
+    assert [(r["build"], r["kat"]) for r in rows] == [("ok", "NOKAT")]

@@ -9,6 +9,20 @@
 NGCC_ROOT   := $(abspath $(dir $(lastword $(MAKEFILE_LIST))))
 .DEFAULT_GOAL := all
 
+# Opt-in: this suite compiles and loads untrusted candidate code. It only runs
+# when NGCC_BUILD=1, which the scripts/ngcc-run container image sets (and the AWS
+# VM, Task 12). On a host it refuses, exits 0 and builds nothing.
+# Build and `status` must run in the same ngcc-run invocation: each ngcc-run is a
+# fresh container, so a separate `make status` would see no .so files.
+ifneq ($(NGCC_BUILD),1)
+.PHONY: all status clean
+all status:
+	@echo "NGCC: skipped outside the container (set NGCC_BUILD=1; use scripts/ngcc-run)"
+clean:
+	rm -rf $(BUILD)
+	rm -f *_shim.c
+else
+
 NGCC_SRC    ?= $(NGCC_ROOT)/src
 PARAMS      ?= params.tsv
 BUILD       ?= build
@@ -58,3 +72,4 @@ status: built-list
 clean:
 	rm -rf $(BUILD)
 	rm -f *_shim.c
+endif

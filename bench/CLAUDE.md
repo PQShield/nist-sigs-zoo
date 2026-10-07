@@ -241,7 +241,12 @@ are rejected and listed on stderr. Review them, then copy them to their committe
 Binaries, `.so` and `.mk` files never leave the container, and the host never
 runs or `make`s container output. Host `make -C bench` for non-NGCC work must
 run with NGCC disabled, or after removing `bench*/schemes/ngcc/build`.
-`NGCC_KEEP=1` keeps the stopped container for debugging. If your shell
+The NGCC suite is opt-in: `bench/schemes/ngcc` (and the stamp rule in
+`bench/Makefile`) only compile or load candidate code when `NGCC_BUILD=1`,
+which the container image sets (the AWS VM sets it too). On a host both print
+"NGCC: skipped" and exit 0, and nothing from `schemes/ngcc` enters `so_paths.h`.
+Build and `make status` must run in the same `ngcc-run` invocation (fresh
+container each time). `NGCC_KEEP=1` keeps the stopped container for debugging. If your shell
 lacks the docker group: `sg docker -c "scripts/ngcc-run …"`. `rdpmc` is usually
 unavailable in the container, so local timings are smoke tests only; real numbers
 come from `scripts/aws-bench.sh`.

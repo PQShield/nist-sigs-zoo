@@ -92,7 +92,8 @@ schemes/sqisign/.stamp: schemes/sqisign/Makefile schemes/sqisign/shim_template.c
 $(NGCC_STAMP): $(NGCC_DIR)/Makefile $(NGCC_DIR)/shim_template.c $(NGCC_DIR)/params.tsv \
     ../bench-common/ngcc/ngcc.mk ../bench-common/ngcc/gen_rules.py \
     $(wildcard $(NGCC_DIR)/patches/*/*) $(wildcard ../bench-common/ngcc/src/.extracted)
-	$(MAKE) -C $(NGCC_DIR) CC=$(CC)
+	@if [ "$(NGCC_BUILD)" = 1 ]; then $(MAKE) -C $(NGCC_DIR) CC=$(CC); \
+	else echo "NGCC: skipped outside the container (set NGCC_BUILD=1; use scripts/ngcc-run)"; fi
 	touch $@
 
 # Shared recipe for every scheme stamp.
@@ -119,7 +120,9 @@ $(SQISIGN_SOS): schemes/sqisign/.stamp
 # Generate the SO path list included by main.c.
 $(BUILD)/so_paths.h: Makefile $(NGCC_STAMP) | $(BUILD)
 	@printf '"%s",\n' $(ALL_SOS) > $@
-	@sed 's/.*/"&",/' $(NGCC_DIR)/build/built.list >> $@
+ifeq ($(NGCC_BUILD),1)
+	@if [ -f $(NGCC_DIR)/build/built.list ]; then sed 's/.*/"&",/' $(NGCC_DIR)/build/built.list >> $@; fi
+endif
 
 $(BUILD)/main.o: main.c harness.h ../bench-common/harness_common.h loader.h scheme.h $(BUILD)/so_paths.h | $(BUILD)
 	$(CC) $(CFLAGS) -I$(BUILD) -c $< -o $@

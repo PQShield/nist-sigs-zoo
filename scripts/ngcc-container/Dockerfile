@@ -29,5 +29,6 @@ RUN (userdel -r ubuntu 2>/dev/null || true) \
 
 # Writable workspace (an anonymous volume at run time inherits this ownership).
 RUN mkdir -p /work && chown bench:bench /work
+ENV NGCC_BUILD=1
 WORKDIR /work
 USER bench

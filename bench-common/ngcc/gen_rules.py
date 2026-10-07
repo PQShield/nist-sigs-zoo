@@ -76,7 +76,7 @@ $(BUILD)/{file}.so: {file}_shim.c {deps} $(BUILD)/rules.mk
 BAD = """\
 NGCC_SOS += $(BUILD)/{file}.so
 $(BUILD)/{file}.so:
-\t@echo "  FAIL  {name}: {why}" | tee $(BUILD)/{file}.log; exit 1
+\t@rm -f $@; echo "  FAIL  {name}: {why}" | tee $(BUILD)/{file}.log; exit 1
 
 """
 
