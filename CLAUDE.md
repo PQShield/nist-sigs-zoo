@@ -44,6 +44,8 @@ Vitest with node environment. Tests pure TypeScript functions only — no Svelte
 - `chartData.test.ts`, `chartLegend.test.ts` — chart axis values; legend + colour/shape scales
 - `timing.test.ts` — displayed (extrapolated) times, shared by sorting, filters and tables
 - `legacy.test.ts` — legacy URL forwarding; `programmes.test.ts` — programme definitions
+- `programmePage.test.ts` — programme-page helpers (members, stage views, NGCC targets, findings summary, compare links, facts)
+- `programmeRegistry.test.ts` — page fields in `data/programmes.yaml` (dates, links, level tables, NGCC values)
 - `html.test.ts` — HTML sanitising; `dataFiles.test.ts` — validates `data/**/*.yaml`
 
 **Adding unit tests:** create `src/lib/__tests__/<module>.test.ts`. Import directly from `$lib/...`.
@@ -59,6 +61,7 @@ Playwright against a built static site. The playwright config runs `npm run buil
 - `kems.spec.ts` — KEM compare page: filters, table, badges, chart (expected counts read from `data/kems/*.yaml`)
 - `redirects.spec.ts` — legacy URLs (`/?filters`, `/advanced/`, `/history/`) forward to their new homes
 - `home.spec.ts` — home page: programme table, KpqC picks, compare links, latest changes, no redirect on plain visit
+- `programmes.spec.ts` — `/programmes/` index and every `/programmes/<id>/` page: breadcrumb, facts, timeline, level table, findings box, stage / primitive toggles, NGCC empty state (reads `data/schemes`, so it passes with or without NGCC data), nav and home links
 
 **Adding E2E tests:** add to `e2e/signatures.spec.ts` or `e2e/advanced.spec.ts`, or create a new `e2e/<feature>.spec.ts`.
 Use `page.waitForFunction(() => [...document.querySelectorAll('svg')].some(s => s.querySelector('g')), { timeout: 15_000 })` to wait for the Vega chart to render before asserting on it.
@@ -201,6 +204,7 @@ src/
 │   ├── legacy.ts         # legacyHomeRedirect / legacyPathRedirect (old URL forwarding)
 │   ├── programmes.ts     # programme data model
 │   ├── programmeData.ts  # programme YAML loader
+│   ├── programmePage.ts  # programme pages: members, stage views, NGCC targets, findings summary, facts, compare links
 │   ├── schemeData.ts     # import.meta.glob loader → allSchemeData: SchemeYaml[]
 │   ├── kemSchemeData.ts  # import.meta.glob loader → allKemData: KemSchemeYaml[]
 │   ├── themeStore.ts     # dark/light/system theme store → localStorage
@@ -211,6 +215,8 @@ src/
 │       ├── BadgeIcon / ProgrammeChips / TableLegend.svelte  # shared table pieces; badge detail rows always rendered (hidden when closed) so aria-controls resolves
 │       ├── ChartLegend.svelte    # HTML legend beside the chart (below on phones)
 │       ├── ChartModeToggle.svelte # Sizes / Speed
+│       ├── SegmentedToggle.svelte # generic fieldset of aria-pressed buttons (programme pages)
+│       ├── programme/            # ProgrammeView, ProgrammeTimeline, SecurityLevelsTable, FindingsSummary, SignatureCandidates, KemCandidates
 │       ├── FilterPanel.svelte    # filter controls (categories, levels, ranges)
 │       ├── RangeField.svelte     # reusable number input
 │       ├── SchemeTable.svelte    # sortable table (one row per parameter set); scroll wrapper is `relative overflow-x-auto`
@@ -221,15 +227,16 @@ src/
 │       ├── KemScatterPlot.svelte # KEM pk-vs-ct Vega-Lite scatter (rows prop)
 │       └── KemFilterPanel.svelte # KEM scheme/level/size/time filters (bind:filter)
 └── routes/
-    ├── +layout.svelte    # nav (logo, Signatures, KEMs, Timeline, Contribute, theme toggle; no round selector), footer
+    ├── +layout.svelte    # nav (logo, Signatures, KEMs, Programmes, Timeline, Contribute, theme toggle; no round selector), footer
     ├── +page.ts          # load: programme summaries, scheme/KEM counts, 3 latest history entries
-    ├── +page.svelte      # home: hero, programme table, latest changes; forwards legacy /?filters links (legacyHomeRedirect)
+    ├── +page.svelte      # home: hero, programme table (names link to /programmes/<id>/), latest changes; forwards legacy /?filters links (legacyHomeRedirect)
     ├── signatures/
     │   ├── +page.ts      # load: processYamlSchemes('round-3', {useLatestVersion:true}), createFilterStore
     │   ├── +page.svelte  # page composition, round switching, URL state sync
     │   └── advanced/
     │       ├── +page.ts      # same load as signatures page
     │       └── +page.svelte  # axis selectors, scale toggles, ScatterPlot, FilterPanel, SchemeTable
+    ├── programmes/       # index (+page.ts: programmeCards) and [id]/ (entries() per registry id; {#key} ProgrammeView)
     ├── timeline/         # history panel (was /history/)
     ├── advanced/         # redirect stub → /signatures/advanced/ (LegacyRedirect)
     ├── history/          # redirect stub → /timeline/ (LegacyRedirect)
@@ -240,12 +247,13 @@ src/
 
 src/lib/__tests__/       # Vitest unit tests (vitest.config.ts): badges, chartData, chartLegend,
                          # compareFilters, data, dataFiles, filterStore, html, kemData, legacy,
-                         # programmes, timing
+                         # programmePage, programmeRegistry, programmes, timing
 e2e/                     # Playwright E2E tests (playwright.config.ts)
 ├── signatures.spec.ts
 ├── advanced.spec.ts
 ├── kems.spec.ts
 ├── home.spec.ts
+├── programmes.spec.ts
 └── redirects.spec.ts
 ```
 
@@ -312,6 +320,24 @@ region, url, primitives, stages). Scheme versions and KEMs reference programmes 
 in their `programmes:` maps. `src/lib/__tests__/dataFiles.test.ts` checks that every reference
 resolves to a known programme and stage, that no legacy `tags` remain, and the on-ramp round counts.
 `scripts/migrate_programmes.py` was the one-off tags → programmes migration.
+
+The registry also drives the programme pages (all optional; see `ProgrammeYaml` in `types.ts`):
+`nav_label`, `organiser_detail`, `description`, `links`, `out_of_scope`, `candidates_heading`,
+`official_counts` (official candidate numbers, shown next to "N in our data"), `timeline`
+(`date` YYYY / YYYY-MM / YYYY-MM-DD, `label`, `note`, at most one `current: true`),
+`security_levels` (`intro`, `note`, `columns`, `rows`; first cell is the row header) and `findings`
+(`label`, `url`, `credit`, `note`). `programmeRegistry.test.ts` validates them.
+
+`/programmes/` lists the programmes. `/programmes/<id>/` (prerendered via `entries()`) shows breadcrumb,
+title block, facts, timeline, level table, findings summary and candidates. Logic is in
+`src/lib/programmePage.ts` (pure). Candidates reuse the compare components: signatures go through the
+`filterStore` singleton (the section calls `createFilterStore()` with the programme's members only;
+every compare page rebuilds it on load), KEMs through `KemTable` / `KemScatterPlot` with a local filter.
+Stage toggle: "All, latest specs" plus each `round-N` stage with recorded versions (pinned versions,
+as the on-ramp round selector). NGCC targets are focused with `ngccLevels` only. The findings summary
+counts each member once under its worst flag (`broken` not classical > `implementation` > `warning`)
+plus members with `findings_url`; nothing is hard-coded. With no members, sections show
+"No … from this programme are in our data yet."
 
 ### Parameter-set labels
 
