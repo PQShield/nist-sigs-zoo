@@ -152,11 +152,12 @@ let _filteredRows: Readable<ParameterSet[]> | null = null;
 export function createFilterStore(
 	allRows: ParameterSet[],
 	ranges: DataRanges,
-	urlParams: URLSearchParams
+	urlParams: URLSearchParams,
+	adjust: (f: FilterState) => FilterState = (f) => f
 ) {
 	const allSchemes = new Set(allRows.map((r) => r.scheme));
 	const defaults = defaultFilter(ranges, allSchemes, presentProgrammeGroups(allRows));
-	const initial = applyUrlParams(defaults, urlParams);
+	const initial = adjust(applyUrlParams(defaults, urlParams));
 
 	_defaults = defaults;
 	_allRows.set(allRows);

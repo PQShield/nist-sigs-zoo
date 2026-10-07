@@ -110,4 +110,22 @@ test.describe('Programme pages', () => {
 		await expect(page.locator('h1')).toHaveText('Post-Quantum Signature Schemes', { timeout: 15_000 });
 		await expect(page.locator('tbody')).toContainText('ML-DSA');
 	});
+
+	test('switching stage then leaving for Signatures logs no errors', async ({ page }) => {
+		const errors: string[] = [];
+		page.on('pageerror', (e) => errors.push(String(e)));
+		page.on('console', (m) => {
+			if (m.type() === 'error') errors.push(m.text());
+		});
+		await page.goto('/programmes/nist-onramp/');
+		await page.waitForLoadState('networkidle');
+		const stages = page.getByRole('region', { name: 'Candidates' }).getByRole('group', { name: 'Stage' });
+		await stages.getByRole('button', { name: 'Round 1' }).click();
+		await expect(stages.getByRole('button', { name: 'Round 1' })).toHaveAttribute('aria-pressed', 'true');
+		await page.getByRole('banner').getByRole('link', { name: 'Signatures', exact: true }).click();
+		await expect(page.locator('h1')).toHaveText('Post-Quantum Signature Schemes', { timeout: 15_000 });
+		await expect(page.locator('tbody')).toContainText('ML-DSA');
+		await page.waitForLoadState('networkidle');
+		expect(errors).toEqual([]);
+	});
 });

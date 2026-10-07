@@ -44,6 +44,7 @@
 	let container = $state<HTMLDivElement | null>(null);
 	let viewHandle: { finalize(): void } | null = null;
 	let renderSeq = 0;
+	let alive = true;
 	let renderQueue: Promise<void> = Promise.resolve();
 	let renderError = $state(false);
 	let legend = $state<LegendGroup[]>([]);
@@ -69,9 +70,10 @@
 	}
 
 	async function doRender(seq: number) {
-		if (!container || seq !== renderSeq) return;
+		if (!alive || !container || seq !== renderSeq) return;
 
 		const { default: embed } = await import('vega-embed');
+		if (!alive || seq !== renderSeq) return;
 		const { plotted: data, omitted: missing } = partitionPlottable($filteredRows, sigAxisValue, xField, yField);
 		omitted = missing.length;
 		const isDark = document.documentElement.classList.contains('dark');
@@ -202,11 +204,19 @@
 
 		viewHandle?.finalize();
 		viewHandle = null;
-		viewHandle = await embed(container, spec, { actions: false, renderer: 'svg' });
+		const result = await embed(container, spec, { actions: false, renderer: 'svg' });
+		if (!alive) {
+			result.finalize();
+			return;
+		}
+		viewHandle = result;
 	}
 
 	onMount(() => {
-		return () => viewHandle?.finalize();
+		return () => {
+			alive = false;
+			viewHandle?.finalize();
+		};
 	});
 
 	$effect(() => {

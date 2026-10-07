@@ -43,9 +43,9 @@
 		view = next;
 		const r = programmeSignatureRows(p.id, allSchemeData, next);
 		rows = r.parameterSets;
-		createFilterStore(r.parameterSets, r.ranges, new URLSearchParams());
 		target = ngccTargets(r.parameterSets)[0] ?? null;
-		store.update((f) => focusTarget(f, target));
+		// A stage change intentionally resets the other filters; one store write, no transient state.
+		createFilterStore(r.parameterSets, r.ranges, new URLSearchParams(), (f) => focusTarget(f, target));
 	}
 
 	function chooseTarget(next: NgccLevel) {
