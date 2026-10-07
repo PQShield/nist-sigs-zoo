@@ -2,6 +2,7 @@ import { describe, it, expect } from 'vitest';
 import { readFileSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
 import yaml from 'js-yaml';
+import { isProgrammeGroup } from '$lib/compareFilters';
 import { versionProgrammes } from '$lib/programmes';
 import type { KemSchemeYaml, ProgrammeYaml, SchemeYaml } from '$lib/types';
 
@@ -31,6 +32,12 @@ describe('data/programmes.yaml', () => {
 			const ids = p.stages.map((s) => s.id);
 			expect(new Set(ids).size, p.id).toBe(ids.length);
 		}
+	});
+
+	it('maps every programme onto a compare-page filter group', () => {
+		// nist-pqc splits into nist-standards / nist-pqc-rounds; every other id is its own group.
+		const unmapped = programmes.map((p) => p.id).filter((id) => id !== 'nist-pqc' && !isProgrammeGroup(id));
+		expect(unmapped).toEqual([]);
 	});
 });
 

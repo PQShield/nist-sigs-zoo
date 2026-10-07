@@ -315,3 +315,31 @@ export interface StageFilter {
 	programme: string;
 	stage: string;
 }
+
+// Compare-page filters shared by the signatures and KEM pages
+
+/** Programme filter buckets on the compare pages (see rowProgrammeGroups in compareFilters.ts). */
+export type ProgrammeGroup =
+	| 'nist-standards'
+	| 'nist-pqc-rounds'
+	| 'nist-onramp'
+	| 'china-ngcc'
+	| 'kpqc'
+	| 'iso'
+	| 'research'
+	| 'pre-quantum';
+
+export type ChartMode = 'sizes' | 'speed';
+
+/** Data-independent filter fields shared by both compare pages, with one URL codec. */
+export interface CommonFilter {
+	programmes: Set<ProgrammeGroup>;
+	levels: Set<NistLevel>;
+	ngccLevels: Set<NgccLevel>;
+	paramSets: 'recommended' | 'all';
+	hideBroken: boolean;
+	hideImplementation: boolean;
+	hideWarnings: boolean;
+	/** Main compare chart axes. View state, kept here so it shares the URL codec. */
+	chart: ChartMode;
+}
