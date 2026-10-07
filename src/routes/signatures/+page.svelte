@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { SITE_NAME } from '$lib/constants';
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
 	import { base } from '$app/paths';
@@ -93,6 +94,10 @@
 		};
 	});
 </script>
+
+<svelte:head>
+	<title>Signatures · {SITE_NAME}</title>
+</svelte:head>
 
 <div class="mx-auto max-w-screen-2xl px-6 py-8">
 	<!-- Hero header -->

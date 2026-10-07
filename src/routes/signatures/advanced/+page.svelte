@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { SITE_NAME } from '$lib/constants';
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
 	import { base } from '$app/paths';
@@ -108,6 +109,10 @@
 
 	const selectClass = 'rounded border border-pqs-ashgray bg-white px-2 py-1 text-sm text-pqs-midnight dark:border-pqs-steel dark:bg-pqs-midnight-mid dark:text-pqs-smoke focus:outline-none focus:ring-1 focus:ring-pqs-apricot';
 </script>
+
+<svelte:head>
+	<title>Signatures advanced graph · {SITE_NAME}</title>
+</svelte:head>
 
 <div class="mx-auto max-w-screen-2xl px-6 py-8">
 	<div class="mb-8 border-l-4 border-pqs-apricot pl-4">

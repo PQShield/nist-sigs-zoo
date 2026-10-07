@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { SITE_NAME } from '$lib/constants';
 	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
 	import { base } from '$app/paths';
@@ -58,6 +59,10 @@
 		return () => clearTimeout(timer);
 	});
 </script>
+
+<svelte:head>
+	<title>KEMs · {SITE_NAME}</title>
+</svelte:head>
 
 <div class="mx-auto max-w-screen-2xl px-6 py-8">
 	<!-- Hero header -->
