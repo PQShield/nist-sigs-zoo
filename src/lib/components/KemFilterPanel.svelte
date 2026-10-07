@@ -92,13 +92,13 @@
 				<summary class="flex cursor-pointer list-none items-center gap-1.5 py-0.5">
 					<input
 						type="checkbox"
-						aria-label="All {cat} schemes"
+						aria-label="All {cat === 'Pre-Quantum' ? 'Pre-quantum' : cat} schemes"
 						checked={categoryState(cat) !== 'none'}
 						use:indeterminate={categoryState(cat) === 'some'}
 						onchange={() => toggleCategory(cat)}
 						class="shrink-0 accent-pqs-apricot"
 					/>
-					<span class="font-heading font-semibold text-pqs-midnight dark:text-pqs-smoke">{cat}</span>
+					<span class="font-heading font-semibold text-pqs-midnight dark:text-pqs-smoke">{cat === 'Pre-Quantum' ? 'Pre-quantum' : cat}</span>
 				</summary>
 				<div class="ml-5 mt-0.5 space-y-0.5">
 					{#each schemesByCategory[cat] as scheme (scheme.scheme)}

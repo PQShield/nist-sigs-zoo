@@ -9,7 +9,7 @@
 	import ProgrammeChips from './ProgrammeChips.svelte';
 	import TableLegend from './TableLegend.svelte';
 
-	let { rows, recommendedOnly }: { rows: KemParameterSet[]; recommendedOnly: boolean } = $props();
+	let { rows }: { rows: KemParameterSet[] } = $props();
 
 	const idPrefix = $props.id();
 
@@ -120,7 +120,7 @@
 </script>
 
 {#snippet timeCell(us: number | null, cyc: number)}
-	<td class="whitespace-nowrap px-3 py-1.5 text-right tabular-nums">
+	<td class="whitespace-nowrap px-2 py-1.5 text-right tabular-nums">
 		{#if us != null}
 			{fmtTime(us)}
 		{:else if cyc > 0}
@@ -141,19 +141,19 @@
 				<tr class="bg-pqs-steel font-heading text-xs text-white">
 					{#each COLUMNS as col, i (col.key)}
 						{#if i === 2}
-							<th scope="col" class="whitespace-nowrap px-3 py-2.5 text-left font-semibold">Programmes</th>
+							<th scope="col" class="whitespace-nowrap px-2 py-2.5 text-left font-semibold">Programmes</th>
 						{/if}
 						<th scope="col" aria-sort={ariaSort(col.key)} class="whitespace-nowrap p-0">
 							<button
 								type="button"
 								onclick={() => setSort(col.key)}
-								class="w-full cursor-pointer select-none px-3 py-2.5 font-semibold hover:bg-pqs-steel-light {col.numeric ? 'text-right' : 'text-left'}"
+								class="w-full cursor-pointer select-none px-2 py-2.5 font-semibold hover:bg-pqs-steel-light {col.numeric ? 'text-right' : 'text-left'}"
 							>
 								{col.label}{sortIndicator(col.key)}
 							</button>
 						</th>
 					{/each}
-					<th scope="col" class="px-3 py-2.5 text-left text-xs font-semibold">Assumption</th>
+					<th scope="col" class="px-2 py-2.5 text-left text-xs font-semibold">Assumption</th>
 				</tr>
 			</thead>
 			<tbody class="divide-y divide-pqs-ashgray bg-white dark:divide-pqs-steel dark:bg-pqs-midnight-mid">
@@ -163,7 +163,7 @@
 					{@const openBadge = badges.find((b) => b.kind === open[key])}
 					{@const detailId = `${idPrefix}-detail-${i}`}
 					<tr class="hover:bg-pqs-smoke dark:hover:bg-pqs-steel/30">
-						<td class="whitespace-nowrap px-3 py-1.5">
+						<td class="whitespace-nowrap px-2 py-1.5">
 							<a
 								href={row.website}
 								target="_blank"
@@ -181,29 +181,30 @@
 								><BadgeIcon kind={badge.kind} /></button>
 							{/each}
 						</td>
-						<td class="whitespace-nowrap px-3 py-1.5 text-pqs-steel dark:text-pqs-bluegray">{row.category}</td>
-						<td class="px-3 py-1.5"><ProgrammeChips chips={programmeChips(row, allProgrammes)} /></td>
-						<td class="whitespace-nowrap px-3 py-1.5 font-mono text-xs" title={row.parameterset}>{shortParam(row)}</td>
-						<td class="px-3 py-1.5 text-right tabular-nums text-pqs-steel dark:text-pqs-bluegray">
+						<td class="whitespace-nowrap px-2 py-1.5 text-pqs-steel dark:text-pqs-bluegray">{row.category}</td>
+						<td class="px-2 py-1.5"><ProgrammeChips chips={programmeChips(row, allProgrammes)} /></td>
+						<td class="whitespace-nowrap px-2 py-1.5 font-mono text-xs" title={row.parameterset}>{shortParam(row)}</td>
+						<td class="px-2 py-1.5 text-right tabular-nums text-pqs-steel dark:text-pqs-bluegray">
 							{#if row.level !== null}
-								{row.level === 'Pre-Quantum' ? 'N/A' : row.level}
+								{row.level === 'Pre-Quantum' ? 'Pre-quantum' : row.level}
 							{:else if row.ngccLevel !== null}
 								<span class="font-semibold text-[#6b21a8] dark:text-[#d8b4fe]" title="China NGCC target in classical bits; not a NIST level">{row.ngccLevel}-bit</span>
 							{:else}
 								—
 							{/if}
 						</td>
-						<td class="px-3 py-1.5 text-right tabular-nums">{fmt(row.pk)}</td>
-						<td class="px-3 py-1.5 text-right tabular-nums">{fmt(row.ct)}</td>
-						<td class="px-3 py-1.5 text-right tabular-nums">{fmt(row.pkPlusCt)}</td>
+						<td class="px-2 py-1.5 text-right tabular-nums">{fmt(row.pk)}</td>
+						<td class="px-2 py-1.5 text-right tabular-nums">{fmt(row.ct)}</td>
+						<td class="px-2 py-1.5 text-right tabular-nums">{fmt(row.pkPlusCt)}</td>
 						{@render timeCell(row.keygenUs, row.keygenCycles)}
 						{@render timeCell(row.encapsUs, row.encapsCycles)}
 						{@render timeCell(row.decapsUs, row.decapsCycles)}
-						<td class="px-3 py-1.5 text-pqs-steel/80 dark:text-pqs-bluegray">{row.assumption}</td>
+						<td class="max-w-48 whitespace-normal px-2 py-1.5 text-pqs-steel/80 dark:text-pqs-bluegray">{row.assumption}</td>
 					</tr>
 					{#if badges.length > 0}
 						<tr id={detailId} hidden={!openBadge} class={openBadge ? DETAIL_TONE[openBadge.kind] : ''}>
 							<td colspan={COLSPAN} class="whitespace-normal px-3 py-2.5 pl-9 text-sm leading-relaxed text-pqs-midnight dark:text-pqs-smoke [&_a]:text-pqs-apricot [&_a]:underline">
+								<div class="sticky left-0 max-w-[calc(100vw-3rem)]">
 								{#if openBadge}
 									<strong class="font-heading">{openBadge.title}:</strong>
 									{@html openBadge.html}
@@ -211,6 +212,7 @@
 										<a href={openBadge.href} target="_blank" rel="noopener noreferrer">Full findings report</a>
 									{/if}
 								{/if}
+								</div>
 							</td>
 						</tr>
 					{/if}
@@ -224,7 +226,7 @@
 		</table>
 	</div>
 	<div class="border-t border-pqs-ashgray bg-pqs-smoke px-3 py-1.5 font-heading text-xs text-pqs-steel dark:border-pqs-steel dark:bg-pqs-midnight-mid dark:text-pqs-bluegray">
-		<span>{sortedRows.length} parameter set{sortedRows.length === 1 ? '' : 's'}</span>{#if recommendedOnly}{' '}<span>shown (recommended sets)</span>{/if}
+		<span>{sortedRows.length} parameter set{sortedRows.length === 1 ? '' : 's'}</span>
 	</div>
 	<TableLegend />
 </div>

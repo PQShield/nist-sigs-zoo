@@ -118,8 +118,7 @@
 			{/if}
 		</p>
 		<p class="mt-1 text-xs text-pqs-steel/70 dark:text-pqs-bluegray/70">
-			The on-ramp round (under Programme in the filters) only selects on-ramp submissions; schemes from
-			other programmes always show their latest specification.
+			Latest also includes schemes from other programmes; Round 1–3 show only that round's on-ramp submissions, plus NIST standards and pre-quantum references.
 		</p>
 	</div>
 
@@ -148,7 +147,7 @@
 					yField={$store.chart === 'speed' ? 'verificationTime' : 'sig'}
 				/>
 				<div class="mt-2 flex justify-end">
-					<a href="{base}/signatures/advanced/" class="text-xs text-pqs-bluegray hover:text-pqs-apricot dark:text-pqs-steel dark:hover:text-pqs-apricot transition-colors">
+					<a href="{base}/signatures/advanced/" class="text-xs text-pqs-steel hover:text-pqs-apricot dark:text-pqs-bluegray dark:hover:text-pqs-apricot transition-colors">
 						Advanced graph →
 					</a>
 				</div>

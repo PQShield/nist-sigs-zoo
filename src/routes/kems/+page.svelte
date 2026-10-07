@@ -101,7 +101,7 @@
 					yField={filter.chart === 'speed' ? 'decapsTime' : 'ct'}
 				/>
 				<div class="mt-2 flex justify-end">
-					<a href="{base}/kems/advanced/" class="text-xs text-pqs-bluegray hover:text-pqs-apricot dark:text-pqs-steel dark:hover:text-pqs-apricot transition-colors">
+					<a href="{base}/kems/advanced/" class="text-xs text-pqs-steel hover:text-pqs-apricot dark:text-pqs-bluegray dark:hover:text-pqs-apricot transition-colors">
 						Advanced graph →
 					</a>
 				</div>
@@ -119,7 +119,7 @@
 
 			<!-- Table -->
 			<section>
-				<KemTable rows={filteredRows} recommendedOnly={filter.paramSets === 'recommended'} />
+				<KemTable rows={filteredRows} />
 			</section>
 
 			<!-- Benchmark environment -->

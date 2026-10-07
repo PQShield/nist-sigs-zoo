@@ -11,7 +11,7 @@
 	<legend class={FILTER_HEADING}>Parameter sets</legend>
 	<label class={FILTER_OPTION}>
 		<input type="radio" {name} class="accent-pqs-apricot" checked={filter.paramSets === 'recommended'} onchange={() => onchange({ paramSets: 'recommended' })} />
-		<span class={FILTER_OPTION_TEXT}>Recommended (one per scheme and level)</span>
+		<span class={FILTER_OPTION_TEXT}>Recommended (where designers name them)</span>
 	</label>
 	<label class={FILTER_OPTION}>
 		<input type="radio" {name} class="accent-pqs-apricot" checked={filter.paramSets === 'all'} onchange={() => onchange({ paramSets: 'all' })} />

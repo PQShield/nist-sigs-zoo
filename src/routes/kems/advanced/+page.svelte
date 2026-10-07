@@ -194,7 +194,7 @@
 
 			<!-- Table -->
 			<section>
-				<KemTable rows={filteredRows} recommendedOnly={filter.paramSets === 'recommended'} />
+				<KemTable rows={filteredRows} />
 			</section>
 		</div>
 	</div>

@@ -151,7 +151,7 @@ test.describe('KEMs page', () => {
 		await panel.getByLabel('Pre-quantum', { exact: true }).uncheck();
 
 		await expect.poll(() => paramSetCount(page)).toBe(expectedTotal - expectedNaCount);
-		expect(await levelTexts(page)).not.toContain('N/A');
+		expect(await levelTexts(page)).not.toContain('Pre-quantum');
 	});
 
 	test('persists filter state in the URL across reload', async ({ page }) => {
@@ -166,7 +166,7 @@ test.describe('KEMs page', () => {
 		// Filter is re-applied from the URL in onMount, after hydration — poll rather
 		// than reading once, so we don't race the pre-hydration default-filter render.
 		await expect.poll(() => paramSetCount(page)).toBe(expectedTotal - expectedNaCount);
-		expect(await levelTexts(page)).not.toContain('N/A');
+		expect(await levelTexts(page)).not.toContain('Pre-quantum');
 	});
 
 	test('table has a Programmes column in place of Status', async ({ page }) => {

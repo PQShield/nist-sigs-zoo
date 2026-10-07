@@ -176,13 +176,13 @@
 				x: {
 					field: xField,
 					type: 'quantitative',
-					scale: { type: xScale },
+					scale: { type: xScale, ...(xScale === 'log' ? { padding: 14 } : {}) },
 					axis: { title: AXIS_TITLES[xField], grid: true, format: 's' }
 				},
 				y: {
 					field: yField,
 					type: 'quantitative',
-					scale: { type: yScale },
+					scale: { type: yScale, ...(yScale === 'log' ? { padding: 14 } : {}) },
 					axis: { title: AXIS_TITLES[yField], grid: true, format: 's' }
 				},
 				tooltip: { field: 'tooltip', type: 'nominal' }
@@ -229,11 +229,11 @@
 			</p>
 		{/if}
 		<div class="mt-1 flex items-center justify-between">
-			<p class="text-xs text-pqs-bluegray dark:text-pqs-steel">Scroll to zoom · drag to pan<span class="sm:hidden"> · tap a point for details</span></p>
+			<p class="text-xs text-pqs-steel dark:text-pqs-bluegray">Scroll to zoom · drag to pan<span class="sm:hidden"> · tap a point for details</span></p>
 			<button
 				type="button"
 				onclick={render}
-				class="text-xs text-pqs-bluegray hover:text-pqs-apricot dark:text-pqs-steel dark:hover:text-pqs-apricot transition-colors"
+				class="text-xs text-pqs-steel hover:text-pqs-apricot dark:text-pqs-bluegray dark:hover:text-pqs-apricot transition-colors"
 			>Reset zoom</button>
 		</div>
 	</div>

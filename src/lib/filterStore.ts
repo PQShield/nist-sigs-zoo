@@ -1,7 +1,7 @@
 import { derived, writable } from 'svelte/store';
 import type { Readable, Writable } from 'svelte/store';
 import type { DataRanges, FilterState, ParameterSet, ProgrammeGroup, SortableColumn } from './types';
-import { CYCLES_PER_US } from './constants';
+import { sigTimes } from './timing';
 import {
 	decodeCommonFilters,
 	defaultCommonFilter,
@@ -100,10 +100,8 @@ export function buildUrlParams(state: FilterState, defaults: FilterState): URLSe
 
 /** Displayed time in µs, or null when the row has no timing data (shown as "—"). */
 function timeValue(row: ParameterSet, col: 'signingUs' | 'verificationUs'): number | null {
-	if (col === 'signingUs') {
-		return row.signingUs ?? (row.signingCycles > 0 ? row.signingCycles / CYCLES_PER_US : null);
-	}
-	return row.verificationUs ?? (row.verificationCycles > 0 ? row.verificationCycles / CYCLES_PER_US : null);
+	const t = sigTimes(row);
+	return col === 'signingUs' ? t.sign : t.verify;
 }
 
 function compareValues(a: ParameterSet, b: ParameterSet, col: SortableColumn): number {
