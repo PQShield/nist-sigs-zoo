@@ -87,6 +87,8 @@ export interface SchemeYaml {
 	website: string;
 	category: string;
 	assumption: string;
+	/** Optional URL slug for /schemes/<slug>/; defaults to slugify(name). Needed only for clashes or non-ASCII names. */
+	slug?: string;
 	versions: VersionYaml[];
 }
 
@@ -117,6 +119,8 @@ export interface KemSchemeYaml {
 	website: string;
 	category: string;
 	assumption: string;
+	/** Optional URL slug for /schemes/<slug>/; defaults to slugify(name). Needed only for clashes or non-ASCII names. */
+	slug?: string;
 	status: string;
 	implementation?: string;
 	findings_url?: string;

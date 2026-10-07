@@ -4,7 +4,8 @@ import { join } from 'node:path';
 import yaml from 'js-yaml';
 import { isProgrammeGroup } from '$lib/compareFilters';
 import { versionProgrammes } from '$lib/programmes';
-import type { KemSchemeYaml, ProgrammeYaml, SchemeYaml } from '$lib/types';
+import { buildSchemeIndex } from '$lib/slugs';
+import type { HistoryEntry, KemSchemeYaml, ProgrammeYaml, SchemeYaml } from '$lib/types';
 
 const DATA = join(process.cwd(), 'data');
 const load = <T>(path: string): T => yaml.load(readFileSync(path, 'utf8')) as T;
@@ -96,5 +97,28 @@ describe('security levels in data', () => {
 		const errors = readdirSync(dir).filter((f) => f.endsWith('.yaml'))
 			.flatMap((f) => check(f, load<KemSchemeYaml>(join(dir, f)).parametersets as Ps[]));
 		expect(errors).toEqual([]);
+	});
+});
+
+describe('scheme pages', () => {
+	const readDir = <T>(dir: string): T[] =>
+		readdirSync(join(DATA, dir))
+			.filter((f) => f.endsWith('.yaml'))
+			.map((f) => load<T>(join(DATA, dir, f)));
+	const sigs = readDir<SchemeYaml>('schemes');
+	const kems = readDir<KemSchemeYaml>('kems');
+
+	it('gives every signature and KEM a unique lowercase ASCII slug and a unique name', () => {
+		// On failure the thrown message names both schemes; add `slug:` to one YAML file.
+		expect(() => buildSchemeIndex(sigs, kems)).not.toThrow();
+	});
+
+	it('every history entry names a scheme or KEM that has a page', () => {
+		const names = new Set([...sigs, ...kems].map((s) => s.name));
+		const history = load<HistoryEntry[]>(join(DATA, 'history.yaml'));
+		const unknown = history.flatMap((e) =>
+			(e.schemes ?? []).filter((n) => !names.has(n)).map((n) => `${e.date}: "${n}"`)
+		);
+		expect(unknown).toEqual([]);
 	});
 });
