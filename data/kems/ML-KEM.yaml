@@ -3,6 +3,8 @@ website: https://csrc.nist.gov/pubs/fips/203/final
 category: Lattices
 assumption: MLWE
 status: FIPS
+programmes:
+  nist-pqc: standardised
 parametersets:
 - name: ML-KEM-512
   level: 1

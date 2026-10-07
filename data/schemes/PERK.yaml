@@ -47,6 +47,8 @@ versions:
 - version: v2.0
   date: '2025-02-05'
   status: On-ramp
+  programmes:
+    nist-onramp: round-2
   perf_source: submission document
   parametersets:
   - name: I-fast3
@@ -121,14 +123,12 @@ versions:
     sig: 23000
     signing_cycles: 168000000
     verification_cycles: 131000000
-  tags:
-  - round-2
 - version: v1.0
   date: '2023-05-31'
   status: On-ramp
+  programmes:
+    nist-onramp: round-1
   perf_source: submission document
-  tags:
-  - round-1
   parametersets:
   - name: V-short3
     level: 5

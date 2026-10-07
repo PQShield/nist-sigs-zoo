@@ -3,6 +3,9 @@ website: https://classic.mceliece.org/
 category: Code-based
 assumption: Syndrome Decoding (binary Goppa)
 status: ISO standardisation
+programmes:
+  nist-pqc: round-4
+  iso: in-progress
 info: Conservative code-based KEM with a very long security track record. Public keys are enormous (255 KB–1.3 MB) but ciphertexts are tiny. Key generation is variable-time and slow. The five base parameter sets are shown; libmceliece also offers f (fast-keygen), pc and pcf variants. Selected for ISO standardisation; also a NIST round-4 candidate.
 parametersets:
 - name: mceliece348864

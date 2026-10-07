@@ -9,13 +9,13 @@
 	import ScatterPlot from '$lib/components/ScatterPlot.svelte';
 	import { processYamlSchemes } from '$lib/data';
 	import { getFilterStore, buildUrlParams, createFilterStore } from '$lib/filterStore';
-	import { roundStore, type Round } from '$lib/roundStore';
+	import { roundStore, roundToFilter, type Round } from '$lib/roundStore';
 	import { allSchemeData, benchmarkEnv, lastUpdated } from '$lib/schemeData';
 	import type { PageData } from './$types';
 
 	let { data: _ }: { data: PageData } = $props();
 
-	const _init = processYamlSchemes(allSchemeData, 'round-3', { useLatestVersion: true });
+	const _init = processYamlSchemes(allSchemeData, roundToFilter('latest').filter, { useLatestVersion: true });
 	let schemes = $state(_init.schemes);
 	let categories = $state([...new Set(_init.schemes.map((s) => s.category))].sort());
 	let ranges = $state(_init.ranges);
@@ -23,8 +23,8 @@
 	const { applyUrl } = getFilterStore();
 
 	function applyRound(round: Round) {
-		const tagFilter = round === 'latest' || round === 'round-3' ? 'round-3' : round;
-		const result = processYamlSchemes(allSchemeData, tagFilter, { useLatestVersion: round === 'latest' || round === 'round-3' });
+		const { filter, useLatestVersion } = roundToFilter(round);
+		const result = processYamlSchemes(allSchemeData, filter, { useLatestVersion });
 		schemes = result.schemes;
 		categories = [...new Set(result.schemes.map((s) => s.category))].sort();
 		ranges = result.ranges;

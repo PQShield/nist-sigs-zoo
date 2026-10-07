@@ -7,6 +7,7 @@ import type {
 	NistLevel
 } from './types';
 import { CPUSPEED } from './constants';
+import { lastStage } from './programmes';
 
 /**
  * Flatten KEM YAML into schemes + parameter-set rows.
@@ -25,6 +26,11 @@ export function processKemSchemes(schemeData: KemSchemeYaml[]): {
 	for (const yaml of schemeData) {
 		if (!yaml.parametersets || yaml.parametersets.length === 0) continue;
 
+		const programmes = Object.entries(yaml.programmes ?? {}).map(([programme, stages]) => ({
+			programme,
+			stage: lastStage(stages)
+		}));
+
 		schemes.push({
 			scheme: yaml.name,
 			status: yaml.status,
@@ -35,6 +41,7 @@ export function processKemSchemes(schemeData: KemSchemeYaml[]): {
 			warning: yaml.warning ?? false,
 			info: yaml.info ?? false,
 			classical: yaml.broken === 'classical',
+			programmes,
 		});
 
 		for (const ps of yaml.parametersets) {
@@ -78,6 +85,7 @@ export function processKemSchemes(schemeData: KemSchemeYaml[]): {
 				website: yaml.website,
 				assumption: yaml.assumption,
 				notes: ps.notes ?? null,
+				programmes,
 			});
 		}
 	}

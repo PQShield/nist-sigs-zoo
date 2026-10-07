@@ -6,6 +6,8 @@ versions:
 - version: v3.0
   date: '2026-09-07'
   status: On-ramp
+  programmes:
+    nist-onramp: round-3
   parametersets:
   - name: V-pkc
     level: 5
@@ -71,11 +73,11 @@ versions:
     verification_cycles: 62315
     signing_us: 14.9
     verification_us: 17.6
-  tags:
-  - round-3
 - version: v2.0
   date: '2025-02-05'
   status: On-ramp
+  programmes:
+    nist-onramp: round-2
   perf_source: submission document
   parametersets:
   - name: V-pkc
@@ -150,14 +152,12 @@ versions:
     broken: "Intersection attack (Furue & Ikematsu, ePrint 2026/298) reduces classical security to ~128 bits, below NIST Level I threshold (best known; improves on Ran's ePrint 2025/1143 ~141 bits)"
     signing_us: 20.1
     verification_us: 20.4
-  tags:
-  - round-2
 - version: v1.0
   date: '2023-05-30'
   status: On-ramp
+  programmes:
+    nist-onramp: round-1
   perf_source: submission document
-  tags:
-  - round-1
   parametersets:
   - name: V-pkc
     level: 5

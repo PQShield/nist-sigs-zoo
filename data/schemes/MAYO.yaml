@@ -6,9 +6,9 @@ versions:
 - version: Round 3
   date: '2026-08-31'
   status: On-ramp
+  programmes:
+    nist-onramp: round-3
   perf_source: submission document (Table 3.1, Intel Xeon E3-1225 v3 Haswell, optimized C + AES-NI)
-  tags:
-  - round-3
   parametersets:
   - name: five
     level: 5
@@ -84,6 +84,8 @@ versions:
 - version: Round 2
   date: '2025-02-05'
   status: On-ramp
+  programmes:
+    nist-onramp: round-2
   perf_source: submission document
   parametersets:
   - name: five
@@ -112,14 +114,12 @@ versions:
     signing_cycles: 471028
     verification_cycles: 153266
     warning: "Improved MQ attack (Asanuma et al., ePrint 2026/1054) reduces classical security estimate from 2^156 to 2^145 — still above NIST Level I threshold (128 bits)"
-  tags:
-  - round-2
 - version: Round 1
   date: '2023-06-01'
   status: On-ramp
+  programmes:
+    nist-onramp: round-1
   perf_source: submission document
-  tags:
-  - round-1
   parametersets:
   - name: five
     level: 5

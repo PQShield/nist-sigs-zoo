@@ -6,8 +6,8 @@ versions:
 - version: v3.0
   date: '2026-08-31'
   status: On-ramp
-  tags:
-  - round-3
+  programmes:
+    nist-onramp: round-3
   perf_source: official spec (AVX2, SHAKE128 public XOF)
   info: "The round-3 vinegar sampler reduces uniform bytes modulo q^g, which is biased for odd q; Beullens &amp; Hess recover secret keys from signatures for the six odd-characteristic alternative parameter sets (LPN/BKW attack, to appear on ePrint). The recommended sets below use q = 16 and are unaffected. Easily fixed by sampling vinegar uniformly."
   parametersets:
@@ -207,8 +207,8 @@ versions:
 - version: v2.0
   date: '2025-01-25'
   status: On-ramp
-  tags:
-  - round-2
+  programmes:
+    nist-onramp: round-2
   parametersets:
   - name: (60 10 4)
     level: 5
@@ -293,8 +293,8 @@ versions:
 - version: Round 1
   date: '2023-05-25'
   status: On-ramp
-  tags:
-  - round-1
+  programmes:
+    nist-onramp: round-1
   parametersets:
   - name: (60, 10, 16, 4)
     level: 5

@@ -10,7 +10,7 @@ export interface Scheme {
 	warning: false | string;
 	info: false | string;
 	classical: boolean;
-	tags: string[];
+	programmes: ProgrammeMembership[];
 }
 
 export interface ParameterSet {
@@ -36,6 +36,7 @@ export interface ParameterSet {
 	notes: string | null;
 	version: string;
 	perfSource: string | null;
+	programmes: ProgrammeMembership[];
 }
 
 // YAML schema types
@@ -60,9 +61,8 @@ export interface VersionYaml {
 	date: string;
 	status: string;
 	perf_source?: string;
-	tags?: string[];
 	/** Programme id → stage id, e.g. { 'nist-onramp': 'round-3' } */
-	programmes?: Record<string, string>;
+	programmes?: Record<string, string | string[]>;
 	notes?: string;
 	broken?: string;
 	warning?: string;
@@ -104,7 +104,7 @@ export interface KemSchemeYaml {
 	assumption: string;
 	status: string;
 	/** Programme id → stage id, e.g. { 'nist-pqc': 'standardised' } */
-	programmes?: Record<string, string>;
+	programmes?: Record<string, string | string[]>;
 	broken?: string;
 	warning?: string;
 	info?: string;
@@ -121,6 +121,7 @@ export interface KemScheme {
 	warning: false | string;
 	info: false | string;
 	classical: boolean;
+	programmes: ProgrammeMembership[];
 }
 
 export interface KemParameterSet {
@@ -145,6 +146,7 @@ export interface KemParameterSet {
 	website: string;
 	assumption: string;
 	notes: string | null;
+	programmes: ProgrammeMembership[];
 }
 
 export type KemAxisField =

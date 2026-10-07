@@ -6,6 +6,8 @@ versions:
 - version: FIPS 205
   date: '2024-08-13'
   status: FIPS
+  programmes:
+    nist-pqc: standardised
   perf_source: submission document
   parametersets:
   - name: SHAKE-192s

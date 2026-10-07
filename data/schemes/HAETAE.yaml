@@ -6,9 +6,10 @@ versions:
 - version: Round 1
   date: '2023-05-31'
   status: On-ramp
+  programmes:
+    nist-onramp: round-1
+    kpqc: selected
   perf_source: submission document
-  tags:
-  - round-1
   parametersets:
   - name: '180'
     level: 3

@@ -17,13 +17,16 @@ const PROGRAMMES: ProgrammeYaml[] = [
 	  stages: [{ id: 'selected', label: 'selected' }] }
 ];
 
-function v(date: string, programmes?: Record<string, string>): VersionYaml {
+function v(date: string, programmes?: Record<string, string | string[]>): VersionYaml {
 	return { version: date, date, status: 'On-ramp', programmes, parametersets: [] };
 }
 
 describe('versionProgrammes', () => {
-	it('returns the programmes map', () => {
-		expect(versionProgrammes(v('2024-01-01', { 'nist-onramp': 'round-1' }))).toEqual({ 'nist-onramp': 'round-1' });
+	it('normalises scalar stages to lists', () => {
+		expect(versionProgrammes(v('2024-01-01', { 'nist-onramp': 'round-1' }))).toEqual({ 'nist-onramp': ['round-1'] });
+	});
+	it('keeps list stages', () => {
+		expect(versionProgrammes(v('2025-02-05', { 'nist-onramp': ['round-2', 'round-3'] }))).toEqual({ 'nist-onramp': ['round-2', 'round-3'] });
 	});
 	it('returns an empty map when absent', () => {
 		expect(versionProgrammes(v('2024-01-01'))).toEqual({});
@@ -38,6 +41,11 @@ describe('schemeProgrammes', () => {
 			v('2026-09-01')
 		];
 		expect(schemeProgrammes(versions)).toEqual([{ programme: 'nist-onramp', stage: 'round-3' }]);
+	});
+	it('reports the last listed stage when a version has several', () => {
+		expect(schemeProgrammes([v('2025-02-05', { 'nist-onramp': ['round-2', 'round-3'] })])).toEqual([
+			{ programme: 'nist-onramp', stage: 'round-3' }
+		]);
 	});
 	it('lists every programme a scheme was in', () => {
 		const versions = [v('2023-05-31', { 'nist-onramp': 'round-1', kpqc: 'selected' })];

@@ -6,9 +6,9 @@ versions:
 - version: v3.0.0
   date: '2026-09-08'
   status: On-ramp
+  programmes:
+    nist-onramp: round-3
   perf_source: "sizes verified against kat_r3 KAT vectors (github.com/sdith/sdith tag v3.0.0)"
-  tags:
-  - round-3
   parametersets:
   - name: SDitH2-L1-gf2-short
     level: 1
@@ -61,6 +61,8 @@ versions:
 - version: v2.0
   date: '2025-02-05'
   status: On-ramp
+  programmes:
+    nist-onramp: round-2
   perf_source: submission document
   parametersets:
   - name: SDitH2-L1-gf2-short
@@ -111,14 +113,12 @@ versions:
     verification_cycles: 39721352
     signing_us: 11377.0
     verification_us: 10572.8
-  tags:
-  - round-2
 - version: v1.0
   date: '2023-05-31'
   status: On-ramp
+  programmes:
+    nist-onramp: round-1
   perf_source: submission document
-  tags:
-  - round-1
   parametersets:
   - name: gf251-L5-hyp
     level: 5

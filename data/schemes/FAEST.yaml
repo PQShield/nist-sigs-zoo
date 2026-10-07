@@ -6,9 +6,9 @@ versions:
 - version: v3.0.0
   date: '2026-09-01'
   status: On-ramp
+  programmes:
+    nist-onramp: round-3
   perf_source: faest-arch-opt (AVX2+AES-NI optimized implementation)
-  tags:
-  - round-3
   parametersets:
   - name: 128s
     level: 1
@@ -109,9 +109,9 @@ versions:
 - version: v2.0
   date: '2025-02-07'
   status: On-ramp
+  programmes:
+    nist-onramp: round-2
   perf_source: faest-arch-opt (AVX2+AES-NI optimized implementation)
-  tags:
-  - round-2
   parametersets:
   - name: 128s
     level: 1
@@ -212,9 +212,9 @@ versions:
 - version: v1.0
   date: '2023-06-01'
   status: On-ramp
+  programmes:
+    nist-onramp: round-1
   perf_source: submission document
-  tags:
-  - round-1
   parametersets:
   - name: 192s
     level: 3

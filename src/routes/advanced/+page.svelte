@@ -11,12 +11,13 @@
 	import { processYamlSchemes } from '$lib/data';
 	import { getFilterStore, buildUrlParams, createFilterStore } from '$lib/filterStore';
 	import { allSchemeData } from '$lib/schemeData';
+	import { roundToFilter } from '$lib/roundStore';
 	import type { AxisField, ScaleType } from '$lib/types';
 	import type { PageData } from './$types';
 
 	let { data: _ }: { data: PageData } = $props();
 
-	const _init = processYamlSchemes(allSchemeData, 'round-3', { useLatestVersion: true });
+	const _init = processYamlSchemes(allSchemeData, roundToFilter('latest').filter, { useLatestVersion: true });
 	let schemes = $state(_init.schemes);
 	let categories = $state([...new Set(_init.schemes.map((s) => s.category))].sort());
 	let ranges = $state(_init.ranges);

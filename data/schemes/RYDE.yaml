@@ -65,6 +65,8 @@ versions:
 - version: v2.0
   date: '2025-02-05'
   status: On-ramp
+  programmes:
+    nist-onramp: round-2
   perf_source: submission document
   parametersets:
   - name: 1-Short
@@ -103,14 +105,12 @@ versions:
     sig: 14609
     signing_cycles: 49000000
     verification_cycles: 44500000
-  tags:
-  - round-2
 - version: Round 1
   date: '2023-06-01'
   status: On-ramp
+  programmes:
+    nist-onramp: round-1
   perf_source: submission document
-  tags:
-  - round-1
   parametersets:
   - name: 256S
     level: 5

@@ -3,6 +3,8 @@ website: https://kpqc.cryptolab.co.kr/smaug-t
 category: Lattices
 assumption: MLWE / MLWR
 status: KpqC standard
+programmes:
+  kpqc: selected
 info: Module-LWE/LWR KEM (CryptoLab) selected as a final algorithm in Korea's KpqC competition, merged with TiGER during round 2. Uses a sparse secret and the Fujisaki-Okamoto transform over an MLWE/MLWR IND-CPA PKE, in the style of Kyber/Saber.
 parametersets:
 - name: SMAUG-T128

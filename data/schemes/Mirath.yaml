@@ -83,6 +83,8 @@ versions:
 - version: v2.0
   date: '2025-02-05'
   status: On-ramp
+  programmes:
+    nist-onramp: round-2
   perf_source: submission document
   parametersets:
   - name: 1a-Short
@@ -157,5 +159,3 @@ versions:
     sig: 14262
     signing_cycles: 121000000
     verification_cycles: 88000000
-  tags:
-  - round-2

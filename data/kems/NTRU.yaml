@@ -3,6 +3,8 @@ website: https://ntru.org/
 category: Lattices
 assumption: NTRU
 status: Round-3 finalist
+programmes:
+  nist-pqc: round-3
 info: Merged NTRU-HPS and NTRU-HRSS submission. A NIST round-3 finalist, not selected for standardisation. AVX2 reference from github.com/jschanck/ntru; public key and ciphertext are the same size.
 parametersets:
 - name: ntruhps2048509

@@ -6,9 +6,9 @@ versions:
 - version: v3.0
   date: '2026-08-31'
   status: On-ramp
+  programmes:
+    nist-onramp: round-3
   perf_source: "submission document (Table 10: AVX2+VAES implementation, Intel Core Ultra 7 265U)"
-  tags:
-  - round-3
   parametersets:
   - name: L1-gf2-shorter-ct
     level: 1
@@ -451,6 +451,8 @@ versions:
 - version: v2.0
   date: '2025-02-05'
   status: On-ramp
+  programmes:
+    nist-onramp: round-2
   perf_source: submission document
   warning: "Passive full-key-recovery attack via saltless GGM root expansion (Delgado, <a href=\"https://eprint.iacr.org/2026/1542\">ePrint 2026/1542</a>): the v2.x spec (Algorithm 10) derives correlated roots with a fixed zero-salt PRG call, so repeated master seeds across signatures/keys/salts leak linear equations in the MQ witness, enabling full key recovery. Requires signature/query volumes at NIST's outer Q=2^64 permitted bound (~39% success) or substantial precomputation (tens of GiB&ndash;PiB of tables) to push higher; affects all of Categories I/III/V, confirmed against every official tag v2.0.0&ndash;v2.1.1. Fix (salt-bound, domain-separated root expansion) is straightforward."
   parametersets:
@@ -598,14 +600,12 @@ versions:
     sig: 15140
     signing_cycles: 52640000
     verification_cycles: 33690000
-  tags:
-  - round-2
 - version: v1.0
   date: '2023-05-31'
   status: On-ramp
+  programmes:
+    nist-onramp: round-1
   perf_source: submission document
-  tags:
-  - round-1
   parametersets:
   - name: L1-gf31-short
     level: 1

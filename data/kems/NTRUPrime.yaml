@@ -3,6 +3,8 @@ website: https://ntruprime.cr.yp.to/
 category: Lattices
 assumption: NTRU
 status: Round-3 alternate
+programmes:
+  nist-pqc: round-3
 info: Streamlined NTRU Prime, a NIST round-3 alternate candidate that uses a large-Galois-group ring to avoid structure relied on by some attacks. Widely deployed (the sntrup761 hybrid is a default in OpenSSH). AVX2 from libntruprime.cr.yp.to. NTRU LPRime is not shown. Security categories follow the team's conservative Core-SVP estimates.
 parametersets:
 - name: sntrup653

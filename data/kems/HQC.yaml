@@ -3,6 +3,8 @@ website: https://pqc-hqc.org/
 category: Code-based
 assumption: Quasi-Cyclic Syndrome Decoding
 status: To be standardized
+programmes:
+  nist-pqc: selected
 info: Selected by NIST for standardisation (March 2025). Sizes from the 2025-08-22 specification.
 parametersets:
 - name: HQC-128

@@ -6,8 +6,8 @@ versions:
 - version: Round 3
   date: '2026-08-31'
   status: On-ramp
-  tags:
-  - round-3
+  programmes:
+    nist-onramp: round-3
   parametersets:
   - name: I-(127 156 54 3)
     level: 1
@@ -60,6 +60,8 @@ versions:
 - version: Round 2
   date: '2025-02-05'
   status: On-ramp
+  programmes:
+    nist-onramp: round-2
   perf_source: submission document
   parametersets:
   - name: I-(127 156 54 3)
@@ -158,14 +160,12 @@ versions:
     verification_cycles: 522884365
     signing_us: 142656.1
     verification_us: 138960.3
-  tags:
-  - round-2
 - version: Round 1
   date: '2023-06-01'
   status: On-ramp
+  programmes:
+    nist-onramp: round-1
   perf_source: submission document
-  tags:
-  - round-1
   parametersets:
   - name: V-(127, 306, 105, 3)
     level: 5

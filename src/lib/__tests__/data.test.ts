@@ -58,10 +58,10 @@ describe('processYamlSchemes', () => {
 
 	it('tagFilter includes only matching versions', () => {
 		const data = [
-			scheme({ name: 'R2Scheme', versions: [{ version: 'v1', date: '2024-01-01', status: 'On-ramp', tags: ['round-2'], parametersets: [BASE_PS] }] }),
-			scheme({ name: 'R3Only', versions: [{ version: 'v1', date: '2024-01-01', status: 'On-ramp', tags: ['round-3'], parametersets: [BASE_PS] }] }),
+			scheme({ name: 'R2Scheme', versions: [{ version: 'v1', date: '2024-01-01', status: 'On-ramp', programmes: { 'nist-onramp': 'round-2' }, parametersets: [BASE_PS] }] }),
+			scheme({ name: 'R3Only', versions: [{ version: 'v1', date: '2024-01-01', status: 'On-ramp', programmes: { 'nist-onramp': 'round-3' }, parametersets: [BASE_PS] }] }),
 		];
-		const { schemes } = processYamlSchemes(data, 'round-2');
+		const { schemes } = processYamlSchemes(data, { programme: 'nist-onramp', stage: 'round-2' });
 		expect(schemes.map(s => s.scheme)).toContain('R2Scheme');
 		expect(schemes.map(s => s.scheme)).not.toContain('R3Only');
 	});
@@ -70,7 +70,7 @@ describe('processYamlSchemes', () => {
 		const data = [
 			scheme({ name: 'Untagged', versions: [{ version: 'v1', date: '2024-01-01', status: 'Standardized', parametersets: [BASE_PS] }] }),
 		];
-		const { schemes } = processYamlSchemes(data, 'round-2');
+		const { schemes } = processYamlSchemes(data, { programme: 'nist-onramp', stage: 'round-2' });
 		expect(schemes.map(s => s.scheme)).toContain('Untagged');
 	});
 
@@ -78,10 +78,10 @@ describe('processYamlSchemes', () => {
 		const data = [scheme({
 			versions: [
 				{ version: 'new', date: '2025-01-01', status: 'On-ramp', parametersets: [{ ...BASE_PS, pk: 999 }] },
-				{ version: 'old', date: '2023-01-01', status: 'On-ramp', tags: ['round-2'], parametersets: [{ ...BASE_PS, pk: 1111 }] },
+				{ version: 'old', date: '2023-01-01', status: 'On-ramp', programmes: { 'nist-onramp': 'round-2' }, parametersets: [{ ...BASE_PS, pk: 1111 }] },
 			],
 		})];
-		const { parameterSets } = processYamlSchemes(data, 'round-2', { useLatestVersion: true });
+		const { parameterSets } = processYamlSchemes(data, { programme: 'nist-onramp', stage: 'round-2' }, { useLatestVersion: true });
 		expect(parameterSets[0].pk).toBe(999);
 	});
 
@@ -128,5 +128,39 @@ describe('processYamlSchemes', () => {
 		const data = [scheme({ versions: [{ version: 'v1', date: '2024-01-01', status: 'On-ramp', parametersets: [ps] }] })];
 		const { parameterSets } = processYamlSchemes(data);
 		expect(parameterSets[0].level).toBe('Pre-Quantum');
+	});
+
+	const ONRAMP_R2 = { programme: 'nist-onramp', stage: 'round-2' };
+
+	it('includes NIST standards as reference schemes in on-ramp views', () => {
+		const data = [scheme({ name: 'ML-DSA', versions: [{ version: 'FIPS 204', date: '2024-08-13', status: 'FIPS', programmes: { 'nist-pqc': 'standardised' }, parametersets: [BASE_PS] }] })];
+		const { schemes } = processYamlSchemes(data, ONRAMP_R2);
+		expect(schemes.map((s) => s.scheme)).toEqual(['ML-DSA']);
+	});
+
+	it('excludes schemes that are only in another competition (KpqC, NGCC)', () => {
+		const data = [
+			scheme({ name: 'KpqcOnly', versions: [{ version: 'v1', date: '2024-01-01', status: 'KpqC', programmes: { kpqc: 'selected' }, parametersets: [BASE_PS] }] }),
+			scheme({ name: 'NgccOnly', versions: [{ version: 'v1', date: '2025-06-01', status: 'NGCC', programmes: { 'china-ngcc': 'round-1' }, parametersets: [BASE_PS] }] })
+		];
+		const { schemes } = processYamlSchemes(data, ONRAMP_R2);
+		expect(schemes).toEqual([]);
+	});
+
+	it('exposes every programme membership on schemes and parameter sets', () => {
+		const data = [scheme({ name: 'HAETAE', versions: [{ version: 'Round 1', date: '2023-05-31', status: 'On-ramp', programmes: { 'nist-onramp': 'round-1', kpqc: 'selected' }, parametersets: [BASE_PS] }] })];
+		const { schemes, parameterSets } = processYamlSchemes(data);
+		const expected = [{ programme: 'nist-onramp', stage: 'round-1' }, { programme: 'kpqc', stage: 'selected' }];
+		expect(schemes[0].programmes).toEqual(expected);
+		expect(parameterSets[0].programmes).toEqual(expected);
+	});
+
+	it('a version listing several stages matches each stage filter', () => {
+		const data = [scheme({ name: 'HAWK', versions: [{ version: 'v1.1', date: '2025-02-05', status: 'On-ramp', programmes: { 'nist-onramp': ['round-2', 'round-3'] }, parametersets: [BASE_PS] }] })];
+		for (const stage of ['round-2', 'round-3']) {
+			expect(processYamlSchemes(data, { programme: 'nist-onramp', stage }).schemes.map((s) => s.scheme)).toEqual(['HAWK']);
+		}
+		expect(processYamlSchemes(data, { programme: 'nist-onramp', stage: 'round-1' }).schemes).toEqual([]);
+		expect(processYamlSchemes(data).schemes[0].programmes).toEqual([{ programme: 'nist-onramp', stage: 'round-3' }]);
 	});
 });

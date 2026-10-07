@@ -106,6 +106,14 @@ describe('processKemSchemes', () => {
 		expect(schemes).toHaveLength(0);
 		expect(parameterSets).toHaveLength(0);
 	});
+
+	it('carries scheme-level programmes onto schemes and parameter sets', () => {
+		const data = [{ ...mlkem, name: 'FrodoKEM', programmes: { 'nist-pqc': 'round-3', iso: 'in-progress' } }];
+		const { schemes, parameterSets } = processKemSchemes(data);
+		const expected = [{ programme: 'nist-pqc', stage: 'round-3' }, { programme: 'iso', stage: 'in-progress' }];
+		expect(schemes[0].programmes).toEqual(expected);
+		expect(parameterSets.every((p) => JSON.stringify(p.programmes) === JSON.stringify(expected))).toBe(true);
+	});
 });
 
 describe('KEM filtering', () => {

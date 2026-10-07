@@ -3,6 +3,8 @@ website: https://www.ntruplus.org/specification
 category: Lattices
 assumption: NTRU
 status: KpqC standard
+programmes:
+  kpqc: selected
 info: NTT-friendly NTRU variant (Kim, Park) selected as a final algorithm in Korea's KpqC competition. Uses a new ACWC2+FO⊥ transform chain that avoids re-encryption during decapsulation, unlike most FO-transformed KEMs. Public key and ciphertext are the same size.
 parametersets:
 - name: NTRU+768

@@ -9,16 +9,29 @@ import type {
 /** Programme id of the NIST standards track; its members are shown in every view. */
 export const STANDARDS_PROGRAMME = 'nist-pqc';
 
-export function versionProgrammes(v: { programmes?: Record<string, string> }): Record<string, string> {
-	return { ...(v.programmes ?? {}) };
+/** Programme id -> stage ids. A scalar in the YAML is normalised to a one-element list. */
+export function versionProgrammes(v: {
+	programmes?: Record<string, string | string[]>;
+}): Record<string, string[]> {
+	return Object.fromEntries(
+		Object.entries(v.programmes ?? {}).map(([programme, stages]) => [
+			programme,
+			Array.isArray(stages) ? [...stages] : [stages]
+		])
+	);
+}
+
+/** The stage reported for a membership: the last listed one (the furthest reached). */
+export function lastStage(stages: string | string[]): string {
+	return Array.isArray(stages) ? stages[stages.length - 1] : stages;
 }
 
 export function schemeProgrammes(versions: VersionYaml[]): ProgrammeMembership[] {
 	const newestFirst = [...versions].sort((a, b) => b.date.localeCompare(a.date));
 	const seen = new Map<string, string>();
 	for (const version of newestFirst) {
-		for (const [programme, stage] of Object.entries(versionProgrammes(version))) {
-			if (!seen.has(programme)) seen.set(programme, stage);
+		for (const [programme, stages] of Object.entries(versionProgrammes(version))) {
+			if (!seen.has(programme)) seen.set(programme, lastStage(stages));
 		}
 	}
 	return [...seen].map(([programme, stage]) => ({ programme, stage }));

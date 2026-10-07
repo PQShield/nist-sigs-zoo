@@ -6,6 +6,8 @@ versions:
 - version: initial
   date: '2024-10-01'
   status: To be standardized
+  programmes:
+    nist-pqc: selected
   perf_source: OQS bench
   parametersets:
   - name: '1024'

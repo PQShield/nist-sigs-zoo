@@ -6,6 +6,8 @@ versions:
 - version: v2.0
   date: '2025-02-07'
   status: On-ramp
+  programmes:
+    nist-onramp: round-2
   perf_source: submission document
   parametersets:
   - name: 252-192
@@ -50,14 +52,12 @@ versions:
     sig: 7436
     signing_cycles: 560000000
     verification_cycles: 564600000
-  tags:
-  - round-2
 - version: Round 1
   date: '2023-06-01'
   status: On-ramp
+  programmes:
+    nist-onramp: round-1
   perf_source: submission document
-  tags:
-  - round-1
   parametersets:
   - name: 5b
     level: 5

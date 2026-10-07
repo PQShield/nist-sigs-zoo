@@ -1,5 +1,6 @@
 import { CPUSPEED } from './constants';
-import type { DataRanges, NistLevel, ParameterSet, Scheme, SchemeYaml } from './types';
+import { isReferenceScheme, schemeProgrammes, versionProgrammes } from './programmes';
+import type { DataRanges, NistLevel, ParameterSet, Scheme, SchemeYaml, StageFilter } from './types';
 
 function parseCsv(text: string): Record<string, string>[] {
 	const lines = text.trim().split('\n');
@@ -49,7 +50,7 @@ export function parseSchemes(csv: string): Scheme[] {
 		warning: d['Warning'] === '' ? false : d['Warning'],
 		info: d['Info'] === '' ? false : d['Info'],
 		classical: d['Broken'] === 'classical',
-		tags: [],
+		programmes: [],
 	}));
 }
 
@@ -114,6 +115,7 @@ export function parseParameterSets(
 			notes: null,
 			version: '',
 			perfSource: null,
+			programmes: [],
 		};
 	});
 
@@ -150,7 +152,7 @@ export function parseParameterSets(
 
 export function processYamlSchemes(
 	schemeData: SchemeYaml[],
-	tagFilter?: string,
+	filter?: StageFilter,
 	{ useLatestVersion = false }: { useLatestVersion?: boolean } = {}
 ): {
 	schemes: Scheme[];
@@ -166,21 +168,22 @@ export function processYamlSchemes(
 		const sorted = [...yaml.versions].sort((a, b) => b.date.localeCompare(a.date));
 
 		let latest;
-		if (tagFilter) {
-			// Pick latest version with the requested tag
-			const tagged = sorted.filter((v) => v.tags?.includes(tagFilter));
-			if (tagged.length > 0) {
-				// useLatestVersion: include scheme if it has the tag, but show newest version
-				latest = useLatestVersion ? sorted[0] : tagged[0];
-			} else if (yaml.versions.every((v) => !v.tags || v.tags.length === 0)) {
-				// Untagged reference scheme — always include
+		if (filter) {
+			const atStage = sorted.filter(
+				(v) => versionProgrammes(v)[filter.programme]?.includes(filter.stage)
+			);
+			if (atStage.length > 0) {
+				latest = useLatestVersion ? sorted[0] : atStage[0];
+			} else if (isReferenceScheme(yaml.versions)) {
 				latest = sorted[0];
 			} else {
-				continue; // Scheme exists but not in this round
+				continue; // a competition entrant that was not at this stage
 			}
 		} else {
 			latest = sorted[0];
 		}
+
+		const programmes = schemeProgrammes(yaml.versions);
 
 		const scheme: Scheme = {
 			scheme: yaml.name,
@@ -192,7 +195,7 @@ export function processYamlSchemes(
 			warning: latest.warning ?? false,
 			info: latest.info ?? false,
 			classical: latest.broken === 'classical',
-			tags: [...new Set(yaml.versions.flatMap((v) => v.tags ?? []))],
+			programmes,
 		};
 		schemes.push(scheme);
 
@@ -249,6 +252,7 @@ export function processYamlSchemes(
 				notes: ps.notes ?? null,
 				version: latest.version,
 				perfSource: latest.perf_source ?? null,
+				programmes,
 			});
 		}
 	}

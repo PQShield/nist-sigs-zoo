@@ -68,8 +68,9 @@ versions:
   - version: "FIPS 206"        # human-readable version label
     date: "2024-08-13"         # ISO date, used to pick latest
     status: Standardized | On-ramp
-    tags: [round-2]            # round-1, round-2, round-3, or omit for reference/standardized schemes
-                               # post-round-3 updates should have NO tags
+    programmes:                # programme id → stage id (see data/programmes.yaml)
+      nist-onramp: round-3     # omit entirely for reference schemes (pre-quantum)
+                               # a stage may be a list, e.g. [round-2, round-3], when one version spans several stages
     broken: false              # or string description / "classical"
     warning: false             # or string description
     info: false                # or string description
@@ -109,7 +110,7 @@ Types: `update` (spec/data change), `attack` (new cryptanalysis result), `milest
 
 `data/kems/*.yaml` — one YAML file per KEM, source of truth for the standalone KEM
 comparison at `/kems/`. This is a **one-off** page, not tied to a NIST round: no version
-history, no round tags. Carries sizes (pk, ct) and benchmark timings.
+history, no round stages. Carries sizes (pk, ct) and benchmark timings.
 
 ```yaml
 name: ML-KEM
@@ -117,6 +118,8 @@ website: https://...
 category: Lattices | Code-based | Pre-Quantum | ...
 assumption: ...
 status: FIPS | To be standardized | Classic cryptography | ...
+programmes:          # programme id → stage id (see data/programmes.yaml); optional
+  nist-pqc: standardised
 broken: false        # or "classical" (pre-quantum schemes) / description
 warning: false
 info: false
@@ -202,10 +205,13 @@ tests/
 
 ### Data Processing
 
-`processYamlSchemes(allSchemeData, tagFilter?)` in `src/lib/data.ts`:
-- With `tagFilter` (e.g. `'round-2'`): picks the latest version whose `tags` includes that value.
-- Fallback: schemes with no tags on any version are always included (reference schemes like ML-DSA).
-- Schemes that have tags but none matching `tagFilter` are excluded.
+`processYamlSchemes(allSchemeData, filter?, { useLatestVersion })` in `src/lib/data.ts`, where
+`filter` is a `StageFilter` (`{ programme, stage }`, e.g. `{ programme: 'nist-onramp', stage: 'round-2' }`):
+- With a filter: picks the latest version whose `programmes[filter.programme] === filter.stage`.
+- Fallback: reference schemes (see `isReferenceScheme()` in `src/lib/programmes.ts`: only `nist-pqc`
+  memberships or none, e.g. ML-DSA) are always included.
+- Schemes that have other memberships but none matching the filter are excluded.
+- Every `Scheme` / `ParameterSet` (and KEM equivalent) carries `programmes: ProgrammeMembership[]`.
 
 ### Filter Store
 
@@ -227,15 +233,23 @@ which triggers `applyRound()` in `+page.svelte`, which calls `createFilterStore(
 ### Latest View
 
 "Latest" (default) and "Round 3" both use `tagFilter='round-3'` with `useLatestVersion=true`.
-Inclusion: scheme must have at least one version tagged `round-3` (or be an untagged reference
-scheme). Data shown: `sorted[0]` (newest version by date, regardless of tags).
+Inclusion: scheme must have at least one version with `nist-onramp: round-3` (or be a reference
+scheme). Data shown: `sorted[0]` (newest version by date, regardless of programmes).
+`roundToFilter()` in `src/lib/roundStore.ts` maps a round to its filter.
 
-Round 2 view uses `tagFilter='round-2'` without `useLatestVersion` — shows the pinned
+Round 2 view uses the `nist-onramp` / `round-2` filter without `useLatestVersion` — shows the pinned
 round-2 submission version.
 
-Post-round-3 spec updates should be added as new version entries **without** any tags. This way:
-- Round 2/3 views show pinned submission data.
-- Latest view shows the most current specs.
+Post-round-3 spec updates are new versions **without** a `nist-onramp` entry. Round views show the
+pinned submission, and Latest shows the newest version.
+
+### Programmes
+
+`data/programmes.yaml` is the registry of standardisation programmes (id, name, short, organiser,
+region, url, primitives, stages). Scheme versions and KEMs reference programmes by id and stage id
+in their `programmes:` maps. `src/lib/__tests__/dataFiles.test.ts` checks that every reference
+resolves to a known programme and stage, that no legacy `tags` remain, and the on-ramp round counts.
+`scripts/migrate_programmes.py` was the one-off tags → programmes migration.
 
 ### Performance Data
 

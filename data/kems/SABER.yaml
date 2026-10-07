@@ -3,6 +3,8 @@ website: https://github.com/KULeuven-COSIC/SABER
 category: Lattices
 assumption: Module Learning With Rounding (MLWR)
 status: Round-3 finalist
+programmes:
+  nist-pqc: round-3
 info: NIST round-3 finalist, not selected for standardisation (ML-KEM was chosen instead). AVX2 reference implementation from github.com/KULeuven-COSIC/SABER.
 parametersets:
 - name: LightSaber
