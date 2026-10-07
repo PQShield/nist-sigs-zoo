@@ -72,4 +72,11 @@ test.describe('Scheme pages', () => {
 		await expect(table.getByRole('rowheader', { name: /ML-KEM-768/ })).toBeVisible();
 		await expect(page.getByRole('heading', { name: 'Compare versions' })).toHaveCount(0);
 	});
+
+	test('no horizontal page scroll at 390px', async ({ page }) => {
+		await page.setViewportSize({ width: 390, height: 800 });
+		await page.goto('/schemes/mirith/');
+		await expect(page.locator('h1')).toHaveText('MiRitH');
+		expect(await page.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth)).toBe(true);
+	});
 });

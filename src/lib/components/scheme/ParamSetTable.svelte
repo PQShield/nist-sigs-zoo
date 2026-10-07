@@ -5,7 +5,7 @@
 	let { table, caption }: { table: ParamSetTableModel; caption: string } = $props();
 </script>
 
-<div class="mt-3 overflow-x-auto rounded border border-pqs-ashgray shadow-sm dark:border-pqs-steel">
+<div class="relative mt-3 overflow-x-auto rounded border border-pqs-ashgray shadow-sm dark:border-pqs-steel">
 	<table class="min-w-full text-sm">
 		<caption class="sr-only">{caption}</caption>
 		<thead>
@@ -29,7 +29,7 @@
 							<span class="ml-1" title={badge.title}><BadgeIcon kind={badge.kind} /><span class="sr-only">{badge.title}</span></span>
 						{/each}
 					</th>
-					<td class="px-3 py-1.5 text-right tabular-nums text-pqs-steel dark:text-pqs-bluegray">{row.level}</td>
+					<td class="whitespace-nowrap px-3 py-1.5 text-right tabular-nums text-pqs-steel dark:text-pqs-bluegray">{row.level}</td>
 					{#each row.cells as cell, i (i)}
 						<td class="whitespace-nowrap px-3 py-1.5 text-right tabular-nums">
 							{#if cell.kind === 'estimated'}

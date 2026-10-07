@@ -23,12 +23,13 @@
 <h1 class="mt-2 font-heading text-3xl font-bold text-pqs-midnight dark:text-pqs-smoke">{page.name}</h1>
 <p class="mt-1 text-pqs-steel dark:text-pqs-bluegray">
 	{page.category} · {page.assumption}{#if page.websiteHost}
-		· <a
+		<span class="whitespace-nowrap">·
+		<a
 			href={page.website}
 			target="_blank"
 			rel="noopener noreferrer"
 			class="text-pqs-apricot underline-offset-2 hover:underline"
-		>{page.websiteHost}<span class="sr-only"> (opens in a new tab)</span></a>
+		>{page.websiteHost}<span class="sr-only"> (opens in a new tab)</span></a></span>
 	{/if}
 </p>
 
