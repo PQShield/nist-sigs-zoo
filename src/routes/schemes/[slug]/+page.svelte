@@ -3,6 +3,7 @@
 	import { fmtDate } from '$lib/dates';
 	import FlagNotes from '$lib/components/scheme/FlagNotes.svelte';
 	import ParamSetTable from '$lib/components/scheme/ParamSetTable.svelte';
+	import VersionCompare from '$lib/components/scheme/VersionCompare.svelte';
 	import SchemeEvents from '$lib/components/scheme/SchemeEvents.svelte';
 	import SchemeHeader from '$lib/components/scheme/SchemeHeader.svelte';
 	import type { PageData } from './$types';
@@ -35,10 +36,14 @@
 
 		<FlagNotes notes={page.flagNotes} />
 
-		{#if page.primitive === 'signature' && page.options.length < 2}
-			<p class="mt-10 text-sm text-pqs-steel dark:text-pqs-bluegray">
-				Only one version of {page.name} is recorded, so there is nothing to compare yet.
-			</p>
+		{#if page.primitive === 'signature'}
+			{#if page.options.length > 1}
+				<VersionCompare versions={page.versions} options={page.options} />
+			{:else}
+				<p class="mt-10 text-sm text-pqs-steel dark:text-pqs-bluegray">
+					Only one version of {page.name} is recorded, so there is nothing to compare yet.
+				</p>
+			{/if}
 		{/if}
 
 		<SchemeEvents events={page.events} />

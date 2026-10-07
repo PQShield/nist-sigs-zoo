@@ -80,3 +80,67 @@ test.describe('Scheme pages', () => {
 		expect(await page.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth)).toBe(true);
 	});
 });
+
+test.describe('Compare versions (MAYO)', () => {
+	const compareTable = (page: import('@playwright/test').Page) =>
+		page.getByRole('table', { name: /^Change from / });
+	const setRow = (page: import('@playwright/test').Page, name: string) =>
+		compareTable(page).locator('tbody tr', { has: page.getByRole('rowheader', { name: new RegExp(`^${name}\\b`) }) });
+
+	test.beforeEach(async ({ page }) => {
+		await page.goto('/schemes/mayo/');
+		await page.waitForLoadState('networkidle');
+	});
+
+	test('defaults to the previous version against the latest and tells same-label versions apart', async ({ page }) => {
+		await expect(page.getByRole('heading', { name: 'Compare versions' })).toBeVisible();
+		await expect(page.getByLabel('From', { exact: true })).toHaveValue('2025-03-26');
+		await expect(page.getByLabel('From', { exact: true }).locator('option:checked')).toHaveText('Round 2 · 26 Mar 2025');
+		await expect(page.getByLabel('From', { exact: true }).locator('option', { hasText: 'Round 2 · 5 Feb 2025' })).toHaveCount(1);
+		await expect(page.getByLabel('To', { exact: true })).toHaveValue('2026-08-31');
+		const two = setRow(page, 'two');
+		await expect(two).toContainText('4,912');
+		await expect(two).toContainText('2,928');
+		await expect(two).toContainText('▼ 40%');
+		await expect(two).toContainText('▲ 28%');
+		await expect(two).toContainText('Flag cleared');
+		await expect(setRow(page, 'three')).toContainText('same');
+	});
+
+	test('swap reverses the comparison', async ({ page }) => {
+		await page.getByRole('button', { name: 'Swap From and To' }).click();
+		await expect(page.getByLabel('From', { exact: true })).toHaveValue('2026-08-31');
+		const two = setRow(page, 'two');
+		await expect(two).toContainText('▲ 68%');
+		await expect(two).toContainText('Broken');
+	});
+
+	test('cycles mode shows cycle counts with the benchmark-source caveat', async ({ page }) => {
+		await page.getByRole('button', { name: 'Cycles' }).click();
+		await expect(page.getByRole('button', { name: 'Cycles' })).toHaveAttribute('aria-pressed', 'true');
+		await expect(compareTable(page).getByRole('columnheader', { name: 'Sign (cycles)' })).toBeVisible();
+		await expect(setRow(page, 'two')).toContainText('▼ 72%');
+		const note = page.getByTestId('perf-note');
+		await expect(note).toContainText('submission document (Table 3.1');
+		await expect(note).toContainText('machines and implementations can differ');
+	});
+
+	test('picking an older From version re-matches the sets', async ({ page }) => {
+		await page.getByLabel('From', { exact: true }).selectOption('2023-06-01');
+		await expect(setRow(page, 'two')).toContainText('5,488');
+		await expect(setRow(page, 'two')).not.toContainText('Flag cleared');
+	});
+});
+
+test.describe('Compare versions layout', () => {
+	test('no horizontal page scroll at 390px on MAYO compare, sizes and cycles', async ({ page }) => {
+		await page.setViewportSize({ width: 390, height: 800 });
+		await page.goto('/schemes/mayo/');
+		await expect(page.getByRole('heading', { name: 'Compare versions' })).toBeVisible();
+		const noScroll = () =>
+			page.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth);
+		expect(await noScroll()).toBe(true);
+		await page.getByRole('button', { name: 'Cycles' }).click();
+		expect(await noScroll()).toBe(true);
+	});
+});
