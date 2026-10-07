@@ -1,4 +1,7 @@
 <script lang="ts">
+	import { base } from '$app/paths';
+	import { slugOf } from '$lib/schemeIndex';
+	import { schemeHref } from '$lib/slugs';
 	import { programmeChips, securityBadges, type BadgeKind } from '$lib/badges';
 	import type { KemParameterSet, KemSortableColumn } from '$lib/types';
 	import { allProgrammes } from '$lib/programmeData';
@@ -165,9 +168,7 @@
 					<tr class="hover:bg-pqs-smoke dark:hover:bg-pqs-steel/30">
 						<td class="whitespace-nowrap px-2 py-1.5">
 							<a
-								href={row.website}
-								target="_blank"
-								rel="noopener noreferrer"
+								href={schemeHref(base, slugOf(row.scheme))}
 								class="font-heading font-semibold text-pqs-steel hover:text-pqs-apricot dark:text-pqs-apricot dark:hover:text-pqs-apricot-light"
 							>{row.scheme}</a>
 							{#each badges as badge (badge.kind)}

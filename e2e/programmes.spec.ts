@@ -83,6 +83,16 @@ test.describe('Programme pages', () => {
 		await expect(candidates.locator('tbody')).toContainText('ML-KEM');
 	});
 
+	test('programme page table names link to scheme pages', async ({ page }) => {
+		await page.goto('/programmes/iso/');
+		await page.waitForLoadState('networkidle');
+		const candidates = page.getByRole('region', { name: 'Schemes in the amendment' });
+		await expect(candidates.getByRole('link', { name: 'FrodoKEM', exact: true }).first()).toHaveAttribute(
+			'href',
+			/^\/schemes\/[a-z0-9-]+\/$/
+		);
+	});
+
 	test('ISO page lists its KEMs without a primitive toggle', async ({ page }) => {
 		await page.goto('/programmes/iso/');
 		const candidates = page.getByRole('region', { name: 'Schemes in the amendment' });

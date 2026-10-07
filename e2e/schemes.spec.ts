@@ -144,3 +144,23 @@ test.describe('Compare versions layout', () => {
 		expect(await noScroll()).toBe(true);
 	});
 });
+
+test.describe('Links to scheme pages', () => {
+	test('a signature table row links to its scheme page', async ({ page }) => {
+		await page.goto('/signatures/');
+		await page.waitForLoadState('networkidle');
+		const link = page.getByRole('link', { name: 'MAYO', exact: true }).first();
+		await expect(link).toHaveAttribute('href', '/schemes/mayo/');
+		await link.click();
+		await expect(page.locator('h1')).toHaveText('MAYO', { timeout: 15_000 });
+	});
+
+	test('a KEM table row links to its scheme page', async ({ page }) => {
+		await page.goto('/kems/');
+		await page.waitForLoadState('networkidle');
+		const link = page.getByRole('link', { name: 'ML-KEM', exact: true }).first();
+		await expect(link).toHaveAttribute('href', '/schemes/ml-kem/');
+		await link.click();
+		await expect(page.locator('h1')).toHaveText('ML-KEM', { timeout: 15_000 });
+	});
+});
