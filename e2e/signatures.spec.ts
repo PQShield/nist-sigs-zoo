@@ -130,8 +130,8 @@ test.describe('Signatures page', () => {
 
 	test('Speed view notes parameter sets left out because they are not benchmarked', async ({ page }) => {
 		// EagleSign (on-ramp round 1) has two sets with sizes but no timings. ps=all keeps them from being hidden as
-		// non-recommended; scMin/vcMin=0 widen the cycle ranges, whose default minimum would filter them out of the table.
-		await page.goto('/signatures/?r=1&v=speed&ps=all&scMin=0&vcMin=0');
+		// non-recommended; unbenchmarked rows pass the default cycle filters.
+		await page.goto('/signatures/?r=1&v=speed&ps=all');
 		await page.waitForFunction(() => [...document.querySelectorAll('svg')].some((s) => s.querySelector('g')), { timeout: 15_000 });
 		await expect(page.getByRole('note').filter({ hasText: 'not yet benchmarked' })).toBeVisible();
 	});

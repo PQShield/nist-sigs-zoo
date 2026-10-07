@@ -163,3 +163,26 @@ describe('programme, parameter-set and status filters', () => {
 		expect(p.get('v')).toBe('speed');
 	});
 });
+
+describe('cycle filters and unbenchmarked rows', () => {
+	const ps = (name: string, cycles: number | undefined): ParameterSetYaml => ({
+		name, level: 1, pk: 10, sig: 20, signing_cycles: cycles, verification_cycles: cycles
+	});
+	const DATA: SchemeYaml[] = [
+		{ name: 'Fast', website: '', category: 'Lattices', assumption: '', versions: [{ version: 'v1', date: '2025-01-01', status: 'On-ramp', parametersets: [ps('a', 1000), ps('b', 9000)] }] },
+		{ name: 'Unbenched', website: '', category: 'Lattices', assumption: '', versions: [{ version: 'v1', date: '2025-01-01', status: 'On-ramp', parametersets: [ps('u', undefined)] }] }
+	];
+	const { parameterSets, ranges } = processYamlSchemes(DATA);
+	const shown = (params: string) =>
+		get(createFilterStore(parameterSets, ranges, new URLSearchParams(params)).filteredRows).map((r) => `${r.scheme}/${r.parameterset}`);
+
+	it('keeps unbenchmarked rows by default', () => {
+		expect(shown('ps=all')).toContain('Unbenched/u');
+	});
+	it('still applies cycle bounds to benchmarked rows, keeping unbenchmarked ones', () => {
+		const rows = shown('ps=all&scMin=5000');
+		expect(rows).toContain('Unbenched/u');
+		expect(rows).toContain('Fast/b');
+		expect(rows).not.toContain('Fast/a');
+	});
+});

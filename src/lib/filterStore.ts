@@ -173,14 +173,17 @@ export function createFilterStore(
 					if (row.sig < $state.minSig || row.sig > $state.maxSig) return false;
 					if (row.pkPlusSig < $state.minPkPlusSig || row.pkPlusSig > $state.maxPkPlusSig)
 						return false;
+					// Unbenchmarked rows (0 cycles) pass the cycle filters, like the KEM page.
 					if (
-						row.signingCycles < $state.minSigningCycles ||
-						row.signingCycles > $state.maxSigningCycles
+						row.signingCycles > 0 &&
+						(row.signingCycles < $state.minSigningCycles ||
+							row.signingCycles > $state.maxSigningCycles)
 					)
 						return false;
 					if (
-						row.verificationCycles < $state.minVerificationCycles ||
-						row.verificationCycles > $state.maxVerificationCycles
+						row.verificationCycles > 0 &&
+						(row.verificationCycles < $state.minVerificationCycles ||
+							row.verificationCycles > $state.maxVerificationCycles)
 					)
 						return false;
 					if (
