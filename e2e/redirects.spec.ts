@@ -26,7 +26,7 @@ test.describe('Legacy URLs', () => {
 	test('/history/ moves to /timeline/', async ({ page }) => {
 		await page.goto('/history/');
 		await page.waitForURL(/\/timeline\/$/, { timeout: 15_000 });
-		await expect(page.locator('h1')).toHaveText('History');
+		await expect(page.locator('h1')).toHaveText('Timeline');
 	});
 
 	test('redirect stubs declare the canonical URL for search engines', async ({ request }) => {

@@ -1,16 +1,17 @@
-import type { HistoryEntry } from '$lib/types';
+import { allHistory } from '$lib/historyData';
+import { allKemData } from '$lib/kemSchemeData';
+import { allProgrammes } from '$lib/programmeData';
+import { allSchemeData } from '$lib/schemeData';
+import { presentTypes, programmeOptions, schemeProgrammeIndex, timelineItems } from '$lib/timeline';
 
 export const prerender = true;
 export const trailingSlash = 'always';
 
-const raw = import.meta.glob('../../../data/history.yaml', { eager: true }) as Record<
-	string,
-	{ default: HistoryEntry[] }
->;
-
-const entries: HistoryEntry[] = Object.values(raw)[0]?.default ?? [];
-
 export function load() {
-	const sorted = [...entries].sort((a, b) => b.date.localeCompare(a.date));
-	return { entries: sorted };
+	const items = timelineItems(allHistory, schemeProgrammeIndex(allSchemeData, allKemData), allProgrammes);
+	return {
+		items,
+		programmeOptions: programmeOptions(items, allProgrammes),
+		types: presentTypes(items)
+	};
 }
