@@ -34,6 +34,15 @@ describe('programme page fields in data/programmes.yaml', () => {
 		}
 	});
 
+	it('puts the current marker on the last dated entry', () => {
+		for (const p of programmes) {
+			const tl = p.timeline ?? [];
+			const i = tl.findIndex((e) => e.current);
+			if (i < 0) continue;
+			expect(tl.slice(i + 1).filter((e) => e.date), p.id).toEqual([]);
+		}
+	});
+
 	it('links only to https URLs', () => {
 		for (const p of programmes) {
 			for (const l of p.links ?? []) expect(l.url, `${p.id}: ${l.label}`).toMatch(/^https:\/\//);

@@ -20,8 +20,7 @@
   description: >-
     NIST's public process to select quantum-resistant public-key algorithms, opened with a call
     for proposals in December 2016. It produced FIPS 203 (ML-KEM), FIPS 204 (ML-DSA) and FIPS 205
-    (SLH-DSA) in August 2024. Falcon (FN-DSA) and HQC were also selected and are being
-    standardised. Round-3 and round-4 KEMs that were not selected are listed for reference.
+    (SLH-DSA) in August 2024. Falcon (FN-DSA) and HQC were also selected for standardisation. Round-3 and round-4 KEMs that were not selected are listed for reference.
   links:
     - { label: NIST PQC project page, url: 'https://csrc.nist.gov/projects/post-quantum-cryptography' }
     - { label: Third-round report (NIST IR 8413), url: 'https://doi.org/10.6028/NIST.IR.8413' }
@@ -94,8 +93,7 @@
   description: >-
     China's open call for post-quantum public-key algorithms and hash functions, run by the
     Institute of Commercial Cryptography Standards (ICCS). Algorithms already standardised by NIST
-    were not eligible. This site tracks the signatures and KEMs; the 9 key-exchange protocols and
-    35 hash functions in round 1 are out of scope.
+    were not eligible. This site tracks the signatures and KEMs only.
   links:
     - { label: ICCS programme page, url: 'https://www.niccs.org.cn/en/' }
     - { label: 'Independent analysis: ngcc.dev', url: 'https://ngcc.dev/' }
@@ -168,8 +166,7 @@
   organiser_detail: ISO/IEC JTC 1/SC 27
   description: >-
     Amendment 2 to ISO/IEC 18033-2 (asymmetric encryption), published in June 2026, which adds
-    post-quantum KEMs including FrodoKEM. Our data covers FrodoKEM and Classic McEliece, the
-    conservative choices that NIST did not standardise.
+    post-quantum KEMs including FrodoKEM. Our data covers FrodoKEM and Classic McEliece.
   links:
     - { label: ISO/IEC 18033-2:2006/Amd 2:2026 at ISO, url: 'https://www.iso.org/standard/86890.html' }
   candidates_heading: Schemes in the amendment
