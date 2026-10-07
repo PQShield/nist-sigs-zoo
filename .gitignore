@@ -29,3 +29,4 @@ vite.config.ts.timestamp-*
 .claude/settings.local.json
 # NGCC container exports
 /.ngcc-out
+__pycache__/
