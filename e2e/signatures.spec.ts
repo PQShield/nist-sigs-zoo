@@ -129,14 +129,28 @@ test.describe('Signatures page', () => {
 	});
 
 	test.describe('shared links keep their filters', () => {
-		async function schemeCells(page: import('@playwright/test').Page) {
-			await page.waitForSelector('table tbody tr');
-			await page.waitForTimeout(1000);
+		async function readSchemeCells(page: import('@playwright/test').Page) {
 			const rows = page.locator('table tbody tr:not([hidden])').filter({ hasNotText: 'No parameter sets match' });
 			const n = await rows.count();
 			const names: string[] = [];
 			for (let i = 0; i < n; i++) names.push(((await rows.nth(i).locator('td a').first().innerText()) ?? '').trim());
 			return names;
+		}
+
+		// Wait until the client-side URL/filter sync has settled: two consecutive reads agree.
+		async function schemeCells(page: import('@playwright/test').Page) {
+			await page.waitForSelector('table tbody tr');
+			await page.waitForLoadState('networkidle');
+			let previous: string | null = null;
+			await expect
+				.poll(async () => {
+					const current = JSON.stringify(await readSchemeCells(page));
+					const stable = current === previous;
+					previous = current;
+					return stable;
+				}, { intervals: [100, 200, 300], timeout: 10_000 })
+				.toBe(true);
+			return readSchemeCells(page);
 		}
 
 		test('?r=2&s=MAYO,UOV&sort=sig shows only MAYO and UOV and keeps the URL', async ({ page }) => {
@@ -201,7 +215,7 @@ test.describe('Signatures filters', () => {
 	test('parameter-set toggle defaults to recommended and is kept in the URL', async ({ page }) => {
 		await page.goto('/signatures/');
 		await page.waitForLoadState('networkidle');
-		await expect(page.getByLabel('Recommended (one per scheme and level)')).toBeChecked();
+		await expect(page.getByLabel('Recommended (where designers name them)')).toBeChecked();
 		await page.getByLabel('All parameter sets').check();
 		await expect(page).toHaveURL(/[?&]ps=all/);
 	});

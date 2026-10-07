@@ -74,13 +74,13 @@ test.describe('Advanced page', () => {
 	test('non-default axis is encoded in URL', async ({ page }) => {
 		await page.goto('/signatures/advanced/');
 		await page.locator('select').first().selectOption('sig');
-		await page.waitForTimeout(400); // debounce
-		expect(new URL(page.url()).searchParams.get('x')).toBe('sig');
+		await expect(page).toHaveURL(/[?&]x=sig(&|$)/);
 	});
 
 	test('default axis values are NOT encoded in URL', async ({ page }) => {
 		await page.goto('/signatures/advanced/');
-		await page.waitForTimeout(400);
+		await expect(page.locator('section h2').first()).toBeVisible();
+		await page.waitForLoadState('networkidle');
 		const params = new URL(page.url()).searchParams;
 		expect(params.has('x')).toBe(false);
 		expect(params.has('y')).toBe(false);
