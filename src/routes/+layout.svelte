@@ -15,7 +15,7 @@
 	);
 	const themeLabel = $derived(`Theme: ${$themeStore} — click to cycle`);
 
-	const isHome = $derived($page.route.id === '/');
+	const isHome = $derived($page.route.id === '/signatures');
 	const isKems = $derived($page.route.id?.startsWith('/kems') ?? false);
 
 	let menuOpen = $state(false);
@@ -75,7 +75,7 @@
 					</div>
 				{/if}
 				{#if isKems}
-					<a href="{base}/" class="text-pqs-bluegray hover:text-pqs-apricot transition-colors">
+					<a href="{base}/signatures/" class="text-pqs-bluegray hover:text-pqs-apricot transition-colors">
 						Signatures
 					</a>
 				{:else}
@@ -169,7 +169,7 @@
 				{/if}
 				<div class="flex flex-col gap-3">
 					{#if isKems}
-						<a href="{base}/" onclick={closeMenu} class="text-pqs-bluegray hover:text-pqs-apricot transition-colors">
+						<a href="{base}/signatures/" onclick={closeMenu} class="text-pqs-bluegray hover:text-pqs-apricot transition-colors">
 							Signatures
 						</a>
 					{:else}

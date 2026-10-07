@@ -49,7 +49,7 @@ test.describe('KEMs page', () => {
 	});
 
 	test('reachable via the header nav link', async ({ page }) => {
-		await page.goto('/');
+		await page.goto('/signatures/');
 		// Wait for hydration so the click is an SPA navigation, not a full reload
 		// that can time out under load.
 		await page.waitForLoadState('networkidle');
@@ -62,7 +62,7 @@ test.describe('KEMs page', () => {
 	test('has a Signatures link back to the home page', async ({ page }) => {
 		await page.goto('/kems/');
 		await page.waitForLoadState('networkidle');
-		await page.getByRole('link', { name: 'Signatures' }).first().click();
+		await page.getByRole('link', { name: 'Signatures', exact: true }).first().click();
 		await expect(page.locator('h1')).toHaveText('Post-Quantum Signature Schemes', {
 			timeout: 15_000
 		});

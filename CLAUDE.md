@@ -47,10 +47,11 @@ Do not import from `$app/*` or `$lib/schemeData` (these need the Vite/SvelteKit 
 
 Playwright against a built static site. The playwright config runs `npm run build && npm run preview -- --port 4175` automatically (`reuseExistingServer: true`, so a running preview server is reused for speed).
 
-- `main.spec.ts` — main page: heading, Vega chart render, advanced link, round selector, table
+- `signatures.spec.ts` — signatures page (`/signatures/`): heading, Vega chart render, advanced link, round selector, table
 - `advanced.spec.ts` — advanced page: axis controls, heading updates, URL encoding/restoration, filter panel
+- `redirects.spec.ts` — legacy URLs (`/?filters`, `/advanced/`, `/history/`) forward to their new homes
 
-**Adding E2E tests:** add to `e2e/main.spec.ts` or `e2e/advanced.spec.ts`, or create a new `e2e/<feature>.spec.ts`.
+**Adding E2E tests:** add to `e2e/signatures.spec.ts` or `e2e/advanced.spec.ts`, or create a new `e2e/<feature>.spec.ts`.
 Use `page.waitForFunction(() => [...document.querySelectorAll('svg')].some(s => s.querySelector('g')), { timeout: 15_000 })` to wait for the Vega chart to render before asserting on it.
 Axis URL params: `x`, `y` (field name), `xs`, `ys` (scale: `log`|`linear`). Default values omitted from URL.
 
@@ -178,6 +179,9 @@ src/
 │   ├── kemData.ts        # processKemSchemes() — KEM YAML → KemScheme[] + KemParameterSet[] (pure)
 │   ├── filterStore.ts    # Svelte writable store + derived filteredRows + URL codec
 │   ├── roundStore.ts     # writable<'round-1'|'round-2'|'round-3'|'latest'> — drives dataset selection
+│   ├── legacy.ts         # legacyHomeRedirect / legacyPathRedirect (old URL forwarding)
+│   ├── programmes.ts     # programme data model
+│   ├── programmeData.ts  # programme YAML loader
 │   ├── schemeData.ts     # import.meta.glob loader → allSchemeData: SchemeYaml[]
 │   ├── kemSchemeData.ts  # import.meta.glob loader → allKemData: KemSchemeYaml[]
 │   ├── themeStore.ts     # dark/light/system theme store → localStorage
@@ -193,11 +197,16 @@ src/
 │       └── KemFilterPanel.svelte # KEM scheme/level/size filters (bind:filter)
 └── routes/
     ├── +layout.svelte    # nav (logo, round selector, Signatures/KEMs/History links, dark toggle), footer
-    ├── +page.ts          # load: processYamlSchemes('round-3', {useLatestVersion:true}), createFilterStore
-    ├── +page.svelte      # page composition, round switching, URL state sync
-    ├── advanced/
-    │   ├── +page.ts      # same load as main page
-    │   └── +page.svelte  # axis selectors, scale toggles, ScatterPlot, FilterPanel, SchemeTable
+    ├── +page.svelte      # temporary home; forwards legacy /?filters links to /signatures/ (legacyHomeRedirect)
+    ├── signatures/
+    │   ├── +page.ts      # load: processYamlSchemes('round-3', {useLatestVersion:true}), createFilterStore
+    │   ├── +page.svelte  # page composition, round switching, URL state sync
+    │   └── advanced/
+    │       ├── +page.ts      # same load as signatures page
+    │       └── +page.svelte  # axis selectors, scale toggles, ScatterPlot, FilterPanel, SchemeTable
+    ├── timeline/         # history panel (was /history/)
+    ├── advanced/         # redirect stub → /signatures/advanced/ (LegacyRedirect)
+    ├── history/          # redirect stub → /timeline/ (LegacyRedirect)
     └── kems/
         ├── +page.ts      # load: processKemSchemes(allKemData); trailingSlash 'always'
         └── +page.svelte  # KEM hero, KemScatterPlot, KemTable
@@ -208,8 +217,9 @@ tests/
 │   ├── kemData.test.ts
 │   └── filterStore.test.ts
 └── e2e/                 # Playwright E2E tests (playwright.config.ts)
-    ├── main.spec.ts
+    ├── signatures.spec.ts
     ├── advanced.spec.ts
+    ├── redirects.spec.ts
     └── kems.spec.ts
 ```
 
