@@ -1,6 +1,8 @@
 <script lang="ts">
 	import { SITE_NAME } from '$lib/constants';
 	import { goto } from '$app/navigation';
+	import { navigating } from '$app/state';
+	import { urlSyncTarget } from '$lib/urlSync';
 	import { page } from '$app/stores';
 	import { base } from '$app/paths';
 	import { browser } from '$app/environment';
@@ -74,8 +76,15 @@
 			if (xScale !== 'log') p.set('xs', xScale);
 			if (yScale !== 'log') p.set('ys', yScale);
 			const qs = p.toString();
-			const newUrl = (qs ? `?${qs}` : $page.url.pathname) + window.location.hash;
-			goto(newUrl, { replaceState: true, keepFocus: true, noScroll: true });
+			const target = urlSyncTarget(
+				qs,
+				$page.url.pathname,
+				window.location.hash,
+				window.location.search,
+				navigating.to !== null
+			);
+			if (target === null) return;
+			goto(target, { replaceState: true, keepFocus: true, noScroll: true });
 		}, 300);
 	}
 

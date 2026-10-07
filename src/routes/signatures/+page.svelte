@@ -1,6 +1,8 @@
 <script lang="ts">
 	import { SITE_NAME } from '$lib/constants';
 	import { goto } from '$app/navigation';
+	import { navigating } from '$app/state';
+	import { urlSyncTarget } from '$lib/urlSync';
 	import { page } from '$app/stores';
 	import { base } from '$app/paths';
 	import { onMount } from 'svelte';
@@ -66,8 +68,15 @@
 				const round = r === 'round-1' ? '1' : r === 'round-2' ? '2' : r === 'round-3' ? '3' : null;
 				if (round) p.set('r', round);
 				const qs = p.toString();
-				const newUrl = (qs ? `?${qs}` : $page.url.pathname) + window.location.hash;
-				goto(newUrl, { replaceState: true, keepFocus: true, noScroll: true });
+				const target = urlSyncTarget(
+					qs,
+					$page.url.pathname,
+					window.location.hash,
+					window.location.search,
+					navigating.to !== null
+				);
+				if (target === null) return;
+				goto(target, { replaceState: true, keepFocus: true, noScroll: true });
 			}, 300);
 		});
 

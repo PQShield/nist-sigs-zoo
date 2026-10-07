@@ -211,3 +211,19 @@ test.describe('KEMs page', () => {
 		await expect(page).toHaveURL(/[?&]v=speed/);
 	});
 });
+
+test.describe('URL sync does not cancel in-app navigation', () => {
+	test('clicking a scheme link right after load still navigates', async ({ page }) => {
+		await page.goto('/kems/');
+		await page.waitForTimeout(250);
+		// Keep the navigation in flight past the 300 ms sync debounce.
+		await page.route('**/_app/immutable/**/*.js', async (route) => {
+			await new Promise((r) => setTimeout(r, 700));
+			await route.continue();
+		});
+		await page.locator('tbody tr td a[href*="/schemes/"]').first().click();
+		// The debounced mount-time sync fires ~300 ms after load; it must not undo the click.
+		await page.waitForTimeout(1500);
+		await expect(page).toHaveURL(/\/schemes\//);
+	});
+});

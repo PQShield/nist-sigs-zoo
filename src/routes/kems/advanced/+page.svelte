@@ -2,6 +2,8 @@
 	import { SITE_NAME } from '$lib/constants';
 	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
+	import { navigating } from '$app/state';
+	import { urlSyncTarget } from '$lib/urlSync';
 	import { base } from '$app/paths';
 	import FilterSidebar from '$lib/components/FilterSidebar.svelte';
 	import { filterSummary, presentProgrammeGroups } from '$lib/compareFilters';
@@ -109,11 +111,15 @@
 			if (xScale !== 'log') p.set('xs', xScale);
 			if (yScale !== 'log') p.set('ys', yScale);
 			const qs = p.toString();
-			goto((qs ? `?${qs}` : window.location.pathname) + window.location.hash, {
-				replaceState: true,
-				keepFocus: true,
-				noScroll: true
-			});
+			const target = urlSyncTarget(
+				qs,
+				window.location.pathname,
+				window.location.hash,
+				window.location.search,
+				navigating.to !== null
+			);
+			if (target === null) return;
+			goto(target, { replaceState: true, keepFocus: true, noScroll: true });
 		}, 300);
 		return () => clearTimeout(timer);
 	});
