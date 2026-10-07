@@ -43,10 +43,17 @@ test.describe('Signatures page', () => {
 		await expect(page.locator('table')).toBeVisible();
 	});
 
-	test('round selector shows Latest/Round 3/Round 2/Round 1', async ({ page }) => {
+	test('dataset selector offers Latest and rounds 3–1', async ({ page }) => {
 		await page.goto('/signatures/');
-		for (const label of ['Latest', 'Round 3', 'Round 2', 'Round 1']) {
-			await expect(page.getByRole('button', { name: label }).first()).toBeVisible();
-		}
+		const select = page.getByLabel('Dataset');
+		await expect(select).toBeVisible();
+		await expect(select.locator('option')).toHaveText(['Latest specs', 'Round 3', 'Round 2', 'Round 1']);
+	});
+
+	test('choosing Round 2 updates the URL', async ({ page }) => {
+		await page.goto('/signatures/');
+		await page.waitForLoadState('networkidle');
+		await page.getByLabel('Dataset').selectOption('round-2');
+		await page.waitForURL(/[?&]r=2/, { timeout: 15_000 });
 	});
 });

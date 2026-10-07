@@ -4,6 +4,7 @@
 	import { base } from '$app/paths';
 	import { onMount } from 'svelte';
 	import BenchmarkEnvInfo from '$lib/components/BenchmarkEnvInfo.svelte';
+	import RoundSelect from '$lib/components/RoundSelect.svelte';
 	import FilterPanel from '$lib/components/FilterPanel.svelte';
 	import SchemeTable from '$lib/components/SchemeTable.svelte';
 	import ScatterPlot from '$lib/components/ScatterPlot.svelte';
@@ -99,6 +100,7 @@
 				Schemes may have been updated since; consult the individual scheme websites for current specifications.
 			{/if}
 		</p>
+		<div class="mt-3"><RoundSelect /></div>
 	</div>
 
 	<div class="flex gap-8">

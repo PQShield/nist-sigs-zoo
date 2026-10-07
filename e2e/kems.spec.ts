@@ -59,13 +59,12 @@ test.describe('KEMs page', () => {
 		});
 	});
 
-	test('has a Signatures link back to the home page', async ({ page }) => {
+	test('header links to Signatures, KEMs and Timeline', async ({ page }) => {
 		await page.goto('/kems/');
-		await page.waitForLoadState('networkidle');
-		await page.getByRole('link', { name: 'Signatures', exact: true }).first().click();
-		await expect(page.locator('h1')).toHaveText('Post-Quantum Signature Schemes', {
-			timeout: 15_000
-		});
+		const nav = page.getByRole('navigation').first();
+		await expect(nav.getByRole('link', { name: 'Signatures', exact: true })).toHaveAttribute('href', /\/signatures\/$/);
+		await expect(nav.getByRole('link', { name: 'KEMs', exact: true })).toHaveAttribute('aria-current', 'page');
+		await expect(nav.getByRole('link', { name: 'Timeline', exact: true })).toHaveAttribute('href', /\/timeline\/$/);
 	});
 
 	test('Vega scatter plot renders', async ({ page }) => {
