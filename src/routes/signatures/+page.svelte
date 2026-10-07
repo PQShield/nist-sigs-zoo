@@ -122,13 +122,13 @@
 		<p class="mt-1.5 text-xs text-pqs-steel/70 dark:text-pqs-bluegray/70">
 			{#if $roundStore === 'latest'}
 				Data reflects the latest known specifications for each scheme, last updated {lastUpdated}.
-				Consult the individual scheme websites for the most current information.
+				Each scheme page links to the scheme's website and lists its recorded versions.
 			{:else if $roundStore === 'round-3'}
 				Showing the 9 schemes selected for Round 3 of the NIST Additional Signatures competition.
 				Round 3 specific submission data is not yet available; data reflects the most recent known specifications (last updated {lastUpdated}).
 			{:else}
 				Data reflects scheme specifications as submitted at the start of {$roundStore === 'round-1' ? 'Round 1' : 'Round 2'} of the NIST Additional Signatures competition (data last updated {lastUpdated}).
-				Schemes may have been updated since; consult the individual scheme websites for current specifications.
+				Schemes may have been updated since; see the individual scheme pages for later versions.
 			{/if}
 		</p>
 		<p class="mt-1 text-xs text-pqs-steel/70 dark:text-pqs-bluegray/70">

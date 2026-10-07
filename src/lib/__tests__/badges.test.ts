@@ -47,17 +47,17 @@ const REGISTRY: ProgrammeYaml[] = [
 describe('programmeChips', () => {
 	it('shows a FIPS standard by its FIPS number instead of the NIST membership', () => {
 		expect(programmeChips({ status: 'FIPS', version: 'FIPS 204', programmes: [{ programme: 'nist-pqc', stage: 'standardised' }] }, REGISTRY))
-			.toEqual([{ label: 'FIPS 204', tone: 'standard' }]);
+			.toEqual([{ label: 'FIPS 204', tone: 'standard', programme: 'nist-pqc' }]);
 	});
 
 	it('falls back to "FIPS" without a FIPS version (KEMs)', () => {
 		expect(programmeChips({ status: 'FIPS', programmes: [{ programme: 'nist-pqc', stage: 'standardised' }] }, REGISTRY))
-			.toEqual([{ label: 'FIPS', tone: 'standard' }]);
+			.toEqual([{ label: 'FIPS', tone: 'standard', programme: 'nist-pqc' }]);
 	});
 
 	it('marks a selected scheme as Std pending', () => {
 		expect(programmeChips({ status: 'To be standardized', programmes: [{ programme: 'nist-pqc', stage: 'selected' }] }, REGISTRY))
-			.toEqual([{ label: 'Std pending', tone: 'standard' }]);
+			.toEqual([{ label: 'Std pending', tone: 'standard', programme: 'nist-pqc' }]);
 	});
 
 	it('lists every other programme membership', () => {

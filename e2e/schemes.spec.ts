@@ -24,6 +24,19 @@ const singleVersion = sigs
 	.sort((a, b) => a.name.localeCompare(b.name))[0];
 
 test.describe('Scheme pages', () => {
+	test('header omits an assumption that repeats the category, and spaces the website', async ({ page }) => {
+		await page.goto('/schemes/sqisign/');
+		const meta = page.locator('h1 + p');
+		await expect(meta).not.toContainText('Isogenies · Isogenies');
+		await expect(meta.locator('a')).toHaveCount(1);
+		expect(await meta.textContent()).toMatch(/\S\s+·\s+\S/);
+	});
+
+	test('KEM page states its status once, not as a Parameter sets subtitle', async ({ page }) => {
+		await page.goto('/schemes/ml-kem/');
+		await expect(page.locator('#sets-heading + p')).toHaveCount(0);
+	});
+
 	test('every signature and KEM has a prerendered page', async ({ request }) => {
 		for (const ref of buildSchemeIndex(sigs, kems)) {
 			const res = await request.get(`/schemes/${ref.slug}/`);

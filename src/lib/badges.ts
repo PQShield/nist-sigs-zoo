@@ -72,10 +72,14 @@ export function programmeChips(
 	const chips: Chip[] = [];
 	let standardShown = false;
 	if (row.status === 'FIPS') {
-		chips.push({ label: row.version?.startsWith('FIPS') ? row.version : 'FIPS', tone: 'standard' });
+		chips.push({
+			label: row.version?.startsWith('FIPS') ? row.version : 'FIPS',
+			tone: 'standard',
+			programme: STANDARDS_PROGRAMME
+		});
 		standardShown = true;
 	} else if (row.status === 'To be standardized') {
-		chips.push({ label: 'Std pending', tone: 'standard' });
+		chips.push({ label: 'Std pending', tone: 'standard', programme: STANDARDS_PROGRAMME });
 		standardShown = true;
 	}
 	for (const m of row.programmes) {
