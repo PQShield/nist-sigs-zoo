@@ -247,11 +247,18 @@ export interface BenchmarkEnv {
 	sources: Record<string, string>;
 }
 
+export type HistoryType = 'update' | 'attack' | 'standardization' | 'milestone';
+
 export interface HistoryEntry {
+	/** ISO date, quoted in YAML so it stays a string. */
 	date: string;
-	type: 'update' | 'attack' | 'standardization' | 'milestone';
+	type: HistoryType;
+	/** Trusted HTML from our own YAML. */
 	description: string;
+	/** Affected scheme names (signature or KEM `name:`); their programmes are derived. */
 	schemes?: string[];
+	/** Extra programme ids (data/programmes.yaml), added to those derived from `schemes`. */
+	programmes?: string[];
 }
 
 /** `signingTime` / `verificationTime`: displayed µs (measured, else extrapolated from cycles). */
