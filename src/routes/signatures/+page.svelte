@@ -6,6 +6,8 @@
 	import { get } from 'svelte/store';
 	import BenchmarkEnvInfo from '$lib/components/BenchmarkEnvInfo.svelte';
 	import RoundSelect from '$lib/components/RoundSelect.svelte';
+	import FilterSidebar from '$lib/components/FilterSidebar.svelte';
+	import { filterSummary, presentProgrammeGroups } from '$lib/compareFilters';
 	import FilterPanel from '$lib/components/FilterPanel.svelte';
 	import SchemeTable from '$lib/components/SchemeTable.svelte';
 	import ScatterPlot from '$lib/components/ScatterPlot.svelte';
@@ -21,6 +23,8 @@
 	let schemes = $state(_init.schemes);
 	let categories = $state([...new Set(_init.schemes.map((s) => s.category))].sort());
 	let ranges = $state(_init.ranges);
+	let groups = $state(presentProgrammeGroups(_init.parameterSets));
+	const { store } = getFilterStore();
 
 	function applyRound(round: Round, urlParams: URLSearchParams = new URLSearchParams()) {
 		const { filter, useLatestVersion, includeOtherProgrammes } = roundToFilter(round);
@@ -28,6 +32,7 @@
 		schemes = result.schemes;
 		categories = [...new Set(result.schemes.map((s) => s.category))].sort();
 		ranges = result.ranges;
+		groups = presentProgrammeGroups(result.parameterSets);
 		createFilterStore(result.parameterSets, result.ranges, urlParams);
 	}
 
@@ -106,26 +111,13 @@
 		<div class="mt-3"><RoundSelect /></div>
 	</div>
 
-	<div class="flex gap-8">
-		<!-- Sidebar filter panel -->
-		<div class="hidden w-60 shrink-0 lg:block">
-			<div class="sticky top-4">
-				<FilterPanel schemes={schemes} categories={categories} ranges={ranges} />
-			</div>
-		</div>
+	<div class="flex flex-col gap-6 lg:flex-row lg:gap-8">
+		<FilterSidebar summary={filterSummary($store, $store.schemes.size)}>
+			<FilterPanel {schemes} {categories} {ranges} {groups} />
+		</FilterSidebar>
 
 		<!-- Main content -->
 		<div class="min-w-0 flex-1 space-y-6">
-			<!-- Mobile filter disclosure -->
-			<details class="lg:hidden">
-				<summary class="cursor-pointer rounded border border-pqs-bluegray bg-white px-3 py-2 font-heading text-sm font-semibold text-pqs-steel dark:border-pqs-steel dark:bg-pqs-midnight-mid dark:text-pqs-apricot">
-					Filters ▼
-				</summary>
-				<div class="mt-2 rounded border border-pqs-ashgray bg-white p-3 dark:border-pqs-steel dark:bg-pqs-midnight-mid">
-					<FilterPanel schemes={schemes} categories={categories} ranges={ranges} />
-				</div>
-			</details>
-
 			<!-- Scatter plot -->
 			<section class="rounded border border-pqs-ashgray bg-white p-4 shadow-sm dark:border-pqs-steel dark:bg-pqs-midnight-mid">
 				<h2 class="mb-3 font-heading text-base font-semibold text-pqs-steel dark:text-pqs-apricot">

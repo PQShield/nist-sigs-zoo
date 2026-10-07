@@ -140,3 +140,64 @@ test.describe('Signatures page', () => {
 		});
 	});
 });
+
+test.describe('Signatures filters', () => {
+	test('programme filter narrows the table and survives a reload', async ({ page }) => {
+		await page.goto('/signatures/');
+		await page.waitForLoadState('networkidle');
+		const panel = page.locator('aside').first();
+		await panel.getByLabel('NIST standards').uncheck();
+		await expect(page).toHaveURL(/[?&]p=/);
+		await expect(page.locator('tbody')).not.toContainText('ML-DSA');
+		await page.reload();
+		await expect(page.locator('tbody')).not.toContainText('ML-DSA');
+		await expect(panel.getByLabel('NIST standards')).not.toBeChecked();
+	});
+
+	test('security levels come in separate NIST and NGCC groups', async ({ page }) => {
+		await page.goto('/signatures/');
+		const nist = page.getByRole('group', { name: 'NIST category' });
+		const ngcc = page.getByRole('group', { name: 'NGCC target (classical bits)' });
+		await expect(nist.getByLabel('Level 1')).toBeChecked();
+		await expect(nist.getByLabel('Pre-quantum', { exact: true })).toBeChecked();
+		await expect(ngcc.getByLabel('128-bit')).toBeChecked();
+		await expect(ngcc.getByLabel('512-bit')).toBeChecked();
+	});
+
+	test('parameter-set toggle defaults to recommended and is kept in the URL', async ({ page }) => {
+		await page.goto('/signatures/');
+		await page.waitForLoadState('networkidle');
+		await expect(page.getByLabel('Recommended (one per scheme and level)')).toBeChecked();
+		await page.getByLabel('All parameter sets').check();
+		await expect(page).toHaveURL(/[?&]ps=all/);
+	});
+
+	test('status filters are three separate checkboxes', async ({ page }) => {
+		await page.goto('/signatures/');
+		await page.waitForLoadState('networkidle');
+		const status = page.getByRole('group', { name: 'Security status' });
+		await expect(status.getByLabel('Hide broken by design')).not.toBeChecked();
+		await expect(status.getByLabel('Hide schemes with implementation findings')).not.toBeChecked();
+		await status.getByLabel('Hide warnings').check();
+		await expect(page).toHaveURL(/[?&]hw=1/);
+	});
+
+	test('filters start collapsed on a phone and open from the Filters button', async ({ page }) => {
+		await page.setViewportSize({ width: 390, height: 844 });
+		await page.goto('/signatures/');
+		await page.waitForLoadState('networkidle');
+		const toggle = page.getByRole('button', { name: /^Filters/ });
+		await expect(toggle).toHaveAttribute('aria-expanded', 'false');
+		await expect(page.getByLabel('NIST standards')).toBeHidden();
+		await toggle.click();
+		await expect(toggle).toHaveAttribute('aria-expanded', 'true');
+		await expect(page.getByLabel('NIST standards')).toBeVisible();
+	});
+
+	test('desktop shows the filter column without a toggle', async ({ page }) => {
+		await page.goto('/signatures/');
+		await expect(page.getByRole('button', { name: /^Filters/ })).toBeHidden();
+		await expect(page.getByLabel('NIST standards')).toBeVisible();
+		await expect(page.locator('aside')).toHaveCount(1);
+	});
+});

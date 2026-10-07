@@ -1,8 +1,12 @@
 <script lang="ts">
-	import type { KemDataRanges, KemFilterState, KemScheme, NistLevel, ProgrammeGroup } from '$lib/types';
+	import type { CommonFilter, KemDataRanges, KemFilterState, KemScheme, ProgrammeGroup } from '$lib/types';
 	import { defaultKemFilter } from '$lib/kemData';
-	import { ALL_LEVELS } from '$lib/constants';
 	import RangeField from './RangeField.svelte';
+	import ProgrammeFilter from './ProgrammeFilter.svelte';
+	import LevelFilter from './LevelFilter.svelte';
+	import ParamSetFilter from './ParamSetFilter.svelte';
+	import StatusFilter from './StatusFilter.svelte';
+	import { FILTER_HEADING } from './filterStyles';
 
 	interface Props {
 		schemes: KemScheme[];
@@ -19,6 +23,10 @@
 		Object.fromEntries(categories.map((cat) => [cat, schemes.filter((s) => s.category === cat)]))
 	);
 
+	function patch(p: Partial<CommonFilter>) {
+		filter = { ...filter, ...p };
+	}
+
 	function categoryState(cat: string): 'all' | 'some' | 'none' {
 		const catSchemes = schemesByCategory[cat];
 		const n = catSchemes.filter((s) => filter.schemes.has(s.scheme)).length;
@@ -30,11 +38,8 @@
 	function toggleCategory(cat: string) {
 		const catSchemes = schemesByCategory[cat].map((s) => s.scheme);
 		const next = new Set(filter.schemes);
-		if (categoryState(cat) === 'all') {
-			catSchemes.forEach((s) => next.delete(s));
-		} else {
-			catSchemes.forEach((s) => next.add(s));
-		}
+		if (categoryState(cat) === 'all') catSchemes.forEach((s) => next.delete(s));
+		else catSchemes.forEach((s) => next.add(s));
 		filter = { ...filter, schemes: next };
 	}
 
@@ -43,13 +48,6 @@
 		if (next.has(scheme)) next.delete(scheme);
 		else next.add(scheme);
 		filter = { ...filter, schemes: next };
-	}
-
-	function toggleLevel(level: NistLevel) {
-		const next = new Set(filter.levels);
-		if (next.has(level)) next.delete(level);
-		else next.add(level);
-		filter = { ...filter, levels: next };
 	}
 
 	function selectAll() {
@@ -75,27 +73,26 @@
 </script>
 
 <aside class="rounded border border-pqs-ashgray bg-white p-4 text-sm shadow-sm dark:border-pqs-steel dark:bg-pqs-midnight-mid">
-	<div class="mb-4 flex items-center justify-between">
-		<h2 class="font-heading text-base font-bold text-pqs-midnight dark:text-white">Filters</h2>
-		<button onclick={reset} class="font-heading text-xs text-pqs-apricot underline hover:no-underline">Reset</button>
-	</div>
+	<h2 class="mb-4 hidden font-heading text-base font-bold text-pqs-midnight dark:text-white lg:block">Filters</h2>
 
-	<!-- Scheme filters -->
+	<ProgrammeFilter {filter} {groups} onchange={patch} />
+
+	<hr class="mb-4 border-pqs-ashgray dark:border-pqs-steel" />
+
 	<section class="mb-5">
 		<div class="mb-2 flex items-center justify-between">
-			<h3 class="font-heading text-xs font-semibold uppercase tracking-wider text-pqs-steel dark:text-pqs-apricot">
-				Schemes
-			</h3>
+			<h3 class={FILTER_HEADING}>Schemes</h3>
 			<span class="space-x-2 font-heading text-xs">
-				<button onclick={selectAll} class="text-pqs-apricot underline hover:no-underline">All</button>
-				<button onclick={selectNone} class="text-pqs-apricot underline hover:no-underline">None</button>
+				<button type="button" onclick={selectAll} class="text-pqs-apricot underline hover:no-underline">All</button>
+				<button type="button" onclick={selectNone} class="text-pqs-apricot underline hover:no-underline">None</button>
 			</span>
 		</div>
-		{#each categories as cat}
+		{#each categories as cat (cat)}
 			<details class="mb-1" open>
 				<summary class="flex cursor-pointer list-none items-center gap-1.5 py-0.5">
 					<input
 						type="checkbox"
+						aria-label="All {cat} schemes"
 						checked={categoryState(cat) !== 'none'}
 						use:indeterminate={categoryState(cat) === 'some'}
 						onchange={() => toggleCategory(cat)}
@@ -104,7 +101,7 @@
 					<span class="font-heading font-semibold text-pqs-midnight dark:text-pqs-smoke">{cat}</span>
 				</summary>
 				<div class="ml-5 mt-0.5 space-y-0.5">
-					{#each schemesByCategory[cat] as scheme}
+					{#each schemesByCategory[cat] as scheme (scheme.scheme)}
 						<label class="flex cursor-pointer items-center gap-1.5">
 							<input
 								type="checkbox"
@@ -122,35 +119,13 @@
 
 	<hr class="mb-4 border-pqs-ashgray dark:border-pqs-steel" />
 
-	<!-- Level filters -->
-	<section class="mb-5">
-		<h3 class="mb-2 font-heading text-xs font-semibold uppercase tracking-wider text-pqs-steel dark:text-pqs-apricot">
-			NIST Security Level
-		</h3>
-		<div class="space-y-0.5">
-			{#each ALL_LEVELS as level}
-				<label class="flex cursor-pointer items-center gap-1.5">
-					<input
-						type="checkbox"
-						checked={filter.levels.has(level)}
-						onchange={() => toggleLevel(level)}
-						class="accent-pqs-apricot"
-					/>
-					<span class="text-pqs-steel dark:text-pqs-bluegray">
-						{level === 'Pre-Quantum' ? 'N/A' : `Level ${level}`}
-					</span>
-				</label>
-			{/each}
-		</div>
-	</section>
+	<LevelFilter {filter} onchange={patch} />
+	<ParamSetFilter {filter} onchange={patch} />
 
 	<hr class="mb-4 border-pqs-ashgray dark:border-pqs-steel" />
 
-	<!-- Size filters -->
-	<section>
-		<h3 class="mb-2 font-heading text-xs font-semibold uppercase tracking-wider text-pqs-steel dark:text-pqs-apricot">
-			Sizes (bytes)
-		</h3>
+	<section class="mb-5">
+		<h3 class={FILTER_HEADING}>Sizes (bytes)</h3>
 		<div class="space-y-2">
 			<RangeField label="Min pk" value={filter.minPk} onchange={(v) => (filter = { ...filter, minPk: v })} />
 			<RangeField label="Max pk" value={filter.maxPk} onchange={(v) => (filter = { ...filter, maxPk: v })} />
@@ -160,4 +135,34 @@
 			<RangeField label="Max pk+ct" value={filter.maxPkPlusCt} onchange={(v) => (filter = { ...filter, maxPkPlusCt: v })} />
 		</div>
 	</section>
+
+	{#if ranges.keygenUs || ranges.encapsUs || ranges.decapsUs}
+		<section class="mb-5">
+			<h3 class={FILTER_HEADING}>Performance (µs)</h3>
+			<div class="space-y-2">
+				{#if ranges.keygenUs}
+					<RangeField label="Min keygen" value={filter.minKeygenUs} onchange={(v) => (filter = { ...filter, minKeygenUs: v })} />
+					<RangeField label="Max keygen" value={filter.maxKeygenUs} onchange={(v) => (filter = { ...filter, maxKeygenUs: v })} />
+				{/if}
+				{#if ranges.encapsUs}
+					<RangeField label="Min encaps" value={filter.minEncapsUs} onchange={(v) => (filter = { ...filter, minEncapsUs: v })} />
+					<RangeField label="Max encaps" value={filter.maxEncapsUs} onchange={(v) => (filter = { ...filter, maxEncapsUs: v })} />
+				{/if}
+				{#if ranges.decapsUs}
+					<RangeField label="Min decaps" value={filter.minDecapsUs} onchange={(v) => (filter = { ...filter, minDecapsUs: v })} />
+					<RangeField label="Max decaps" value={filter.maxDecapsUs} onchange={(v) => (filter = { ...filter, maxDecapsUs: v })} />
+				{/if}
+			</div>
+		</section>
+	{/if}
+
+	<hr class="mb-4 border-pqs-ashgray dark:border-pqs-steel" />
+
+	<StatusFilter {filter} onchange={patch} />
+
+	<button
+		type="button"
+		onclick={reset}
+		class="h-10 w-full rounded border border-pqs-bluegray font-heading font-semibold text-pqs-steel hover:bg-pqs-smoke dark:border-pqs-steel dark:text-pqs-apricot dark:hover:bg-pqs-steel/30"
+	>Reset filters</button>
 </aside>

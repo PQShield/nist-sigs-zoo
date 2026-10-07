@@ -2,7 +2,8 @@
 	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
 	import { base } from '$app/paths';
-	import { presentProgrammeGroups } from '$lib/compareFilters';
+	import FilterSidebar from '$lib/components/FilterSidebar.svelte';
+	import { filterSummary, presentProgrammeGroups } from '$lib/compareFilters';
 	import KemFilterPanel from '$lib/components/KemFilterPanel.svelte';
 	import KemScatterPlot from '$lib/components/KemScatterPlot.svelte';
 	import KemTable from '$lib/components/KemTable.svelte';
@@ -104,7 +105,7 @@
 			if (xScale !== 'log') p.set('xs', xScale);
 			if (yScale !== 'log') p.set('ys', yScale);
 			const qs = p.toString();
-			goto(qs ? `?${qs}` : window.location.pathname, {
+			goto((qs ? `?${qs}` : window.location.pathname) + window.location.hash, {
 				replaceState: true,
 				keepFocus: true,
 				noScroll: true
@@ -131,26 +132,13 @@
 		</p>
 	</div>
 
-	<div class="flex gap-8">
-		<!-- Sidebar filter panel -->
-		<div class="hidden w-60 shrink-0 lg:block">
-			<div class="sticky top-4">
-				<KemFilterPanel {schemes} {categories} {ranges} {groups} bind:filter />
-			</div>
-		</div>
+	<div class="flex flex-col gap-6 lg:flex-row lg:gap-8">
+		<FilterSidebar summary={filterSummary(filter, filter.schemes.size)}>
+			<KemFilterPanel {schemes} {categories} {ranges} {groups} bind:filter />
+		</FilterSidebar>
 
 		<!-- Main content -->
 		<div class="min-w-0 flex-1 space-y-6">
-			<!-- Mobile filter disclosure -->
-			<details class="lg:hidden">
-				<summary class="cursor-pointer rounded border border-pqs-bluegray bg-white px-3 py-2 font-heading text-sm font-semibold text-pqs-steel dark:border-pqs-steel dark:bg-pqs-midnight-mid dark:text-pqs-apricot">
-					Filters ▼
-				</summary>
-				<div class="mt-2 rounded border border-pqs-ashgray bg-white p-3 dark:border-pqs-steel dark:bg-pqs-midnight-mid">
-					<KemFilterPanel {schemes} {categories} {ranges} {groups} bind:filter />
-				</div>
-			</details>
-
 			<!-- Scatter plot -->
 			<section class="rounded border border-pqs-ashgray bg-white p-4 shadow-sm dark:border-pqs-steel dark:bg-pqs-midnight-mid">
 				<h2 class="mb-4 font-heading text-base font-semibold text-pqs-steel dark:text-pqs-apricot">

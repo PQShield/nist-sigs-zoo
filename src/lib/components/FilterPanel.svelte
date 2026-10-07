@@ -1,22 +1,32 @@
 <script lang="ts">
-	import type { DataRanges, FilterState, NistLevel, Scheme } from '$lib/types';
+	import type { Snippet } from 'svelte';
+	import type { CommonFilter, DataRanges, ProgrammeGroup, Scheme } from '$lib/types';
 	import { getFilterStore } from '$lib/filterStore';
-	import { ALL_LEVELS } from '$lib/constants';
 	import RangeField from './RangeField.svelte';
+	import ProgrammeFilter from './ProgrammeFilter.svelte';
+	import LevelFilter from './LevelFilter.svelte';
+	import ParamSetFilter from './ParamSetFilter.svelte';
+	import StatusFilter from './StatusFilter.svelte';
+	import { FILTER_HEADING } from './filterStyles';
 
 	interface Props {
 		schemes: Scheme[];
 		categories: string[];
 		ranges: DataRanges;
+		groups: ProgrammeGroup[];
+		/** Rendered under "NIST on-ramp" (the on-ramp round select). */
+		onramp?: Snippet<[boolean]>;
 	}
-	let { schemes, categories, ranges }: Props = $props();
+	let { schemes, categories, ranges, groups, onramp }: Props = $props();
 
-	const { store, defaults } = getFilterStore();
+	const { store } = getFilterStore();
+
+	function patch(p: Partial<CommonFilter>) {
+		store.update((f) => ({ ...f, ...p }));
+	}
 
 	const schemesByCategory = $derived(
-		Object.fromEntries(
-			categories.map((cat) => [cat, schemes.filter((s) => s.category === cat)])
-		)
+		Object.fromEntries(categories.map((cat) => [cat, schemes.filter((s) => s.category === cat)]))
 	);
 
 	function categoryState(cat: string): 'all' | 'some' | 'none' {
@@ -29,13 +39,9 @@
 
 	function toggleCategory(cat: string) {
 		const catSchemes = schemesByCategory[cat].map((s) => s.scheme);
-		const state = categoryState(cat);
 		const next = new Set($store.schemes);
-		if (state === 'all') {
-			catSchemes.forEach((s) => next.delete(s));
-		} else {
-			catSchemes.forEach((s) => next.add(s));
-		}
+		if (categoryState(cat) === 'all') catSchemes.forEach((s) => next.delete(s));
+		else catSchemes.forEach((s) => next.add(s));
 		store.update((f) => ({ ...f, schemes: next }));
 	}
 
@@ -46,19 +52,17 @@
 		store.update((f) => ({ ...f, schemes: next }));
 	}
 
-	function toggleLevel(level: NistLevel) {
-		const next = new Set($store.levels);
-		if (next.has(level)) next.delete(level);
-		else next.add(level);
-		store.update((f) => ({ ...f, levels: next }));
-	}
-
+	// Defaults are read at call time: they change when the round changes.
 	function selectAll() {
-		store.update((f) => ({ ...f, schemes: new Set(defaults.schemes) }));
+		store.update((f) => ({ ...f, schemes: new Set(getFilterStore().defaults.schemes) }));
 	}
 
 	function selectNone() {
 		store.update((f) => ({ ...f, schemes: new Set() }));
+	}
+
+	function reset() {
+		store.update((f) => ({ ...getFilterStore().defaults, sortCol: f.sortCol, sortDir: f.sortDir, chart: f.chart }));
 	}
 
 	function indeterminate(el: HTMLInputElement, value: boolean) {
@@ -72,24 +76,26 @@
 </script>
 
 <aside class="rounded border border-pqs-ashgray bg-white p-4 text-sm shadow-sm dark:border-pqs-steel dark:bg-pqs-midnight-mid">
-	<h2 class="mb-4 font-heading text-base font-bold text-pqs-midnight dark:text-white">Filters</h2>
+	<h2 class="mb-4 hidden font-heading text-base font-bold text-pqs-midnight dark:text-white lg:block">Filters</h2>
 
-	<!-- Scheme filters -->
+	<ProgrammeFilter filter={$store} {groups} onchange={patch} {onramp} />
+
+	<hr class="mb-4 border-pqs-ashgray dark:border-pqs-steel" />
+
 	<section class="mb-5">
 		<div class="mb-2 flex items-center justify-between">
-			<h3 class="font-heading text-xs font-semibold uppercase tracking-wider text-pqs-steel dark:text-pqs-apricot">
-				Schemes
-			</h3>
+			<h3 class={FILTER_HEADING}>Schemes</h3>
 			<span class="space-x-2 font-heading text-xs">
-				<button onclick={selectAll} class="text-pqs-apricot underline hover:no-underline">All</button>
-				<button onclick={selectNone} class="text-pqs-apricot underline hover:no-underline">None</button>
+				<button type="button" onclick={selectAll} class="text-pqs-apricot underline hover:no-underline">All</button>
+				<button type="button" onclick={selectNone} class="text-pqs-apricot underline hover:no-underline">None</button>
 			</span>
 		</div>
-		{#each categories as cat}
+		{#each categories as cat (cat)}
 			<details class="mb-1" open>
 				<summary class="flex cursor-pointer list-none items-center gap-1.5 py-0.5">
 					<input
 						type="checkbox"
+						aria-label="All {cat} schemes"
 						checked={categoryState(cat) !== 'none'}
 						use:indeterminate={categoryState(cat) === 'some'}
 						onchange={() => toggleCategory(cat)}
@@ -98,7 +104,7 @@
 					<span class="font-heading font-semibold text-pqs-midnight dark:text-pqs-smoke">{cat}</span>
 				</summary>
 				<div class="ml-5 mt-0.5 space-y-0.5">
-					{#each schemesByCategory[cat] as scheme}
+					{#each schemesByCategory[cat] as scheme (scheme.scheme)}
 						<label class="flex cursor-pointer items-center gap-1.5">
 							<input
 								type="checkbox"
@@ -116,35 +122,13 @@
 
 	<hr class="mb-4 border-pqs-ashgray dark:border-pqs-steel" />
 
-	<!-- Level filters -->
-	<section class="mb-5">
-		<h3 class="mb-2 font-heading text-xs font-semibold uppercase tracking-wider text-pqs-steel dark:text-pqs-apricot">
-			NIST Security Level
-		</h3>
-		<div class="space-y-0.5">
-			{#each ALL_LEVELS as level}
-				<label class="flex cursor-pointer items-center gap-1.5">
-					<input
-						type="checkbox"
-						checked={$store.levels.has(level)}
-						onchange={() => toggleLevel(level)}
-						class="accent-pqs-apricot"
-					/>
-					<span class="text-pqs-steel dark:text-pqs-bluegray">
-						{level === 'Pre-Quantum' ? 'N/A' : `Level ${level}`}
-					</span>
-				</label>
-			{/each}
-		</div>
-	</section>
+	<LevelFilter filter={$store} onchange={patch} />
+	<ParamSetFilter filter={$store} onchange={patch} />
 
 	<hr class="mb-4 border-pqs-ashgray dark:border-pqs-steel" />
 
-	<!-- Size filters -->
 	<section class="mb-5">
-		<h3 class="mb-2 font-heading text-xs font-semibold uppercase tracking-wider text-pqs-steel dark:text-pqs-apricot">
-			Key / Sig Sizes (bytes)
-		</h3>
+		<h3 class={FILTER_HEADING}>Sizes (bytes)</h3>
 		<div class="space-y-2">
 			<RangeField label="Min pk" value={$store.minPk} onchange={(v) => store.update((f) => ({ ...f, minPk: v }))} />
 			<RangeField label="Max pk" value={$store.maxPk} onchange={(v) => store.update((f) => ({ ...f, maxPk: v }))} />
@@ -155,13 +139,8 @@
 		</div>
 	</section>
 
-	<hr class="mb-4 border-pqs-ashgray dark:border-pqs-steel" />
-
-	<!-- Performance filters -->
 	<section class="mb-5">
-		<h3 class="mb-2 font-heading text-xs font-semibold uppercase tracking-wider text-pqs-steel dark:text-pqs-apricot">
-			Performance (cycles)
-		</h3>
+		<h3 class={FILTER_HEADING}>Performance (cycles)</h3>
 		<div class="space-y-2">
 			<RangeField label="Min signing" value={$store.minSigningCycles} onchange={(v) => store.update((f) => ({ ...f, minSigningCycles: v }))} />
 			<RangeField label="Max signing" value={$store.maxSigningCycles} onchange={(v) => store.update((f) => ({ ...f, maxSigningCycles: v }))} />
@@ -171,22 +150,28 @@
 	</section>
 
 	{#if ranges.signingUs || ranges.verificationUs}
-		<hr class="mb-4 border-pqs-ashgray dark:border-pqs-steel" />
-
-		<section>
-			<h3 class="mb-2 font-heading text-xs font-semibold uppercase tracking-wider text-pqs-steel dark:text-pqs-apricot">
-				Performance (µs)
-			</h3>
+		<section class="mb-5">
+			<h3 class={FILTER_HEADING}>Performance (µs)</h3>
 			<div class="space-y-2">
 				{#if ranges.signingUs}
-					<RangeField label="Min signing" value={$store.minSigningUs} onchange={(v) => store.update((f) => ({ ...f, minSigningUs: v }))} />
-					<RangeField label="Max signing" value={$store.maxSigningUs} onchange={(v) => store.update((f) => ({ ...f, maxSigningUs: v }))} />
+					<RangeField label="Min signing µs" value={$store.minSigningUs} onchange={(v) => store.update((f) => ({ ...f, minSigningUs: v }))} />
+					<RangeField label="Max signing µs" value={$store.maxSigningUs} onchange={(v) => store.update((f) => ({ ...f, maxSigningUs: v }))} />
 				{/if}
 				{#if ranges.verificationUs}
-					<RangeField label="Min verification" value={$store.minVerificationUs} onchange={(v) => store.update((f) => ({ ...f, minVerificationUs: v }))} />
-					<RangeField label="Max verification" value={$store.maxVerificationUs} onchange={(v) => store.update((f) => ({ ...f, maxVerificationUs: v }))} />
+					<RangeField label="Min verification µs" value={$store.minVerificationUs} onchange={(v) => store.update((f) => ({ ...f, minVerificationUs: v }))} />
+					<RangeField label="Max verification µs" value={$store.maxVerificationUs} onchange={(v) => store.update((f) => ({ ...f, maxVerificationUs: v }))} />
 				{/if}
 			</div>
 		</section>
 	{/if}
+
+	<hr class="mb-4 border-pqs-ashgray dark:border-pqs-steel" />
+
+	<StatusFilter filter={$store} onchange={patch} />
+
+	<button
+		type="button"
+		onclick={reset}
+		class="h-10 w-full rounded border border-pqs-bluegray font-heading font-semibold text-pqs-steel hover:bg-pqs-smoke dark:border-pqs-steel dark:text-pqs-apricot dark:hover:bg-pqs-steel/30"
+	>Reset filters</button>
 </aside>

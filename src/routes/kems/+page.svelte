@@ -2,10 +2,12 @@
 	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
 	import { base } from '$app/paths';
-	import { presentProgrammeGroups } from '$lib/compareFilters';
+	import FilterSidebar from '$lib/components/FilterSidebar.svelte';
 	import KemFilterPanel from '$lib/components/KemFilterPanel.svelte';
 	import KemScatterPlot from '$lib/components/KemScatterPlot.svelte';
 	import KemTable from '$lib/components/KemTable.svelte';
+	import BenchmarkEnvInfo from '$lib/components/BenchmarkEnvInfo.svelte';
+	import { filterSummary, presentProgrammeGroups } from '$lib/compareFilters';
 	import {
 		applyKemUrlParams,
 		buildKemUrlParams,
@@ -14,7 +16,6 @@
 		filterKemRows,
 		processKemSchemes
 	} from '$lib/kemData';
-	import BenchmarkEnvInfo from '$lib/components/BenchmarkEnvInfo.svelte';
 	import { allKemData, kemBenchmarkEnv } from '$lib/kemSchemeData';
 	import type { PageData } from './$types';
 
@@ -32,7 +33,7 @@
 
 	const filteredRows = $derived(filterKemRows(parameterSets, filter));
 
-	// URL state: filter params encoded as query params (mirrors the signatures page).
+	// URL state: filter params encoded as query params (same common codec as the signatures page).
 	// Applied client-side in onMount (the page is prerendered); synced back, debounced.
 	let urlReady = $state(false);
 
@@ -47,7 +48,7 @@
 		if (!urlReady) return;
 		const timer = setTimeout(() => {
 			const qs = buildKemUrlParams(filter, defaults).toString();
-			goto(qs ? `?${qs}` : window.location.pathname, {
+			goto((qs ? `?${qs}` : window.location.pathname) + window.location.hash, {
 				replaceState: true,
 				keepFocus: true,
 				noScroll: true
@@ -64,38 +65,26 @@
 			Key Encapsulation Mechanisms
 		</h1>
 		<p class="mt-2 text-sm text-pqs-steel dark:text-pqs-bluegray">
-			A standalone comparison of public-key and ciphertext sizes for KEMs — not tied to any NIST
-			competition round. Click column headers to sort; use the filters to narrow down.
+			Standardised KEMs, competition candidates and research proposals, with pre-quantum ECDH for
+			reference. Select column headers to sort; use the filters to narrow by programme, scheme,
+			security level, size or speed.
 		</p>
 		<p class="mt-1.5 text-xs text-pqs-steel/70 dark:text-pqs-bluegray/70">
 			Sizes reflect the latest known specifications (ML-KEM: FIPS 203; HQC: 2025-08-22 draft). For
 			ECDH the “ciphertext” is the ephemeral public key and keygen/encaps/decaps map to the
 			static/ephemeral key generation and the two ECDH derivations.
-			See the <a href="{base}/" class="text-pqs-apricot hover:underline">signatures comparison</a>
-			for the NIST on-ramp signature schemes.
+			See the <a href="{base}/signatures/" class="text-pqs-apricot hover:underline">signature comparison</a>
+			for signature schemes.
 		</p>
 	</div>
 
-	<div class="flex gap-8">
-		<!-- Sidebar filter panel -->
-		<div class="hidden w-60 shrink-0 lg:block">
-			<div class="sticky top-4">
-				<KemFilterPanel {schemes} {categories} {ranges} {groups} bind:filter />
-			</div>
-		</div>
+	<div class="flex flex-col gap-6 lg:flex-row lg:gap-8">
+		<FilterSidebar summary={filterSummary(filter, filter.schemes.size)}>
+			<KemFilterPanel {schemes} {categories} {ranges} {groups} bind:filter />
+		</FilterSidebar>
 
 		<!-- Main content -->
 		<div class="min-w-0 flex-1 space-y-6">
-			<!-- Mobile filter disclosure -->
-			<details class="lg:hidden">
-				<summary class="cursor-pointer rounded border border-pqs-bluegray bg-white px-3 py-2 font-heading text-sm font-semibold text-pqs-steel dark:border-pqs-steel dark:bg-pqs-midnight-mid dark:text-pqs-apricot">
-					Filters ▼
-				</summary>
-				<div class="mt-2 rounded border border-pqs-ashgray bg-white p-3 dark:border-pqs-steel dark:bg-pqs-midnight-mid">
-					<KemFilterPanel {schemes} {categories} {ranges} {groups} bind:filter />
-				</div>
-			</details>
-
 			<!-- Scatter plot -->
 			<section class="rounded border border-pqs-ashgray bg-white p-4 shadow-sm dark:border-pqs-steel dark:bg-pqs-midnight-mid">
 				<h2 class="mb-3 font-heading text-base font-semibold text-pqs-steel dark:text-pqs-apricot">
@@ -114,8 +103,8 @@
 				<div class="rounded border border-pqs-apricot/40 bg-pqs-apricot/10 px-4 py-3 text-xs text-pqs-midnight dark:border-pqs-apricot/30 dark:bg-pqs-apricot/5 dark:text-pqs-smoke">
 					<strong class="font-heading font-semibold text-pqs-apricot">Performance note:</strong>
 					Keygen / encapsulation / decapsulation timings are from our own benchmarks on a
-					{kemBenchmarkEnv.cpu.model} (ML-KEM and HQC use AVX2; ECDH uses OpenSSL) — see the
-					environment details below.
+					{kemBenchmarkEnv.cpu.model} (ML-KEM and HQC use AVX2; ECDH uses OpenSSL); see the
+					environment details below. Schemes not yet in our harness show sizes only.
 				</div>
 			{/if}
 

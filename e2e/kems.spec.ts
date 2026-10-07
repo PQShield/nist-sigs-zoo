@@ -15,21 +15,35 @@ const levelCellSelector = 'tbody tr td:nth-child(5)';
 // wouldn't catch a rendering/filtering bug that drops or duplicates rows.
 const KEMS_DIR = path.join(path.dirname(fileURLToPath(import.meta.url)), '..', 'data', 'kems');
 
-function loadSourceParameterSets(): { level: unknown }[] {
-	const files = fs.readdirSync(KEMS_DIR).filter((f) => f.endsWith('.yaml'));
-	const all: { level: unknown }[] = [];
-	for (const file of files) {
-		const doc = yaml.load(fs.readFileSync(path.join(KEMS_DIR, file), 'utf8')) as {
-			parametersets: { level: unknown }[];
-		};
-		all.push(...doc.parametersets);
-	}
-	return all;
+interface SourceKem {
+	programmes?: Record<string, unknown>;
+	broken?: string;
+	parametersets: {
+		level: unknown;
+		recommended?: boolean;
+		encaps_us?: number;
+		encaps_cycles?: number;
+	}[];
 }
 
-const sourceParameterSets = loadSourceParameterSets();
-const expectedTotal = sourceParameterSets.length;
-const expectedNaCount = sourceParameterSets.filter((ps) => ps.level === 'Pre-Quantum').length;
+function loadSourceKems(): SourceKem[] {
+	return fs
+		.readdirSync(KEMS_DIR)
+		.filter((f) => f.endsWith('.yaml'))
+		.map((file) => yaml.load(fs.readFileSync(path.join(KEMS_DIR, file), 'utf8')) as SourceKem);
+}
+
+const sourceKems = loadSourceKems();
+// The default view shows recommended parameter sets: if a KEM flags any, only those.
+const shownSets = (k: SourceKem) =>
+	k.parametersets.some((p) => p.recommended) ? k.parametersets.filter((p) => p.recommended) : k.parametersets;
+const shownParameterSets = sourceKems.flatMap(shownSets);
+const expectedTotal = shownParameterSets.length;
+const expectedNaCount = shownParameterSets.filter((ps) => ps.level === 'Pre-Quantum').length;
+const researchCount = sourceKems
+	.filter((k) => !k.programmes && k.broken !== 'classical')
+	.reduce((n, k) => n + shownSets(k).length, 0);
+const unbenchmarkedEncaps = shownParameterSets.filter((ps) => ps.encaps_us == null && !(ps.encaps_cycles! > 0)).length;
 
 async function paramSetCount(page: Page): Promise<number> {
 	const text = await page.getByText(/^\d+ parameter sets?$/).innerText();
@@ -134,7 +148,7 @@ test.describe('KEMs page', () => {
 		expect(expectedNaCount).toBeGreaterThan(0);
 		expect(await paramSetCount(page)).toBe(expectedTotal);
 
-		await panel.getByLabel('N/A').uncheck();
+		await panel.getByLabel('Pre-quantum', { exact: true }).uncheck();
 
 		await expect.poll(() => paramSetCount(page)).toBe(expectedTotal - expectedNaCount);
 		expect(await levelTexts(page)).not.toContain('N/A');
@@ -144,7 +158,7 @@ test.describe('KEMs page', () => {
 		await page.goto('/kems/');
 		const panel = page.locator('aside').first();
 
-		await panel.getByLabel('N/A').uncheck();
+		await panel.getByLabel('Pre-quantum', { exact: true }).uncheck();
 		// debounced URL sync (300ms); toHaveURL polls until it matches
 		await expect(page).toHaveURL(/[?&]l=/);
 
@@ -160,5 +174,32 @@ test.describe('KEMs page', () => {
 		await expect(page.getByRole('columnheader', { name: 'Programmes' })).toBeVisible();
 		await expect(page.locator('tbody')).toContainText('FIPS');
 		await expect(page.locator('tbody')).toContainText('KpqC selected');
+	});
+
+	test('programme filter hides research proposals', async ({ page }) => {
+		expect(researchCount).toBeGreaterThan(0);
+		await page.goto('/kems/');
+		await page.waitForLoadState('networkidle');
+		const panel = page.locator('aside').first();
+		await panel.getByLabel('Research proposals').uncheck();
+		await expect.poll(() => paramSetCount(page)).toBe(expectedTotal - researchCount);
+		await expect(page).toHaveURL(/[?&]p=/);
+	});
+
+	test('performance filter bounds encapsulation time and keeps unbenchmarked rows', async ({ page }) => {
+		await page.goto('/kems/');
+		await page.waitForLoadState('networkidle');
+		const panel = page.locator('aside').first();
+		await panel.getByLabel('Max encaps').fill('0.0001');
+		await expect.poll(() => paramSetCount(page)).toBe(unbenchmarkedEncaps);
+		await expect(page).toHaveURL(/[?&]euMax=/);
+	});
+
+	test('KEM filters have the same sections as the signatures page', async ({ page }) => {
+		await page.goto('/kems/');
+		for (const name of ['Programme', 'NIST category', 'NGCC target (classical bits)', 'Parameter sets', 'Security status']) {
+			await expect(page.getByRole('group', { name })).toBeVisible();
+		}
+		await expect(page.getByRole('button', { name: 'Reset filters' })).toBeVisible();
 	});
 });
