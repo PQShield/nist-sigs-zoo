@@ -1,0 +1,4 @@
+# Extracted from the official archives (see extract.py); never committed.
+/src/
+/specs/
+__pycache__/
