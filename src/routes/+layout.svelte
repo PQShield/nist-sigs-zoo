@@ -19,6 +19,7 @@
 	const NAV = [
 		{ href: 'signatures/', label: 'Signatures' },
 		{ href: 'kems/', label: 'KEMs' },
+		{ href: 'programmes/', label: 'Programmes' },
 		{ href: 'timeline/', label: 'Timeline' }
 	];
 

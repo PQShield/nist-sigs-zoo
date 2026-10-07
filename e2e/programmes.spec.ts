@@ -128,4 +128,27 @@ test.describe('Programme pages', () => {
 		await page.waitForLoadState('networkidle');
 		expect(errors).toEqual([]);
 	});
+
+	test('index links to every programme page', async ({ page }) => {
+		await page.goto('/programmes/');
+		await expect(page.locator('h1')).toHaveText('Programmes');
+		for (const id of IDS) {
+			await expect(page.locator(`main a[href$="/programmes/${id}/"]`)).toHaveCount(1);
+		}
+	});
+
+	test('nav links to the programme index and marks it current on programme pages', async ({ page }) => {
+		await page.goto('/programmes/kpqc/');
+		const link = page.getByRole('banner').getByRole('link', { name: 'Programmes', exact: true });
+		await expect(link).toHaveAttribute('href', /\/programmes\/$/);
+		await expect(link).toHaveAttribute('aria-current', 'page');
+	});
+
+	test('home programme table links to programme pages', async ({ page }) => {
+		await page.goto('/');
+		const region = page.getByRole('region', { name: 'Programmes' });
+		for (const id of IDS) {
+			await expect(region.locator(`a[href$="/programmes/${id}/"]`)).toHaveCount(1);
+		}
+	});
 });

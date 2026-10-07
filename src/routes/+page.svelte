@@ -73,7 +73,7 @@
 					{#each data.summaries as s (s.programme.id)}
 						<tr>
 							<td class="px-3 py-2">
-								<span class="font-heading font-semibold">{s.programme.name}</span>
+								<a href="{base}/programmes/{s.programme.id}/" class="font-heading font-semibold text-pqs-steel underline hover:text-pqs-apricot dark:text-pqs-apricot">{s.programme.name}</a>
 								<span class="block text-xs text-pqs-steel dark:text-pqs-bluegray">{[s.programme.short, ...(s.programme.organiser === s.programme.short ? [] : [s.programme.organiser]), s.programme.region].join(' · ')}</span>
 							</td>
 							<td class="px-3 py-2">{#if s.programme.primitives.includes('signature')}{@render cell(s.signatures)}{:else}Not in scope{/if}</td>
