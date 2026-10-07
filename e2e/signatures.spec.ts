@@ -43,18 +43,39 @@ test.describe('Signatures page', () => {
 		await expect(page.locator('table')).toBeVisible();
 	});
 
-	test('dataset selector offers Latest and rounds 3–1', async ({ page }) => {
+	test('on-ramp round selector offers Latest and rounds 3–1 under NIST on-ramp', async ({ page }) => {
 		await page.goto('/signatures/');
-		const select = page.getByLabel('Dataset');
+		const select = page.getByLabel('On-ramp round');
 		await expect(select).toBeVisible();
 		await expect(select.locator('option')).toHaveText(['Latest specs', 'Round 3', 'Round 2', 'Round 1']);
+		await expect(page.getByRole('group', { name: 'Programme' }).getByLabel('On-ramp round')).toBeVisible();
 	});
 
 	test('choosing Round 2 updates the URL', async ({ page }) => {
 		await page.goto('/signatures/');
 		await page.waitForLoadState('networkidle');
-		await page.getByLabel('Dataset').selectOption('round-2');
+		await page.getByLabel('On-ramp round').selectOption('round-2');
 		await page.waitForURL(/[?&]r=2/, { timeout: 15_000 });
+	});
+
+	test('changing the round keeps status and programme filters', async ({ page }) => {
+		await page.goto('/signatures/?hw=1');
+		await page.waitForLoadState('networkidle');
+		await page.getByLabel('NIST standards').uncheck();
+		await expect(page).toHaveURL(/[?&]p=/);
+		await page.getByLabel('On-ramp round').selectOption('round-2');
+		await page.waitForURL(/[?&]r=2/, { timeout: 15_000 });
+		await expect(page).toHaveURL(/[?&]hw=1/);
+		await expect(page).toHaveURL(/[?&]p=/);
+		await expect(page.getByLabel('Hide warnings')).toBeChecked();
+		await expect(page.getByLabel('NIST standards')).not.toBeChecked();
+	});
+
+	test('the round select is disabled while NIST on-ramp is unticked', async ({ page }) => {
+		await page.goto('/signatures/');
+		await page.waitForLoadState('networkidle');
+		await page.getByLabel('NIST on-ramp').uncheck();
+		await expect(page.getByLabel('On-ramp round')).toBeDisabled();
 	});
 
 	test('table has a Programmes column with membership chips', async ({ page }) => {

@@ -7,7 +7,7 @@
 	import BenchmarkEnvInfo from '$lib/components/BenchmarkEnvInfo.svelte';
 	import RoundSelect from '$lib/components/RoundSelect.svelte';
 	import FilterSidebar from '$lib/components/FilterSidebar.svelte';
-	import { filterSummary, presentProgrammeGroups } from '$lib/compareFilters';
+	import { encodeCommonFilters, filterSummary, presentProgrammeGroups } from '$lib/compareFilters';
 	import FilterPanel from '$lib/components/FilterPanel.svelte';
 	import SchemeTable from '$lib/components/SchemeTable.svelte';
 	import ScatterPlot from '$lib/components/ScatterPlot.svelte';
@@ -69,13 +69,20 @@
 			}, 300);
 		});
 
-		// Round changes after load reset filters to that round's defaults. subscribe() fires
+		// Round changes after load keep the common filters (see below). subscribe() fires
 		// synchronously with the current value; the round-equality guard skips that call so
 		// it cannot wipe the URL-applied filters.
 		const unsubRound = roundStore.subscribe((round) => {
 			if (round === currentRound) return;
 			currentRound = round;
-			applyRound(round);
+			// Keep the data-independent filters (programmes, levels, parameter sets, status,
+			// chart) and the sort; scheme and range filters reset to the new round's data.
+			const { store: s, defaults } = getFilterStore();
+			const current = get(s);
+			const carry = new URLSearchParams();
+			encodeCommonFilters(current, defaults, carry);
+			applyRound(round, carry);
+			getFilterStore().store.update((f) => ({ ...f, sortCol: current.sortCol, sortDir: current.sortDir }));
 		});
 
 		return () => {
@@ -93,8 +100,9 @@
 			Post-Quantum Signature Schemes
 		</h1>
 		<p class="mt-2 text-sm text-pqs-steel dark:text-pqs-bluegray">
-			Comparing NIST on-ramp candidates and standardized schemes.
-			Click column headers to sort. Use the filters to narrow down by category, security level, or size constraints.
+			Standardised schemes and candidates from the NIST on-ramp and other standardisation programmes,
+			with pre-quantum schemes for reference. Select column headers to sort; use the filters to narrow
+			by programme, scheme, security level, size or speed.
 		</p>
 		<p class="mt-1.5 text-xs text-pqs-steel/70 dark:text-pqs-bluegray/70">
 			{#if $roundStore === 'latest'}
@@ -108,12 +116,19 @@
 				Schemes may have been updated since; consult the individual scheme websites for current specifications.
 			{/if}
 		</p>
-		<div class="mt-3"><RoundSelect /></div>
+		<p class="mt-1 text-xs text-pqs-steel/70 dark:text-pqs-bluegray/70">
+			The on-ramp round (under Programme in the filters) only selects on-ramp submissions; schemes from
+			other programmes always show their latest specification.
+		</p>
 	</div>
+
+	{#snippet onrampRound(enabled: boolean)}
+		<RoundSelect disabled={!enabled} />
+	{/snippet}
 
 	<div class="flex flex-col gap-6 lg:flex-row lg:gap-8">
 		<FilterSidebar summary={filterSummary($store, $store.schemes.size)}>
-			<FilterPanel {schemes} {categories} {ranges} {groups} />
+			<FilterPanel {schemes} {categories} {ranges} {groups} onramp={onrampRound} />
 		</FilterSidebar>
 
 		<!-- Main content -->
