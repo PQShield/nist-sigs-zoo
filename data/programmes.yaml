@@ -1,0 +1,55 @@
+# Standardisation programmes tracked on the site.
+# Referenced from data/schemes/*.yaml (versions[].programmes) and data/kems/*.yaml (programmes).
+- id: nist-pqc
+  name: NIST post-quantum cryptography standardisation
+  short: NIST
+  organiser: NIST
+  region: United States
+  url: https://csrc.nist.gov/projects/post-quantum-cryptography
+  primitives: [signature, kem]
+  stages:
+    - { id: round-1, label: round 1 }
+    - { id: round-2, label: round 2 }
+    - { id: round-3, label: round 3 }
+    - { id: round-4, label: round 4 }
+    - { id: selected, label: selected }
+    - { id: standardised, label: standard }
+- id: nist-onramp
+  name: Additional digital signature schemes
+  short: On-ramp
+  organiser: NIST
+  region: United States
+  url: https://csrc.nist.gov/projects/pqc-dig-sig
+  primitives: [signature]
+  stages:
+    - { id: round-1, label: round 1 }
+    - { id: round-2, label: round 2 }
+    - { id: round-3, label: round 3 }
+- id: china-ngcc
+  name: Next-generation commercial cryptographic algorithms
+  short: NGCC
+  organiser: ICCS
+  region: China
+  url: https://www.niccs.org.cn/en/
+  primitives: [signature, kem]
+  stages:
+    - { id: round-1, label: round 1 }
+- id: kpqc
+  name: Korean post-quantum cryptography competition
+  short: KpqC
+  organiser: KpqC
+  region: South Korea
+  url: https://kpqc.or.kr
+  primitives: [signature, kem]
+  stages:
+    - { id: round-1, label: round 1 }
+    - { id: round-2, label: round 2 }
+    - { id: selected, label: selected }
+- id: iso
+  name: ISO/IEC 18033-2 amendment
+  short: ISO
+  organiser: ISO/IEC
+  region: International
+  primitives: [kem]
+  stages:
+    - { id: in-progress, label: in progress }

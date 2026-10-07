@@ -61,6 +61,8 @@ export interface VersionYaml {
 	status: string;
 	perf_source?: string;
 	tags?: string[];
+	/** Programme id → stage id, e.g. { 'nist-onramp': 'round-3' } */
+	programmes?: Record<string, string>;
 	notes?: string;
 	broken?: string;
 	warning?: string;
@@ -101,6 +103,8 @@ export interface KemSchemeYaml {
 	category: string;
 	assumption: string;
 	status: string;
+	/** Programme id → stage id, e.g. { 'nist-pqc': 'standardised' } */
+	programmes?: Record<string, string>;
 	broken?: string;
 	warning?: string;
 	info?: string;
@@ -257,4 +261,34 @@ export interface DataRanges {
 	verificationCycles: [number, number];
 	signingUs: [number, number] | null;
 	verificationUs: [number, number] | null;
+}
+
+// Standardisation programmes (data/programmes.yaml)
+
+export interface ProgrammeStageYaml {
+	id: string;
+	label: string;
+}
+
+export interface ProgrammeYaml {
+	id: string;
+	name: string;
+	short: string;
+	organiser: string;
+	region: string;
+	url?: string;
+	primitives: ('signature' | 'kem')[];
+	stages: ProgrammeStageYaml[];
+}
+
+/** One programme a scheme took part in, and how far it got. */
+export interface ProgrammeMembership {
+	programme: string;
+	stage: string;
+}
+
+/** Selects the versions that were at `stage` in `programme`. */
+export interface StageFilter {
+	programme: string;
+	stage: string;
 }
