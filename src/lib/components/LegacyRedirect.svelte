@@ -19,7 +19,7 @@
 </script>
 
 <svelte:head>
-	<title>{title} — {SITE_NAME}</title>
+	<title>{title} · {SITE_NAME}</title>
 	<link rel="canonical" {href} />
 	<!-- No-JS fallback only: the delay lets the JS redirect (which keeps search + hash) win. -->
 	<meta http-equiv="refresh" content="3; url={href}" />

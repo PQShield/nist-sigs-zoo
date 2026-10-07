@@ -10,7 +10,7 @@
 
 <p class="text-sm text-pqs-steel dark:text-pqs-bluegray">
 	Worst recorded finding per candidate, from our data. Full reports:
-	<a href={source.url} target="_blank" rel="noopener noreferrer" class="text-pqs-steel underline hover:text-pqs-apricot dark:text-pqs-apricot">{source.label}</a>.
+	<a href={source.url} target="_blank" rel="noopener noreferrer" class="text-pqs-steel underline hover:text-pqs-apricot dark:text-pqs-apricot">{source.label}<span class="sr-only"> (opens in a new tab)</span></a>.
 </p>
 <div class="mt-3 grid gap-4 md:grid-cols-2">
 	{#each groups as g (g.label)}

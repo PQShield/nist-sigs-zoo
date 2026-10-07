@@ -76,6 +76,7 @@
 							{:else}
 								{url.replace('https://', '')}
 							{/if}
+							<span class="sr-only"> (opens in a new tab)</span>
 						</a>
 					</li>
 				{/each}
@@ -89,7 +90,7 @@
 			href="https://creativecommons.org/licenses/by/4.0/"
 			target="_blank"
 			rel="noopener noreferrer"
-			class="text-pqs-apricot hover:underline">{env.license}</a
+			class="text-pqs-apricot hover:underline">{env.license}<span class="sr-only"> (opens in a new tab)</span></a
 		>
 		&mdash; {env.attribution}
 	</p>

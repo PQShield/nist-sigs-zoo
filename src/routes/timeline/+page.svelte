@@ -70,7 +70,7 @@
 </script>
 
 <svelte:head>
-	<title>Timeline — {SITE_NAME}</title>
+	<title>Timeline · {SITE_NAME}</title>
 </svelte:head>
 
 <div class="mx-auto max-w-screen-lg px-6 py-10">

@@ -156,7 +156,7 @@
 									<strong class="font-heading">{openBadge.title}:</strong>
 									{@html openBadge.html}
 									{#if openBadge.href && /^https?:\/\//.test(openBadge.href)}
-										<a href={openBadge.href} target="_blank" rel="noopener noreferrer">Full findings report</a>
+										<a href={openBadge.href} target="_blank" rel="noopener noreferrer">Full findings report<span class="sr-only"> (opens in a new tab)</span></a>
 									{/if}
 								{/if}
 								</div>

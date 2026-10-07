@@ -13,7 +13,7 @@
 </script>
 
 <svelte:head>
-	<title>{page.name} — {SITE_NAME}</title>
+	<title>{page.name} · {SITE_NAME}</title>
 	<meta name="description" content="{page.name}: parameter sets, sizes, timings, programmes, security flags and history." />
 </svelte:head>
 

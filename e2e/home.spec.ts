@@ -31,3 +31,23 @@ test.describe('Home page', () => {
 		expect(new URL(page.url()).pathname).toBe('/');
 	});
 });
+
+test('page titles use one " · " separator site-wide', async ({ page }) => {
+	for (const [url, title] of [
+		['/schemes/mayo/', 'MAYO · NIST Signatures Zoo'],
+		['/timeline/', 'Timeline · NIST Signatures Zoo'],
+		['/kems/', 'KEMs · NIST Signatures Zoo'],
+		['/signatures/', 'Signatures · NIST Signatures Zoo']
+	]) {
+		await page.goto(url);
+		await expect(page).toHaveTitle(title);
+	}
+});
+
+test('external links announce that they open in a new tab', async ({ page }) => {
+	await page.goto('/kems/');
+	const links = page.locator('a[target="_blank"]');
+	for (const a of await links.all()) {
+		expect(await a.textContent(), await a.getAttribute('href') ?? '').toContain('opens in a new tab');
+	}
+});
