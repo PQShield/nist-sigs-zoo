@@ -56,7 +56,7 @@ describe('signaturePage', () => {
 			slug: 'toy',
 			websiteHost: 'toy.example',
 			latest: { id: '2025-01-01', label: 'v2', date: '2025-01-01' },
-			chips: [{ label: 'On-ramp round 2', tone: 'plain' }],
+			chips: [{ label: 'On-ramp round 2', tone: 'plain', programme: 'nist-onramp' }],
 			findings: { url: 'https://www.ngcc.dev/r.html', host: 'ngcc.dev' }
 		});
 		expect(page.options.map((o) => o.id)).toEqual(['2025-01-01', '2024-01-01']);
@@ -92,7 +92,7 @@ describe('kemPage', () => {
 	it('has programmes, status, an NGCC-scale table and no versions', () => {
 		expect(page).toMatchObject({ primitive: 'kem', slug: 'toykem', status: 'Research proposal', websiteHost: null, findings: null });
 		expect(page).not.toHaveProperty('versions');
-		expect(page.chips).toEqual([{ label: 'NGCC round 1', tone: 'new' }]);
+		expect(page.chips).toEqual([{ label: 'NGCC round 1', tone: 'new', programme: 'china-ngcc' }]);
 		expect(page.table.headers).toEqual(['pk (B)', 'ct (B)', 'pk+ct (B)', 'Keygen', 'Encaps', 'Decaps']);
 		expect(page.table.rows[0].level).toBe('128-bit');
 		expect(page.table.rows[0].cells.slice(3).map((c) => c.kind)).toEqual(['missing', 'missing', 'missing']);

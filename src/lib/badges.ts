@@ -52,6 +52,8 @@ export type ChipTone = 'standard' | 'new' | 'plain';
 export interface Chip {
 	label: string;
 	tone: ChipTone;
+	/** Programme id for membership chips (not the standard chip); lets pages link to /programmes/<id>/. */
+	programme?: string;
 }
 
 /**
@@ -73,7 +75,11 @@ export function programmeChips(
 	}
 	for (const m of row.programmes) {
 		if (standardShown && m.programme === STANDARDS_PROGRAMME) continue;
-		chips.push({ label: membershipLabel(m, registry), tone: m.programme === 'china-ngcc' ? 'new' : 'plain' });
+		chips.push({
+			label: membershipLabel(m, registry),
+			tone: m.programme === 'china-ngcc' ? 'new' : 'plain',
+			programme: m.programme
+		});
 	}
 	if (chips.length === 0) {
 		chips.push({ label: row.status === 'Classic cryptography' ? 'Classic' : 'Research', tone: 'plain' });
