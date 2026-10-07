@@ -116,8 +116,9 @@ Types: `update` (spec/data change), `attack` (new cryptanalysis result), `milest
 ### KEMs
 
 `data/kems/*.yaml` — one YAML file per KEM, source of truth for the standalone KEM
-comparison at `/kems/`. This is a **one-off** page, not tied to a NIST round: no version
-history, no round stages. Carries sizes (pk, ct) and benchmark timings.
+comparison at `/kems/`. A single-snapshot page: no version history, but each KEM carries
+scheme-level `programmes` memberships (programme -> stage, scalar or list; the last stage
+is reported). Carries sizes (pk, ct) and benchmark timings.
 
 ```yaml
 name: ML-KEM
@@ -193,11 +194,13 @@ src/
 │       ├── RangeField.svelte     # reusable number input
 │       ├── SchemeTable.svelte    # sortable table (one row per parameter set)
 │       ├── ScatterPlot.svelte    # Vega-Lite scatter plot; accepts xField/yField/xScale/yScale props
+│       ├── RoundSelect.svelte    # "Dataset" <select> on /signatures/, writes roundStore
+│       ├── LegacyRedirect.svelte # redirect stub body (meta refresh fallback + JS redirect keeping search/hash)
 │       ├── KemTable.svelte       # KEM size table (rows prop, local sort)
 │       ├── KemScatterPlot.svelte # KEM pk-vs-ct Vega-Lite scatter (rows prop)
 │       └── KemFilterPanel.svelte # KEM scheme/level/size filters (bind:filter)
 └── routes/
-    ├── +layout.svelte    # nav (logo, round selector, Signatures/KEMs/History links, dark toggle), footer
+    ├── +layout.svelte    # nav (logo, Signatures, KEMs, Timeline, Contribute, theme toggle; no round selector), footer
     ├── +page.ts          # load: programme summaries, scheme/KEM counts, 3 latest history entries
     ├── +page.svelte      # home: hero, programme table, latest changes; forwards legacy /?filters links (legacyHomeRedirect)
     ├── signatures/
@@ -229,7 +232,9 @@ tests/
 
 `processYamlSchemes(allSchemeData, filter?, { useLatestVersion })` in `src/lib/data.ts`, where
 `filter` is a `StageFilter` (`{ programme, stage }`, e.g. `{ programme: 'nist-onramp', stage: 'round-2' }`):
-- With a filter: picks the latest version whose `programmes[filter.programme] === filter.stage`.
+- With a filter: picks the latest version whose normalised stage list for `filter.programme`
+  `includes(filter.stage)` (a version spanning several stages uses list form, e.g. HAWK v1.1
+  `nist-onramp: [round-2, round-3]`).
 - Fallback: reference schemes (see `isReferenceScheme()` in `src/lib/programmes.ts`: only `nist-pqc`
   memberships or none, e.g. ML-DSA) are always included.
 - Schemes that have other memberships but none matching the filter are excluded.
@@ -249,12 +254,12 @@ Round encoded as `?r=1` for round-1, `?r=2` for round-2. No param = latest (defa
 
 ### Round Selector
 
-Nav shows Latest / Round 2 / Round 1 toggle (only on home page). Clicking updates `roundStore`,
-which triggers `applyRound()` in `+page.svelte`, which calls `createFilterStore()` with new data.
+`RoundSelect.svelte` is a "Dataset" `<select>` on `/signatures/` (not in the nav). Choosing a value
+updates `roundStore`, which triggers `applyRound()` in `signatures/+page.svelte`, which calls `createFilterStore()` with new data.
 
 ### Latest View
 
-"Latest" (default) and "Round 3" both use `tagFilter='round-3'` with `useLatestVersion=true`.
+"Latest" (default) and "Round 3" both use `roundToFilter()` -> `StageFilter { programme: 'nist-onramp', stage: 'round-3' }` with `useLatestVersion=true`.
 Inclusion: scheme must have at least one version with `nist-onramp: round-3` (or be a reference
 scheme). Data shown: `sorted[0]` (newest version by date, regardless of programmes).
 `roundToFilter()` in `src/lib/roundStore.ts` maps a round to its filter.

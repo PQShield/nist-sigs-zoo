@@ -22,7 +22,7 @@ test.describe('Signatures page', () => {
 		await expect(page.locator('section h2').first()).toContainText('pk size vs. sig size');
 	});
 
-	test('"Advanced graph →" link is present and points to /advanced/', async ({ page }) => {
+	test('"Advanced graph →" link is present and points to /signatures/advanced/', async ({ page }) => {
 		await page.goto('/signatures/');
 		const link = page.getByRole('link', { name: 'Advanced graph →' });
 		await expect(link).toBeVisible();

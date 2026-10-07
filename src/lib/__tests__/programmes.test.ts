@@ -4,13 +4,14 @@ import {
 	schemeProgrammes,
 	isReferenceScheme,
 	membershipLabel,
-	programmeSummaries
+	programmeSummaries,
+	summariseGroups
 } from '$lib/programmes';
 import type { KemSchemeYaml, ProgrammeYaml, SchemeYaml, VersionYaml } from '$lib/types';
 
 const PROGRAMMES: ProgrammeYaml[] = [
 	{ id: 'nist-pqc', name: 'NIST PQC', short: 'NIST', organiser: 'NIST', region: 'US', primitives: ['signature', 'kem'],
-	  stages: [{ id: 'standardised', label: 'standard' }, { id: 'round-3', label: 'round 3' }] },
+	  stages: [{ id: 'round-3', label: 'round 3' }, { id: 'standardised', label: 'standard' }] },
 	{ id: 'nist-onramp', name: 'On-ramp', short: 'On-ramp', organiser: 'NIST', region: 'US', primitives: ['signature'],
 	  stages: [{ id: 'round-1', label: 'round 1' }, { id: 'round-3', label: 'round 3' }] },
 	{ id: 'kpqc', name: 'KpqC', short: 'KpqC', organiser: 'KpqC', region: 'KR', primitives: ['signature', 'kem'],
@@ -59,7 +60,7 @@ describe('schemeProgrammes', () => {
 	});
 	it('kems without programmes resolve to an empty list', () => {
 		const kems: KemSchemeYaml[] = [{ name: 'BAT', website: '', category: 'Lattices', assumption: '', status: '', parametersets: [] }];
-		expect(programmeSummaries(PROGRAMMES, [], kems).every((s) => s.kems.length === 0)).toBe(true);
+		expect(programmeSummaries(PROGRAMMES, [], kems).every((s) => s.kems.length === 0 && s.signatures.length === 0)).toBe(true);
 	});
 });
 
@@ -101,7 +102,40 @@ describe('programmeSummaries', () => {
 			{ name: 'SMAUG-T', website: '', category: 'Lattices', assumption: '', status: '', programmes: { kpqc: 'selected' }, parametersets: [] }
 		];
 		const kpqc = programmeSummaries(PROGRAMMES, sigs, kems).find((s) => s.programme.id === 'kpqc')!;
-		expect(kpqc.signatures).toEqual(['AIMer', 'HAETAE']);
-		expect(kpqc.kems).toEqual(['SMAUG-T']);
+		expect(kpqc.signatures.map((g) => [g.stage.id, g.schemes])).toEqual([['selected', ['AIMer', 'HAETAE']]]);
+		expect(kpqc.kems.map((g) => [g.stage.id, g.schemes])).toEqual([['selected', ['SMAUG-T']]]);
+		const onramp = programmeSummaries(PROGRAMMES, sigs, kems).find((s) => s.programme.id === 'nist-onramp')!;
+		expect(onramp.signatures.map((g) => [g.stage.id, g.schemes])).toEqual([
+			['round-3', ['MAYO']],
+			['round-1', ['AIMer', 'HAETAE']]
+		]);
+	});
+	it('groups KEMs by last stage of a list, most advanced stage first', () => {
+		const kems: KemSchemeYaml[] = [
+			{ name: 'ML-KEM', website: '', category: 'Lattices', assumption: '', status: '', programmes: { 'nist-pqc': 'standardised' }, parametersets: [] },
+			{ name: 'BIKE', website: '', category: 'Code', assumption: '', status: '', programmes: { 'nist-pqc': ['round-3', 'round-3'] }, parametersets: [] }
+		];
+		const nist = programmeSummaries(PROGRAMMES, [], kems).find((s) => s.programme.id === 'nist-pqc')!;
+		expect(nist.kems.map((g) => [g.stage.id, g.schemes])).toEqual([
+			['standardised', ['ML-KEM']],
+			['round-3', ['BIKE']]
+		]);
+	});
+});
+
+describe('summariseGroups', () => {
+	const g = (id: string, n: number) => ({ stage: { id, label: id.replace('-', ' ') }, schemes: Array.from({ length: n }, (_, i) => `${id}-${i}`) });
+	it('lists only the highest round in full (on-ramp style)', () => {
+		const r = summariseGroups([g('round-3', 2), g('round-2', 1), g('round-1', 3)]);
+		expect(r.full.map((x) => x.stage.id)).toEqual(['round-3']);
+		expect(r.ended.map((e) => [e.stage.id, e.count])).toEqual([['round-2', 1], ['round-1', 3]]);
+	});
+	it('keeps non-round stages in full (NIST KEM style)', () => {
+		const r = summariseGroups([g('standardised', 1), g('selected', 1), g('round-4', 3), g('round-3', 5)]);
+		expect(r.full.map((x) => x.stage.id)).toEqual(['standardised', 'selected', 'round-4']);
+		expect(r.ended.map((e) => [e.stage.id, e.count])).toEqual([['round-3', 5]]);
+	});
+	it('is empty for no groups', () => {
+		expect(summariseGroups([])).toEqual({ full: [], ended: [] });
 	});
 });

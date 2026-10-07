@@ -52,10 +52,35 @@ export function membershipLabel(m: ProgrammeMembership, programmes: ProgrammeYam
 	return `${programme.short} ${stage.label}`;
 }
 
+import type { ProgrammeStageYaml } from './types';
+
+export interface StageGroup {
+	stage: ProgrammeStageYaml;
+	/** Scheme names, sorted. */
+	schemes: string[];
+}
+
 export interface ProgrammeSummary {
 	programme: ProgrammeYaml;
-	signatures: string[];
-	kems: string[];
+	signatures: StageGroup[];
+	kems: StageGroup[];
+}
+
+/** Group scheme names by stage; most advanced (last registry stage) first, empty groups omitted. */
+function groupByStage(
+	programme: ProgrammeYaml,
+	members: { name: string; stage: string | undefined }[]
+): StageGroup[] {
+	return [...programme.stages]
+		.reverse()
+		.map((stage) => ({
+			stage,
+			schemes: members
+				.filter((m) => m.stage === stage.id)
+				.map((m) => m.name)
+				.sort((a, b) => a.localeCompare(b))
+		}))
+		.filter((g) => g.schemes.length > 0);
 }
 
 export function programmeSummaries(
@@ -65,13 +90,41 @@ export function programmeSummaries(
 ): ProgrammeSummary[] {
 	return programmes.map((programme) => ({
 		programme,
-		signatures: sigs
-			.filter((s) => schemeProgrammes(s.versions).some((m) => m.programme === programme.id))
-			.map((s) => s.name)
-			.sort((a, b) => a.localeCompare(b)),
-		kems: kems
-			.filter((k) => programme.id in (k.programmes ?? {}))
-			.map((k) => k.name)
-			.sort((a, b) => a.localeCompare(b))
+		signatures: groupByStage(
+			programme,
+			sigs.map((s) => ({
+				name: s.name,
+				stage: schemeProgrammes(s.versions).find((m) => m.programme === programme.id)?.stage
+			}))
+		),
+		kems: groupByStage(
+			programme,
+			kems.map((k) => {
+				const stages = k.programmes?.[programme.id];
+				return { name: k.name, stage: stages === undefined ? undefined : lastStage(stages) };
+			})
+		)
 	}));
+}
+
+const ROUND = /^round-(\d+)$/;
+
+/**
+ * Collapse a cell's groups (most advanced first): non-round stages and the highest round
+ * are listed in full; lower rounds are reduced to a count of schemes that ended there.
+ */
+export function summariseGroups(groups: StageGroup[]): {
+	full: StageGroup[];
+	ended: { stage: ProgrammeStageYaml; count: number }[];
+} {
+	const roundNo = (g: StageGroup) => Number(ROUND.exec(g.stage.id)?.[1] ?? NaN);
+	const top = Math.max(...groups.map(roundNo).filter((n) => !Number.isNaN(n)));
+	const full: StageGroup[] = [];
+	const ended: { stage: ProgrammeStageYaml; count: number }[] = [];
+	for (const g of groups) {
+		const n = roundNo(g);
+		if (Number.isNaN(n) || n === top) full.push(g);
+		else ended.push({ stage: g.stage, count: g.schemes.length });
+	}
+	return { full, ended };
 }

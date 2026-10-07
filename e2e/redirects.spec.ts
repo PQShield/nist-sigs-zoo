@@ -13,6 +13,16 @@ test.describe('Legacy URLs', () => {
 		await expect(page.locator('h1')).toHaveText('Advanced Graph');
 	});
 
+	test('/advanced/ keeps its params even when the JS bundle loads slowly', async ({ page }) => {
+		await page.route('**/_app/**', async (route) => {
+			await new Promise((r) => setTimeout(r, 1500));
+			await route.continue();
+		});
+		await page.goto('/advanced/?x=pkPlusSig&ys=linear');
+		await page.waitForURL(/\/signatures\/advanced\/\?x=pkPlusSig&ys=linear$/, { timeout: 15_000 });
+		expect(page.url()).toMatch(/\/signatures\/advanced\/\?x=pkPlusSig&ys=linear$/);
+	});
+
 	test('/history/ moves to /timeline/', async ({ page }) => {
 		await page.goto('/history/');
 		await page.waitForURL(/\/timeline\/$/, { timeout: 15_000 });

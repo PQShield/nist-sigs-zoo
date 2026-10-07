@@ -12,7 +12,7 @@ import { lastStage } from './programmes';
 /**
  * Flatten KEM YAML into schemes + parameter-set rows.
  *
- * A one-off size + performance comparison: no versions, no round tags. Security
+ * A one-off size + performance comparison: no versions (programme memberships live at scheme level). Security
  * flags (broken/warning/info) may be set at scheme level and overridden per
  * parameter set. Benchmark fields (keygen/encaps/decaps) are optional.
  */

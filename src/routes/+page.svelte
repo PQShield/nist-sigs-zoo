@@ -4,6 +4,7 @@
 	import { legacyHomeRedirect } from '$lib/legacy';
 	import { SITE_NAME } from '$lib/constants';
 	import { lastUpdated } from '$lib/schemeData';
+	import { summariseGroups, type StageGroup } from '$lib/programmes';
 	import type { PageData } from './$types';
 
 	let { data }: { data: PageData } = $props();
@@ -13,8 +14,22 @@
 		if (target) location.replace(target);
 	});
 
-	const list = (xs: string[]) => (xs.length ? xs.join(', ') : '—');
+	const cap = (t: string) => t.charAt(0).toUpperCase() + t.slice(1);
 </script>
+
+{#snippet cell(groups: StageGroup[])}
+	{#if groups.length === 0}
+		—
+	{:else}
+		{@const { full, ended } = summariseGroups(groups)}
+		{#each full as g (g.stage.id)}
+			<p><span class="font-semibold">{cap(g.stage.label)}:</span> {g.schemes.join(', ')}</p>
+		{/each}
+		{#each ended as e (e.stage.id)}
+			<p class="text-xs text-pqs-steel dark:text-pqs-bluegray">Ended in {e.stage.id.replace('round-', 'round ')}: {e.count} {e.count === 1 ? 'scheme' : 'schemes'}</p>
+		{/each}
+	{/if}
+{/snippet}
 
 <svelte:head>
 	<title>{SITE_NAME}</title>
@@ -59,10 +74,10 @@
 						<tr>
 							<td class="px-3 py-2">
 								<span class="font-heading font-semibold">{s.programme.name}</span>
-								<span class="block text-xs text-pqs-steel dark:text-pqs-bluegray">{s.programme.short} · {s.programme.organiser} · {s.programme.region}</span>
+								<span class="block text-xs text-pqs-steel dark:text-pqs-bluegray">{[s.programme.short, ...(s.programme.organiser === s.programme.short ? [] : [s.programme.organiser]), s.programme.region].join(' · ')}</span>
 							</td>
-							<td class="px-3 py-2">{s.programme.primitives.includes('signature') ? list(s.signatures) : 'Not in scope'}</td>
-							<td class="px-3 py-2">{s.programme.primitives.includes('kem') ? list(s.kems) : 'Not in scope'}</td>
+							<td class="px-3 py-2">{#if s.programme.primitives.includes('signature')}{@render cell(s.signatures)}{:else}Not in scope{/if}</td>
+							<td class="px-3 py-2">{#if s.programme.primitives.includes('kem')}{@render cell(s.kems)}{:else}Not in scope{/if}</td>
 						</tr>
 					{/each}
 				</tbody>
