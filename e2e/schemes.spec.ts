@@ -164,3 +164,17 @@ test.describe('Links to scheme pages', () => {
 		await expect(page.locator('h1')).toHaveText('ML-KEM', { timeout: 15_000 });
 	});
 });
+
+test.describe('Chart points open scheme pages', () => {
+	for (const route of ['/signatures/', '/kems/', '/programmes/iso/']) {
+		test(`clicking a point on ${route} opens a scheme page`, async ({ page }) => {
+			await page.goto(route);
+			await page.waitForFunction(() => document.querySelector('.mark-symbol path') !== null, { timeout: 15_000 });
+			await page.waitForLoadState('networkidle');
+			// Any point will do: overlapping marks all carry an href.
+			await page.locator('.mark-symbol path').first().click({ force: true });
+			await expect(page).toHaveURL(/\/schemes\/[a-z0-9-]+\/$/, { timeout: 15_000 });
+			await expect(page.locator('h1')).not.toBeEmpty();
+		});
+	}
+});

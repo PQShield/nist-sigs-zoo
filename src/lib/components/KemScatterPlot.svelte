@@ -1,4 +1,9 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
+	import { base } from '$app/paths';
+	import { chartClickHref, type Point } from '$lib/chartNav';
+	import { slugOf } from '$lib/schemeIndex';
+	import { schemeHref } from '$lib/slugs';
 	import { onMount } from 'svelte';
 	import { themeStore } from '$lib/themeStore';
 	import { stripHtml } from '$lib/html';
@@ -108,11 +113,13 @@
 					{ label: 'Encapsulation', us: d.encapsUs, cycles: d.encapsCycles },
 					{ label: 'Decapsulation', us: d.decapsUs, cycles: d.decapsCycles }
 				]),
-				...(notes ? { Notes: notes } : {})
+				...(notes ? { Notes: notes } : {}),
+				'Scheme page': 'click the point'
 			};
 
 			return {
 				scheme: d.scheme,
+				href: schemeHref(base, slugOf(d.scheme)),
 				parameterset: d.parameterset,
 				pk: d.pk,
 				ct: d.ct,
@@ -155,7 +162,7 @@
 							bind: 'scales'
 						}
 					],
-					mark: { type: 'point', filled: true, size: 120 },
+					mark: { type: 'point', filled: true, size: 120, cursor: 'pointer' },
 					encoding: {
 						size: {
 							condition: { test: `datum.family === '${STANDARDISED}'`, value: 200 },
@@ -172,12 +179,12 @@
 				},
 				{
 					transform: [{ filter: "datum.security === 'broken'" }],
-					mark: { type: 'point', filled: false, shape: 'circle', size: 140, strokeWidth: 2 },
+					mark: { type: 'point', filled: false, shape: 'circle', size: 140, strokeWidth: 2, cursor: 'pointer' },
 					encoding: { color: { value: RINGS.broken[tone] } }
 				},
 				{
 					transform: [{ filter: "datum.security === 'warning'" }],
-					mark: { type: 'point', filled: false, shape: 'circle', size: 140, strokeWidth: 2 },
+					mark: { type: 'point', filled: false, shape: 'circle', size: 140, strokeWidth: 2, cursor: 'pointer' },
 					encoding: { color: { value: RINGS.warning[tone] } }
 				}
 			],
@@ -211,7 +218,18 @@
 
 		viewHandle?.finalize();
 		viewHandle = null;
-		viewHandle = await embed(container, spec, { actions: false, renderer: 'svg' });
+		const result = await embed(container, spec, { actions: false, renderer: 'svg' });
+		viewHandle = result;
+		let down: Point | null = null;
+		result.view.addEventListener('mousedown', (event) => {
+			const e = event as MouseEvent;
+			down = { x: e.clientX, y: e.clientY };
+		});
+		result.view.addEventListener('click', (event, item) => {
+			const e = event as MouseEvent;
+			const href = chartClickHref(item?.datum, down, { x: e.clientX, y: e.clientY });
+			if (href) goto(href);
+		});
 	}
 
 	onMount(() => {
