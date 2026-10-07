@@ -55,6 +55,37 @@ def instance_name(api_dir: Path, kind: str) -> str | None:
     return None
 
 
+KAT_SUFFIXES = (".txt", ".rsp", ".req", ".kat")
+IMPL_WORDS = ("reference", "optimized", "optimised", "avx2", "ref", "opt", "x86")
+ROMAN = {"i": "1", "ii": "2", "iii": "3", "iv": "4", "v": "5"}
+
+
+def norm(text: str) -> str:
+    """Lower-case, roman-numeral tail to digit, drop everything non-alphanumeric."""
+    t = text.lower().replace("+", "")
+    t = re.sub(r"(?<=[-_ ])(iii|ii|iv|i|v)$", lambda m: ROMAN[m.group(1)], t)
+    return re.sub(r"[^a-z0-9]+", "", t)
+
+
+def kat_stem(path: Path, kind: str) -> str | None:
+    """Return the instance part of a KAT file name, or None if it is not a KAT file.
+
+    Accepts KAT_SIG_<inst>.txt / KAT_KEM_<inst>.txt (any case) and the NIST-style
+    PQCsignKAT_<inst>.rsp / PQCkemKAT_<inst>.rsp (+ .req).
+    """
+    name = path.name
+    low = name.lower()
+    if not low.endswith(KAT_SUFFIXES):
+        return None
+    for prefix in (f"kat_{kind}_", f"pqc{'sign' if kind == 'sig' else kind}kat_"):
+        if low.startswith(prefix):
+            stem = name[len(prefix) :]
+            while stem.lower().endswith(KAT_SUFFIXES):  # also handles ".txt.txt"
+                stem = stem.rsplit(".", 1)[0]
+            return stem
+    return None
+
+
 def best_kat(kats: list[Path], srcdir: Path) -> Path | None:
     def shared(p: Path) -> int:
         n = 0
@@ -64,13 +95,55 @@ def best_kat(kats: list[Path], srcdir: Path) -> Path | None:
             n += 1
         return n
 
-    return min(kats, key=lambda p: (-shared(p), str(p))) if kats else None
+    def same_impl(p: Path) -> bool:
+        return impl_of(p.parent.as_posix()) == impl_of(srcdir.as_posix())
+
+    return (
+        min(kats, key=lambda p: (-shared(p), not same_impl(p), str(p)))
+        if kats
+        else None
+    )
+
+
+def match_kat(
+    kats: list[tuple[str, Path]], keys: list[str], srcdir: Path, impl_words: list[str]
+) -> Path | None:
+    """Map an instance to a KAT file if exactly one distinct KAT name fits.
+
+    `keys` are candidate instance names in priority order (declared instance name,
+    then source-dir names). Per key the tiers are: exact stem, normalised stem,
+    normalised stem ignoring an `_iccs` marker, then key plus an implementation word
+    (e.g. OPSsig-128 -> OPSsig-128-avx2). The first key/tier with a match decides;
+    if it matches several distinct KAT names it is ambiguous and yields None.
+    Same-named files in different directories are told apart by path proximity.
+    """
+
+    def no_iccs(stem: str) -> str:
+        return norm(re.sub(r"[-_]?iccs$", "", stem, flags=re.IGNORECASE))
+
+    for key in keys:
+        nk = norm(key)
+        tiers = [
+            lambda stem, key=key, nk=nk: stem == key,
+            lambda stem, key=key, nk=nk: norm(stem) == nk,
+            lambda stem, key=key, nk=nk: no_iccs(stem) == nk,
+            lambda stem, key=key, nk=nk: any(norm(stem) == nk + w for w in impl_words),
+        ]
+        for tier in tiers:
+            hit = [p for stem, p in kats if tier(stem)]
+            if hit:
+                if len({p.name.lower() for p in hit}) == 1:
+                    return best_kat(hit, srcdir)
+                break  # ambiguous for this key: try the next key
+    return None
 
 
 def find_instances(cand_root: Path, cand_id: str, kind: str) -> list[dict]:
-    kats: dict[str, list[Path]] = {}
-    for p in sorted(cand_root.rglob(f"KAT_{kind.upper()}_*.txt")):
-        kats.setdefault(p.name, []).append(p)
+    kats = [
+        (stem, p)
+        for p in sorted(cand_root.rglob("*"))
+        if p.is_file() and (stem := kat_stem(p, kind)) is not None
+    ]
     rows = []
     for api in sorted(cand_root.rglob("*.c")):
         if not API_DEF[kind].search(api.read_text(errors="replace")):
@@ -87,7 +160,17 @@ def find_instances(cand_root: Path, cand_id: str, kind: str) -> list[dict]:
             ]
             incs = api_dir.name
         rel_src = srcdir.relative_to(cand_root).as_posix()
-        kat = best_kat(kats.get(f"KAT_{kind.upper()}_{instance}.txt", []), srcdir)
+        keys = [
+            instance,
+            *[q.name for q in (srcdir, *srcdir.parents) if q != cand_root][:3],
+        ]
+        words = [
+            w for w in IMPL_WORDS for part in srcdir.relative_to(cand_root).parts
+            if w in part.lower()
+        ]  # fmt: skip
+        kat = match_kat(
+            kats, list(dict.fromkeys(keys)), srcdir, list(dict.fromkeys(words))
+        )
         rows.append(
             {
                 "file": slug(f"{cand_id}_{instance}"),
