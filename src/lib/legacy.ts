@@ -1,6 +1,6 @@
-/** Query keys of the pre-reorganisation signature page (filterStore.ts URL codec + round). */
+/** Query keys of the signature page's URL codec (filterStore.ts + compareFilters.ts) and round. */
 export const SIGNATURE_PARAMS = [
-	'r', 's', 'l',
+	'r', 's', 'l', 'nl', 'p', 'ps', 'hb', 'hi', 'hw', 'v',
 	'pkMin', 'pkMax', 'sigMin', 'sigMax', 'psMin', 'psMax',
 	'scMin', 'scMax', 'vcMin', 'vcMax', 'suMin', 'suMax', 'vuMin', 'vuMax',
 	'sort', 'dir'

@@ -1,15 +1,22 @@
 import { derived, writable } from 'svelte/store';
 import type { Readable, Writable } from 'svelte/store';
-import type { DataRanges, FilterState, NistLevel, ParameterSet, SortableColumn } from './types';
+import type { DataRanges, FilterState, ParameterSet, ProgrammeGroup, SortableColumn } from './types';
 import { CYCLES_PER_US } from './constants';
+import {
+	decodeCommonFilters,
+	defaultCommonFilter,
+	encodeCommonFilters,
+	passesCommonFilters,
+	presentProgrammeGroups
+} from './compareFilters';
 
 const DEFAULT_SORT_COL: SortableColumn = 'scheme';
 const DEFAULT_SORT_DIR = 'asc' as const;
 
-function defaultFilter(ranges: DataRanges, allSchemes: Set<string>): FilterState {
+function defaultFilter(ranges: DataRanges, allSchemes: Set<string>, groups: ProgrammeGroup[]): FilterState {
 	return {
+		...defaultCommonFilter(groups),
 		schemes: new Set(allSchemes),
-		levels: new Set(['Pre-Quantum', 1, 2, 3, 4, 5] as NistLevel[]),
 		minPk: ranges.pk[0],
 		maxPk: ranges.pk[1],
 		minSig: ranges.sig[0],
@@ -37,13 +44,6 @@ function applyUrlParams(state: FilterState, params: URLSearchParams): FilterStat
 		s.schemes = new Set(schemesParam.split(',').map(decodeURIComponent));
 	}
 
-	const levelsParam = params.get('l');
-	if (levelsParam) {
-		s.levels = new Set(
-			levelsParam.split(',').map((v) => (v === 'PQ' ? 'Pre-Quantum' : Number(v))) as NistLevel[]
-		);
-	}
-
 	if (params.has('pkMin')) s.minPk = Number(params.get('pkMin'));
 	if (params.has('pkMax')) s.maxPk = Number(params.get('pkMax'));
 	if (params.has('sigMin')) s.minSig = Number(params.get('sigMin'));
@@ -64,7 +64,7 @@ function applyUrlParams(state: FilterState, params: URLSearchParams): FilterStat
 	const dirParam = params.get('dir');
 	if (dirParam === 'asc' || dirParam === 'desc') s.sortDir = dirParam;
 
-	return s;
+	return { ...s, ...decodeCommonFilters(s, params) };
 }
 
 export function buildUrlParams(state: FilterState, defaults: FilterState): URLSearchParams {
@@ -75,16 +75,7 @@ export function buildUrlParams(state: FilterState, defaults: FilterState): URLSe
 		params.set('s', [...state.schemes].map(encodeURIComponent).join(','));
 	}
 
-	const allLevels = defaults.levels;
-	if (
-		state.levels.size !== allLevels.size ||
-		![...state.levels].every((l) => allLevels.has(l))
-	) {
-		params.set(
-			'l',
-			[...state.levels].map((l) => (l === 'Pre-Quantum' ? 'PQ' : String(l))).join(',')
-		);
-	}
+	encodeCommonFilters(state, defaults, params);
 
 	if (state.minPk !== defaults.minPk) params.set('pkMin', String(state.minPk));
 	if (state.maxPk !== defaults.maxPk) params.set('pkMax', String(state.maxPk));
@@ -166,7 +157,7 @@ export function createFilterStore(
 	urlParams: URLSearchParams
 ) {
 	const allSchemes = new Set(allRows.map((r) => r.scheme));
-	const defaults = defaultFilter(ranges, allSchemes);
+	const defaults = defaultFilter(ranges, allSchemes, presentProgrammeGroups(allRows));
 	const initial = applyUrlParams(defaults, urlParams);
 
 	_defaults = defaults;
@@ -178,7 +169,7 @@ export function createFilterStore(
 			return $rows
 				.filter((row) => {
 					if (!$state.schemes.has(row.scheme)) return false;
-					if (row.level === null || !$state.levels.has(row.level)) return false;
+					if (!passesCommonFilters(row, $state)) return false;
 					if (row.pk < $state.minPk || row.pk > $state.maxPk) return false;
 					if (row.sig < $state.minSig || row.sig > $state.maxSig) return false;
 					if (row.pkPlusSig < $state.minPkPlusSig || row.pkPlusSig > $state.maxPkPlusSig)

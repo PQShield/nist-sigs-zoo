@@ -255,9 +255,8 @@ export type SortableColumn =
 	| 'signingUs'
 	| 'verificationUs';
 
-export interface FilterState {
+export interface FilterState extends CommonFilter {
 	schemes: Set<string>;
-	levels: Set<NistLevel>;
 	minPk: number;
 	maxPk: number;
 	minSig: number;
