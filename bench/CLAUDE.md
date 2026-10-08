@@ -241,6 +241,11 @@ through `scripts/ngcc-run`; see "Running NGCC candidates" below.
   clashes can be renamed away (`-Dcrypto_sign_keypair=cand_crypto_sign_keypair`).
 - Never edit extracted sources or run candidates' build systems: fixes are copies in
   `schemes/ngcc/patches/<id>/` with a `/* PATCH (nist-sigs-zoo): why */` header.
+- Fix a candidate's bugs in its own wrapper (the submitted ICCS adapter, e.g.
+  `SIG_AlgorithmInstance.c`, patched as above), not in the harness: the shim template,
+  `ngcc_kat`, `status.py` and `kat_compare` stay generic and never special-case a candidate,
+  so they keep catching real defects in others. Record each such patch in the
+  `params.tsv` comment and link the corresponding item in `docs/ngcc-submission-bugs.md`.
 - Optimised x86 builds: a row is `impl=opt` only where the submitted `Optimized_Implementation`
   (avx2/asm) builds here, reproduces the submitted KAT (`status.tsv` `PASS`) and gives the same
   pk/sk/sig sizes as the reference build (`ngcc_sizes.tsv` stays identical). Everything else keeps its
