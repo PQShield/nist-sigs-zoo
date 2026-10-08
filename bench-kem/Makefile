@@ -78,7 +78,7 @@ ifeq ($(NGCC_BUILD),1)
 	@if [ -f $(NGCC_DIR)/build/built.list ]; then sed 's/.*/"&",/' $(NGCC_DIR)/build/built.list >> $@; fi
 endif
 
-$(BUILD)/main.o: main.c harness.h ../bench-common/harness_common.h loader.h scheme.h $(BUILD)/so_paths.h | $(BUILD)
+$(BUILD)/main.o: main.c harness.h ../bench-common/harness_common.h ../bench-common/isolate.h loader.h scheme.h $(BUILD)/so_paths.h | $(BUILD)
 	$(CC) $(CFLAGS) -I$(BUILD) -c $< -o $@
 
 $(BUILD)/loader.o: loader.c loader.h scheme.h | $(BUILD)

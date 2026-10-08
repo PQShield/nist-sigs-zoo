@@ -9,6 +9,8 @@
 
 #define BENCH_FMT "%-26s  %6d  %14" PRIu64 "  %10.1f  %14" PRIu64 "  %10.1f  %14" PRIu64 "  %10.1f\n"
 #define BENCH_HDR "%-26s  %6s  %14s  %10s  %14s  %10s  %14s  %10s\n"
+/* DNF row: the six timing columns read "DNF", followed by a one-word reason. */
+#define BENCH_DNF_FMT "%-26s  %6s  %14s  %10s  %14s  %10s  %14s  %10s  %s\n"
 
 static void bench_print_header(void) {
     printf(BENCH_HDR,
@@ -24,17 +26,30 @@ static void bench_print_header(void) {
     fflush(stdout);
 }
 
-/* Returns 0 on success, 1 if the scheme failed a correctness check (in which
- * case no results row is printed, so a broken build can't be imported). */
-static int bench_run(const bench_scheme_t *s) {
-    int failed = 1;
-    /* BENCH_ITER env var overrides per-scheme iters and compile-time default */
-    static int env_n = -1;
-    if (env_n < 0) {
-        const char *e = getenv("BENCH_ITER");
-        env_n = (e && atoi(e) > 0) ? atoi(e) : 0;
-    }
-    int      n    = env_n > 0 ? env_n : (s->iters > 0 ? s->iters : BENCH_ITER);
+/* A scheme that did not finish: crashed, timed out or failed a correctness check. */
+static void bench_print_dnf(const char *name, int iters, const char *reason) {
+    char it[16] = "-";
+    if (iters > 0) snprintf(it, sizeof it, "%d", iters);
+    printf(BENCH_DNF_FMT, name, it, "DNF", "DNF", "DNF", "DNF", "DNF", "DNF", reason);
+    fflush(stdout);
+    fprintf(stderr, "DNF %s: %s\n", name, reason);
+}
+
+/* Iteration count: BENCH_ITER env var, else the per-scheme override, else the
+ * compile-time default. */
+static int bench_iters(const bench_scheme_t *s) {
+    const char *e = getenv("BENCH_ITER");
+    int env_n = (e && atoi(e) > 0) ? atoi(e) : 0;
+    return env_n > 0 ? env_n : (s->iters > 0 ? s->iters : BENCH_ITER);
+}
+
+/* Benchmark one scheme and write its results row, prefixed "R ", to `out`.
+ * Returns NULL on success, or a one-word DNF reason if the scheme failed a
+ * correctness check (then no row is written, so a broken build can't be
+ * imported with timings). */
+static const char *bench_run(const bench_scheme_t *s, FILE *out) {
+    const char *why = NULL;
+    int      n    = bench_iters(s);
     uint8_t *pk   = malloc(s->pk_bytes);
     uint8_t *sk   = malloc(s->sk_bytes);
     uint8_t *sig  = malloc(s->sig_bytes);
@@ -50,7 +65,7 @@ static int bench_run(const bench_scheme_t *s) {
 
     if (!pk || !sk || !sig || !kg_cyc || !sg_cyc || !vf_cyc
                            || !kg_ns  || !sg_ns  || !vf_ns) {
-        fprintf(stderr, "bench_run: allocation failed for %s\n", s->name);
+        why = "alloc-failed";
         goto cleanup;
     }
 
@@ -60,29 +75,25 @@ static int bench_run(const bench_scheme_t *s) {
 
     /* Warm up, and check the build actually works: a fresh signature must
      * verify, and a tampered signature or message must be rejected. */
-    const char *why = NULL;
     if (s->keygen_fn(pk, sk) != 0)
-        why = "keygen failed";
+        why = "keygen-failed";
     else if (s->sign_fn(sig, &siglen, msg, sizeof(msg), sk) != 0)
-        why = "sign failed";
+        why = "sign-failed";
     else if (siglen == 0 || siglen > s->sig_bytes)
-        why = "bad signature length";
+        why = "bad-signature-length";
     else if (s->verify_fn(sig, siglen, msg, sizeof(msg), pk) != 0)
-        why = "valid signature rejected";
+        why = "valid-signature-rejected";
     else {
         sig[siglen / 2] ^= 1;
         if (s->verify_fn(sig, siglen, msg, sizeof(msg), pk) == 0)
-            why = "tampered signature accepted";
+            why = "tampered-signature-accepted";
         sig[siglen / 2] ^= 1;
         msg[0] ^= 1;
         if (!why && s->verify_fn(sig, siglen, msg, sizeof(msg), pk) == 0)
-            why = "tampered message accepted";
+            why = "tampered-message-accepted";
         msg[0] ^= 1;
     }
-    if (why) {
-        fprintf(stderr, "FAIL %s: %s\n", s->name, why);
-        goto cleanup;
-    }
+    if (why) goto cleanup;
 
     int rc_kg = 0, rc_sg = 0, rc_vf = 0;
     for (int i = 0; i < n; i++) {
@@ -91,23 +102,22 @@ static int bench_run(const bench_scheme_t *s) {
         BENCH_TIME_OP(vf_cyc, vf_ns, i, rc_vf |= s->verify_fn(sig, siglen, msg, sizeof(msg), pk));
     }
     if (rc_kg || rc_sg || rc_vf) {
-        fprintf(stderr, "FAIL %s: %s returned an error during the timed loop\n", s->name,
-                rc_kg ? "keygen" : rc_sg ? "sign" : "verify");
+        why = rc_kg ? "keygen-error-in-timed-loop"
+            : rc_sg ? "sign-error-in-timed-loop" : "verify-error-in-timed-loop";
         goto cleanup;
     }
 
-    printf(BENCH_FMT,
+    fprintf(out, "R " BENCH_FMT,
            s->name, n,
            bench_median(kg_cyc, n), bench_median(kg_ns, n) / 1000.0,
            bench_median(sg_cyc, n), bench_median(sg_ns, n) / 1000.0,
            bench_median(vf_cyc, n), bench_median(vf_ns, n) / 1000.0);
-    fflush(stdout);
-    failed = 0;
+    fflush(out);
 
 cleanup:
     cycles_teardown();
     free(pk); free(sk); free(sig);
     free(kg_cyc); free(sg_cyc); free(vf_cyc);
     free(kg_ns);  free(sg_ns);  free(vf_ns);
-    return failed;
+    return why;
 }
