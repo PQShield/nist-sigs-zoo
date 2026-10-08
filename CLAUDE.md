@@ -483,31 +483,29 @@ sets `NGCC_BUILD=1` on the VM; without it NGCC instances are skipped.
 - **New build dependency?** Add it to the user-data `apt-get` list in the script.
   The VM is a stock Ubuntu with GCC 15 (C23 by default) and multiarch OpenSSL. If a
   scheme breaks there, fix its Makefile, not the script (see `bench/schemes/sdith`).
-- **NGCC runs** (Thom's plan: `c7i.4xlarge`, `--ttl 360`, signatures and KEMs as separate
+- **NGCC runs** (Thom's plan: `c7i.4xlarge`, signatures and KEMs as separate
   runs, no filter, **`BENCH_ITER` unset** because it overrides the tuned per-instance
   `iters` in `<suite>/schemes/ngcc/params.tsv`):
   ```bash
   tar -C bench-common/ngcc -czf /tmp/ngcc-src.tar.gz --exclude=Test_Vectors \
       --exclude='*KAT*.txt' --exclude='*.rsp' --exclude='*.req' src   # ~0.2 GB (full src/ is 5.1 GB)
-  AWS_PROFILE=bench scripts/aws-bench.sh --suite sigs --ttl 420 --ngcc-src /tmp/ngcc-src.tar.gz
+  AWS_PROFILE=bench scripts/aws-bench.sh --suite sigs --ttl 480 --ngcc-src /tmp/ngcc-src.tar.gz
   AWS_PROFILE=bench scripts/aws-bench.sh --suite kems --ttl 360 --ngcc-src /tmp/ngcc-src.tar.gz
   ```
   **The TTL clock starts at boot**: the ~0.2 GB upload, unpack and the NGCC build (tens
-  of minutes) are paid from `--ttl`, so add margin: `--ttl 420` for sigs (the recipe
-  above shows 360, the minimum for KEMs).
+  of minutes) are paid from `--ttl`, so the recipe keeps margin (480 for sigs, 360 for KEMs).
   The VM never downloads from niccs.org.cn; the tarball is unpacked into
   `repo/bench-common/ngcc/` (the default 40 GB disk is enough). `iters` caps
   each NGCC instance at about 30 s of timed work (floor 10, or 5 above 60 s per
   iteration). Estimated runtime on a laptop-class core: signatures ~320 min, KEMs ~130 min
   for the NGCC instances alone, plus build time and the non-NGCC schemes.
-  **Before the signature run:** SQISign2Dsquare-* (6 rows) and SQIsign2D-lvl2 abort the
-  whole `./bench` process (assert / SIGFPE with random keys), losing every later row;
-  exclude or fix them first. QCTM512 and
+  Crashing or hanging schemes (e.g. SQISign2Dsquare-*, SQIsign2D-lvl2) become DNF rows
+  and the run continues (`BENCH_TIMEOUT`, default 3600 s per scheme, is forwarded). QCTM512 and
   vistrutith-d3-512s take 10 min per iteration; the TTL fetches partial results.
   Smoke runs of NGCC code go through `scripts/ngcc-run` only (never the host).
 - **`scripts/ngcc-run` tooling notes:** `NGCC_OUT=$PWD/.ngcc-out-<name>` lets several
   containers run concurrently (default `.ngcc-out/`); do not share an output dir. The
-  host has 4 cores and ~4 GB: run `status.py` per candidate group (a single full run is
+  host is small (8 cores, ~8 GB): run `status.py` per candidate group (a single full run is
   OOM-killed; per-group `NGCC_KAT_TIMEOUT`s are recorded in `params.tsv`); its default
   timeout is 900 s. A full `make -C bench` in the container fails offline (faest,
   mceliece fetch git subprojects): use `make ALL_SOS= STAMPS= bench`.

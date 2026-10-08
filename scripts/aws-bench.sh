@@ -28,7 +28,7 @@
 # Environment:
 #   AWS_PROFILE / AWS_REGION        select account and region (standard AWS CLI)
 #   BENCH_ITER, BENCH_CYCLES,       forwarded to the benchmark on the VM
-#   BENCH_CPU                       (leave BENCH_ITER unset for NGCC runs: it overrides
+#   BENCH_CPU, BENCH_TIMEOUT        (leave BENCH_ITER unset for NGCC runs: it overrides
 #                                   the per-instance iters tuned in params.tsv)
 #
 # What it does:
@@ -373,7 +373,7 @@ fi
 # --- build + run in the background -----------------------------------------------
 
 REMOTE_ENV=""
-for v in BENCH_ITER BENCH_CYCLES BENCH_CPU; do
+for v in BENCH_ITER BENCH_CYCLES BENCH_CPU BENCH_TIMEOUT; do
     if [ -n "${!v:-}" ]; then REMOTE_ENV+="export $v=$(printf '%q' "${!v}"); "; fi
 done
 # NGCC candidate code is only built when asked for (host builds are opt-in).
