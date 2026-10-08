@@ -128,3 +128,22 @@ def test_skips_identical_to_repo(tmp_path):
     )
     assert w == ["bench/results/y.txt"]
     assert os.path.exists(tmp_path / "out/bench/results/y.txt")
+
+
+def test_unpacked_text_maps_to_unpacked(tmp_path):
+    w, _ = run(
+        tmp_path,
+        [
+            ("work/.ngcc-unpacked/sign-09/I/r/a.c", "file", b"int a;"),
+            ("work/.ngcc-unpacked/sign-09/I/r/Makefile", "file", b"all:"),
+            ("work/.ngcc-unpacked/sign-09/I/r/README", "file", b"hi"),
+            ("work/.ngcc-unpacked/sign-09/I/r/a.o", "file", b"x"),
+            ("work/.ngcc-unpacked/sign-09/I/r/b.c", "file", b"\x7fELF\0"),
+        ],
+    )
+    assert sorted(w) == [
+        "unpacked/sign-09/I/r/Makefile",
+        "unpacked/sign-09/I/r/README",
+        "unpacked/sign-09/I/r/a.c",
+    ]
+    assert (tmp_path / "out/unpacked/sign-09/I/r/a.c").stat().st_mode & 0o777 == 0o644

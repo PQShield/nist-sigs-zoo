@@ -29,6 +29,22 @@ ALLOW = (
     "*/build/*.rsp",
     "*/build/KAT*.txt",
 )
+# bench-common/ngcc/unpack_nested.py stages text from nested RAR archives here;
+# only source/build/documentation names come back (as unpacked/...).
+UNPACKED_PREFIX = ".ngcc-unpacked/"
+UNPACKED_EXT = (
+    ".c", ".h", ".s", ".inc", ".macros", ".cpp", ".cc", ".hpp",
+    ".txt", ".md", ".mk", ".cmake", ".sh", ".pro", ".vcxproj", ".build",
+)  # fmt: skip
+UNPACKED_NAMES = (
+    "makefile",
+    "gnumakefile",
+    "license",
+    "licence",
+    "copying",
+    "notice",
+    "readme",
+)
 EXPECTED_LINKS = ("bench-common/ngcc/src", "bench-common/ngcc/specs")
 DENY_PREFIX = ("bench-common/ngcc/src/", "bench-common/ngcc/specs/")
 
@@ -49,6 +65,11 @@ def safe_rel(name: str) -> str | None:
 def allowed(rel: str) -> str | None:
     """Return the destination path under --out, or None if not allowlisted."""
     if rel.startswith(DENY_PREFIX):
+        return None
+    if rel.startswith(UNPACKED_PREFIX):
+        name = rel.rsplit("/", 1)[-1].lower()
+        if name.endswith(UNPACKED_EXT) or name.startswith(UNPACKED_NAMES):
+            return "unpacked/" + rel[len(UNPACKED_PREFIX) :]
         return None
     if rel.startswith(TMP_PREFIX):
         return "tmp/" + rel[len(TMP_PREFIX) :] if rel.endswith(TMP_EXT) else None
@@ -97,7 +118,7 @@ def export_tar(fileobj, out: str, repo: str | None = None, log=sys.stderr):
             except UnicodeDecodeError:
                 reject(m.name, "not valid UTF-8")
                 continue
-            if repo is not None and not dest.startswith("tmp/"):
+            if repo is not None and not dest.startswith(("tmp/", "unpacked/")):
                 try:
                     with open(os.path.join(repo, dest), "rb") as f:
                         if f.read() == data:

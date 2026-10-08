@@ -6,21 +6,35 @@
 
 The archives are untrusted input. Members are filtered by an allowlist, paths
 are checked for traversal, links are skipped and sizes are capped. Nested zip
-files are unpacked through a temporary file. RAR members (DOVE, sign-09) are
-unpacked with bsdtar when it is installed (Debian: libarchive-tools) and are
-otherwise listed as skipped. Nothing from an archive is ever executed.
+files are unpacked through a temporary file. Nothing from an archive is ever
+executed, and every file is written with mode 0644.
+
+Nested RAR archives (DOVE, sign-09) are never unpacked on the host: they are
+copied unchanged to src/<id>/<path>.rar. unpack_nested.py unpacks them inside
+the container (scripts/ngcc-run), the export allowlist brings back their text
+files, and `extract.py --import-unpacked DIR` files them under src/ with the
+same allowlist and limits:
+
+    flock /tmp/ngcc-run.lock scripts/ngcc-run python3 -I bench-common/ngcc/unpack_nested.py
+    python3 -I bench-common/ngcc/extract.py --import-unpacked .ngcc-out/unpacked
+
+Allowlist: C/asm sources and headers, KAT_SIG_/KAT_KEM_ files, licences, and
+build and documentation files as plain text for reading (Makefile, *.mk, CMake,
+meson.build, *.sh, *.pro, *.vcxproj, README*, *.md and *.txt that are not KATs).
+Build files are for reading only: never run them.
 
 Output (git-ignored, rebuilt from scratch per candidate):
-    bench-common/ngcc/src/<id>/...     C/asm sources and headers, KAT_SIG_/KAT_KEM_ files, licences
+    bench-common/ngcc/src/<id>/...     allowlisted text files (above), nested *.rar
     bench-common/ngcc/specs/<id>/...   every PDF
     bench-common/ngcc/src/.extracted   marker that ngcc.mk checks before building
 
 Usage: bench-common/ngcc/extract.py [id ...]
+       bench-common/ngcc/extract.py --import-unpacked DIR
 """
 
+import os
 import re
 import shutil
-import subprocess
 import sys
 import tempfile
 import zipfile
@@ -37,12 +51,20 @@ KEEP_NAME = re.compile(
     r"^(KAT_(SIG|KEM)_[A-Za-z0-9_+.-]+\.txt|(LICEN[CS]E|COPYING|NOTICE)([._-].*)?)$",
     re.IGNORECASE,
 )
+# Build and documentation files, extracted as plain text for reading only.
+TEXT_NAMES = {"makefile", "gnumakefile", "cmakelists.txt", "meson.build", "build.sh"}
+TEXT_SUFFIXES = {".mk", ".cmake", ".sh", ".pro", ".vcxproj", ".md", ".txt"}
+# A .txt file is a KAT/test-vector file, not documentation, when its name or a
+# directory above it says so. KAT_SIG_/KAT_KEM_ files are kept as sources.
+KATISH = re.compile(r"kat|test[-_ ]?vector|testvec|intermediate", re.IGNORECASE)
+MAX_TEXT = 2 << 20
 MAX_MEMBER = 256 << 20
 KAT_PREFIX_CAP = 512 << 20
 MAX_NESTED = 1 << 30
 MAX_DEPTH = 3
 KAT_NAME = re.compile(r"^KAT_(SIG|KEM)_[A-Za-z0-9_+.-]+\.txt$", re.IGNORECASE)
 S_IFMT, S_IFLNK = 0o170000, 0o120000
+ID = re.compile(r"^(sign|kem)-\d\d$")
 
 
 class _Skip(Exception):
@@ -74,14 +96,28 @@ def safe_relpath(name: str) -> PurePosixPath | None:
     return p
 
 
-def classify(p: PurePosixPath) -> str | None:
+def is_kat_text(p: PurePosixPath) -> bool:
+    """A .txt/.rsp/.req file that holds test vectors rather than prose."""
     suffix = p.suffix.lower()
+    if suffix in (".rsp", ".req"):
+        return True
+    return suffix == ".txt" and any(KATISH.search(part) for part in p.parts)
+
+
+def classify(p: PurePosixPath) -> str | None:
+    suffix, name = p.suffix.lower(), p.name.lower()
     if suffix == ".pdf":
         return "spec"
     if suffix in SOURCE_SUFFIXES or KEEP_NAME.match(p.name):
         return "src"
-    if suffix in (".zip", ".rar"):
+    if suffix == ".zip":
         return "archive"
+    if suffix == ".rar":
+        return "rar"
+    if name in TEXT_NAMES or name.startswith("readme"):
+        return "text"
+    if suffix in TEXT_SUFFIXES and not is_kat_text(p):
+        return "text"
     return None
 
 
@@ -93,8 +129,8 @@ class Extractor:
         max_member: int = MAX_MEMBER,
         prefix_cap: int = KAT_PREFIX_CAP,
     ):
-        self.out = {"src": src_out, "spec": spec_out}
-        self.counts = {"src": 0, "spec": 0}
+        self.out = {"src": src_out, "text": src_out, "rar": src_out, "spec": spec_out}
+        self.counts = {"src": 0, "text": 0, "rar": 0, "spec": 0}
         self.skipped: list[str] = []
         self.truncated: list[str] = []
         self.max_member = max_member
@@ -103,14 +139,15 @@ class Extractor:
     def write(
         self, kind: str, rel: PurePosixPath, stream, size: int | None = None
     ) -> None:
-        """Write one member. Oversize KAT files keep their first 10 records."""
+        """Write one member (mode 0644). Oversize KAT files keep their first 10 records."""
+        cap = {"text": MAX_TEXT, "rar": MAX_NESTED}.get(kind, self.max_member)
         truncate = (
             size is not None
-            and size > self.max_member
+            and size > cap
             and kind == "src"
             and KAT_NAME.match(rel.name)
         )
-        if size is not None and size > self.max_member and not truncate:
+        if size is not None and size > cap and not truncate:
             self.skipped.append(f"too large: {rel}")
             return
         dest = self.out[kind] / rel
@@ -124,6 +161,7 @@ class Extractor:
                         raise _Skip(f"KAT prefix exceeds cap: {rel}")
                 else:
                     shutil.copyfileobj(stream, out)
+            os.chmod(dest, 0o644)
         except _Skip as e:
             dest.unlink(missing_ok=True)
             self.skipped.append(str(e))
@@ -172,7 +210,7 @@ class Extractor:
             kind = classify(rel)
             if kind is None:
                 continue
-            if kind == "archive" and (
+            if kind in ("archive", "rar") and (
                 depth >= MAX_DEPTH or info.file_size > MAX_NESTED
             ):
                 self.skipped.append(f"nested archive too deep or large: {rel}")
@@ -191,39 +229,24 @@ class Extractor:
             path = Path(tmp) / "inner"
             with open(path, "wb") as out:
                 shutil.copyfileobj(stream, out)
-            prefix = rel.with_suffix("")
-            if rel.suffix.lower() == ".zip":
-                try:
-                    with zipfile.ZipFile(path) as inner:
-                        self.zip(inner, prefix, depth)
-                except zipfile.BadZipFile:
-                    self.skipped.append(f"bad nested zip: {rel}")
-            else:
-                self.rar(path, prefix, rel)
-
-    def rar(self, path: Path, prefix: PurePosixPath, rel: PurePosixPath) -> None:
-        bsdtar = shutil.which("bsdtar")
-        if bsdtar is None:
-            self.skipped.append(
-                f"RAR not unpacked (install libarchive-tools for bsdtar): {rel}"
-            )
-            return
-        with tempfile.TemporaryDirectory() as tmp:
-            # bsdtar refuses absolute and '..' member paths unless -P is given.
             try:
-                subprocess.run([bsdtar, "-xf", str(path), "-C", tmp], check=True)
-            except subprocess.CalledProcessError as e:
-                self.skipped.append(f"bsdtar failed ({e.returncode}): {rel}")
-                return
-            root = Path(tmp)
-            for f in sorted(root.rglob("*")):
-                if f.is_symlink() or not f.is_file():
-                    continue
-                sub = safe_relpath(f.relative_to(root).as_posix())
-                kind = classify(sub) if sub else None
-                if kind in ("src", "spec"):
-                    with open(f, "rb") as stream:
-                        self.write(kind, prefix / sub, stream, f.stat().st_size)
+                with zipfile.ZipFile(path) as inner:
+                    self.zip(inner, rel.with_suffix(""), depth)
+            except zipfile.BadZipFile:
+                self.skipped.append(f"bad nested zip: {rel}")
+
+    def import_tree(self, root: Path) -> None:
+        """File the text files unpack_nested.py brought back (DIR/<path>) under src/."""
+        for f in sorted(root.rglob("*")):
+            if f.is_symlink() or not f.is_file():
+                continue
+            rel = safe_relpath(f.relative_to(root).as_posix())
+            kind = classify(rel) if rel else None
+            if kind not in ("src", "text"):
+                self.skipped.append(f"not allowlisted: {f.relative_to(root)}")
+                continue
+            with open(f, "rb") as stream:
+                self.write(kind, rel, stream, f.stat().st_size)
 
 
 def extract_archive(
@@ -241,8 +264,30 @@ def extract_archive(
     return ex
 
 
+def import_unpacked(root: Path, src_root: Path = SRC_OUT) -> int:
+    """Import DIR/<id>/... (unpack_nested.py output) into src/<id>/... (no reset)."""
+    for cand in sorted(root.iterdir()):
+        if not cand.is_dir() or cand.is_symlink() or not ID.match(cand.name):
+            continue
+        ex = Extractor(src_root / cand.name, SPEC_OUT / cand.name)
+        ex.import_tree(cand)
+        print(
+            f"{cand.name:8} {ex.counts['src']:5} source files "
+            f"{ex.counts['text']:4} text files (imported)"
+        )
+        for s in ex.skipped:
+            print(f"         skipped {s}")
+    return 0
+
+
 def main(argv: list[str] | None = None) -> int:
-    ids = set(sys.argv[1:] if argv is None else argv)
+    args = sys.argv[1:] if argv is None else argv
+    if args[:1] == ["--import-unpacked"]:
+        if len(args) != 2:
+            print(__doc__, file=sys.stderr)
+            return 2
+        return import_unpacked(Path(args[1]))
+    ids = set(args)
     _, rows = read_archives()
     cache, failed = cache_dir(), 0
     for row in rows:
@@ -262,7 +307,8 @@ def main(argv: list[str] | None = None) -> int:
             continue
         ex = extract_archive(zip_path, row["id"])
         print(
-            f"{row['id']:8} {ex.counts['src']:5} source files {ex.counts['spec']:3} PDFs"
+            f"{row['id']:8} {ex.counts['src']:5} source files {ex.counts['text']:4} text files "
+            f"{ex.counts['spec']:3} PDFs {ex.counts['rar']:2} RAR (unpack_nested.py)"
         )
         for s in ex.truncated:
             print(f"         {s}")

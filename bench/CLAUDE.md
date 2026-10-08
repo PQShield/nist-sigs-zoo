@@ -265,6 +265,8 @@ one shim (`schemes/ngcc/shim_template.c`) and are integrated as **data**: one ro
 ```bash
 uv run bench-common/ngcc/fetch.py      # official archives -> $NGCC_CACHE, sha256-pinned in archives.tsv
 uv run bench-common/ngcc/extract.py    # allowlisted sources/KATs/specs -> bench-common/ngcc/src, specs (git-ignored)
+scripts/ngcc-run python3 -I bench-common/ngcc/unpack_nested.py   # nested .rar (DOVE): unpacked in the container only
+python3 -I bench-common/ngcc/extract.py --import-unpacked .ngcc-out/unpacked   # file their text under src/
 python3 bench-common/ngcc/inventory.py sig sign-07   # draft params.tsv rows
 ```
 
@@ -278,6 +280,8 @@ through `scripts/ngcc-run`; see "Running NGCC candidates" below.
   drop candidates' `/dev/urandom` `randombytes.c`, which also breaks KAT replay.
 - `defs` reach only the candidate's sources and `shimdefs` only the shim, so NIST-API name
   clashes can be renamed away (`-Dcrypto_sign_keypair=cand_crypto_sign_keypair`).
+- `src/` also holds the candidates' build and documentation files (Makefile, *.mk, CMake,
+  meson, *.sh, *.pro, *.vcxproj, README*, *.md, non-KAT *.txt) as plain 0644 text, for reading only.
 - Never edit extracted sources or run candidates' build systems: fixes are copies in
   `schemes/ngcc/patches/<id>/` with a `/* PATCH (nist-sigs-zoo): why */` header.
 - Fix a candidate's bugs in its own wrapper (the submitted ICCS adapter, e.g.
@@ -312,7 +316,8 @@ there, and no host-writable path is mounted while it runs. Afterwards the host
 pulls `/work` through the trusted `scripts/ngcc-container/export.py`, which writes
 to the git-ignored `.ngcc-out/` only allowlisted regular files
 (`*/schemes/ngcc/*.tsv`, `ngcc_sizes.tsv`, `*/results/*.txt`, `*.log`, KAT
-`*.rsp`/`KAT*.txt`, text staged from `/tmp` as `.ngcc-out/tmp/*`) that are plain
+`*.rsp`/`KAT*.txt`, text staged from `/tmp` as `.ngcc-out/tmp/*`, source/build text that
+`unpack_nested.py` stages in `.ngcc-unpacked/` as `.ngcc-out/unpacked/*`) that are plain
 UTF-8 text with no NUL bytes, mode 0644. Symlinks, binaries and oversize files
 are rejected and listed on stderr. Review them, then copy them to their committed locations by hand.
 For two runs at once, give each its own output dir (`NGCC_OUT=$PWD/.ngcc-out-<name> scripts/ngcc-run …`); they would otherwise overwrite each other's `.ngcc-out/`.

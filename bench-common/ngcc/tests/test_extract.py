@@ -1,7 +1,8 @@
 import io
 import zipfile
 
-from extract import decode_name, extract_archive
+import extract
+from extract import decode_name, extract_archive, import_unpacked
 
 
 def make_zip(path, members):
@@ -17,7 +18,7 @@ def files_under(root):
     )
 
 
-def test_keeps_sources_kats_licences_and_pdfs_only(tmp_path):
+def test_keeps_sources_kats_licences_text_and_pdfs_only(tmp_path):
     z = tmp_path / "a.zip"
     make_zip(
         z,
@@ -31,15 +32,19 @@ def test_keeps_sources_kats_licences_and_pdfs_only(tmp_path):
             "Cand/Ref/X/Makefile": b"all:",
             "Cand/run.sh": b"rm -rf /",
             "Cand/LICENSE": b"MIT",
+            "Cand/Ref/X/a.exe": b"MZ",
+            "Cand/Ref/X/lib.a": b"!<arch>",
         },
     )
     extract_archive(z, "sign-01", tmp_path / "src", tmp_path / "specs")
     assert files_under(tmp_path / "src") == [
         "sign-01/Cand/KAT/KAT_SIG_X.txt",
         "sign-01/Cand/LICENSE",
+        "sign-01/Cand/Ref/X/Makefile",
         "sign-01/Cand/Ref/X/a.c",
         "sign-01/Cand/Ref/X/a.h",
         "sign-01/Cand/Ref/X/b.S",
+        "sign-01/Cand/run.sh",
     ]
     assert files_under(tmp_path / "specs") == [
         "sign-01/Cand/doc/Algorithm specifications.pdf"
@@ -160,3 +165,78 @@ def test_nested_depth_limit(tmp_path):
     ex = extract_archive(z, "sign-01", tmp_path / "src", tmp_path / "specs")
     assert files_under(tmp_path / "src") == []
     assert any("too deep" in s for s in ex.skipped)
+
+
+def test_build_and_readme_files_are_plain_text_without_exec_bits(tmp_path):
+    names = [
+        "C/Makefile", "C/sub/makefile", "C/GNUmakefile", "C/rules.mk", "C/CMakeLists.txt",
+        "C/cmake/flags.cmake", "C/README", "C/ReadMe.md", "C/notes.md", "C/build.sh",
+        "C/x/run_all.sh", "C/meson.build", "C/proj.pro", "C/proj.vcxproj", "C/usage.txt",
+    ]  # fmt: skip
+    z = tmp_path / "a.zip"
+    with zipfile.ZipFile(z, "w") as zf:
+        for n in names:
+            info = zipfile.ZipInfo(n)
+            info.external_attr = 0o100755 << 16
+            zf.writestr(info, b"text")
+    ex = extract_archive(z, "kem-01", tmp_path / "src", tmp_path / "specs")
+    assert files_under(tmp_path / "src/kem-01") == sorted(names)
+    assert ex.counts["text"] == len(names)
+    for p in (tmp_path / "src").rglob("*"):
+        if p.is_file():
+            assert p.stat().st_mode & 0o777 == 0o644
+
+
+def test_kat_and_test_vector_text_is_not_documentation(tmp_path):
+    z = tmp_path / "a.zip"
+    make_zip(
+        z,
+        {
+            "C/Test_Vectors/yuanyang-512.txt": b"Count = 0\n",
+            "C/KAT/out.txt": b"Count = 0\n",
+            "C/PQCsignKAT_X.rsp": b"count = 0\n",
+            "C/PQCsignKAT_X.req": b"count = 0\n",
+            "C/intermediate_values.txt": b"x",
+            "C/doc/readme.txt": b"hello",
+        },
+    )
+    extract_archive(z, "kem-01", tmp_path / "src", tmp_path / "specs")
+    assert files_under(tmp_path / "src") == ["kem-01/C/doc/readme.txt"]
+
+
+def test_oversize_text_is_skipped(tmp_path, monkeypatch):
+    monkeypatch.setattr(extract, "MAX_TEXT", 10)
+    z = tmp_path / "a.zip"
+    make_zip(z, {"C/README.md": b"x" * 11, "C/Makefile": b"all:"})
+    ex = extract_archive(z, "kem-01", tmp_path / "src", tmp_path / "specs")
+    assert files_under(tmp_path / "src") == ["kem-01/C/Makefile"]
+    assert ex.skipped == ["too large: C/README.md"]
+
+
+def test_nested_rar_is_kept_packed_for_the_container(tmp_path):
+    z = tmp_path / "a.zip"
+    make_zip(z, {"Impl/ref.rar": b"Rar!\x1a\x07\x00junk"})
+    ex = extract_archive(z, "sign-09", tmp_path / "src", tmp_path / "specs")
+    assert (tmp_path / "src/sign-09/Impl/ref.rar").read_bytes().startswith(b"Rar!")
+    assert ex.counts["rar"] == 1 and not ex.skipped
+
+
+def test_import_unpacked_applies_the_allowlist(tmp_path):
+    up = tmp_path / "unpacked"
+    for rel, data in {
+        "sign-09/Impl/ref/a.c": b"int a;",
+        "sign-09/Impl/ref/Makefile": b"all:",
+        "sign-09/Impl/ref/a.o": b"\x7fELF",
+        "bogus/x.c": b"",
+    }.items():
+        (up / rel).parent.mkdir(parents=True, exist_ok=True)
+        (up / rel).write_bytes(data)
+    (up / "transcoded.txt").write_text("")
+    (tmp_path / "src/sign-09/Impl").mkdir(parents=True)
+    (tmp_path / "src/sign-09/Impl/ref.rar").write_bytes(b"Rar!")
+    import_unpacked(up, tmp_path / "src")
+    assert files_under(tmp_path / "src") == [
+        "sign-09/Impl/ref.rar",
+        "sign-09/Impl/ref/Makefile",
+        "sign-09/Impl/ref/a.c",
+    ]
