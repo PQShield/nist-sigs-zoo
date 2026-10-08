@@ -290,11 +290,20 @@ through `scripts/ngcc-run`; see "Running NGCC candidates" below.
   `ngcc_kat`, `status.py` and `kat_compare` stay generic and never special-case a candidate,
   so they keep catching real defects in others. Record each such patch in the
   `params.tsv` comment and link the corresponding item in `docs/ngcc-submission-bugs.md`.
+- Compiler flags are global: every candidate builds with `NGCC_CFLAGS` from `ngcc.mk`
+  (`-O3 -march=native -mtune=native -fPIC -std=gnu17`). There are no per-row CFLAGS.
+  Mirror the submitter's preprocessor defines and source list in `defs`/`srcs`, but not
+  their optimisation or codegen flags: `-Ofast`, `-funroll*-loops`, `-flto`, `-fopenmp`,
+  `-fno-stack-protector`, `-fcf-protection=none`, `-O2` and the like are ignored. A row
+  that only reproduces its KAT or only runs correctly with such a flag stays on the
+  reference build, with the reason in its comment (e.g. yuanyang-512 opt, built with `-Ofast`).
 - Optimised x86 builds: a row is `impl=opt` only where the submitted `Optimized_Implementation`
   (avx2/asm) builds here, reproduces the submitted KAT (`status.tsv` `PASS`) and gives the same
   pk/sk/sig sizes as the reference build (`ngcc_sizes.tsv` stays identical). Everything else keeps its
   reference row; the reason is in the `params.tsv` comment above the candidate. Optimised trees written
   in C++ (Galas, Lynxer, ReSolveD, sydo) are not built: the NGCC tooling compiles C and assembly only.
+  Multithreaded optimised trees (Sigurd) also stay on the reference build: benchmarks are
+  single-threaded and the cycle counter only sees the calling thread.
 - KATs are replayed by our `ngcc_kat` (ICCS seed schedule) and the first `katn` records are
   compared with the submitted files' per-record hashes in the committed
   `../bench-common/ngcc/kat_hashes.tsv` (canonical record form defined in `kat_compare.py`,
