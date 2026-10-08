@@ -195,10 +195,10 @@ kem_38_uvw_kem_512	NGCC-UVW-KEM-512	kem-38	UVW-KEM-512	ref	Implementations/Refer
 kem_39_weaverkem_128	NGCC-WeaverKEM-128	kem-39	WeaverKEM-128	opt	Implementations/Optimized_Implementation/WeaverKEM-128	* -correct_test.c -gen_invq_table.c -rng.c -symmetric-shake.c		-DWEAVER_MODE=1	-DNGCC_INSTANCE_HEADER='"KEM_WeaverKEM-128.h"' -DWEAVER_MODE=1		1000	10	Test_Vectors/KAT_KEM_WeaverKEM-128.txt
 kem_39_weaverkem_256	NGCC-WeaverKEM-256	kem-39	WeaverKEM-256	opt	Implementations/Optimized_Implementation/WeaverKEM-256	* -correct_test.c -gen_invq_table.c -rng.c -symmetric-shake.c		-DWEAVER_MODE=3	-DNGCC_INSTANCE_HEADER='"KEM_WeaverKEM-256.h"' -DWEAVER_MODE=3		1000	10	Test_Vectors/KAT_KEM_WeaverKEM-256.txt
 kem_39_weaverkem_512	NGCC-WeaverKEM-512	kem-39	WeaverKEM-512	opt	Implementations/Optimized_Implementation/WeaverKEM-512	* -correct_test.c -gen_invq_table.c -rng.c -symmetric-shake.c		-DWEAVER_MODE=5	-DNGCC_INSTANCE_HEADER='"KEM_WeaverKEM-512.h"' -DWEAVER_MODE=5		1000	10	Test_Vectors/KAT_KEM_WeaverKEM-512.txt
-# kem-40 YuanYang: no KAT in the submission (NOKAT); the instance defines drng_algorithm itself.
-kem_40_yuanyang_512	NGCC-yuanyang-512	kem-40	yuanyang-512	ref	Implementations/Reference_Implementation/yuanyang-512	*			-DNGCC_NO_DRNG		1000	10	-
-kem_40_yuanyang_1024	NGCC-yuanyang-1024	kem-40	yuanyang-1024	ref	Implementations/Reference_Implementation/yuanyang-1024	*			-DNGCC_NO_DRNG		1000	10	-
-kem_40_yuanyang_2048	NGCC-yuanyang-2048	kem-40	yuanyang-2048	ref	Implementations/Reference_Implementation/yuanyang-2048	*			-DNGCC_NO_DRNG		1000	10	-
+# kem-40 YuanYang: the KATs are Test_Vectors/yuanyang-<n>.txt (no KAT_KEM_ prefix); the instance defines drng_algorithm itself.
+kem_40_yuanyang_512	NGCC-yuanyang-512	kem-40	yuanyang-512	ref	Implementations/Reference_Implementation/yuanyang-512	*			-DNGCC_NO_DRNG		1000	10	Test_Vectors/yuanyang-512.txt
+kem_40_yuanyang_1024	NGCC-yuanyang-1024	kem-40	yuanyang-1024	ref	Implementations/Reference_Implementation/yuanyang-1024	*			-DNGCC_NO_DRNG		1000	10	Test_Vectors/yuanyang-1024.txt
+kem_40_yuanyang_2048	NGCC-yuanyang-2048	kem-40	yuanyang-2048	ref	Implementations/Reference_Implementation/yuanyang-2048	*			-DNGCC_NO_DRNG		1000	10	Test_Vectors/yuanyang-2048.txt
 # kem-41 ZEN: ZEN-256-backup and ZEN-512-backup are specified but have no code; ZEN-light omitted.
 kem_41_zen_128	NGCC-ZEN_128	kem-41	ZEN_128	ref	Implementations/Reference_Implementation/ZEN_128	*					1000	10	Implementations/Reference_Implementation/ZEN_128/output/KAT_KEM_ZEN_128.txt
 kem_41_zen_256	NGCC-ZEN_256	kem-41	ZEN_256	ref	Implementations/Reference_Implementation/ZEN_256	*					1000	10	Implementations/Reference_Implementation/ZEN_256/output/KAT_KEM_ZEN_256.txt

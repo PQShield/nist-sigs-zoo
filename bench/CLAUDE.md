@@ -264,10 +264,11 @@ one shim (`schemes/ngcc/shim_template.c`) and are integrated as **data**: one ro
 
 ```bash
 uv run bench-common/ngcc/fetch.py      # official archives -> $NGCC_CACHE, sha256-pinned in archives.tsv
-uv run bench-common/ngcc/extract.py    # allowlisted sources/KATs/specs -> bench-common/ngcc/src, specs (git-ignored)
+uv run bench-common/ngcc/extract.py    # allowlisted sources/text/specs -> bench-common/ngcc/src, specs (git-ignored); --kats adds KAT files
 scripts/ngcc-run python3 -I bench-common/ngcc/unpack_nested.py   # nested .rar (DOVE): unpacked in the container only
 python3 -I bench-common/ngcc/extract.py --import-unpacked .ngcc-out/unpacked   # file their text under src/
-python3 bench-common/ngcc/inventory.py sig sign-07   # draft params.tsv rows
+python3 bench-common/ngcc/inventory.py sig sign-07   # draft params.tsv rows (kat column needs extract.py --kats)
+python3 -I bench-common/ngcc/kat_hashes.py          # after a params.tsv kat change: rewrite kat_hashes.tsv, commit it
 ```
 
 Building, `make status` (build/KAT/hash status -> `schemes/ngcc/status.tsv`, commit it) and
@@ -294,8 +295,13 @@ through `scripts/ngcc-run`; see "Running NGCC candidates" below.
   pk/sk/sig sizes as the reference build (`ngcc_sizes.tsv` stays identical). Everything else keeps its
   reference row; the reason is in the `params.tsv` comment above the candidate. Optimised trees written
   in C++ (Galas, Lynxer, ReSolveD, sydo) are not built: the NGCC tooling compiles C and assembly only.
-- KATs are replayed by our `ngcc_kat` (ICCS seed schedule) and compared with the submitted
-  files; mismatches are recorded, not hidden, and shown in the parameter set's notes.
+- KATs are replayed by our `ngcc_kat` (ICCS seed schedule) and the first `katn` records are
+  compared with the submitted files' per-record hashes in the committed
+  `../bench-common/ngcc/kat_hashes.tsv` (canonical record form defined in `kat_compare.py`,
+  plus each file's raw sha256), so the KAT files themselves need not be extracted.
+  `status.tsv` `katrec` gives the first mismatching record. Mismatches are recorded, not
+  hidden, and shown in the parameter set's notes. To diagnose one, `extract.py --kats <id>`
+  and `python3 -I bench-common/ngcc/kat_compare.py OURS.txt SUBMITTED.txt`.
 
 ## Running NGCC candidates
 

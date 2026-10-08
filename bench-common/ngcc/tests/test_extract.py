@@ -18,7 +18,7 @@ def files_under(root):
     )
 
 
-def test_keeps_sources_kats_licences_text_and_pdfs_only(tmp_path):
+def test_keeps_sources_licences_text_and_pdfs_only(tmp_path):
     z = tmp_path / "a.zip"
     make_zip(
         z,
@@ -38,7 +38,6 @@ def test_keeps_sources_kats_licences_text_and_pdfs_only(tmp_path):
     )
     extract_archive(z, "sign-01", tmp_path / "src", tmp_path / "specs")
     assert files_under(tmp_path / "src") == [
-        "sign-01/Cand/KAT/KAT_SIG_X.txt",
         "sign-01/Cand/LICENSE",
         "sign-01/Cand/Ref/X/Makefile",
         "sign-01/Cand/Ref/X/a.c",
@@ -102,7 +101,12 @@ def test_truncates_oversize_kat_to_ten_records_and_skips_other_oversize(tmp_path
     z = tmp_path / "a.zip"
     make_zip(z, {"C/KAT_SIG_X.txt": kat, "C/big.c": b"x" * len(kat), "C/ok.c": b"y"})
     ex = extract_archive(
-        z, "sign-01", tmp_path / "src", tmp_path / "specs", max_member=100
+        z,
+        "sign-01",
+        tmp_path / "src",
+        tmp_path / "specs",
+        max_member=100,
+        keep_kats=True,
     )
     out = (tmp_path / "src/sign-01/C/KAT_SIG_X.txt").read_bytes()
     assert out.count(b"Count = ") == 10 and b"Count = 9\n" in out
@@ -123,6 +127,7 @@ def test_kat_keeps_whole_records_that_fit_under_the_cap(tmp_path):
         tmp_path / "src",
         tmp_path / "specs",
         max_member=100,
+        keep_kats=True,
         prefix_cap=len(rec % 0) * 2 + 5,
     )
     out = (tmp_path / "src/sign-01/C/KAT_SIG_X.txt").read_bytes()
@@ -139,6 +144,7 @@ def test_kat_with_first_record_over_cap_is_skipped(tmp_path):
         tmp_path / "src",
         tmp_path / "specs",
         max_member=100,
+        keep_kats=True,
         prefix_cap=50,
     )
     assert files_under(tmp_path / "src") == []
@@ -198,10 +204,18 @@ def test_kat_and_test_vector_text_is_not_documentation(tmp_path):
             "C/PQCsignKAT_X.req": b"count = 0\n",
             "C/intermediate_values.txt": b"x",
             "C/doc/readme.txt": b"hello",
+            "C/kat_test/CMakeLists.txt": b"project(x)",
+            "C/kat_test/README.txt": b"hello",
         },
     )
     extract_archive(z, "kem-01", tmp_path / "src", tmp_path / "specs")
-    assert files_under(tmp_path / "src") == ["kem-01/C/doc/readme.txt"]
+    assert files_under(tmp_path / "src") == [
+        "kem-01/C/doc/readme.txt",
+        "kem-01/C/kat_test/CMakeLists.txt",
+        "kem-01/C/kat_test/README.txt",
+    ]
+    extract_archive(z, "kem-01", tmp_path / "src", tmp_path / "specs", keep_kats=True)
+    assert len(files_under(tmp_path / "src")) == 8  # --kats: test vectors too
 
 
 def test_oversize_text_is_skipped(tmp_path, monkeypatch):

@@ -27,6 +27,7 @@ NGCC_SRC    ?= $(NGCC_ROOT)/src
 PARAMS      ?= params.tsv
 BUILD       ?= build
 STATUS      ?= status.tsv
+KAT_HASHES  ?= $(NGCC_ROOT)/kat_hashes.tsv
 # gnu17: ICCS targets GCC 8.5-era C; GCC 15 defaults to C23 (bool keywords, () prototypes).
 # -fcommon: several submissions rely on tentative definitions shared between files.
 # -Wno-error=...: GCC 14+ turned these into hard errors; the old code relies on them
@@ -67,7 +68,7 @@ built-list:
 
 status: built-list
 	python3 $(NGCC_ROOT)/status.py --kind $(NGCC_KIND) --params $(PARAMS) --src $(NGCC_SRC) \
-	    --build $(BUILD) --suite-dir . --out $(STATUS)
+	    --build $(BUILD) --suite-dir . --hashes $(KAT_HASHES) --out $(STATUS)
 
 clean:
 	rm -rf $(BUILD)

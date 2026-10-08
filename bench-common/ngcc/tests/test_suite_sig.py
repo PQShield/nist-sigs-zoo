@@ -29,6 +29,7 @@ def make(build, *goals, params=None):
             str(SUITE),
             f"PARAMS={params or FIX / 'params_sig.tsv'}",
             f"NGCC_SRC={FIX / 'src'}",
+            f"KAT_HASHES={FIX / 'kat_hashes.tsv'}",
             f"BUILD={build}",
             "NGCC_BUILD=1",
             *goals,
@@ -107,3 +108,42 @@ def test_status_nokat_when_no_submitted_file(tmp_path):
     make(build, "status", f"STATUS={out}", params=params)
     rows = list(csv.DictReader(out.open(), delimiter="\t"))
     assert [(r["build"], r["kat"]) for r in rows] == [("ok", "NOKAT")]
+
+
+def test_status_needs_hashes_not_kat_files(tmp_path):
+    """The submitted KAT file is not read: only kat_hashes.tsv is."""
+    import shutil
+
+    src = tmp_path / "src"
+    shutil.copytree(FIX / "src", src)
+    (src / "sign-99/KAT/KAT_SIG_Toy-Sig-1.txt").unlink()
+    build = tmp_path / "b"
+    common = [f"NGCC_SRC={src}"]
+    make(build, *common)
+    out = tmp_path / "status.tsv"
+    make(build, "status", f"STATUS={out}", *common)
+    rows = {r["name"]: r for r in csv.DictReader(out.open(), delimiter="\t")}
+    assert (rows["NGCC-Toy-Sig-1"]["kat"], rows["NGCC-Toy-Sig-1"]["katrec"]) == (
+        "PASS",
+        "",
+    )
+
+
+def test_status_reports_first_mismatching_record(tmp_path):
+    bad = []
+    for ln in (FIX / "kat_hashes.tsv").read_text().splitlines(keepends=True):
+        cols = ln.split("\t")
+        if len(cols) == 5 and cols[1] == "sign-99" and cols[3] == "3":
+            ln = "\t".join([*cols[:4], "0" * 64 + "\n"])
+        bad.append(ln)
+    hashes = tmp_path / "kat_hashes.tsv"
+    hashes.write_text("".join(bad))
+    build = tmp_path / "b"
+    make(build)
+    out = tmp_path / "status.tsv"
+    make(build, "status", f"STATUS={out}", f"KAT_HASHES={hashes}")
+    rows = {r["name"]: r for r in csv.DictReader(out.open(), delimiter="\t")}
+    assert (rows["NGCC-Toy-Sig-1"]["kat"], rows["NGCC-Toy-Sig-1"]["katrec"]) == (
+        "MISMATCH",
+        "3",
+    )

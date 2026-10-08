@@ -7,6 +7,7 @@ implementation tree (ref / opt / other) and looks up the matching submitted KAT 
 The output is a draft that a person curates into <suite>/schemes/ngcc/params.tsv.
 
 Usage: inventory.py sig|kem [id ...] > draft.tsv     (reads bench-common/ngcc/src/)
+The kat column needs the KAT files: extract with `extract.py --kats` first.
 """
 
 import re

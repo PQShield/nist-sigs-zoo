@@ -30,6 +30,7 @@ def make(build, *goals):
             str(SUITE),
             f"PARAMS={FIX / 'params_kem.tsv'}",
             f"NGCC_SRC={FIX / 'src'}",
+            f"KAT_HASHES={FIX / 'kat_hashes.tsv'}",
             f"BUILD={build}",
             "NGCC_BUILD=1",
             *goals,

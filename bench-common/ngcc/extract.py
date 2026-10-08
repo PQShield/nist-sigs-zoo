@@ -18,17 +18,23 @@ same allowlist and limits:
     flock /tmp/ngcc-run.lock scripts/ngcc-run python3 -I bench-common/ngcc/unpack_nested.py
     python3 -I bench-common/ngcc/extract.py --import-unpacked .ngcc-out/unpacked
 
-Allowlist: C/asm sources and headers, KAT_SIG_/KAT_KEM_ files, licences, and
-build and documentation files as plain text for reading (Makefile, *.mk, CMake,
-meson.build, *.sh, *.pro, *.vcxproj, README*, *.md and *.txt that are not KATs).
-Build files are for reading only: never run them.
+Allowlist: C/asm sources and headers, licences, and build and documentation
+files as plain text for reading (Makefile, *.mk, CMake, meson.build, *.sh, *.pro,
+*.vcxproj, README*, *.md and *.txt that are not KATs). Build files are for
+reading only: never run them.
+
+KAT files (KAT_SIG_*/KAT_KEM_*, *.rsp/*.req, *.txt under a KAT/test-vector name)
+are skipped: status.py needs only their record hashes, committed in
+kat_hashes.tsv (kat_hashes.py reads them straight from the archives). `--kats`
+extracts them too, for diagnosis (kat_compare.py) and for inventory.py's `kat`
+column; oversize ones keep their first 10 records.
 
 Output (git-ignored, rebuilt from scratch per candidate):
     bench-common/ngcc/src/<id>/...     allowlisted text files (above), nested *.rar
     bench-common/ngcc/specs/<id>/...   every PDF
     bench-common/ngcc/src/.extracted   marker that ngcc.mk checks before building
 
-Usage: bench-common/ngcc/extract.py [id ...]
+Usage: bench-common/ngcc/extract.py [--kats] [id ...]
        bench-common/ngcc/extract.py --import-unpacked DIR
 """
 
@@ -48,14 +54,14 @@ SRC_OUT = HERE / "src"
 SPEC_OUT = HERE / "specs"
 SOURCE_SUFFIXES = {".c", ".h", ".s", ".inc", ".macros", ".cpp", ".cc", ".hpp"}
 KEEP_NAME = re.compile(
-    r"^(KAT_(SIG|KEM)_[A-Za-z0-9_+.-]+\.txt|(LICEN[CS]E|COPYING|NOTICE)([._-].*)?)$",
+    r"^(LICEN[CS]E|COPYING|NOTICE)([._-].*)?$",
     re.IGNORECASE,
 )
 # Build and documentation files, extracted as plain text for reading only.
 TEXT_NAMES = {"makefile", "gnumakefile", "cmakelists.txt", "meson.build", "build.sh"}
 TEXT_SUFFIXES = {".mk", ".cmake", ".sh", ".pro", ".vcxproj", ".md", ".txt"}
 # A .txt file is a KAT/test-vector file, not documentation, when its name or a
-# directory above it says so. KAT_SIG_/KAT_KEM_ files are kept as sources.
+# directory above it says so.
 KATISH = re.compile(r"kat|test[-_ ]?vector|testvec|intermediate", re.IGNORECASE)
 MAX_TEXT = 2 << 20
 MAX_MEMBER = 256 << 20
@@ -116,7 +122,9 @@ def classify(p: PurePosixPath) -> str | None:
         return "rar"
     if name in TEXT_NAMES or name.startswith("readme"):
         return "text"
-    if suffix in TEXT_SUFFIXES and not is_kat_text(p):
+    if KAT_NAME.match(p.name) or is_kat_text(p):
+        return "kat"
+    if suffix in TEXT_SUFFIXES:
         return "text"
     return None
 
@@ -128,9 +136,23 @@ class Extractor:
         spec_out: Path,
         max_member: int = MAX_MEMBER,
         prefix_cap: int = KAT_PREFIX_CAP,
+        keep_kats: bool = False,
+        kat_wanted: set[PurePosixPath] | None = None,
+        kat_sink=None,
     ):
-        self.out = {"src": src_out, "text": src_out, "rar": src_out, "spec": spec_out}
-        self.counts = {"src": 0, "text": 0, "rar": 0, "spec": 0}
+        """keep_kats: also write KAT files. kat_sink(rel, stream): hash-only mode,
+        called for each member in kat_wanted; nothing is written then."""
+        self.out = {
+            "src": src_out,
+            "text": src_out,
+            "rar": src_out,
+            "kat": src_out,
+            "spec": spec_out,
+        }
+        self.counts = {"src": 0, "text": 0, "rar": 0, "kat": 0, "spec": 0}
+        self.keep_kats = keep_kats
+        self.kat_wanted = kat_wanted or set()
+        self.kat_sink = kat_sink
         self.skipped: list[str] = []
         self.truncated: list[str] = []
         self.max_member = max_member
@@ -141,12 +163,7 @@ class Extractor:
     ) -> None:
         """Write one member (mode 0644). Oversize KAT files keep their first 10 records."""
         cap = {"text": MAX_TEXT, "rar": MAX_NESTED}.get(kind, self.max_member)
-        truncate = (
-            size is not None
-            and size > cap
-            and kind == "src"
-            and KAT_NAME.match(rel.name)
-        )
+        truncate = size is not None and size > cap and kind == "kat"
         if size is not None and size > cap and not truncate:
             self.skipped.append(f"too large: {rel}")
             return
@@ -208,7 +225,19 @@ class Extractor:
                 continue
             rel = prefix / rel
             kind = classify(rel)
-            if kind is None:
+            if self.kat_sink is not None:  # hash-only mode
+                if rel in self.kat_wanted:
+                    try:
+                        with zf.open(info) as stream:
+                            self.kat_sink(rel, stream)
+                    except (RuntimeError, zipfile.BadZipFile, OSError, EOFError) as e:
+                        self.skipped.append(
+                            f"cannot read {rel}: {type(e).__name__}: {e}"
+                        )
+                    continue
+                if kind != "archive":
+                    continue
+            if kind is None or (kind == "kat" and not self.keep_kats):
                 continue
             if kind in ("archive", "rar") and (
                 depth >= MAX_DEPTH or info.file_size > MAX_NESTED
@@ -287,7 +316,8 @@ def main(argv: list[str] | None = None) -> int:
             print(__doc__, file=sys.stderr)
             return 2
         return import_unpacked(Path(args[1]))
-    ids = set(args)
+    keep_kats = "--kats" in args
+    ids = {a for a in args if a != "--kats"}
     _, rows = read_archives()
     cache, failed = cache_dir(), 0
     for row in rows:
@@ -305,10 +335,11 @@ def main(argv: list[str] | None = None) -> int:
             )
             failed += 1
             continue
-        ex = extract_archive(zip_path, row["id"])
+        ex = extract_archive(zip_path, row["id"], keep_kats=keep_kats)
         print(
             f"{row['id']:8} {ex.counts['src']:5} source files {ex.counts['text']:4} text files "
-            f"{ex.counts['spec']:3} PDFs {ex.counts['rar']:2} RAR (unpack_nested.py)"
+            f"{ex.counts['kat']:3} KATs {ex.counts['spec']:3} PDFs "
+            f"{ex.counts['rar']:2} RAR (unpack_nested.py)"
         )
         for s in ex.truncated:
             print(f"         {s}")
