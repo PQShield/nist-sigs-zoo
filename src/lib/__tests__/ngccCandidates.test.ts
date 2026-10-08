@@ -26,6 +26,7 @@ interface NgccCandidate {
 	assumption: string;
 	spec: string;
 	instances: NgccInstance[];
+	findings?: { url: string; credit: string; implementation?: string; broken?: string };
 }
 
 const DATA = join(process.cwd(), 'data');
@@ -104,6 +105,21 @@ describe('data/ngcc/candidates.yaml', () => {
 			const want = c.instances.filter((i) => i.omit === undefined).map((i) => `${i.instance}:${i.ngcc_level}:${!!i.recommended}`);
 			const got = sets.map((p) => `${p.name}:${p.ngcc_level}:${!!p.recommended}`);
 			return JSON.stringify(got) === JSON.stringify(want) ? [] : [`${c.file}.yaml parameter sets differ from candidates.yaml`];
+		});
+		expect(errors).toEqual([]);
+	});
+
+	it('keeps findings short, linked and credited', () => {
+		const errors = candidates.flatMap((c) => {
+			const f = c.findings;
+			if (!f) return [];
+			const e: string[] = [];
+			if (f.url !== `https://ngcc.dev/reports/${c.id}.html`) e.push(`${c.id}: findings url must be its ngcc.dev report`);
+			for (const text of [f.implementation, f.broken].filter((t): t is string => !!t)) {
+				if (text.length > 280) e.push(`${c.id}: summary over 280 characters`);
+				if (!text.includes(`(${f.credit})`)) e.push(`${c.id}: summary must credit (${f.credit})`);
+			}
+			return e;
 		});
 		expect(errors).toEqual([]);
 	});

@@ -39,3 +39,4 @@ versions:
     pk: 5062192
     sig: 648
     notes: Sizes from the specification (Table 2 (PDF p. 10)); not measured, our build of this instance fails.
+  findings_url: https://ngcc.dev/reports/sign-09.html

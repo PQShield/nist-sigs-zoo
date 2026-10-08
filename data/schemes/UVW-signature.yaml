@@ -15,6 +15,7 @@ versions:
     pk: 5897612
     sig: 1244
     notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+    broken: Correlated pairs in signatures reveal an equivalent signing key from a few hundred signatures, enabling forgery (Saarinen, ngcc.dev).
   - name: UVW-256
     ngcc_level: 256
     recommended: true
@@ -27,3 +28,5 @@ versions:
     pk: 95160012
     sig: 4956
     notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it; the test-vector run timed out in our build.
+  findings_url: https://ngcc.dev/reports/sign-32.html
+  implementation: The submitted verifier accepts every signature, valid or not (Saarinen, ngcc.dev).

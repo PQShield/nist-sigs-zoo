@@ -24,3 +24,5 @@ versions:
     pk: 3330
     sig: 2364
     notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+  findings_url: https://ngcc.dev/reports/sign-34.html
+  implementation: The submitted code samples perturbations with wrong parameters, leaking secret-basis information through signatures, and its unsalted 256-bit prehash allows signature transfer at the higher levels (Saarinen, ngcc.dev).

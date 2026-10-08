@@ -21,3 +21,6 @@ parametersets:
   pk: 12644449
   ct: 49297
   notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+  broken: Key generation has at most 2^256 possible seeds, below the 512-bit target (Saarinen, ngcc.dev).
+findings_url: https://ngcc.dev/reports/kem-17.html
+implementation: The submitted code produces reproducible secret keys and a reproducible first encapsulation in each process (Saarinen, ngcc.dev).

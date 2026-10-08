@@ -21,3 +21,6 @@ parametersets:
   pk: 3009
   ct: 2353
   notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+  implementation: The submitted code also returns a 384-bit shared secret instead of the specified 512 bits (Saarinen, ngcc.dev).
+  broken: The specified private key is a 32-byte seed, so at most 2^256 public keys exist and key search falls below the 512-bit target (Saarinen, ngcc.dev).
+findings_url: https://ngcc.dev/reports/kem-12.html

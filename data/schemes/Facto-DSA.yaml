@@ -14,6 +14,7 @@ versions:
     pk: 40040
     sig: 40
     notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+    broken: An equivalent signing trapdoor can be computed from the public key in seconds, and unsalted digests let signatures be transferred to new messages below the target (Saarinen, ngcc.dev).
   - name: Facto-DSA-256
     ngcc_level: 256
     pk: 456960
@@ -24,3 +25,5 @@ versions:
     pk: 5674240
     sig: 128
     notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it; no submitted test vectors found for this instance.
+    broken: Unsalted message digests let a collision transfer a signature to a new message with less work than the 512-bit target (Saarinen, ngcc.dev).
+  findings_url: https://ngcc.dev/reports/sign-10.html

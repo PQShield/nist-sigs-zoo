@@ -16,13 +16,17 @@ parametersets:
   pk: 6844
   ct: 9084
   notes: Reference implementation.
+  broken: Decoding the ephemeral syndrome costs about 2^227, below the 256-bit target (Saarinen, ngcc.dev).
 - name: HQC-384
   ngcc_level: 384
   pk: 15371
   ct: 18571
   notes: Reference implementation.
+  broken: Ephemeral syndrome decoding and a 256-bit decryption sub-seed both give attacks below this set's target (Saarinen, ngcc.dev).
 - name: HQC-512
   ngcc_level: 512
   pk: 27302
   ct: 31462
   notes: Reference implementation.
+  broken: Ephemeral syndrome decoding and a 256-bit decryption sub-seed both give attacks below this set's target (Saarinen, ngcc.dev).
+findings_url: https://ngcc.dev/reports/kem-26.html

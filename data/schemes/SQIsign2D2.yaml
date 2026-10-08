@@ -14,6 +14,7 @@ versions:
     pk: 80
     sig: 248
     notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+    implementation: The submitted reference verifier for this set can take its verdict from stale stack memory, accepting forged or all-zero signatures (Saarinen, ngcc.dev).
   - name: SQISign2Dsquare-Level2-sec
     ngcc_level: 128
     pk: 84
@@ -39,3 +40,4 @@ versions:
     pk: 268
     sig: 812
     notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+  findings_url: https://ngcc.dev/reports/sign-25.html

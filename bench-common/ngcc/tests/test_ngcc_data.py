@@ -183,3 +183,43 @@ def test_mismatch_cause_is_unknown_and_unbuilt_note_is_neutral():
         nd.ps_notes({"impl": "ref", "kat": "PASS", "hash": "own"})
         == "Reference implementation."
     )
+
+
+def test_findings_are_written_with_credit(tmp_path):
+    cands = [
+        dict(
+            CANDS[1],
+            findings={
+                "url": "https://ngcc.dev/reports/kem-01.html",
+                "credit": "Saarinen, ngcc.dev",
+                "implementation": "Decapsulation does not reject invalid ciphertexts (Saarinen, ngcc.dev).",
+            },
+        )
+    ]
+    nd.write_files(cands, "kem", KEM_SIZES, {}, tmp_path)
+    doc = load(tmp_path / "Aigis-Enc-plus.yaml")
+    assert doc["findings_url"] == "https://ngcc.dev/reports/kem-01.html"
+    assert doc["implementation"].endswith("(Saarinen, ngcc.dev).")
+    assert "broken" not in doc
+
+
+def test_signature_findings_go_on_the_version_and_instance_flags_on_sets(tmp_path):
+    cand = dict(
+        CANDS[0],
+        findings={
+            "url": "https://ngcc.dev/reports/sign-01.html",
+            "credit": "Saarinen, ngcc.dev",
+        },
+        instances=[
+            dict(CANDS[0]["instances"][0], broken="Forgery (Saarinen, ngcc.dev)."),
+            *CANDS[0]["instances"][1:],
+        ],
+    )
+    nd.write_files([cand], "signature", SIG_SIZES, {}, tmp_path)
+    doc = load(tmp_path / "Aigis-Sig-plus.yaml")
+    version = doc["versions"][0]
+    assert version["findings_url"] == "https://ngcc.dev/reports/sign-01.html"
+    assert "implementation" not in version and "broken" not in version
+    sets = {p["name"]: p for p in version["parametersets"]}
+    assert sets["A1"]["broken"] == "Forgery (Saarinen, ngcc.dev)."
+    assert "broken" not in sets["A2"]

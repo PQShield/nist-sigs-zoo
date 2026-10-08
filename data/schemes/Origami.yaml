@@ -29,3 +29,5 @@ versions:
     pk: 35924
     sig: 1220
     notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+  findings_url: https://ngcc.dev/reports/sign-18.html
+  broken: A public permutation of the variables lets anyone forge a signature on a chosen message without signing queries; the larger sets also have message digests too short for their targets (Saarinen, ngcc.dev).

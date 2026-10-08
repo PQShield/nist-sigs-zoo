@@ -24,3 +24,6 @@ versions:
     pk: 4288
     sig: 5975
     notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+  findings_url: https://ngcc.dev/reports/sign-07.html
+  implementation: The submitted code omits a nonce when sampling secrets, collapsing them to a single value and making key recovery cheap; signatures are also trivially malleable (Saarinen, ngcc.dev).
+  broken: The verifier ignores the signs of challenge coefficients, allowing universal forgery below every claimed level, and compressed CS-128 signatures leak enough to recover an equivalent key (Saarinen, ngcc.dev).

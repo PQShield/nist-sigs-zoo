@@ -21,3 +21,5 @@ parametersets:
   pk: 2374727
   ct: 2264
   notes: Optimised x86 implementation.
+  implementation: The bundled random generator limits key-generation randomness to 384 bits, below the 512-bit target (Saarinen, ngcc.dev).
+findings_url: https://ngcc.dev/reports/kem-32.html

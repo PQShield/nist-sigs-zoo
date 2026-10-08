@@ -24,3 +24,6 @@ versions:
     pk: 195
     sig: 51187
     notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it; the submitted code failed its own test-vector run in our build.
+  findings_url: https://ngcc.dev/reports/sign-29.html
+  implementation: The submitted code also overflows a verifier buffer on oversized signatures and exposes the witness through public-salt expansion (Saarinen, ngcc.dev).
+  broken: A single signature reveals the full signing witness through linear algebra, at every parameter set (Saarinen, ngcc.dev).

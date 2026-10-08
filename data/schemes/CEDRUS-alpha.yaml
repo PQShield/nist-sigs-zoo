@@ -14,11 +14,13 @@ versions:
     pk: 40
     sig: 10300
     notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+    implementation: The submitted code checks only 128 bits of each one-time chain value, so a lower-layer root can be replaced with about 2^128 work, below the claim for this set (Saarinen, ngcc.dev).
   - name: CEDRUSALPHA-160f
     ngcc_level: 128
     pk: 40
     sig: 19420
     notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+    implementation: The submitted code checks only 128 bits of each one-time chain value, so a lower-layer root can be replaced with about 2^128 work, below the claim for this set (Saarinen, ngcc.dev).
   - name: CEDRUSALPHA-256s
     ngcc_level: 256
     pk: 64
@@ -49,3 +51,4 @@ versions:
     pk: 128
     sig: 127488
     notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+  findings_url: https://ngcc.dev/reports/sign-04.html

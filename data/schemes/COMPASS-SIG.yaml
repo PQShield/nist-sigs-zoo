@@ -24,8 +24,11 @@ versions:
     pk: 5792
     sig: 7344
     notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+    implementation: The submitted code expands the whole key pair from a 256-bit seed and compresses messages too far, so key search or forgery costs about 2^256, below this set's target (Saarinen, ngcc.dev).
   - name: COMPASS-SIG-512
     ngcc_level: 512
     pk: 7648
     sig: 9024
     notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+    implementation: The submitted code expands the whole key pair from a 256-bit seed and compresses messages too far, so key search or forgery costs about 2^256, below this set's target (Saarinen, ngcc.dev).
+  findings_url: https://ngcc.dev/reports/sign-06.html

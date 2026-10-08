@@ -21,8 +21,11 @@ parametersets:
   pk: 2144
   ct: 2432
   notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+  implementation: The submitted code derives keys from a 256-bit root, so key search costs about 2^256, below this set's target (Saarinen, ngcc.dev).
 - name: COMPASS-KEM-512
   ngcc_level: 512
   pk: 2848
   ct: 3264
   notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+  implementation: The submitted code derives keys from a 256-bit root, so key search costs about 2^256, below this set's target (Saarinen, ngcc.dev).
+findings_url: https://ngcc.dev/reports/kem-11.html

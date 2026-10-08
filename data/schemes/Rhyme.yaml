@@ -14,21 +14,25 @@ versions:
     pk: 800
     sig: 5156
     notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+    implementation: In the SM3 build, messages longer than the hash input limit all map to the same value, so one such signature verifies for any other long message (Saarinen, ngcc.dev).
   - name: Rhyme-SM3-256
     ngcc_level: 256
     pk: 1824
     sig: 10308
     notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+    implementation: In the SM3 build, messages longer than the hash input limit all map to the same value, so one such signature verifies for any other long message (Saarinen, ngcc.dev).
   - name: Rhyme-SM3-384
     ngcc_level: 384
     pk: 2720
     sig: 14436
     notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+    implementation: In the SM3 build long messages all map to the same value, and the key seed and message digest limit attacks to about 2^256 work, below this set's target (Saarinen, ngcc.dev).
   - name: Rhyme-SM3-512
     ngcc_level: 512
     pk: 3872
     sig: 20612
     notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+    implementation: In the SM3 build long messages all map to the same value, and the key seed and message digest limit attacks to about 2^256 work, below this set's target (Saarinen, ngcc.dev).
   - name: Rhyme-SHAKE-128
     ngcc_level: 128
     pk: 800
@@ -44,8 +48,11 @@ versions:
     pk: 2720
     sig: 14436
     notes: Reference implementation.
+    implementation: The submitted code expands the key pair from a 256-bit seed and its message digest limits forgery to about 2^256 work, below this set's target (Saarinen, ngcc.dev).
   - name: Rhyme-SHAKE-512
     ngcc_level: 512
     pk: 3872
     sig: 20612
     notes: Reference implementation.
+    implementation: The submitted code expands the key pair from a 256-bit seed and its message digest limits forgery to about 2^256 work, below this set's target (Saarinen, ngcc.dev).
+  findings_url: https://ngcc.dev/reports/sign-22.html

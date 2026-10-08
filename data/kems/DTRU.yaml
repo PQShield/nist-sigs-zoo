@@ -36,3 +36,5 @@ parametersets:
   pk: 3072
   ct: 2560
   notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+findings_url: https://ngcc.dev/reports/kem-14.html
+implementation: A caller-supplied ciphertext length overflows a stack buffer in the submitted decapsulation (Saarinen, ngcc.dev).

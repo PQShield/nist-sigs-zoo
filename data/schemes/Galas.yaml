@@ -49,3 +49,5 @@ versions:
     pk: 128
     sig: 59416
     notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it; the test-vector run timed out in our build.
+  findings_url: https://ngcc.dev/reports/sign-12.html
+  implementation: The submitted signing code seeds its generator with a fixed value, so anyone can regenerate a victim's secret key; a 32-bit length truncation also allows forgeries on long messages (Saarinen, ngcc.dev).

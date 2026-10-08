@@ -24,3 +24,4 @@ versions:
     pk: 5184
     sig: 14713
     notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+  findings_url: https://ngcc.dev/reports/sign-16.html

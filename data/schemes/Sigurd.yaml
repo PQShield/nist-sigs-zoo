@@ -24,3 +24,5 @@ versions:
     pk: 435
     sig: 494532
     notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+  findings_url: https://ngcc.dev/reports/sign-24.html
+  implementation: The submitted code leaks the signing witness, through its encoding after a handful of signatures and through occasional zero challenges, enabling forgery at every level (Saarinen, ngcc.dev).

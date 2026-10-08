@@ -26,3 +26,4 @@ parametersets:
   pk: 14320
   ct: 28576
   notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+findings_url: https://ngcc.dev/reports/kem-36.html

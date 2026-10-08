@@ -15,6 +15,12 @@
 # published sizes, for built ones (optional sk too) they are a cross-check: where our measured
 # size differs the YAML note cites the spec value.
 #
+# findings (optional, per candidate): url (its ngcc.dev security report), credit, and
+# optional implementation (bugs in the submitted code) / broken (design attacks below the
+# claimed target) summaries; per instance, implementation / broken where a finding only
+# concerns some parameter sets. Summaries are in our own words (max 280 characters) and
+# end with "(<credit>)."; no ngcc.dev numbers, sizes or timings are imported.
+#
 # Sources: the official specifications only. ngcc.dev data is never copied here.
 #
 # Curation rules: ngcc_level is the NGCC target the submitters say the instance is designed
@@ -37,14 +43,20 @@
   category: Lattices
   assumption: MLWE/MSIS
   spec: Algorithm specifications.pdf
+  findings:
+    url: https://ngcc.dev/reports/sign-01.html
+    credit: "Saarinen, ngcc.dev"
+    implementation: "Submitted code accepts altered copies of valid signatures, can be driven into an out-of-bounds stack write by malformed hints, and samples challenge signs with far too little entropy for sets I and II (Saarinen, ngcc.dev)."
   instances:
     - instance: Aigis-Sig+-I
       ngcc_level: 128
       ref: "Sec. 4, Table 1 and Table 2 (PDF p. 18)"
     - instance: Aigis-Sig+-II
+      broken: "The specified message digest is too short for this set: a generic collision lets one signature be moved to another message with less work than the claimed level (Saarinen, ngcc.dev)."
       ngcc_level: 256
       ref: "Sec. 4, Table 1 and Table 2 (PDF p. 18)"
     - instance: Aigis-Sig+-III
+      broken: "The specified message digest is too short for this set: a generic collision lets one signature be moved to another message with less work than the claimed level (Saarinen, ngcc.dev)."
       ngcc_level: 512
       ref: "Sec. 4, Table 1 and Table 2 (PDF p. 18)"
 # Spec Table 1/10 also describe 80/192/384-bit sets 'for other application scenarios'; only 384 is an NGCC (optional) target. 384 has no code in the archive (inventory lists 128/256/512 only).
@@ -56,14 +68,19 @@
   category: Lattices
   assumption: MLWE/MSIS
   spec: Algorithm specifications.pdf
+  findings:
+    url: https://ngcc.dev/reports/sign-02.html
+    credit: "Saarinen, ngcc.dev"
   instances:
     - instance: BiT-128
+      broken: "Equivalent signing keys can be recovered from a large but practical number of public signatures, enabling forgeries (Saarinen, ngcc.dev)."
       ngcc_level: 128
       ref: "Sec. 6.3, Table 9 (PDF p. 34)"
     - instance: BiT-256
       ngcc_level: 256
       ref: "Sec. 6.3, Table 9 (PDF p. 34)"
     - instance: BiT-512
+      broken: "The unsalted 512-bit message digest limits forgery resistance to about 2^256 work, below the 512-bit target (Saarinen, ngcc.dev)."
       ngcc_level: 512
       ref: "Sec. 6.3, Table 9 (PDF p. 34)"
     # Not built (no implementation in the archive); instance name follows the spec pattern.
@@ -88,6 +105,10 @@
   category: Symmetric
   assumption: Hash-based
   spec: Algorithm specifications.pdf
+  findings:
+    url: https://ngcc.dev/reports/sign-03.html
+    credit: "Saarinen, ngcc.dev"
+    implementation: "The submitted code mishandles hypertree indices so that few-time keys repeat across signatures, enabling forgery after adaptive signing queries at every parameter set (Saarinen, ngcc.dev)."
   instances:
     - instance: CEDRUSC-160s
       ngcc_level: 128
@@ -122,11 +143,16 @@
   category: Symmetric
   assumption: Hash-based
   spec: Algorithm specifications.pdf
+  findings:
+    url: https://ngcc.dev/reports/sign-04.html
+    credit: "Saarinen, ngcc.dev"
   instances:
     - instance: CEDRUSALPHA-160s
+      implementation: "The submitted code checks only 128 bits of each one-time chain value, so a lower-layer root can be replaced with about 2^128 work, below the claim for this set (Saarinen, ngcc.dev)."
       ngcc_level: 128
       ref: "Sec. 1.11, Table 1.1 (PDF p. 37)"
     - instance: CEDRUSALPHA-160f
+      implementation: "The submitted code checks only 128 bits of each one-time chain value, so a lower-layer root can be replaced with about 2^128 work, below the claim for this set (Saarinen, ngcc.dev)."
       ngcc_level: 128
       ref: "Sec. 1.11, Table 1.1 (PDF p. 37)"
     - instance: CEDRUSALPHA-256s
@@ -156,6 +182,10 @@
   category: Symmetric
   assumption: SM4/uBlock/Vistrutah OWF
   spec: Algorithm specifications.pdf
+  findings:
+    url: https://ngcc.dev/reports/sign-05.html
+    credit: "Saarinen, ngcc.dev"
+    implementation: "The submitted code leaves a value out of the final Fiat-Shamir challenge, so anyone can forge signatures from the public key alone, at every parameter set (Saarinen, ngcc.dev)."
   instances:
     - instance: sm4th_d3_128f_loose
       ngcc_level: 128
@@ -208,6 +238,9 @@
   category: Lattices
   assumption: MLWE/Shell-MISIS
   spec: Algorithm specifications.pdf
+  findings:
+    url: https://ngcc.dev/reports/sign-06.html
+    credit: "Saarinen, ngcc.dev"
   instances:
     - instance: COMPASS-SIG-128
       ngcc_level: 128
@@ -216,9 +249,11 @@
       ngcc_level: 256
       ref: "Table 1 and Table 2 (PDF p. 15)"
     - instance: COMPASS-SIG-384
+      implementation: "The submitted code expands the whole key pair from a 256-bit seed and compresses messages too far, so key search or forgery costs about 2^256, below this set's target (Saarinen, ngcc.dev)."
       ngcc_level: 384
       ref: "Table 1 and Table 2 (PDF p. 15)"
     - instance: COMPASS-SIG-512
+      implementation: "The submitted code expands the whole key pair from a 256-bit seed and compresses messages too far, so key search or forgery costs about 2^256, below this set's target (Saarinen, ngcc.dev)."
       ngcc_level: 512
       ref: "Table 1 and Table 2 (PDF p. 15)"
 # Assumption also uses BSTMSIS (spec Sec. 3). No recommended set.
@@ -230,6 +265,11 @@
   category: Lattices
   assumption: MLWE/MSIS
   spec: Algorithm specifications/CS.pdf
+  findings:
+    url: https://ngcc.dev/reports/sign-07.html
+    credit: "Saarinen, ngcc.dev"
+    implementation: "The submitted code omits a nonce when sampling secrets, collapsing them to a single value and making key recovery cheap; signatures are also trivially malleable (Saarinen, ngcc.dev)."
+    broken: "The verifier ignores the signs of challenge coefficients, allowing universal forgery below every claimed level, and compressed CS-128 signatures leak enough to recover an equivalent key (Saarinen, ngcc.dev)."
   instances:
     - instance: CS-128
       ngcc_level: 128
@@ -249,14 +289,19 @@
   category: Lattices
   assumption: MLWE/MSIS
   spec: Algorithm specification.pdf
+  findings:
+    url: https://ngcc.dev/reports/sign-08.html
+    credit: "Saarinen, ngcc.dev"
   instances:
     - instance: DARTS128
+      broken: "A restart in the signing procedure leaks an equivalent signing key after tens of millions of public signatures, enabling forgery (Saarinen, ngcc.dev)."
       ngcc_level: 128
       ref: "Sec. 1.5, Table 2 and Table 3 (PDF p. 13, 22)"
     - instance: DARTS256
       ngcc_level: 256
       ref: "Sec. 1.5, Table 2 and Table 3 (PDF p. 13, 22)"
     - instance: DARTS512
+      implementation: "The submitted code limits the message digest, and in the AVX2 build the signing secret's seed, to 256 bits, well below the 512-bit target (Saarinen, ngcc.dev)."
       ngcc_level: 512
       ref: "Sec. 1.5, Table 2 and Table 3 (PDF p. 13, 22)"
 # No implementation in the archive (Test_Vectors only), so no inventory entries; instance names follow the KAT file names (KAT_SIG_dove_<variant>_<n>.txt). Spec writes DOVE_classic_128 etc. Spec Table 5/6 tie DOVE128/256/512 to ICCS levels 1/2/3. No recommended set.
@@ -268,6 +313,9 @@
   category: Multivariate
   assumption: UOV
   spec: Algorithm specifications.pdf
+  findings:
+    url: https://ngcc.dev/reports/sign-09.html
+    credit: "Saarinen, ngcc.dev"
   instances:
     - instance: dove_classic_128
       ngcc_level: 128
@@ -315,14 +363,19 @@
   category: Other
   assumption: Cubic factorisation
   spec: Algorithm Specification/algorithm-specification-facto-dsa.pdf
+  findings:
+    url: https://ngcc.dev/reports/sign-10.html
+    credit: "Saarinen, ngcc.dev"
   instances:
     - instance: Facto-DSA-128
+      broken: "An equivalent signing trapdoor can be computed from the public key in seconds, and unsalted digests let signatures be transferred to new messages below the target (Saarinen, ngcc.dev)."
       ngcc_level: 128
       ref: "Sec. 2.2, Table 2 (PDF p. 16)"
     - instance: Facto-DSA-256
       ngcc_level: 256
       ref: "Sec. 2.2, Table 2 (PDF p. 16)"
     - instance: Facto-DSA-512
+      broken: "Unsalted message digests let a collision transfer a signature to a new message with less work than the 512-bit target (Saarinen, ngcc.dev)."
       ngcc_level: 512
       ref: "Sec. 2.2, Table 2 (PDF p. 16)"
 # Same Category mapping as CEDRUS (160-bit sets for Category I, intro). No recommended set.
@@ -334,6 +387,9 @@
   category: Symmetric
   assumption: Hash-based
   spec: Algorithm specifications.pdf
+  findings:
+    url: https://ngcc.dev/reports/sign-11.html
+    credit: "Saarinen, ngcc.dev"
   instances:
     - instance: Flextree-160s
       ngcc_level: 128
@@ -342,21 +398,27 @@
       ngcc_level: 128
       ref: "Sec. 1.12, Table 1.3 (PDF p. 46)"
     - instance: Flextree-256s
+      broken: "A signing counter can be ground without changing the hash-selected instance, so forgeries after many signing queries cost roughly 20 to 30 bits less than claimed, below this set's target (Saarinen, ngcc.dev)."
       ngcc_level: 256
       ref: "Sec. 1.12, Table 1.3 (PDF p. 46)"
     - instance: Flextree-256f
+      broken: "A signing counter can be ground without changing the hash-selected instance, so forgeries after many signing queries cost roughly 20 to 30 bits less than claimed, below this set's target (Saarinen, ngcc.dev)."
       ngcc_level: 256
       ref: "Sec. 1.12, Table 1.3 (PDF p. 46)"
     - instance: Flextree-384s
+      broken: "A signing counter can be ground without changing the hash-selected instance, so forgeries after many signing queries cost roughly 20 to 30 bits less than claimed, below this set's target (Saarinen, ngcc.dev)."
       ngcc_level: 384
       ref: "Sec. 1.12, Table 1.3 (PDF p. 46)"
     - instance: Flextree-384f
+      broken: "A signing counter can be ground without changing the hash-selected instance, so forgeries after many signing queries cost roughly 20 to 30 bits less than claimed, below this set's target (Saarinen, ngcc.dev)."
       ngcc_level: 384
       ref: "Sec. 1.12, Table 1.3 (PDF p. 46)"
     - instance: Flextree-512s
+      broken: "A signing counter can be ground without changing the hash-selected instance, so forgeries after many signing queries cost roughly 20 to 30 bits less than claimed, below this set's target (Saarinen, ngcc.dev)."
       ngcc_level: 512
       ref: "Sec. 1.12, Table 1.3 (PDF p. 46)"
     - instance: Flextree-512f
+      broken: "A signing counter can be ground without changing the hash-selected instance, so forgeries after many signing queries cost roughly 20 to 30 bits less than claimed, below this set's target (Saarinen, ngcc.dev)."
       ngcc_level: 512
       ref: "Sec. 1.12, Table 1.3 (PDF p. 46)"
 # inventory.py reports instance name 'ngcc' for all dirs; real names are the Galas-<n><S|F> directories. Table 1 claims 128(80) for lambda=160. No recommended set.
@@ -368,6 +430,10 @@
   category: Symmetric
   assumption: Gala OWF
   spec: Algorithm specifications.pdf
+  findings:
+    url: https://ngcc.dev/reports/sign-12.html
+    credit: "Saarinen, ngcc.dev"
+    implementation: "The submitted signing code seeds its generator with a fixed value, so anyone can regenerate a victim's secret key; a 32-bit length truncation also allows forgeries on long messages (Saarinen, ngcc.dev)."
   instances:
     - instance: Galas-160S
       ngcc_level: 128
@@ -405,6 +471,9 @@
   category: Symmetric
   assumption: Pylon OWF
   spec: Algorithm specifications/The GreatWall Signature Scheme.pdf
+  findings:
+    url: https://ngcc.dev/reports/sign-13.html
+    credit: "Saarinen, ngcc.dev"
   instances:
     - instance: GreatWall128f
       omit: "Additional variant: submitters assign it to no NGCC level (Clarification4GreatWall.pdf Table 1, p. 1)"
@@ -426,9 +495,11 @@
       ngcc_level: 256
       ref: "Clarification4GreatWall.pdf, Table 1 (p. 1); spec Sec. 3.4, Table 3 (PDF p. 31)"
     - instance: GreatWall512f
+      broken: "Hashing with SHAKE256 limits forgery resistance to about 2^256 work after one signing query, below the 512-bit target (Saarinen, ngcc.dev)."
       ngcc_level: 512
       ref: "Clarification4GreatWall.pdf, Table 1 (p. 1); spec Sec. 3.4, Table 3 (PDF p. 31)"
     - instance: GreatWall512s
+      broken: "Hashing with SHAKE256 limits forgery resistance to about 2^256 work after one signing query, below the 512-bit target (Saarinen, ngcc.dev)."
       ngcc_level: 512
       ref: "Clarification4GreatWall.pdf, Table 1 (p. 1); spec Sec. 3.4, Table 3 (PDF p. 31)"
 # Sec. 6.1: Lynxer-160 is the set for the 128-bit classical / 80-bit quantum level. No recommended set.
@@ -440,6 +511,9 @@
   category: Symmetric
   assumption: Lynx OWF
   spec: Algorithm specifications.pdf
+  findings:
+    url: https://ngcc.dev/reports/sign-14.html
+    credit: "Saarinen, ngcc.dev"
   instances:
     - instance: Lynxer-160s
       ngcc_level: 128
@@ -448,21 +522,27 @@
       ngcc_level: 128
       ref: "Sec. 6.1 (PDF p. 53) and Sec. 6.4, Table 5 (PDF p. 56)"
     - instance: Lynxer-256s
+      broken: "A degenerate witness lets anyone forge signatures from the public key at about the cost of honest signing; one signature also enables key recovery below the target (Saarinen, ngcc.dev)."
       ngcc_level: 256
       ref: "Sec. 6.1 (PDF p. 53) and Sec. 6.4, Table 5 (PDF p. 56)"
     - instance: Lynxer-256f
+      broken: "A degenerate witness lets anyone forge signatures from the public key at about the cost of honest signing; one signature also enables key recovery below the target (Saarinen, ngcc.dev)."
       ngcc_level: 256
       ref: "Sec. 6.1 (PDF p. 53) and Sec. 6.4, Table 5 (PDF p. 56)"
     - instance: Lynxer-384s
+      broken: "A degenerate witness lets anyone forge signatures from the public key at about the cost of honest signing; one signature also enables key recovery below the target (Saarinen, ngcc.dev)."
       ngcc_level: 384
       ref: "Sec. 6.1 (PDF p. 53) and Sec. 6.4, Table 5 (PDF p. 56)"
     - instance: Lynxer-384f
+      broken: "A degenerate witness lets anyone forge signatures from the public key at about the cost of honest signing; one signature also enables key recovery below the target (Saarinen, ngcc.dev)."
       ngcc_level: 384
       ref: "Sec. 6.1 (PDF p. 53) and Sec. 6.4, Table 5 (PDF p. 56)"
     - instance: Lynxer-512s
+      broken: "A degenerate witness lets anyone forge signatures from the public key at about the cost of honest signing; one signature also enables key recovery below the target (Saarinen, ngcc.dev)."
       ngcc_level: 512
       ref: "Sec. 6.1 (PDF p. 53) and Sec. 6.4, Table 5 (PDF p. 56)"
     - instance: Lynxer-512f
+      broken: "A degenerate witness lets anyone forge signatures from the public key at about the cost of honest signing; one signature also enables key recovery below the target (Saarinen, ngcc.dev)."
       ngcc_level: 512
       ref: "Sec. 6.1 (PDF p. 53) and Sec. 6.4, Table 5 (PDF p. 56)"
 # Spec calls the scheme ATLAS (MORNING-ATLAS); instances lwrdsa<n> = ATLAS-<n>. Assumption: Module-LWR (SIS-type assumption for forgery).
@@ -474,6 +554,11 @@
   category: Lattices
   assumption: MLWR/MSIS
   spec: Algorithm_Specifications/DSA_ATLAS_Specification.pdf
+  findings:
+    url: https://ngcc.dev/reports/sign-15.html
+    credit: "Saarinen, ngcc.dev"
+    implementation: "The submitted code reuses masking coefficients so that two signatures reveal the key, accepts altered signatures, and makes out-of-bounds memory accesses on crafted input (Saarinen, ngcc.dev)."
+    broken: "Several specified parameters fall short: the 128-bit set leaks its key from millions of signatures, and the higher sets have digests, seeds or challenge spaces too small for their targets (Saarinen, ngcc.dev)."
   instances:
     - instance: lwrdsa128
       ngcc_level: 128
@@ -496,6 +581,9 @@
   category: Lattices
   assumption: RR-LWR/RR-MSIS
   spec: Algorithm Specifications/Octarine.pdf
+  findings:
+    url: https://ngcc.dev/reports/sign-16.html
+    credit: "Saarinen, ngcc.dev"
   instances:
     - instance: Octarine-128
       ngcc_level: 128
@@ -515,6 +603,9 @@
   category: Lattices
   assumption: MLWE/MSIS
   spec: Algorithm specifications.pdf
+  findings:
+    url: https://ngcc.dev/reports/sign-17.html
+    credit: "Saarinen, ngcc.dev"
   instances:
     - instance: OPSsig-128
       ngcc_level: 128
@@ -535,6 +626,10 @@
   category: Multivariate
   assumption: Multivariate Quadratic
   spec: Algorithm specifications/Origami Algorithm specifications.pdf
+  findings:
+    url: https://ngcc.dev/reports/sign-18.html
+    credit: "Saarinen, ngcc.dev"
+    broken: "A public permutation of the variables lets anyone forge a signature on a chosen message without signing queries; the larger sets also have message digests too short for their targets (Saarinen, ngcc.dev)."
   instances:
     - instance: Origami-128
       ngcc_level: 128
@@ -561,6 +656,9 @@
   category: Symmetric
   assumption: Hash-based
   spec: Algorithm specifications/Phoenix specifications.pdf
+  findings:
+    url: https://ngcc.dev/reports/sign-19.html
+    credit: "Saarinen, ngcc.dev"
   instances:
     - instance: Phoenix-SHAKE-128s
       omit: "128-bit classical / 64-bit quantum set is a \"Toy example\", not an NGCC target (Phoenix specifications Addition, App. D Table 9, p. 1)"
@@ -611,15 +709,19 @@
       ngcc_level: 256
       ref: "Addition PDF, App. D Table 9 (p. 1); main spec Table 4 (PDF p. 40)"
     - instance: Phoenix-SM3-384s
+      implementation: "The submitted SM3 code compresses messages to 256 bits, so a second preimage after one signing query costs about 2^256, below this set's target (Saarinen, ngcc.dev)."
       ngcc_level: 384
       ref: "Addition PDF, App. D Table 9 (p. 1); main spec Table 4 (PDF p. 40)"
     - instance: Phoenix-SM3-384f
+      implementation: "The submitted SM3 code compresses messages to 256 bits, so a second preimage after one signing query costs about 2^256, below this set's target (Saarinen, ngcc.dev)."
       ngcc_level: 384
       ref: "Addition PDF, App. D Table 9 (p. 1); main spec Table 4 (PDF p. 40)"
     - instance: Phoenix-SM3-512s
+      implementation: "The submitted SM3 code compresses messages to 256 bits, so a second preimage after one signing query costs about 2^256, below this set's target (Saarinen, ngcc.dev)."
       ngcc_level: 512
       ref: "Addition PDF, App. D Table 9 (p. 1); main spec Table 4 (PDF p. 40)"
     - instance: Phoenix-SM3-512f
+      implementation: "The submitted SM3 code compresses messages to 256 bits, so a second preimage after one signing query costs about 2^256, below this set's target (Saarinen, ngcc.dev)."
       ngcc_level: 512
       ref: "Addition PDF, App. D Table 9 (p. 1); main spec Table 4 (PDF p. 40)"
 # Spec spells the name "Qingluan-N"; instance names per KAT files / ALGORITHM_INSTANCE headers ("QingLuan-N"; inventory.py shows only -512).
@@ -632,6 +734,9 @@
   category: MPCitH
   assumption: Restricted Synd. Dec.
   spec: Algorithm specifications.pdf
+  findings:
+    url: https://ngcc.dev/reports/sign-20.html
+    credit: "Saarinen, ngcc.dev"
   instances:
     - instance: QingLuan-128
       ngcc_level: 128
@@ -640,9 +745,11 @@
       ngcc_level: 256
       ref: "§1.11 parameter table (PDF p. 9); §1 intro (PDF p. 3)"
     - instance: QingLuan-384
+      broken: "The specified key-generation state and nested SM3 hashing limit security to about 2^256 work, below this set's target (Saarinen, ngcc.dev)."
       ngcc_level: 384
       ref: "§1.11 parameter table (PDF p. 9); §1 intro (PDF p. 3)"
     - instance: QingLuan-512
+      broken: "The specified key-generation state and nested SM3 hashing limit security to about 2^256 work, below this set's target (Saarinen, ngcc.dev)."
       ngcc_level: 512
       ref: "§1.11 parameter table (PDF p. 9); §1 intro (PDF p. 3)"
 # The "160" sets are the submitters' 128-bit NGCC level (classical 160 chosen for the 80-bit quantum requirement; main spec §5.1, Addition Table 24 "NGCC Security Level").
@@ -655,6 +762,9 @@
   category: MPCitH
   assumption: Regular Synd. Dec.
   spec: Algorithm specifications/Algorithm specifications.pdf
+  findings:
+    url: https://ngcc.dev/reports/sign-21.html
+    credit: "Saarinen, ngcc.dev"
   instances:
     - instance: ReSolveD-alpha-160s
       ngcc_level: 128
@@ -663,21 +773,27 @@
       ngcc_level: 128
       ref: "Addition PDF App. B Table 24 (p. 1); main spec §5.1 (PDF p. 52)"
     - instance: ReSolveD-alpha-256s
+      broken: "Reused tweaks let an attacker recover the signing key from a single signature with work below this set's claimed level (Saarinen, ngcc.dev)."
       ngcc_level: 256
       ref: "Addition PDF App. B Table 24 (p. 1); main spec §5.1 (PDF p. 52)"
     - instance: ReSolveD-alpha-256f
+      broken: "Reused tweaks let an attacker recover the signing key from a single signature with work below this set's claimed level (Saarinen, ngcc.dev)."
       ngcc_level: 256
       ref: "Addition PDF App. B Table 24 (p. 1); main spec §5.1 (PDF p. 52)"
     - instance: ReSolveD-alpha-384s
+      broken: "Reused tweaks let an attacker recover the signing key from a single signature with work below this set's claimed level (Saarinen, ngcc.dev)."
       ngcc_level: 384
       ref: "Addition PDF App. B Table 24 (p. 1); main spec §5.1 (PDF p. 52)"
     - instance: ReSolveD-alpha-384f
+      broken: "Reused tweaks let an attacker recover the signing key from a single signature with work below this set's claimed level (Saarinen, ngcc.dev)."
       ngcc_level: 384
       ref: "Addition PDF App. B Table 24 (p. 1); main spec §5.1 (PDF p. 52)"
     - instance: ReSolveD-alpha-512s
+      broken: "Reused tweaks let an attacker recover the signing key from a single signature with work below this set's claimed level (Saarinen, ngcc.dev)."
       ngcc_level: 512
       ref: "Addition PDF App. B Table 24 (p. 1); main spec §5.1 (PDF p. 52)"
     - instance: ReSolveD-alpha-512f
+      broken: "Reused tweaks let an attacker recover the signing key from a single signature with work below this set's claimed level (Saarinen, ngcc.dev)."
       ngcc_level: 512
       ref: "Addition PDF App. B Table 24 (p. 1); main spec §5.1 (PDF p. 52)"
 # NOTE: in the extracted archive the files are swapped: "Basic information.pdf" (71 pp.) is the algorithm specification and "Algorithm specifications.pdf"
@@ -692,17 +808,24 @@
   category: Lattices
   assumption: GA-MLWE/MSIS
   spec: Basic information.pdf
+  findings:
+    url: https://ngcc.dev/reports/sign-22.html
+    credit: "Saarinen, ngcc.dev"
   instances:
     - instance: Rhyme-SM3-128
+      implementation: "In the SM3 build, messages longer than the hash input limit all map to the same value, so one such signature verifies for any other long message (Saarinen, ngcc.dev)."
       ngcc_level: 128
       ref: "§5.1 Table 3 (PDF p. 53)"
     - instance: Rhyme-SM3-256
+      implementation: "In the SM3 build, messages longer than the hash input limit all map to the same value, so one such signature verifies for any other long message (Saarinen, ngcc.dev)."
       ngcc_level: 256
       ref: "§5.1 Table 3 (PDF p. 53)"
     - instance: Rhyme-SM3-384
+      implementation: "In the SM3 build long messages all map to the same value, and the key seed and message digest limit attacks to about 2^256 work, below this set's target (Saarinen, ngcc.dev)."
       ngcc_level: 384
       ref: "§5.1 Table 3 (PDF p. 53)"
     - instance: Rhyme-SM3-512
+      implementation: "In the SM3 build long messages all map to the same value, and the key seed and message digest limit attacks to about 2^256 work, below this set's target (Saarinen, ngcc.dev)."
       ngcc_level: 512
       ref: "§5.1 Table 3 (PDF p. 53)"
     - instance: Rhyme-SHAKE-128
@@ -712,9 +835,11 @@
       ngcc_level: 256
       ref: "§5.1 Table 3 (PDF p. 53)"
     - instance: Rhyme-SHAKE-384
+      implementation: "The submitted code expands the key pair from a 256-bit seed and its message digest limits forgery to about 2^256 work, below this set's target (Saarinen, ngcc.dev)."
       ngcc_level: 384
       ref: "§5.1 Table 3 (PDF p. 53)"
     - instance: Rhyme-SHAKE-512
+      implementation: "The submitted code expands the key pair from a 256-bit seed and its message digest limits forgery to about 2^256 work, below this set's target (Saarinen, ngcc.dev)."
       ngcc_level: 512
       ref: "§5.1 Table 3 (PDF p. 53)"
 # Table 10 (PDF p. 51): lambda in {128, 256, 512} is the "target security level". No 384 set, no recommended set.
@@ -726,6 +851,10 @@
   category: Lattices
   assumption: MLWE/MSIS
   spec: Algorithm specifications/Shuttle 算法设计文档（V4）.pdf
+  findings:
+    url: https://ngcc.dev/reports/sign-23.html
+    credit: "Saarinen, ngcc.dev"
+    broken: "A reversed transition in the signing procedure leaks an equivalent signing key after a few hundred thousand signatures, giving forgeries at every level (Saarinen, ngcc.dev)."
   instances:
     - instance: SHUTTLE-128
       ngcc_level: 128
@@ -748,6 +877,10 @@
   category: MPCitH
   assumption: Regular Synd. Dec.
   spec: Algorithm specifications.pdf
+  findings:
+    url: https://ngcc.dev/reports/sign-24.html
+    credit: "Saarinen, ngcc.dev"
+    implementation: "The submitted code leaks the signing witness, through its encoding after a handful of signatures and through occasional zero challenges, enabling forgery at every level (Saarinen, ngcc.dev)."
   instances:
     - instance: Sigurd128
       ngcc_level: 128
@@ -769,6 +902,9 @@
   category: Isogenies
   assumption: Isogenies
   spec: Algorithm specifications/SQISign2D2 Algorithm specifications.pdf
+  findings:
+    url: https://ngcc.dev/reports/sign-25.html
+    credit: "Saarinen, ngcc.dev"
   instances:
     - instance: SQISign2Dsquare-Level1-eff
       omit: "Level 1 (128-bit classical / 64-bit quantum) is not an NGCC target; the submitters' Addition assigns only Levels 2, 3, 5 (Addition p. 1; main spec §4.2 p. 58)"
@@ -777,6 +913,7 @@
       omit: "Level 1 (128-bit classical / 64-bit quantum) is not an NGCC target; the submitters' Addition assigns only Levels 2, 3, 5 (Addition p. 1; main spec §4.2 p. 58)"
       ref: "§4.2 (PDF pp. 58-59); Addition p. 1; Table 6.1 (PDF p. 61)"
     - instance: SQISign2Dsquare-Level2-eff
+      implementation: "The submitted reference verifier for this set can take its verdict from stale stack memory, accepting forged or all-zero signatures (Saarinen, ngcc.dev)."
       ngcc_level: 128
       ref: "§4.2 (PDF pp. 58-59); Addition p. 1; Table 6.1 (PDF p. 61)"
     - instance: SQISign2Dsquare-Level2-sec
@@ -804,6 +941,9 @@
   category: Isogenies
   assumption: Isogenies
   spec: Algorithm specifications/算法本文.pdf
+  findings:
+    url: https://ngcc.dev/reports/sign-26.html
+    credit: "Saarinen, ngcc.dev"
   instances:
     - instance: SQIsign2D-lvl1
       omit: "Level-1 parameter set does not provide the 80-bit quantum level and is no longer used (Supplementary Statement on the Algorithm Parameters, App. C, p. 1)"
@@ -812,6 +952,7 @@
       ngcc_level: 128
       ref: "Appendix C (Supplementary Statement, p. 1); §8.1 Table 1 (PDF p. 56)"
     - instance: SQIsign2D-lvl3
+      implementation: "The submitted code skips the specified challenge grinding, so a forgery from one valid signature costs about 2^247, below the 256-bit target (Saarinen, ngcc.dev)."
       ngcc_level: 256
       ref: "Appendix C (Supplementary Statement, p. 1); §8.1 Table 1 (PDF p. 56)"
     - instance: SQIsign2D-lvl4
@@ -827,6 +968,10 @@
   category: Isogenies
   assumption: Isogenies
   spec: Algorithm specifications/Algorithm specifications.pdf
+  findings:
+    url: https://ngcc.dev/reports/sign-27.html
+    credit: "Saarinen, ngcc.dev"
+    broken: "Rescaling a signature's response gives practical forgeries on fresh messages after one signing query, at every parameter set (Saarinen, ngcc.dev)."
   instances:
     - instance: SQIsignTriangle_lvl1
       omit: "128/64-bit prototype set, \"not designated as a recommended parameter set\" for the NGCC levels (SQIsignTriangle_Parameter_Sets_Note.pdf, p. 1)"
@@ -853,6 +998,9 @@
   category: MPCitH
   assumption: Regular Synd. Dec.
   spec: Algorithm specifications/2-Algorithm specifications.pdf
+  findings:
+    url: https://ngcc.dev/reports/sign-28.html
+    credit: "Saarinen, ngcc.dev"
   instances:
     - instance: sydo_160s
       ngcc_level: 128
@@ -883,6 +1031,11 @@
   category: MPCitH
   assumption: NSBC
   spec: tins/Algorithm specifications/tins.pdf
+  findings:
+    url: https://ngcc.dev/reports/sign-29.html
+    credit: "Saarinen, ngcc.dev"
+    implementation: "The submitted code also overflows a verifier buffer on oversized signatures and exposes the witness through public-salt expansion (Saarinen, ngcc.dev)."
+    broken: "A single signature reveals the full signing witness through linear algebra, at every parameter set (Saarinen, ngcc.dev)."
   instances:
     - instance: Tins128
       ngcc_level: 128
@@ -903,6 +1056,10 @@
   category: Other
   assumption: Trilinear Form Equiv.
   spec: Algorithm specifications.pdf
+  findings:
+    url: https://ngcc.dev/reports/sign-30.html
+    credit: "Saarinen, ngcc.dev"
+    implementation: "The default SHA3 build regenerates the same signing keys every time, and in the 512-bit SHA3 build the SHAKE256 transcript limits collision resistance below the target (Saarinen, ngcc.dev)."
   instances:
     - instance: TRINE-128-Balanced
       ngcc_level: 128
@@ -931,6 +1088,10 @@
   category: Multivariate
   assumption: UOV
   spec: Algorithm specifications.pdf
+  findings:
+    url: https://ngcc.dev/reports/sign-31.html
+    credit: "Saarinen, ngcc.dev"
+    implementation: "On allocation failure the submitted verifier can reuse an earlier message digest and accept a signature for a different message (Saarinen, ngcc.dev)."
   instances:
     - instance: TSUOV_128
       ngcc_level: 128
@@ -939,6 +1100,7 @@
       ngcc_level: 256
       ref: "Table 1 (PDF p. 22)"
     - instance: TSUOV_512
+      broken: "The 512-bit message prehash limits forgery resistance to about 2^256 work, below the 512-bit target (Saarinen, ngcc.dev)."
       ngcc_level: 512
       ref: "Table 1 (PDF p. 22)"
 # §1.6 (PDF p. 15) "Recommended Parameter Sets": Level 1/2/3 = classical 160(UVW128)/256/512, quantum >= 80/128/256; names UVW128/256/512 carry the NGCC level.
@@ -951,8 +1113,13 @@
   category: Code-based
   assumption: Synd. Dec. over F3
   spec: Algorithm specifications/UVW Signature Scheme.pdf
+  findings:
+    url: https://ngcc.dev/reports/sign-32.html
+    credit: "Saarinen, ngcc.dev"
+    implementation: "The submitted verifier accepts every signature, valid or not (Saarinen, ngcc.dev)."
   instances:
     - instance: UVW-128
+      broken: "Correlated pairs in signatures reveal an equivalent signing key from a few hundred signatures, enabling forgery (Saarinen, ngcc.dev)."
       ngcc_level: 128
       recommended: true
       ref: "§1.6 Table 1 (PDF p. 15)"
@@ -973,6 +1140,10 @@
   category: Multivariate
   assumption: UOV-type MQ
   spec: Specification/VDOO-Specifications.pdf
+  findings:
+    url: https://ngcc.dev/reports/sign-33.html
+    credit: "Saarinen, ngcc.dev"
+    implementation: "The submitted code generates reproducible signing keys and predictable signing randomness, and its restricted coefficients allow public-key-only forgery at VDOO-128 (Saarinen, ngcc.dev)."
   instances:
     - instance: VDOO-128
       ngcc_level: 128
@@ -993,6 +1164,10 @@
   category: Lattices
   assumption: NTRU/NTRU-SIS
   spec: Algorithm specifications.pdf
+  findings:
+    url: https://ngcc.dev/reports/sign-34.html
+    credit: "Saarinen, ngcc.dev"
+    implementation: "The submitted code samples perturbations with wrong parameters, leaking secret-basis information through signatures, and its unsalted 256-bit prehash allows signature transfer at the higher levels (Saarinen, ngcc.dev)."
   instances:
     - instance: yuanyang-512
       ngcc_level: 128
@@ -1018,6 +1193,10 @@
   category: Lattices
   assumption: MLWE
   spec: Algorithm specifications/02-算法文本：Aigis-Enc+.pdf
+  findings:
+    url: https://ngcc.dev/reports/kem-01.html
+    credit: "Saarinen, ngcc.dev"
+    implementation: "Implicit rejection in the submitted decapsulation has no effect, so many modified ciphertexts return the original shared secret, breaking IND-CCA security (Saarinen, ngcc.dev)."
   instances:
     # inventory also lists a "kat_test" harness dir (not an instance); spec names are Aigis-Enc+-512/-1024/-2048
     - instance: Aigis-Enc+-I
@@ -1038,6 +1217,10 @@
   category: Lattices
   assumption: RLWE
   spec: Algorithm specifications/Algorithm specifications.pdf
+  findings:
+    url: https://ngcc.dev/reports/kem-02.html
+    credit: "Saarinen, ngcc.dev"
+    implementation: "The submitted decapsulation checks only part of the ciphertext and exposes decoder failures, allowing full key recovery from chosen ciphertexts (Saarinen, ngcc.dev)."
   instances:
     # inventory gives a single instance "Amoeba" (parameter dirs Amoeba-576 ... Amoeba-2304); spec names used
     - instance: Amoeba-576
@@ -1064,17 +1247,24 @@
   category: Code-based
   assumption: Rank Synd. Dec.
   spec: Algorithm specifications/Algorithm specifications.pdf
+  findings:
+    url: https://ngcc.dev/reports/kem-03.html
+    credit: "Saarinen, ngcc.dev"
+    implementation: "The submitted reference code publishes the support spaces, reducing secret-key recovery to linear algebra that runs in under a second (Saarinen, ngcc.dev)."
   instances:
     - instance: BAG-Loong-128
       ngcc_level: 128
       ref: "§3 parameter sets 'classical security levels of 128, 256, 384, 512' (PDF pp. 3, 8, Table 1)"
     - instance: BAG-Loong-256
+      broken: "Merging error supports lowers the cost of rank-decoding key recovery below this set's claimed level (Saarinen, ngcc.dev)."
       ngcc_level: 256
       ref: "PDF pp. 3, 8, Table 1"
     - instance: BAG-Loong-384
+      broken: "Merging error supports lowers the cost of rank-decoding key recovery below this set's claimed level (Saarinen, ngcc.dev)."
       ngcc_level: 384
       ref: "PDF pp. 3, 8, Table 1"
     - instance: BAG-Loong-512
+      broken: "Merging error supports lowers the cost of rank-decoding key recovery below this set's claimed level (Saarinen, ngcc.dev)."
       ngcc_level: 512
       ref: "PDF pp. 3, 8, Table 1"
 
@@ -1086,6 +1276,9 @@
   category: Code-based
   assumption: Rank Synd. Dec.
   spec: Algorithm specifications/Algorithm specifications.pdf
+  findings:
+    url: https://ngcc.dev/reports/kem-04.html
+    credit: "Saarinen, ngcc.dev"
   instances:
     - instance: bag_piglet_128
       ngcc_level: 128
@@ -1108,6 +1301,10 @@
   category: Code-based
   assumption: QC-MDPC
   spec: Algorithm specifications/BIKE_MLThre.pdf
+  findings:
+    url: https://ngcc.dev/reports/kem-05.html
+    credit: "Saarinen, ngcc.dev"
+    implementation: "The default submitted library build generates the same secret key every time, so anyone can reproduce a victim's key (Saarinen, ngcc.dev)."
   instances:
     # inventory only finds a "kat" dir; spec names used (no per-instance dirs)
     - instance: BIKE_MLThre-128
@@ -1128,6 +1325,10 @@
   category: Code-based
   assumption: Rank Synd. Dec.
   spec: Algorithm specifications/BRA-Documentation.pdf
+  findings:
+    url: https://ngcc.dev/reports/kem-06.html
+    credit: "Saarinen, ngcc.dev"
+    implementation: "The submitted decapsulation ignores padding bits, so altered copies of a challenge ciphertext decapsulate to the same key, breaking IND-CCA security (Saarinen, ngcc.dev)."
   instances:
     - instance: BRA-128
       ngcc_level: 128
@@ -1147,6 +1348,10 @@
   category: Code-based
   assumption: Rank Synd. Dec.
   spec: Algorithm specifications/BRQC-Documentation.pdf
+  findings:
+    url: https://ngcc.dev/reports/kem-07.html
+    credit: "Saarinen, ngcc.dev"
+    implementation: "The submitted decapsulation ignores padding bits, so altered copies of a challenge ciphertext decapsulate to the same key, breaking IND-CCA security (Saarinen, ngcc.dev)."
   instances:
     - instance: BRQC-128
       ngcc_level: 128
@@ -1166,6 +1371,9 @@
   category: Lattices
   assumption: MLWE
   spec: Algorithm specifications/Algorithm specifications.pdf
+  findings:
+    url: https://ngcc.dev/reports/kem-08.html
+    credit: "Saarinen, ngcc.dev"
   instances:
     # inventory also lists *_AVX2 dirs: optimized implementations of the same sets, not instances
     # The spec §7.1 says "three parameter sets" (c128/c256/c512) but §6.2 Table 2 lists four recommended sets
@@ -1211,6 +1419,10 @@
   category: Lattices
   assumption: RLWE/MLWE
   spec: Algorithm specifications/cheetah_kem_en.pdf
+  findings:
+    url: https://ngcc.dev/reports/kem-09.html
+    credit: "Saarinen, ngcc.dev"
+    implementation: "A faulty rejection mask in the submitted decapsulation returns most bits of the true shared secret for modified ciphertexts (Saarinen, ngcc.dev)."
   instances:
     - instance: Cheetah128
       ngcc_level: 128
@@ -1233,6 +1445,10 @@
   category: Code-based
   assumption: Rank Synd. Dec.
   spec: Algorithm specifications/C-Multi-UR-AG-Documentation.pdf
+  findings:
+    url: https://ngcc.dev/reports/kem-10.html
+    credit: "Saarinen, ngcc.dev"
+    implementation: "Malformed ciphertexts crash the submitted reference decapsulation, and ignored padding bits make the 512-bit set's ciphertexts malleable (Saarinen, ngcc.dev)."
   instances:
     # spec calls them Level-128/256/512; inventory names used
     - instance: CMultiURAG-128
@@ -1253,6 +1469,9 @@
   category: Lattices
   assumption: MLWR
   spec: Algorithm specifications/COMPASS-KEM算法文本(en).pdf
+  findings:
+    url: https://ngcc.dev/reports/kem-11.html
+    credit: "Saarinen, ngcc.dev"
   instances:
     - instance: COMPASS-KEM-128
       ngcc_level: 128
@@ -1261,9 +1480,11 @@
       ngcc_level: 256
       ref: "Table 1 (PDF p. 18)"
     - instance: COMPASS-KEM-384
+      implementation: "The submitted code derives keys from a 256-bit root, so key search costs about 2^256, below this set's target (Saarinen, ngcc.dev)."
       ngcc_level: 384
       ref: "Table 1 (PDF p. 18)"
     - instance: COMPASS-KEM-512
+      implementation: "The submitted code derives keys from a 256-bit root, so key search costs about 2^256, below this set's target (Saarinen, ngcc.dev)."
       ngcc_level: 512
       ref: "Table 1 (PDF p. 18)"
 
@@ -1275,6 +1496,9 @@
   category: Lattices
   assumption: NTRU/RLWR
   spec: Algorithm specifications/逐光算法文本-英文.pdf
+  findings:
+    url: https://ngcc.dev/reports/kem-12.html
+    credit: "Saarinen, ngcc.dev"
   instances:
     # spec calls them CTL_128/256/512; inventory (dir) names used
     - instance: CTL-257-512
@@ -1284,6 +1508,8 @@
       ngcc_level: 256
       ref: "§3.4 Table 1-2, CTL_256 (n=1024, q=769) (PDF pp. 27-28)"
     - instance: CTL-3329-2048
+      broken: "The specified private key is a 32-byte seed, so at most 2^256 public keys exist and key search falls below the 512-bit target (Saarinen, ngcc.dev)."
+      implementation: "The submitted code also returns a 384-bit shared secret instead of the specified 512 bits (Saarinen, ngcc.dev)."
       ngcc_level: 512
       ref: "§3.4 Table 1-2, CTL_512 (n=2048, q=3329) (PDF pp. 27-28)"
 
@@ -1295,6 +1521,9 @@
   category: Lattices
   assumption: MLWE
   spec: Algorithm specifications/DKEM-PKCKEM-380333-Algorithm Specification.pdf
+  findings:
+    url: https://ngcc.dev/reports/kem-13.html
+    credit: "Saarinen, ngcc.dev"
   instances:
     # inventory lists "DKE-128" and "DKEM-128" only; spec names used
     - instance: DKEM-128
@@ -1315,6 +1544,10 @@
   category: Lattices
   assumption: NTRU/RLWE
   spec: Algorithm specifications/Algorithm specifications.pdf
+  findings:
+    url: https://ngcc.dev/reports/kem-14.html
+    credit: "Saarinen, ngcc.dev"
+    implementation: "A caller-supplied ciphertext length overflows a stack buffer in the submitted decapsulation (Saarinen, ngcc.dev)."
   instances:
     # "-PACK_PK" variants (lossless pk compression) are encodings of the same sets, not instances
     - instance: DTRU-648
@@ -1347,6 +1580,10 @@
   category: Lattices
   assumption: NTRU
   spec: Algorithm specifications/Algorithm specification.pdf
+  findings:
+    url: https://ngcc.dev/reports/kem-15.html
+    credit: "Saarinen, ngcc.dev"
+    implementation: "The optimised equality check accepts invalid ciphertexts, and the additional FIPS202 builds never seed their generator, so their keys are predictable (Saarinen, ngcc.dev)."
   instances:
     # inventory splits per implementation (FLIT128_REF/_OPT, FLIT-FIPS202-*): those are implementations of
     # the same parameter sets, so the instances here are the parameter sets FLIT128/256/512
@@ -1368,6 +1605,9 @@
   category: Code-based
   assumption: Quasi-Cyclic Syndrome Decoding
   spec: Algorithm specifications/HARE算法文档.pdf
+  findings:
+    url: https://ngcc.dev/reports/kem-16.html
+    credit: "Saarinen, ngcc.dev"
   instances:
     # code dirs HARE-128/256/384/512 (-kr) correspond to spec HARE-2/5/7/9 (sizes match Table 2)
     # HARE-1 (NIST level 1) claims 128 but §4.1 says only HARE-2/5/7/9 meet this call; omitted with that reason.
@@ -1398,6 +1638,10 @@
   category: Code-based
   assumption: Quasi-Cyclic Syndrome Decoding
   spec: Algorithm specifications/算法文本.pdf
+  findings:
+    url: https://ngcc.dev/reports/kem-17.html
+    credit: "Saarinen, ngcc.dev"
+    implementation: "The submitted code produces reproducible secret keys and a reproducible first encapsulation in each process (Saarinen, ngcc.dev)."
   instances:
     # inventory gives only "AlgorithmInstance"; spec names HEP-QC-N (test-vector dirs are lower-case hep-qc-N)
     - instance: HEP-QC-1
@@ -1410,6 +1654,7 @@
       ngcc_level: 256
       ref: "§4 Table 4.1 (PDF p. 18)"
     - instance: HEP-QC-7
+      broken: "Key generation has at most 2^256 possible seeds, below the 512-bit target (Saarinen, ngcc.dev)."
       ngcc_level: 512
       ref: "§4 Table 4.1 (PDF p. 18)"
 
@@ -1421,11 +1666,17 @@
   category: Lattices
   assumption: LWE
   spec: Algorithm specifications/loong_kem_en.pdf
+  findings:
+    url: https://ngcc.dev/reports/kem-18.html
+    credit: "Saarinen, ngcc.dev"
+    implementation: "A faulty rejection mask in the submitted decapsulation returns the true shared secret for modified ciphertexts (Saarinen, ngcc.dev)."
   instances:
     - instance: Loong128
+      broken: "Public consistency equations recover shared secrets with practical lattice reduction (Saarinen, ngcc.dev)."
       ngcc_level: 128
       ref: "Table 2, lambda = classical bit security (PDF p. 21)"
     - instance: Loong256
+      broken: "Public consistency equations recover shared secrets with practical lattice reduction (Saarinen, ngcc.dev)."
       ngcc_level: 256
       ref: "Table 2 (PDF p. 21)"
     - instance: Loong384
@@ -1443,6 +1694,9 @@
   category: Lattices
   assumption: MLWR
   spec: Algorithm specifications/Lore算法文本.pdf
+  findings:
+    url: https://ngcc.dev/reports/kem-19.html
+    credit: "Saarinen, ngcc.dev"
   instances:
     # spec calls them Lore-128/256/384/512 (Lambda); inventory names L1-L4 used
     - instance: Lore-L1
@@ -1452,9 +1706,11 @@
       ngcc_level: 256
       ref: "Table 2, lambda = 256 (PDF p. 29)"
     - instance: Lore-L3
+      broken: "This set outputs 256-bit shared secrets from 256-bit key-generation seeds, short of its target (Saarinen, ngcc.dev)."
       ngcc_level: 384
       ref: "Table 2, lambda = 384 (PDF p. 29)"
     - instance: Lore-L4
+      broken: "This set outputs 256-bit shared secrets from 256-bit key-generation seeds, short of its target (Saarinen, ngcc.dev)."
       ngcc_level: 512
       ref: "Table 2, lambda = 512 (PDF p. 29)"
 
@@ -1466,6 +1722,10 @@
   category: Lattices
   assumption: LWE
   spec: Algorithm specifications/MAMBA_Frost_Doc.pdf
+  findings:
+    url: https://ngcc.dev/reports/kem-20.html
+    credit: "Saarinen, ngcc.dev"
+    implementation: "In the reference code an allocation failure during key generation still reports success, leaving keys whose shared secrets can be recovered from the public key (Saarinen, ngcc.dev)."
   instances:
     # "default" profiles are all five sizes; no single one is designated per target
     - instance: MAMBA-Frost-128
@@ -1510,6 +1770,9 @@
   category: Lattices
   assumption: MLWQ
   spec: Algorithm specifications/MAMBA_Viper_Doc.pdf
+  findings:
+    url: https://ngcc.dev/reports/kem-21.html
+    credit: "Saarinen, ngcc.dev"
   instances:
     - instance: MAMBA-Viper-128
       ngcc_level: 128
@@ -1521,9 +1784,11 @@
       ngcc_level: 256
       ref: "Table 2 (PDF p. 4)"
     - instance: MAMBA-Viper-384
+      implementation: "The submitted code derives the secret from a 256-bit seed, so key search falls below this set's target (Saarinen, ngcc.dev)."
       ngcc_level: 384
       ref: "Table 2 (PDF p. 4)"
     - instance: MAMBA-Viper-512
+      implementation: "The submitted code derives the secret from a 256-bit seed, so key search falls below this set's target (Saarinen, ngcc.dev)."
       ngcc_level: 512
       ref: "Table 2 (PDF p. 4)"
 # Inventory gives the single ALGORITHM_INSTANCE macro value "KEM_RRLWR" for all three sizes; instance names here are the spec/directory names Mithril-128/256/512.
@@ -1536,6 +1801,9 @@
   category: Lattices
   assumption: RR-LWR
   spec: Algorithm specifications/Mithril.pdf
+  findings:
+    url: https://ngcc.dev/reports/kem-22.html
+    credit: "Saarinen, ngcc.dev"
   instances:
     - instance: Mithril-128
       ngcc_level: 128
@@ -1555,6 +1823,9 @@
   category: Code-based
   assumption: QCSD
   spec: Algorithm specifications/Algorithm Specification.pdf
+  findings:
+    url: https://ngcc.dev/reports/kem-23.html
+    credit: "Saarinen, ngcc.dev"
   instances:
     - instance: Mito-1-128
       ngcc_level: 128
@@ -1592,6 +1863,9 @@
   category: Lattices
   assumption: MLWR
   spec: Algorithm specifications/scabbard.pdf
+  findings:
+    url: https://ngcc.dev/reports/kem-24.html
+    credit: "Saarinen, ngcc.dev"
   instances:
     - instance: scabbard128
       ngcc_level: 128
@@ -1614,6 +1888,9 @@
   category: Lattices
   assumption: NTRU/RLWE
   spec: Algorithm specifications/算法文本：NEV.pdf
+  findings:
+    url: https://ngcc.dev/reports/kem-25.html
+    credit: "Saarinen, ngcc.dev"
   instances:
     - instance: NEV-C1
       ngcc_level: 128
@@ -1663,17 +1940,23 @@
   category: Code-based
   assumption: QCSD
   spec: Algorithm specifications/NSS-HQC算法文本.pdf
+  findings:
+    url: https://ngcc.dev/reports/kem-26.html
+    credit: "Saarinen, ngcc.dev"
   instances:
     - instance: HQC-128
       ngcc_level: 128
       ref: "Table 1 (PDF p. 26), Table 8 (PDF p. 40)"
     - instance: HQC-256
+      broken: "Decoding the ephemeral syndrome costs about 2^227, below the 256-bit target (Saarinen, ngcc.dev)."
       ngcc_level: 256
       ref: "Table 1 (PDF p. 26), Table 8 (PDF p. 40)"
     - instance: HQC-384
+      broken: "Ephemeral syndrome decoding and a 256-bit decryption sub-seed both give attacks below this set's target (Saarinen, ngcc.dev)."
       ngcc_level: 384
       ref: "Table 1 (PDF p. 26), Table 8 (PDF p. 40)"
     - instance: HQC-512
+      broken: "Ephemeral syndrome decoding and a 256-bit decryption sub-seed both give attacks below this set's target (Saarinen, ngcc.dev)."
       ngcc_level: 512
       ref: "Table 1 (PDF p. 26), Table 8 (PDF p. 40)"
 # Spec names the sets NTRE-<q>-<n>; code/KAT names are NTRE-128/256/512 (mapped by size and level).
@@ -1685,6 +1968,9 @@
   category: Lattices
   assumption: R-NTRU/R-LWE
   spec: Algorithm specifications/NTRE.KEM-Documentation.pdf
+  findings:
+    url: https://ngcc.dev/reports/kem-27.html
+    credit: "Saarinen, ngcc.dev"
   instances:
     - instance: NTRE-128
       ngcc_level: 128
@@ -1693,6 +1979,7 @@
       ngcc_level: 256
       ref: "Table 1 (PDF p. 9): NTRE-2917-1296, classical 290"
     - instance: NTRE-512
+      implementation: "The submitted code uses a 256-bit secret seed, so offline key search costs at most 2^256, below the 512-bit target (Saarinen, ngcc.dev)."
       ngcc_level: 512
       ref: "Table 1 (PDF p. 9): NTRE-3457-2304, classical 584"
 - id: kem-28
@@ -1703,6 +1990,10 @@
   category: Lattices
   assumption: NTRU/RLWE
   spec: Algorithm specifications/2算法文本（OAEP-NTRU）.pdf
+  findings:
+    url: https://ngcc.dev/reports/kem-28.html
+    credit: "Saarinen, ngcc.dev"
+    implementation: "Specification and code accept non-canonical ciphertext encodings, so a re-encoded challenge ciphertext decapsulates to the same key, defeating IND-CCA security (Saarinen, ngcc.dev)."
   instances:
     - instance: OAEP-NTRU-648
       ngcc_level: 128
@@ -1723,6 +2014,11 @@
   category: Lattices
   assumption: Polar-LIP
   spec: Submission_Package/Algorithm_Text/polarkem-spec.pdf
+  findings:
+    url: https://ngcc.dev/reports/kem-29.html
+    credit: "Saarinen, ngcc.dev"
+    implementation: "The submitted code includes functions that derive the shared secret from public data alone (Saarinen, ngcc.dev)."
+    broken: "The specified basis exposes the secret transformation, so the key can be recovered from the public key in polynomial time (Saarinen, ngcc.dev)."
   instances:
     - instance: PolarKEM-128
       ngcc_level: 128
@@ -1743,6 +2039,9 @@
   category: Lattices
   assumption: MLWE
   spec: Algorithm specifications/算法文本.pdf
+  findings:
+    url: https://ngcc.dev/reports/kem-30.html
+    credit: "Saarinen, ngcc.dev"
   instances:
     - instance: POLARLAC-128
       ngcc_level: 128
@@ -1772,6 +2071,10 @@
   category: Isogenies
   assumption: Isogenies
   spec: Algorithm specifications/2-算法文本(英文) .pdf
+  findings:
+    url: https://ngcc.dev/reports/kem-31.html
+    credit: "Saarinen, ngcc.dev"
+    implementation: "Non-canonical field encodings in the submitted code let altered ciphertexts decapsulate to the same key, breaking IND-CCA security (Saarinen, ngcc.dev)."
   instances:
     - instance: NGCC-1
       ngcc_level: 128
@@ -1802,6 +2105,9 @@
   category: Code-based
   assumption: QC twisted Goppa SD
   spec: Algorithm specifications/Algorithm_Text_en.pdf
+  findings:
+    url: https://ngcc.dev/reports/kem-32.html
+    credit: "Saarinen, ngcc.dev"
   instances:
     - instance: QCTM128
       ngcc_level: 128
@@ -1810,6 +2116,7 @@
       ngcc_level: 256
       ref: "§3.2.2; Table 2 (PDF p. 19): 272.90 bits"
     - instance: QCTM512
+      implementation: "The bundled random generator limits key-generation randomness to 384 bits, below the 512-bit target (Saarinen, ngcc.dev)."
       ngcc_level: 512
       ref: "§3.2.3; Table 3 (PDF p. 19): 530.30 bits"
 # Inventory shows only the macro "qube"; instance names are the spec names (directories qube-128 ... qube-512; no KAT for 192).
@@ -1821,6 +2128,10 @@
   category: Code-based
   assumption: QCSD
   spec: Algorithm specifications/Algorithm specifications.pdf
+  findings:
+    url: https://ngcc.dev/reports/kem-33.html
+    credit: "Saarinen, ngcc.dev"
+    implementation: "The optimised implementation produces predictable keys and encapsulations (Saarinen, ngcc.dev)."
   instances:
     - instance: QUBE-128
       ngcc_level: 128
@@ -1847,6 +2158,9 @@
   category: Lattices
   assumption: MLWE
   spec: Algorithm specifications/rudraksh2.pdf
+  findings:
+    url: https://ngcc.dev/reports/kem-34.html
+    credit: "Saarinen, ngcc.dev"
   instances:
     - instance: lwekem128
       ngcc_level: 128
@@ -1876,6 +2190,9 @@
   category: Lattices
   assumption: LWE
   spec: Algorithm specifications/Scloud+算法文本.pdf
+  findings:
+    url: https://ngcc.dev/reports/kem-35.html
+    credit: "Saarinen, ngcc.dev"
   instances:
     - instance: Scloudplus-128
       ngcc_level: 128
@@ -1901,6 +2218,9 @@
   category: Code-based
   assumption: QC-MDPC
   spec: Algorithm specifications/TRIKE算法文档.pdf
+  findings:
+    url: https://ngcc.dev/reports/kem-36.html
+    credit: "Saarinen, ngcc.dev"
   instances:
     - instance: TRIKE-2
       ngcc_level: 128
@@ -1922,6 +2242,9 @@
   category: Code-based
   assumption: QCSD
   spec: Algorithm specifications/Algorithm specifications.pdf
+  findings:
+    url: https://ngcc.dev/reports/kem-37.html
+    credit: "Saarinen, ngcc.dev"
   instances:
     - instance: TriQ-KEM-128
       ngcc_level: 128
@@ -1945,8 +2268,12 @@
   category: Code-based
   assumption: "SD, (U+V,U+W) code distinguishing"
   spec: Algorithm specifications/UVW-KEM.pdf
+  findings:
+    url: https://ngcc.dev/reports/kem-38.html
+    credit: "Saarinen, ngcc.dev"
   instances:
     - instance: UVW-KEM-128
+      implementation: "Unused ciphertext bits in the submitted code let altered ciphertexts decapsulate to the same key (Saarinen, ngcc.dev)."
       ngcc_level: 128
       recommended: true
       ref: "Table 1 (PDF p. 16), \"Recommended Parameter Sets\""
@@ -1955,6 +2282,7 @@
       recommended: true
       ref: "Table 1 (PDF p. 16), \"Recommended Parameter Sets\""
     - instance: UVW-KEM-512
+      implementation: "Unused ciphertext bits let altered ciphertexts decapsulate to the same key, and the encryption pair derives from only 256 bits, below the target (Saarinen, ngcc.dev)."
       ngcc_level: 512
       recommended: true
       ref: "Table 1 (PDF p. 16), \"Recommended Parameter Sets\""
@@ -1967,6 +2295,9 @@
   category: Lattices
   assumption: MLWR
   spec: Algorithm specifications/Weaver算法设计说明书.pdf
+  findings:
+    url: https://ngcc.dev/reports/kem-39.html
+    credit: "Saarinen, ngcc.dev"
   instances:
     - instance: WeaverKEM-128
       ngcc_level: 128
@@ -1986,6 +2317,9 @@
   category: Lattices
   assumption: NTRU
   spec: Algorithm specifications/YuanYang.KEM算法文本.pdf
+  findings:
+    url: https://ngcc.dev/reports/kem-40.html
+    credit: "Saarinen, ngcc.dev"
   instances:
     - instance: yuanyang-512
       ngcc_level: 128
@@ -1994,6 +2328,7 @@
       ngcc_level: 256
       ref: "Table 1 (PDF p. 8); Table 3 (PDF p. 17)"
     - instance: yuanyang-2048
+      implementation: "A truncated encryption seed in the submitted code allows challenge keys to be distinguished with about 2^440 work, below the 512-bit target (Saarinen, ngcc.dev)."
       ngcc_level: 512
       ref: "Table 1 (PDF p. 8); Table 3 (PDF p. 17)"
 # Spec PDF p. 24: "we recommend the approved rows under this query-bound interpretation as the primary parameter choices" = ZEN-128/256/512 (769 -> 256 compression); -backup rows are the stricter-DFR alternatives.
@@ -2008,6 +2343,9 @@
   category: Lattices
   assumption: NTRU/RLWE
   spec: Algorithm specifications/Algorithm_specifications.pdf
+  findings:
+    url: https://ngcc.dev/reports/kem-41.html
+    credit: "Saarinen, ngcc.dev"
   instances:
     - instance: ZEN_128
       ngcc_level: 128

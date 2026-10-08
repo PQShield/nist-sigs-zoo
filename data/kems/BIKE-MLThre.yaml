@@ -21,3 +21,5 @@ parametersets:
   pk: 18751
   ct: 18815
   notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+findings_url: https://ngcc.dev/reports/kem-05.html
+implementation: The default submitted library build generates the same secret key every time, so anyone can reproduce a victim's key (Saarinen, ngcc.dev).

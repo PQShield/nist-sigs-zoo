@@ -21,3 +21,5 @@ parametersets:
   pk: 3328
   ct: 2880
   notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it; no submitted test vectors found for this instance.
+  implementation: A truncated encryption seed in the submitted code allows challenge keys to be distinguished with about 2^440 work, below the 512-bit target (Saarinen, ngcc.dev).
+findings_url: https://ngcc.dev/reports/kem-40.html

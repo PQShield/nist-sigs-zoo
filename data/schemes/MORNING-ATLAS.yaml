@@ -24,3 +24,6 @@ versions:
     pk: 6688
     sig: 10081
     notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it; the submitted code failed its own test-vector run in our build.
+  findings_url: https://ngcc.dev/reports/sign-15.html
+  implementation: The submitted code reuses masking coefficients so that two signatures reveal the key, accepts altered signatures, and makes out-of-bounds memory accesses on crafted input (Saarinen, ngcc.dev).
+  broken: 'Several specified parameters fall short: the 128-bit set leaks its key from millions of signatures, and the higher sets have digests, seeds or challenge spaces too small for their targets (Saarinen, ngcc.dev).'

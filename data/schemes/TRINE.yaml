@@ -39,3 +39,5 @@ versions:
     pk: 3188776
     sig: 23672
     notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it; the test-vector run timed out in our build.
+  findings_url: https://ngcc.dev/reports/sign-30.html
+  implementation: The default SHA3 build regenerates the same signing keys every time, and in the 512-bit SHA3 build the SHAKE256 transcript limits collision resistance below the target (Saarinen, ngcc.dev).

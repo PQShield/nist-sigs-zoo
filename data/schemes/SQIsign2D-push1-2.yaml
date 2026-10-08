@@ -19,8 +19,10 @@ versions:
     pk: 128
     sig: 293
     notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it; our build does not reproduce the submitted test vectors (cause unknown).
+    implementation: The submitted code skips the specified challenge grinding, so a forgery from one valid signature costs about 2^247, below the 256-bit target (Saarinen, ngcc.dev).
   - name: SQIsign2D-lvl4
     ngcc_level: 512
     pk: 262
     sig: 593
     notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+  findings_url: https://ngcc.dev/reports/sign-26.html

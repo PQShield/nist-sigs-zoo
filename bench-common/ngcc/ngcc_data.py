@@ -171,6 +171,9 @@ def parameterset(
             ps[field] = old[field]
     if note:
         ps["notes"] = note
+    for flag in ("implementation", "broken"):
+        if inst.get(flag):
+            ps[flag] = inst[flag]
     return ps
 
 
@@ -222,6 +225,13 @@ def scheme_doc(
         doc["status"] = STATUS
         doc["programmes"] = programmes
         doc["parametersets"] = sets
+    findings = cand.get("findings")
+    target = doc["versions"][0] if kind == "signature" else doc
+    if findings:
+        target["findings_url"] = findings["url"]
+        for flag in ("implementation", "broken"):
+            if findings.get(flag):
+                target[flag] = findings[flag]
     return doc
 
 

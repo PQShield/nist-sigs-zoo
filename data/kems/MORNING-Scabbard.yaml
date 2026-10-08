@@ -21,3 +21,4 @@ parametersets:
   pk: 2880
   ct: 3072
   notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+findings_url: https://ngcc.dev/reports/kem-24.html

@@ -21,3 +21,5 @@ parametersets:
   pk: 3072
   ct: 2304
   notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+findings_url: https://ngcc.dev/reports/kem-15.html
+implementation: The optimised equality check accepts invalid ciphertexts, and the additional FIPS202 builds never seed their generator, so their keys are predictable (Saarinen, ngcc.dev).
