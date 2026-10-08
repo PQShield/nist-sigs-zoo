@@ -55,7 +55,7 @@ CTR="ngcc-run-$$-$(date +%s)"
 
 ARGS=(run --name "$CTR" --network none --cap-drop ALL --security-opt no-new-privileges
     --read-only --pids-limit 4096 --memory 16g --memory-swap 16g
-    --cpus "$(nproc)" --user "$(id -u):$(id -g)"
+    --cpus "$("${DOCKER[@]}" info --format '{{.NCPU}}' 2>/dev/null || nproc)" --user "$(id -u):$(id -g)"
     --tmpfs "/tmp:exec,size=4g,uid=$(id -u),gid=$(id -g)"
     -e HOME=/tmp -v "$REPO:/repo:ro" -v /work -w /repo)
 for d in src specs; do
