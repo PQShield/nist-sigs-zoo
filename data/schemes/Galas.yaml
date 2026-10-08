@@ -13,39 +13,39 @@ versions:
     ngcc_level: 128
     pk: 40
     sig: 4812
-    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it; our build does not reproduce the submitted test vectors (cause unknown).
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it; our build does not reproduce the submitted test vectors (cause unknown).
   - name: Galas-160F
     ngcc_level: 128
     pk: 40
     sig: 5964
-    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it; our build does not reproduce the submitted test vectors (cause unknown).
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it; our build does not reproduce the submitted test vectors (cause unknown).
   - name: Galas-256S
     ngcc_level: 256
     pk: 64
     sig: 12114
-    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it; our build does not reproduce the submitted test vectors (cause unknown).
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it; our build does not reproduce the submitted test vectors (cause unknown).
   - name: Galas-256F
     ngcc_level: 256
     pk: 64
     sig: 15950
-    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it; our build does not reproduce the submitted test vectors (cause unknown).
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it; our build does not reproduce the submitted test vectors (cause unknown).
   - name: Galas-384S
     ngcc_level: 384
     pk: 96
     sig: 27784
-    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it; our build does not reproduce the submitted test vectors (cause unknown).
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it; our build does not reproduce the submitted test vectors (cause unknown).
   - name: Galas-384F
     ngcc_level: 384
     pk: 96
     sig: 33384
-    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it; our build does not reproduce the submitted test vectors (cause unknown).
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it; our build does not reproduce the submitted test vectors (cause unknown).
   - name: Galas-512S
     ngcc_level: 512
     pk: 128
     sig: 49516
-    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it; our build does not reproduce the submitted test vectors (cause unknown).
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it; our build does not reproduce the submitted test vectors (cause unknown).
   - name: Galas-512F
     ngcc_level: 512
     pk: 128
     sig: 59416
-    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it; the test-vector run timed out in our build.
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it; the test-vector run timed out in our build.

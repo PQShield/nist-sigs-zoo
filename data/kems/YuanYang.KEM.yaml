@@ -10,14 +10,14 @@ parametersets:
   ngcc_level: 128
   pk: 736
   ct: 656
-  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it; no submitted test vectors found for this instance.
+  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it; no submitted test vectors found for this instance.
 - name: yuanyang-1024
   ngcc_level: 256
   pk: 1568
   ct: 1344
-  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it; no submitted test vectors found for this instance.
+  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it; no submitted test vectors found for this instance.
 - name: yuanyang-2048
   ngcc_level: 512
   pk: 3328
   ct: 2880
-  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it; no submitted test vectors found for this instance.
+  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it; no submitted test vectors found for this instance.

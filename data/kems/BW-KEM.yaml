@@ -11,13 +11,13 @@ parametersets:
   recommended: true
   pk: 784
   ct: 768
-  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it.
+  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 - name: BW_KEM_C256
   ngcc_level: 256
   recommended: true
   pk: 1568
   ct: 1440
-  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it.
+  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 - name: BW_KEM_C384
   ngcc_level: 384
   recommended: true
@@ -29,4 +29,4 @@ parametersets:
   recommended: true
   pk: 3136
   ct: 2944
-  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it.
+  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.

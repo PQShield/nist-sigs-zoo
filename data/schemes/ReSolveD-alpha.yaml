@@ -13,39 +13,39 @@ versions:
     ngcc_level: 128
     pk: 121
     sig: 5307
-    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it; our build does not reproduce the submitted test vectors (cause unknown).
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it; our build does not reproduce the submitted test vectors (cause unknown).
   - name: ReSolveD-alpha-160f
     ngcc_level: 128
     pk: 121
     sig: 6851
-    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it; our build does not reproduce the submitted test vectors (cause unknown).
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it; our build does not reproduce the submitted test vectors (cause unknown).
   - name: ReSolveD-alpha-256s
     ngcc_level: 256
     pk: 194
     sig: 13973
-    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it; our build does not reproduce the submitted test vectors (cause unknown).
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it; our build does not reproduce the submitted test vectors (cause unknown).
   - name: ReSolveD-alpha-256f
     ngcc_level: 256
     pk: 194
     sig: 17932
-    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it; our build does not reproduce the submitted test vectors (cause unknown).
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it; our build does not reproduce the submitted test vectors (cause unknown).
   - name: ReSolveD-alpha-384s
     ngcc_level: 384
     pk: 288
     sig: 31575
-    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it; our build does not reproduce the submitted test vectors (cause unknown).
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it; our build does not reproduce the submitted test vectors (cause unknown).
   - name: ReSolveD-alpha-384f
     ngcc_level: 384
     pk: 288
     sig: 40469
-    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it; our build does not reproduce the submitted test vectors (cause unknown).
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it; our build does not reproduce the submitted test vectors (cause unknown).
   - name: ReSolveD-alpha-512s
     ngcc_level: 512
     pk: 385
     sig: 56239
-    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it; our build does not reproduce the submitted test vectors (cause unknown).
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it; our build does not reproduce the submitted test vectors (cause unknown).
   - name: ReSolveD-alpha-512f
     ngcc_level: 512
     pk: 385
     sig: 72611
-    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it; our build does not reproduce the submitted test vectors (cause unknown).
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it; our build does not reproduce the submitted test vectors (cause unknown).

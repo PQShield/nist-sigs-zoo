@@ -38,7 +38,7 @@ TIMING = {
     ),
 }
 HASH_NOTE = {
-    "placeholder": "uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it",
+    "placeholder": "uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it",
     "sm3": "uses the ICCS SM3 implementation from the submission package",
 }
 KAT_NOTE = {
@@ -157,7 +157,15 @@ def parameterset(
             note = f"{note} Measured sizes differ from the specification, which gives {diff} ({inst['size_ref']}).".strip()
     else:
         ps["pk"], ps[key] = inst["pk"], inst[key]
-        note = f"Sizes from the specification ({inst['size_ref']}); not measured, we did not build this instance."
+        failed = (status.get(name) or {}).get("build") == "FAIL"
+        why = (
+            "our build of this instance fails"
+            if failed
+            else "we did not build this instance"
+        )
+        note = (
+            f"Sizes from the specification ({inst['size_ref']}); not measured, {why}."
+        )
     for field in TIMING[kind]:
         if old is not None and field in old:
             ps[field] = old[field]
