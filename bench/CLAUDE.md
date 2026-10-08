@@ -35,6 +35,7 @@ bench/
 ├── harness.h             # sig bench_run() + columns; shares cycle counter/stats/timing
 │                         #   with bench-kem/ via ../bench-common/harness_common.h
 ├── main.c                # includes build/so_paths.h + filter logic + main loop
+│                         #   (one forked child per scheme, ../bench-common/isolate.h)
 ├── gen_shims.py          # shim generator: substitutes @COLNAME@ tokens from params.tsv
 ├── cpu_features.py       # prints 1 if the host CPU has all named features (/proc/cpuinfo);
 │                         #   scheme Makefiles use it to pick GFNI/AVX-512 backends
@@ -101,11 +102,49 @@ int crypto_sign_verify(const uint8_t *sig, size_t siglen,
 - **Stats**: median over `BENCH_ITER` (default 1000) iterations.
   Override at build time: `make BENCH_ITER=200`.
 - **Per-scheme override**: set `iters` field in `bench_scheme_info_t` to a non-zero value.
-- **bench_run()**: one warm-up, then `n` timed iterations; prints one line with six columns.
+- **bench_run()**: one warm-up, then `n` timed iterations; writes one row with six columns.
 - **Correctness check**: before timing, a fresh signature must verify and a tampered
   signature / message must be rejected; return codes are also checked in the timed loop.
-  A failing scheme prints `FAIL <name>: <reason>` on stderr and **no results row**, and
-  `./bench` exits 1, so a broken build can't be imported.
+  A failing scheme gets a **DNF row** (below) instead of timings, so a broken build can't
+  be imported with numbers.
+
+## Crash isolation and DNF rows (`../bench-common/isolate.h`)
+
+Every scheme `.so` is loaded and benchmarked in its own **forked child** (fork before
+`dlopen`, so the scheme's constructors run there too; the large-stack thread, CPU
+pinning and the perf/rdpmc counter all live in the child). The child sends its row
+to the parent over a pipe; the parent prints it only after the child exited cleanly.
+Anything a scheme prints on stdout goes to stderr, never between rows. A scheme that
+crashes, hangs or fails its correctness check costs only its own row, which becomes:
+
+```
+NGCC-Tins128                     2             DNF         DNF             DNF         DNF             DNF         DNF  valid-signature-rejected
+```
+
+i.e. name, iters, six `DNF` timing columns, and a one-word reason: the signal
+(`SIGABRT`, `SIGSEGV`, `SIGFPE`, …, `signal-N`), `timeout`, `exit-N`, `no-result`, or
+the failed check (`keygen-failed`, `sign-failed`, `bad-signature-length`,
+`valid-signature-rejected`, `tampered-signature-accepted`, `tampered-message-accepted`,
+`<op>-error-in-timed-loop`, `alloc-failed`). Each DNF also prints `DNF <name>: <reason>`
+on stderr. The run always continues with the next scheme.
+
+- `BENCH_TIMEOUT` (seconds, default 3600, `0` = none) bounds each scheme's wall-clock
+  time, including all iterations; on expiry the child gets `SIGKILL` (`timeout`).
+  Raise it for runs whose slowest scheme legitimately needs more than an hour.
+- Exit status: 0, or **2 if every scheme that ran was DNF** (usually a broken setup).
+  Filters that match nothing exit 0.
+- `--sizes` is unchanged (in-process, no isolation).
+- The importer (`update_scheme_data.py`) never imports timings from a DNF row. On an
+  NGCC parameter set it removes the old timings and appends
+  `Benchmark did not finish (<reason>).` to its notes (`ngcc_data.mark_dnf`; a later
+  good row removes it, `--ngcc-sizes` keeps it). On any other scheme it prints a
+  warning and keeps the existing timings.
+- This is generic: never special-case a candidate here. A crasher is fixed in its own
+  wrapper (see "NGCC candidates") or shows up as DNF.
+- Tests: `uv run --with pytest --with 'ruamel.yaml>=0.18' pytest -q bench-common/tests`
+  builds both harnesses against toy schemes (`bench-common/tests/fixtures/`) that abort,
+  segfault, divide by zero, hang, fail the warm-up check or succeed, and tests the
+  importers' parsers. Host-safe: no real scheme code runs.
 
 ## Shim pattern
 
@@ -150,7 +189,7 @@ The shim adapts upstream API conventions to the bench contract. Common issues:
   then `make -C build/cmake/` to produce static libs, then link shims against those `.a` files.
   See `schemes/sqisign/Makefile` for the stamp-based pattern.
 - **Large stack**: some variants need >8 MB stack (e.g. SNOVA-97-33-16-2).
-  `main.c` runs each scheme in a pthread with a 256 MB stack
+  `main.c` runs each scheme (in its child process) in a pthread with a 256 MB stack
   (`pthread_attr_setstacksize`) — this is independent of `RLIMIT_STACK` and
   works even on systems (e.g. AWS Linux) where the hard stack limit is capped.
 

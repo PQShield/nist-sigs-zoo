@@ -34,6 +34,7 @@ bench-kem/
 ├── harness.h             # KEM bench_run() + columns + round-trip check; shares cycle
 │                         #   counter/stats/timing via ../bench-common/harness_common.h
 ├── main.c                # includes build/so_paths.h + filter logic + large-stack thread
+│                         #   (one forked child per scheme, ../bench-common/isolate.h)
 ├── gen_shims.py          # shim generator: substitutes @COLNAME@ tokens from params.tsv
 ├── Makefile              # builds ./bench-kem; generates build/so_paths.h from ALL_SOS
 ├── run_bench.sh          # wrapper: collects sysinfo, tees output to results/
@@ -90,13 +91,27 @@ int crypto_kem_dec(uint8_t *ss, const uint8_t *ct, const uint8_t *sk);
 - **Stats**: median over `BENCH_ITER` (default 1000) iterations.
   Override at build time `make BENCH_ITER=200` or at run time `BENCH_ITER=200 ./bench-kem`.
 - **Per-scheme override**: set `iters` in `bench_scheme_info_t` to a non-zero value.
-- **Correctness**: every iteration compares the encaps shared secret against the
-  decaps shared secret (outside the timed region). Mismatches are tallied and the
-  `ok` column shows `FAIL`, but the scheme **still reports its timing numbers** — a
-  broken KEM is informative, not fatal. (This is a deliberate divergence from
-  `bench/`, which never checks the verify return value. It matters once schemes with
-  a non-zero decryption-failure rate, e.g. HQC, are added.)
-- Warm-up runs a full keygen → encaps → decaps before the timed loop.
+- **Warm-up check**: a full keygen → encaps → decaps round trip before the timed loop;
+  every call must return 0 and both sides must agree on the shared secret. Otherwise the
+  scheme gets a DNF row (reason `keygen-failed`, `encaps-failed`, `decaps-failed` or
+  `shared-secret-mismatch`) instead of timings.
+- **Correctness in the timed loop**: every iteration compares the encaps shared secret
+  against the decaps shared secret (outside the timed region). Mismatches are tallied and
+  the `ok` column shows `FAIL`, but the scheme **still reports its timing numbers** — an
+  occasional decryption failure (e.g. HQC's non-zero DFR) is informative, not fatal.
+- **Crash isolation**: as in `bench/` (see "Crash isolation and DNF rows" in
+  `../bench/CLAUDE.md`, shared code in `../bench-common/isolate.h`), each scheme runs in
+  its own forked child with a `BENCH_TIMEOUT` (default 3600 s, 0 = none). A crash, hang or
+  failed warm-up gives a DNF row and the run continues; the reason sits in the `ok`
+  column, so the column count is unchanged:
+
+  ```
+  NGCC-E1                         20             DNF         DNF             DNF         DNF             DNF         DNF  SIGABRT
+  ```
+
+  Exit status 0, or 2 if every scheme that ran was DNF. The importer handles DNF rows
+  like `bench/`'s: NGCC sets lose their timings and get a `Benchmark did not finish
+  (<reason>).` note, other schemes keep their timings with a warning.
 
 ## Shim pattern
 
