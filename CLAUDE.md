@@ -461,6 +461,8 @@ BENCH_ITER=5 AWS_PROFILE=bench scripts/aws-bench.sh --suite sigs  # quick smoke 
 Options: `--suite sigs|kems|both`, `--instance-type` (default `c7i.4xlarge`),
 `--ubuntu` (default `26.04`), `--ttl` minutes (default 60). Positional args are
 `run_bench.sh` filters. `BENCH_ITER` / `BENCH_CYCLES` / `BENCH_CPU` are forwarded.
+`--ngcc-src TARBALL` uploads a tar.gz of `bench-common/ngcc/src` (NGCC candidates) and
+sets `NGCC_BUILD=1` on the VM; without it NGCC instances are skipped.
 
 - **Builds the local `HEAD`**, cloned from the public GitHub repo. The script refuses
   to run with uncommitted changes. Commits not yet on origin are sent as a git bundle.
@@ -481,6 +483,27 @@ Options: `--suite sigs|kems|both`, `--instance-type` (default `c7i.4xlarge`),
 - **New build dependency?** Add it to the user-data `apt-get` list in the script.
   The VM is a stock Ubuntu with GCC 15 (C23 by default) and multiarch OpenSSL. If a
   scheme breaks there, fix its Makefile, not the script (see `bench/schemes/sdith`).
+- **NGCC runs** (Thom's plan: `c7i.4xlarge`, `--ttl 360`, signatures and KEMs as separate
+  runs, no filter, **`BENCH_ITER` unset** because it overrides the tuned per-instance
+  `iters` in `<suite>/schemes/ngcc/params.tsv`):
+  ```bash
+  tar -C bench-common/ngcc -czf /tmp/ngcc-src.tar.gz src   # ~2.4 GB (src/ is ~5 GB)
+  AWS_PROFILE=bench scripts/aws-bench.sh --suite sigs --ttl 360 --ngcc-src /tmp/ngcc-src.tar.gz
+  AWS_PROFILE=bench scripts/aws-bench.sh --suite kems --ttl 360 --ngcc-src /tmp/ngcc-src.tar.gz
+  ```
+  The VM never downloads from niccs.org.cn; the tarball is unpacked into
+  `repo/bench-common/ngcc/` (disk is raised to 100 GB with `--ngcc-src`). `iters` caps
+  each NGCC instance at about 30 s of timed work (floor 10, or 5 above 60 s per
+  iteration). Estimated runtime on a laptop-class core: signatures ~225 min, KEMs ~130 min
+  for the NGCC instances alone, plus build time and the non-NGCC schemes. QCTM512 and
+  vistrutith-d3-512s take 10 min per iteration; the TTL fetches partial results.
+  Smoke runs of NGCC code go through `scripts/ngcc-run` only (never the host).
+- **`scripts/ngcc-run` tooling notes:** `NGCC_OUT=$PWD/.ngcc-out-<name>` lets several
+  containers run concurrently (default `.ngcc-out/`); do not share an output dir. The
+  host has 4 cores and ~4 GB: run `status.py` per candidate group (a single full run is
+  OOM-killed; per-group `NGCC_KAT_TIMEOUT`s are recorded in `params.tsv`); its default
+  timeout is 900 s. A full `make -C bench` in the container fails offline (faest,
+  mceliece fetch git subprojects): use `make ALL_SOS= STAMPS= bench`.
 - **Orphan check:** `aws ec2 describe-instances --filters 'Name=tag:Name,Values=nist-sigs-zoo-bench-*'`
   (also `describe-security-groups`, `describe-key-pairs`).
 

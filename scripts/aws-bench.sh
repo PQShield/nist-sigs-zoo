@@ -9,6 +9,11 @@
 #   --ubuntu VERSION         Ubuntu LTS release for the AMI       (default: 26.04)
 #   --ttl MINUTES            hard lifetime; the VM powers off and self-terminates
 #                            after this, even if this script dies (default: 60)
+#   --ngcc-src TARBALL       tar.gz of bench-common/ngcc/src (NGCC candidates' extracted
+#                            sources); uploaded so the VM builds the NGCC instances too
+#                            (sets NGCC_BUILD=1 there; the VM never downloads from
+#                            niccs.org.cn). Create with:
+#                              tar -C bench-common/ngcc -czf /tmp/ngcc-src.tar.gz src
 #   -h, --help               show this help
 #
 #   filter...                passed to run_bench.sh (case-insensitive, OR-ed)
@@ -18,7 +23,8 @@
 # Environment:
 #   AWS_PROFILE / AWS_REGION        select account and region (standard AWS CLI)
 #   BENCH_ITER, BENCH_CYCLES,       forwarded to the benchmark on the VM
-#   BENCH_CPU
+#   BENCH_CPU                       (leave BENCH_ITER unset for NGCC runs: it overrides
+#                                   the per-instance iters tuned in params.tsv)
 #
 # What it does:
 #   1. Creates a per-run SSH key pair and a security group allowing SSH from
@@ -45,6 +51,7 @@ INSTANCE_TYPE=c7i.4xlarge
 TTL_MIN=60
 UBUNTU=26.04
 FILTERS=()
+NGCC_SRC_TAR=""
 
 usage() { sed -n '2,/^set -euo/{/^set -euo/d;s/^# \{0,1\}//;p}' "$0"; }
 
@@ -54,6 +61,7 @@ while [ $# -gt 0 ]; do
         --instance-type) INSTANCE_TYPE="$2"; shift 2 ;;
         --ttl)           TTL_MIN="$2"; shift 2 ;;
         --ubuntu)        UBUNTU="$2"; shift 2 ;;
+        --ngcc-src)      NGCC_SRC_TAR="$2"; shift 2 ;;
         -h|--help)       usage; exit 0 ;;
         --)              shift; FILTERS+=("$@"); break ;;
         -*)              echo "unknown option: $1" >&2; usage >&2; exit 2 ;;
@@ -67,6 +75,9 @@ case "$SUITE" in
 esac
 [[ "$TTL_MIN" =~ ^[0-9]+$ ]] && [ "$TTL_MIN" -ge 10 ] \
     || { echo "--ttl must be an integer >= 10" >&2; exit 2; }
+if [ -n "$NGCC_SRC_TAR" ] && [ ! -f "$NGCC_SRC_TAR" ]; then
+    echo "--ngcc-src: no such file: $NGCC_SRC_TAR" >&2; exit 2
+fi
 
 log() { printf '\033[1m[aws-bench %s]\033[0m %s\n' "$(date +%H:%M:%S)" "$*" >&2; }
 die() { log "ERROR: $*"; exit 1; }
@@ -270,6 +281,8 @@ apt-get -o DPkg::Lock::Timeout=600 install -y -q --no-install-recommends \\
 apt-get -o DPkg::Lock::Timeout=600 install -y -q --no-install-recommends libjitterentropy3-dev || true
 EOF
 
+VOLUME_GB=40
+[ -z "$NGCC_SRC_TAR" ] || VOLUME_GB=100   # tarball + extracted sources (~5 GB each) + builds
 log "launching spot $INSTANCE_TYPE in $REGION (Ubuntu $UBUNTU, AMI $AMI_ID, TTL ${TTL_MIN}m)"
 for subnet in "${SUBNETS[@]}"; do
     if out="$(aws ec2 run-instances \
@@ -278,7 +291,7 @@ for subnet in "${SUBNETS[@]}"; do
         --associate-public-ip-address \
         --instance-market-options 'MarketType=spot,SpotOptions={SpotInstanceType=one-time,InstanceInterruptionBehavior=terminate}' \
         --instance-initiated-shutdown-behavior terminate \
-        --block-device-mappings 'DeviceName=/dev/sda1,Ebs={VolumeSize=40,VolumeType=gp3,DeleteOnTermination=true}' \
+        --block-device-mappings "DeviceName=/dev/sda1,Ebs={VolumeSize=$VOLUME_GB,VolumeType=gp3,DeleteOnTermination=true}" \
         --metadata-options HttpTokens=required \
         --user-data "file://$USER_DATA" \
         --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=$RUN_ID}]" \
@@ -344,12 +357,21 @@ git config --global url."https://github.com/".insteadOf git@github.com:
 git submodule update -q --init --jobs 8 -- "$@"
 EOF
 
+if [ -n "$NGCC_SRC_TAR" ]; then
+    log "uploading NGCC sources ($(du -h "$NGCC_SRC_TAR" | cut -f1))"
+    rsync -a -e "$RSYNC_RSH" "$NGCC_SRC_TAR" "ubuntu@$IP:ngcc-src.tar.gz"
+    rssh 'tar -xzf ngcc-src.tar.gz -C repo/bench-common/ngcc && test -f repo/bench-common/ngcc/src/.extracted && rm -f ngcc-src.tar.gz' \
+        || die "unpacking the NGCC sources failed"
+fi
+
 # --- build + run in the background -----------------------------------------------
 
 REMOTE_ENV=""
 for v in BENCH_ITER BENCH_CYCLES BENCH_CPU; do
     if [ -n "${!v:-}" ]; then REMOTE_ENV+="export $v=$(printf '%q' "${!v}"); "; fi
 done
+# NGCC candidate code is only built when asked for (host builds are opt-in).
+if [ -n "$NGCC_SRC_TAR" ]; then REMOTE_ENV+="export NGCC_BUILD=1; "; fi
 FILTER_ARGS=""
 if [ "${#FILTERS[@]}" -gt 0 ]; then FILTER_ARGS="$(printf '%q ' "${FILTERS[@]}")"; fi
 
