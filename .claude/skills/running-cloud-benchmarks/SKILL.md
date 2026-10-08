@@ -19,7 +19,7 @@ The VM builds local `HEAD`, and the script refuses to run with uncommitted track
 |---|---|
 | Smoke test (junk) | `BENCH_ITER=5 scripts/aws-bench.sh --suite kems mlkem` (still builds the whole suite) |
 | Full non-NGCC suite | `scripts/aws-bench.sh --suite sigs` |
-| NGCC sigs | `scripts/aws-bench.sh --suite sigs --ttl 420 --ngcc-src /tmp/ngcc-src.tar.gz` |
+| NGCC sigs | `scripts/aws-bench.sh --suite sigs --ttl 480 --ngcc-src /tmp/ngcc-src.tar.gz` |
 | NGCC KEMs | same with `--suite kems --ttl 360` |
 
 NGCC tarball without KATs (~0.2 GB instead of 5 GB):
@@ -32,7 +32,7 @@ tar -C bench-common/ngcc -czf /tmp/ngcc-src.tar.gz --exclude=Test_Vectors \
 - **Real NGCC runs:** leave `BENCH_ITER` unset (it overrides the tuned `iters` in `*/schemes/ngcc/params.tsv`) and use no filter.
 - **Sigs and KEMs are separate runs.** Never use `both` with NGCC.
 - **The TTL counts from boot**: upload, cloud-init and build all come out of it. When the TTL runs out, only partial results come back. Leave margin.
-- `BENCH_TIMEOUT` is not forwarded, so each scheme gets 3600 s before it becomes a `timeout` DNF.
+- `BENCH_TIMEOUT` (per-scheme seconds, default 3600) is forwarded to the VM; a scheme that exceeds it becomes a `timeout` DNF.
 - **Instance:** `c7i.4xlarge` has a virtual PMU. A `*.metal*` type avoids noisy neighbours but costs more, so ask first. If the script warns `fell back to rdtsc`, the cycles are reference cycles: tell Thom before importing.
 
 ## Review before importing
