@@ -22,4 +22,4 @@ parametersets:
   ct: 3584
   notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 findings_url: https://ngcc.dev/reports/kem-01.html
-implementation: Implicit rejection in the submitted decapsulation has no effect, so many modified ciphertexts return the original shared secret, breaking IND-CCA security (Saarinen, ngcc.dev).
+implementation: Implicit rejection in the submitted decapsulation has no effect, so many modified ciphertexts return the original shared secret, breaking IND-CCA security (Saarinen).

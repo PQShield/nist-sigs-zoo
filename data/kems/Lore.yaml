@@ -21,11 +21,11 @@ parametersets:
   pk: 1954
   ct: 2114
   notes: Optimised x86 implementation.
-  broken: This set outputs 256-bit shared secrets from 256-bit key-generation seeds, short of its target (Saarinen, ngcc.dev).
+  broken: This set outputs 256-bit shared secrets from 256-bit key-generation seeds, short of its target (Saarinen).
 - name: Lore-L4
   ngcc_level: 512
   pk: 2914
   ct: 3170
   notes: Optimised x86 implementation.
-  broken: This set outputs 256-bit shared secrets from 256-bit key-generation seeds, short of its target (Saarinen, ngcc.dev).
+  broken: This set outputs 256-bit shared secrets from 256-bit key-generation seeds, short of its target (Saarinen).
 findings_url: https://ngcc.dev/reports/kem-19.html

@@ -22,4 +22,4 @@ parametersets:
   ct: 7082
   notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 findings_url: https://ngcc.dev/reports/kem-06.html
-implementation: The submitted decapsulation ignores padding bits, so altered copies of a challenge ciphertext decapsulate to the same key, breaking IND-CCA security (Saarinen, ngcc.dev).
+implementation: The submitted decapsulation ignores padding bits, so altered copies of a challenge ciphertext decapsulate to the same key, breaking IND-CCA security (Saarinen).

@@ -21,11 +21,11 @@ parametersets:
   pk: 2496
   ct: 2656
   notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
-  implementation: The submitted code derives the secret from a 256-bit seed, so key search falls below this set's target (Saarinen, ngcc.dev).
+  implementation: The submitted code derives the secret from a 256-bit seed, so key search falls below this set's target (Saarinen).
 - name: MAMBA-Viper-512
   ngcc_level: 512
   pk: 3200
   ct: 3456
   notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
-  implementation: The submitted code derives the secret from a 256-bit seed, so key search falls below this set's target (Saarinen, ngcc.dev).
+  implementation: The submitted code derives the secret from a 256-bit seed, so key search falls below this set's target (Saarinen).
 findings_url: https://ngcc.dev/reports/kem-21.html

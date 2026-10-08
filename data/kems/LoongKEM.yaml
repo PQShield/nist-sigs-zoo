@@ -11,13 +11,13 @@ parametersets:
   pk: 1472
   ct: 1512
   notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
-  broken: Public consistency equations recover shared secrets with practical lattice reduction (Saarinen, ngcc.dev).
+  broken: Public consistency equations recover shared secrets with practical lattice reduction (Xie).
 - name: Loong256
   ngcc_level: 256
   pk: 3248
   ct: 3520
   notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
-  broken: Public consistency equations recover shared secrets with practical lattice reduction (Saarinen, ngcc.dev).
+  broken: Public consistency equations recover shared secrets with practical lattice reduction (Xie).
 - name: Loong384
   ngcc_level: 384
   pk: 6444
@@ -29,4 +29,4 @@ parametersets:
   ct: 10848
   notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 findings_url: https://ngcc.dev/reports/kem-18.html
-implementation: A faulty rejection mask in the submitted decapsulation returns the true shared secret for modified ciphertexts (Saarinen, ngcc.dev).
+implementation: A faulty rejection mask in the submitted decapsulation returns the true shared secret for modified ciphertexts (Saarinen).

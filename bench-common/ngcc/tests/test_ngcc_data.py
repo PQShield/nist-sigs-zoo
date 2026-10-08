@@ -191,16 +191,16 @@ def test_findings_are_written_with_credit(tmp_path):
             CANDS[1],
             findings={
                 "url": "https://ngcc.dev/reports/kem-01.html",
-                "credit": "Saarinen, ngcc.dev",
-                "implementation": "Decapsulation does not reject invalid ciphertexts (Saarinen, ngcc.dev).",
+                "implementation": "Decapsulation does not reject invalid ciphertexts (Xiong and Wang).",
+                "sources": ["https://example.org/post"],
             },
         )
     ]
     nd.write_files(cands, "kem", KEM_SIZES, {}, tmp_path)
     doc = load(tmp_path / "Aigis-Enc-plus.yaml")
     assert doc["findings_url"] == "https://ngcc.dev/reports/kem-01.html"
-    assert doc["implementation"].endswith("(Saarinen, ngcc.dev).")
-    assert "broken" not in doc
+    assert doc["implementation"].endswith("(Xiong and Wang).")
+    assert "broken" not in doc and "sources" not in doc
 
 
 def test_signature_findings_go_on_the_version_and_instance_flags_on_sets(tmp_path):
@@ -208,10 +208,9 @@ def test_signature_findings_go_on_the_version_and_instance_flags_on_sets(tmp_pat
         CANDS[0],
         findings={
             "url": "https://ngcc.dev/reports/sign-01.html",
-            "credit": "Saarinen, ngcc.dev",
         },
         instances=[
-            dict(CANDS[0]["instances"][0], broken="Forgery (Saarinen, ngcc.dev)."),
+            dict(CANDS[0]["instances"][0], broken="Forgery (Feussner)."),
             *CANDS[0]["instances"][1:],
         ],
     )
@@ -221,5 +220,5 @@ def test_signature_findings_go_on_the_version_and_instance_flags_on_sets(tmp_pat
     assert version["findings_url"] == "https://ngcc.dev/reports/sign-01.html"
     assert "implementation" not in version and "broken" not in version
     sets = {p["name"]: p for p in version["parametersets"]}
-    assert sets["A1"]["broken"] == "Forgery (Saarinen, ngcc.dev)."
+    assert sets["A1"]["broken"] == "Forgery (Feussner)."
     assert "broken" not in sets["A2"]

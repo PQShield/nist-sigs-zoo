@@ -14,7 +14,7 @@ versions:
     pk: 1048
     sig: 1504
     notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
-    broken: Equivalent signing keys can be recovered from a large but practical number of public signatures, enabling forgeries (Saarinen, ngcc.dev).
+    broken: Equivalent signing keys can be recovered from a large but practical number of public signatures, enabling forgeries (Feussner).
   - name: BiT-256
     ngcc_level: 256
     pk: 2144
@@ -25,7 +25,7 @@ versions:
     pk: 5056
     sig: 6695
     notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
-    broken: The unsalted 512-bit message digest limits forgery resistance to about 2^256 work, below the 512-bit target (Saarinen, ngcc.dev).
+    broken: The unsalted 512-bit message digest limits forgery resistance to about 2^256 work, below the 512-bit target (Saarinen).
   - name: BiT-384
     ngcc_level: 384
     pk: 2435

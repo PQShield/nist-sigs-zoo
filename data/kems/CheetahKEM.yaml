@@ -27,4 +27,4 @@ parametersets:
   ct: 4032
   notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 findings_url: https://ngcc.dev/reports/kem-09.html
-implementation: A faulty rejection mask in the submitted decapsulation returns most bits of the true shared secret for modified ciphertexts (Saarinen, ngcc.dev).
+implementation: A faulty rejection mask in the submitted decapsulation returns most bits of the true shared secret for modified ciphertexts (Saarinen).

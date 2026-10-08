@@ -25,4 +25,4 @@ versions:
     sig: 5001
     notes: Reference implementation.
   findings_url: https://ngcc.dev/reports/sign-23.html
-  broken: A reversed transition in the signing procedure leaks an equivalent signing key after a few hundred thousand signatures, giving forgeries at every level (Saarinen, ngcc.dev).
+  broken: A reversed transition in the signing procedure leaks an equivalent signing key after a few hundred thousand signatures, giving forgeries at every level (Feussner).

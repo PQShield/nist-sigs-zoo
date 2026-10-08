@@ -27,4 +27,4 @@ parametersets:
   ct: 3914
   notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 findings_url: https://ngcc.dev/reports/kem-02.html
-implementation: The submitted decapsulation checks only part of the ciphertext and exposes decoder failures, allowing full key recovery from chosen ciphertexts (Saarinen, ngcc.dev).
+implementation: The submitted decapsulation compares only part of the ciphertext (Li), and exposes decoder failures; both allow full key recovery from chosen ciphertexts (Xiong and Wang).

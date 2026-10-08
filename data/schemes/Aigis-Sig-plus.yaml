@@ -19,12 +19,12 @@ versions:
     pk: 1824
     sig: 4533
     notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
-    broken: 'The specified message digest is too short for this set: a generic collision lets one signature be moved to another message with less work than the claimed level (Saarinen, ngcc.dev).'
+    broken: The specified message digest is too short for this set, so a generic collision moves a signature to another message with less work than the claimed level (Sun).
   - name: Aigis-Sig+-III
     ngcc_level: 512
     pk: 4672
     sig: 9134
     notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
-    broken: 'The specified message digest is too short for this set: a generic collision lets one signature be moved to another message with less work than the claimed level (Saarinen, ngcc.dev).'
+    broken: The specified message digest is too short for this set, so a generic collision moves a signature to another message with less work than the claimed level (Sun).
   findings_url: https://ngcc.dev/reports/sign-01.html
-  implementation: Submitted code accepts altered copies of valid signatures, can be driven into an out-of-bounds stack write by malformed hints, and samples challenge signs with far too little entropy for sets I and II (Saarinen, ngcc.dev).
+  implementation: Submitted code accepts altered copies of valid signatures and lets malformed hints write out of bounds on the stack (Saarinen). Its challenge sampler gives sets I and II far too little sign entropy (Yijian Liu).

@@ -14,7 +14,7 @@ versions:
     pk: 1120
     sig: 1449
     notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
-    broken: A restart in the signing procedure leaks an equivalent signing key after tens of millions of public signatures, enabling forgery (Saarinen, ngcc.dev).
+    broken: A restart in the signing procedure leaks an equivalent signing key after tens of millions of public signatures, enabling forgery (Shi).
   - name: DARTS256
     ngcc_level: 256
     pk: 2208
@@ -25,5 +25,5 @@ versions:
     pk: 4672
     sig: 5851
     notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
-    implementation: The submitted code limits the message digest, and in the AVX2 build the signing secret's seed, to 256 bits, well below the 512-bit target (Saarinen, ngcc.dev).
+    implementation: The submitted code compresses messages so that forgery costs about 2^256 (Saarinen), and its AVX2 build draws the signing secret from a 256-bit seed, well below the 512-bit target (LK-PQC-Hunter and Saarinen).
   findings_url: https://ngcc.dev/reports/sign-08.html

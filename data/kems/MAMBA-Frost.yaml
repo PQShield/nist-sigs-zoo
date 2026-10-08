@@ -37,4 +37,4 @@ parametersets:
   ct: 36544
   notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 findings_url: https://ngcc.dev/reports/kem-20.html
-implementation: In the reference code an allocation failure during key generation still reports success, leaving keys whose shared secrets can be recovered from the public key (Saarinen, ngcc.dev).
+implementation: In the reference code an allocation failure during key generation still reports success, leaving keys whose shared secrets can be recovered from the public key (Yamin Liu).

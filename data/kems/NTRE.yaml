@@ -21,5 +21,5 @@ parametersets:
   pk: 3456
   ct: 3456
   notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
-  implementation: The submitted code uses a 256-bit secret seed, so offline key search costs at most 2^256, below the 512-bit target (Saarinen, ngcc.dev).
+  implementation: The submitted code uses a 256-bit secret seed, so offline key search costs at most 2^256, below the 512-bit target (Saarinen).
 findings_url: https://ngcc.dev/reports/kem-27.html

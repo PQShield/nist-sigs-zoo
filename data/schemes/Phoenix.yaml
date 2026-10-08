@@ -74,23 +74,23 @@ versions:
     pk: 96
     sig: 54726
     notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it; our build does not reproduce the submitted test vectors (cause unknown).
-    implementation: The submitted SM3 code compresses messages to 256 bits, so a second preimage after one signing query costs about 2^256, below this set's target (Saarinen, ngcc.dev).
+    implementation: The submitted SM3 code compresses messages to 256 bits, so a second preimage after one signing query costs about 2^256, below this set's target (Saarinen).
   - name: Phoenix-SM3-384f
     ngcc_level: 384
     pk: 96
     sig: 88442
     notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it; our build does not reproduce the submitted test vectors (cause unknown).
-    implementation: The submitted SM3 code compresses messages to 256 bits, so a second preimage after one signing query costs about 2^256, below this set's target (Saarinen, ngcc.dev).
+    implementation: The submitted SM3 code compresses messages to 256 bits, so a second preimage after one signing query costs about 2^256, below this set's target (Saarinen).
   - name: Phoenix-SM3-512s
     ngcc_level: 512
     pk: 128
     sig: 98476
     notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it; our build does not reproduce the submitted test vectors (cause unknown).
-    implementation: The submitted SM3 code compresses messages to 256 bits, so a second preimage after one signing query costs about 2^256, below this set's target (Saarinen, ngcc.dev).
+    implementation: The submitted SM3 code compresses messages to 256 bits, so a second preimage after one signing query costs about 2^256, below this set's target (Saarinen).
   - name: Phoenix-SM3-512f
     ngcc_level: 512
     pk: 128
     sig: 138454
     notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it; our build does not reproduce the submitted test vectors (cause unknown).
-    implementation: The submitted SM3 code compresses messages to 256 bits, so a second preimage after one signing query costs about 2^256, below this set's target (Saarinen, ngcc.dev).
+    implementation: The submitted SM3 code compresses messages to 256 bits, so a second preimage after one signing query costs about 2^256, below this set's target (Saarinen).
   findings_url: https://ngcc.dev/reports/sign-19.html

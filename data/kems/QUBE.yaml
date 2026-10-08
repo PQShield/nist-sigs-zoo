@@ -27,4 +27,4 @@ parametersets:
   ct: 33846
   notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 findings_url: https://ngcc.dev/reports/kem-33.html
-implementation: The optimised implementation produces predictable keys and encapsulations (Saarinen, ngcc.dev).
+implementation: The optimised implementation produces predictable keys and encapsulations (Xiong and Wang).

@@ -22,4 +22,4 @@ parametersets:
   ct: 1746
   notes: Reference implementation. Measured sizes differ from the specification, which gives pk 1201 B, sk 1500 B (Table 7.1, compressed columns (PDF p. 57)).
 findings_url: https://ngcc.dev/reports/kem-31.html
-implementation: Non-canonical field encodings in the submitted code let altered ciphertexts decapsulate to the same key, breaking IND-CCA security (Saarinen, ngcc.dev).
+implementation: Non-canonical field encodings in the submitted code let altered ciphertexts decapsulate to the same key, breaking IND-CCA security (Saarinen).

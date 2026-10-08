@@ -15,6 +15,8 @@ interface NgccInstance {
 	ct?: number;
 	sk?: number;
 	size_ref?: string;
+	implementation?: string;
+	broken?: string;
 }
 interface NgccCandidate {
 	id: string;
@@ -26,7 +28,7 @@ interface NgccCandidate {
 	assumption: string;
 	spec: string;
 	instances: NgccInstance[];
-	findings?: { url: string; credit: string; implementation?: string; broken?: string };
+	findings?: { url: string; implementation?: string; broken?: string; sources?: string[] };
 }
 
 const DATA = join(process.cwd(), 'data');
@@ -109,16 +111,24 @@ describe('data/ngcc/candidates.yaml', () => {
 		expect(errors).toEqual([]);
 	});
 
-	it('keeps findings short, linked and credited', () => {
+	it('keeps findings short, linked and credited to their authors', () => {
+		// Each summary ends with a parenthesised author credit, e.g. "... (Xiong and Wang)."
+		const credited = /\([^()]+\)\.$/;
 		const errors = candidates.flatMap((c) => {
 			const f = c.findings;
-			if (!f) return [];
+			const texts = [f?.implementation, f?.broken, ...c.instances.flatMap((i) => [i.implementation, i.broken])].filter(
+				(t): t is string => !!t
+			);
 			const e: string[] = [];
+			if (!f) return texts.length ? [`${c.id}: instance flags need a findings block`] : [];
 			if (f.url !== `https://ngcc.dev/reports/${c.id}.html`) e.push(`${c.id}: findings url must be its ngcc.dev report`);
-			for (const text of [f.implementation, f.broken].filter((t): t is string => !!t)) {
+			for (const text of texts) {
 				if (text.length > 280) e.push(`${c.id}: summary over 280 characters`);
-				if (!text.includes(`(${f.credit})`)) e.push(`${c.id}: summary must credit (${f.credit})`);
+				if (!credited.test(text)) e.push(`${c.id}: summary must end with a parenthesised credit`);
+				if (/ngcc\.dev\)/.test(text) && !text.endsWith('(reported on ngcc.dev).')) e.push(`${c.id}: credit authors, not the venue`);
 			}
+			for (const u of f.sources ?? []) if (!/^https:\/\/\S+$/.test(u)) e.push(`${c.id}: source is not an https URL: ${u}`);
+			if (texts.length && !f.sources?.length) e.push(`${c.id}: summaries need sources`);
 			return e;
 		});
 		expect(errors).toEqual([]);

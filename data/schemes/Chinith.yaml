@@ -80,4 +80,4 @@ versions:
     sig: 83004
     notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it; the test-vector run timed out in our build.
   findings_url: https://ngcc.dev/reports/sign-05.html
-  implementation: The submitted code leaves a value out of the final Fiat-Shamir challenge, so anyone can forge signatures from the public key alone, at every parameter set (Saarinen, ngcc.dev).
+  implementation: The submitted code leaves a value out of the final Fiat-Shamir challenge, so anyone can forge signatures from the public key alone, at every parameter set (Feussner).

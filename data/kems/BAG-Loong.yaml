@@ -16,18 +16,18 @@ parametersets:
   pk: 6597
   ct: 8400
   notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
-  broken: Merging error supports lowers the cost of rank-decoding key recovery below this set's claimed level (Saarinen, ngcc.dev).
+  broken: Merging error supports lowers the cost of rank-decoding key recovery below this set's claimed level (Xiong and Wang).
 - name: BAG-Loong-384
   ngcc_level: 384
   pk: 12152
   ct: 15112
   notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
-  broken: Merging error supports lowers the cost of rank-decoding key recovery below this set's claimed level (Saarinen, ngcc.dev).
+  broken: Merging error supports lowers the cost of rank-decoding key recovery below this set's claimed level (Xiong and Wang).
 - name: BAG-Loong-512
   ngcc_level: 512
   pk: 19043
   ct: 21660
   notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
-  broken: Merging error supports lowers the cost of rank-decoding key recovery below this set's claimed level (Saarinen, ngcc.dev).
+  broken: Merging error supports lowers the cost of rank-decoding key recovery below this set's claimed level (Xiong and Wang).
 findings_url: https://ngcc.dev/reports/kem-03.html
-implementation: The submitted reference code publishes the support spaces, reducing secret-key recovery to linear algebra that runs in under a second (Saarinen, ngcc.dev).
+implementation: The submitted reference code publishes the support spaces, reducing secret-key recovery to linear algebra that runs in under a second (Zihan Liu).

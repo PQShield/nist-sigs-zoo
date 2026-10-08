@@ -34,11 +34,11 @@ versions:
     pk: 132
     sig: 57812
     notes: Reference implementation.
-    broken: Hashing with SHAKE256 limits forgery resistance to about 2^256 work after one signing query, below the 512-bit target (Saarinen, ngcc.dev).
+    broken: Hashing with SHAKE256 limits forgery resistance to about 2^256 work after one signing query, below the 512-bit target (Feussner).
   - name: GreatWall512s
     ngcc_level: 512
     pk: 132
     sig: 50012
     notes: Reference implementation.
-    broken: Hashing with SHAKE256 limits forgery resistance to about 2^256 work after one signing query, below the 512-bit target (Saarinen, ngcc.dev).
+    broken: Hashing with SHAKE256 limits forgery resistance to about 2^256 work after one signing query, below the 512-bit target (Feussner).
   findings_url: https://ngcc.dev/reports/sign-13.html

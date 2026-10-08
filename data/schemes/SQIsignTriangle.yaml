@@ -28,4 +28,4 @@ versions:
     sig: 816
     notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
   findings_url: https://ngcc.dev/reports/sign-27.html
-  broken: Rescaling a signature's response gives practical forgeries on fresh messages after one signing query, at every parameter set (Saarinen, ngcc.dev).
+  broken: Rescaling a signature's response gives practical forgeries on fresh messages after one signing query, at every parameter set (Feussner).

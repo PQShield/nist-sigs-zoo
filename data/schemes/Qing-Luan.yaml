@@ -24,11 +24,11 @@ versions:
     pk: 227
     sig: 164940
     notes: Reference implementation; uses the ICCS SM3 implementation from the submission package.
-    broken: The specified key-generation state and nested SM3 hashing limit security to about 2^256 work, below this set's target (Saarinen, ngcc.dev).
+    broken: Nested SM3 hashing (Xiong and Wang), and the specified key-generation state each limit security to about 2^256 work, below this set's target (Feussner).
   - name: QingLuan-512
     ngcc_level: 512
     pk: 302
     sig: 292816
     notes: Reference implementation; uses the ICCS SM3 implementation from the submission package.
-    broken: The specified key-generation state and nested SM3 hashing limit security to about 2^256 work, below this set's target (Saarinen, ngcc.dev).
+    broken: Nested SM3 hashing (Xiong and Wang), and the specified key-generation state each limit security to about 2^256 work, below this set's target (Feussner).
   findings_url: https://ngcc.dev/reports/sign-20.html
