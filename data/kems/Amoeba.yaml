@@ -10,19 +10,19 @@ parametersets:
   ngcc_level: 128
   pk: 784
   ct: 1047
-  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it; no submitted test vectors found for this instance.
+  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 - name: Amoeba-1152
   ngcc_level: 256
-  pk: 784
-  ct: 1047
-  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it; no submitted test vectors found for this instance.
+  pk: 1648
+  ct: 1833
+  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 - name: Amoeba-1728
   ngcc_level: 384
-  pk: 784
-  ct: 1047
-  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it; no submitted test vectors found for this instance.
+  pk: 2440
+  ct: 2769
+  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 - name: Amoeba-2304
   ngcc_level: 512
-  pk: 784
-  ct: 1047
-  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it; no submitted test vectors found for this instance.
+  pk: 3520
+  ct: 3914
+  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.

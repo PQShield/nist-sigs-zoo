@@ -10,14 +10,14 @@ parametersets:
   ngcc_level: 128
   pk: 167987
   ct: 640
-  notes: Reference implementation; our build does not reproduce the submitted test vectors (cause unknown).
+  notes: Reference implementation.
 - name: QCTM256
   ngcc_level: 256
   pk: 595662
   ct: 1153
-  notes: Reference implementation; the test-vector run timed out in our build.
+  notes: Reference implementation.
 - name: QCTM512
   ngcc_level: 512
   pk: 2374727
   ct: 2264
-  notes: Reference implementation; the test-vector run timed out in our build.
+  notes: Reference implementation.
