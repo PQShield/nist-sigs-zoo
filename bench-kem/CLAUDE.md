@@ -265,6 +265,13 @@ The `/kems/` page renders the timings (table columns) and the environment panel.
   cycles under turbo/frequency scaling. `bench/` (signatures) still uses `rdtsc`, so
   its cycle column is not directly comparable to the KEM one (µs still are).
 
+## NGCC candidates (ICCS API)
+
+Same machinery as `bench/` (see `bench/CLAUDE.md`, "NGCC candidates"): `schemes/ngcc/`
+with the ICCS KEM shim, `params.tsv`, `status.tsv`, and `./bench-kem --sizes NGCC >
+results/ngcc_sizes.tsv`. The shim forwards the lengths reported by the last keygen/encaps,
+which is sound because the harness always runs keygen -> encaps -> decaps in order.
+
 ## Running NGCC candidates
 
 Build, KAT, `--sizes` and smoke runs of NGCC candidate code must go through

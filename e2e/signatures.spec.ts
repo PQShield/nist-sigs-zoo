@@ -206,8 +206,11 @@ test.describe('Signatures filters', () => {
 		await expect(page).toHaveURL(/[?&]p=/);
 		await expect(page.locator('tbody')).not.toContainText('ML-DSA');
 		await page.reload();
-		await expect(page.locator('tbody')).not.toContainText('ML-DSA');
-		await expect(panel.getByLabel('NIST standards')).not.toBeChecked();
+		await page.waitForLoadState('networkidle');
+		// The URL filter is applied in onMount, after hydration. The unchecked box only
+		// exists once it has been applied, so wait for that before reading the table.
+		await expect(panel.getByLabel('NIST standards')).not.toBeChecked({ timeout: 15_000 });
+		await expect(page.locator('tbody')).not.toContainText('ML-DSA', { timeout: 15_000 });
 	});
 
 	test('security levels come in separate NIST and NGCC groups', async ({ page }) => {
@@ -281,5 +284,20 @@ test.describe('Signatures chart legend', () => {
 		await expect
 			.poll(async () => (await legend.boundingBox())!.y - ((await chart.boundingBox())!.y + (await chart.boundingBox())!.height))
 			.toBeGreaterThanOrEqual(-1);
+	});
+});
+
+test.describe('China NGCC candidates', () => {
+	test.use({ colorScheme: 'light' });
+
+	test('rows show NGCC targets in purple, never as NIST levels', async ({ page }) => {
+		await page.goto('/signatures/');
+		await page.waitForLoadState('networkidle');
+		await expect(page.getByRole('group', { name: 'Programme' }).getByLabel('China NGCC')).toBeChecked();
+		const row = page.locator('tbody tr').filter({ hasText: 'Aigis-Sig+' }).filter({ hasText: '128-bit' }).first();
+		await expect(row).toBeVisible();
+		const level = row.getByTitle('China NGCC target in classical bits; not a NIST level');
+		await expect(level).toHaveText('128-bit');
+		await expect(level).toHaveCSS('color', 'rgb(107, 33, 168)');
 	});
 });

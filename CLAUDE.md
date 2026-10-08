@@ -207,12 +207,33 @@ Both compare pages share programme, NIST/NGCC level, Recommended/All and "Hide �
 chart (HTML legend, Sizes/Speed toggle). NGCC targets have their own filter group and purple
 colour scale and are never mapped onto NIST levels.
 
+### China NGCC
+
+`data/ngcc/candidates.yaml` holds the curated claims for the 34 signature and 41 KEM
+round-1 candidates: family, assumption, official NICCS page, spec reference, and per
+instance (`ALGORITHM_INSTANCE`) the claimed `ngcc_level`, `recommended`, or `omit: reason`.
+It is the source for the generated `data/schemes/<file>.yaml` / `data/kems/<file>.yaml`
+(`programmes: {china-ngcc: round-1}`, status `NGCC round 1`). Never edit those by hand:
+
+```bash
+uv run bench/update_scheme_data.py --ngcc-sizes bench/results/ngcc_sizes.tsv
+uv run bench-kem/update_scheme_data.py --ngcc-sizes bench-kem/results/ngcc_sizes.tsv
+```
+
+Sizes come from our builds of the official archives (`./bench --sizes NGCC`, run through
+`scripts/ngcc-run`); per-instance notes record the implementation (reference/optimised),
+ICCS placeholder-hash use and KAT status from `<suite>/schemes/ngcc/status.tsv`.
+`src/lib/__tests__/ngccCandidates.test.ts` validates the claims and their agreement with the
+generated files. ngcc.dev data is cross-check only; findings links/flags are added only with
+Thom's sign-off. No NGCC timings exist yet (they come from our own AWS runs).
+
 ## Architecture
 
 ```
 data/
 ├── schemes/          # one .yaml per signature scheme (source of truth)
 ├── kems/             # one .yaml per KEM (source of truth for /kems/)
+├── ngcc/candidates.yaml  # curated NGCC round-1 claims (source for generated NGCC YAML)
 └── history.yaml      # chronological event log (attacks, updates, milestones)
 
 src/

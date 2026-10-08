@@ -227,3 +227,18 @@ test.describe('URL sync does not cancel in-app navigation', () => {
 		await expect(page).toHaveURL(/\/schemes\//);
 	});
 });
+
+test.describe('China NGCC candidates', () => {
+	test.use({ colorScheme: 'light' });
+
+	test('rows show NGCC targets in purple, never as NIST levels', async ({ page }) => {
+		await page.goto('/kems/');
+		await page.waitForLoadState('networkidle');
+		await expect(page.getByRole('group', { name: 'Programme' }).getByLabel('China NGCC')).toBeChecked();
+		const row = page.locator('tbody tr').filter({ hasText: 'Aigis-Enc+' }).filter({ hasText: '128-bit' }).first();
+		await expect(row).toBeVisible();
+		const level = row.getByTitle('China NGCC target in classical bits; not a NIST level');
+		await expect(level).toHaveText('128-bit');
+		await expect(level).toHaveCSS('color', 'rgb(107, 33, 168)');
+	});
+});

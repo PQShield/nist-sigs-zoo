@@ -9,6 +9,17 @@ test.describe('Home page', () => {
 		}
 	});
 
+	test('lists the NGCC round-1 candidates', async ({ page }) => {
+		await page.goto('/');
+		const ngcc = page
+			.getByRole('region', { name: 'Programmes' })
+			.getByRole('row')
+			.filter({ hasText: 'Next-generation commercial cryptographic algorithms' });
+		await expect(ngcc).toContainText('Round 1:');
+		await expect(ngcc).toContainText('Aigis-Sig+');
+		await expect(ngcc).toContainText('Aigis-Enc+');
+	});
+
 	test('shows KpqC signature picks', async ({ page }) => {
 		await page.goto('/');
 		await expect(page.getByRole('region', { name: 'Programmes' })).toContainText('AIMer, HAETAE');

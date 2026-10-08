@@ -216,6 +216,34 @@ MQOM, ML-DSA etc. rely on `-march=native`.
   cycles under turbo/frequency scaling.
 - Message is a 32-byte zero buffer. Content does not affect cycle counts for lattice/hash schemes.
 
+## NGCC candidates (ICCS API)
+
+China NGCC round-1 candidates all implement the ICCS public-key C API, so they share
+one shim (`schemes/ngcc/shim_template.c`) and are integrated as **data**: one row per
+`ALGORITHM_INSTANCE` in `schemes/ngcc/params.tsv` (columns documented in
+`../bench-common/ngcc/gen_rules.py`). The shared machinery lives in `../bench-common/ngcc/`:
+
+```bash
+uv run bench-common/ngcc/fetch.py      # official archives -> $NGCC_CACHE, sha256-pinned in archives.tsv
+uv run bench-common/ngcc/extract.py    # allowlisted sources/KATs/specs -> bench-common/ngcc/src, specs (git-ignored)
+python3 bench-common/ngcc/inventory.py sig sign-07   # draft params.tsv rows
+```
+
+Building, `make status` (build/KAT/hash status -> `schemes/ngcc/status.tsv`, commit it) and
+`./bench --sizes NGCC > results/ngcc_sizes.tsv` (input for the YAML import, commit it) run
+through `scripts/ngcc-run`; see "Running NGCC candidates" below.
+
+- Only `build/built.list` reaches `SO_PATHS`, so a failing candidate never breaks `./bench`.
+  Without extracted sources (e.g. a fresh clone) the NGCC build is skipped with a message.
+- Randomness comes from the ICCS DRNG `drng_algorithm` (defined and seeded by the shim);
+  drop candidates' `/dev/urandom` `randombytes.c`, which also breaks KAT replay.
+- `defs` reach only the candidate's sources and `shimdefs` only the shim, so NIST-API name
+  clashes can be renamed away (`-Dcrypto_sign_keypair=cand_crypto_sign_keypair`).
+- Never edit extracted sources or run candidates' build systems: fixes are copies in
+  `schemes/ngcc/patches/<id>/` with a `/* PATCH (nist-sigs-zoo): why */` header.
+- KATs are replayed by our `ngcc_kat` (ICCS seed schedule) and compared with the submitted
+  files; mismatches are recorded, not hidden, and shown in the parameter set's notes.
+
 ## Running NGCC candidates
 
 NGCC candidates' C code is untrusted. Every build, KAT replay, `--sizes`
