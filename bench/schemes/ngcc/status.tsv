@@ -84,9 +84,9 @@ sign_14_lynxer_384s	NGCC-Lynxer-384s	sign-14	Lynxer-384s	ref	ok	PASS	placeholder
 sign_14_lynxer_384f	NGCC-Lynxer-384f	sign-14	Lynxer-384f	ref	ok	PASS	placeholder
 sign_14_lynxer_512s	NGCC-Lynxer-512s	sign-14	Lynxer-512s	ref	ok	PASS	placeholder
 sign_14_lynxer_512f	NGCC-Lynxer-512f	sign-14	Lynxer-512f	ref	ok	PASS	placeholder
-sign_15_lwrdsa128	NGCC-lwrdsa128	sign-15	lwrdsa128	ref	ok	CRYPTOFAIL	placeholder
-sign_15_lwrdsa256	NGCC-lwrdsa256	sign-15	lwrdsa256	ref	ok	CRYPTOFAIL	placeholder
-sign_15_lwrdsa512	NGCC-lwrdsa512	sign-15	lwrdsa512	ref	ok	CRYPTOFAIL	placeholder
+sign_15_lwrdsa128	NGCC-lwrdsa128	sign-15	lwrdsa128	ref	ok	MISMATCH	placeholder
+sign_15_lwrdsa256	NGCC-lwrdsa256	sign-15	lwrdsa256	ref	ok	MISMATCH	placeholder
+sign_15_lwrdsa512	NGCC-lwrdsa512	sign-15	lwrdsa512	ref	ok	MISMATCH	placeholder
 sign_16_octarine_128	NGCC-Octarine-128	sign-16	Octarine-128	opt	ok	PASS	placeholder
 sign_16_octarine_256	NGCC-Octarine-256	sign-16	Octarine-256	opt	ok	PASS	placeholder
 sign_16_octarine_512	NGCC-Octarine-512	sign-16	Octarine-512	opt	ok	PASS	placeholder

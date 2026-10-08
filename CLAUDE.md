@@ -488,14 +488,20 @@ sets `NGCC_BUILD=1` on the VM; without it NGCC instances are skipped.
   `iters` in `<suite>/schemes/ngcc/params.tsv`):
   ```bash
   tar -C bench-common/ngcc -czf /tmp/ngcc-src.tar.gz src   # ~2.4 GB (src/ is ~5 GB)
-  AWS_PROFILE=bench scripts/aws-bench.sh --suite sigs --ttl 360 --ngcc-src /tmp/ngcc-src.tar.gz
+  AWS_PROFILE=bench scripts/aws-bench.sh --suite sigs --ttl 420 --ngcc-src /tmp/ngcc-src.tar.gz
   AWS_PROFILE=bench scripts/aws-bench.sh --suite kems --ttl 360 --ngcc-src /tmp/ngcc-src.tar.gz
   ```
+  **The TTL clock starts at boot**: the ~2.4 GB upload, unpack and the NGCC build (tens
+  of minutes) are paid from `--ttl`, so add margin: `--ttl 420` for sigs (the recipe
+  above shows 360, the minimum for KEMs).
   The VM never downloads from niccs.org.cn; the tarball is unpacked into
   `repo/bench-common/ngcc/` (disk is raised to 100 GB with `--ngcc-src`). `iters` caps
   each NGCC instance at about 30 s of timed work (floor 10, or 5 above 60 s per
-  iteration). Estimated runtime on a laptop-class core: signatures ~225 min, KEMs ~130 min
-  for the NGCC instances alone, plus build time and the non-NGCC schemes. QCTM512 and
+  iteration). Estimated runtime on a laptop-class core: signatures ~320 min, KEMs ~130 min
+  for the NGCC instances alone, plus build time and the non-NGCC schemes.
+  **Before the signature run:** SQISign2Dsquare-* (6 rows) and SQIsign2D-lvl2 abort the
+  whole `./bench` process (assert / SIGFPE with random keys), losing every later row;
+  exclude or fix them first. QCTM512 and
   vistrutith-d3-512s take 10 min per iteration; the TTL fetches partial results.
   Smoke runs of NGCC code go through `scripts/ngcc-run` only (never the host).
 - **`scripts/ngcc-run` tooling notes:** `NGCC_OUT=$PWD/.ngcc-out-<name>` lets several

@@ -14,6 +14,8 @@
 #                            (sets NGCC_BUILD=1 there; the VM never downloads from
 #                            niccs.org.cn). Create with:
 #                              tar -C bench-common/ngcc -czf /tmp/ngcc-src.tar.gz src
+#                            The TTL clock starts at boot, so the ~2.4 GB upload, unpack and the
+#                            NGCC build come out of --ttl: use a margin, e.g. --ttl 420 for sigs.
 #   -h, --help               show this help
 #
 #   filter...                passed to run_bench.sh (case-insensitive, OR-ed)
@@ -61,7 +63,9 @@ while [ $# -gt 0 ]; do
         --instance-type) INSTANCE_TYPE="$2"; shift 2 ;;
         --ttl)           TTL_MIN="$2"; shift 2 ;;
         --ubuntu)        UBUNTU="$2"; shift 2 ;;
-        --ngcc-src)      NGCC_SRC_TAR="$2"; shift 2 ;;
+        --ngcc-src)      [ $# -ge 2 ] && [ -n "$2" ] \
+                             || { echo "--ngcc-src needs a tarball path" >&2; exit 2; }
+                         NGCC_SRC_TAR="$2"; shift 2 ;;
         -h|--help)       usage; exit 0 ;;
         --)              shift; FILTERS+=("$@"); break ;;
         -*)              echo "unknown option: $1" >&2; usage >&2; exit 2 ;;
