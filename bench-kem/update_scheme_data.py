@@ -103,8 +103,19 @@ def import_ngcc_sizes(sizes_file: Path) -> None:
     print(f"Wrote {len(written)} NGCC KEM files in {KEMS_DIR.relative_to(REPO_ROOT)}")
 
 
+# Results rows: "<name> <iters>" + cycles/µs for keygen, encaps, decaps + ok, or a
+# DNF row (crash, timeout, failed warm-up check) whose six timing columns read DNF
+# and whose last column is a one-word reason. Other lines (stderr merged in by
+# run_bench.sh) are skipped.
+_NUM = r"(\d+)\s+(\d+\.\d+)"  # cycles, then µs printed as %.1f
+ROW_RE = re.compile(
+    rf"^(?P<name>\S.*?)\s+(?P<iters>\d+)\s+{_NUM}\s+{_NUM}\s+{_NUM}\s+(?P<ok>\S+)\s*$"
+)
+DNF_RE = re.compile(r"^(?P<name>\S.*?)\s+(?P<iters>\d+|-)(?:\s+DNF){6}\s+(?P<reason>\S+)\s*$")
+
+
 def parse_results_file(path: Path) -> tuple[dict, list[dict]]:
-    """Return (env_meta, rows). Columns: keygen/encaps/decaps cycles + us, ok."""
+    """Return (env_meta, rows). Columns: keygen/encaps/decaps cycles + us, ok; or dnf."""
     meta: dict = {}
     rows: list[dict] = []
     in_data = False
@@ -122,38 +133,58 @@ def parse_results_file(path: Path) -> tuple[dict, list[dict]]:
                         meta[m.group(1)] = m.group(2).strip()
             elif line.startswith("scheme") or line.startswith("------"):
                 in_data = True
-            elif in_data and line.strip():
-                parts = line.split()
-                # Trailing columns: iters kg_cyc kg_us en_cyc en_us de_cyc de_us ok
-                if len(parts) >= 9:
-                    name = " ".join(parts[:-8])
-                    iters, kg_c, kg_u, en_c, en_u, de_c, de_u, ok = parts[-8:]
-                    rows.append({
-                        "name": name,
-                        "iters": int(iters),
-                        "keygen_cycles": int(kg_c),
-                        "encaps_cycles": int(en_c),
-                        "decaps_cycles": int(de_c),
-                        "keygen_us": float(kg_u),
-                        "encaps_us": float(en_u),
-                        "decaps_us": float(de_u),
-                        "ok": ok,
-                    })
+            elif in_data and (m := DNF_RE.match(line)):
+                iters = m["iters"]
+                rows.append({
+                    "name": m["name"],
+                    "iters": int(iters) if iters.isdigit() else None,
+                    "dnf": m["reason"],
+                })
+            elif in_data and (m := ROW_RE.match(line)):
+                kg_c, kg_u, en_c, en_u, de_c, de_u = m.groups()[2:8]
+                rows.append({
+                    "name": m["name"],
+                    "iters": int(m["iters"]),
+                    "dnf": None,
+                    "keygen_cycles": int(kg_c),
+                    "encaps_cycles": int(en_c),
+                    "decaps_cycles": int(de_c),
+                    "keygen_us": float(kg_u),
+                    "encaps_us": float(en_u),
+                    "decaps_us": float(de_u),
+                    "ok": m["ok"],
+                })
     return meta, rows
 
 
-def update_parameterset(yaml_data, ps_name: str, row: dict) -> bool:
-    """Update a flat-schema KEM parameterset's perf fields. Return True if found."""
-    for ps in yaml_data.get("parametersets", []):
-        if str(ps.get("name", "")) == ps_name:
-            ps["keygen_cycles"] = row["keygen_cycles"]
-            ps["encaps_cycles"] = row["encaps_cycles"]
-            ps["decaps_cycles"] = row["decaps_cycles"]
-            ps["keygen_us"] = row["keygen_us"]
-            ps["encaps_us"] = row["encaps_us"]
-            ps["decaps_us"] = row["decaps_us"]
-            return True
-    return False
+def apply_row(yaml_data, ps_name: str, row: dict) -> tuple[bool, str | None]:
+    """Apply one results row to a flat-schema KEM parameter set.
+
+    Returns (changed, message); message is None if ps_name was not found.
+    A DNF row on an NGCC parameter set removes its timings and notes why; on any
+    other scheme it only warns, so a crash never overwrites measured timings.
+    """
+    ps = next(
+        (p for p in yaml_data.get("parametersets", []) if str(p.get("name", "")) == ps_name),
+        None,
+    )
+    if ps is None:
+        return False, None
+    ngcc = row["name"].startswith(ngcc_data.PREFIX)
+    if row["dnf"]:
+        if ngcc:
+            ngcc_data.mark_dnf(ps, "kem", row["dnf"])
+            return True, f"DNF ({row['dnf']}): timings removed, noted"
+        return False, f"WARNING: DNF ({row['dnf']}); existing timings kept"
+    for field in ngcc_data.TIMING["kem"]:
+        ps[field] = row[field]
+    if ngcc:
+        ngcc_data.clear_dnf(ps)
+    flag = "" if row["ok"] == "yes" else f"  [{row['ok']}]"
+    return True, (
+        f"keygen={row['keygen_us']}us encaps={row['encaps_us']}us "
+        f"decaps={row['decaps_us']}us{flag}"
+    )
 
 
 def write_benchmark_env(meta: dict, path: Path) -> None:
@@ -262,14 +293,16 @@ def main() -> None:
         changed = False
         for row in updates:
             ps_name = row["_ps"]
-            flag = "" if row["ok"] == "yes" else f"  [{row['ok']}]"
-            if update_parameterset(data, ps_name, row):
-                print(f"  {yaml_filename}  {ps_name}: keygen={row['keygen_us']}us "
-                      f"encaps={row['encaps_us']}us decaps={row['decaps_us']}us{flag}")
+            ps_changed, msg = apply_row(data, ps_name, row)
+            if msg is None:
+                print(f"  NOT FOUND: {yaml_filename}  '{ps_name}'")
+                skipped += 1
+                continue
+            print(f"  {yaml_filename}  {ps_name}: {msg}")
+            if ps_changed:
                 updated += 1
                 changed = True
             else:
-                print(f"  NOT FOUND: {yaml_filename}  '{ps_name}'")
                 skipped += 1
         if changed:
             with open(yaml_path, "w") as f:

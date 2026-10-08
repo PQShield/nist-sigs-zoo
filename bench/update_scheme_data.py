@@ -172,8 +172,17 @@ def import_ngcc_sizes(sizes_file: Path) -> None:
     print(f"Wrote {len(written)} NGCC signature files in {SCHEMES_DIR.relative_to(REPO_ROOT)}")
 
 
+# Results rows: "<name> <iters> kg_cyc kg_us sign_cyc sign_us verify_cyc verify_us",
+# or a DNF row (scheme crashed, timed out or failed its warm-up check) whose six
+# timing columns read DNF, followed by a one-word reason. The name may contain
+# spaces. Anything else (stderr lines merged in by run_bench.sh) is skipped.
+_NUM = r"(\d+)\s+(\d+\.\d+)"  # cycles, then µs printed as %.1f
+ROW_RE = re.compile(rf"^(?P<name>\S.*?)\s+(?P<iters>\d+)\s+{_NUM}\s+{_NUM}\s+{_NUM}\s*$")
+DNF_RE = re.compile(r"^(?P<name>\S.*?)\s+(?P<iters>\d+|-)(?:\s+DNF){6}\s+(?P<reason>\S+)\s*$")
+
+
 def parse_results_file(path: Path) -> tuple[dict, list[dict]]:
-    """Return (env_meta, rows).  rows: list of dicts with keys name/keygen_cyc/sign_cyc/verify_cyc/sign_us/verify_us."""
+    """Return (env_meta, rows). rows: dicts with name/iters/dnf and, unless dnf, the timings."""
     meta: dict[str, str] = {}
     rows: list[dict] = []
     in_data = False
@@ -192,42 +201,60 @@ def parse_results_file(path: Path) -> tuple[dict, list[dict]]:
                         meta[m.group(1)] = m.group(2).strip()
             elif line.startswith("scheme") or line.startswith("------"):
                 in_data = True
-            elif in_data and line.strip():
-                parts = line.split()
-                if len(parts) >= 8:
-                    # scheme name may contain spaces; columns are last 6 fields
-                    name = " ".join(parts[:-7])
-                    iters, keygen_cyc, _keygen_us, sign_cyc, sign_us, verify_cyc, verify_us = parts[-7:]
-                    rows.append({
-                        "name": name,
-                        "iters": int(iters),
-                        "keygen_cycles": int(keygen_cyc),
-                        "signing_cycles": int(sign_cyc),
-                        "verification_cycles": int(verify_cyc),
-                        "signing_us": float(sign_us),
-                        "verification_us": float(verify_us),
-                    })
+            elif in_data and (m := DNF_RE.match(line)):
+                iters = m["iters"]
+                rows.append({
+                    "name": m["name"],
+                    "iters": int(iters) if iters.isdigit() else None,
+                    "dnf": m["reason"],
+                })
+            elif in_data and (m := ROW_RE.match(line)):
+                _kg_cyc, _kg_us, sign_cyc, sign_us, verify_cyc, verify_us = m.groups()[2:]
+                rows.append({
+                    "name": m["name"],
+                    "iters": int(m["iters"]),
+                    "dnf": None,
+                    "keygen_cycles": int(_kg_cyc),
+                    "signing_cycles": int(sign_cyc),
+                    "verification_cycles": int(verify_cyc),
+                    "signing_us": float(sign_us),
+                    "verification_us": float(verify_us),
+                })
     return meta, rows
 
 
-def find_and_update_parameterset(
-    yaml_data,
-    ps_name: str,
-    signing_cycles: int,
-    verification_cycles: int,
-    signing_us: float,
-    verification_us: float,
-) -> bool:
-    """Find first version containing ps_name and update its cycles and µs timings. Return True if found."""
-    for version in yaml_data.get("versions", []):
-        for ps in version.get("parametersets", []):
-            if str(ps.get("name", "")) == ps_name:
-                ps["signing_cycles"] = signing_cycles
-                ps["verification_cycles"] = verification_cycles
-                ps["signing_us"] = signing_us
-                ps["verification_us"] = verification_us
-                return True
-    return False
+def apply_row(yaml_data, ps_name: str, row: dict) -> tuple[bool, str | None]:
+    """Apply one results row to the first version containing ps_name.
+
+    Returns (changed, message); message is None if ps_name was not found.
+    A DNF row on an NGCC parameter set removes its timings and notes why; on any
+    other scheme it only warns, so a crash never overwrites measured timings.
+    """
+    ps = next(
+        (
+            p
+            for version in yaml_data.get("versions", [])
+            for p in version.get("parametersets", [])
+            if str(p.get("name", "")) == ps_name
+        ),
+        None,
+    )
+    if ps is None:
+        return False, None
+    ngcc = row["name"].startswith(ngcc_data.PREFIX)
+    if row["dnf"]:
+        if ngcc:
+            ngcc_data.mark_dnf(ps, "signature", row["dnf"])
+            return True, f"DNF ({row['dnf']}): timings removed, noted"
+        return False, f"WARNING: DNF ({row['dnf']}); existing timings kept"
+    for field in ("signing_cycles", "verification_cycles", "signing_us", "verification_us"):
+        ps[field] = row[field]
+    if ngcc:
+        ngcc_data.clear_dnf(ps)
+    return True, (
+        f"sign={row['signing_cycles']:>12,} ({row['signing_us']} µs)  "
+        f"verify={row['verification_cycles']:>12,} ({row['verification_us']} µs)"
+    )
 
 
 def write_benchmark_env(meta: dict, path: Path) -> None:
@@ -325,17 +352,14 @@ def main() -> None:
     not_mapped = []
 
     # Group updates by yaml file to minimise file reads/writes
-    file_updates: dict[str, list[tuple[str, int, int, float, float]]] = {}
+    file_updates: dict[str, list[tuple[str, dict]]] = {}
     for row in rows:
         name = row["name"]
         if name not in BENCH_TO_YAML:
             not_mapped.append(name)
             continue
         yaml_file, ps_name = BENCH_TO_YAML[name]
-        file_updates.setdefault(yaml_file, []).append(
-            (ps_name, row["signing_cycles"], row["verification_cycles"],
-             row["signing_us"], row["verification_us"])
-        )
+        file_updates.setdefault(yaml_file, []).append((ps_name, row))
 
     for yaml_filename, updates in sorted(file_updates.items()):
         yaml_path = SCHEMES_DIR / yaml_filename
@@ -348,13 +372,17 @@ def main() -> None:
             data = yaml.load(f)
 
         changed = False
-        for ps_name, sign_cyc, verify_cyc, sign_us, verify_us in updates:
-            if find_and_update_parameterset(data, ps_name, sign_cyc, verify_cyc, sign_us, verify_us):
-                print(f"  {yaml_filename}  {ps_name}: sign={sign_cyc:>12,} ({sign_us} µs)  verify={verify_cyc:>12,} ({verify_us} µs)")
+        for ps_name, row in updates:
+            ps_changed, msg = apply_row(data, ps_name, row)
+            if msg is None:
+                print(f"  NOT FOUND: {yaml_filename}  '{ps_name}'")
+                skipped += 1
+                continue
+            print(f"  {yaml_filename}  {ps_name}: {msg}")
+            if ps_changed:
                 updated += 1
                 changed = True
             else:
-                print(f"  NOT FOUND: {yaml_filename}  '{ps_name}'")
                 skipped += 1
 
         if changed:

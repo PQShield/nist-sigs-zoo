@@ -11,6 +11,7 @@ Re-running keeps timing fields that a benchmark import already wrote.
 from __future__ import annotations
 
 import csv
+import re
 from pathlib import Path
 
 from ruamel.yaml import YAML
@@ -49,6 +50,35 @@ KAT_NOTE = {
     "TIMEOUT": "the test-vector run timed out in our build",
     "LOADFAIL": "the built library is missing ICCS API symbols",
 }
+
+
+# A benchmark run that ended in a DNF row (crash, timeout, failed warm-up check)
+# leaves this sentence at the end of the parameter set's notes; see mark_dnf().
+DNF_NOTE = "Benchmark did not finish"
+_DNF_RE = re.compile(r"\s*" + DNF_NOTE + r" \([^)]*\)\.")
+
+
+def _dnf_sentence(notes) -> str:
+    m = _DNF_RE.search(str(notes or ""))
+    return m.group(0).strip() if m else ""
+
+
+def clear_dnf(ps) -> None:
+    """Remove a DNF sentence from a parameter set's notes (dropping empty notes)."""
+    notes = _DNF_RE.sub("", str(ps.get("notes") or "")).strip()
+    if notes:
+        ps["notes"] = notes
+    else:
+        ps.pop("notes", None)
+
+
+def mark_dnf(ps, kind: str, reason: str) -> None:
+    """Record a DNF benchmark row: drop the timings, note why it did not finish."""
+    for field in TIMING[kind]:
+        ps.pop(field, None)
+    clear_dnf(ps)
+    sentence = f"{DNF_NOTE} ({reason.replace('-', ' ')})."
+    ps["notes"] = f"{ps['notes']} {sentence}" if ps.get("notes") else sentence
 
 
 class NgccDataError(ValueError):
@@ -169,6 +199,9 @@ def parameterset(
     for field in TIMING[kind]:
         if old is not None and field in old:
             ps[field] = old[field]
+    dnf = _dnf_sentence(old.get("notes")) if old is not None else ""
+    if dnf:
+        note = f"{note} {dnf}".strip()
     if note:
         ps["notes"] = note
     for flag in ("implementation", "broken"):

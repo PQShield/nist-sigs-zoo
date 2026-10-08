@@ -222,3 +222,44 @@ def test_signature_findings_go_on_the_version_and_instance_flags_on_sets(tmp_pat
     sets = {p["name"]: p for p in version["parametersets"]}
     assert sets["A1"]["broken"] == "Forgery (Feussner)."
     assert "broken" not in sets["A2"]
+
+
+def test_dnf_note_replaces_timings_and_is_cleared_again():
+    ps = {
+        "name": "E1",
+        "keygen_cycles": 5,
+        "decaps_us": 1.0,
+        "notes": "Reference implementation.",
+    }
+    nd.mark_dnf(ps, "kem", "valid-signature-rejected")
+    assert "keygen_cycles" not in ps and "decaps_us" not in ps
+    assert ps["notes"] == (
+        "Reference implementation. Benchmark did not finish (valid signature rejected)."
+    )
+    nd.mark_dnf(ps, "kem", "SIGABRT")  # a newer DNF replaces the old reason
+    assert (
+        ps["notes"] == "Reference implementation. Benchmark did not finish (SIGABRT)."
+    )
+    nd.clear_dnf(ps)
+    assert ps["notes"] == "Reference implementation."
+    bare = {"name": "E1"}
+    nd.mark_dnf(bare, "signature", "timeout")
+    assert bare["notes"] == "Benchmark did not finish (timeout)."
+    nd.clear_dnf(bare)
+    assert "notes" not in bare
+
+
+def test_reimport_keeps_dnf_note(tmp_path):
+    nd.write_files(CANDS, "signature", SIG_SIZES, STATUS, tmp_path)
+    path = tmp_path / "Aigis-Sig-plus.yaml"
+    yaml = YAML()
+    doc = yaml.load(path.read_text())
+    nd.mark_dnf(doc["versions"][0]["parametersets"][0], "signature", "SIGFPE")
+    with open(path, "w") as f:
+        yaml.dump(doc, f)
+    nd.write_files(CANDS, "signature", SIG_SIZES, STATUS, tmp_path)
+    ps = load(path)["versions"][0]["parametersets"][0]
+    assert (
+        ps["notes"]
+        == nd.ps_notes(STATUS["NGCC-A1"]) + " Benchmark did not finish (SIGFPE)."
+    )
