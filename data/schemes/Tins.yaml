@@ -18,7 +18,7 @@ versions:
     ngcc_level: 256
     pk: 98
     sig: 13012
-    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+    notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
   - name: Tins512
     ngcc_level: 512
     pk: 195

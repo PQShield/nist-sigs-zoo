@@ -13,22 +13,22 @@ versions:
     ngcc_level: 128
     pk: 50
     sig: 8012
-    notes: Reference implementation.
+    notes: Optimised x86 implementation.
   - name: GreatWall192s
     ngcc_level: 128
     pk: 50
     sig: 6804
-    notes: Reference implementation.
+    notes: Optimised x86 implementation.
   - name: GreatWall256f
     ngcc_level: 256
     pk: 66
     sig: 14260
-    notes: Reference implementation.
+    notes: Optimised x86 implementation.
   - name: GreatWall256s
     ngcc_level: 256
     pk: 66
     sig: 12236
-    notes: Reference implementation.
+    notes: Optimised x86 implementation.
   - name: GreatWall512f
     ngcc_level: 512
     pk: 132
