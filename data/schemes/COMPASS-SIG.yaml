@@ -1,0 +1,31 @@
+name: COMPASS-SIG
+website: https://www.niccs.org.cn/niccs/Round1Additional/pc/content/content_2101561076912574464.html
+category: Lattices
+assumption: MLWE/Shell-MISIS
+versions:
+- version: Round 1
+  date: '2026-09-20'
+  status: NGCC round 1
+  programmes:
+    china-ngcc: round-1
+  parametersets:
+  - name: COMPASS-SIG-128
+    ngcc_level: 128
+    pk: 1664
+    sig: 2080
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it.
+  - name: COMPASS-SIG-256
+    ngcc_level: 256
+    pk: 3616
+    sig: 4080
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it.
+  - name: COMPASS-SIG-384
+    ngcc_level: 384
+    pk: 5792
+    sig: 7344
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it.
+  - name: COMPASS-SIG-512
+    ngcc_level: 512
+    pk: 7648
+    sig: 9024
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it.

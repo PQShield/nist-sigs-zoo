@@ -1,0 +1,28 @@
+name: TRIKE
+website: https://www.niccs.org.cn/niccs/Round1Additional/pc/content/content_2101560881424453632.html
+category: Code-based
+assumption: QC-MDPC
+status: NGCC round 1
+programmes:
+  china-ngcc: round-1
+parametersets:
+- name: TRIKE-2
+  ngcc_level: 128
+  pk: 1980
+  ct: 3928
+  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it.
+- name: TRIKE-5
+  ngcc_level: 256
+  pk: 4453
+  ct: 8874
+  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it.
+- name: TRIKE-7
+  ngcc_level: 384
+  pk: 8776
+  ct: 17488
+  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it.
+- name: TRIKE-9
+  ngcc_level: 512
+  pk: 14320
+  ct: 28576
+  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it.

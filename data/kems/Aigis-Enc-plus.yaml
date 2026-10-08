@@ -1,0 +1,23 @@
+name: Aigis-Enc+
+website: https://www.niccs.org.cn/niccs/Round1Additional/pc/content/content_2101560842975268864.html
+category: Lattices
+assumption: MLWE
+status: NGCC round 1
+programmes:
+  china-ngcc: round-1
+parametersets:
+- name: Aigis-Enc+-I
+  ngcc_level: 128
+  pk: 656
+  ct: 896
+  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it.
+- name: Aigis-Enc+-II
+  ngcc_level: 256
+  pk: 1312
+  ct: 1664
+  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it.
+- name: Aigis-Enc+-III
+  ngcc_level: 512
+  pk: 2624
+  ct: 3584
+  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it.

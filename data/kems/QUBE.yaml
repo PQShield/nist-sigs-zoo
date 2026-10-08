@@ -1,0 +1,28 @@
+name: QUBE
+website: https://www.niccs.org.cn/niccs/Round1Additional/pc/content/content_2101560881000828928.html
+category: Code-based
+assumption: QCSD
+status: NGCC round 1
+programmes:
+  china-ngcc: round-1
+parametersets:
+- name: QUBE-128
+  ngcc_level: 128
+  pk: 3294
+  ct: 3287
+  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it.
+- name: QUBE-256
+  ngcc_level: 256
+  pk: 10446
+  ct: 10423
+  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it.
+- name: QUBE-384
+  ngcc_level: 384
+  pk: 20738
+  ct: 20633
+  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it.
+- name: QUBE-512
+  ngcc_level: 512
+  pk: 34028
+  ct: 33846
+  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it.

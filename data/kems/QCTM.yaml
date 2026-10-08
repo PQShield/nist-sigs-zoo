@@ -1,0 +1,23 @@
+name: Quasi-Cyclic Twisted McEliece Key Encapsulation Mechanism
+website: https://www.niccs.org.cn/niccs/Round1Additional/pc/content/content_2101560872431865856.html
+category: Code-based
+assumption: QC twisted Goppa SD
+status: NGCC round 1
+programmes:
+  china-ngcc: round-1
+parametersets:
+- name: QCTM128
+  ngcc_level: 128
+  pk: 167987
+  ct: 640
+  notes: Reference implementation; our build does not reproduce the submitted test vectors (cause unknown).
+- name: QCTM256
+  ngcc_level: 256
+  pk: 595662
+  ct: 1153
+  notes: Reference implementation; the test-vector run timed out in our build.
+- name: QCTM512
+  ngcc_level: 512
+  pk: 2374727
+  ct: 2264
+  notes: Reference implementation; the test-vector run timed out in our build.

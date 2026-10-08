@@ -1,0 +1,23 @@
+name: BRQC
+website: https://www.niccs.org.cn/niccs/Round1Additional/pc/content/content_2101560843751215104.html
+category: Code-based
+assumption: Rank Synd. Dec.
+status: NGCC round 1
+programmes:
+  china-ngcc: round-1
+parametersets:
+- name: BRQC-128
+  ngcc_level: 128
+  pk: 1954
+  ct: 3844
+  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it.
+- name: BRQC-256
+  ngcc_level: 256
+  pk: 3345
+  ct: 6626
+  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it.
+- name: BRQC-512
+  ngcc_level: 512
+  pk: 6562
+  ct: 13060
+  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it.

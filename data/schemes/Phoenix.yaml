@@ -1,0 +1,91 @@
+name: Phoenix
+website: https://www.niccs.org.cn/niccs/Round1Additional/pc/content/content_2101561087113121792.html
+category: Symmetric
+assumption: Hash-based
+versions:
+- version: Round 1
+  date: '2026-09-20'
+  status: NGCC round 1
+  programmes:
+    china-ngcc: round-1
+  parametersets:
+  - name: Phoenix-SHAKE-192s
+    ngcc_level: 128
+    pk: 48
+    sig: 13332
+    notes: Reference implementation; our build does not reproduce the submitted test vectors (cause unknown).
+  - name: Phoenix-SHAKE-192f
+    ngcc_level: 128
+    pk: 48
+    sig: 30766
+    notes: Reference implementation; our build does not reproduce the submitted test vectors (cause unknown).
+  - name: Phoenix-SHAKE-256s
+    ngcc_level: 256
+    pk: 64
+    sig: 24618
+    notes: Reference implementation; our build does not reproduce the submitted test vectors (cause unknown).
+  - name: Phoenix-SHAKE-256f
+    ngcc_level: 256
+    pk: 64
+    sig: 44906
+    notes: Reference implementation; our build does not reproduce the submitted test vectors (cause unknown).
+  - name: Phoenix-SHAKE-384s
+    ngcc_level: 384
+    pk: 96
+    sig: 54726
+    notes: Reference implementation; our build does not reproduce the submitted test vectors (cause unknown).
+  - name: Phoenix-SHAKE-384f
+    ngcc_level: 384
+    pk: 96
+    sig: 88442
+    notes: Reference implementation; our build does not reproduce the submitted test vectors (cause unknown).
+  - name: Phoenix-SHAKE-512s
+    ngcc_level: 512
+    pk: 128
+    sig: 98476
+    notes: Reference implementation; our build does not reproduce the submitted test vectors (cause unknown).
+  - name: Phoenix-SHAKE-512f
+    ngcc_level: 512
+    pk: 128
+    sig: 138454
+    notes: Reference implementation; our build does not reproduce the submitted test vectors (cause unknown).
+  - name: Phoenix-SM3-192s
+    ngcc_level: 128
+    pk: 48
+    sig: 13332
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it; our build does not reproduce the submitted test vectors (cause unknown).
+  - name: Phoenix-SM3-192f
+    ngcc_level: 128
+    pk: 48
+    sig: 30766
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it; our build does not reproduce the submitted test vectors (cause unknown).
+  - name: Phoenix-SM3-256s
+    ngcc_level: 256
+    pk: 64
+    sig: 24618
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it; our build does not reproduce the submitted test vectors (cause unknown).
+  - name: Phoenix-SM3-256f
+    ngcc_level: 256
+    pk: 64
+    sig: 44906
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it; our build does not reproduce the submitted test vectors (cause unknown).
+  - name: Phoenix-SM3-384s
+    ngcc_level: 384
+    pk: 96
+    sig: 54726
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it; our build does not reproduce the submitted test vectors (cause unknown).
+  - name: Phoenix-SM3-384f
+    ngcc_level: 384
+    pk: 96
+    sig: 88442
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it; our build does not reproduce the submitted test vectors (cause unknown).
+  - name: Phoenix-SM3-512s
+    ngcc_level: 512
+    pk: 128
+    sig: 98476
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it; our build does not reproduce the submitted test vectors (cause unknown).
+  - name: Phoenix-SM3-512f
+    ngcc_level: 512
+    pk: 128
+    sig: 138454
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it; our build does not reproduce the submitted test vectors (cause unknown).

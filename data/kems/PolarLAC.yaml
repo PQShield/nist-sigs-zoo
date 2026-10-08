@@ -1,0 +1,37 @@
+name: PolarLAC
+website: https://www.niccs.org.cn/niccs/Round1Additional/pc/content/content_2101560872180207616.html
+category: Lattices
+assumption: MLWE
+status: NGCC round 1
+programmes:
+  china-ngcc: round-1
+parametersets:
+- name: POLARLAC-128
+  ngcc_level: 128
+  recommended: true
+  pk: 530
+  ct: 640
+  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it.
+- name: POLARLAC-256
+  ngcc_level: 256
+  recommended: true
+  pk: 1060
+  ct: 1280
+  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it.
+- name: POLARLAC-512
+  ngcc_level: 512
+  pk: 2116
+  ct: 2560
+  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it.
+- name: POLARLAC-512-Star
+  ngcc_level: 512
+  recommended: true
+  pk: 2522
+  ct: 2970
+  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it.
+- name: POLARLAC-Light
+  ngcc_level: 128
+  recommended: true
+  pk: 530
+  ct: 608
+  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it.

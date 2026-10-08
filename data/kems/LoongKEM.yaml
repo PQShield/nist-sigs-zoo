@@ -1,0 +1,28 @@
+name: LoongKEM
+website: https://www.niccs.org.cn/niccs/Round1Additional/pc/content/content_2101560853666549760.html
+category: Lattices
+assumption: LWE
+status: NGCC round 1
+programmes:
+  china-ngcc: round-1
+parametersets:
+- name: Loong128
+  ngcc_level: 128
+  pk: 1472
+  ct: 1512
+  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it.
+- name: Loong256
+  ngcc_level: 256
+  pk: 3248
+  ct: 3520
+  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it.
+- name: Loong384
+  ngcc_level: 384
+  pk: 6444
+  ct: 6680
+  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it.
+- name: Loong512
+  ngcc_level: 512
+  pk: 10640
+  ct: 10848
+  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it.

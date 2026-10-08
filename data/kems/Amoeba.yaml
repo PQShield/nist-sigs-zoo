@@ -1,0 +1,28 @@
+name: Amoeba
+website: https://www.niccs.org.cn/niccs/Round1Additional/pc/content/content_2101560843117875200.html
+category: Lattices
+assumption: RLWE
+status: NGCC round 1
+programmes:
+  china-ngcc: round-1
+parametersets:
+- name: Amoeba-576
+  ngcc_level: 128
+  pk: 784
+  ct: 1047
+  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it; no submitted test vectors found for this instance.
+- name: Amoeba-1152
+  ngcc_level: 256
+  pk: 784
+  ct: 1047
+  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it; no submitted test vectors found for this instance.
+- name: Amoeba-1728
+  ngcc_level: 384
+  pk: 784
+  ct: 1047
+  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it; no submitted test vectors found for this instance.
+- name: Amoeba-2304
+  ngcc_level: 512
+  pk: 784
+  ct: 1047
+  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it; no submitted test vectors found for this instance.

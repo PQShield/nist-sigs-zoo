@@ -1,0 +1,28 @@
+name: TriQ-KEM
+website: https://www.niccs.org.cn/niccs/Round1Additional/pc/content/content_2101560881558671360.html
+category: Code-based
+assumption: QCSD
+status: NGCC round 1
+programmes:
+  china-ngcc: round-1
+parametersets:
+- name: TriQ-KEM-128
+  ngcc_level: 128
+  pk: 2054
+  ct: 4086
+  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it.
+- name: TriQ-KEM-256
+  ngcc_level: 256
+  pk: 6328
+  ct: 12472
+  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it.
+- name: TriQ-KEM-384
+  ngcc_level: 384
+  pk: 12255
+  ct: 24335
+  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it.
+- name: TriQ-KEM-512
+  ngcc_level: 512
+  pk: 19768
+  ct: 39320
+  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it.

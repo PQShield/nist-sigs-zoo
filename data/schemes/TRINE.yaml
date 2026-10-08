@@ -1,0 +1,41 @@
+name: TRINE
+website: https://www.niccs.org.cn/niccs/Round1Additional/pc/content/content_2101561105463201792.html
+category: Other
+assumption: Trilinear Form Equiv.
+versions:
+- version: Round 1
+  date: '2026-09-20'
+  status: NGCC round 1
+  programmes:
+    china-ngcc: round-1
+  parametersets:
+  - name: TRINE-128-Balanced
+    ngcc_level: 128
+    pk: 16004
+    sig: 3156
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it.
+  - name: TRINE-128-ShortSig
+    ngcc_level: 128
+    pk: 63920
+    sig: 1652
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it.
+  - name: TRINE-256-Balanced
+    ngcc_level: 256
+    pk: 96064
+    sig: 11712
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it.
+  - name: TRINE-256-ShortSig
+    ngcc_level: 256
+    pk: 384064
+    sig: 5968
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it.
+  - name: TRINE-512-Balanced
+    ngcc_level: 512
+    pk: 797290
+    sig: 46565
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it; the test-vector run timed out in our build.
+  - name: TRINE-512-ShortSig
+    ngcc_level: 512
+    pk: 3188776
+    sig: 23672
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it; the test-vector run timed out in our build.

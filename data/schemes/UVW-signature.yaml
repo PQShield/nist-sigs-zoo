@@ -1,0 +1,29 @@
+name: UVW signature
+website: https://www.niccs.org.cn/niccs/Round1Additional/pc/content/content_2101561105735831552.html
+category: Code-based
+assumption: Synd. Dec. over F3
+versions:
+- version: Round 1
+  date: '2026-09-20'
+  status: NGCC round 1
+  programmes:
+    china-ngcc: round-1
+  parametersets:
+  - name: UVW-128
+    ngcc_level: 128
+    recommended: true
+    pk: 5897612
+    sig: 1244
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it.
+  - name: UVW-256
+    ngcc_level: 256
+    recommended: true
+    pk: 23040012
+    sig: 2444
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it; the test-vector run timed out in our build.
+  - name: UVW-512
+    ngcc_level: 512
+    recommended: true
+    pk: 95160012
+    sig: 4956
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it; the submitted code failed its own test-vector run in our build.

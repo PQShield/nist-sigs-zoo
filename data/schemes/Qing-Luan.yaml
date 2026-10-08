@@ -1,0 +1,31 @@
+name: Qing Luan
+website: https://www.niccs.org.cn/niccs/Round1Additional/pc/content/content_2101561087243145216.html
+category: MPCitH
+assumption: Restricted Synd. Dec.
+versions:
+- version: Round 1
+  date: '2026-09-20'
+  status: NGCC round 1
+  programmes:
+    china-ngcc: round-1
+  parametersets:
+  - name: QingLuan-128
+    ngcc_level: 128
+    pk: 77
+    sig: 18720
+    notes: Reference implementation; uses the ICCS SM3 implementation from the submission package.
+  - name: QingLuan-256
+    ngcc_level: 256
+    pk: 153
+    sig: 74248
+    notes: Reference implementation; uses the ICCS SM3 implementation from the submission package.
+  - name: QingLuan-384
+    ngcc_level: 384
+    pk: 227
+    sig: 164940
+    notes: Reference implementation; uses the ICCS SM3 implementation from the submission package.
+  - name: QingLuan-512
+    ngcc_level: 512
+    pk: 302
+    sig: 292816
+    notes: Reference implementation; uses the ICCS SM3 implementation from the submission package.

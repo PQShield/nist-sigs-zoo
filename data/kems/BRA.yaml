@@ -1,0 +1,23 @@
+name: BRA
+website: https://www.niccs.org.cn/niccs/Round1Additional/pc/content/content_2101560843625385984.html
+category: Code-based
+assumption: Rank Synd. Dec.
+status: NGCC round 1
+programmes:
+  china-ngcc: round-1
+parametersets:
+- name: BRA-128
+  ngcc_level: 128
+  pk: 1078
+  ct: 2092
+  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it.
+- name: BRA-256
+  ngcc_level: 256
+  pk: 1735
+  ct: 3406
+  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it.
+- name: BRA-512
+  ngcc_level: 512
+  pk: 3573
+  ct: 7082
+  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it.

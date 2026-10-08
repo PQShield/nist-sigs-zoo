@@ -1,0 +1,26 @@
+name: SQIsign2D-push1/2
+website: https://www.niccs.org.cn/niccs/Round1Additional/pc/content/content_2101561096483196928.html
+category: Isogenies
+assumption: Isogenies
+versions:
+- version: Round 1
+  date: '2026-09-20'
+  status: NGCC round 1
+  programmes:
+    china-ngcc: round-1
+  parametersets:
+  - name: SQIsign2D-lvl2
+    ngcc_level: 128
+    pk: 96
+    sig: 218
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it; the test-vector run crashed in our build.
+  - name: SQIsign2D-lvl3
+    ngcc_level: 256
+    pk: 128
+    sig: 293
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it; the test-vector run crashed in our build.
+  - name: SQIsign2D-lvl4
+    ngcc_level: 512
+    pk: 262
+    sig: 593
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it; the test-vector run timed out in our build.

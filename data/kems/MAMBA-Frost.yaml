@@ -1,0 +1,38 @@
+name: MAMBA-Frost
+website: https://www.niccs.org.cn/niccs/Round1Additional/pc/content/content_2101560853918208000.html
+category: Lattices
+assumption: LWE
+status: NGCC round 1
+programmes:
+  china-ngcc: round-1
+parametersets:
+- name: MAMBA-Frost-128
+  ngcc_level: 128
+  pk: 5152
+  ct: 5192
+  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it.
+- name: MAMBA-Frost-256
+  ngcc_level: 256
+  pk: 16776
+  ct: 15552
+  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it.
+- name: MAMBA-Frost-384
+  ngcc_level: 384
+  pk: 25096
+  ct: 37736
+  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it.
+- name: MAMBA-Frost-512
+  ngcc_level: 512
+  pk: 36432
+  ct: 72944
+  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it.
+- name: MAMBA-Frost-CC-384
+  ngcc_level: 384
+  pk: 37628
+  ct: 25204
+  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it.
+- name: MAMBA-Frost-CC-512
+  ngcc_level: 512
+  pk: 72832
+  ct: 36544
+  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it.

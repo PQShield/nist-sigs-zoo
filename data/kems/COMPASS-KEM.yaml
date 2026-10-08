@@ -1,0 +1,28 @@
+name: COMPASS-KEM
+website: https://www.niccs.org.cn/niccs/Round1Additional/pc/content/content_2101560844283891712.html
+category: Lattices
+assumption: MLWR
+status: NGCC round 1
+programmes:
+  china-ngcc: round-1
+parametersets:
+- name: COMPASS-KEM-128
+  ngcc_level: 128
+  pk: 672
+  ct: 768
+  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it.
+- name: COMPASS-KEM-256
+  ngcc_level: 256
+  pk: 1312
+  ct: 1472
+  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it.
+- name: COMPASS-KEM-384
+  ngcc_level: 384
+  pk: 2144
+  ct: 2432
+  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it.
+- name: COMPASS-KEM-512
+  ngcc_level: 512
+  pk: 2848
+  ct: 3264
+  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it.

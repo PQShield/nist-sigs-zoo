@@ -1,0 +1,23 @@
+name: Hybrid Equivalent Punctured and Quasi-Cyclic
+website: https://www.niccs.org.cn/niccs/Round1Additional/pc/content/content_2101560853532332032.html
+category: Code-based
+assumption: Quasi-Cyclic Syndrome Decoding
+status: NGCC round 1
+programmes:
+  china-ngcc: round-1
+parametersets:
+- name: HEP-QC-1
+  ngcc_level: 128
+  pk: 285889
+  ct: 4433
+  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it.
+- name: HEP-QC-5
+  ngcc_level: 256
+  pk: 1852485
+  ct: 14421
+  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it.
+- name: HEP-QC-7
+  ngcc_level: 512
+  pk: 12644449
+  ct: 49297
+  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it.

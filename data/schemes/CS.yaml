@@ -1,0 +1,26 @@
+name: CS
+website: https://www.niccs.org.cn/niccs/Round1Additional/pc/content/content_2101561077046792192.html
+category: Lattices
+assumption: MLWE/MSIS
+versions:
+- version: Round 1
+  date: '2026-09-20'
+  status: NGCC round 1
+  programmes:
+    china-ngcc: round-1
+  parametersets:
+  - name: CS-128
+    ngcc_level: 128
+    pk: 976
+    sig: 1548
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it.
+  - name: CS-256
+    ngcc_level: 256
+    pk: 1760
+    sig: 3164
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it.
+  - name: CS-512
+    ngcc_level: 512
+    pk: 4288
+    sig: 5975
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it.

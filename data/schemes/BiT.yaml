@@ -1,0 +1,31 @@
+name: 'BIT: Bimodal Triangular distribution based lattice signatures'
+website: https://www.niccs.org.cn/niccs/Round1Additional/pc/content/content_2101561076358926336.html
+category: Lattices
+assumption: MLWE/MSIS
+versions:
+- version: Round 1
+  date: '2026-09-20'
+  status: NGCC round 1
+  programmes:
+    china-ngcc: round-1
+  parametersets:
+  - name: BiT-128
+    ngcc_level: 128
+    pk: 1048
+    sig: 1504
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it.
+  - name: BiT-256
+    ngcc_level: 256
+    pk: 2144
+    sig: 3456
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it.
+  - name: BiT-512
+    ngcc_level: 512
+    pk: 5056
+    sig: 6695
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it.
+  - name: BiT-384
+    ngcc_level: 384
+    pk: 2435
+    sig: 5251
+    notes: Sizes from the specification (Sec. 6.3, Table 10 (PDF p. 35)); not measured, we did not build this instance.

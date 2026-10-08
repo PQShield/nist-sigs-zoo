@@ -1,0 +1,28 @@
+name: CheetahKEM
+website: https://www.niccs.org.cn/niccs/Round1Additional/pc/content/content_2101560844002873344.html
+category: Lattices
+assumption: RLWE/MLWE
+status: NGCC round 1
+programmes:
+  china-ngcc: round-1
+parametersets:
+- name: Cheetah128
+  ngcc_level: 128
+  pk: 832
+  ct: 864
+  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it.
+- name: Cheetah256
+  ngcc_level: 256
+  pk: 1648
+  ct: 1728
+  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it.
+- name: Cheetah384
+  ngcc_level: 384
+  pk: 2704
+  ct: 2832
+  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it.
+- name: Cheetah512
+  ngcc_level: 512
+  pk: 3600
+  ct: 4032
+  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it.

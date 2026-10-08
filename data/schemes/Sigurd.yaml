@@ -1,0 +1,26 @@
+name: Sigurd
+website: https://www.niccs.org.cn/niccs/Round1Additional/pc/content/content_2101561096235732992.html
+category: MPCitH
+assumption: Regular Synd. Dec.
+versions:
+- version: Round 1
+  date: '2026-09-20'
+  status: NGCC round 1
+  programmes:
+    china-ngcc: round-1
+  parametersets:
+  - name: Sigurd128
+    ngcc_level: 128
+    pk: 112
+    sig: 62868
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it.
+  - name: Sigurd256
+    ngcc_level: 256
+    pk: 212
+    sig: 137412
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it.
+  - name: Sigurd512
+    ngcc_level: 512
+    pk: 435
+    sig: 494532
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it.

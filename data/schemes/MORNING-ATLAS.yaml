@@ -1,0 +1,26 @@
+name: MORNING-ATLAS
+website: https://www.niccs.org.cn/niccs/Round1Additional/pc/content/content_2101561078120534016.html
+category: Lattices
+assumption: MLWR/MSIS
+versions:
+- version: Round 1
+  date: '2026-09-20'
+  status: NGCC round 1
+  programmes:
+    china-ngcc: round-1
+  parametersets:
+  - name: lwrdsa128
+    ngcc_level: 128
+    pk: 1328
+    sig: 2081
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it; the submitted code failed its own test-vector run in our build.
+  - name: lwrdsa256
+    ngcc_level: 256
+    pk: 2848
+    sig: 4656
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it; the submitted code failed its own test-vector run in our build.
+  - name: lwrdsa512
+    ngcc_level: 512
+    pk: 6688
+    sig: 10081
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it; the submitted code failed its own test-vector run in our build.

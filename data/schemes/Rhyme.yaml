@@ -1,0 +1,51 @@
+name: Rhyme
+website: https://www.niccs.org.cn/niccs/Round1Additional/pc/content/content_2101561095950520320.html
+category: Lattices
+assumption: GA-MLWE/MSIS
+versions:
+- version: Round 1
+  date: '2026-09-20'
+  status: NGCC round 1
+  programmes:
+    china-ngcc: round-1
+  parametersets:
+  - name: Rhyme-SM3-128
+    ngcc_level: 128
+    pk: 800
+    sig: 5156
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it.
+  - name: Rhyme-SM3-256
+    ngcc_level: 256
+    pk: 1824
+    sig: 10308
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it.
+  - name: Rhyme-SM3-384
+    ngcc_level: 384
+    pk: 2720
+    sig: 14436
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it.
+  - name: Rhyme-SM3-512
+    ngcc_level: 512
+    pk: 3872
+    sig: 20612
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it.
+  - name: Rhyme-SHAKE-128
+    ngcc_level: 128
+    pk: 800
+    sig: 5156
+    notes: Reference implementation.
+  - name: Rhyme-SHAKE-256
+    ngcc_level: 256
+    pk: 1824
+    sig: 10308
+    notes: Reference implementation.
+  - name: Rhyme-SHAKE-384
+    ngcc_level: 384
+    pk: 2720
+    sig: 14436
+    notes: Reference implementation.
+  - name: Rhyme-SHAKE-512
+    ngcc_level: 512
+    pk: 3872
+    sig: 20612
+    notes: Reference implementation.

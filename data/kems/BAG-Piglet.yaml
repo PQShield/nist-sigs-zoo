@@ -1,0 +1,28 @@
+name: BAG-Piglet
+website: https://www.niccs.org.cn/niccs/Round1Additional/pc/content/content_2101560843373727744.html
+category: Code-based
+assumption: Rank Synd. Dec.
+status: NGCC round 1
+programmes:
+  china-ngcc: round-1
+parametersets:
+- name: bag_piglet_128
+  ngcc_level: 128
+  pk: 522
+  ct: 1027
+  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it.
+- name: bag_piglet_256
+  ngcc_level: 256
+  pk: 1573
+  ct: 3097
+  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it.
+- name: bag_piglet_384
+  ngcc_level: 384
+  pk: 2778
+  ct: 5475
+  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it.
+- name: bag_piglet_512
+  ngcc_level: 512
+  pk: 4158
+  ct: 8204
+  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it.

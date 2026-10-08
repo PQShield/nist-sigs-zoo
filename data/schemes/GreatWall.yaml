@@ -1,0 +1,41 @@
+name: GreatWall Signature Algorithm
+website: https://www.niccs.org.cn/niccs/Round1Additional/pc/content/content_2101561077852098560.html
+category: Symmetric
+assumption: Pylon OWF
+versions:
+- version: Round 1
+  date: '2026-09-20'
+  status: NGCC round 1
+  programmes:
+    china-ngcc: round-1
+  parametersets:
+  - name: GreatWall192f
+    ngcc_level: 128
+    pk: 50
+    sig: 8012
+    notes: Reference implementation.
+  - name: GreatWall192s
+    ngcc_level: 128
+    pk: 50
+    sig: 6804
+    notes: Reference implementation.
+  - name: GreatWall256f
+    ngcc_level: 256
+    pk: 66
+    sig: 14260
+    notes: Reference implementation.
+  - name: GreatWall256s
+    ngcc_level: 256
+    pk: 66
+    sig: 12236
+    notes: Reference implementation.
+  - name: GreatWall512f
+    ngcc_level: 512
+    pk: 132
+    sig: 57812
+    notes: Reference implementation.
+  - name: GreatWall512s
+    ngcc_level: 512
+    pk: 132
+    sig: 50012
+    notes: Reference implementation.

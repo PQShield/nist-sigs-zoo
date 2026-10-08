@@ -1,0 +1,26 @@
+name: OPS Digital Signature Algorithm
+website: https://www.niccs.org.cn/niccs/Round1Additional/pc/content/content_2101561086848880640.html
+category: Lattices
+assumption: MLWE/MSIS
+versions:
+- version: Round 1
+  date: '2026-09-20'
+  status: NGCC round 1
+  programmes:
+    china-ngcc: round-1
+  parametersets:
+  - name: OPSsig-128
+    ngcc_level: 128
+    pk: 2560
+    sig: 4349
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it.
+  - name: OPSsig-256
+    ngcc_level: 256
+    pk: 3392
+    sig: 5540
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it.
+  - name: OPSsig-512
+    ngcc_level: 512
+    pk: 6720
+    sig: 12021
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it.

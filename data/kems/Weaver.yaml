@@ -1,0 +1,23 @@
+name: Weaver
+website: https://www.niccs.org.cn/niccs/Round1Additional/pc/content/content_2101560890312183808.html
+category: Lattices
+assumption: MLWR
+status: NGCC round 1
+programmes:
+  china-ngcc: round-1
+parametersets:
+- name: WeaverKEM-128
+  ngcc_level: 128
+  pk: 752
+  ct: 816
+  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it.
+- name: WeaverKEM-256
+  ngcc_level: 256
+  pk: 1312
+  ct: 1536
+  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it.
+- name: WeaverKEM-512
+  ngcc_level: 512
+  pk: 2880
+  ct: 3392
+  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it.

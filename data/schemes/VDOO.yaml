@@ -1,0 +1,26 @@
+name: 'VDOO: Vinegar-Diagonal-Oil-Oil'
+website: https://www.niccs.org.cn/niccs/Round1Additional/pc/content/content_2101561114325766144.html
+category: Multivariate
+assumption: UOV-type MQ
+versions:
+- version: Round 1
+  date: '2026-09-20'
+  status: NGCC round 1
+  programmes:
+    china-ngcc: round-1
+  parametersets:
+  - name: VDOO-128
+    ngcc_level: 128
+    pk: 330855
+    sig: 85
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it.
+  - name: VDOO-256
+    ngcc_level: 256
+    pk: 4289250
+    sig: 316
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it.
+  - name: VDOO-512
+    ngcc_level: 512
+    pk: 20229300
+    sig: 471
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it.

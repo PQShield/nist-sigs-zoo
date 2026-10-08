@@ -1,0 +1,53 @@
+name: Mito
+website: https://www.niccs.org.cn/niccs/Round1Additional/pc/content/content_2101560862776578048.html
+category: Code-based
+assumption: QCSD
+status: NGCC round 1
+programmes:
+  china-ngcc: round-1
+parametersets:
+- name: Mito-1-128
+  ngcc_level: 128
+  pk: 3908
+  ct: 5796
+  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it.
+- name: Mito-1-256
+  ngcc_level: 256
+  pk: 8522
+  ct: 12714
+  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it.
+- name: Mito-1-512
+  ngcc_level: 512
+  pk: 26630
+  ct: 39878
+  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it.
+- name: Mito-1-E-128
+  ngcc_level: 128
+  pk: 3720
+  ct: 5512
+  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it.
+- name: Mito-1-E-256
+  ngcc_level: 256
+  pk: 8130
+  ct: 12130
+  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it.
+- name: Mito-1-E-512
+  ngcc_level: 512
+  pk: 25674
+  ct: 38442
+  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it.
+- name: Mito-2-E-128
+  ngcc_level: 128
+  pk: 5192
+  ct: 6440
+  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it.
+- name: Mito-2-E-256
+  ngcc_level: 256
+  pk: 10828
+  ct: 13484
+  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it.
+- name: Mito-2-E-512
+  ngcc_level: 512
+  pk: 32712
+  ct: 40840
+  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it.

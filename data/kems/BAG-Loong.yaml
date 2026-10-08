@@ -1,0 +1,28 @@
+name: BAG-Loong
+website: https://www.niccs.org.cn/niccs/Round1Additional/pc/content/content_2101560843247898624.html
+category: Code-based
+assumption: Rank Synd. Dec.
+status: NGCC round 1
+programmes:
+  china-ngcc: round-1
+parametersets:
+- name: BAG-Loong-128
+  ngcc_level: 128
+  pk: 2500
+  ct: 3071
+  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it.
+- name: BAG-Loong-256
+  ngcc_level: 256
+  pk: 6597
+  ct: 8400
+  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it.
+- name: BAG-Loong-384
+  ngcc_level: 384
+  pk: 12152
+  ct: 15112
+  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it.
+- name: BAG-Loong-512
+  ngcc_level: 512
+  pk: 19043
+  ct: 21660
+  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it.

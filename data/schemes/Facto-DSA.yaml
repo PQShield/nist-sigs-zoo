@@ -1,0 +1,26 @@
+name: Facto-DSA
+website: https://www.niccs.org.cn/niccs/Round1Additional/pc/content/content_2101561077457833984.html
+category: Other
+assumption: Cubic factorisation
+versions:
+- version: Round 1
+  date: '2026-09-20'
+  status: NGCC round 1
+  programmes:
+    china-ngcc: round-1
+  parametersets:
+  - name: Facto-DSA-128
+    ngcc_level: 128
+    pk: 40040
+    sig: 40
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it.
+  - name: Facto-DSA-256
+    ngcc_level: 256
+    pk: 456960
+    sig: 68
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it.
+  - name: Facto-DSA-512
+    ngcc_level: 512
+    pk: 5674240
+    sig: 128
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it; no submitted test vectors found for this instance.

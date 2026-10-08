@@ -1,0 +1,51 @@
+name: ReSolveD-ɑ
+website: https://www.niccs.org.cn/niccs/Round1Additional/pc/content/content_2101561087368974336.html
+category: MPCitH
+assumption: Regular Synd. Dec.
+versions:
+- version: Round 1
+  date: '2026-09-20'
+  status: NGCC round 1
+  programmes:
+    china-ngcc: round-1
+  parametersets:
+  - name: ReSolveD-alpha-160s
+    ngcc_level: 128
+    pk: 121
+    sig: 5307
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it; our build does not reproduce the submitted test vectors (cause unknown).
+  - name: ReSolveD-alpha-160f
+    ngcc_level: 128
+    pk: 121
+    sig: 6851
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it; our build does not reproduce the submitted test vectors (cause unknown).
+  - name: ReSolveD-alpha-256s
+    ngcc_level: 256
+    pk: 194
+    sig: 13973
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it; our build does not reproduce the submitted test vectors (cause unknown).
+  - name: ReSolveD-alpha-256f
+    ngcc_level: 256
+    pk: 194
+    sig: 17932
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it; our build does not reproduce the submitted test vectors (cause unknown).
+  - name: ReSolveD-alpha-384s
+    ngcc_level: 384
+    pk: 288
+    sig: 31575
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it; our build does not reproduce the submitted test vectors (cause unknown).
+  - name: ReSolveD-alpha-384f
+    ngcc_level: 384
+    pk: 288
+    sig: 40469
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it; our build does not reproduce the submitted test vectors (cause unknown).
+  - name: ReSolveD-alpha-512s
+    ngcc_level: 512
+    pk: 385
+    sig: 56239
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it; our build does not reproduce the submitted test vectors (cause unknown).
+  - name: ReSolveD-alpha-512f
+    ngcc_level: 512
+    pk: 385
+    sig: 72611
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it; our build does not reproduce the submitted test vectors (cause unknown).

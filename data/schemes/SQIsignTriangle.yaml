@@ -1,0 +1,29 @@
+name: SQIsignTriangle
+website: https://www.niccs.org.cn/niccs/Round1Additional/pc/content/content_2101561096613220352.html
+category: Isogenies
+assumption: Isogenies
+versions:
+- version: Round 1
+  date: '2026-09-20'
+  status: NGCC round 1
+  programmes:
+    china-ngcc: round-1
+  parametersets:
+  - name: SQIsignTriangle_lvl2
+    ngcc_level: 128
+    recommended: true
+    pk: 81
+    sig: 255
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it.
+  - name: SQIsignTriangle_lvl5
+    ngcc_level: 256
+    recommended: true
+    pk: 129
+    sig: 408
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it.
+  - name: SQIsignTriangle_lvl6
+    ngcc_level: 512
+    recommended: true
+    pk: 257
+    sig: 816
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it.

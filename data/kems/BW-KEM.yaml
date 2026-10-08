@@ -1,0 +1,32 @@
+name: BW-KEM
+website: https://www.niccs.org.cn/niccs/Round1Additional/pc/content/content_2101560843877044224.html
+category: Lattices
+assumption: MLWE
+status: NGCC round 1
+programmes:
+  china-ngcc: round-1
+parametersets:
+- name: BW_KEM_C128
+  ngcc_level: 128
+  recommended: true
+  pk: 784
+  ct: 768
+  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it.
+- name: BW_KEM_C256
+  ngcc_level: 256
+  recommended: true
+  pk: 1568
+  ct: 1440
+  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it.
+- name: BW_KEM_C384
+  ngcc_level: 384
+  recommended: true
+  pk: 2368
+  ct: 2176
+  notes: Sizes from the specification (§6.2 Table 2, BW-KEM-c384 (PDF p. 28); not built in the submission); not measured, we did not build this instance.
+- name: BW_KEM_C512
+  ngcc_level: 512
+  recommended: true
+  pk: 3136
+  ct: 2944
+  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it.

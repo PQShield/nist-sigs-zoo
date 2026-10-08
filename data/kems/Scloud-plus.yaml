@@ -1,0 +1,28 @@
+name: Scloud+
+website: https://www.niccs.org.cn/niccs/Round1Additional/pc/content/content_2101560881269264384.html
+category: Lattices
+assumption: LWE
+status: NGCC round 1
+programmes:
+  china-ngcc: round-1
+parametersets:
+- name: Scloudplus-128
+  ngcc_level: 128
+  pk: 6096
+  ct: 6160
+  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it.
+- name: Scloudplus-256
+  ngcc_level: 256
+  pk: 16296
+  ct: 17925
+  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it.
+- name: Scloudplus-384
+  ngcc_level: 384
+  pk: 33296
+  ct: 33600
+  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it.
+- name: Scloudplus-512
+  ngcc_level: 512
+  pk: 48016
+  ct: 48320
+  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it.

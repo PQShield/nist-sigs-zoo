@@ -1,0 +1,51 @@
+name: FlexTree
+website: https://www.niccs.org.cn/niccs/Round1Additional/pc/content/content_2101561077587857408.html
+category: Symmetric
+assumption: Hash-based
+versions:
+- version: Round 1
+  date: '2026-09-20'
+  status: NGCC round 1
+  programmes:
+    china-ngcc: round-1
+  parametersets:
+  - name: Flextree-160s
+    ngcc_level: 128
+    pk: 40
+    sig: 9580
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it.
+  - name: Flextree-160f
+    ngcc_level: 128
+    pk: 40
+    sig: 18672
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it.
+  - name: Flextree-256s
+    ngcc_level: 256
+    pk: 64
+    sig: 25420
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it.
+  - name: Flextree-256f
+    ngcc_level: 256
+    pk: 64
+    sig: 46856
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it.
+  - name: Flextree-384s
+    ngcc_level: 384
+    pk: 96
+    sig: 60180
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it.
+  - name: Flextree-384f
+    ngcc_level: 384
+    pk: 96
+    sig: 73396
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it.
+  - name: Flextree-512s
+    ngcc_level: 512
+    pk: 128
+    sig: 94948
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it.
+  - name: Flextree-512f
+    ngcc_level: 512
+    pk: 128
+    sig: 117296
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it.

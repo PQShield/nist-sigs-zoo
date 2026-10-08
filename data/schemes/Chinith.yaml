@@ -1,0 +1,81 @@
+name: Chinith
+website: https://www.niccs.org.cn/niccs/Round1Additional/pc/content/content_2101561076774162432.html
+category: Symmetric
+assumption: SM4/uBlock/Vistrutah OWF
+versions:
+- version: Round 1
+  date: '2026-09-20'
+  status: NGCC round 1
+  programmes:
+    china-ngcc: round-1
+  parametersets:
+  - name: sm4th_d3_128f_loose
+    ngcc_level: 128
+    pk: 32
+    sig: 6724
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it.
+  - name: sm4th_d3_128f_tight
+    ngcc_level: 128
+    pk: 32
+    sig: 11864
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it.
+  - name: sm4th_d3_128s_loose
+    ngcc_level: 128
+    pk: 32
+    sig: 5056
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it.
+  - name: sm4th_d3_128s_tight
+    ngcc_level: 128
+    pk: 32
+    sig: 9176
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it.
+  - name: sm4th_em_d2_128f_loose
+    ngcc_level: 128
+    pk: 32
+    sig: 4932
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it.
+  - name: sm4th_em_d2_128f_tight
+    ngcc_level: 128
+    pk: 32
+    sig: 9450
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it.
+  - name: sm4th_em_d2_128s_loose
+    ngcc_level: 128
+    pk: 32
+    sig: 3818
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it.
+  - name: sm4th_em_d2_128s_tight
+    ngcc_level: 128
+    pk: 32
+    sig: 7556
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it.
+  - name: ublockith_d3_256f
+    ngcc_level: 256
+    pk: 64
+    sig: 31556
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it.
+  - name: ublockith_d3_256s
+    ngcc_level: 256
+    pk: 64
+    sig: 24144
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it.
+  - name: ublockith_em_d3_256f
+    ngcc_level: 256
+    pk: 64
+    sig: 25028
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it.
+  - name: ublockith_em_d3_256s
+    ngcc_level: 256
+    pk: 64
+    sig: 19056
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it.
+  - name: vistrutith_d3_512f
+    ngcc_level: 512
+    pk: 128
+    sig: 106788
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it.
+  - name: vistrutith_d3_512s
+    ngcc_level: 512
+    pk: 128
+    sig: 83004
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it; the test-vector run timed out in our build.

@@ -1,0 +1,23 @@
+name: MORNING-Scabbard
+website: https://www.niccs.org.cn/niccs/Round1Additional/pc/content/content_2101560862906601472.html
+category: Lattices
+assumption: MLWR
+status: NGCC round 1
+programmes:
+  china-ngcc: round-1
+parametersets:
+- name: scabbard128
+  ngcc_level: 128
+  pk: 736
+  ct: 760
+  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it.
+- name: scabbard256
+  ngcc_level: 256
+  pk: 1616
+  ct: 1648
+  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it.
+- name: scabbard512
+  ngcc_level: 512
+  pk: 2880
+  ct: 3072
+  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it.

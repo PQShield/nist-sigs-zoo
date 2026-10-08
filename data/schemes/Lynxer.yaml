@@ -1,0 +1,51 @@
+name: Lynxer
+website: https://www.niccs.org.cn/niccs/Round1Additional/pc/content/content_2101561077990510592.html
+category: Symmetric
+assumption: Lynx OWF
+versions:
+- version: Round 1
+  date: '2026-09-20'
+  status: NGCC round 1
+  programmes:
+    china-ngcc: round-1
+  parametersets:
+  - name: Lynxer-160s
+    ngcc_level: 128
+    pk: 40
+    sig: 4607
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it; our build does not reproduce the submitted test vectors (cause unknown).
+  - name: Lynxer-160f
+    ngcc_level: 128
+    pk: 40
+    sig: 5801
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it; our build does not reproduce the submitted test vectors (cause unknown).
+  - name: Lynxer-256s
+    ngcc_level: 256
+    pk: 64
+    sig: 12191
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it; our build does not reproduce the submitted test vectors (cause unknown).
+  - name: Lynxer-256f
+    ngcc_level: 256
+    pk: 64
+    sig: 15097
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it; our build does not reproduce the submitted test vectors (cause unknown).
+  - name: Lynxer-384s
+    ngcc_level: 384
+    pk: 96
+    sig: 27495
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it; our build does not reproduce the submitted test vectors (cause unknown).
+  - name: Lynxer-384f
+    ngcc_level: 384
+    pk: 96
+    sig: 34109
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it; our build does not reproduce the submitted test vectors (cause unknown).
+  - name: Lynxer-512s
+    ngcc_level: 512
+    pk: 128
+    sig: 48879
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it; our build does not reproduce the submitted test vectors (cause unknown).
+  - name: Lynxer-512f
+    ngcc_level: 512
+    pk: 128
+    sig: 61091
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it; our build does not reproduce the submitted test vectors (cause unknown).

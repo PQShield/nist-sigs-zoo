@@ -1,0 +1,28 @@
+name: NSS-HQC
+website: https://www.niccs.org.cn/niccs/Round1Additional/pc/content/content_2101560863191814144.html
+category: Code-based
+assumption: QCSD
+status: NGCC round 1
+programmes:
+  china-ngcc: round-1
+parametersets:
+- name: HQC-128
+  ngcc_level: 128
+  pk: 3713
+  ct: 5185
+  notes: Reference implementation.
+- name: HQC-256
+  ngcc_level: 256
+  pk: 6844
+  ct: 9084
+  notes: Reference implementation.
+- name: HQC-384
+  ngcc_level: 384
+  pk: 15371
+  ct: 18571
+  notes: Reference implementation.
+- name: HQC-512
+  ngcc_level: 512
+  pk: 27302
+  ct: 31462
+  notes: Reference implementation.

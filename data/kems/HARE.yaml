@@ -1,0 +1,28 @@
+name: HARE
+website: https://www.niccs.org.cn/niccs/Round1Additional/pc/content/content_2101560844942397440.html
+category: Code-based
+assumption: Quasi-Cyclic Syndrome Decoding
+status: NGCC round 1
+programmes:
+  china-ngcc: round-1
+parametersets:
+- name: HARE-128-kr
+  ngcc_level: 128
+  pk: 2629
+  ct: 4688
+  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it.
+- name: HARE-256-kr
+  ngcc_level: 256
+  pk: 6580
+  ct: 11790
+  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it.
+- name: HARE-384-kr
+  ngcc_level: 384
+  pk: 13157
+  ct: 23693
+  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it.
+- name: HARE-512-kr
+  ngcc_level: 512
+  pk: 21812
+  ct: 39294
+  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it.

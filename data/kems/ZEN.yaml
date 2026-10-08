@@ -1,0 +1,36 @@
+name: ZEN
+website: https://www.niccs.org.cn/niccs/Round1Additional/pc/content/content_2101560890563842048.html
+category: Lattices
+assumption: NTRU/RLWE
+status: NGCC round 1
+programmes:
+  china-ngcc: round-1
+parametersets:
+- name: ZEN_128
+  ngcc_level: 128
+  recommended: true
+  pk: 615
+  ct: 512
+  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it.
+- name: ZEN_256
+  ngcc_level: 256
+  recommended: true
+  pk: 1229
+  ct: 1024
+  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it.
+- name: ZEN_512
+  ngcc_level: 512
+  recommended: true
+  pk: 2458
+  ct: 2048
+  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it.
+- name: ZEN-256-backup
+  ngcc_level: 256
+  pk: 1229
+  ct: 1229
+  notes: Sizes from the specification (Table 3 (PDF p. 25)); not measured, we did not build this instance.
+- name: ZEN-512-backup
+  ngcc_level: 512
+  pk: 2458
+  ct: 2458
+  notes: Sizes from the specification (Table 3 (PDF p. 25)); not measured, we did not build this instance.

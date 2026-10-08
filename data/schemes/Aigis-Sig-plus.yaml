@@ -1,0 +1,26 @@
+name: Aigis-Sig+
+website: https://www.niccs.org.cn/niccs/Round1Additional/pc/content/content_2101567126852161536.html
+category: Lattices
+assumption: MLWE/MSIS
+versions:
+- version: Round 1
+  date: '2026-09-20'
+  status: NGCC round 1
+  programmes:
+    china-ngcc: round-1
+  parametersets:
+  - name: Aigis-Sig+-I
+    ngcc_level: 128
+    pk: 928
+    sig: 2015
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it.
+  - name: Aigis-Sig+-II
+    ngcc_level: 256
+    pk: 1824
+    sig: 4533
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it.
+  - name: Aigis-Sig+-III
+    ngcc_level: 512
+    pk: 4672
+    sig: 9134
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it.

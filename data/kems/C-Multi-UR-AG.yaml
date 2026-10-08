@@ -1,0 +1,23 @@
+name: C-Multi-UR-AG
+website: https://www.niccs.org.cn/niccs/Round1Additional/pc/content/content_2101560844149673984.html
+category: Code-based
+assumption: Rank Synd. Dec.
+status: NGCC round 1
+programmes:
+  china-ngcc: round-1
+parametersets:
+- name: CMultiURAG-128
+  ngcc_level: 128
+  pk: 3866
+  ct: 7332
+  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it.
+- name: CMultiURAG-256
+  ngcc_level: 256
+  pk: 10780
+  ct: 15304
+  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it.
+- name: CMultiURAG-512
+  ngcc_level: 512
+  pk: 28866
+  ct: 40926
+  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package, so timings include it.
