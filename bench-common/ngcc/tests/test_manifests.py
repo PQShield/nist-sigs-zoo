@@ -52,3 +52,12 @@ def test_sizes_cover_exactly_the_built_instances(kind):
     sizes = tsv(suite / "results/ngcc_sizes.tsv")
     assert {r["scheme"] for r in sizes} == built
     assert all(int(r["pk"]) > 0 for r in sizes)
+
+
+@pytest.mark.parametrize("kind", POPULATED)
+def test_optimised_rows_pass_their_kats(kind):
+    suite = SUITES[kind][0]
+    status = tsv(suite / "schemes/ngcc/status.tsv")
+    assert [
+        s["name"] for s in status if s["impl"] == "opt" and s["kat"] != "PASS"
+    ] == []
