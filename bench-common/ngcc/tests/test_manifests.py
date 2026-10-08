@@ -61,3 +61,14 @@ def test_optimised_rows_pass_their_kats(kind):
     assert [
         s["name"] for s in status if s["impl"] == "opt" and s["kat"] != "PASS"
     ] == []
+
+
+@pytest.mark.parametrize("kind", POPULATED)
+def test_status_impl_matches_params(kind):
+    suite = SUITES[kind][0]
+    params = {
+        r["file"]: r["impl"] for r in read_params(suite / "schemes/ngcc/params.tsv")
+    }
+    status = {s["file"]: s["impl"] for s in tsv(suite / "schemes/ngcc/status.tsv")}
+    assert set(params) <= set(status)
+    assert [f for f in params if status[f] != params[f]] == []
