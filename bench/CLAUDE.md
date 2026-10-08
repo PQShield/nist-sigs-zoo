@@ -241,6 +241,11 @@ through `scripts/ngcc-run`; see "Running NGCC candidates" below.
   clashes can be renamed away (`-Dcrypto_sign_keypair=cand_crypto_sign_keypair`).
 - Never edit extracted sources or run candidates' build systems: fixes are copies in
   `schemes/ngcc/patches/<id>/` with a `/* PATCH (nist-sigs-zoo): why */` header.
+- Optimised x86 builds: a row is `impl=opt` only where the submitted `Optimized_Implementation`
+  (avx2/asm) builds here, reproduces the submitted KAT (`status.tsv` `PASS`) and gives the same
+  pk/sk/sig sizes as the reference build (`ngcc_sizes.tsv` stays identical). Everything else keeps its
+  reference row; the reason is in the `params.tsv` comment above the candidate. Optimised trees written
+  in C++ (Galas, Lynxer, ReSolveD, sydo) are not built: the NGCC tooling compiles C and assembly only.
 - KATs are replayed by our `ngcc_kat` (ICCS seed schedule) and compared with the submitted
   files; mismatches are recorded, not hidden, and shown in the parameter set's notes.
 
