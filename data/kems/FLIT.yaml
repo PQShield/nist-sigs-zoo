@@ -10,7 +10,7 @@ parametersets:
   ngcc_level: 128
   pk: 615
   ct: 512
-  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+  notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 - name: FLIT256
   ngcc_level: 256
   pk: 1229

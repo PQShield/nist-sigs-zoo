@@ -10,19 +10,19 @@ parametersets:
   ngcc_level: 128
   pk: 610
   ct: 706
-  notes: Reference implementation.
+  notes: Optimised x86 implementation.
 - name: Lore-L2
   ngcc_level: 256
   pk: 1186
   ct: 1282
-  notes: Reference implementation.
+  notes: Optimised x86 implementation.
 - name: Lore-L3
   ngcc_level: 384
   pk: 1954
   ct: 2114
-  notes: Reference implementation.
+  notes: Optimised x86 implementation.
 - name: Lore-L4
   ngcc_level: 512
   pk: 2914
   ct: 3170
-  notes: Reference implementation.
+  notes: Optimised x86 implementation.

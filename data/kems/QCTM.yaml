@@ -15,9 +15,9 @@ parametersets:
   ngcc_level: 256
   pk: 595662
   ct: 1153
-  notes: Reference implementation.
+  notes: Optimised x86 implementation.
 - name: QCTM512
   ngcc_level: 512
   pk: 2374727
   ct: 2264
-  notes: Reference implementation.
+  notes: Optimised x86 implementation.
