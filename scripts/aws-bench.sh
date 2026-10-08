@@ -9,12 +9,15 @@
 #   --ubuntu VERSION         Ubuntu LTS release for the AMI       (default: 26.04)
 #   --ttl MINUTES            hard lifetime; the VM powers off and self-terminates
 #                            after this, even if this script dies (default: 60)
-#   --ngcc-src TARBALL       tar.gz of bench-common/ngcc/src (NGCC candidates' extracted
-#                            sources); uploaded so the VM builds the NGCC instances too
+#   --ngcc-src TARBALL       tar.gz of bench-common/ngcc/src without the submitted KAT files
+#                            (NGCC candidates' extracted sources); uploaded so the VM builds the NGCC instances too
 #                            (sets NGCC_BUILD=1 there; the VM never downloads from
 #                            niccs.org.cn). Create with:
-#                              tar -C bench-common/ngcc -czf /tmp/ngcc-src.tar.gz src
-#                            The TTL clock starts at boot, so the ~2.4 GB upload, unpack and the
+#                              tar -C bench-common/ngcc -czf /tmp/ngcc-src.tar.gz \
+#                                --exclude=Test_Vectors --exclude='*KAT*.txt' \
+#                                --exclude='*.rsp' --exclude='*.req' src
+#                            (~0.2 GB; the full tree is 5 GB, 4.4 GB of it KAT files the benchmark
+#                            never reads.) The TTL clock starts at boot, so the upload, unpack and the
 #                            NGCC build come out of --ttl: use a margin, e.g. --ttl 420 for sigs.
 #   -h, --help               show this help
 #
@@ -286,7 +289,6 @@ apt-get -o DPkg::Lock::Timeout=600 install -y -q --no-install-recommends libjitt
 EOF
 
 VOLUME_GB=40
-[ -z "$NGCC_SRC_TAR" ] || VOLUME_GB=100   # tarball + extracted sources (~5 GB each) + builds
 log "launching spot $INSTANCE_TYPE in $REGION (Ubuntu $UBUNTU, AMI $AMI_ID, TTL ${TTL_MIN}m)"
 for subnet in "${SUBNETS[@]}"; do
     if out="$(aws ec2 run-instances \
