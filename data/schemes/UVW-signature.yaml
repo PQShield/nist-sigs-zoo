@@ -26,4 +26,4 @@ versions:
     recommended: true
     pk: 95160012
     sig: 4956
-    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it; the submitted code failed its own test-vector run in our build.
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it; the test-vector run timed out in our build.
