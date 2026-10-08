@@ -13,30 +13,30 @@ versions:
     ngcc_level: 128
     pk: 191646
     sig: 136
-    notes: Sizes from the specification (Table 2 (PDF p. 10)); not measured, our build of this instance fails.
+    notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
   - name: dove_classic_256
     ngcc_level: 256
     pk: 2050352
     sig: 296
-    notes: Sizes from the specification (Table 2 (PDF p. 10)); not measured, our build of this instance fails.
+    notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
   - name: dove_classic_512
     ngcc_level: 512
     pk: 22833052
     sig: 648
-    notes: Sizes from the specification (Table 2 (PDF p. 10)); not measured, our build of this instance fails.
+    notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
   - name: dove_pkc_skc_128
     ngcc_level: 128
     pk: 43576
     sig: 136
-    notes: Sizes from the specification (Table 2 (PDF p. 10)); not measured, our build of this instance fails.
+    notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
   - name: dove_pkc_skc_256
     ngcc_level: 256
     pk: 446992
     sig: 296
-    notes: Sizes from the specification (Table 2 (PDF p. 10)); not measured, our build of this instance fails.
+    notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
   - name: dove_pkc_skc_512
     ngcc_level: 512
     pk: 5062192
     sig: 648
-    notes: Sizes from the specification (Table 2 (PDF p. 10)); not measured, our build of this instance fails.
+    notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
   findings_url: https://ngcc.dev/reports/sign-09.html

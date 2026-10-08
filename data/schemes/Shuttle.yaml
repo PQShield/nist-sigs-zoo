@@ -13,16 +13,16 @@ versions:
     ngcc_level: 128
     pk: 1264
     sig: 1183
-    notes: Reference implementation.
+    notes: Optimised x86 implementation.
   - name: SHUTTLE-256
     ngcc_level: 256
     pk: 1952
     sig: 2417
-    notes: Reference implementation.
+    notes: Optimised x86 implementation.
   - name: SHUTTLE-512
     ngcc_level: 512
     pk: 3648
     sig: 5001
-    notes: Reference implementation.
+    notes: Optimised x86 implementation.
   findings_url: https://ngcc.dev/reports/sign-23.html
   broken: A reversed transition in the signing procedure leaks an equivalent signing key after a few hundred thousand signatures, giving forgeries at every level (Feussner).

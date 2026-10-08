@@ -20,6 +20,6 @@ parametersets:
   ngcc_level: 512
   pk: 4860
   ct: 4988
-  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+  notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 findings_url: https://ngcc.dev/reports/kem-28.html
 implementation: Specification and code accept non-canonical ciphertext encodings, so a re-encoded challenge ciphertext decapsulates to the same key, defeating IND-CCA security (Meijers).
