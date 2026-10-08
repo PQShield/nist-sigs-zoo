@@ -56,7 +56,7 @@ static void pstr(FILE *f, const char *id, const unsigned char *b, ull n) {
     fputc('\n', f);
 }
 
-#define MAX_LEN (64ULL << 20) /* sanity cap on any getter-reported size */
+#define MAX_LEN (256ULL << 20) /* sanity cap on any getter-reported size */
 
 static unsigned char *buf(ull n) {
     if (n > MAX_LEN) {
