@@ -266,6 +266,7 @@ to the git-ignored `.ngcc-out/` only allowlisted regular files
 `*.rsp`/`KAT*.txt`, text staged from `/tmp` as `.ngcc-out/tmp/*`) that are plain
 UTF-8 text with no NUL bytes, mode 0644. Symlinks, binaries and oversize files
 are rejected and listed on stderr. Review them, then copy them to their committed locations by hand.
+For two runs at once, give each its own output dir (`NGCC_OUT=$PWD/.ngcc-out-<name> scripts/ngcc-run …`); they would otherwise overwrite each other's `.ngcc-out/`.
 Binaries, `.so` and `.mk` files never leave the container, and the host never
 runs or `make`s container output. Host `make -C bench` for non-NGCC work must
 run with NGCC disabled, or after removing `bench*/schemes/ngcc/build`.

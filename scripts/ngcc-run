@@ -49,7 +49,7 @@ if ! "${DOCKER[@]}" image inspect "$TAG" >/dev/null 2>&1; then
         -t "$TAG" "$DOCKERFILE_DIR" >&2
 fi
 
-OUT="$REPO/.ngcc-out"
+OUT="${NGCC_OUT:-$REPO/.ngcc-out}"  # set NGCC_OUT=$REPO/.ngcc-out-<name> for concurrent runs
 mkdir -p "$OUT"
 CTR="ngcc-run-$$-$(date +%s)"
 

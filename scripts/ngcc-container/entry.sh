@@ -6,7 +6,7 @@ set -uo pipefail
 
 mkdir -p /work
 rsync -a \
-    --exclude=/.git --exclude=/node_modules --exclude=/.ngcc-out --exclude=/dist \
+    --exclude=/.git --exclude=/node_modules --exclude='/.ngcc-out*' --exclude=/dist \
     --exclude=/.svelte-kit --exclude=/round-1 --exclude=/static \
     --exclude=/bench-common/ngcc/src --exclude=/bench-common/ngcc/specs \
     /repo/ /work/ || { echo "ngcc-run: workspace copy failed" >&2; exit 125; }

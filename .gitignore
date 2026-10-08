@@ -28,5 +28,5 @@ vite.config.ts.timestamp-*
 /playwright-report
 .claude/settings.local.json
 # NGCC container exports
-/.ngcc-out
+/.ngcc-out*/
 __pycache__/
