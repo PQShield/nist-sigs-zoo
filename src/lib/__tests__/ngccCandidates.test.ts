@@ -13,6 +13,7 @@ interface NgccInstance {
 	pk?: number;
 	sig?: number;
 	ct?: number;
+	sk?: number;
 	size_ref?: string;
 }
 interface NgccCandidate {
@@ -85,6 +86,10 @@ describe('data/ngcc/candidates.yaml', () => {
 			expect(files.filter((f) => !/^[A-Za-z0-9][A-Za-z0-9._-]*$/.test(f))).toEqual([]);
 			expect(new Set(files).size).toBe(files.length);
 		}
+	});
+
+	it('has a generated YAML file for every candidate', () => {
+		expect(candidates.filter((c) => !existsSync(yamlPath(c))).map((c) => c.file)).toEqual([]);
 	});
 
 	it('agrees with the generated YAML files, which never replace another scheme', () => {

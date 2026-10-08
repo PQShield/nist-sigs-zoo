@@ -11,7 +11,9 @@
 #   recommended: true             only where the spec designates it for its target
 # or
 #   omit: "<reason>"              not shown on the site (e.g. an intermediate 192-bit set)
-# Optional for instances we cannot build: pk, sig|ct, size_ref (spec table/page).
+# Optional: pk, sig|ct, size_ref (spec table/page); for instances we cannot build these are the
+# published sizes, for built ones (optional sk too) they are a cross-check: where our measured
+# size differs the YAML note cites the spec value.
 #
 # Sources: the official specifications only. ngcc.dev data is never copied here.
 #
@@ -1774,12 +1776,24 @@
     - instance: NGCC-1
       ngcc_level: 128
       ref: "§1.1 (PDF p. 6); Table 8.1 (PDF p. 68)"
+      pk: 405
+      ct: 602
+      sk: 488
+      size_ref: "Table 7.1, compressed columns (PDF p. 57)"
     - instance: NGCC-2
       ngcc_level: 256
       ref: "§1.1 (PDF p. 6); Table 8.1 (PDF p. 68)"
+      pk: 595
+      ct: 882
+      sk: 737
+      size_ref: "Table 7.1, compressed columns (PDF p. 57)"
     - instance: NGCC-3
       ngcc_level: 512
       ref: "§1.1 (PDF p. 6); Table 8.1 (PDF p. 68)"
+      pk: 1201
+      ct: 1746
+      sk: 1500
+      size_ref: "Table 7.1, compressed columns (PDF p. 57)"
 - id: kem-32
   kind: kem
   name: Quasi-Cyclic Twisted McEliece Key Encapsulation Mechanism

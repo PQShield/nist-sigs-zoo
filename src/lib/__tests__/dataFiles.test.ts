@@ -59,6 +59,15 @@ describe('programme references in scheme data', () => {
 				.filter((f) => load<SchemeYaml>(join(dir, f)).versions.some((v) => versionProgrammes(v)['nist-onramp']?.includes(stage))).length;
 		expect([count('round-1'), count('round-2'), count('round-3')]).toEqual([40, 14, 9]);
 	});
+	it('China NGCC round 1 has 34 signature and 41 KEM files', () => {
+		const sigs = readdirSync(join(DATA, 'schemes'))
+			.filter((f) => f.endsWith('.yaml'))
+			.filter((f) => load<SchemeYaml>(join(DATA, 'schemes', f)).versions.some((v) => versionProgrammes(v)['china-ngcc']?.includes('round-1'))).length;
+		const kems = readdirSync(join(DATA, 'kems'))
+			.filter((f) => f.endsWith('.yaml'))
+			.filter((f) => [load<KemSchemeYaml>(join(DATA, 'kems', f)).programmes?.['china-ngcc'] ?? []].flat().includes('round-1')).length;
+		expect([sigs, kems]).toEqual([34, 41]);
+	});
 	it('every signature version references a known programme and stage', () => {
 		const dir = join(DATA, 'schemes');
 		const errors = readdirSync(dir)

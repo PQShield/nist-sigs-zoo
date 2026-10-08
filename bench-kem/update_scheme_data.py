@@ -9,6 +9,7 @@ Also writes data/kem_benchmark_env.yaml describing the benchmark environment.
 
 Usage:
     uv run bench-kem/update_scheme_data.py [results_file]
+    uv run bench-kem/update_scheme_data.py --ngcc-sizes bench-kem/results/ngcc_sizes.tsv
 
 If no results_file is given, uses the most recent file in bench-kem/results/.
 """
@@ -72,6 +73,34 @@ BENCH_TO_YAML: dict[str, tuple[str, str]] = {
     "ECDH-P256": ("ECDH.yaml", "P-256"),
     "ECDH-P384": ("ECDH.yaml", "P-384"),
 }
+
+# China NGCC round-1 instances: bench names are NGCC-<instance>. The mapping comes
+# from data/ngcc/candidates.yaml (see bench-common/ngcc/ngcc_data.py).
+sys.path.insert(0, str(REPO_ROOT / "bench-common" / "ngcc"))
+import ngcc_data
+
+NGCC_CANDIDATES = REPO_ROOT / "data" / "ngcc" / "candidates.yaml"
+NGCC_STATUS = REPO_ROOT / "bench-kem" / "schemes" / "ngcc" / "status.tsv"
+if NGCC_CANDIDATES.exists():
+    BENCH_TO_YAML.update(
+        ngcc_data.bench_to_yaml(ngcc_data.load_candidates(NGCC_CANDIDATES), "kem")
+    )
+
+
+def import_ngcc_sizes(sizes_file: Path) -> None:
+    """Create or refresh the NGCC KEM YAML files from `--sizes NGCC` output."""
+    cands = ngcc_data.load_candidates(NGCC_CANDIDATES)
+    try:
+        written = ngcc_data.write_files(
+            cands,
+            "kem",
+            ngcc_data.load_sizes(sizes_file),
+            ngcc_data.load_status(NGCC_STATUS),
+            KEMS_DIR,
+        )
+    except ngcc_data.NgccDataError as e:
+        sys.exit(f"NGCC import failed:\n{e}")
+    print(f"Wrote {len(written)} NGCC KEM files in {KEMS_DIR.relative_to(REPO_ROOT)}")
 
 
 def parse_results_file(path: Path) -> tuple[dict, list[dict]]:
@@ -167,7 +196,19 @@ def write_benchmark_env(meta: dict, path: Path) -> None:
         "Benchmark thread pinned to one core."
     )
 
-    sources = meta.get("_sources", {})
+    # Merge with the sources already recorded: a filtered run (e.g. only NGCC)
+    # must not drop the provenance of the schemes it did not run.
+    sources: dict = {}
+    if path.exists():
+        previous = YAML(typ="safe").load(path.read_text()) or {}
+        sources.update(previous.get("sources") or {})
+        prev_cpu = (previous.get("cpu") or {}).get("model")
+        if prev_cpu and prev_cpu != meta.get("cpu", ""):
+            print(
+                f"WARNING: {path.name} was measured on {prev_cpu!r}, "
+                f"this run on {meta.get('cpu')!r}"
+            )
+    sources.update(meta.get("_sources", {}))
     if sources:
         src_map = CommentedMap()
         for k, v in sorted(sources.items()):
@@ -180,6 +221,9 @@ def write_benchmark_env(meta: dict, path: Path) -> None:
 
 
 def main() -> None:
+    if len(sys.argv) == 3 and sys.argv[1] == "--ngcc-sizes":
+        import_ngcc_sizes(Path(sys.argv[2]))
+        return
     results_dir = REPO_ROOT / "bench-kem" / "results"
     if len(sys.argv) > 1:
         results_file = Path(sys.argv[1])
