@@ -1,6 +1,6 @@
 - date: '2026-10-08'
   type: update
-  description: "Added the 34 signature and 41 KEM candidates of round 1 of China's NGCC programme (ICCS). Parameter sets and sizes come from our own builds of the official submission packages through the ICCS API, and claimed security targets from each specification. NGCC targets are shown in classical bits and are not NIST levels. Timings follow once our benchmarks have run."
+  description: "Added the 34 signature and 41 KEM candidates of round 1 of China's NGCC programme (ICCS). Parameter sets and sizes come from our own builds of the official submission packages through the ICCS API, and claimed security targets from each specification. NGCC security targets (128, 256, 384 and 512 bits) are the programme's own scale and are not NIST levels. Timings follow once our benchmarks have run."
   programmes: [china-ngcc]
 
 - date: '2026-10-07'
