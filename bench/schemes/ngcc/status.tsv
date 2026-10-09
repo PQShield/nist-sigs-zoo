@@ -159,7 +159,7 @@ sign_28_sydo_512s	NGCC-sydo_512s	sign-28	sydo_512s	ref	ok	PASS	placeholder
 sign_28_sydo_512f	NGCC-sydo_512f	sign-28	sydo_512f	ref	ok	PASS	placeholder		
 sign_29_tins128	NGCC-Tins128	sign-29	Tins128	ref	ok	CRYPTOFAIL	placeholder		
 sign_29_tins256	NGCC-Tins256	sign-29	Tins256	opt	ok	PASS	placeholder		
-sign_29_tins512	NGCC-Tins512	sign-29	Tins512	ref	ok	CRYPTOFAIL	placeholder		
+sign_29_tins512	NGCC-Tins512	sign-29	Tins512	ref	ok	PASS	placeholder		fix
 sign_30_trine_128_balanced	NGCC-TRINE-128-Balanced	sign-30	TRINE-128-Balanced	ref	ok	PASS	placeholder		
 sign_30_trine_128_shortsig	NGCC-TRINE-128-ShortSig	sign-30	TRINE-128-ShortSig	ref	ok	PASS	placeholder		
 sign_30_trine_256_balanced	NGCC-TRINE-256-Balanced	sign-30	TRINE-256-Balanced	ref	ok	PASS	placeholder		
