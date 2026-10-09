@@ -169,9 +169,9 @@ sign_30_trine_512_shortsig	NGCC-TRINE-512-ShortSig	sign-30	TRINE-512-ShortSig	re
 sign_31_tsuov_128	NGCC-TSUOV_128	sign-31	TSUOV_128	opt	ok	PASS	placeholder		
 sign_31_tsuov_256	NGCC-TSUOV_256	sign-31	TSUOV_256	opt	ok	PASS	placeholder		
 sign_31_tsuov_512	NGCC-TSUOV_512	sign-31	TSUOV_512	opt	ok	PASS	placeholder		
-sign_32_uvw_128	NGCC-UVW-128	sign-32	UVW-128	opt	ok	PASS	placeholder		
-sign_32_uvw_256	NGCC-UVW-256	sign-32	UVW-256	ref	ok	TIMEOUT	placeholder		
-sign_32_uvw_512	NGCC-UVW-512	sign-32	UVW-512	ref	ok	TIMEOUT	placeholder		
+sign_32_uvw_128	NGCC-UVW-128	sign-32	UVW-128	opt	ok	PASS	placeholder		fix
+sign_32_uvw_256	NGCC-UVW-256	sign-32	UVW-256	ref	ok	PASS	placeholder		fix
+sign_32_uvw_512	NGCC-UVW-512	sign-32	UVW-512	ref	ok	PASS	placeholder		fix
 sign_33_vdoo_128	NGCC-VDOO-128	sign-33	VDOO-128	ref	ok	PASS	placeholder		
 sign_33_vdoo_256	NGCC-VDOO-256	sign-33	VDOO-256	ref	ok	PASS	placeholder		
 sign_33_vdoo_512	NGCC-VDOO-512	sign-33	VDOO-512	ref	ok	PASS	placeholder		
