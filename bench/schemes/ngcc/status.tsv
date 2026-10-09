@@ -62,14 +62,14 @@ sign_11_flextree_384s	NGCC-Flextree-384s	sign-11	Flextree-384s	opt	ok	PASS	place
 sign_11_flextree_384f	NGCC-Flextree-384f	sign-11	Flextree-384f	opt	ok	PASS	placeholder		
 sign_11_flextree_512s	NGCC-Flextree-512s	sign-11	Flextree-512s	opt	ok	PASS	placeholder		
 sign_11_flextree_512f	NGCC-Flextree-512f	sign-11	Flextree-512f	opt	ok	PASS	placeholder		
-sign_12_galas_160s	NGCC-Galas-160S	sign-12	Galas-160S	ref	ok	MISMATCH	placeholder	0	
-sign_12_galas_160f	NGCC-Galas-160F	sign-12	Galas-160F	ref	ok	MISMATCH	placeholder	0	
-sign_12_galas_256s	NGCC-Galas-256S	sign-12	Galas-256S	ref	ok	MISMATCH	placeholder	0	
-sign_12_galas_256f	NGCC-Galas-256F	sign-12	Galas-256F	ref	ok	MISMATCH	placeholder	0	
-sign_12_galas_384s	NGCC-Galas-384S	sign-12	Galas-384S	ref	ok	MISMATCH	placeholder	0	
-sign_12_galas_384f	NGCC-Galas-384F	sign-12	Galas-384F	ref	ok	MISMATCH	placeholder	0	
-sign_12_galas_512s	NGCC-Galas-512S	sign-12	Galas-512S	ref	ok	MISMATCH	placeholder	0	
-sign_12_galas_512f	NGCC-Galas-512F	sign-12	Galas-512F	ref	ok	TIMEOUT	placeholder		
+sign_12_galas_160s	NGCC-Galas-160S	sign-12	Galas-160S	ref	ok	PASS	placeholder		fix
+sign_12_galas_160f	NGCC-Galas-160F	sign-12	Galas-160F	ref	ok	PASS	placeholder		fix
+sign_12_galas_256s	NGCC-Galas-256S	sign-12	Galas-256S	ref	ok	PASS	placeholder		fix
+sign_12_galas_256f	NGCC-Galas-256F	sign-12	Galas-256F	ref	ok	PASS	placeholder		fix
+sign_12_galas_384s	NGCC-Galas-384S	sign-12	Galas-384S	ref	ok	PASS	placeholder		fix
+sign_12_galas_384f	NGCC-Galas-384F	sign-12	Galas-384F	ref	ok	PASS	placeholder		fix
+sign_12_galas_512s	NGCC-Galas-512S	sign-12	Galas-512S	ref	ok	PASS	placeholder		fix
+sign_12_galas_512f	NGCC-Galas-512F	sign-12	Galas-512F	ref	ok	PASS	placeholder		fix
 sign_13_greatwall192f	NGCC-GreatWall192f	sign-13	GreatWall192f	opt	ok	PASS	own		
 sign_13_greatwall192s	NGCC-GreatWall192s	sign-13	GreatWall192s	opt	ok	PASS	own		
 sign_13_greatwall256f	NGCC-GreatWall256f	sign-13	GreatWall256f	opt	ok	PASS	own		
