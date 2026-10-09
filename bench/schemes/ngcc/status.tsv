@@ -93,10 +93,10 @@ sign_16_octarine_512	NGCC-Octarine-512	sign-16	Octarine-512	opt	ok	PASS	placehol
 sign_17_opssig_128	NGCC-OPSsig-128	sign-17	OPSsig-128	opt	ok	PASS	placeholder		
 sign_17_opssig_256	NGCC-OPSsig-256	sign-17	OPSsig-256	opt	ok	PASS	placeholder		
 sign_17_opssig_512	NGCC-OPSsig-512	sign-17	OPSsig-512	opt	ok	PASS	placeholder		
-sign_18_origami_128	NGCC-Origami-128	sign-18	Origami-128	opt	ok	PASS	placeholder		
-sign_18_origami_256	NGCC-Origami-256	sign-18	Origami-256	opt	ok	PASS	placeholder		
-sign_18_origami_384	NGCC-Origami-384	sign-18	Origami-384	opt	ok	PASS	placeholder		
-sign_18_origami_512	NGCC-Origami-512	sign-18	Origami-512	opt	ok	PASS	placeholder		
+sign_18_origami_128	NGCC-Origami-128	sign-18	Origami-128	opt	ok	PASS	placeholder		fix
+sign_18_origami_256	NGCC-Origami-256	sign-18	Origami-256	opt	ok	PASS	placeholder		fix
+sign_18_origami_384	NGCC-Origami-384	sign-18	Origami-384	opt	ok	PASS	placeholder		fix
+sign_18_origami_512	NGCC-Origami-512	sign-18	Origami-512	opt	ok	PASS	placeholder		fix
 sign_19_phoenix_shake_192s	NGCC-Phoenix-SHAKE-192s	sign-19	Phoenix-SHAKE-192s	ref	ok	PASS	own		
 sign_19_phoenix_shake_192f	NGCC-Phoenix-SHAKE-192f	sign-19	Phoenix-SHAKE-192f	ref	ok	PASS	own		
 sign_19_phoenix_shake_256s	NGCC-Phoenix-SHAKE-256s	sign-19	Phoenix-SHAKE-256s	ref	ok	PASS	own		
