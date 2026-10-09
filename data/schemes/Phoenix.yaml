@@ -13,7 +13,7 @@ versions:
     ngcc_level: 128
     pk: 48
     sig: 13332
-    notes: Reference implementation.
+    notes: Optimised x86 implementation; our build applies a small patch to the submitted code.
   - name: Phoenix-SHAKE-192f
     ngcc_level: 128
     pk: 48
@@ -28,27 +28,27 @@ versions:
     ngcc_level: 256
     pk: 64
     sig: 44906
-    notes: Reference implementation.
+    notes: Optimised x86 implementation; our build applies a small patch to the submitted code.
   - name: Phoenix-SHAKE-384s
     ngcc_level: 384
     pk: 96
     sig: 54726
-    notes: Reference implementation.
+    notes: Optimised x86 implementation; our build applies a small patch to the submitted code.
   - name: Phoenix-SHAKE-384f
     ngcc_level: 384
     pk: 96
     sig: 88442
-    notes: Reference implementation.
+    notes: Optimised x86 implementation; our build applies a small patch to the submitted code.
   - name: Phoenix-SHAKE-512s
     ngcc_level: 512
     pk: 128
     sig: 98476
-    notes: Reference implementation.
+    notes: Optimised x86 implementation; our build applies a small patch to the submitted code.
   - name: Phoenix-SHAKE-512f
     ngcc_level: 512
     pk: 128
     sig: 138454
-    notes: Reference implementation.
+    notes: Optimised x86 implementation; our build applies a small patch to the submitted code.
   - name: Phoenix-SM3-192s
     ngcc_level: 128
     pk: 48

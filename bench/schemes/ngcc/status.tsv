@@ -97,14 +97,14 @@ sign_18_origami_128	NGCC-Origami-128	sign-18	Origami-128	opt	ok	PASS	placeholder
 sign_18_origami_256	NGCC-Origami-256	sign-18	Origami-256	opt	ok	PASS	placeholder		fix
 sign_18_origami_384	NGCC-Origami-384	sign-18	Origami-384	opt	ok	PASS	placeholder		fix
 sign_18_origami_512	NGCC-Origami-512	sign-18	Origami-512	opt	ok	PASS	placeholder		fix
-sign_19_phoenix_shake_192s	NGCC-Phoenix-SHAKE-192s	sign-19	Phoenix-SHAKE-192s	ref	ok	PASS	own		
+sign_19_phoenix_shake_192s	NGCC-Phoenix-SHAKE-192s	sign-19	Phoenix-SHAKE-192s	opt	ok	PASS	own		fix
 sign_19_phoenix_shake_192f	NGCC-Phoenix-SHAKE-192f	sign-19	Phoenix-SHAKE-192f	ref	ok	PASS	own		
 sign_19_phoenix_shake_256s	NGCC-Phoenix-SHAKE-256s	sign-19	Phoenix-SHAKE-256s	ref	ok	PASS	own		
-sign_19_phoenix_shake_256f	NGCC-Phoenix-SHAKE-256f	sign-19	Phoenix-SHAKE-256f	ref	ok	PASS	own		
-sign_19_phoenix_shake_384s	NGCC-Phoenix-SHAKE-384s	sign-19	Phoenix-SHAKE-384s	ref	ok	PASS	own		
-sign_19_phoenix_shake_384f	NGCC-Phoenix-SHAKE-384f	sign-19	Phoenix-SHAKE-384f	ref	ok	PASS	own		
-sign_19_phoenix_shake_512s	NGCC-Phoenix-SHAKE-512s	sign-19	Phoenix-SHAKE-512s	ref	ok	PASS	own		
-sign_19_phoenix_shake_512f	NGCC-Phoenix-SHAKE-512f	sign-19	Phoenix-SHAKE-512f	ref	ok	PASS	own		
+sign_19_phoenix_shake_256f	NGCC-Phoenix-SHAKE-256f	sign-19	Phoenix-SHAKE-256f	opt	ok	PASS	own		fix
+sign_19_phoenix_shake_384s	NGCC-Phoenix-SHAKE-384s	sign-19	Phoenix-SHAKE-384s	opt	ok	PASS	own		fix
+sign_19_phoenix_shake_384f	NGCC-Phoenix-SHAKE-384f	sign-19	Phoenix-SHAKE-384f	opt	ok	PASS	own		fix
+sign_19_phoenix_shake_512s	NGCC-Phoenix-SHAKE-512s	sign-19	Phoenix-SHAKE-512s	opt	ok	PASS	own		fix
+sign_19_phoenix_shake_512f	NGCC-Phoenix-SHAKE-512f	sign-19	Phoenix-SHAKE-512f	opt	ok	PASS	own		fix
 sign_19_phoenix_sm3_192s	NGCC-Phoenix-SM3-192s	sign-19	Phoenix-SM3-192s	ref	ok	MISMATCH	placeholder	0	
 sign_19_phoenix_sm3_192f	NGCC-Phoenix-SM3-192f	sign-19	Phoenix-SM3-192f	ref	ok	MISMATCH	placeholder	0	
 sign_19_phoenix_sm3_256s	NGCC-Phoenix-SM3-256s	sign-19	Phoenix-SM3-256s	ref	ok	MISMATCH	placeholder	0	
