@@ -13,17 +13,17 @@ versions:
     ngcc_level: 128
     pk: 1328
     sig: 2081
-    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it; our build does not reproduce the submitted test vectors (cause unknown).
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it; our build does not reproduce the submitted test vectors (cause unknown); our build applies a small patch to the submitted code.
   - name: lwrdsa256
     ngcc_level: 256
     pk: 2848
     sig: 4656
-    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it; our build does not reproduce the submitted test vectors (cause unknown).
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it; our build does not reproduce the submitted test vectors (cause unknown); our build applies a small patch to the submitted code.
   - name: lwrdsa512
     ngcc_level: 512
     pk: 6688
     sig: 10081
-    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it; our build does not reproduce the submitted test vectors (cause unknown).
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it; our build does not reproduce the submitted test vectors (cause unknown); our build applies a small patch to the submitted code.
   findings_url: https://ngcc.dev/reports/sign-15.html
   implementation: In the submitted code, repeated masking coefficients let two signatures reveal the key (Lu and Liu; Saarinen), signatures are malleable (Saarinen), and crafted hints cause out-of-bounds accesses (Song-Anxiao).
   broken: The specified 128-bit set leaks its key from millions of signatures (Feussner), and the higher sets have challenge spaces, digests or seeds too small for their targets (Xiong and Wang).

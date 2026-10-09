@@ -263,3 +263,13 @@ def test_reimport_keeps_dnf_note(tmp_path):
         ps["notes"]
         == nd.ps_notes(STATUS["NGCC-A1"]) + " Benchmark did not finish (SIGFPE)."
     )
+
+
+def test_patched_build_is_noted_neutrally():
+    note = nd.ps_notes({"impl": "ref", "kat": "PASS", "hash": "own", "patch": "fix"})
+    assert note == (
+        "Reference implementation; our build applies a small patch to the submitted code."
+    )
+    assert "patch" not in nd.ps_notes(
+        {"impl": "ref", "kat": "PASS", "hash": "own", "patch": ""}
+    )

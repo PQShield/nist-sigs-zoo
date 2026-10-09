@@ -9,6 +9,8 @@
   katrec first mismatching record index (0-based) for MISMATCH, else empty
   hash   placeholder | sm3 | own (hash_usage.py)
   impl   copied from params.tsv (ref | opt)
+  patch  'fix' if a listed patches/<id>/ source works around a documented submission
+         defect (its PATCH header cites docs/ngcc-submission-bugs.md), else empty
 
 The output is committed as <suite>/schemes/ngcc/status.tsv and read by the YAML import.
 Per-instance KAT timeout: NGCC_KAT_TIMEOUT seconds (default 900).
@@ -34,9 +36,21 @@ from kat_hashes import OUT as HASHES
 from kat_hashes import load as load_hashes
 
 HERE = Path(__file__).resolve().parent
-COLUMNS = ["file", "name", "id", "instance", "impl", "build", "kat", "hash", "katrec"]
+COLUMNS = [
+    "file",
+    "name",
+    "id",
+    "instance",
+    "impl",
+    "build",
+    "kat",
+    "hash",
+    "katrec",
+    "patch",
+]
 EXIT = {2: "LOADFAIL", 3: "CRYPTOFAIL"}
 TIMEOUT = int(os.environ.get("NGCC_KAT_TIMEOUT", "900"))
+BUG_DOC = "docs/ngcc-submission-bugs.md"
 
 
 def build_kat_tool(build: Path) -> Path:
@@ -73,6 +87,22 @@ def kat_status(
         return check(out.read_text(errors="replace"), expected, records)
 
 
+def patch_status(row: dict, src_root: Path, suite_dir: Path) -> str:
+    """'fix' if one of the row's patches/ sources cites BUG_DOC in its header, else ''.
+
+    Build-only patches (visibility wrappers, missing headers, DRNG copies) do not cite
+    it; a workaround for a documented submission defect does (see bench/CLAUDE.md).
+    """
+    patches = suite_dir / "patches"
+    for p in resolve_sources(row, src_root, suite_dir):
+        if (
+            p.is_relative_to(patches)
+            and BUG_DOC in p.read_text(errors="replace")[:4096]
+        ):
+            return "fix"
+    return ""
+
+
 def status_row(
     row: dict,
     kind: str,
@@ -86,6 +116,7 @@ def status_row(
     headers = sorted(srcdir.glob("*.h")) if srcdir.is_dir() else []
     out = {k: row[k] for k in ("file", "name", "id", "instance", "impl")}
     out["katrec"] = ""
+    out["patch"] = patch_status(row, src_root, suite_dir)
     out["hash"] = hash_usage([*resolve_sources(row, src_root, suite_dir), *headers])
     so = build / f"{row['file']}.so"
     if not so.exists():

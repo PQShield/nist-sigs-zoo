@@ -51,6 +51,9 @@ KAT_NOTE = {
     "LOADFAIL": "the built library is missing ICCS API symbols",
 }
 
+# status.tsv `patch` column set (status.py): a patched copy of submitted code is built.
+PATCH_NOTE = "our build applies a small patch to the submitted code"
+
 
 # A benchmark run that ended in a DNF row (crash, timeout, failed warm-up check)
 # leaves this sentence at the end of the parameter set's notes; see mark_dnf().
@@ -158,6 +161,8 @@ def ps_notes(status: dict | None) -> str:
         parts.append(HASH_NOTE[status["hash"]])
     if status.get("kat") in KAT_NOTE:
         parts.append(KAT_NOTE[status["kat"]])
+    if status.get("patch"):
+        parts.append(PATCH_NOTE)
     return "; ".join(parts) + "."
 
 

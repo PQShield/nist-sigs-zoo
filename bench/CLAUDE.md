@@ -290,6 +290,10 @@ through `scripts/ngcc-run`; see "Running NGCC candidates" below.
   `ngcc_kat`, `status.py` and `kat_compare` stay generic and never special-case a candidate,
   so they keep catching real defects in others. Record each such patch in the
   `params.tsv` comment and link the corresponding item in `docs/ngcc-submission-bugs.md`.
+  A patch header that cites `docs/ngcc-submission-bugs.md` marks the row as patched
+  (`status.tsv` column `patch` = `fix`, set by `status.py`), and the site notes then say
+  neutrally that our build applies a small patch. Build-only patches (visibility wrappers,
+  missing headers, DRNG copies) must not cite it.
 - Compiler flags are global: every candidate builds with `NGCC_CFLAGS` from `ngcc.mk`
   (`-O3 -march=native -mtune=native -fPIC -std=gnu17`). There are no per-row CFLAGS.
   Mirror the submitter's preprocessor defines and source list in `defs`/`srcs`, but not
