@@ -74,8 +74,8 @@ sign_13_greatwall192f	NGCC-GreatWall192f	sign-13	GreatWall192f	opt	ok	PASS	own
 sign_13_greatwall192s	NGCC-GreatWall192s	sign-13	GreatWall192s	opt	ok	PASS	own		
 sign_13_greatwall256f	NGCC-GreatWall256f	sign-13	GreatWall256f	opt	ok	PASS	own		
 sign_13_greatwall256s	NGCC-GreatWall256s	sign-13	GreatWall256s	opt	ok	PASS	own		
-sign_13_greatwall512f	NGCC-GreatWall512f	sign-13	GreatWall512f	ref	ok	PASS	own		
-sign_13_greatwall512s	NGCC-GreatWall512s	sign-13	GreatWall512s	ref	ok	PASS	own		
+sign_13_greatwall512f	NGCC-GreatWall512f	sign-13	GreatWall512f	opt	ok	PASS	own		fix
+sign_13_greatwall512s	NGCC-GreatWall512s	sign-13	GreatWall512s	opt	ok	PASS	own		fix
 sign_14_lynxer_160s	NGCC-Lynxer-160s	sign-14	Lynxer-160s	ref	ok	PASS	placeholder		
 sign_14_lynxer_160f	NGCC-Lynxer-160f	sign-14	Lynxer-160f	ref	ok	PASS	placeholder		
 sign_14_lynxer_256s	NGCC-Lynxer-256s	sign-14	Lynxer-256s	ref	ok	PASS	placeholder		

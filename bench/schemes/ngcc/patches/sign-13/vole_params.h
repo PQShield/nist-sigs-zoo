@@ -1,0 +1,55 @@
+/* PATCH (nist-sigs-zoo): unmodified copy of the submitted vole_params.h, so that its #include "prgs.h" picks up
+ * patches/sign-13/prgs.h (see that file; docs/ngcc-submission-bugs.md U10). The wrap_*.c files include it first. */
+#ifndef VOLE_PARMS_H
+#define VOLE_PARMS_H
+
+#include <assert.h>
+
+#include "block.h"
+#include "prgs.h"
+#include "owf_proof.h"
+#include "vole_check.h"
+
+
+#define NONZERO_BITS_IN_CHALLENGE_3 (SECURITY_PARAM - ZERO_BITS_IN_CHALLENGE_3)
+
+#define VOLE_MIN_K (NONZERO_BITS_IN_CHALLENGE_3  / BITS_PER_WITNESS)
+#define VOLE_MAX_K ((NONZERO_BITS_IN_CHALLENGE_3  + BITS_PER_WITNESS - 1) / BITS_PER_WITNESS)
+
+#define VOLES_MIN_K (BITS_PER_WITNESS - VOLES_MAX_K)
+#define VOLES_MAX_K (NONZERO_BITS_IN_CHALLENGE_3  % BITS_PER_WITNESS)
+
+static_assert(WITNESS_BITS % 8 == 0, "");
+#define WITNESS_BLOCKS ((WITNESS_BITS + 128 * VOLE_BLOCK - 1) / (128 * VOLE_BLOCK))
+
+#define QUICKSILVER_ROW_PAD_TO \
+	(128 * VOLE_BLOCK > TRANSPOSE_BITS_ROWS ? 128 * VOLE_BLOCK : TRANSPOSE_BITS_ROWS)
+
+#define QUICKSILVER_ROWS (WITNESS_BITS + SECURITY_PARAM)
+#define QUICKSILVER_ROWS_PADDED \
+	((QUICKSILVER_ROWS + QUICKSILVER_ROW_PAD_TO - 1) / QUICKSILVER_ROW_PAD_TO) * QUICKSILVER_ROW_PAD_TO
+
+#define VOLE_ROWS (QUICKSILVER_ROWS + VOLE_CHECK_HASH_BYTES * 8)
+
+#define VOLE_COL_BLOCKS ((VOLE_ROWS + 128 * VOLE_BLOCK - 1) / (128 * VOLE_BLOCK))
+#define VOLE_COL_STRIDE (VOLE_COL_BLOCKS * 16 * VOLE_BLOCK)
+#define VOLE_ROWS_PADDED (VOLE_COL_BLOCKS * 128 * VOLE_BLOCK)
+
+#if defined(PRG_RIJNDAEL_EVEN_MANSOUR) && SECURITY_PARAM == 256
+#define PRG_VOLE_BLOCK_SIZE_SHIFT 1
+#else
+#define PRG_VOLE_BLOCK_SIZE_SHIFT 0
+#endif
+
+#define PRG_VOLE_BLOCK_SIZE (1 << PRG_VOLE_BLOCK_SIZE_SHIFT)
+static_assert(PRG_VOLE_BLOCK_SIZE * 16 == sizeof(prg_vole_block), "a `prg_vole_block` must be 16 * PRG_VOLE_BLOCK_SIZE");
+
+#define PRG_VOLE_BLOCKS (1 << PRG_VOLE_BLOCKS_SHIFT)
+#define PRG_VOLE_BLOCKS_SHIFT (VOLE_BLOCK_SHIFT - PRG_VOLE_BLOCK_SIZE_SHIFT)
+
+#define VOLE_WIDTH (1 << VOLE_WIDTH_SHIFT)
+#define VOLE_WIDTH_SHIFT (AES_PREFERRED_WIDTH_SHIFT - PRG_VOLE_BLOCKS_SHIFT)
+
+#include "aes.h"
+
+#endif
