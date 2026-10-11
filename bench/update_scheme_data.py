@@ -166,6 +166,7 @@ def import_ngcc_sizes(sizes_file: Path) -> None:
             ngcc_data.load_sizes(sizes_file),
             ngcc_data.load_status(NGCC_STATUS),
             SCHEMES_DIR,
+            ngcc_data.load_untimed(NGCC_STATUS.with_name("params.tsv")),
         )
     except ngcc_data.NgccDataError as e:
         sys.exit(f"NGCC import failed:\n{e}")

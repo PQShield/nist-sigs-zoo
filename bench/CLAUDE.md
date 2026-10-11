@@ -102,6 +102,10 @@ int crypto_sign_verify(const uint8_t *sig, size_t siglen,
 - **Stats**: median over `BENCH_ITER` (default 1000) iterations.
   Override at build time: `make BENCH_ITER=200`.
 - **Per-scheme override**: set `iters` field in `bench_scheme_info_t` to a non-zero value.
+  A negative `iters` means "do not time": `./bench` still loads the scheme for `--sizes` but
+  skips it in the timed run (also under `BENCH_ITER`). NGCC rows get this from `iters` `skip` in
+  `params.tsv`: built, KAT-checked, sizes imported, never benchmarked (the YAML notes say a
+  single run takes hours). Use it only for rows too slow to time; explain why in a comment.
 - **bench_run()**: one warm-up, then `n` timed iterations; writes one row with six columns.
 - **Correctness check**: before timing, a fresh signature must verify and a tampered
   signature / message must be rejected; return codes are also checked in the timed loop.

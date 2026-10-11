@@ -27,6 +27,6 @@ versions:
     recommended: true
     pk: 95160012
     sig: 4956
-    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it; our build applies a small patch to the submitted code.
+    notes: 'Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it; our build applies a small patch to the submitted code. Not benchmarked: a single run takes hours.'
   findings_url: https://ngcc.dev/reports/sign-32.html
   implementation: The submitted verifier accepts every signature, valid or not (Saarinen).

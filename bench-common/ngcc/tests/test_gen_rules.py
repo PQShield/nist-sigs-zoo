@@ -200,3 +200,23 @@ def test_newline_in_a_field_rejected(tmp_path):
     p.write_text(HEADER + 'x\tNGCC-X\tsign-01\tX\tref\tRef/X\t*\t-\t"-Da\n-Db"\n')
     with pytest.raises(ParamsError, match="forbidden"):
         read_params(p)
+
+
+def test_skip_iters_builds_but_marks_the_shim_untimed(tmp_path):
+    header = HEADER.rstrip("\n") + "\titers\n"
+    p = tmp_path / "params.tsv"
+    p.write_text(header + "\t".join(ROW + ("skip",)) + "\n")
+    rows = read_params(p)
+    assert rows[0]["iters"] == "skip"
+    assert "NGCC_SOS += $(BUILD)/x.so" in rules_for(tmp_path, ROW + ("skip",))
+    (tmp_path / "t.c").write_text("@ITERS@\n")
+    write_shims(rows, tmp_path / "t.c", tmp_path)
+    assert (tmp_path / "x_shim.c").read_text() == "-1\n"
+
+
+@pytest.mark.parametrize("bad", ["-1", "fast", "1.5"])
+def test_bad_iters_rejected(tmp_path, bad):
+    p = tmp_path / "params.tsv"
+    p.write_text(HEADER.rstrip("\n") + "\titers\n" + "\t".join(ROW + (bad,)) + "\n")
+    with pytest.raises(ParamsError, match="iters"):
+        read_params(p)

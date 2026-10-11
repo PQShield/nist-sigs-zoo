@@ -52,6 +52,9 @@ KAT_NOTE = {
 }
 
 # status.tsv `patch` column set (status.py): a patched copy of submitted code is built.
+# params.tsv `iters` = skip: the instance is built and measured for sizes/KAT only.
+UNTIMED_NOTE = "Not benchmarked: a single run takes hours."
+
 PATCH_NOTE = "our build applies a small patch to the submitted code"
 
 
@@ -116,6 +119,13 @@ def load_status(path: Path) -> dict[str, dict]:
     return {r["name"]: r for r in read_tsv(path)} if path.exists() else {}
 
 
+def load_untimed(path: Path) -> set[str]:
+    """Bench names of params.tsv rows with iters `skip` (built, sizes and KAT only)."""
+    if not path.exists():
+        return set()
+    return {r["name"] for r in read_tsv(path) if r.get("iters") == "skip"}
+
+
 def of_kind(cands: list[dict], kind: str) -> list[dict]:
     return [c for c in cands if c["kind"] == kind]
 
@@ -176,7 +186,12 @@ def spec_differences(inst: dict, measured: dict, key: str) -> str:
 
 
 def parameterset(
-    inst: dict, kind: str, sizes: dict, status: dict, old: dict | None
+    inst: dict,
+    kind: str,
+    sizes: dict,
+    status: dict,
+    old: dict | None,
+    untimed: frozenset | set = frozenset(),
 ) -> CommentedMap:
     name, key = bench_name(inst["instance"]), SIZE_KEY[kind]
     ps = CommentedMap()
@@ -201,9 +216,12 @@ def parameterset(
         note = (
             f"Sizes from the specification ({inst['size_ref']}); not measured, {why}."
         )
-    for field in TIMING[kind]:
-        if old is not None and field in old:
-            ps[field] = old[field]
+    if name in untimed:
+        note = f"{note} {UNTIMED_NOTE}".strip()
+    else:
+        for field in TIMING[kind]:
+            if old is not None and field in old:
+                ps[field] = old[field]
     dnf = _dnf_sentence(old.get("notes")) if old is not None else ""
     if dnf:
         note = f"{note} {dnf}".strip()
@@ -240,11 +258,11 @@ def _is_ngcc(old, kind: str) -> bool:
 
 
 def scheme_doc(
-    cand: dict, kind: str, sizes: dict, status: dict, old=None
+    cand: dict, kind: str, sizes: dict, status: dict, old=None, untimed=frozenset()
 ) -> CommentedMap:
     previous = {str(p["name"]): p for p in _old_sets(old, kind)}
     sets = [
-        parameterset(i, kind, sizes, status, previous.get(i["instance"]))
+        parameterset(i, kind, sizes, status, previous.get(i["instance"]), untimed)
         for i in listed(cand)
     ]
     doc = CommentedMap()
@@ -274,7 +292,12 @@ def scheme_doc(
 
 
 def write_files(
-    cands: list[dict], kind: str, sizes: dict, status: dict, out_dir: Path
+    cands: list[dict],
+    kind: str,
+    sizes: dict,
+    status: dict,
+    out_dir: Path,
+    untimed=frozenset(),
 ) -> list[Path]:
     check_coverage(cands, kind, sizes)
     yaml = YAML()
@@ -286,7 +309,7 @@ def write_files(
         old = yaml.load(path.read_text(encoding="utf-8")) if path.exists() else None
         if old is not None and not _is_ngcc(old, kind):
             raise NgccDataError(f"{path.name} exists and is not an NGCC file")
-        plans.append((path, scheme_doc(cand, kind, sizes, status, old)))
+        plans.append((path, scheme_doc(cand, kind, sizes, status, old, untimed)))
     for path, doc in plans:
         with open(path, "w", encoding="utf-8") as f:
             yaml.dump(doc, f)

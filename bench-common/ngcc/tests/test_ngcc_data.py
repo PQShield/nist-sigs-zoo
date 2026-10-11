@@ -273,3 +273,33 @@ def test_patched_build_is_noted_neutrally():
     assert "patch" not in nd.ps_notes(
         {"impl": "ref", "kat": "PASS", "hash": "own", "patch": ""}
     )
+
+
+def test_untimed_instance_keeps_sizes_and_notes_it_is_not_benchmarked(tmp_path):
+    timed = {"signing_cycles": 5, "verification_cycles": 6}
+    nd.write_files(CANDS, "signature", SIG_SIZES, STATUS, tmp_path)
+    path = tmp_path / "Aigis-Sig-plus.yaml"
+    doc = load(path)
+    for ps in doc["versions"][0]["parametersets"][:2]:
+        ps.update(timed)
+    yaml = YAML()
+    with open(path, "w") as f:
+        yaml.dump(doc, f)
+    untimed = nd.load_untimed(_params(tmp_path, "NGCC-A1", "skip", "NGCC-A2", "10"))
+    assert untimed == {"NGCC-A1"}
+    nd.write_files(CANDS, "signature", SIG_SIZES, STATUS, tmp_path, untimed)
+    a1, a2, _ = load(path)["versions"][0]["parametersets"]
+    assert a1["pk"] == 928 and "signing_cycles" not in a1
+    assert (
+        nd.UNTIMED_NOTE in a1["notes"] and nd.ps_notes(STATUS["NGCC-A1"]) in a1["notes"]
+    )
+    assert a2["signing_cycles"] == 5 and nd.UNTIMED_NOTE not in a2["notes"]
+
+
+def _params(tmp_path, *pairs):
+    rows = zip(pairs[::2], pairs[1::2])
+    p = tmp_path / "params.tsv"
+    p.write_text(
+        "# c\nfile\tname\titers\n" + "".join(f"f\t{n}\t{i}\n" for n, i in rows)
+    )
+    return p

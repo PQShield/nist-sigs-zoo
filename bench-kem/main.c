@@ -87,6 +87,7 @@ static void bench_child(const char *so_path, void *ctx, FILE *msg) {
     const struct bench_filters *f = ctx;
     bench_scheme_t *s = bench_load(so_path);
     if (!s || !scheme_matches(s->name, f->n, f->v)) return;
+    if (s->iters < 0) return;   /* iters < 0: built for sizes/KAT only, never timed */
     fprintf(msg, "N %d %s\n", bench_iters(s), s->name);
     fflush(msg);
     const char *why = bench_run_large_stack(s, msg);

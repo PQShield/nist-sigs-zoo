@@ -26,7 +26,9 @@ Optional columns (empty = default):
   shimdefs  flags for the shim only, e.g. -DNGCC_INSTANCE_HEADER='"kat_test/SIG_AlgorithmInstance.h"'
             or -DNGCC_NO_DRNG (the candidate defines drng_algorithm itself)
   ldlibs    extra libraries, e.g. -lgmp -lcrypto
-  iters     benchmark iteration override (default 0 = harness default)
+  iters     benchmark iteration override (default 0 = harness default), or `skip`: the
+            instance is built, KAT-checked and listed by --sizes, but the timed benchmark
+            leaves it out (shim INFO.iters = -1, see bench/harness.h). Comment why above the row.
   katn      KAT records that status.py replays and compares, 1-10 (default 10)
 No value may contain '$' or a tab.
 
@@ -49,6 +51,7 @@ OPTIONAL = {
     "iters": "0",
     "katn": "10",
 }
+SKIP = "skip"  # iters value: built and KAT-checked, not timed
 DRIVER = re.compile(r"^(KAT_|PQCgenKAT|main|test|bench|speed|cpucycles)", re.IGNORECASE)
 SOURCE_SUFFIXES = {".c", ".S", ".s"}
 LABEL = re.compile(r"^[a-z0-9_]+$")
@@ -145,8 +148,13 @@ def read_params(path: Path) -> list[dict]:
             raise ParamsError(f"{where}: bad candidate id {row['id']!r}")
         if row["impl"] not in ("ref", "opt"):
             raise ParamsError(f"{where}: impl must be ref or opt")
-        if not 1 <= int(row["katn"]) <= 10 or int(row["iters"]) < 0:
-            raise ParamsError(f"{where}: katn must be 1-10 and iters >= 0")
+        if (
+            not re.fullmatch(r"\d+|skip", row["iters"])
+            or not 1 <= int(row["katn"]) <= 10
+        ):
+            raise ParamsError(
+                f"{where}: katn must be 1-10 and iters a number or 'skip'"
+            )
         rows.append(row)
     for key in ("file", "name"):
         values = [r[key] for r in rows]
@@ -286,6 +294,8 @@ def write_shims(rows: list[dict], template: Path, out_dir: Path) -> None:
     for row in rows:
         shim = text
         for key, value in row.items():
+            if key == "iters" and value == SKIP:
+                value = "-1"  # bench_scheme_info_t.iters < 0: build and size only, never timed
             shim = shim.replace(f"@{key.upper()}@", value)
         (out_dir / f"{row['file']}_shim.c").write_text(shim, encoding="utf-8")
 
