@@ -4,8 +4,8 @@
 # Usage: scripts/aws-bench.sh [options] [filter...]
 #
 #   --suite sigs|kems|both   which benchmark(s) to run            (default: both)
-#   --instance-type TYPE     EC2 instance type (x86-64 with AVX2) (default: c7i.4xlarge;
-#                            use e.g. c7i.metal-24xl to avoid noisy neighbours)
+#   --instance-type TYPE     EC2 instance type (x86-64 with AVX2) (default: c8i.4xlarge;
+#                            use e.g. c8i.metal-48xl to avoid noisy neighbours)
 #   --ubuntu VERSION         Ubuntu LTS release for the AMI       (default: 26.04)
 #   --ttl MINUTES            hard lifetime; the VM powers off and self-terminates
 #                            after this, even if this script dies (default: 60)
@@ -47,12 +47,12 @@
 #
 # Cycle counts: bench/ and bench-kem/ read the core-cycle PMC via rdpmc.
 # Whether EC2 exposes a (virtual) PMU depends on the instance type; c7i.4xlarge
-# does (verified). Without one they silently fall back to rdtsc reference
+# does (verified; c8i.4xlarge, the default, not yet). Without one they silently fall back to rdtsc reference
 # cycles, and this script warns if the fetched results say so.
 set -euo pipefail
 
 SUITE=both
-INSTANCE_TYPE=c7i.4xlarge
+INSTANCE_TYPE=c8i.4xlarge
 TTL_MIN=60
 UBUNTU=26.04
 FILTERS=()

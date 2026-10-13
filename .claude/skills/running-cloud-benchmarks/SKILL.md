@@ -33,7 +33,7 @@ tar -C bench-common/ngcc -czf /tmp/ngcc-src.tar.gz --exclude=Test_Vectors \
 - **Sigs and KEMs are separate runs.** Never use `both` with NGCC.
 - **The TTL counts from boot**: upload, cloud-init and build all come out of it. When the TTL runs out, only partial results come back. Leave margin.
 - `BENCH_TIMEOUT` (per-scheme seconds, default 3600) is forwarded to the VM; a scheme that exceeds it becomes a `timeout` DNF.
-- **Instance:** `c7i.4xlarge` has a virtual PMU. A `*.metal*` type avoids noisy neighbours but costs more, so ask first. If the script warns `fell back to rdtsc`, the cycles are reference cycles: tell Thom before importing.
+- **Instance:** the default is `c8i.4xlarge` (check its first results header says `rdpmc`). The NGCC data of 2026-10-13 is from `c7i.4xlarge`: re-run single rows with `--instance-type c7i.4xlarge` so they stay comparable. `c7i.4xlarge` has a virtual PMU. A `*.metal*` type avoids noisy neighbours but costs more, so ask first. If the script warns `fell back to rdtsc`, the cycles are reference cycles: tell Thom before importing.
 
 ## Review before importing
 

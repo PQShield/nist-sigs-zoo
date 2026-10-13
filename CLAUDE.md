@@ -458,7 +458,7 @@ AWS_PROFILE=bench scripts/aws-bench.sh --suite kems mlkem       # one suite, fil
 BENCH_ITER=5 AWS_PROFILE=bench scripts/aws-bench.sh --suite sigs  # quick smoke test
 ```
 
-Options: `--suite sigs|kems|both`, `--instance-type` (default `c7i.4xlarge`),
+Options: `--suite sigs|kems|both`, `--instance-type` (default `c8i.4xlarge`; runs up to 2026-10 used `c7i.4xlarge`),
 `--ubuntu` (default `26.04`), `--ttl` minutes (default 60). Positional args are
 `run_bench.sh` filters. `BENCH_ITER` / `BENCH_CYCLES` / `BENCH_CPU` are forwarded.
 `--ngcc-src TARBALL` uploads a tar.gz of `bench-common/ngcc/src` (NGCC candidates) and
@@ -475,7 +475,8 @@ sets `NGCC_BUILD=1` on the VM; without it NGCC instances are skipped.
 - **Credentials:** IAM Identity Center profile with the permission set from
   `scripts/aws-bench-iam-policy.json` (create/destroy limited to that tag). Region
   comes from the profile or `AWS_REGION`.
-- **Cycle counter:** `c7i.4xlarge` exposes a virtual PMU, so results use `rdpmc`.
+- **Cycle counter:** `c7i.4xlarge` exposes a virtual PMU, so results use `rdpmc`
+  (check the first `c8i.4xlarge` results header for `rdpmc`).
   The script warns if a results file fell back to `rdtsc`. Use a `*.metal*` type
   to avoid noise from other tenants on the host.
 - **Smoke-test changes cheaply first** (`BENCH_ITER=5`, a filter). Those results
@@ -483,7 +484,7 @@ sets `NGCC_BUILD=1` on the VM; without it NGCC instances are skipped.
 - **New build dependency?** Add it to the user-data `apt-get` list in the script.
   The VM is a stock Ubuntu with GCC 15 (C23 by default) and multiarch OpenSSL. If a
   scheme breaks there, fix its Makefile, not the script (see `bench/schemes/sdith`).
-- **NGCC runs** (Thom's plan: `c7i.4xlarge`, signatures and KEMs as separate
+- **NGCC runs** (the 2026-10-13 NGCC data is from `c7i.4xlarge`: pass `--instance-type c7i.4xlarge` to re-run rows comparably; signatures and KEMs as separate
   runs, no filter, **`BENCH_ITER` unset** because it overrides the tuned per-instance
   `iters` in `<suite>/schemes/ngcc/params.tsv`):
   ```bash
