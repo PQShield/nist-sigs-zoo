@@ -72,6 +72,10 @@ mkdir -p "$RESULTS_DIR"
 FILTER_SLUG=""
 if [ $# -gt 0 ]; then
     FILTER_SLUG="_$(echo "$*" | tr ' ' '_' | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9_]//g')"
+    # Long filter lists (split cloud runs) would exceed the 255-byte filename limit.
+    if [ "${#FILTER_SLUG}" -gt 60 ]; then
+        FILTER_SLUG="${FILTER_SLUG:0:40}_$(echo "$*" | sha256sum | cut -c1-8)"
+    fi
 fi
 OUTFILE="$RESULTS_DIR/${TIMESTAMP}_${CPU_SLUG}${FILTER_SLUG}.txt"
 
