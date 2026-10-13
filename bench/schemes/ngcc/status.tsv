@@ -175,6 +175,6 @@ sign_32_uvw_512	NGCC-UVW-512	sign-32	UVW-512	ref	ok	PASS	placeholder		fix
 sign_33_vdoo_128	NGCC-VDOO-128	sign-33	VDOO-128	ref	ok	PASS	placeholder		
 sign_33_vdoo_256	NGCC-VDOO-256	sign-33	VDOO-256	ref	ok	PASS	placeholder		
 sign_33_vdoo_512	NGCC-VDOO-512	sign-33	VDOO-512	ref	ok	PASS	placeholder		
-sign_34_yuanyang_512	NGCC-yuanyang-512	sign-34	yuanyang-512	ref	ok	PASS	placeholder		
-sign_34_yuanyang_1024	NGCC-yuanyang-1024	sign-34	yuanyang-1024	opt	ok	PASS	placeholder		
+sign_34_yuanyang_512	NGCC-yuanyang-512	sign-34	yuanyang-512	ref	ok	PASS	placeholder		fix
+sign_34_yuanyang_1024	NGCC-yuanyang-1024	sign-34	yuanyang-1024	opt	ok	PASS	placeholder		fix
 sign_34_yuanyang_2048	NGCC-yuanyang-2048	sign-34	yuanyang-2048	opt	ok	PASS	placeholder		
