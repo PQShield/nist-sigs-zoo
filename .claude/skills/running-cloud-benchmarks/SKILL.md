@@ -35,6 +35,21 @@ tar -C bench-common/ngcc -czf /tmp/ngcc-src.tar.gz --exclude=Test_Vectors \
 - `BENCH_TIMEOUT` (per-scheme seconds, default 3600) is forwarded to the VM; a scheme that exceeds it becomes a `timeout` DNF.
 - **Instance:** the default is `c8i.4xlarge` (check its first results header says `rdpmc`). The NGCC data of 2026-10-13 is from `c7i.4xlarge`: re-run single rows with `--instance-type c7i.4xlarge` so they stay comparable. `c7i.4xlarge` has a virtual PMU. A `*.metal*` type avoids noisy neighbours but costs more, so ask first. If the script warns `fell back to rdtsc`, the cycles are reference cycles: tell Thom before importing.
 
+## Split runs (when Thom wants it fast)
+
+A full NGCC suite takes 5+ hours on one instance and spot instances can be interrupted. Thom accepted splitting it over several instances of the same type (2026-10-13); say "same instance type", not "same machine", in the write-up.
+- Positional filters are case-insensitive substrings, OR-ed. Use full row names and check that no name is a substring of another (`NGCC-Aigis-Enc+-I` also matches `-II`, `-III`); duplicates only cost time.
+- Pack groups so each times about 15–20 min (each instance also spends ~10 min on setup and building the whole suite). Rows with `iters` 1 or 5 get their own instance. Long filter lists give a hashed results filename.
+- The account allows **16 spot instances** (`MaxSpotInstanceCountExceeded`); a refused launch cleans up after itself, so retry it as slots free up. Region: `AWS_REGION=eu-north-1` (the profile sets none).
+- Every instance builds and uploads independently; each has its own key pair and security group, so concurrent `aws-bench.sh` calls are safe. Launch them while the tree is clean and **don't commit tracked changes until every launch has passed its clean-tree check**.
+- A spot interruption loses the results file, but the rows are in the script's streamed log: rebuild a results file from it (header lines plus rows, add a `# note:` line).
+- Merge before importing; reruns go first, because the first non-DNF row per scheme wins:
+  ```bash
+  python3 bench-common/merge_results.py bench/results/<first-timestamp>_<cpu>_ngcc_sigs_merged.txt <rerun>.txt <parts>.txt...
+  ```
+  It refuses parts from different CPU models, lists every part in the header and drops stdout noise from candidates.
+- `BENCH_TIMEOUT` defaults to 3600 s per scheme: TRINE-512-* needs more (raise it and the TTL for that instance).
+
 ## Review before importing
 
 ```bash
