@@ -17,7 +17,7 @@
 # mode 0644; everything else is rejected. Review the text there and copy it to
 # its committed location by hand. The host never runs or makes container output.
 #
-# Env: BENCH_ITER, BENCH_CYCLES, BENCH_CPU, BENCH_TIMEOUT are forwarded if set.
+# Env: BENCH_ITER, BENCH_CYCLES, BENCH_CPU, BENCH_TIMEOUT, BENCH_OP_LIMIT are forwarded if set.
 #      NGCC_DOCKER overrides the docker command (default: docker); a
 #      `sg docker -c "scripts/ngcc-run ..."` invocation works as well.
 #
@@ -63,7 +63,7 @@ for d in src specs; do
         ARGS+=(-v "$REPO/bench-common/ngcc/$d:/repo/bench-common/ngcc/$d:ro")
     fi
 done
-for v in BENCH_ITER BENCH_CYCLES BENCH_CPU BENCH_TIMEOUT; do
+for v in BENCH_ITER BENCH_CYCLES BENCH_CPU BENCH_TIMEOUT BENCH_OP_LIMIT; do
     if [ -n "${!v:-}" ]; then ARGS+=(-e "$v=${!v}"); fi
 done
 if [ -t 0 ]; then ARGS+=(-i); fi

@@ -28,8 +28,8 @@
 # Environment:
 #   AWS_PROFILE / AWS_REGION        select account and region (standard AWS CLI)
 #   BENCH_ITER, BENCH_CYCLES,       forwarded to the benchmark on the VM
-#   BENCH_CPU, BENCH_TIMEOUT        (leave BENCH_ITER unset for NGCC runs: it overrides
-#                                   the per-instance iters tuned in params.tsv)
+#   BENCH_CPU, BENCH_TIMEOUT,       (leave BENCH_ITER unset for NGCC runs: it overrides
+#   BENCH_OP_LIMIT                  the per-instance iters tuned in params.tsv)
 #
 # What it does:
 #   1. Creates a per-run SSH key pair and a security group allowing SSH from
@@ -373,7 +373,7 @@ fi
 # --- build + run in the background -----------------------------------------------
 
 REMOTE_ENV=""
-for v in BENCH_ITER BENCH_CYCLES BENCH_CPU BENCH_TIMEOUT; do
+for v in BENCH_ITER BENCH_CYCLES BENCH_CPU BENCH_TIMEOUT BENCH_OP_LIMIT; do
     if [ -n "${!v:-}" ]; then REMOTE_ENV+="export $v=$(printf '%q' "${!v}"); "; fi
 done
 # NGCC candidate code is only built when asked for (host builds are opt-in).

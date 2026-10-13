@@ -43,6 +43,17 @@ static int bench_iters(const bench_scheme_t *s) {
     return env_n > 0 ? env_n : (s->iters > 0 ? s->iters : BENCH_ITER);
 }
 
+/* BENCH_OP_LIMIT (seconds, default 600, 0 = none): a single sign or verify call
+ * that runs longer kills the child with SIGALRM, recorded as the DNF reason
+ * "sign-or-verify-over-<n>s" (see isolate.h). Policy: a scheme that needs more
+ * than 10 minutes for one signature or verification is not benchmarked. */
+#define BENCH_OP_LIMIT_DEFAULT 600
+static unsigned bench_op_limit(void) {
+    const char *e = getenv("BENCH_OP_LIMIT");
+    return (e && *e) ? (unsigned)strtoul(e, NULL, 10) : BENCH_OP_LIMIT_DEFAULT;
+}
+#define BENCH_LIMITED(call) (alarm(bench_op_limit()), _bench_rc = (call), alarm(0), _bench_rc)
+
 /* Benchmark one scheme and write its results row, prefixed "R ", to `out`.
  * Returns NULL on success, or a one-word DNF reason if the scheme failed a
  * correctness check (then no row is written, so a broken build can't be
@@ -75,21 +86,22 @@ static const char *bench_run(const bench_scheme_t *s, FILE *out) {
 
     /* Warm up, and check the build actually works: a fresh signature must
      * verify, and a tampered signature or message must be rejected. */
+    int _bench_rc;
     if (s->keygen_fn(pk, sk) != 0)
         why = "keygen-failed";
-    else if (s->sign_fn(sig, &siglen, msg, sizeof(msg), sk) != 0)
+    else if (BENCH_LIMITED(s->sign_fn(sig, &siglen, msg, sizeof(msg), sk)) != 0)
         why = "sign-failed";
     else if (siglen == 0 || siglen > s->sig_bytes)
         why = "bad-signature-length";
-    else if (s->verify_fn(sig, siglen, msg, sizeof(msg), pk) != 0)
+    else if (BENCH_LIMITED(s->verify_fn(sig, siglen, msg, sizeof(msg), pk)) != 0)
         why = "valid-signature-rejected";
     else {
         sig[siglen / 2] ^= 1;
-        if (s->verify_fn(sig, siglen, msg, sizeof(msg), pk) == 0)
+        if (BENCH_LIMITED(s->verify_fn(sig, siglen, msg, sizeof(msg), pk)) == 0)
             why = "tampered-signature-accepted";
         sig[siglen / 2] ^= 1;
         msg[0] ^= 1;
-        if (!why && s->verify_fn(sig, siglen, msg, sizeof(msg), pk) == 0)
+        if (!why && BENCH_LIMITED(s->verify_fn(sig, siglen, msg, sizeof(msg), pk)) == 0)
             why = "tampered-message-accepted";
         msg[0] ^= 1;
     }

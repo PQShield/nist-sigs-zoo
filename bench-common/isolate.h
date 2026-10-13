@@ -166,7 +166,11 @@ static int bench_isolated(const char *so_path, bench_child_fn child, void *ctx,
     if (!reason[0]) {
         if (timed_out)
             snprintf(reason, sizeof reason, "timeout");
-        else if (WIFSIGNALED(status))
+        else if (WIFSIGNALED(status) && WTERMSIG(status) == SIGALRM) {
+            /* A single operation exceeded BENCH_OP_LIMIT (bench/harness.h). */
+            const char *lim = getenv("BENCH_OP_LIMIT");
+            snprintf(reason, sizeof reason, "sign-or-verify-over-%ss", lim && *lim ? lim : "600");
+        } else if (WIFSIGNALED(status))
             snprintf(reason, sizeof reason, "%s", bench_signame(WTERMSIG(status)));
         else if (WIFEXITED(status) && WEXITSTATUS(status) != 0)
             snprintf(reason, sizeof reason, "exit-%d", WEXITSTATUS(status));
