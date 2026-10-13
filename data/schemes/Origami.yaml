@@ -14,20 +14,36 @@ versions:
     pk: 2996
     sig: 116
     notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it; our build applies a small patch to the submitted code.
+    signing_cycles: 30499002
+    verification_cycles: 27418622
+    signing_us: 8271.9
+    verification_us: 7416.2
   - name: Origami-256
     ngcc_level: 256
     pk: 14968
     sig: 516
     notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it; our build applies a small patch to the submitted code.
+    signing_cycles: 1504789426
+    verification_cycles: 1467057454
+    signing_us: 431607.6
+    verification_us: 420005.8
   - name: Origami-384
     ngcc_level: 384
     pk: 27940
     sig: 948
     notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it; our build applies a small patch to the submitted code.
+    signing_cycles: 7211853562
+    verification_cycles: 6889484359
+    signing_us: 1912680.9
+    verification_us: 1827482.9
   - name: Origami-512
     ngcc_level: 512
     pk: 35924
     sig: 1220
     notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it; our build applies a small patch to the submitted code.
+    signing_cycles: 13120550442
+    verification_cycles: 12633915182
+    signing_us: 3482777.3
+    verification_us: 3351089.2
   findings_url: https://ngcc.dev/reports/sign-18.html
   broken: A public permutation of the variables lets anyone forge a signature on a chosen message without signing queries (Louiso and Ding; Pébereau). The larger sets' message digests are also too short for their targets (Saarinen).

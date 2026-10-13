@@ -13,66 +13,66 @@ versions:
     level: 5
     pk: 446992
     sig: 275
-    signing_cycles: 434343
-    verification_cycles: 1543296
-    signing_us: 120.5
-    verification_us: 411.1
+    signing_cycles: 464416
+    verification_cycles: 1604904
+    signing_us: 131.6
+    verification_us: 438.5
   - name: V-classic
     level: 5
     pk: 3232320
     sig: 275
-    signing_cycles: 458398
-    verification_cycles: 424454
-    signing_us: 126.8
-    verification_us: 115.5
+    signing_cycles: 474560
+    verification_cycles: 592245
+    signing_us: 132.1
+    verification_us: 165.1
   - name: III-pkc
     level: 3
     pk: 189232
     sig: 209
-    signing_cycles: 161913
-    verification_cycles: 623334
-    signing_us: 46.7
-    verification_us: 167.4
+    signing_cycles: 152059
+    verification_cycles: 627763
+    signing_us: 44.5
+    verification_us: 171.0
   - name: III-classic
     level: 3
     pk: 1347912
     sig: 209
-    signing_cycles: 152793
-    verification_cycles: 217496
-    signing_us: 44.3
-    verification_us: 60.4
+    signing_cycles: 154608
+    verification_cycles: 254638
+    signing_us: 44.8
+    verification_us: 69.9
   - name: Is-pkc
     level: 1
     pk: 66576
     sig: 96
-    signing_cycles: 59603
-    verification_cycles: 176366
-    signing_us: 16.9
-    verification_us: 47.6
+    signing_cycles: 62035
+    verification_cycles: 176354
+    signing_us: 17.8
+    verification_us: 47.7
   - name: Is-classic
     level: 1
     pk: 412160
     sig: 96
-    signing_cycles: 62981
-    verification_cycles: 40137
-    signing_us: 17.8
-    verification_us: 11.7
+    signing_cycles: 62241
+    verification_cycles: 40382
+    signing_us: 17.9
+    verification_us: 11.9
   - name: Ip-pkc
     level: 1
     pk: 46591
     sig: 135
-    signing_cycles: 53920
-    verification_cycles: 161816
-    signing_us: 15.4
-    verification_us: 43.8
+    signing_cycles: 50139
+    verification_cycles: 162035
+    signing_us: 16.4
+    verification_us: 44.2
   - name: Ip-classic
     level: 1
     pk: 321300
     sig: 135
-    signing_cycles: 52122
-    verification_cycles: 62315
-    signing_us: 14.9
-    verification_us: 17.6
+    signing_cycles: 51288
+    verification_cycles: 62245
+    signing_us: 14.7
+    verification_us: 17.7
 - version: v2.0
   date: '2025-02-05'
   status: On-ramp

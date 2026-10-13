@@ -14,15 +14,23 @@ versions:
     pk: 738
     sig: 561
     notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+    signing_cycles: 5269320
+    verification_cycles: 239708
+    signing_us: 1430.5
+    verification_us: 64.3
   - name: yuanyang-1024
     ngcc_level: 256
     pk: 1570
     sig: 1150
-    notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+    notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it. Benchmark did not finish (SIGABRT).
   - name: yuanyang-2048
     ngcc_level: 512
     pk: 3330
     sig: 2364
     notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+    signing_cycles: 20422927
+    verification_cycles: 1090999
+    signing_us: 5422.2
+    verification_us: 289.3
   findings_url: https://ngcc.dev/reports/sign-34.html
   implementation: The submitted code samples with wrong parameters, leaking secret-basis information through signatures (Kwiatkowski; Xiong and Wang), and its unsalted 256-bit prehash allows signature transfer at the higher levels (Saarinen).

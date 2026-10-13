@@ -14,17 +14,29 @@ versions:
     pk: 928
     sig: 2015
     notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+    signing_cycles: 1552576
+    verification_cycles: 490839
+    signing_us: 411.7
+    verification_us: 130.6
   - name: Aigis-Sig+-II
     ngcc_level: 256
     pk: 1824
     sig: 4533
     notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
     broken: The specified message digest is too short for this set, so a generic collision moves a signature to another message with less work than the claimed level (Sun).
+    signing_cycles: 3548937
+    verification_cycles: 1729533
+    signing_us: 945.2
+    verification_us: 463.2
   - name: Aigis-Sig+-III
     ngcc_level: 512
     pk: 4672
     sig: 9134
     notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
     broken: The specified message digest is too short for this set, so a generic collision moves a signature to another message with less work than the claimed level (Sun).
+    signing_cycles: 11486194
+    verification_cycles: 6151965
+    signing_us: 3213.8
+    verification_us: 1726.9
   findings_url: https://ngcc.dev/reports/sign-01.html
   implementation: Submitted code accepts altered copies of valid signatures and lets malformed hints write out of bounds on the stack (Saarinen). Its challenge sampler gives sets I and II far too little sign entropy (Yijian Liu).

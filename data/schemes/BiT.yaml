@@ -15,17 +15,29 @@ versions:
     sig: 1504
     notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
     broken: Equivalent signing keys can be recovered from a large but practical number of public signatures, enabling forgeries (Feussner).
+    signing_cycles: 1422490
+    verification_cycles: 389498
+    signing_us: 377.7
+    verification_us: 104.1
   - name: BiT-256
     ngcc_level: 256
     pk: 2144
     sig: 3456
     notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+    signing_cycles: 1913091
+    verification_cycles: 1211192
+    signing_us: 562.0
+    verification_us: 327.1
   - name: BiT-512
     ngcc_level: 512
     pk: 5056
     sig: 6695
     notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
     broken: The unsalted 512-bit message digest limits forgery resistance to about 2^256 work, below the 512-bit target (Saarinen).
+    signing_cycles: 8640415
+    verification_cycles: 3499592
+    signing_us: 2426.9
+    verification_us: 950.9
   - name: BiT-384
     ngcc_level: 384
     pk: 2435

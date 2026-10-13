@@ -14,40 +14,72 @@ versions:
     pk: 40
     sig: 4812
     notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it; our build applies a small patch to the submitted code.
+    signing_cycles: 2299879166
+    verification_cycles: 1626159427
+    signing_us: 617721.3
+    verification_us: 436440.6
   - name: Galas-160F
     ngcc_level: 128
     pk: 40
     sig: 5964
     notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it; our build applies a small patch to the submitted code.
+    signing_cycles: 1774707224
+    verification_cycles: 1146699128
+    signing_us: 476789.3
+    verification_us: 308142.6
   - name: Galas-256S
     ngcc_level: 256
     pk: 64
     sig: 12114
     notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it; our build applies a small patch to the submitted code.
+    signing_cycles: 11463321804
+    verification_cycles: 8961472177
+    signing_us: 3080067.9
+    verification_us: 2408836.6
   - name: Galas-256F
     ngcc_level: 256
     pk: 64
     sig: 15950
     notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it; our build applies a small patch to the submitted code.
+    signing_cycles: 7141218463
+    verification_cycles: 4638681971
+    signing_us: 1917846.4
+    verification_us: 1247315.5
   - name: Galas-384S
     ngcc_level: 384
     pk: 96
     sig: 27784
     notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it; our build applies a small patch to the submitted code.
+    signing_cycles: 34934450158
+    verification_cycles: 25670583446
+    signing_us: 9384573.0
+    verification_us: 6897153.9
   - name: Galas-384F
     ngcc_level: 384
     pk: 96
     sig: 33384
     notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it; our build applies a small patch to the submitted code.
+    signing_cycles: 25826667915
+    verification_cycles: 16646085623
+    signing_us: 6934628.5
+    verification_us: 4470434.9
   - name: Galas-512S
     ngcc_level: 512
     pk: 128
     sig: 49516
     notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it; our build applies a small patch to the submitted code.
+    signing_cycles: 83537607650
+    verification_cycles: 58205206091
+    signing_us: 23521598.4
+    verification_us: 16472895.5
   - name: Galas-512F
     ngcc_level: 512
     pk: 128
     sig: 59416
     notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it; our build applies a small patch to the submitted code.
+    signing_cycles: 66065935383
+    verification_cycles: 40947576458
+    signing_us: 17515324.3
+    verification_us: 10855287.2
   findings_url: https://ngcc.dev/reports/sign-12.html
   implementation: The submitted signing code seeds its generator with a fixed value, so anyone can regenerate a victim's secret key (Saarinen). A 32-bit length truncation also allows forgeries on long messages (pq-CUC).

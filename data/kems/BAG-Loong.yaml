@@ -11,23 +11,47 @@ parametersets:
   pk: 2500
   ct: 3071
   notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+  keygen_cycles: 57993177
+  encaps_cycles: 58661830
+  decaps_cycles: 104718454
+  keygen_us: 15375.0
+  encaps_us: 15554.1
+  decaps_us: 27765.8
 - name: BAG-Loong-256
   ngcc_level: 256
   pk: 6597
   ct: 8400
   notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
   broken: Merging error supports lowers the cost of rank-decoding key recovery below this set's claimed level (Xiong and Wang).
+  keygen_cycles: 156981496
+  encaps_cycles: 139131886
+  decaps_cycles: 264578207
+  keygen_us: 41639.9
+  encaps_us: 36894.5
+  decaps_us: 70174.0
 - name: BAG-Loong-384
   ngcc_level: 384
   pk: 12152
   ct: 15112
   notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
   broken: Merging error supports lowers the cost of rank-decoding key recovery below this set's claimed level (Xiong and Wang).
+  keygen_cycles: 354015336
+  encaps_cycles: 278371537
+  decaps_cycles: 534305312
+  keygen_us: 93922.5
+  encaps_us: 73863.1
+  decaps_us: 141863.9
 - name: BAG-Loong-512
   ngcc_level: 512
   pk: 19043
   ct: 21660
   notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
   broken: Merging error supports lowers the cost of rank-decoding key recovery below this set's claimed level (Xiong and Wang).
+  keygen_cycles: 598108819
+  encaps_cycles: 425429493
+  decaps_cycles: 793550723
+  keygen_us: 159094.0
+  encaps_us: 113379.3
+  decaps_us: 211720.8
 findings_url: https://ngcc.dev/reports/kem-03.html
 implementation: The submitted reference code publishes the support spaces, reducing secret-key recovery to linear algebra that runs in under a second (Zihan Liu).

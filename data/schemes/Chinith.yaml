@@ -14,70 +14,126 @@ versions:
     pk: 32
     sig: 6724
     notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+    signing_cycles: 16748986
+    verification_cycles: 15357350
+    signing_us: 4568.1
+    verification_us: 4177.0
   - name: sm4th_d3_128f_tight
     ngcc_level: 128
     pk: 32
     sig: 11864
     notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+    signing_cycles: 18667087
+    verification_cycles: 16900128
+    signing_us: 5090.1
+    verification_us: 4594.8
   - name: sm4th_d3_128s_loose
     ngcc_level: 128
     pk: 32
     sig: 5056
     notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+    signing_cycles: 119850893
+    verification_cycles: 106783371
+    signing_us: 32703.2
+    verification_us: 29051.8
   - name: sm4th_d3_128s_tight
     ngcc_level: 128
     pk: 32
     sig: 9176
     notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+    signing_cycles: 134008291
+    verification_cycles: 120511157
+    signing_us: 36581.0
+    verification_us: 32744.5
   - name: sm4th_em_d2_128f_loose
     ngcc_level: 128
     pk: 32
     sig: 4932
     notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+    signing_cycles: 15708475
+    verification_cycles: 14960069
+    signing_us: 4287.8
+    verification_us: 4068.3
   - name: sm4th_em_d2_128f_tight
     ngcc_level: 128
     pk: 32
     sig: 9450
     notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+    signing_cycles: 15219357
+    verification_cycles: 14619310
+    signing_us: 4176.5
+    verification_us: 3984.6
   - name: sm4th_em_d2_128s_loose
     ngcc_level: 128
     pk: 32
     sig: 3818
     notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+    signing_cycles: 115376510
+    verification_cycles: 107385006
+    signing_us: 31522.1
+    verification_us: 29289.7
   - name: sm4th_em_d2_128s_tight
     ngcc_level: 128
     pk: 32
     sig: 7556
     notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+    signing_cycles: 121059306
+    verification_cycles: 113626651
+    signing_us: 32974.1
+    verification_us: 30937.3
   - name: ublockith_d3_256f
     ngcc_level: 256
     pk: 64
     sig: 31556
     notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+    signing_cycles: 45154111
+    verification_cycles: 44345108
+    signing_us: 12656.2
+    verification_us: 12063.3
   - name: ublockith_d3_256s
     ngcc_level: 256
     pk: 64
     sig: 24144
     notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+    signing_cycles: 337211741
+    verification_cycles: 335722690
+    signing_us: 94658.4
+    verification_us: 91862.9
   - name: ublockith_em_d3_256f
     ngcc_level: 256
     pk: 64
     sig: 25028
     notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+    signing_cycles: 40836071
+    verification_cycles: 39882622
+    signing_us: 11490.6
+    verification_us: 10891.1
   - name: ublockith_em_d3_256s
     ngcc_level: 256
     pk: 64
     sig: 19056
     notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+    signing_cycles: 317888863
+    verification_cycles: 305615309
+    signing_us: 89446.5
+    verification_us: 83536.4
   - name: vistrutith_d3_512f
     ngcc_level: 512
     pk: 128
     sig: 106788
     notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+    signing_cycles: 184208297
+    verification_cycles: 173350988
+    signing_us: 51638.4
+    verification_us: 47477.2
   - name: vistrutith_d3_512s
     ngcc_level: 512
     pk: 128
     sig: 83004
     notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+    signing_cycles: 1248052260
+    verification_cycles: 1232305968
+    signing_us: 348667.8
+    verification_us: 336060.6
   findings_url: https://ngcc.dev/reports/sign-05.html
   implementation: The submitted code leaves a value out of the final Fiat-Shamir challenge, so anyone can forge signatures from the public key alone, at every parameter set (Feussner).

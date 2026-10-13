@@ -11,15 +11,33 @@ parametersets:
   pk: 656
   ct: 896
   notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+  keygen_cycles: 242063
+  encaps_cycles: 276815
+  decaps_cycles: 278104
+  keygen_us: 64.9
+  encaps_us: 74.1
+  decaps_us: 74.4
 - name: Aigis-Enc+-II
   ngcc_level: 256
   pk: 1312
   ct: 1664
   notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+  keygen_cycles: 372337
+  encaps_cycles: 450420
+  decaps_cycles: 455027
+  keygen_us: 99.1
+  encaps_us: 119.8
+  decaps_us: 120.9
 - name: Aigis-Enc+-III
   ngcc_level: 512
   pk: 2624
   ct: 3584
   notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+  keygen_cycles: 953184
+  encaps_cycles: 1222851
+  decaps_cycles: 1385805
+  keygen_us: 252.6
+  encaps_us: 324.4
+  decaps_us: 367.5
 findings_url: https://ngcc.dev/reports/kem-01.html
 implementation: Implicit rejection in the submitted decapsulation has no effect, so many modified ciphertexts return the original shared secret, breaking IND-CCA security (Saarinen).

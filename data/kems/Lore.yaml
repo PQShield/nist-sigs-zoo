@@ -11,21 +11,45 @@ parametersets:
   pk: 610
   ct: 706
   notes: Optimised x86 implementation.
+  keygen_cycles: 73967
+  encaps_cycles: 129490
+  decaps_cycles: 168748
+  keygen_us: 20.6
+  encaps_us: 35.2
+  decaps_us: 45.5
 - name: Lore-L2
   ngcc_level: 256
   pk: 1186
   ct: 1282
   notes: Optimised x86 implementation.
+  keygen_cycles: 157598
+  encaps_cycles: 243437
+  decaps_cycles: 390239
+  keygen_us: 42.7
+  encaps_us: 65.3
+  decaps_us: 104.1
 - name: Lore-L3
   ngcc_level: 384
   pk: 1954
   ct: 2114
   notes: Optimised x86 implementation.
   broken: This set outputs 256-bit shared secrets from 256-bit key-generation seeds, short of its target (Saarinen).
+  keygen_cycles: 319158
+  encaps_cycles: 441867
+  decaps_cycles: 610139
+  keygen_us: 85.3
+  encaps_us: 117.7
+  decaps_us: 162.1
 - name: Lore-L4
   ngcc_level: 512
   pk: 2914
   ct: 3170
   notes: Optimised x86 implementation.
   broken: This set outputs 256-bit shared secrets from 256-bit key-generation seeds, short of its target (Saarinen).
+  keygen_cycles: 550826
+  encaps_cycles: 752171
+  decaps_cycles: 1040848
+  keygen_us: 146.4
+  encaps_us: 199.6
+  decaps_us: 276.5
 findings_url: https://ngcc.dev/reports/kem-19.html

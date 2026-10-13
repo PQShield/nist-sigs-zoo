@@ -13,17 +13,17 @@ versions:
     ngcc_level: 128
     pk: 55
     sig: 3896
-    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it; the submitted code failed its own test-vector run in our build.
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it; the submitted code failed its own test-vector run in our build. Benchmark did not finish (valid signature rejected).
   - name: Tins256
     ngcc_level: 256
     pk: 98
     sig: 13012
-    notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+    notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it. Benchmark did not finish (tampered signature accepted).
   - name: Tins512
     ngcc_level: 512
     pk: 195
     sig: 51187
-    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it; our build applies a small patch to the submitted code.
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it; our build applies a small patch to the submitted code. Benchmark did not finish (tampered signature accepted).
   findings_url: https://ngcc.dev/reports/sign-29.html
   implementation: The submitted verifier overflows a buffer on oversized signatures (LK-PQC-Hunter), and public-salt expansion exposes the witness (Saarinen).
   broken: A single signature reveals the full signing witness through linear algebra, at every parameter set (Xie).

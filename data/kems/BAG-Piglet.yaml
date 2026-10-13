@@ -11,19 +11,43 @@ parametersets:
   pk: 522
   ct: 1027
   notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+  keygen_cycles: 1212577
+  encaps_cycles: 1427456
+  decaps_cycles: 5631652
+  keygen_us: 320.6
+  encaps_us: 378.3
+  decaps_us: 1494.2
 - name: bag_piglet_256
   ngcc_level: 256
   pk: 1573
   ct: 3097
   notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+  keygen_cycles: 2801823
+  encaps_cycles: 4076175
+  decaps_cycles: 19178583
+  keygen_us: 750.1
+  encaps_us: 1086.6
+  decaps_us: 5093.7
 - name: bag_piglet_384
   ngcc_level: 384
   pk: 2778
   ct: 5475
   notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+  keygen_cycles: 9924945
+  encaps_cycles: 11445839
+  decaps_cycles: 46725041
+  keygen_us: 2630.5
+  encaps_us: 3035.7
+  decaps_us: 12392.9
 - name: bag_piglet_512
   ngcc_level: 512
   pk: 4158
   ct: 8204
   notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+  keygen_cycles: 59893368
+  encaps_cycles: 51920087
+  decaps_cycles: 184041834
+  keygen_us: 15880.4
+  encaps_us: 13769.2
+  decaps_us: 48848.5
 findings_url: https://ngcc.dev/reports/kem-04.html

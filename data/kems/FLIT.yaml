@@ -11,15 +11,33 @@ parametersets:
   pk: 615
   ct: 512
   notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+  keygen_cycles: 67949
+  encaps_cycles: 81285
+  decaps_cycles: 66083
+  keygen_us: 19.0
+  encaps_us: 22.5
+  decaps_us: 18.5
 - name: FLIT256
   ngcc_level: 256
   pk: 1229
   ct: 1024
   notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+  keygen_cycles: 163048
+  encaps_cycles: 144193
+  decaps_cycles: 124929
+  keygen_us: 44.0
+  encaps_us: 39.0
+  decaps_us: 34.0
 - name: FLIT512
   ngcc_level: 512
   pk: 3072
   ct: 2304
   notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+  keygen_cycles: 739774
+  encaps_cycles: 603545
+  decaps_cycles: 514158
+  keygen_us: 195.8
+  encaps_us: 159.9
+  decaps_us: 136.4
 findings_url: https://ngcc.dev/reports/kem-15.html
 implementation: The optimised equality check accepts invalid ciphertexts (Xiong and Wang), and the additional FIPS202 builds never seed their generator, so their keys are predictable (Saarinen).

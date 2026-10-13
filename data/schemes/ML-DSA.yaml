@@ -14,23 +14,23 @@ versions:
     level: 5
     pk: 2592
     sig: 4627
-    signing_cycles: 361082
-    verification_cycles: 201096
-    signing_us: 96.7
+    signing_cycles: 361027
+    verification_cycles: 200963
+    signing_us: 97.3
     verification_us: 54.1
   - name: ML-DSA-65
     level: 3
     pk: 1952
     sig: 3309
-    signing_cycles: 283230
-    verification_cycles: 127458
+    signing_cycles: 281306
+    verification_cycles: 127480
     signing_us: 76.1
     verification_us: 34.7
   - name: ML-DSA-44
     level: 2
     pk: 1312
     sig: 2420
-    signing_cycles: 171469
-    verification_cycles: 77835
-    signing_us: 46.7
-    verification_us: 21.6
+    signing_cycles: 172444
+    verification_cycles: 77894
+    signing_us: 47.8
+    verification_us: 21.7

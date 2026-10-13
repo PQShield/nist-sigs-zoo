@@ -11,30 +11,66 @@ parametersets:
   pk: 972
   ct: 729
   notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+  keygen_cycles: 409195
+  encaps_cycles: 220896
+  decaps_cycles: 438939
+  keygen_us: 108.8
+  encaps_us: 59.2
+  decaps_us: 116.6
 - name: DTRU-Light
   ngcc_level: 128
   pk: 640
   ct: 512
   notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+  keygen_cycles: 167479
+  encaps_cycles: 130761
+  decaps_cycles: 260548
+  keygen_us: 45.2
+  encaps_us: 35.5
+  decaps_us: 69.7
 - name: DTRU-1024
   ngcc_level: 256
   pk: 1536
   ct: 1280
   notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+  keygen_cycles: 451778
+  encaps_cycles: 300578
+  decaps_cycles: 593204
+  keygen_us: 120.0
+  encaps_us: 80.2
+  decaps_us: 157.2
 - name: DTRU-Prime
   ngcc_level: 256
   pk: 1495
   ct: 1359
   notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+  keygen_cycles: 141170367
+  encaps_cycles: 471095
+  decaps_cycles: 957531
+  keygen_us: 37418.7
+  encaps_us: 125.1
+  decaps_us: 253.2
 - name: DTRU-1536
   ngcc_level: 384
   pk: 2304
   ct: 1920
   notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+  keygen_cycles: 604310
+  encaps_cycles: 497099
+  decaps_cycles: 963634
+  keygen_us: 160.1
+  encaps_us: 131.9
+  decaps_us: 254.7
 - name: DTRU-2048
   ngcc_level: 512
   pk: 3072
   ct: 2560
   notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+  keygen_cycles: 1105176
+  encaps_cycles: 706962
+  decaps_cycles: 1374922
+  keygen_us: 292.2
+  encaps_us: 187.3
+  decaps_us: 364.0
 findings_url: https://ngcc.dev/reports/kem-14.html
 implementation: A caller-supplied ciphertext length overflows a stack buffer in the submitted decapsulation (Saarinen).

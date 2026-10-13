@@ -15,40 +15,72 @@ versions:
     sig: 10300
     notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
     implementation: The submitted code checks only 128 bits of each one-time chain value, so a lower-layer root can be replaced with about 2^128 work, below the claim for this set (shiyuan).
+    signing_cycles: 8361149944
+    verification_cycles: 20633967
+    signing_us: 2276436.3
+    verification_us: 5599.3
   - name: CEDRUSALPHA-160f
     ngcc_level: 128
     pk: 40
     sig: 19420
     notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
     implementation: The submitted code checks only 128 bits of each one-time chain value, so a lower-layer root can be replaced with about 2^128 work, below the claim for this set (shiyuan).
+    signing_cycles: 614080912
+    verification_cycles: 19059159
+    signing_us: 167015.6
+    verification_us: 5178.3
   - name: CEDRUSALPHA-256s
     ngcc_level: 256
     pk: 64
     sig: 25568
     notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+    signing_cycles: 12926235504
+    verification_cycles: 31319987
+    signing_us: 3527636.7
+    verification_us: 8566.7
   - name: CEDRUSALPHA-256f
     ngcc_level: 256
     pk: 64
     sig: 43296
     notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+    signing_cycles: 1449162443
+    verification_cycles: 25856982
+    signing_us: 395364.2
+    verification_us: 7042.1
   - name: CEDRUSALPHA-384s
     ngcc_level: 384
     pk: 96
     sig: 60672
     notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+    signing_cycles: 47750457802
+    verification_cycles: 73707746
+    signing_us: 13035180.2
+    verification_us: 20074.6
   - name: CEDRUSALPHA-384f
     ngcc_level: 384
     pk: 96
     sig: 76176
     notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+    signing_cycles: 13388837947
+    verification_cycles: 133056621
+    signing_us: 3654758.5
+    verification_us: 36197.4
   - name: CEDRUSALPHA-512s
     ngcc_level: 512
     pk: 128
     sig: 98048
     notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+    signing_cycles: 95680029213
+    verification_cycles: 138904607
+    signing_us: 26062397.3
+    verification_us: 37738.6
   - name: CEDRUSALPHA-512f
     ngcc_level: 512
     pk: 128
     sig: 127488
     notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+    signing_cycles: 22607689043
+    verification_cycles: 157319849
+    signing_us: 6164048.2
+    verification_us: 42758.6
   findings_url: https://ngcc.dev/reports/sign-04.html

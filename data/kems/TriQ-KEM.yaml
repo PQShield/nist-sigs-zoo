@@ -11,19 +11,43 @@ parametersets:
   pk: 2054
   ct: 4086
   notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+  keygen_cycles: 538849
+  encaps_cycles: 579874
+  decaps_cycles: 740130
+  keygen_us: 143.2
+  encaps_us: 154.2
+  decaps_us: 196.7
 - name: TriQ-KEM-256
   ngcc_level: 256
   pk: 6328
   ct: 12472
   notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+  keygen_cycles: 1179574
+  encaps_cycles: 1815661
+  decaps_cycles: 2525374
+  keygen_us: 316.3
+  encaps_us: 485.4
+  decaps_us: 672.7
 - name: TriQ-KEM-384
   ngcc_level: 384
   pk: 12255
   ct: 24335
   notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+  keygen_cycles: 2471246
+  encaps_cycles: 3745385
+  decaps_cycles: 5736072
+  keygen_us: 658.1
+  encaps_us: 994.6
+  decaps_us: 1528.0
 - name: TriQ-KEM-512
   ngcc_level: 512
   pk: 19768
   ct: 39320
   notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+  keygen_cycles: 6669281
+  encaps_cycles: 10281689
+  decaps_cycles: 14219896
+  keygen_us: 1771.3
+  encaps_us: 2729.5
+  decaps_us: 3780.9
 findings_url: https://ngcc.dev/reports/kem-37.html

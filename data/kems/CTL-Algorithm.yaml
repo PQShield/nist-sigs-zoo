@@ -11,11 +11,23 @@ parametersets:
   pk: 521
   ct: 473
   notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+  keygen_cycles: 14067775
+  encaps_cycles: 40700
+  decaps_cycles: 207873
+  keygen_us: 3729.5
+  encaps_us: 11.8
+  decaps_us: 55.8
 - name: CTL-769-1024
   ngcc_level: 256
   pk: 1230
   ct: 1006
   notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+  keygen_cycles: 60280128
+  encaps_cycles: 61968
+  decaps_cycles: 387977
+  keygen_us: 15979.4
+  encaps_us: 17.4
+  decaps_us: 103.3
 - name: CTL-3329-2048
   ngcc_level: 512
   pk: 3009
@@ -23,4 +35,10 @@ parametersets:
   notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
   implementation: The submitted code also returns a 384-bit shared secret instead of the specified 512 bits (Saarinen).
   broken: The specified private key is a 32-byte seed, so at most 2^256 public keys exist and key search falls below the 512-bit target (Saarinen).
+  keygen_cycles: 2031588741
+  encaps_cycles: 197096
+  decaps_cycles: 54979944
+  keygen_us: 538608.5
+  encaps_us: 53.2
+  decaps_us: 14592.2
 findings_url: https://ngcc.dev/reports/kem-12.html

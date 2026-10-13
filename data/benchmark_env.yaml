@@ -1,7 +1,7 @@
 # Licensed under CC BY 4.0: https://creativecommons.org/licenses/by/4.0/
 license: CC-BY-4.0
 attribution: Thom Wiggers / PQShield
-date: '2026-09-22T07:54:33Z'
+date: '2026-10-13T10:23:10Z'
 cpu:
   model: Intel(R) Xeon(R) Platinum 8488C
   cores: 16
@@ -9,7 +9,7 @@ cpu:
   governor: unknown
   turbo: unknown
 os: Ubuntu 26.04.1 LTS
-kernel: 7.0.0-1012-aws
+kernel: 7.0.0-1014-aws
 compiler: cc (Ubuntu 15.2.0-16ubuntu1) 15.2.0
 openssl: 'OpenSSL 3.5.5 27 Jan 2026 (Library: OpenSSL 3.5.5 27 Jan 2026)'
 notes: 'Median over 1000 iterations (fewer for slow schemes). Cycle counter: rdpmc CPU_CYCLES (real core cycles, user-space). Wall clock: clock_gettime(CLOCK_MONOTONIC). Benchmark thread pinned to one core.'
@@ -20,6 +20,7 @@ sources:
   mayo: https://github.com/PQCMayo/MAYO-C@74de637a7c4a7f9fafa888183bc05f5cf920cd2d
   mldsa: https://github.com/pq-crystals/dilithium.git@6e00625c5b29f516c6de973fe2ee2fbb150973f9
   mqom: https://github.com/mqom/mqom-v3@d9c64e386b186ee186684a0389fc32009bd67cd1
+  ngcc: https://www.niccs.org.cn/niccs/Proposal/Public-Key%20Cryptographic%20Algorithms/Round%201%20candidates/
   qruov: https://github.com/qruov/round3.git@3d84d0f6afae80c88deefab03b1dd6633a147f96
   sdith: https://github.com/sdith/sdith@fff41ae5b12ba3c6b90d8f97b2ede57aa277a92f
   sdith2: https://github.com/sdith/sdith@ce7adf06476674d4ff990f378f83f9981cd6745b

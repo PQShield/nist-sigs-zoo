@@ -15,74 +15,74 @@ versions:
     level: 1
     pk: 376
     sig: 528
-    signing_cycles: 621407
-    verification_cycles: 231915
-    signing_us: 164.9
-    verification_us: 62.3
+    signing_cycles: 620614
+    verification_cycles: 231228
+    signing_us: 165.5
+    verification_us: 62.4
   - name: SNOVA_I_B
     level: 1
     pk: 656
     sig: 388
-    signing_cycles: 664958
-    verification_cycles: 211752
-    signing_us: 176.2
+    signing_cycles: 663062
+    verification_cycles: 211571
+    signing_us: 175.9
     verification_us: 56.9
   - name: SNOVA_I_S
     level: 1
     pk: 1016
     sig: 272
-    signing_cycles: 490511
-    verification_cycles: 188406
-    signing_us: 130.3
-    verification_us: 50.8
+    signing_cycles: 489469
+    verification_cycles: 188183
+    signing_us: 130.2
+    verification_us: 50.7
   - name: SNOVA_III_K
     level: 3
     pk: 912
     sig: 688
-    signing_cycles: 1339974
-    verification_cycles: 483866
-    signing_us: 357.7
-    verification_us: 128.8
+    signing_cycles: 1343086
+    verification_cycles: 487910
+    signing_us: 362.3
+    verification_us: 131.2
   - name: SNOVA_III_B
     level: 3
     pk: 1416
     sig: 532
-    signing_cycles: 1456257
-    verification_cycles: 484839
-    signing_us: 388.3
-    verification_us: 129.3
+    signing_cycles: 1458281
+    verification_cycles: 489146
+    signing_us: 392.5
+    verification_us: 130.4
   - name: SNOVA_III_S
     level: 3
     pk: 2032
     sig: 456
-    signing_cycles: 1698112
-    verification_cycles: 501985
-    signing_us: 453.6
-    verification_us: 133.5
+    signing_cycles: 1697313
+    verification_cycles: 502382
+    signing_us: 466.9
+    verification_us: 135.6
   - name: SNOVA_V_K
     level: 5
     pk: 1216
     sig: 896
-    signing_cycles: 3553652
-    verification_cycles: 1043073
-    signing_us: 946.2
-    verification_us: 276.5
+    signing_cycles: 3567495
+    verification_cycles: 1031659
+    signing_us: 1002.6
+    verification_us: 279.2
   - name: SNOVA_V_B
     level: 5
     pk: 1891
     sig: 691
-    signing_cycles: 3515458
-    verification_cycles: 797376
-    signing_us: 935.5
-    verification_us: 211.3
+    signing_cycles: 3519012
+    verification_cycles: 799077
+    signing_us: 978.8
+    verification_us: 216.7
   - name: SNOVA_V_S
     level: 5
     pk: 2716
     sig: 591
-    signing_cycles: 3758087
-    verification_cycles: 789141
-    signing_us: 999.4
-    verification_us: 209.3
+    signing_cycles: 3766030
+    verification_cycles: 789326
+    signing_us: 1049.2
+    verification_us: 216.9
 - version: v2.3
   date: '2026-04-03'
   status: On-ramp

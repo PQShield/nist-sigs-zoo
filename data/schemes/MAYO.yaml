@@ -14,34 +14,34 @@ versions:
     level: 5
     pk: 5554
     sig: 964
-    signing_cycles: 812877
-    verification_cycles: 342838
-    signing_us: 215.4
-    verification_us: 91.4
+    signing_cycles: 812882
+    verification_cycles: 342535
+    signing_us: 215.8
+    verification_us: 91.5
   - name: three
     level: 3
     pk: 2986
     sig: 681
-    signing_cycles: 353863
-    verification_cycles: 152572
-    signing_us: 94.4
-    verification_us: 41.3
+    signing_cycles: 353954
+    verification_cycles: 151841
+    signing_us: 94.5
+    verification_us: 41.1
   - name: two
     level: 1
     pk: 2928
     sig: 239
-    signing_cycles: 95622
-    verification_cycles: 38545
-    signing_us: 26.4
+    signing_cycles: 94892
+    verification_cycles: 38506
+    signing_us: 26.2
     verification_us: 11.3
   - name: one
     level: 1
     pk: 1456
     sig: 464
-    signing_cycles: 174489
-    verification_cycles: 74959
-    signing_us: 47.2
-    verification_us: 20.9
+    signing_cycles: 168573
+    verification_cycles: 71610
+    signing_us: 47.0
+    verification_us: 20.1
 - version: Round 2
   date: '2025-03-26'
   status: On-ramp

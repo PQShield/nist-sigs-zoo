@@ -11,15 +11,33 @@ parametersets:
   pk: 972
   ct: 972
   notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+  keygen_cycles: 96923
+  encaps_cycles: 98532
+  decaps_cycles: 84862
+  keygen_us: 26.6
+  encaps_us: 27.0
+  decaps_us: 23.4
 - name: NTRE-256
   ngcc_level: 256
   pk: 1944
   ct: 1944
   notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+  keygen_cycles: 145297
+  encaps_cycles: 151753
+  decaps_cycles: 122000
+  keygen_us: 39.3
+  encaps_us: 41.0
+  decaps_us: 33.2
 - name: NTRE-512
   ngcc_level: 512
   pk: 3456
   ct: 3456
   notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
   implementation: The submitted code uses a 256-bit secret seed, so offline key search costs at most 2^256, below the 512-bit target (Saarinen).
+  keygen_cycles: 242426
+  encaps_cycles: 315350
+  decaps_cycles: 263186
+  keygen_us: 65.0
+  encaps_us: 84.1
+  decaps_us: 70.4
 findings_url: https://ngcc.dev/reports/kem-27.html

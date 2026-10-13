@@ -16,19 +16,19 @@ versions:
     level: 5
     pk: 2440
     sig: 1221
-    signing_cycles: 184484
-    verification_cycles: 186159
-    signing_us: 50.8
-    verification_us: 51.4
+    signing_cycles: 184732
+    verification_cycles: 186485
+    signing_us: 52.1
+    verification_us: 51.7
     notes: "Attack reduces key-recovery cost from 2^288 to 2^182 gates, below the Level 5 threshold"
   - name: '512'
     level: 1
     pk: 1024
     sig: 555
-    signing_cycles: 78728
-    verification_cycles: 90578
+    signing_cycles: 78564
+    verification_cycles: 90025
     signing_us: 21.8
-    verification_us: 25.0
+    verification_us: 24.8
     notes: "Attack reduces key-recovery cost from 2^150 to 2^108 gates, below the Level 1 threshold (128 bits)"
 - version: v1.0
   date: '2023-06-01'
