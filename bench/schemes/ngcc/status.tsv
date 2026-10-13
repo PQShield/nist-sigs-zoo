@@ -129,10 +129,10 @@ sign_22_rhyme_sm3_128	NGCC-Rhyme-SM3-128	sign-22	Rhyme-SM3-128	opt	ok	PASS	place
 sign_22_rhyme_sm3_256	NGCC-Rhyme-SM3-256	sign-22	Rhyme-SM3-256	opt	ok	PASS	placeholder		
 sign_22_rhyme_sm3_384	NGCC-Rhyme-SM3-384	sign-22	Rhyme-SM3-384	opt	ok	PASS	placeholder		
 sign_22_rhyme_sm3_512	NGCC-Rhyme-SM3-512	sign-22	Rhyme-SM3-512	opt	ok	PASS	placeholder		
-sign_22_rhyme_shake_128	NGCC-Rhyme-SHAKE-128	sign-22	Rhyme-SHAKE-128	ref	ok	PASS	own		
-sign_22_rhyme_shake_256	NGCC-Rhyme-SHAKE-256	sign-22	Rhyme-SHAKE-256	ref	ok	PASS	own		
-sign_22_rhyme_shake_384	NGCC-Rhyme-SHAKE-384	sign-22	Rhyme-SHAKE-384	ref	ok	PASS	own		
-sign_22_rhyme_shake_512	NGCC-Rhyme-SHAKE-512	sign-22	Rhyme-SHAKE-512	ref	ok	PASS	own		
+sign_22_rhyme_shake_128	NGCC-Rhyme-SHAKE-128	sign-22	Rhyme-SHAKE-128	ref	ok	PASS	own		fix
+sign_22_rhyme_shake_256	NGCC-Rhyme-SHAKE-256	sign-22	Rhyme-SHAKE-256	ref	ok	PASS	own		fix
+sign_22_rhyme_shake_384	NGCC-Rhyme-SHAKE-384	sign-22	Rhyme-SHAKE-384	ref	ok	PASS	own		fix
+sign_22_rhyme_shake_512	NGCC-Rhyme-SHAKE-512	sign-22	Rhyme-SHAKE-512	ref	ok	PASS	own		fix
 sign_23_shuttle_128	NGCC-SHUTTLE-128	sign-23	SHUTTLE-128	opt	ok	PASS	own		
 sign_23_shuttle_256	NGCC-SHUTTLE-256	sign-23	SHUTTLE-256	opt	ok	PASS	own		
 sign_23_shuttle_512	NGCC-SHUTTLE-512	sign-23	SHUTTLE-512	opt	ok	PASS	own		
