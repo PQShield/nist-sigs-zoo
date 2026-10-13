@@ -1,6 +1,6 @@
 - date: '2026-10-13'
   type: update
-  description: "Benchmarked the round-1 candidates of China's NGCC programme on our own harness (AWS c7i.4xlarge, Intel Xeon Platinum 8488C, core cycles via rdpmc): 178 signature and 160 KEM parameter sets. Parameter sets that crash or fail our sign/verify checks are shown as not finished (Tins128/256/512, YuanYang-1024) and TRINE-512-Balanced exceeded our one-hour limit; UVW-512 is not benchmarked because a single run takes hours. A few submissions needed small fixes to their own code to run reliably; each is noted on the parameter set. The signature run also refreshes the timings of the NIST on-ramp schemes."
+  description: "Benchmarked the round-1 candidates of China's NGCC programme on our own harness (AWS c7i.4xlarge, Intel Xeon Platinum 8488C, core cycles via rdpmc): 178 signature and 160 KEM parameter sets. Tins128/256/512 fail our sign/verify checks and are shown as not finished. We do not benchmark parameter sets that need more than 10 minutes for one signature or verification (TRINE-512-Balanced) or hours for key generation (UVW-512). A few submissions needed small fixes to their own code to run reliably; each is noted on the parameter set. The signature run also refreshes the timings of the NIST on-ramp schemes."
   programmes: [china-ngcc]
 
 - date: '2026-10-08'

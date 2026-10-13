@@ -14,22 +14,22 @@ versions:
     recommended: true
     pk: 5897612
     sig: 1244
-    notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it; our build applies a small patch to the submitted code.
-    broken: Correlated pairs in signatures reveal an equivalent signing key from a few hundred signatures, enabling forgery (Feussner).
     signing_cycles: 13386846300
     verification_cycles: 321665966
     signing_us: 3570035.6
     verification_us: 85558.4
+    notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it; our build applies a small patch to the submitted code.
+    broken: Correlated pairs in signatures reveal an equivalent signing key from a few hundred signatures, enabling forgery (Feussner).
   - name: UVW-256
     ngcc_level: 256
     recommended: true
     pk: 23040012
     sig: 2444
-    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it; our build applies a small patch to the submitted code.
     signing_cycles: 96393062810
     verification_cycles: 2110913906
     signing_us: 26305920.2
     verification_us: 574789.4
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it; our build applies a small patch to the submitted code.
   - name: UVW-512
     ngcc_level: 512
     recommended: true

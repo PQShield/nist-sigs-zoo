@@ -13,78 +13,78 @@ versions:
     ngcc_level: 128
     pk: 40
     sig: 4607
-    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
     signing_cycles: 2636180423
     verification_cycles: 2566977381
     signing_us: 752854.7
     verification_us: 733543.1
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
   - name: Lynxer-160f
     ngcc_level: 128
     pk: 40
     sig: 5801
-    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
     signing_cycles: 380915160
     verification_cycles: 323917007
     signing_us: 108753.1
     verification_us: 92479.6
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
   - name: Lynxer-256s
     ngcc_level: 256
     pk: 64
     sig: 12191
-    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
-    broken: A degenerate witness lets anyone forge signatures from the public key at about the cost of honest signing (Feussner). One signature also allows key recovery below the target (Xiong and Wang).
     signing_cycles: 7620442708
     verification_cycles: 7199145054
     signing_us: 2021021.2
     verification_us: 1909129.2
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+    broken: A degenerate witness lets anyone forge signatures from the public key at about the cost of honest signing (Feussner). One signature also allows key recovery below the target (Xiong and Wang).
   - name: Lynxer-256f
     ngcc_level: 256
     pk: 64
     sig: 15097
-    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
-    broken: A degenerate witness lets anyone forge signatures from the public key at about the cost of honest signing (Feussner). One signature also allows key recovery below the target (Xiong and Wang).
     signing_cycles: 1271717723
     verification_cycles: 885700688
     signing_us: 366663.1
     verification_us: 254314.2
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+    broken: A degenerate witness lets anyone forge signatures from the public key at about the cost of honest signing (Feussner). One signature also allows key recovery below the target (Xiong and Wang).
   - name: Lynxer-384s
     ngcc_level: 384
     pk: 96
     sig: 27495
-    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
-    broken: A degenerate witness lets anyone forge signatures from the public key at about the cost of honest signing (Feussner). One signature also allows key recovery below the target (Xiong and Wang).
     signing_cycles: 24025885040
     verification_cycles: 22193303516
     signing_us: 6377273.0
     verification_us: 5889880.8
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+    broken: A degenerate witness lets anyone forge signatures from the public key at about the cost of honest signing (Feussner). One signature also allows key recovery below the target (Xiong and Wang).
   - name: Lynxer-384f
     ngcc_level: 384
     pk: 96
     sig: 34109
-    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
-    broken: A degenerate witness lets anyone forge signatures from the public key at about the cost of honest signing (Feussner). One signature also allows key recovery below the target (Xiong and Wang).
     signing_cycles: 4692736705
     verification_cycles: 3052662786
     signing_us: 1243952.2
     verification_us: 809187.0
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+    broken: A degenerate witness lets anyone forge signatures from the public key at about the cost of honest signing (Feussner). One signature also allows key recovery below the target (Xiong and Wang).
   - name: Lynxer-512s
     ngcc_level: 512
     pk: 128
     sig: 48879
-    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
-    broken: A degenerate witness lets anyone forge signatures from the public key at about the cost of honest signing (Feussner). One signature also allows key recovery below the target (Xiong and Wang).
     signing_cycles: 10049623931
     verification_cycles: 4835458836
     signing_us: 2672351.0
     verification_us: 1288648.2
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+    broken: A degenerate witness lets anyone forge signatures from the public key at about the cost of honest signing (Feussner). One signature also allows key recovery below the target (Xiong and Wang).
   - name: Lynxer-512f
     ngcc_level: 512
     pk: 128
     sig: 61091
-    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
-    broken: A degenerate witness lets anyone forge signatures from the public key at about the cost of honest signing (Feussner). One signature also allows key recovery below the target (Xiong and Wang).
     signing_cycles: 7288557201
     verification_cycles: 2636531270
     signing_us: 1934235.6
     verification_us: 699700.9
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+    broken: A degenerate witness lets anyone forge signatures from the public key at about the cost of honest signing (Feussner). One signature also allows key recovery below the target (Xiong and Wang).
   findings_url: https://ngcc.dev/reports/sign-14.html

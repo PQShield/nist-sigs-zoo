@@ -29,9 +29,10 @@
 #   schemes/uov/ref: https://github.com/pqov/pqov.git@fac2ec1fe6d8ea508eab4b98eb5341e1eed930a4
 #   schemes/ngcc: https://www.niccs.org.cn/niccs/Proposal/Public-Key%20Cryptographic%20Algorithms/Round%201%20candidates/
 #
-# merged:       17 parts of a split run on separate instances of the same type
+# merged:       18 parts of a split run on separate instances of the same type
 # part:         20261013T102310Z_intel_r_xeon_r_platinum_8488c_interrupted.txt (host ip-172-31-7-210, 2026-10-13T10:23:10Z, 175 rows)
 # part:         20261013T155959Z_intel_r_xeon_r_platinum_8488c_ngccrhymeshake.txt (host ip-172-31-12-16, 2026-10-13T15:59:59Z, 4 rows)
+# part:         20261013T163218Z_intel_r_xeon_r_platinum_8488c_ngccyuanyang512_ngccyuanyang1024.txt (host ip-172-31-12-49, 2026-10-13T16:32:18Z, 2 rows)
 # part:         20261013T152055Z_intel_r_xeon_r_platinum_8488c_ngcctrine512shortsig.txt (host ip-172-31-11-35, 2026-10-13T15:20:55Z, 1 rows)
 # part:         20261013T152218Z_intel_r_xeon_r_platinum_8488c_ngcctrine256balanced.txt (host ip-172-31-0-20, 2026-10-13T15:22:18Z, 1 rows)
 # part:         20261013T152221Z_intel_r_xeon_r_platinum_8488c_ngccuvw256.txt (host ip-172-31-14-247, 2026-10-13T15:22:21Z, 1 rows)
@@ -229,6 +230,8 @@ NGCC-Rhyme-SHAKE-128            66       316827221     84391.1         2157479  
 NGCC-Rhyme-SHAKE-256            51      1265108345    335783.5         6176779      1635.6          501215       137.1
 NGCC-Rhyme-SHAKE-384            10      5562484907   1475558.5         8188217      2176.5         1088908       291.2
 NGCC-Rhyme-SHAKE-512            18      3685750146    980032.7         9583315      2539.3         1350442       358.4
+NGCC-yuanyang-512             1000        12673014      3475.4         5261956      1467.0          239528        65.9
+NGCC-yuanyang-1024            1000        20474318      5673.0        10001056      2765.7          526306       143.9
 NGCC-TRINE-512-ShortSig          1      1920678220    516980.3   1973489720182  533253888.1    816485407356  221380748.9
 NGCC-TRINE-256-Balanced          5        49280012     13129.5    264456465139  70192621.6    160434390859  42663148.6
 NGCC-UVW-256                     5    536997521209  146585088.1     96393062810  26305920.2      2110913906    574789.4
@@ -271,8 +274,6 @@ NGCC-SHUTTLE-128              1000          913498       255.3          773726  
 NGCC-SHUTTLE-256              1000         1282683       338.8         1208087       326.1          450605       120.0
 NGCC-SHUTTLE-512              1000         2323657       619.4         2636332       737.9          808265       214.3
 NGCC-TSUOV_128                1000        10635468      2874.0        11925122      3225.2        11345183      3058.4
-NGCC-yuanyang-512             1000        13476487      3634.7         5269320      1430.5          239708        64.3
-NGCC-yuanyang-1024            1000             DNF         DNF             DNF         DNF             DNF         DNF  SIGABRT
 NGCC-SQIsign2D-lvl4              5     69341925800  18392094.8     58812087439  15601402.5     14825662303   3933826.5
 NGCC-Phoenix-SM3-512s           10      2614830075    700912.2     24601556743   6594480.6        43721148     11702.3
 NGCC-ReSolveD-alpha-256s        10        29060229      7808.0      9019654517   2418998.1      8909686768   2388980.9

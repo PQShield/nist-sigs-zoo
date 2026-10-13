@@ -13,73 +13,73 @@ versions:
     ngcc_level: 128
     pk: 40
     sig: 9460
-    notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
     signing_cycles: 9157829165
     verification_cycles: 22778135
     signing_us: 2490417.0
     verification_us: 6206.8
+    notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
   - name: CEDRUSC-160f
     ngcc_level: 128
     pk: 40
     sig: 19812
-    notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
     signing_cycles: 549840572
     verification_cycles: 16775079
     signing_us: 150325.5
     verification_us: 4586.9
+    notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
   - name: CEDRUSC-256s
     ngcc_level: 256
     pk: 64
     sig: 24104
-    notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
     signing_cycles: 13646515847
     verification_cycles: 37863870
     signing_us: 3716585.7
     verification_us: 10251.3
+    notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
   - name: CEDRUSC-256f
     ngcc_level: 256
     pk: 64
     sig: 43548
-    notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
     signing_cycles: 1340081998
     verification_cycles: 22993043
     signing_us: 364585.6
     verification_us: 6267.8
+    notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
   - name: CEDRUSC-384s
     ngcc_level: 384
     pk: 96
     sig: 61572
-    notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
     signing_cycles: 50477914182
     verification_cycles: 57813167
     signing_us: 13814809.1
     verification_us: 15975.7
+    notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
   - name: CEDRUSC-384f
     ngcc_level: 384
     pk: 96
     sig: 75988
-    notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
     signing_cycles: 13190640722
     verification_cycles: 136664324
     signing_us: 3601158.8
     verification_us: 37253.3
+    notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
   - name: CEDRUSC-512s
     ngcc_level: 512
     pk: 128
     sig: 98212
-    notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
     signing_cycles: 92345267535
     verification_cycles: 124967205
     signing_us: 25489405.8
     verification_us: 34279.4
+    notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
   - name: CEDRUSC-512f
     ngcc_level: 512
     pk: 128
     sig: 121520
-    notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
     signing_cycles: 26724453697
     verification_cycles: 169607060
     signing_us: 7281659.5
     verification_us: 46171.8
+    notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
   findings_url: https://ngcc.dev/reports/sign-03.html
   implementation: The submitted code mishandles hypertree indices so that few-time keys repeat across signatures, enabling forgery after adaptive signing queries at every parameter set (Saarinen).

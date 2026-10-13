@@ -13,148 +13,148 @@ versions:
     ngcc_level: 128
     pk: 48
     sig: 13332
-    notes: Optimised x86 implementation; our build applies a small patch to the submitted code.
     signing_cycles: 949317846
     verification_cycles: 14369020
     signing_us: 273435.2
     verification_us: 4132.2
+    notes: Optimised x86 implementation; our build applies a small patch to the submitted code.
   - name: Phoenix-SHAKE-192f
     ngcc_level: 128
     pk: 48
     sig: 30766
-    notes: Reference implementation.
     signing_cycles: 218638911
     verification_cycles: 5860261
     signing_us: 63578.4
     verification_us: 1697.6
+    notes: Reference implementation.
   - name: Phoenix-SHAKE-256s
     ngcc_level: 256
     pk: 64
     sig: 24618
-    notes: Reference implementation.
     signing_cycles: 3923616826
     verification_cycles: 26153116
     signing_us: 1121098.4
     verification_us: 7462.0
+    notes: Reference implementation.
   - name: Phoenix-SHAKE-256f
     ngcc_level: 256
     pk: 64
     sig: 44906
-    notes: Optimised x86 implementation; our build applies a small patch to the submitted code.
     signing_cycles: 89925875
     verification_cycles: 11461432
     signing_us: 26464.4
     verification_us: 3393.7
+    notes: Optimised x86 implementation; our build applies a small patch to the submitted code.
   - name: Phoenix-SHAKE-384s
     ngcc_level: 384
     pk: 96
     sig: 54726
-    notes: Optimised x86 implementation; our build applies a small patch to the submitted code.
     signing_cycles: 4756670814
     verification_cycles: 44094331
     signing_us: 1287418.4
     verification_us: 11945.3
+    notes: Optimised x86 implementation; our build applies a small patch to the submitted code.
   - name: Phoenix-SHAKE-384f
     ngcc_level: 384
     pk: 96
     sig: 88442
-    notes: Optimised x86 implementation; our build applies a small patch to the submitted code.
     signing_cycles: 1025113374
     verification_cycles: 27973656
     signing_us: 299324.2
     verification_us: 8159.0
+    notes: Optimised x86 implementation; our build applies a small patch to the submitted code.
   - name: Phoenix-SHAKE-512s
     ngcc_level: 512
     pk: 128
     sig: 98476
-    notes: Optimised x86 implementation; our build applies a small patch to the submitted code.
     signing_cycles: 9807540519
     verification_cycles: 30528365
     signing_us: 2654403.8
     verification_us: 8254.1
+    notes: Optimised x86 implementation; our build applies a small patch to the submitted code.
   - name: Phoenix-SHAKE-512f
     ngcc_level: 512
     pk: 128
     sig: 138454
-    notes: Optimised x86 implementation; our build applies a small patch to the submitted code.
     signing_cycles: 2210799337
     verification_cycles: 96526332
     signing_us: 645347.5
     verification_us: 28172.4
+    notes: Optimised x86 implementation; our build applies a small patch to the submitted code.
   - name: Phoenix-SM3-192s
     ngcc_level: 128
     pk: 48
     sig: 13332
-    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it; our build does not reproduce the submitted test vectors (cause unknown).
     signing_cycles: 11350459111
     verification_cycles: 39649331
     signing_us: 3071301.1
     verification_us: 10731.0
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it; our build does not reproduce the submitted test vectors (cause unknown).
   - name: Phoenix-SM3-192f
     ngcc_level: 128
     pk: 48
     sig: 30766
-    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it; our build does not reproduce the submitted test vectors (cause unknown).
     signing_cycles: 582572188
     verification_cycles: 15688831
     signing_us: 170114.1
     verification_us: 4593.5
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it; our build does not reproduce the submitted test vectors (cause unknown).
   - name: Phoenix-SM3-256s
     ngcc_level: 256
     pk: 64
     sig: 24618
-    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it; our build does not reproduce the submitted test vectors (cause unknown).
     signing_cycles: 10501118550
     verification_cycles: 67682607
     signing_us: 2841833.5
     verification_us: 18329.3
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it; our build does not reproduce the submitted test vectors (cause unknown).
   - name: Phoenix-SM3-256f
     ngcc_level: 256
     pk: 64
     sig: 44906
-    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it; our build does not reproduce the submitted test vectors (cause unknown).
     signing_cycles: 1121355009
     verification_cycles: 30125821
     signing_us: 327359.0
     verification_us: 8815.3
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it; our build does not reproduce the submitted test vectors (cause unknown).
   - name: Phoenix-SM3-384s
     ngcc_level: 384
     pk: 96
     sig: 54726
-    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it; our build does not reproduce the submitted test vectors (cause unknown).
-    implementation: The submitted SM3 code compresses messages to 256 bits, so a second preimage after one signing query costs about 2^256, below this set's target (Saarinen).
     signing_cycles: 16737888382
     verification_cycles: 107731998
     signing_us: 4529344.4
     verification_us: 29171.7
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it; our build does not reproduce the submitted test vectors (cause unknown).
+    implementation: The submitted SM3 code compresses messages to 256 bits, so a second preimage after one signing query costs about 2^256, below this set's target (Saarinen).
   - name: Phoenix-SM3-384f
     ngcc_level: 384
     pk: 96
     sig: 88442
-    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it; our build does not reproduce the submitted test vectors (cause unknown).
-    implementation: The submitted SM3 code compresses messages to 256 bits, so a second preimage after one signing query costs about 2^256, below this set's target (Saarinen).
     signing_cycles: 3574025506
     verification_cycles: 67862213
     signing_us: 1043660.3
     verification_us: 19827.0
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it; our build does not reproduce the submitted test vectors (cause unknown).
+    implementation: The submitted SM3 code compresses messages to 256 bits, so a second preimage after one signing query costs about 2^256, below this set's target (Saarinen).
   - name: Phoenix-SM3-512s
     ngcc_level: 512
     pk: 128
     sig: 98476
-    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it; our build does not reproduce the submitted test vectors (cause unknown).
-    implementation: The submitted SM3 code compresses messages to 256 bits, so a second preimage after one signing query costs about 2^256, below this set's target (Saarinen).
     signing_cycles: 24601556743
     verification_cycles: 43721148
     signing_us: 6594480.6
     verification_us: 11702.3
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it; our build does not reproduce the submitted test vectors (cause unknown).
+    implementation: The submitted SM3 code compresses messages to 256 bits, so a second preimage after one signing query costs about 2^256, below this set's target (Saarinen).
   - name: Phoenix-SM3-512f
     ngcc_level: 512
     pk: 128
     sig: 138454
-    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it; our build does not reproduce the submitted test vectors (cause unknown).
-    implementation: The submitted SM3 code compresses messages to 256 bits, so a second preimage after one signing query costs about 2^256, below this set's target (Saarinen).
     signing_cycles: 5964452010
     verification_cycles: 135230072
     signing_us: 1742179.1
     verification_us: 39529.0
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it; our build does not reproduce the submitted test vectors (cause unknown).
+    implementation: The submitted SM3 code compresses messages to 256 bits, so a second preimage after one signing query costs about 2^256, below this set's target (Saarinen).
   findings_url: https://ngcc.dev/reports/sign-19.html
