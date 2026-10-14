@@ -1,5 +1,4 @@
 # pq-sigs benchmark results
-# note:         recovered from the streamed bench.log of a run cut short by a spot interruption (instance i-01bfde46a1647549e, 2026-10-13 11:27 UTC); rows after NGCC-Galas-512S are missing
 # date:         2026-10-13T10:23:10Z
 # host:         ip-172-31-7-210
 # os:           Ubuntu 26.04.1 LTS
@@ -30,7 +29,7 @@
 #   schemes/ngcc: https://www.niccs.org.cn/niccs/Proposal/Public-Key%20Cryptographic%20Algorithms/Round%201%20candidates/
 #
 # merged:       18 parts of a split run on separate instances of the same type
-# part:         20261013T102310Z_intel_r_xeon_r_platinum_8488c_interrupted.txt (host ip-172-31-7-210, 2026-10-13T10:23:10Z, 175 rows)
+# part:         20261013T102310Z_intel_r_xeon_r_platinum_8488c_interrupted.txt (host ip-172-31-7-210, 2026-10-13T10:23:10Z, 175 rows; note: recovered from the streamed bench.log of a run cut short by a spot interruption (instance i-01bfde46a1647549e, 2026-10-13 11:27 UTC); rows after NGCC-Galas-512S are missing)
 # part:         20261013T155959Z_intel_r_xeon_r_platinum_8488c_ngccrhymeshake.txt (host ip-172-31-12-16, 2026-10-13T15:59:59Z, 4 rows)
 # part:         20261013T163218Z_intel_r_xeon_r_platinum_8488c_ngccyuanyang512_ngccyuanyang1024.txt (host ip-172-31-12-49, 2026-10-13T16:32:18Z, 2 rows)
 # part:         20261013T152055Z_intel_r_xeon_r_platinum_8488c_ngcctrine512shortsig.txt (host ip-172-31-11-35, 2026-10-13T15:20:55Z, 1 rows)

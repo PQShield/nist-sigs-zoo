@@ -6,6 +6,8 @@ Usage: merge_results.py OUT PART [PART ...]
 A split run times disjoint groups of schemes on separate instances of the same type
 (scripts/aws-bench.sh with filters, one invocation per group). The merged file keeps the
 first part's header, records every part's file, host, date and CPU in "# part:" lines,
+moves each part's "# note:" lines (which describe that part, not the merged file) into its
+"# part:" line, drops the parts' "# filter:" lines,
 and lists each scheme once, in order of first appearance. A scheme timed by more than one
 part keeps its first non-DNF row. Parts on different CPU models are refused.
 """
@@ -15,12 +17,15 @@ import sys
 from pathlib import Path
 
 
-def read_part(path: Path) -> tuple[list[str], list[str], list[str], dict[str, str]]:
-    """Return (header lines, column header lines, data rows, header metadata)."""
+def read_part(
+    path: Path,
+) -> tuple[list[str], list[str], list[str], dict[str, str], list[str]]:
+    """Return (header lines, column header lines, data rows, header metadata, notes)."""
     header: list[str] = []
     columns: list[str] = []
     rows: list[str] = []
     meta: dict[str, str] = {}
+    notes: list[str] = []
     for line in path.read_text().splitlines():
         if line.startswith(("scheme", "------")):
             columns.append(line)
@@ -33,7 +38,9 @@ def read_part(path: Path) -> tuple[list[str], list[str], list[str], dict[str, st
             header.append(line)
             if m := re.match(r"^#\s+([\w_]+):\s*(.*)", line):
                 meta.setdefault(m.group(1), m.group(2).strip())
-    return header, columns, rows, meta
+                if m.group(1) == "note":
+                    notes.append(m.group(2).strip())
+    return header, columns, rows, meta, notes
 
 
 def is_dnf(row: str) -> bool:
@@ -52,15 +59,16 @@ def main() -> None:
     part_lines: list[str] = []
     cpu = None
     for path in parts:
-        header, columns, rows, meta = read_part(path)
+        header, columns, rows, meta, notes = read_part(path)
         if cpu is None:
             cpu = meta.get("cpu")
         elif meta.get("cpu") != cpu:
             sys.exit(f"{path}: cpu {meta.get('cpu')!r} differs from {cpu!r}")
         if first_header is None:
             first_header, first_columns = header, columns
+        about = "".join(f"; note: {n}" for n in notes)
         part_lines.append(
-            f"# part:         {path.name} (host {meta.get('host', '?')}, {meta.get('date', '?')}, {len(rows)} rows)"
+            f"# part:         {path.name} (host {meta.get('host', '?')}, {meta.get('date', '?')}, {len(rows)} rows{about})"
         )
         for row in rows:
             # Names may contain single spaces ("RSA-2048 (PSS)"); columns are padded.
@@ -78,8 +86,9 @@ def main() -> None:
         f"# merged:       {len(parts)} parts of a split run on separate instances of the same type"
     ]
     header = first_header[:idx] + note + part_lines + first_header[idx:]
-    # Each part ran a subset; its filter is listed per part, not for the whole file.
-    header = [h for h in header if not h.startswith("# filter:")]
+    # Each part ran a subset; its filter and notes describe that part, not the whole file
+    # (notes are kept in the part's "# part:" line above).
+    header = [h for h in header if not h.startswith(("# filter:", "# note:"))]
     out.write_text("\n".join(header + first_columns + list(merged.values())) + "\n")
     print(f"wrote {out}: {len(merged)} rows from {len(parts)} parts")
 
