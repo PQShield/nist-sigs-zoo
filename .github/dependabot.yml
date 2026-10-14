@@ -1,15 +1,14 @@
 version: 2
 updates:
-  # Site toolchain and the one runtime dependency (vega-embed). Minor and patch
-  # updates arrive as one weekly PR; majors get their own PRs.
+  # Site toolchain and the one runtime dependency (vega-embed): all updates,
+  # majors included, arrive batched as one weekly PR.
   - package-ecosystem: npm
     directory: /
     schedule:
       interval: weekly
     groups:
-      npm-minor-patch:
-        update-types: [minor, patch]
-    open-pull-requests-limit: 5
+      npm:
+        patterns: ['*']
 
   - package-ecosystem: github-actions
     directory: /
