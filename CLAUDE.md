@@ -512,6 +512,7 @@ Options: `--suite sigs|kems|both`, `--instance-type` (default `c8i.4xlarge`; run
 `--ngcc-src TARBALL` uploads a tar.gz of `bench-common/ngcc/src` (NGCC candidates) and
 sets `NGCC_BUILD=1` on the VM; without it NGCC instances are skipped.
 
+- **Split runs** (one suite over several instances of one type): `scripts/aws-bench-split --dry-run` first; see the `running-cloud-benchmarks` skill.
 - **Builds the local `HEAD`**, cloned from the public GitHub repo. The script refuses
   to run with uncommitted changes. Commits not yet on origin are sent as a git bundle.
   Only top-level submodules are initialised, over anonymous HTTPS.
