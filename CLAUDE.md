@@ -104,7 +104,7 @@ versions:
       - name: ML-DSA-44
         level: 2               # NIST category 1-5 or "Pre-Quantum" ...
         ngcc_level: 128        # ... OR China NGCC classical bits (128/256/384/512); never both
-        recommended: true      # optional; if any set in a version has it, only those show by default
+        recommended: true      # optional; marks a spec's main sets when it also lists alternates; if any set in a version has it, only those show by default
         implementation: "..."  # optional; bugs in submitted code (never sets broken)
         pk: 1312
         sig: 2420
@@ -176,7 +176,7 @@ parametersets:
   - name: ML-KEM-768
     level: 3           # NIST category 1-5 or "Pre-Quantum" ...
     ngcc_level: 128    # ... OR China NGCC classical bits (128/256/384/512); never both
-    recommended: true  # optional; if any set has it, only those show by default
+    recommended: true  # optional; marks main sets vs listed alternates; if any set has it, only those show by default
     implementation: "..."  # optional
     pk: 1184
     ct: 1088

@@ -9,18 +9,15 @@ versions:
   programmes:
     nist-onramp: round-1
   perf_source: submission document
-  # recommended: round-1 spec §6 (p. 33) "we only recommend the aggressive and balanced parameter sets in answer to NIST's call for general-purpose signature schemes" (A/B; the conservative C sets are for "rare and extreme applications") (https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/round-1/spec-files/Preon-spec-web.pdf)
   parametersets:
   - name: 256A
     level: 5
-    recommended: true
     pk: 64
     sig: 598000
     signing_us: 414713000.0
     verification_us: 11552000.0
   - name: 256B
     level: 5
-    recommended: true
     pk: 64
     sig: 1157000
     signing_us: 415207000.0
@@ -33,14 +30,12 @@ versions:
     verification_us: 26835000.0
   - name: 192A
     level: 3
-    recommended: true
     pk: 56
     sig: 312000
     signing_us: 132411000.0
     verification_us: 2182000.0
   - name: 192B
     level: 3
-    recommended: true
     pk: 56
     sig: 778000
     signing_us: 137306000.0
@@ -53,14 +48,12 @@ versions:
     verification_us: 7460000.0
   - name: 128A
     level: 1
-    recommended: true
     pk: 32
     sig: 139000
     signing_us: 76067000.0
     verification_us: 397000.0
   - name: 128B
     level: 1
-    recommended: true
     pk: 32
     sig: 372000
     signing_us: 80870000.0

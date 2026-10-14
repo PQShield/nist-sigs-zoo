@@ -9,11 +9,9 @@ versions:
   programmes:
     nist-onramp: round-1
   perf_source: submission document
-  # recommended: round-1 spec Table 1 names the level-3 sets "Recomm I"/"Recomm II" and calls them the "recommended parameters" (pp. 5-6); only these two level-3 sets carry the label, so levels 2 (Medium) and 5 (High I) have no recommended set (https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/round-1/spec-files/EagleSign-spec-web.pdf)
   parametersets:
   - name: Recomm I
     level: 3
-    recommended: true
     pk: 1824
     sig: 2336
     signing_cycles: 1286413
@@ -26,7 +24,6 @@ versions:
     verification_cycles: 1503004
   - name: Recomm II
     level: 3
-    recommended: true
     pk: 3616
     sig: 2464
   - name: Medium

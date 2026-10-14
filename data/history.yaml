@@ -1,6 +1,6 @@
 - date: '2026-10-14'
   type: update
-  description: "Parameter sets that a scheme's designers explicitly recommend are now marked, so the Recommended filter hides the alternatives: SNOVA, MAYO, QR-UOV, SQIsign, Preon (aggressive and balanced sets) and EagleSign (level 3 only). The round-3 specifications of SNOVA (Table 6), MAYO (Table 2.2), QR-UOV (Appendix B) and SQIsign (Appendix P) also list alternative or additional parameter sets; these are now shown under All parameter sets, with sizes from the specifications. The six odd-characteristic SNOVA alternatives are marked broken by Beullens &amp; Hess's vinegar-bias attack."
+  description: "Where a specification lists alternative or additional parameter sets next to its main ones, the main sets are now marked, so the Recommended filter hides the alternatives: SNOVA, MAYO, QR-UOV and SQIsign. The round-3 specifications of SNOVA (Table 6), MAYO (Table 2.2), QR-UOV (Appendix B) and SQIsign (Appendix P) also list alternative or additional parameter sets; these are now shown under All parameter sets, with sizes from the specifications. The six odd-characteristic SNOVA alternatives are marked broken by Beullens &amp; Hess's vinegar-bias attack."
   schemes: [SNOVA, MAYO, QR-UOV, SQIsign, PREON, EagleSign, Classic McEliece]
 
 - date: '2026-10-14'
