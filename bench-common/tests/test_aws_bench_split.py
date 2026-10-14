@@ -221,6 +221,88 @@ def test_default_instance_type_is_aws_bench_default():
     assert f"INSTANCE_TYPE={S.default_instance_type()}\n" in text
 
 
+# --- time-limit exemptions ---------------------------------------------------------
+
+
+def test_read_exemptions_skips_comments_and_blanks(tmp_path):
+    f = tmp_path / "ex.txt"
+    f.write_text("# why\n\nAlpha-1\n  RSA-2048 (PSS)  \n  # indented comment\n")
+    assert S.read_exemptions(f) == {"Alpha-1", "RSA-2048 (PSS)"}
+    assert "SLH-DSA-SHAKE-128-24" in S.read_exemptions(S.DEFAULT_EXEMPT_FILE)
+
+
+def test_exempt_rows_get_own_group_with_relaxed_env_and_ttl():
+    rows = S.estimate_rows(
+        [("Slow-24", "1"), ("A", "1000"), ("B", "1000")], {}, None, 3600, {"Slow-24"}
+    )
+    slow = rows[0]
+    assert slow.exempt and slow.source == "exempt"
+    assert slow.est_s == S.ROW_OVERHEAD_S + 2 * S.EXEMPT_ITER_S  # not capped
+    assert not rows[1].exempt
+    groups = S.partition(rows, 960)
+    by = {tuple(sorted(g.filters)): g for g in groups}
+    assert set(by) == {("Slow-24",), ("A", "B")}
+    g = by[("Slow-24",)]
+    assert g.exempt and g.env == {"BENCH_OP_LIMIT": "0", "BENCH_TIMEOUT": "0"}
+    assert all(not x.exempt and x.env == {} for x in groups if x is not g)
+    # 60 min estimate + 25 min margin + 30 min extra for the unmeasured row
+    assert S.group_ttl(g) == 60 + 1 + S.TTL_MARGIN_MIN + S.EXEMPT_EXTRA_MARGIN_MIN
+    other = next(x for x in groups if x is not g)
+    assert S.group_ttl(other) == S.ttl_minutes(other.est_s)
+
+
+def test_exempt_row_with_results_uses_them_uncapped():
+    rows = S.estimate_rows([("Slow-24", "1")], {"Slow-24": 3e9}, None, 100, {"Slow-24"})
+    assert rows[0].source == "results" and rows[0].est_s == pytest.approx(2 + 2 * 3000)
+
+
+def test_dry_run_shows_exemption_and_sets_env_only_for_exempt_rows(fakes):
+    tmp, suite, state, env, args = fakes
+    ex = tmp / "ex.txt"
+    ex.write_text("# reason\nAlpha-1\n")
+    env.pop("BENCH_OP_LIMIT", None)
+    r = subprocess.run(
+        [*args, "--exempt-file", str(ex), "--dry-run"],
+        env=env,
+        capture_output=True,
+        text=True,
+    )
+    assert r.returncode == 0, r.stderr
+    assert "1 rows are exempt from the time limits (ex.txt)" in r.stdout
+    assert "EXEMPT from time limits: BENCH_OP_LIMIT=0 BENCH_TIMEOUT=0" in r.stdout
+    cmds = r.stdout.split("commands:")[1].strip().splitlines()
+    exempt = [c for c in cmds if "Alpha-1" in c]
+    assert len(exempt) == 1
+    assert exempt[0].startswith("BENCH_OP_LIMIT=0 BENCH_TIMEOUT=0 ")
+    assert all("BENCH_OP_LIMIT" not in c for c in cmds if "Alpha-1" not in c)
+
+
+def test_exempt_env_reaches_only_the_exempt_group(fakes):
+    tmp, suite, state, env, args = fakes
+    ex = tmp / "ex.txt"
+    ex.write_text("Alpha-1\n")
+    env["BENCH_OP_LIMIT"] = "77"  # user's value: kept for others, overridden for exempt
+    bench = tmp / "fake-aws-bench.sh"
+    bench.write_text(
+        bench.read_text().replace(
+            'echo "[aws-bench] launching spot"',
+            'echo "[aws-bench] launching spot"\n'
+            'echo "$BENCH_OP_LIMIT $BENCH_TIMEOUT ${filters[*]}" >> "$FAKE_STATE/envs"',
+        )
+    )
+    env["BENCH_TIMEOUT"] = "99"
+    r = subprocess.run(
+        [*args, "--exempt-file", str(ex)], env=env, capture_output=True, text=True
+    )
+    seen = {
+        ln.split(" ", 2)[2]: ln.split(" ")[:2]
+        for ln in (state / "envs").read_text().splitlines()
+    }
+    assert seen["Alpha-1"] == ["0", "0"]
+    assert all(v == ["77", "99"] for k, v in seen.items() if k != "Alpha-1")
+    assert r.returncode in (0, 1)
+
+
 # --- logs -----------------------------------------------------------------------
 
 REFUSED = """\

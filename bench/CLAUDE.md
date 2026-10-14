@@ -142,7 +142,10 @@ on stderr. The run always continues with the next scheme.
   dies with SIGALRM and the DNF reason is `operation-over-600s` (runs before 2026-10-14 wrote
   `sign-or-verify-over-600s`; the importers accept any one-word reason). A value that is not a
   number of seconds is reported on stderr and the default is used. Key generation is not limited
-  (UVW-512 uses `iters skip`).
+  (UVW-512 uses `iters skip`). Exemption (Thom, 2026-10-14): rows listed in
+  `../scripts/aws-bench-exemptions.txt` (the SLH-DSA SP 800-230 `*-24` sets) run with
+  `BENCH_OP_LIMIT=0 BENCH_TIMEOUT=0` when launched through `scripts/aws-bench-split`, each on its own
+  instance. Adding a row to that file needs Thom's decision. The harness itself is unchanged.
 - Exit status: 0, or **2 if every scheme that ran was DNF** (usually a broken setup).
   Filters that match nothing exit 0.
 - `--sizes` is unchanged (in-process, no isolation).

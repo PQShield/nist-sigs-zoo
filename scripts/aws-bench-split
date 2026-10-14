@@ -29,6 +29,13 @@ first-fit-decreasing into groups of about --bin-minutes. Each group is one
 call. Filters are substring matches, so a row name contained in another one (e.g.
 NGCC-Aigis-Enc+-I in -II) also runs the longer rows; the plan warns about these.
 
+Time-limit exemptions: rows named in scripts/aws-bench-exemptions.txt (--exempt-file;
+exact row names, one per line) are the ones Thom decided may exceed the harness limits
+(BENCH_OP_LIMIT 600 s per sign/verify, BENCH_TIMEOUT 3600 s per scheme). Each gets an
+instance of its own, launched with BENCH_OP_LIMIT=0 and BENCH_TIMEOUT=0 (the TTL is the
+bound), and a TTL from its estimate plus a bigger margin. Other groups keep the defaults.
+Adding a row to that file needs Thom's decision.
+
 Launch: groups start in the background, --stagger seconds apart, at most
 --max-instances at a time (the account's spot quota is 16). A group refused with
 MaxSpotInstanceCountExceeded or InsufficientInstanceCapacity before an instance was
@@ -73,6 +80,14 @@ LONG_ROW_S = 600  # rows estimated at this or more get an instance of their own
 ROW_OVERHEAD_S = 2.0  # process start, loading the .so, warm-up checks
 TTL_MARGIN_MIN = 25  # setup, build and fetch on top of the group's estimate
 DEFAULT_BENCH_TIMEOUT_S = 3600  # run_bench.sh / isolate.h per-scheme default
+DEFAULT_EXEMPT_FILE = REPO / "scripts" / "aws-bench-exemptions.txt"
+# Env of an exempt group: no per-operation limit and no per-scheme timeout; the
+# instance's TTL then bounds the run.
+EXEMPT_ENV = {"BENCH_OP_LIMIT": "0", "BENCH_TIMEOUT": "0"}
+# Unmeasured exempt row: keygen ~12 min + one signature ~18 min per iteration (the
+# SLH-DSA *-24 sets on an i7-8550U); (iters + 1) iterations with the warm-up check.
+EXEMPT_ITER_S = 1800
+EXEMPT_EXTRA_MARGIN_MIN = 30  # unmeasured on EC2: more TTL slack than other groups
 RETRYABLE = ("MaxSpotInstanceCountExceeded", "InsufficientInstanceCapacity")
 LAUNCHED = "launched; waiting for it to run"
 ENV_PREFIXES = ("AWS_PROFILE", "AWS_REGION", "AWS_DEFAULT_REGION", "BENCH_")
@@ -99,7 +114,8 @@ class Row:
     iters: int  # iters this run will use (BENCH_ITER, else params.tsv, else 1000)
     params_iters: int  # params.tsv value (0 = harness default 1000)
     est_s: float = 0.0
-    source: str = ""  # "results" or "iters"
+    source: str = ""  # "results", "iters" or "exempt"
+    exempt: bool = False  # exempt from the time limits (see read_exemptions)
 
 
 def read_tsv(path: Path) -> list[dict[str, str]]:
@@ -193,26 +209,41 @@ def measured_us(results_dir: Path) -> dict[str, float]:
     return out
 
 
+def read_exemptions(path: Path) -> set[str]:
+    """Exact row names from an exemption file (blank lines and # comments skipped)."""
+    return {
+        ln.strip()
+        for ln in path.read_text().splitlines()
+        if ln.strip() and not ln.lstrip().startswith("#")
+    }
+
+
 def estimate_rows(
     registry: list[tuple[str, str]],
     measured: dict[str, float],
     bench_iter: int | None,
     timeout_s: float,
+    exempt: frozenset[str] | set[str] = frozenset(),
 ) -> list[Row]:
     rows = []
     for name, it in registry:
         p = int(it) if it.isdigit() else 0
         n = effective_iters(p, bench_iter)
-        row = Row(name, n, p)
+        row = Row(name, n, p, exempt=name in exempt)
         if name in measured:
             row.est_s = ROW_OVERHEAD_S + (n + 1) * measured[name] / 1e6
             row.source = "results"
+        elif row.exempt:
+            row.est_s = ROW_OVERHEAD_S + (n + 1) * EXEMPT_ITER_S
+            row.source = "exempt"
         else:
             tuned = p if p > 0 else 1000
             row.est_s = max(ROW_OVERHEAD_S, iters_estimate_s(p) * (n + 1) / (tuned + 1))
             row.source = "iters"
-        # A row that runs into BENCH_TIMEOUT stops there (timeout DNF).
-        row.est_s = min(row.est_s, timeout_s + 30)
+        # A row that runs into BENCH_TIMEOUT stops there (timeout DNF); exempt rows
+        # have no timeout.
+        if not row.exempt:
+            row.est_s = min(row.est_s, timeout_s + 30)
         rows.append(row)
     return rows
 
@@ -224,6 +255,15 @@ def estimate_rows(
 class Group:
     index: int
     rows: list[Row]
+
+    @property
+    def exempt(self) -> bool:
+        """True for a group of time-limit-exempt rows (always a single row)."""
+        return any(r.exempt for r in self.rows)
+
+    @property
+    def env(self) -> dict[str, str]:
+        return dict(EXEMPT_ENV) if self.exempt else {}
 
     @property
     def est_s(self) -> float:
@@ -258,15 +298,19 @@ def clusters(rows: list[Row]) -> list[list[Row]]:
 
 
 def partition(rows: list[Row], bin_s: float, long_s: float = LONG_ROW_S) -> list[Group]:
-    """Clusters (see clusters()) of long rows alone, the rest first-fit-decreasing
-    into bins of bin_s seconds. Longest groups first, so they start first."""
+    """Exempt rows (see read_exemptions) each alone, so the relaxed limits reach only
+    them; then clusters (see clusters()) of long rows alone, the rest
+    first-fit-decreasing into bins of bin_s seconds. Longest groups first, so they
+    start first."""
 
     def est(rs: list[Row]) -> float:
         return sum(r.est_s for r in rs)
 
-    items = sorted(clusters(rows), key=lambda c: (-est(c), c[0].name))
+    items = sorted(
+        clusters([r for r in rows if not r.exempt]), key=lambda c: (-est(c), c[0].name)
+    )
     bins: list[list[Row]] = []
-    long_bins: list[list[Row]] = []
+    long_bins: list[list[Row]] = [[r] for r in rows if r.exempt]
     for c in items:
         if est(c) >= long_s:
             long_bins.append(list(c))
@@ -295,6 +339,11 @@ def collisions(filters: list[str], all_names: list[str]) -> dict[str, list[str]]
 
 def ttl_minutes(est_s: float, margin: int = TTL_MARGIN_MIN) -> int:
     return max(10, math.ceil(est_s / 60) + margin)
+
+
+def group_ttl(g: Group) -> int:
+    margin = TTL_MARGIN_MIN + (EXEMPT_EXTRA_MARGIN_MIN if g.exempt else 0)
+    return ttl_minutes(g.est_s, margin)
 
 
 def default_instance_type(script: Path = AWS_BENCH) -> str:
@@ -391,6 +440,7 @@ class Job:
     group: Group
     cmd: list[str]
     log_path: Path
+    env: dict[str, str] = field(default_factory=dict)  # added to the environment
     state: str = "pending"  # see log_stage, + pending retry-wait done failed cancelled
     attempts: int = 0
     proc: subprocess.Popen | None = None
@@ -477,6 +527,7 @@ class Launcher:
             stdout=logf,
             stderr=subprocess.STDOUT,
             cwd=self.cwd,
+            env={**os.environ, **job.env},
             start_new_session=True,  # own process group: Ctrl-C reaches ssh too
         )
         logf.close()
@@ -737,6 +788,13 @@ def parse_args(argv: list[str] | None) -> argparse.Namespace:
         type=int,
         help=f"per instance (default: estimate + {TTL_MARGIN_MIN} min)",
     )
+    ap.add_argument(
+        "--exempt-file",
+        type=Path,
+        default=DEFAULT_EXEMPT_FILE,
+        help="rows exempt from the time limits, one exact name per line "
+        "(default: scripts/aws-bench-exemptions.txt; adding rows needs Thom's decision)",
+    )
     ap.add_argument("--ngcc-src", metavar="TARBALL")
     ap.add_argument("--rerun-first", nargs="+", default=[], metavar="FILE", type=Path)
     ap.add_argument("--dry-run", action="store_true")
@@ -753,6 +811,8 @@ def parse_args(argv: list[str] | None) -> argparse.Namespace:
     args = ap.parse_args(argv)
     if args.ngcc_src and not Path(args.ngcc_src).is_file():
         ap.error(f"--ngcc-src: no such file: {args.ngcc_src}")
+    if not args.exempt_file.is_file():
+        ap.error(f"--exempt-file: no such file: {args.exempt_file}")
     for f in args.rerun_first:
         if not f.is_file():
             ap.error(f"--rerun-first: no such file: {f}")
@@ -777,7 +837,10 @@ def main(argv: list[str] | None = None) -> int:
         sys.exit(
             "no rows match" + ("" if args.ngcc_src else " (NGCC rows need --ngcc-src)")
         )
-    rows = estimate_rows(selected, measured_us(results_dir), bench_iter, timeout_s)
+    exempt = read_exemptions(args.exempt_file)
+    rows = estimate_rows(
+        selected, measured_us(results_dir), bench_iter, timeout_s, exempt
+    )
     groups = partition(rows, args.bin_minutes * 60)
     all_names = [n for n, _ in registry]
     jobs: list[Job] = []
@@ -797,10 +860,21 @@ def main(argv: list[str] | None = None) -> int:
     by_iters = sum(r.source == "iters" for r in rows)
     if by_iters:
         print(f"{by_iters} rows have no results to estimate from; used their iters")
+    n_exempt = sum(r.exempt for r in rows)
+    if n_exempt:
+        print(
+            f"{n_exempt} rows are exempt from the time limits ({args.exempt_file.name}): "
+            "each alone on its instance with "
+            + " ".join(f"{k}={v}" for k, v in EXEMPT_ENV.items())
+        )
     for g in groups:
-        ttl = args.ttl or ttl_minutes(g.est_s)
+        ttl = args.ttl or group_ttl(g)
+        flag = "  EXEMPT from time limits: " + " ".join(
+            f"{k}={v}" for k, v in g.env.items()
+        )
         print(
             f"\ngroup {g.index:>2}: {g.est_s / 60:5.1f} min, {len(g.rows)} rows, --ttl {ttl}"
+            + (flag if g.exempt else "")
         )
         for r in g.rows:
             print(
@@ -811,7 +885,7 @@ def main(argv: list[str] | None = None) -> int:
         cmd = build_command(
             aws_bench, args.suite, instance_type, ttl, args.ngcc_src, g.filters
         )
-        jobs.append(Job(g, cmd, run_dir / f"group-{g.index:02d}.log"))
+        jobs.append(Job(g, cmd, run_dir / f"group-{g.index:02d}.log", g.env))
     longest = max(g.est_s for g in groups)
     print(
         f"\ntotal: {total / 60:.0f} min estimated over {len(groups)} instances; "
@@ -824,9 +898,8 @@ def main(argv: list[str] | None = None) -> int:
             + ", then the parts"
         )
     print("\ncommands:")
-    prefix = env_prefix(env)
     for j in jobs:
-        print(prefix + shlex.join(j.cmd))
+        print(env_prefix({**env, **j.env}) + shlex.join(j.cmd))
     if args.dry_run:
         return 0
 

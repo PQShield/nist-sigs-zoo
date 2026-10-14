@@ -1,0 +1,10 @@
+# Rows exempt from the harness time limits (BENCH_OP_LIMIT 600 s per sign/verify,
+# BENCH_TIMEOUT 3600 s per scheme) when run with scripts/aws-bench-split. One exact row
+# name per line. Adding a row needs Thom's decision.
+#
+# NIST SP 800-230 ipd SLH-DSA limited-signature sets: SP 800-230 is important enough to
+# warrant an exemption (Thom, 2026-10-14). Without a cached hypertree, keygen takes ~12
+# min and each signature ~18 min.
+SLH-DSA-SHAKE-128-24
+SLH-DSA-SHAKE-192-24
+SLH-DSA-SHAKE-256-24

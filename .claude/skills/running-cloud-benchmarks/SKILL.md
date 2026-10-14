@@ -50,6 +50,7 @@ What it does for you, so don't redo it by hand:
 - **Ctrl-C:** it forwards the signal to every `aws-bench.sh` and its ssh children, waits for them to terminate their instances, and still merges what came back. A second Ctrl-C does not abort that cleanup.
 - **Spot interruption:** that group's rows are rebuilt from its streamed log into a `*_recovered.txt` part with a `# note:`. Re-run the missing rows (it prints them), then merge: `python3 bench-common/merge_results.py OUT <rerun>.txt <split_merged>.txt` (reruns first: the first non-DNF row per scheme wins).
 - A single sign or verify (KEMs: encaps or decaps) over 10 minutes is a DNF by policy (`BENCH_OP_LIMIT`, default 600 s; reason `operation-over-600s`), so TRINE-512-Balanced (about 20 min per signature) is a DNF. Don't raise limits to time such schemes without asking Thom: compute isn't free.
+- **Exemptions:** rows named in `scripts/aws-bench-exemptions.txt` (`--exempt-file`; now the SLH-DSA SP 800-230 `*-24` sets, Thom 2026-10-14) are exempt from `BENCH_OP_LIMIT` and `BENCH_TIMEOUT`: the split launcher runs each alone with both set to 0, and a TTL from its estimate plus extra margin; the dry-run marks them `EXEMPT`. Adding a row to that file needs Thom's decision.
 
 ## Review before importing
 
