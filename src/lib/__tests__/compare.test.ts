@@ -125,6 +125,12 @@ describe('URL codec', () => {
 		expect([...decodeCompareFilter(spec(true), defaults, p).schemes]).toEqual(['a', '%E0%A4%A']);
 	});
 
+	it('ignores bounds that are not finite numbers', () => {
+		const f = decodeCompareFilter(spec(true), defaults, new URLSearchParams('szMin=abc&szMax=&tmMin=NaN&tmMax=12'));
+		expect([f.minSize, f.maxSize, f.minTime, f.maxTime]).toEqual([10, 30, 0, 12]);
+		expect(encodeCompareFilter(spec(true), f, defaults).toString()).toBe('tmMax=12');
+	});
+
 	it('carries the sort only when the spec says so', () => {
 		const state = { ...defaults, sortCol: 'scheme', sortDir: 'desc' as const };
 		expect(encodeCompareFilter(spec(true), state, defaults).toString()).toBe('sort=scheme&dir=desc');

@@ -213,6 +213,14 @@ function schemeToken(token: string, known: Set<string>): string {
 	}
 }
 
+/** A numeric URL param, or null when absent or not a finite number (`pkMin=abc`). */
+function finiteParam(params: URLSearchParams, key: string): number | null {
+	const raw = params.get(key);
+	if (raw === null || raw.trim() === '') return null;
+	const n = Number(raw);
+	return Number.isFinite(n) ? n : null;
+}
+
 /** Decode URL query params onto a copy of `defaults`. */
 export function decodeCompareFilter<R, G, F extends CompareFilter>(
 	spec: FilterSpec<R, G, F>,
@@ -224,8 +232,10 @@ export function decodeCompareFilter<R, G, F extends CompareFilter>(
 	if (schemesParam) s.schemes = new Set(schemesParam.split(',').map((t) => schemeToken(t, defaults.schemes)));
 	const bounds = s as unknown as Bounds;
 	for (const b of spec.bounds) {
-		if (params.has(`${b.url}Min`)) bounds[minKey(b)] = Number(params.get(`${b.url}Min`));
-		if (params.has(`${b.url}Max`)) bounds[maxKey(b)] = Number(params.get(`${b.url}Max`));
+		const min = finiteParam(params, `${b.url}Min`);
+		const max = finiteParam(params, `${b.url}Max`);
+		if (min !== null) bounds[minKey(b)] = min;
+		if (max !== null) bounds[maxKey(b)] = max;
 	}
 	if (spec.sortInUrl) {
 		const sort = params.get('sort');
