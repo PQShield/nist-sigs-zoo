@@ -392,6 +392,20 @@ def write_benchmark_env(meta: dict, path: Path) -> None:
     print(f"Wrote {path.relative_to(REPO_ROOT)}")
 
 
+NO_PROGRAMME = "no programme"
+
+
+def membership_label(programmes) -> str:
+    """A version's programme memberships as one report label, e.g. "nist-onramp round-2"."""
+    if not programmes:
+        return NO_PROGRAMME
+    parts = []
+    for programme, stage in sorted(programmes.items()):
+        stages = stage if isinstance(stage, list) else [stage]
+        parts.append(f"{programme} {'/'.join(str(s) for s in stages)}")
+    return ", ".join(parts)
+
+
 def main() -> None:
     if len(sys.argv) == 3 and sys.argv[1] == "--ngcc-sizes":
         import_ngcc_sizes(Path(sys.argv[2]))
@@ -474,27 +488,20 @@ def main() -> None:
         if bench_name not in run_bench_names:
             not_in_run.setdefault(yaml_file, []).append(ps_name)
 
-    # Parametersets in YAML files with no bench mapping — grouped by round
-    # round_order defines display order; keys match the labels used below
-    ROUND_ORDER = ["round-2", "round-1", "untagged"]
-    no_bench: dict[str, dict[str, list[str]]] = {r: {} for r in ROUND_ORDER}
+    # Parametersets in YAML files with no bench mapping, grouped by their version's
+    # programme memberships (e.g. "nist-onramp round-2"); "no programme" last.
+    no_bench: dict[str, dict[str, list[str]]] = {}
     for yaml_path in sorted(SCHEMES_DIR.glob("*.yaml")):
         with open(yaml_path) as f:
             data = yaml.load(f)
         for version in data.get("versions") or []:
-            tags = version.get("tags") or []
-            if "round-2" in tags or "round-3" in tags:
-                round_key = "round-2"
-            elif "round-1" in tags:
-                round_key = "round-1"
-            else:
-                round_key = "untagged"
+            group = membership_label(version.get("programmes"))
             for ps in version.get("parametersets") or []:
                 key = (yaml_path.name, str(ps.get("name", "")))
                 if key not in yaml_to_bench:
-                    no_bench[round_key].setdefault(yaml_path.name, []).append(
-                        str(ps.get("name", ""))
-                    )
+                    no_bench.setdefault(group, {}).setdefault(
+                        yaml_path.name, []
+                    ).append(str(ps.get("name", "")))
 
     if not_in_run:
         total = sum(len(v) for v in not_in_run.values())
@@ -502,18 +509,13 @@ def main() -> None:
         for yaml_file, names in sorted(not_in_run.items()):
             print(f"  {yaml_file}: {', '.join(names)}")
 
-    total_no_bench = sum(
-        len(names) for r in ROUND_ORDER for names in no_bench[r].values()
-    )
+    total_no_bench = sum(len(n) for g in no_bench.values() for n in g.values())
     if total_no_bench:
         print(f"\nNo bench mapping ({total_no_bench}):")
-        labels = {"round-2": "Round 2", "round-1": "Round 1", "untagged": "Untagged"}
-        for round_key in ROUND_ORDER:
-            by_file = no_bench[round_key]
-            if not by_file:
-                continue
+        for group in sorted(no_bench, key=lambda g: (g == NO_PROGRAMME, g)):
+            by_file = no_bench[group]
             subtotal = sum(len(v) for v in by_file.values())
-            print(f"\n  {labels[round_key]} ({subtotal}):")
+            print(f"\n  {group} ({subtotal}):")
             for yaml_file, names in sorted(by_file.items()):
                 print(f"    {yaml_file}: {', '.join(names)}")
 

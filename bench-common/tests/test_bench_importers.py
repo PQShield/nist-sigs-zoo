@@ -161,3 +161,14 @@ def test_kem_dnf_on_ngcc_and_elsewhere(kem):
         {"name": "ML-KEM-512", "dnf": "SIGSEGV"},
     )
     assert not changed and msg.startswith("WARNING") and other["keygen_cycles"] == 1
+
+
+def test_no_bench_mapping_report_groups_by_programme(sig):
+    assert sig.membership_label(None) == "no programme"
+    assert sig.membership_label({"nist-onramp": "round-2"}) == "nist-onramp round-2"
+    assert (
+        sig.membership_label(
+            {"nist-onramp": ["round-2", "round-3"], "kpqc": "selected"}
+        )
+        == "kpqc selected, nist-onramp round-2/round-3"
+    )
