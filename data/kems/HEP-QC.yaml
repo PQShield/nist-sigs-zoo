@@ -40,6 +40,6 @@ parametersets:
   encaps_us: 157595.0
   decaps_us: 843566.4
   notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
-  broken: Key generation has at most 2^256 possible seeds, below the 512-bit target (Saarinen).
+  broken: Key generation has at most 2^256 possible seeds, below the 512-bit target (<a href="https://ngcc.dev/reports/kem-17.html#kem-17-2-hep-qc-7-has-at-most-256-bits-of-key-generation-support">Saarinen</a>).
 findings_url: https://ngcc.dev/reports/kem-17.html
-implementation: The submitted code produces reproducible secret keys and a reproducible first encapsulation in each process (Saarinen).
+implementation: The submitted code produces reproducible secret keys and a reproducible first encapsulation in each process (<a href="https://ngcc.dev/reports/kem-17.html#kem-17-1-publicly-reproducible-secret-keys">Saarinen</a>).

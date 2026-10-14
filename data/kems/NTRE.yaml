@@ -40,5 +40,5 @@ parametersets:
   encaps_us: 84.1
   decaps_us: 70.4
   notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
-  implementation: The submitted code uses a 256-bit secret seed, so offline key search costs at most 2^256, below the 512-bit target (Saarinen).
+  implementation: The submitted code uses a 256-bit secret seed, so offline key search costs at most 2^256, below the 512-bit target (<a href="https://ngcc.dev/reports/kem-27.html#kem-27-1-ntre-512s-256-bit-secret-seed-caps-offline-key-recovery-work">Saarinen</a>).
 findings_url: https://ngcc.dev/reports/kem-27.html

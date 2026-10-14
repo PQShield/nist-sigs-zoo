@@ -38,4 +38,4 @@ versions:
     verification_us: 3194.7
     notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
   findings_url: https://ngcc.dev/reports/sign-33.html
-  implementation: The submitted code generates reproducible signing keys and predictable signing randomness (Saarinen), and its restricted coefficients allow public-key-only forgery at VDOO-128 (Feussner).
+  implementation: The submitted code generates reproducible signing keys and predictable signing randomness (<a href="https://ngcc.dev/reports/sign-33.html#sign-33-1-publicly-reproducible-signing-keys">Saarinen</a>), and its restricted coefficients allow public-key-only forgery at VDOO-128 (<a href="https://groups.google.com/a/list.nist.gov/g/pqc-forum/c/mYN9Br_C8dg/m/BDmmwIE6BAAJ">Feussner</a>).

@@ -37,4 +37,4 @@ versions:
     verification_us: 289.3
     notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
   findings_url: https://ngcc.dev/reports/sign-34.html
-  implementation: The submitted code samples with wrong parameters, leaking secret-basis information through signatures (Kwiatkowski; Xiong and Wang), and its unsalted 256-bit prehash allows signature transfer at the higher levels (Saarinen).
+  implementation: The submitted code samples with wrong parameters, leaking secret-basis information through signatures (<a href="https://github.com/ngcc-dev/ngcc-harness/pull/2">Kwiatkowski</a>; <a href="https://list.niccs.org.cn/archives/list/pkcforum@list.niccs.org.cn/message/FMDKNMFRD7Q74TF5U5ZEA2P2XA3YII7S/">Xiong and Wang</a>), and its unsalted 256-bit prehash allows signature transfer at the higher levels (<a href="https://ngcc.dev/reports/sign-34.html#sign-34-5-an-unsalted-256-bit-prehash-permits-signature-transfer-at-the-higher-levels">Saarinen</a>).

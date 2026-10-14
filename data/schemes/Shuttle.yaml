@@ -37,4 +37,4 @@ versions:
     verification_us: 214.3
     notes: Optimised x86 implementation.
   findings_url: https://ngcc.dev/reports/sign-23.html
-  broken: A reversed transition in the signing procedure leaks an equivalent signing key after a few hundred thousand signatures, giving forgeries at every level (Feussner).
+  broken: A reversed transition in the signing procedure leaks an equivalent signing key after a few hundred thousand signatures, giving forgeries at every level (<a href="https://groups.google.com/a/list.nist.gov/g/pqc-forum/c/5ao-Ebsa_Ow/m/zwYJk_Q-BAAJ">Feussner</a>).

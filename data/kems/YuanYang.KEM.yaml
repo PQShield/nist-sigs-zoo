@@ -39,5 +39,5 @@ parametersets:
   encaps_us: 245.6
   decaps_us: 398.2
   notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
-  implementation: A truncated encryption seed in the submitted code allows challenge keys to be distinguished with about 2^440 work, below the 512-bit target (Saarinen).
+  implementation: A truncated encryption seed in the submitted code allows challenge keys to be distinguished with about 2^440 work, below the 512-bit target (<a href="https://ngcc.dev/reports/kem-40.html#kem-40-5-truncated-encryption-seed-permits-a-2440-challenge-key-distinguisher-at-the-512-bit-level">Saarinen</a>).
 findings_url: https://ngcc.dev/reports/kem-40.html

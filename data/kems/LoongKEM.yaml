@@ -17,7 +17,7 @@ parametersets:
   encaps_us: 1639.7
   decaps_us: 1645.9
   notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
-  broken: Public consistency equations recover shared secrets with practical lattice reduction (Xie).
+  broken: Public consistency equations recover shared secrets with practical lattice reduction (<a href="https://list.niccs.org.cn/archives/list/pkcforum@list.niccs.org.cn/message/VBOUFRS2CDGNLPEAR4ZBKZM4U5YHBTZY/">Xie</a>).
 - name: Loong256
   ngcc_level: 256
   pk: 3248
@@ -29,7 +29,7 @@ parametersets:
   encaps_us: 4150.8
   decaps_us: 4172.1
   notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
-  broken: Public consistency equations recover shared secrets with practical lattice reduction (Xie).
+  broken: Public consistency equations recover shared secrets with practical lattice reduction (<a href="https://list.niccs.org.cn/archives/list/pkcforum@list.niccs.org.cn/message/VBOUFRS2CDGNLPEAR4ZBKZM4U5YHBTZY/">Xie</a>).
 - name: Loong384
   ngcc_level: 384
   pk: 6444
@@ -53,4 +53,4 @@ parametersets:
   decaps_us: 21485.0
   notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 findings_url: https://ngcc.dev/reports/kem-18.html
-implementation: A faulty rejection mask in the submitted decapsulation returns the true shared secret for modified ciphertexts (Saarinen).
+implementation: A faulty rejection mask in the submitted decapsulation returns the true shared secret for modified ciphertexts (<a href="https://ngcc.dev/reports/kem-18.html#kem-18-1-partial-rejection-mask-leaks-the-candidate-shared-secret">Saarinen</a>).

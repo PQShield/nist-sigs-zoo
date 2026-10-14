@@ -3,6 +3,7 @@ import { existsSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import yaml from 'js-yaml';
 import type { KemSchemeYaml, SchemeYaml } from '$lib/types';
+import { stripHtml } from '$lib/html';
 
 interface NgccInstance {
 	instance: string;
@@ -112,8 +113,13 @@ describe('data/ngcc/candidates.yaml', () => {
 	});
 
 	it('keeps findings short, linked and credited to their authors', () => {
-		// Each summary ends with a parenthesised author credit, e.g. "... (Xiong and Wang)."
+		// Each summary ends with a parenthesised author credit, e.g. "... (Xiong and Wang).", and
+		// each credited name links to its disclosure: (<a href="https://...">Xiong and Wang</a>).
 		const credited = /\([^()]+\)\.$/;
+		const unlinkedCredit = (text: string) =>
+			(text.replace(/<a href="https:\/\/[^"]+">[^<]+<\/a>/g, '@').match(/\([^()]*\)/g) ?? []).some((g) =>
+				g.slice(1, -1).split(/; | and /).some((s) => s !== '@')
+			);
 		const errors = candidates.flatMap((c) => {
 			const f = c.findings;
 			const texts = [f?.implementation, f?.broken, ...c.instances.flatMap((i) => [i.implementation, i.broken])].filter(
@@ -123,8 +129,10 @@ describe('data/ngcc/candidates.yaml', () => {
 			if (!f) return texts.length ? [`${c.id}: instance flags need a findings block`] : [];
 			if (f.url !== `https://ngcc.dev/reports/${c.id}.html`) e.push(`${c.id}: findings url must be its ngcc.dev report`);
 			for (const text of texts) {
-				if (text.length > 280) e.push(`${c.id}: summary over 280 characters`);
-				if (!credited.test(text)) e.push(`${c.id}: summary must end with a parenthesised credit`);
+				const plain = stripHtml(text);
+				if (plain.length > 280) e.push(`${c.id}: summary over 280 characters`);
+				if (!credited.test(plain)) e.push(`${c.id}: summary must end with a parenthesised credit`);
+				if (unlinkedCredit(text)) e.push(`${c.id}: link each credited author to their disclosure`);
 				if (/ngcc\.dev\)/.test(text) && !text.endsWith('(reported on ngcc.dev).')) e.push(`${c.id}: credit authors, not the venue`);
 			}
 			for (const u of f.sources ?? []) if (!/^https:\/\/\S+$/.test(u)) e.push(`${c.id}: source is not an https URL: ${u}`);

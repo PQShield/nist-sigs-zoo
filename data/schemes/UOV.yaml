@@ -86,7 +86,7 @@ versions:
     sig: 260
     signing_cycles: 458761
     verification_cycles: 1345477
-    broken: "Intersection attack (Furue & Ikematsu, ePrint 2026/298) reduces classical security to ~223 bits, below NIST Level V threshold (best known; improves on Ran's ePrint 2025/1143 ~258 bits)"
+    broken: "Intersection attack (<a href=\"https://eprint.iacr.org/2026/298\">Furue & Ikematsu</a>, ePrint 2026/298) reduces classical security to ~223 bits, below NIST Level V threshold (best known; improves on <a href=\"https://eprint.iacr.org/2025/1143\">Ran</a>'s ePrint 2025/1143 ~258 bits)"
     signing_us: 124.1
     verification_us: 365.7
   - name: V-classic
@@ -95,7 +95,7 @@ versions:
     sig: 260
     signing_cycles: 446412
     verification_cycles: 468459
-    broken: "Intersection attack (Furue & Ikematsu, ePrint 2026/298) reduces classical security to ~223 bits, below NIST Level V threshold (best known; improves on Ran's ePrint 2025/1143 ~258 bits)"
+    broken: "Intersection attack (<a href=\"https://eprint.iacr.org/2026/298\">Furue & Ikematsu</a>, ePrint 2026/298) reduces classical security to ~223 bits, below NIST Level V threshold (best known; improves on <a href=\"https://eprint.iacr.org/2025/1143\">Ran</a>'s ePrint 2025/1143 ~258 bits)"
     signing_us: 120.3
     verification_us: 126.0
   - name: III-pkc
@@ -104,7 +104,7 @@ versions:
     sig: 200
     signing_cycles: 220473
     verification_cycles: 638806
-    broken: "Intersection attack (Furue & Ikematsu, ePrint 2026/298) reduces classical security to ~182 bits, below NIST Level III threshold (best known; improves on Ran's ePrint 2025/1143 ~207 bits)"
+    broken: "Intersection attack (<a href=\"https://eprint.iacr.org/2026/298\">Furue & Ikematsu</a>, ePrint 2026/298) reduces classical security to ~182 bits, below NIST Level III threshold (best known; improves on <a href=\"https://eprint.iacr.org/2025/1143\">Ran</a>'s ePrint 2025/1143 ~207 bits)"
     signing_us: 59.9
     verification_us: 173.4
   - name: III-classic
@@ -113,7 +113,7 @@ versions:
     sig: 200
     signing_cycles: 217302
     verification_cycles: 210664
-    broken: "Intersection attack (Furue & Ikematsu, ePrint 2026/298) reduces classical security to ~182 bits, below NIST Level III threshold (best known; improves on Ran's ePrint 2025/1143 ~207 bits)"
+    broken: "Intersection attack (<a href=\"https://eprint.iacr.org/2026/298\">Furue & Ikematsu</a>, ePrint 2026/298) reduces classical security to ~182 bits, below NIST Level III threshold (best known; improves on <a href=\"https://eprint.iacr.org/2025/1143\">Ran</a>'s ePrint 2025/1143 ~207 bits)"
     signing_us: 58.8
     verification_us: 57.6
   - name: Is-pkc
@@ -122,7 +122,7 @@ versions:
     sig: 96
     signing_cycles: 72982
     verification_cycles: 170376
-    warning: "Intersection attack (Furue & Ikematsu, ePrint 2026/298) reduces classical security to ~159 bits; above NIST Level I threshold but reduced from claimed 143 bits"
+    warning: "Intersection attack (<a href=\"https://eprint.iacr.org/2026/298\">Furue & Ikematsu</a>, ePrint 2026/298) reduces classical security to ~159 bits; above NIST Level I threshold but reduced from claimed 143 bits"
     signing_us: 20.5
     verification_us: 46.2
   - name: Is-classic
@@ -131,7 +131,7 @@ versions:
     sig: 96
     signing_cycles: 72904
     verification_cycles: 48410
-    warning: "Intersection attack (Furue & Ikematsu, ePrint 2026/298) reduces classical security to ~159 bits; above NIST Level I threshold but reduced from claimed 143 bits"
+    warning: "Intersection attack (<a href=\"https://eprint.iacr.org/2026/298\">Furue & Ikematsu</a>, ePrint 2026/298) reduces classical security to ~159 bits; above NIST Level I threshold but reduced from claimed 143 bits"
     signing_us: 20.4
     verification_us: 14.0
   - name: Ip-pkc
@@ -140,7 +140,7 @@ versions:
     sig: 128
     signing_cycles: 72062
     verification_cycles: 153427
-    broken: "Intersection attack (Furue & Ikematsu, ePrint 2026/298) reduces classical security to ~128 bits, below NIST Level I threshold (best known; improves on Ran's ePrint 2025/1143 ~141 bits)"
+    broken: "Intersection attack (<a href=\"https://eprint.iacr.org/2026/298\">Furue & Ikematsu</a>, ePrint 2026/298) reduces classical security to ~128 bits, below NIST Level I threshold (best known; improves on <a href=\"https://eprint.iacr.org/2025/1143\">Ran</a>'s ePrint 2025/1143 ~141 bits)"
     signing_us: 20.2
     verification_us: 41.6
   - name: Ip-classic
@@ -149,7 +149,7 @@ versions:
     sig: 128
     signing_cycles: 71899
     verification_cycles: 72825
-    broken: "Intersection attack (Furue & Ikematsu, ePrint 2026/298) reduces classical security to ~128 bits, below NIST Level I threshold (best known; improves on Ran's ePrint 2025/1143 ~141 bits)"
+    broken: "Intersection attack (<a href=\"https://eprint.iacr.org/2026/298\">Furue & Ikematsu</a>, ePrint 2026/298) reduces classical security to ~128 bits, below NIST Level I threshold (best known; improves on <a href=\"https://eprint.iacr.org/2025/1143\">Ran</a>'s ePrint 2025/1143 ~141 bits)"
     signing_us: 20.1
     verification_us: 20.4
 - version: v1.0

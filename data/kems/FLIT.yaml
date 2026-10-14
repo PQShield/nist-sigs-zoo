@@ -40,4 +40,4 @@ parametersets:
   decaps_us: 136.4
   notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 findings_url: https://ngcc.dev/reports/kem-15.html
-implementation: The optimised equality check accepts invalid ciphertexts (Xiong and Wang), and the additional FIPS202 builds never seed their generator, so their keys are predictable (Saarinen).
+implementation: The optimised equality check accepts invalid ciphertexts (<a href="https://list.niccs.org.cn/archives/list/pkcforum@list.niccs.org.cn/message/KP5VT25RVLVRBBJ7XFPTNMBSZV6PIPEN/">Xiong and Wang</a>), and the additional FIPS202 builds never seed their generator, so their keys are predictable (<a href="https://ngcc.dev/reports/kem-15.html#kem-15-3-the-fips202-variants-generate-predictable-keys-because-their-rng-is-never-seeded">Saarinen</a>).

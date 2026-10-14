@@ -39,7 +39,7 @@ parametersets:
   encaps_us: 1033.7
   decaps_us: 1040.0
   notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
-  implementation: The submitted code derives keys from a 256-bit root, so key search costs about 2^256, below this set's target (Saarinen).
+  implementation: The submitted code derives keys from a 256-bit root, so key search costs about 2^256, below this set's target (<a href="https://ngcc.dev/reports/kem-11.html#kem-11-1-compass-kem-384-and-512-use-a-256-bit-key-generation-root">Saarinen</a>).
 - name: COMPASS-KEM-512
   ngcc_level: 512
   pk: 2848
@@ -51,5 +51,5 @@ parametersets:
   encaps_us: 1823.1
   decaps_us: 1829.5
   notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
-  implementation: The submitted code derives keys from a 256-bit root, so key search costs about 2^256, below this set's target (Saarinen).
+  implementation: The submitted code derives keys from a 256-bit root, so key search costs about 2^256, below this set's target (<a href="https://ngcc.dev/reports/kem-11.html#kem-11-1-compass-kem-384-and-512-use-a-256-bit-key-generation-root">Saarinen</a>).
 findings_url: https://ngcc.dev/reports/kem-11.html

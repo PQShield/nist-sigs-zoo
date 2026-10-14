@@ -18,7 +18,7 @@ versions:
     signing_us: 2276436.3
     verification_us: 5599.3
     notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
-    implementation: The submitted code checks only 128 bits of each one-time chain value, so a lower-layer root can be replaced with about 2^128 work, below the claim for this set (shiyuan).
+    implementation: The submitted code checks only 128 bits of each one-time chain value, so a lower-layer root can be replaced with about 2^128 work, below the claim for this set (<a href="https://list.niccs.org.cn/archives/list/pkcforum@list.niccs.org.cn/message/S5GGRLD7YZQQRH2VPPYET2GWYTHFWKXR/">shiyuan</a>).
   - name: CEDRUSALPHA-160f
     ngcc_level: 128
     pk: 40
@@ -28,7 +28,7 @@ versions:
     signing_us: 167015.6
     verification_us: 5178.3
     notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
-    implementation: The submitted code checks only 128 bits of each one-time chain value, so a lower-layer root can be replaced with about 2^128 work, below the claim for this set (shiyuan).
+    implementation: The submitted code checks only 128 bits of each one-time chain value, so a lower-layer root can be replaced with about 2^128 work, below the claim for this set (<a href="https://list.niccs.org.cn/archives/list/pkcforum@list.niccs.org.cn/message/S5GGRLD7YZQQRH2VPPYET2GWYTHFWKXR/">shiyuan</a>).
   - name: CEDRUSALPHA-256s
     ngcc_level: 256
     pk: 64

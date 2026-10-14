@@ -40,4 +40,4 @@ parametersets:
   decaps_us: 3691.2
   notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 findings_url: https://ngcc.dev/reports/kem-06.html
-implementation: The submitted decapsulation ignores padding bits, so altered copies of a challenge ciphertext decapsulate to the same key, breaking IND-CCA security (Saarinen).
+implementation: The submitted decapsulation ignores padding bits, so altered copies of a challenge ciphertext decapsulate to the same key, breaking IND-CCA security (<a href="https://ngcc.dev/reports/kem-06.html#kem-06-4-ignored-padding-bits-make-ciphertexts-malleable-without-changing-the-key">Saarinen</a>).

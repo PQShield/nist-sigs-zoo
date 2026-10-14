@@ -37,4 +37,4 @@ versions:
     verification_us: 312285.4
     notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
   findings_url: https://ngcc.dev/reports/sign-24.html
-  implementation: The submitted code leaks the signing witness through its encoding after a handful of signatures (Guoxiao Liu; Feussner; Saarinen), and through occasional zero challenges, enabling forgery at every level (Saarinen).
+  implementation: The submitted code leaks the signing witness through its encoding after a handful of signatures (<a href="https://ngcc.dev/reports/sign-24.html#sign-24-1-chunked-reedsolomon-encoding-reveals-the-signing-witness">Guoxiao Liu</a>; <a href="https://groups.google.com/a/list.nist.gov/g/pqc-forum/c/2lO14yYyDK4/m/UYKYkWM7BAAJ">Feussner</a>; <a href="https://ngcc.dev/reports/sign-24.html#sign-24-1-chunked-reedsolomon-encoding-reveals-the-signing-witness">Saarinen</a>), and through occasional zero challenges, enabling forgery at every level (<a href="https://ngcc.dev/reports/sign-24.html#sign-24-2-zero-16-bit-challenge-exposes-the-signing-witness">Saarinen</a>).

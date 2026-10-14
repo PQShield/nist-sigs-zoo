@@ -82,4 +82,4 @@ versions:
     verification_us: 46171.8
     notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
   findings_url: https://ngcc.dev/reports/sign-03.html
-  implementation: The submitted code mishandles hypertree indices so that few-time keys repeat across signatures, enabling forgery after adaptive signing queries at every parameter set (Saarinen).
+  implementation: The submitted code mishandles hypertree indices so that few-time keys repeat across signatures, enabling forgery after adaptive signing queries at every parameter set (<a href="https://ngcc.dev/reports/sign-03.html#sign-03-1-hypertree-index-collapse-causes-repeated-few-time-keys">Saarinen</a>).

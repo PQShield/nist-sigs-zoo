@@ -18,7 +18,7 @@ versions:
     signing_us: 1128.2
     verification_us: 109.6
     notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
-    implementation: In the SM3 build, messages longer than the hash input limit all map to the same value, so one such signature verifies for any other long message (Saarinen).
+    implementation: In the SM3 build, messages longer than the hash input limit all map to the same value, so one such signature verifies for any other long message (<a href="https://ngcc.dev/reports/sign-22.html#sign-22-6-long-messages-share-an-all-zero-representative-in-rhyme-sm3">Saarinen</a>).
   - name: Rhyme-SM3-256
     ngcc_level: 256
     pk: 1824
@@ -28,7 +28,7 @@ versions:
     signing_us: 2716.3
     verification_us: 256.1
     notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
-    implementation: In the SM3 build, messages longer than the hash input limit all map to the same value, so one such signature verifies for any other long message (Saarinen).
+    implementation: In the SM3 build, messages longer than the hash input limit all map to the same value, so one such signature verifies for any other long message (<a href="https://ngcc.dev/reports/sign-22.html#sign-22-6-long-messages-share-an-all-zero-representative-in-rhyme-sm3">Saarinen</a>).
   - name: Rhyme-SM3-384
     ngcc_level: 384
     pk: 2720
@@ -38,7 +38,7 @@ versions:
     signing_us: 4228.9
     verification_us: 359.7
     notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
-    implementation: In the SM3 build long messages all map to the same value, and the key seed and message digest limit attacks to about 2^256 work, below this set's target (Saarinen).
+    implementation: In the SM3 build long messages all map to the same value, and the key seed and message digest limit attacks to about 2^256 work, below this set's target (<a href="https://ngcc.dev/reports/sign-22.html#sign-22-6-long-messages-share-an-all-zero-representative-in-rhyme-sm3">Saarinen</a>).
   - name: Rhyme-SM3-512
     ngcc_level: 512
     pk: 3872
@@ -48,7 +48,7 @@ versions:
     signing_us: 4578.6
     verification_us: 457.3
     notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
-    implementation: In the SM3 build long messages all map to the same value, and the key seed and message digest limit attacks to about 2^256 work, below this set's target (Saarinen).
+    implementation: In the SM3 build long messages all map to the same value, and the key seed and message digest limit attacks to about 2^256 work, below this set's target (<a href="https://ngcc.dev/reports/sign-22.html#sign-22-6-long-messages-share-an-all-zero-representative-in-rhyme-sm3">Saarinen</a>).
   - name: Rhyme-SHAKE-128
     ngcc_level: 128
     pk: 800
@@ -76,7 +76,7 @@ versions:
     signing_us: 2176.5
     verification_us: 291.2
     notes: Reference implementation; our build applies a small patch to the submitted code.
-    implementation: The submitted code expands the key pair from a 256-bit seed and its message digest limits forgery to about 2^256 work, below this set's target (Saarinen).
+    implementation: The submitted code expands the key pair from a 256-bit seed and its message digest limits forgery to about 2^256 work, below this set's target (<a href="https://ngcc.dev/reports/sign-22.html#sign-22-2-the-implementation-expands-the-complete-key-pair-from-a-256-bit-root">Saarinen</a>).
   - name: Rhyme-SHAKE-512
     ngcc_level: 512
     pk: 3872
@@ -86,5 +86,5 @@ versions:
     signing_us: 2539.3
     verification_us: 358.4
     notes: Reference implementation; our build applies a small patch to the submitted code.
-    implementation: The submitted code expands the key pair from a 256-bit seed and its message digest limits forgery to about 2^256 work, below this set's target (Saarinen).
+    implementation: The submitted code expands the key pair from a 256-bit seed and its message digest limits forgery to about 2^256 work, below this set's target (<a href="https://ngcc.dev/reports/sign-22.html#sign-22-2-the-implementation-expands-the-complete-key-pair-from-a-256-bit-root">Saarinen</a>).
   findings_url: https://ngcc.dev/reports/sign-22.html

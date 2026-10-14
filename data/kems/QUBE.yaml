@@ -51,4 +51,4 @@ parametersets:
   decaps_us: 6747.5
   notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 findings_url: https://ngcc.dev/reports/kem-33.html
-implementation: The optimised implementation produces predictable keys and encapsulations (Xiong and Wang).
+implementation: The optimised implementation produces predictable keys and encapsulations (<a href="https://list.niccs.org.cn/archives/list/pkcforum@list.niccs.org.cn/message/RFAWJMFS3YHSQG4HMPKOCVYLX7BZK3YX/">Xiong and Wang</a>).

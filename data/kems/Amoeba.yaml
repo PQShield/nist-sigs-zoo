@@ -51,4 +51,4 @@ parametersets:
   decaps_us: 481.4
   notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 findings_url: https://ngcc.dev/reports/kem-02.html
-implementation: The submitted decapsulation compares only part of the ciphertext (Li), and exposes decoder failures; both allow full key recovery from chosen ciphertexts (Xiong and Wang).
+implementation: The submitted decapsulation compares only part of the ciphertext (<a href="https://list.niccs.org.cn/archives/list/pkcforum@list.niccs.org.cn/message/JB6IBZZUEVGTMM2SF6WK5PIYW7ESSPYT/">Li</a>), and exposes decoder failures; both allow full key recovery from chosen ciphertexts (<a href="https://eprint.iacr.org/2026/2232">Xiong and Wang</a>).

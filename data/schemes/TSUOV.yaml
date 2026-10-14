@@ -36,6 +36,6 @@ versions:
     signing_us: 220262.7
     verification_us: 238679.5
     notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
-    broken: The 512-bit message prehash limits forgery resistance to about 2^256 work, below the 512-bit target (Saarinen).
+    broken: The 512-bit message prehash limits forgery resistance to about 2^256 work, below the 512-bit target (<a href="https://ngcc.dev/reports/sign-31.html#sign-31-1-a-512-bit-prehash-caps-forgery-security-at-256-bits">Saarinen</a>).
   findings_url: https://ngcc.dev/reports/sign-31.html
-  implementation: On allocation failure the submitted verifier can reuse an earlier message digest and accept a signature for a different message (Xiong and Wang).
+  implementation: On allocation failure the submitted verifier can reuse an earlier message digest and accept a signature for a different message (<a href="https://list.niccs.org.cn/archives/list/pkcforum@list.niccs.org.cn/message/FQMMQX3BFR473NUCIPK5IIFXKO3X6QKO/">Xiong and Wang</a>).

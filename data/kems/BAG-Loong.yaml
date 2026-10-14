@@ -28,7 +28,7 @@ parametersets:
   encaps_us: 36894.5
   decaps_us: 70174.0
   notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
-  broken: Merging error supports lowers the cost of rank-decoding key recovery below this set's claimed level (Xiong and Wang).
+  broken: Merging error supports lowers the cost of rank-decoding key recovery below this set's claimed level (<a href="https://list.niccs.org.cn/archives/list/pkcforum@list.niccs.org.cn/message/632RW5CKKAJXJ3GBZ7ZL6RE7CLCVYFGQ/">Xiong and Wang</a>).
 - name: BAG-Loong-384
   ngcc_level: 384
   pk: 12152
@@ -40,7 +40,7 @@ parametersets:
   encaps_us: 73863.1
   decaps_us: 141863.9
   notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
-  broken: Merging error supports lowers the cost of rank-decoding key recovery below this set's claimed level (Xiong and Wang).
+  broken: Merging error supports lowers the cost of rank-decoding key recovery below this set's claimed level (<a href="https://list.niccs.org.cn/archives/list/pkcforum@list.niccs.org.cn/message/632RW5CKKAJXJ3GBZ7ZL6RE7CLCVYFGQ/">Xiong and Wang</a>).
 - name: BAG-Loong-512
   ngcc_level: 512
   pk: 19043
@@ -52,6 +52,6 @@ parametersets:
   encaps_us: 113379.3
   decaps_us: 211720.8
   notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
-  broken: Merging error supports lowers the cost of rank-decoding key recovery below this set's claimed level (Xiong and Wang).
+  broken: Merging error supports lowers the cost of rank-decoding key recovery below this set's claimed level (<a href="https://list.niccs.org.cn/archives/list/pkcforum@list.niccs.org.cn/message/632RW5CKKAJXJ3GBZ7ZL6RE7CLCVYFGQ/">Xiong and Wang</a>).
 findings_url: https://ngcc.dev/reports/kem-03.html
-implementation: The submitted reference code publishes the support spaces, reducing secret-key recovery to linear algebra that runs in under a second (Zihan Liu).
+implementation: The submitted reference code publishes the support spaces, reducing secret-key recovery to linear algebra that runs in under a second (<a href="https://eprint.iacr.org/2026/2223">Zihan Liu</a>).

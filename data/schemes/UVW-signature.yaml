@@ -19,7 +19,7 @@ versions:
     signing_us: 3570035.6
     verification_us: 85558.4
     notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it; our build applies a small patch to the submitted code.
-    broken: Correlated pairs in signatures reveal an equivalent signing key from a few hundred signatures, enabling forgery (Feussner).
+    broken: Correlated pairs in signatures reveal an equivalent signing key from a few hundred signatures, enabling forgery (<a href="https://list.niccs.org.cn/archives/list/pkcforum@list.niccs.org.cn/message/SDUWEI2UT7BAEIDNVKTSMJF3YYJXUDFQ/">Feussner</a>).
   - name: UVW-256
     ngcc_level: 256
     recommended: true
@@ -37,4 +37,4 @@ versions:
     sig: 4956
     notes: 'Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it; our build applies a small patch to the submitted code. Not benchmarked: a single run takes hours.'
   findings_url: https://ngcc.dev/reports/sign-32.html
-  implementation: The submitted verifier accepts every signature, valid or not (Saarinen).
+  implementation: The submitted verifier accepts every signature, valid or not (<a href="https://ngcc.dev/reports/sign-32.html#sign-32-1-every-signature-is-accepted">Saarinen</a>).

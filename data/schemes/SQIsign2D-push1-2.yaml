@@ -27,7 +27,7 @@ versions:
     signing_us: 1761120.3
     verification_us: 443803.8
     notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it; our build does not reproduce the submitted test vectors (cause unknown).
-    implementation: The submitted code skips the specified challenge grinding, so a forgery from one valid signature costs about 2^247, below the 256-bit target (Sun).
+    implementation: The submitted code skips the specified challenge grinding, so a forgery from one valid signature costs about 2^247, below the 256-bit target (<a href="https://list.niccs.org.cn/archives/list/pkcforum@list.niccs.org.cn/message/TUR2W3S22UGBUJXFZYT25VO44PHNFAOJ/">Sun</a>).
   - name: SQIsign2D-lvl4
     ngcc_level: 512
     pk: 262

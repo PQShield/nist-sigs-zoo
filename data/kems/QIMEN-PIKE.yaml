@@ -40,4 +40,4 @@ parametersets:
   decaps_us: 1111117.8
   notes: Optimised x86 implementation. Measured sizes differ from the specification, which gives pk 1201 B, sk 1500 B (Table 7.1, compressed columns (PDF p. 57)).
 findings_url: https://ngcc.dev/reports/kem-31.html
-implementation: Non-canonical field encodings in the submitted code let altered ciphertexts decapsulate to the same key, breaking IND-CCA security (Saarinen).
+implementation: Non-canonical field encodings in the submitted code let altered ciphertexts decapsulate to the same key, breaking IND-CCA security (<a href="https://ngcc.dev/reports/kem-31.html#kem-31-2-non-canonical-field-encodings-make-ciphertexts-malleable-without-changing-the-key">Saarinen</a>).

@@ -73,4 +73,4 @@ parametersets:
   decaps_us: 7123.8
   notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 findings_url: https://ngcc.dev/reports/kem-20.html
-implementation: In the reference code an allocation failure during key generation still reports success, leaving keys whose shared secrets can be recovered from the public key (Yamin Liu).
+implementation: In the reference code an allocation failure during key generation still reports success, leaving keys whose shared secrets can be recovered from the public key (<a href="https://list.niccs.org.cn/archives/list/pkcforum@list.niccs.org.cn/message/XYDLYDGUCEQ6QPUCAL3T3RWJBIIGPDU4/">Yamin Liu</a>).

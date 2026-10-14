@@ -40,4 +40,4 @@ parametersets:
   decaps_us: 17812.5
   notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 findings_url: https://ngcc.dev/reports/kem-10.html
-implementation: Malformed ciphertexts crash the submitted reference decapsulation, and ignored padding bits make the 512-bit set's ciphertexts malleable (Saarinen).
+implementation: Malformed ciphertexts crash the submitted reference decapsulation, and ignored padding bits make the 512-bit set's ciphertexts malleable (<a href="https://ngcc.dev/reports/kem-10.html#kem-10-1-malformed-ciphertexts-crash-the-reference-decapsulator">Saarinen</a>).

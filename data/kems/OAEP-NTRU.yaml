@@ -40,4 +40,4 @@ parametersets:
   decaps_us: 166.8
   notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 findings_url: https://ngcc.dev/reports/kem-28.html
-implementation: Specification and code accept non-canonical ciphertext encodings, so a re-encoded challenge ciphertext decapsulates to the same key, defeating IND-CCA security (Meijers).
+implementation: Specification and code accept non-canonical ciphertext encodings, so a re-encoded challenge ciphertext decapsulates to the same key, defeating IND-CCA security (<a href="https://github.com/ngcc-dev/ngcc-harness/pull/17">Meijers</a>).

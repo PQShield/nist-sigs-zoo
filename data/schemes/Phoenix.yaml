@@ -126,7 +126,7 @@ versions:
     signing_us: 4529344.4
     verification_us: 29171.7
     notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it; our build does not reproduce the submitted test vectors (cause unknown).
-    implementation: The submitted SM3 code compresses messages to 256 bits, so a second preimage after one signing query costs about 2^256, below this set's target (Saarinen).
+    implementation: The submitted SM3 code compresses messages to 256 bits, so a second preimage after one signing query costs about 2^256, below this set's target (<a href="https://ngcc.dev/reports/sign-19.html#sign-19-4-a-256-bit-sm3-prehash-caps-message-retargeting-security">Saarinen</a>).
   - name: Phoenix-SM3-384f
     ngcc_level: 384
     pk: 96
@@ -136,7 +136,7 @@ versions:
     signing_us: 1043660.3
     verification_us: 19827.0
     notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it; our build does not reproduce the submitted test vectors (cause unknown).
-    implementation: The submitted SM3 code compresses messages to 256 bits, so a second preimage after one signing query costs about 2^256, below this set's target (Saarinen).
+    implementation: The submitted SM3 code compresses messages to 256 bits, so a second preimage after one signing query costs about 2^256, below this set's target (<a href="https://ngcc.dev/reports/sign-19.html#sign-19-4-a-256-bit-sm3-prehash-caps-message-retargeting-security">Saarinen</a>).
   - name: Phoenix-SM3-512s
     ngcc_level: 512
     pk: 128
@@ -146,7 +146,7 @@ versions:
     signing_us: 6594480.6
     verification_us: 11702.3
     notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it; our build does not reproduce the submitted test vectors (cause unknown).
-    implementation: The submitted SM3 code compresses messages to 256 bits, so a second preimage after one signing query costs about 2^256, below this set's target (Saarinen).
+    implementation: The submitted SM3 code compresses messages to 256 bits, so a second preimage after one signing query costs about 2^256, below this set's target (<a href="https://ngcc.dev/reports/sign-19.html#sign-19-4-a-256-bit-sm3-prehash-caps-message-retargeting-security">Saarinen</a>).
   - name: Phoenix-SM3-512f
     ngcc_level: 512
     pk: 128
@@ -156,5 +156,5 @@ versions:
     signing_us: 1742179.1
     verification_us: 39529.0
     notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it; our build does not reproduce the submitted test vectors (cause unknown).
-    implementation: The submitted SM3 code compresses messages to 256 bits, so a second preimage after one signing query costs about 2^256, below this set's target (Saarinen).
+    implementation: The submitted SM3 code compresses messages to 256 bits, so a second preimage after one signing query costs about 2^256, below this set's target (<a href="https://ngcc.dev/reports/sign-19.html#sign-19-4-a-256-bit-sm3-prehash-caps-message-retargeting-security">Saarinen</a>).
   findings_url: https://ngcc.dev/reports/sign-19.html

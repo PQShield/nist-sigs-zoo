@@ -36,7 +36,7 @@ versions:
     signing_us: 2681738.7
     verification_us: 11549.6
     notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
-    broken: A signing counter can be ground without changing the hash-selected instance, so forgeries after many signing queries cost roughly 20 to 30 bits less than claimed, below this set's target (Kudinov).
+    broken: A signing counter can be ground without changing the hash-selected instance, so forgeries after many signing queries cost roughly 20 to 30 bits less than claimed, below this set's target (<a href="https://ngcc.dev/reports/sign-11.html#sign-11-1-pors-counter-grinding-reduces-every-claimed-security-level">Kudinov</a>).
   - name: Flextree-256f
     ngcc_level: 256
     pk: 64
@@ -46,7 +46,7 @@ versions:
     signing_us: 282137.5
     verification_us: 7463.1
     notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
-    broken: A signing counter can be ground without changing the hash-selected instance, so forgeries after many signing queries cost roughly 20 to 30 bits less than claimed, below this set's target (Kudinov).
+    broken: A signing counter can be ground without changing the hash-selected instance, so forgeries after many signing queries cost roughly 20 to 30 bits less than claimed, below this set's target (<a href="https://ngcc.dev/reports/sign-11.html#sign-11-1-pors-counter-grinding-reduces-every-claimed-security-level">Kudinov</a>).
   - name: Flextree-384s
     ngcc_level: 384
     pk: 96
@@ -56,7 +56,7 @@ versions:
     signing_us: 12687287.2
     verification_us: 15694.0
     notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
-    broken: A signing counter can be ground without changing the hash-selected instance, so forgeries after many signing queries cost roughly 20 to 30 bits less than claimed, below this set's target (Kudinov).
+    broken: A signing counter can be ground without changing the hash-selected instance, so forgeries after many signing queries cost roughly 20 to 30 bits less than claimed, below this set's target (<a href="https://ngcc.dev/reports/sign-11.html#sign-11-1-pors-counter-grinding-reduces-every-claimed-security-level">Kudinov</a>).
   - name: Flextree-384f
     ngcc_level: 384
     pk: 96
@@ -66,7 +66,7 @@ versions:
     signing_us: 3559850.8
     verification_us: 36458.2
     notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
-    broken: A signing counter can be ground without changing the hash-selected instance, so forgeries after many signing queries cost roughly 20 to 30 bits less than claimed, below this set's target (Kudinov).
+    broken: A signing counter can be ground without changing the hash-selected instance, so forgeries after many signing queries cost roughly 20 to 30 bits less than claimed, below this set's target (<a href="https://ngcc.dev/reports/sign-11.html#sign-11-1-pors-counter-grinding-reduces-every-claimed-security-level">Kudinov</a>).
   - name: Flextree-512s
     ngcc_level: 512
     pk: 128
@@ -76,7 +76,7 @@ versions:
     signing_us: 24382221.4
     verification_us: 34162.5
     notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
-    broken: A signing counter can be ground without changing the hash-selected instance, so forgeries after many signing queries cost roughly 20 to 30 bits less than claimed, below this set's target (Kudinov).
+    broken: A signing counter can be ground without changing the hash-selected instance, so forgeries after many signing queries cost roughly 20 to 30 bits less than claimed, below this set's target (<a href="https://ngcc.dev/reports/sign-11.html#sign-11-1-pors-counter-grinding-reduces-every-claimed-security-level">Kudinov</a>).
   - name: Flextree-512f
     ngcc_level: 512
     pk: 128
@@ -86,5 +86,5 @@ versions:
     signing_us: 7177903.6
     verification_us: 46004.5
     notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
-    broken: A signing counter can be ground without changing the hash-selected instance, so forgeries after many signing queries cost roughly 20 to 30 bits less than claimed, below this set's target (Kudinov).
+    broken: A signing counter can be ground without changing the hash-selected instance, so forgeries after many signing queries cost roughly 20 to 30 bits less than claimed, below this set's target (<a href="https://ngcc.dev/reports/sign-11.html#sign-11-1-pors-counter-grinding-reduces-every-claimed-security-level">Kudinov</a>).
   findings_url: https://ngcc.dev/reports/sign-11.html

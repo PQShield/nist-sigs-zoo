@@ -36,7 +36,7 @@ versions:
     signing_us: 2021021.2
     verification_us: 1909129.2
     notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
-    broken: A degenerate witness lets anyone forge signatures from the public key at about the cost of honest signing (Feussner). One signature also allows key recovery below the target (Xiong and Wang).
+    broken: A degenerate witness lets anyone forge signatures from the public key at about the cost of honest signing (<a href="https://list.niccs.org.cn/archives/list/pkcforum@list.niccs.org.cn/message/JMTZL5V7ROPXSFJQWRHIOKLORGI5AJSN/">Feussner</a>). One signature also allows key recovery below the target (<a href="https://list.niccs.org.cn/archives/list/pkcforum@list.niccs.org.cn/message/UG3RQWO5YK7WWMXM5KRTAE457PKIAI62/">Xiong and Wang</a>).
   - name: Lynxer-256f
     ngcc_level: 256
     pk: 64
@@ -46,7 +46,7 @@ versions:
     signing_us: 366663.1
     verification_us: 254314.2
     notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
-    broken: A degenerate witness lets anyone forge signatures from the public key at about the cost of honest signing (Feussner). One signature also allows key recovery below the target (Xiong and Wang).
+    broken: A degenerate witness lets anyone forge signatures from the public key at about the cost of honest signing (<a href="https://list.niccs.org.cn/archives/list/pkcforum@list.niccs.org.cn/message/JMTZL5V7ROPXSFJQWRHIOKLORGI5AJSN/">Feussner</a>). One signature also allows key recovery below the target (<a href="https://list.niccs.org.cn/archives/list/pkcforum@list.niccs.org.cn/message/UG3RQWO5YK7WWMXM5KRTAE457PKIAI62/">Xiong and Wang</a>).
   - name: Lynxer-384s
     ngcc_level: 384
     pk: 96
@@ -56,7 +56,7 @@ versions:
     signing_us: 6377273.0
     verification_us: 5889880.8
     notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
-    broken: A degenerate witness lets anyone forge signatures from the public key at about the cost of honest signing (Feussner). One signature also allows key recovery below the target (Xiong and Wang).
+    broken: A degenerate witness lets anyone forge signatures from the public key at about the cost of honest signing (<a href="https://list.niccs.org.cn/archives/list/pkcforum@list.niccs.org.cn/message/JMTZL5V7ROPXSFJQWRHIOKLORGI5AJSN/">Feussner</a>). One signature also allows key recovery below the target (<a href="https://list.niccs.org.cn/archives/list/pkcforum@list.niccs.org.cn/message/UG3RQWO5YK7WWMXM5KRTAE457PKIAI62/">Xiong and Wang</a>).
   - name: Lynxer-384f
     ngcc_level: 384
     pk: 96
@@ -66,7 +66,7 @@ versions:
     signing_us: 1243952.2
     verification_us: 809187.0
     notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
-    broken: A degenerate witness lets anyone forge signatures from the public key at about the cost of honest signing (Feussner). One signature also allows key recovery below the target (Xiong and Wang).
+    broken: A degenerate witness lets anyone forge signatures from the public key at about the cost of honest signing (<a href="https://list.niccs.org.cn/archives/list/pkcforum@list.niccs.org.cn/message/JMTZL5V7ROPXSFJQWRHIOKLORGI5AJSN/">Feussner</a>). One signature also allows key recovery below the target (<a href="https://list.niccs.org.cn/archives/list/pkcforum@list.niccs.org.cn/message/UG3RQWO5YK7WWMXM5KRTAE457PKIAI62/">Xiong and Wang</a>).
   - name: Lynxer-512s
     ngcc_level: 512
     pk: 128
@@ -76,7 +76,7 @@ versions:
     signing_us: 2672351.0
     verification_us: 1288648.2
     notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
-    broken: A degenerate witness lets anyone forge signatures from the public key at about the cost of honest signing (Feussner). One signature also allows key recovery below the target (Xiong and Wang).
+    broken: A degenerate witness lets anyone forge signatures from the public key at about the cost of honest signing (<a href="https://list.niccs.org.cn/archives/list/pkcforum@list.niccs.org.cn/message/JMTZL5V7ROPXSFJQWRHIOKLORGI5AJSN/">Feussner</a>). One signature also allows key recovery below the target (<a href="https://list.niccs.org.cn/archives/list/pkcforum@list.niccs.org.cn/message/UG3RQWO5YK7WWMXM5KRTAE457PKIAI62/">Xiong and Wang</a>).
   - name: Lynxer-512f
     ngcc_level: 512
     pk: 128
@@ -86,5 +86,5 @@ versions:
     signing_us: 1934235.6
     verification_us: 699700.9
     notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
-    broken: A degenerate witness lets anyone forge signatures from the public key at about the cost of honest signing (Feussner). One signature also allows key recovery below the target (Xiong and Wang).
+    broken: A degenerate witness lets anyone forge signatures from the public key at about the cost of honest signing (<a href="https://list.niccs.org.cn/archives/list/pkcforum@list.niccs.org.cn/message/JMTZL5V7ROPXSFJQWRHIOKLORGI5AJSN/">Feussner</a>). One signature also allows key recovery below the target (<a href="https://list.niccs.org.cn/archives/list/pkcforum@list.niccs.org.cn/message/UG3RQWO5YK7WWMXM5KRTAE457PKIAI62/">Xiong and Wang</a>).
   findings_url: https://ngcc.dev/reports/sign-14.html

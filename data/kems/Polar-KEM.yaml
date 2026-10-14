@@ -40,5 +40,5 @@ parametersets:
   decaps_us: 495.9
   notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 findings_url: https://ngcc.dev/reports/kem-29.html
-implementation: The submitted code includes functions that derive the shared secret from public data alone (Saarinen).
-broken: The specified basis exposes the secret transformation, so the key can be recovered from the public key in polynomial time (Xiao et al.).
+implementation: The submitted code includes functions that derive the shared secret from public data alone (<a href="https://ngcc.dev/reports/kem-29.html#kem-29-1-the-submission-ships-a-complete-public-key-only-break">Saarinen</a>).
+broken: The specified basis exposes the secret transformation, so the key can be recovered from the public key in polynomial time (<a href="https://eprint.iacr.org/2026/2211">Xiao et al.</a>).

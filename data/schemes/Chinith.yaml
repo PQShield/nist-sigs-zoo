@@ -136,4 +136,4 @@ versions:
     verification_us: 336060.6
     notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
   findings_url: https://ngcc.dev/reports/sign-05.html
-  implementation: The submitted code leaves a value out of the final Fiat-Shamir challenge, so anyone can forge signatures from the public key alone, at every parameter set (Feussner).
+  implementation: The submitted code leaves a value out of the final Fiat-Shamir challenge, so anyone can forge signatures from the public key alone, at every parameter set (<a href="https://groups.google.com/a/list.nist.gov/g/pqc-forum/c/_WrUbtphjHw/m/fHXYK5hJBAAJ">Feussner</a>).

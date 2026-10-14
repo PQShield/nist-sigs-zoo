@@ -25,5 +25,5 @@ versions:
     sig: 51187
     notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it; our build applies a small patch to the submitted code. Benchmark did not finish (tampered signature accepted).
   findings_url: https://ngcc.dev/reports/sign-29.html
-  implementation: The submitted verifier overflows a buffer on oversized signatures (LK-PQC-Hunter), and public-salt expansion exposes the witness (Saarinen).
-  broken: A single signature reveals the full signing witness through linear algebra, at every parameter set (Xie).
+  implementation: The submitted verifier overflows a buffer on oversized signatures (<a href="https://list.niccs.org.cn/archives/list/pkcforum@list.niccs.org.cn/message/BZPZIT2TNBMEG7CPGNOUELVXPYUAQTDZ/">LK-PQC-Hunter</a>), and public-salt expansion exposes the witness (<a href="https://ngcc.dev/reports/sign-29.html#sign-29-7-public-salt-ggm-expansion-exposes-the-complete-signing-witness">Saarinen</a>).
+  broken: A single signature reveals the full signing witness through linear algebra, at every parameter set (<a href="https://list.niccs.org.cn/archives/list/pkcforum@list.niccs.org.cn/message/ECMH3PMGM2NWJG4JIBQBCKQ6U5CBUDDA/">Xie</a>).

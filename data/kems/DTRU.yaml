@@ -73,4 +73,4 @@ parametersets:
   decaps_us: 364.0
   notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 findings_url: https://ngcc.dev/reports/kem-14.html
-implementation: A caller-supplied ciphertext length overflows a stack buffer in the submitted decapsulation (Saarinen).
+implementation: A caller-supplied ciphertext length overflows a stack buffer in the submitted decapsulation (<a href="https://ngcc.dev/reports/kem-14.html#kem-14-1-caller-declared-ciphertext-length-overflows-a-decapsulation-stack-buffer">Saarinen</a>).

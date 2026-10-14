@@ -9,7 +9,7 @@ versions:
   programmes:
     nist-onramp: round-3
   perf_source: official spec (AVX2, SHAKE128 public XOF)
-  info: "The round-3 vinegar sampler reduces uniform bytes modulo q^g, which is biased for odd q; Beullens &amp; Hess recover secret keys from signatures for the six odd-characteristic alternative parameter sets (LPN/BKW attack, to appear on ePrint). The recommended sets below use q = 16 and are unaffected. Easily fixed by sampling vinegar uniformly."
+  info: "The round-3 vinegar sampler reduces uniform bytes modulo q^g, which is biased for odd q; <a href=\"https://groups.google.com/a/list.nist.gov/d/msgid/pqc-forum/000001dd4a73%247e3c04e0%247ab40ea0%24%40beullens.com\">Beullens &amp; Hess</a> recover secret keys from signatures for the six odd-characteristic alternative parameter sets (LPN/BKW attack, to appear on ePrint). The recommended sets below use q = 16 and are unaffected. Easily fixed by sampling vinegar uniformly."
   parametersets:
   - name: SNOVA_I_K
     level: 1
@@ -119,7 +119,7 @@ versions:
     sig: 376
     signing_cycles: 2462627
     verification_cycles: 822123
-    warning: "Wedge product attack (Bros et al., ePrint 2026/237) reduces best known classical attack to ~214 bits; above NIST Level III threshold (192 bits) but significantly weaker than claimed"
+    warning: "Wedge product attack (<a href=\"https://eprint.iacr.org/2026/237\">Bros et al.</a>, ePrint 2026/237) reduces best known classical attack to ~214 bits; above NIST Level III threshold (192 bits) but significantly weaker than claimed"
     signing_us: 658.3
     verification_us: 218.2
   - name: SNOVA-40-7-19-4
@@ -161,7 +161,7 @@ versions:
     sig: 248
     signing_cycles: 540669
     verification_cycles: 231601
-    warning: "Wedge product attack (Bros et al., ePrint 2026/237) reduces best known classical attack to ~155 bits; above NIST Level I threshold (128 bits) but significantly weaker than claimed"
+    warning: "Wedge product attack (<a href=\"https://eprint.iacr.org/2026/237\">Bros et al.</a>, ePrint 2026/237) reduces best known classical attack to ~155 bits; above NIST Level I threshold (128 bits) but significantly weaker than claimed"
     signing_us: 143.5
     verification_us: 62.1
   - name: SNOVA-28-5-19-4
@@ -230,21 +230,21 @@ versions:
     sig: 232
     signing_cycles: 1426465
     verification_cycles: 1309034
-    broken: "Wedge product attack (Bros et al., ePrint 2026/237) reduces classical security to ~180 bits, below NIST Level V threshold (256 bits)"
+    broken: "Wedge product attack (<a href=\"https://eprint.iacr.org/2026/237\">Bros et al.</a>, ePrint 2026/237) reduces classical security to ~180 bits, below NIST Level V threshold (256 bits)"
   - name: (29 6 5)
     level: 5
     pk: 2716
     sig: 454
     signing_cycles: 1758416
     verification_cycles: 1073040
-    broken: "Wedge product attack (Bros et al., ePrint 2026/237) reduces classical security to ~181 bits, below NIST Level V threshold (256 bits)"
+    broken: "Wedge product attack (<a href=\"https://eprint.iacr.org/2026/237\">Bros et al.</a>, ePrint 2026/237) reduces classical security to ~181 bits, below NIST Level V threshold (256 bits)"
   - name: (37 8 4)
     level: 3
     pk: 4112
     sig: 376
     signing_cycles: 1576596
     verification_cycles: 455047
-    warning: "Wedge product attack (Bros et al., ePrint 2026/237) reduces best known classical attack to ~214 bits; above NIST Level III threshold (192 bits) but significantly weaker than claimed"
+    warning: "Wedge product attack (<a href=\"https://eprint.iacr.org/2026/237\">Bros et al.</a>, ePrint 2026/237) reduces best known classical attack to ~214 bits; above NIST Level III threshold (192 bits) but significantly weaker than claimed"
     signing_us: 1052.8
     verification_us: 303.9
   - name: (49 11 3)
@@ -259,21 +259,21 @@ versions:
     sig: 178
     signing_cycles: 648245
     verification_cycles: 531159
-    broken: "Wedge product attack (Bros et al., ePrint 2026/237) reduces classical security to ~140 bits, below NIST Level III threshold (192 bits)"
+    broken: "Wedge product attack (<a href=\"https://eprint.iacr.org/2026/237\">Bros et al.</a>, ePrint 2026/237) reduces classical security to ~140 bits, below NIST Level III threshold (192 bits)"
   - name: (24 5 5)
     level: 3
     pk: 1579
     sig: 379
     signing_cycles: 1120762
     verification_cycles: 685307
-    broken: "Wedge product attack (Bros et al., ePrint 2026/237) reduces classical security to ~155 bits, below NIST Level III threshold (192 bits)"
+    broken: "Wedge product attack (<a href=\"https://eprint.iacr.org/2026/237\">Bros et al.</a>, ePrint 2026/237) reduces classical security to ~155 bits, below NIST Level III threshold (192 bits)"
   - name: (24 5 4)
     level: 1
     pk: 1016
     sig: 248
     signing_cycles: 576635
     verification_cycles: 156279
-    warning: "Wedge product attack (Bros et al., ePrint 2026/237) reduces best known classical attack to ~155 bits; above NIST Level I threshold (128 bits) but significantly weaker than claimed"
+    warning: "Wedge product attack (<a href=\"https://eprint.iacr.org/2026/237\">Bros et al.</a>, ePrint 2026/237) reduces best known classical attack to ~155 bits; above NIST Level I threshold (128 bits) but significantly weaker than claimed"
     signing_us: 385.1
     verification_us: 104.4
   - name: (25 8 3)
@@ -282,14 +282,14 @@ versions:
     sig: 165
     signing_cycles: 340740
     verification_cycles: 176153
-    broken: "Wedge product attack (Bros et al., ePrint 2026/237) reduces classical security to ~110 bits, below NIST Level I threshold (128 bits)"
+    broken: "Wedge product attack (<a href=\"https://eprint.iacr.org/2026/237\">Bros et al.</a>, ePrint 2026/237) reduces classical security to ~110 bits, below NIST Level I threshold (128 bits)"
   - name: (37 17 2)
     level: 1
     pk: 9842
     sig: 124
     signing_cycles: 262422
     verification_cycles: 151842
-    broken: "Wedge product attack (Bros et al., ePrint 2026/237) reduces classical security to ~103 bits, below NIST Level I threshold (128 bits)"
+    broken: "Wedge product attack (<a href=\"https://eprint.iacr.org/2026/237\">Bros et al.</a>, ePrint 2026/237) reduces classical security to ~103 bits, below NIST Level I threshold (128 bits)"
 - version: Round 1
   date: '2023-05-25'
   status: On-ramp
