@@ -52,7 +52,7 @@ describe('chartLegend', () => {
 		const ngcc = groups.find((g) => g.title === 'NGCC target')!;
 		expect(ngcc.items.map((i) => i.label)).toEqual(['128-bit classical']);
 		expect(ngcc.note).toBe('Not comparable to NIST levels.');
-		expect(groups.find((g) => g.title === 'Security')!.items.map((i) => i.label)).toEqual(['Broken by design']);
+		expect(groups.find((g) => g.title === 'Security')!.items.map((i) => i.label)).toEqual(['Broken scheme']);
 	});
 	it('has no NGCC group without NGCC points', () => {
 		const groups = chartLegend([{ family: STANDARDISED, level: 'Level 2', security: 'warning' }], false);

@@ -9,7 +9,7 @@
 	<legend class={FILTER_HEADING}>Security status</legend>
 	<label class={FILTER_OPTION}>
 		<input type="checkbox" class="accent-pqs-apricot" checked={filter.hideBroken} onchange={(e) => onchange({ hideBroken: e.currentTarget.checked })} />
-		<span class={FILTER_OPTION_TEXT}>Hide broken by design</span>
+		<span class={FILTER_OPTION_TEXT}>Hide broken schemes</span>
 	</label>
 	<label class={FILTER_OPTION}>
 		<input type="checkbox" class="accent-pqs-apricot" checked={filter.hideImplementation} onchange={(e) => onchange({ hideImplementation: e.currentTarget.checked })} />

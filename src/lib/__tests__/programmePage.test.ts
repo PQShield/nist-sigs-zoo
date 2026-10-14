@@ -232,7 +232,7 @@ describe('findingsSummary', () => {
 		]);
 		expect(s).toEqual({ candidates: 4, design: 1, implementation: 1, warning: 1, none: 1, reports: 2 });
 	});
-	it('does not count a pre-quantum scheme as broken by design', () => {
+	it('does not count a pre-quantum scheme as a broken scheme', () => {
 		expect(findingsSummary([row('RSA', { classical: true, broken: 'classical' })])).toEqual({
 			candidates: 1, design: 0, implementation: 0, warning: 0, none: 1, reports: 0
 		});

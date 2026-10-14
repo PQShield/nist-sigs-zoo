@@ -142,7 +142,7 @@ export type FindingClass = 'design' | 'implementation' | 'warning' | 'none';
 export const FINDING_ORDER: readonly FindingClass[] = ['design', 'implementation', 'warning', 'none'];
 
 export const FINDING_LABELS: Record<FindingClass, string> = {
-	design: 'broken by design',
+	design: 'broken scheme',
 	implementation: 'implementation findings only',
 	warning: 'security warnings only',
 	none: 'nothing recorded'

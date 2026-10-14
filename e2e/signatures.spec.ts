@@ -110,7 +110,7 @@ test.describe('Signatures page', () => {
 	test('table legend lists implementation findings separately from broken', async ({ page }) => {
 		await page.goto('/signatures/');
 		const legend = page.getByText('Select an icon for details').locator('..');
-		await expect(legend).toContainText('broken by design');
+		await expect(legend).toContainText('broken scheme');
 		await expect(legend).toContainText('implementation findings');
 		await expect(legend).toContainText('not yet benchmarked');
 	});
@@ -246,7 +246,7 @@ test.describe('Signatures filters', () => {
 		await page.goto('/signatures/');
 		await page.waitForLoadState('networkidle');
 		const status = page.getByRole('group', { name: 'Security status' });
-		await expect(status.getByLabel('Hide broken by design')).not.toBeChecked();
+		await expect(status.getByLabel('Hide broken schemes')).not.toBeChecked();
 		await expect(status.getByLabel('Hide schemes with implementation findings')).not.toBeChecked();
 		await status.getByLabel('Hide warnings').check();
 		await expect(page).toHaveURL(/[?&]hw=1/);

@@ -21,7 +21,7 @@ export function httpUrl(url: string | null | undefined): string | null {
 /** Legend wording per badge kind. */
 export const BADGE_LEGEND: Record<BadgeKind, string> = {
 	'pre-quantum': 'pre-quantum',
-	broken: 'broken by design',
+	broken: 'broken scheme',
 	implementation: 'implementation findings',
 	warning: 'security warning',
 	note: 'note'

@@ -82,7 +82,7 @@ describe('passesCommonFilters', () => {
 		expect(passesCommonFilters(extra, { ...ALL, paramSets: 'all' })).toBe(true);
 	});
 
-	it('hides design breaks but never pre-quantum schemes with "Hide broken by design"', () => {
+	it('hides design breaks but never pre-quantum schemes with "Hide broken schemes"', () => {
 		expect(passesCommonFilters(row({ broken: 'key recovery' }), { ...ALL, hideBroken: true })).toBe(false);
 		const ecdsa = row({ broken: 'classical', classical: true, level: 'Pre-Quantum' });
 		expect(passesCommonFilters(ecdsa, { ...ALL, hideBroken: true })).toBe(true);

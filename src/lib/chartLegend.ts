@@ -133,7 +133,7 @@ export function chartLegend(points: ChartPoint[], dark: boolean): LegendGroup[] 
 
 	const tone = dark ? 'dark' : 'light';
 	const security: LegendItem[] = [];
-	if (points.some((p) => p.security === 'broken')) security.push({ label: 'Broken by design', ring: RINGS.broken[tone] });
+	if (points.some((p) => p.security === 'broken')) security.push({ label: 'Broken scheme', ring: RINGS.broken[tone] });
 	if (points.some((p) => p.security === 'warning')) security.push({ label: 'Warning', ring: RINGS.warning[tone] });
 	if (security.length) groups.push({ title: 'Security', items: security });
 
