@@ -71,6 +71,7 @@ if [ -t 0 ] && [ -t 1 ]; then ARGS+=(-t); fi
 
 ENTRY=/repo/scripts/ngcc-container/entry.sh
 
+# shellcheck disable=SC2317  # invoked via the EXIT trap
 cleanup() {
     if [ "${NGCC_KEEP:-}" = 1 ]; then
         echo "ngcc-run: kept container $CTR (docker rm -v $CTR)" >&2
@@ -100,14 +101,16 @@ fi
 if [ "$SELF_TEST" = 1 ]; then
     chk() { if [ "$2" = 0 ]; then echo "PASS  $1"; else echo "FAIL  $1"; status=1; fi; }
     f="$OUT/bench/results/selftest.txt"
-    [ -f "$f" ]; chk "allowlisted text output is exported" $?
-    [ -f "$f" ] && [ -z "$(find "$f" -perm /111)" ]; chk "exported file has no exec bit" $?
-    [ ! -e "$OUT/bench/schemes/ngcc/build/selftest.so" ] && [ ! -e "$OUT/bench/schemes/ngcc/build/selftest.mk" ]
-    chk "non-allowlisted files (.so, .mk) are not exported" $?
-    [ ! -e "$OUT/bench/results/selftest-elf.log" ] && [ ! -L "$OUT/bench/results/selftest-link.txt" ]
-    chk "ELF named .log and symlink written by inner command do not appear on host" $?
-    [ -z "$(find "$OUT" -type f -perm /111 2>/dev/null)" ] && [ -z "$(find "$OUT" -type l 2>/dev/null)" ]
-    chk "no executable file or symlink anywhere in .ngcc-out" $?
+    if [ -f "$f" ]; then r=0; else r=1; fi
+    chk "allowlisted text output is exported" $r
+    if [ -f "$f" ] && [ -z "$(find "$f" -perm /111)" ]; then r=0; else r=1; fi
+    chk "exported file has no exec bit" $r
+    if [ ! -e "$OUT/bench/schemes/ngcc/build/selftest.so" ] && [ ! -e "$OUT/bench/schemes/ngcc/build/selftest.mk" ]; then r=0; else r=1; fi
+    chk "non-allowlisted files (.so, .mk) are not exported" $r
+    if [ ! -e "$OUT/bench/results/selftest-elf.log" ] && [ ! -L "$OUT/bench/results/selftest-link.txt" ]; then r=0; else r=1; fi
+    chk "ELF named .log and symlink written by inner command do not appear on host" $r
+    if [ -z "$(find "$OUT" -type f -perm /111 2>/dev/null)" ] && [ -z "$(find "$OUT" -type l 2>/dev/null)" ]; then r=0; else r=1; fi
+    chk "no executable file or symlink anywhere in .ngcc-out" $r
     rm -f "$f"
 fi
 exit "$status"

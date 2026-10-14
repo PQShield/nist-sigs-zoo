@@ -7,7 +7,7 @@ if getent hosts example.org >/dev/null 2>&1; then r=1; else r=0; fi
 check "no DNS (getent hosts example.org fails)" $r
 if curl -sS -m 5 -o /dev/null https://example.org 2>/dev/null; then r=1; else r=0; fi
 check "no network (curl fails)" $r
-n=$(ls /sys/class/net | grep -vc "^lo$" || true)
+n=0; for i in /sys/class/net/*; do [ "${i##*/}" = lo ] || [ ! -e "$i" ] || n=$((n + 1)); done
 check "only loopback interface" "$([ "$n" = 0 ] && echo 0 || echo 1)"
 if touch /repo/.selftest 2>/dev/null; then rm -f /repo/.selftest; r=1; else r=0; fi
 check "/repo is read-only" $r

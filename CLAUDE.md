@@ -26,6 +26,7 @@ npm run lint      # ESLint (eslint.config.js)
 npm run format    # Prettier: rewrite JS/TS/Svelte/CSS/JSON/workflow YAML in place
 npm run format:check
 uvx ruff check --fix && uvx ruff format   # Python under bench*/ and scripts/ (ruff.toml)
+shellcheck -S warning scripts/*.sh scripts/ngcc-run scripts/ngcc-container/*.sh bench*/run_bench.sh  # shell (CI runs this)
 ```
 
 ### Style

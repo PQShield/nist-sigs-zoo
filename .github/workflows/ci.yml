@@ -32,6 +32,11 @@ jobs:
 
       - run: uvx ruff@0.16.9 format --check
 
+      # shellcheck is preinstalled on ubuntu-latest. Warnings and errors fail the job; style notes don't.
+      - run: >-
+          shellcheck -S warning scripts/*.sh scripts/ngcc-run scripts/ngcc-container/*.sh
+          bench/run_bench.sh bench-kem/run_bench.sh bench-kem/schemes/*/build_libs.sh
+
   unit:
     name: Unit tests
     runs-on: ubuntu-latest

@@ -245,7 +245,7 @@ aws ec2 authorize-security-group-ingress --group-id "$SG_ID" \
 # --- AMI + candidate subnets ---------------------------------------------------
 
 AMI_ID="$(aws ssm get-parameter \
-    --name /aws/service/canonical/ubuntu/server/$UBUNTU/stable/current/amd64/hvm/ebs-gp3/ami-id \
+    --name "/aws/service/canonical/ubuntu/server/$UBUNTU/stable/current/amd64/hvm/ebs-gp3/ami-id" \
     --query Parameter.Value --output text 2>/dev/null || true)"
 if [ -z "$AMI_ID" ] || [ "$AMI_ID" = "None" ]; then
     AMI_ID="$(aws ec2 describe-images --owners 099720109477 \
