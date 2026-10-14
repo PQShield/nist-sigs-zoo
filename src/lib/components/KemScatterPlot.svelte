@@ -61,6 +61,26 @@
 	let renderSeq = 0;
 	let renderQueue: Promise<void> = Promise.resolve();
 	let renderError = $state(false);
+	// Wide screens put the legend beside the plot; when the legend is taller, the plot grows to match.
+	const MIN_PLOT_HEIGHT = 350;
+	let plotHeight = $state(MIN_PLOT_HEIGHT);
+	let chartExtra = $state(0); // rendered height beyond the plot area (axes, titles), measured per render
+	let legendHeight = $state(0);
+	let belowHeight = $state(0);
+	let wide = $state(false);
+	$effect(() => {
+		const mq = window.matchMedia('(min-width: 1024px)');
+		const on = () => (wide = mq.matches);
+		on();
+		mq.addEventListener('change', on);
+		return () => mq.removeEventListener('change', on);
+	});
+	$effect(() => {
+		const target = wide
+			? Math.max(MIN_PLOT_HEIGHT, Math.round(legendHeight - belowHeight - chartExtra))
+			: MIN_PLOT_HEIGHT;
+		if (Math.abs(target - plotHeight) > 4) plotHeight = target;
+	});
 	let legend = $state<LegendGroup[]>([]);
 	let omitted = $state(0);
 
@@ -153,7 +173,7 @@
 		const spec: any = {
 			$schema: 'https://vega.github.io/schema/vega-lite/v6.json',
 			width: 'container',
-			height: 350,
+			height: plotHeight,
 			autosize: { type: 'fit-x', resize: true },
 			data: { values },
 			resolve: { scale: { x: 'shared', y: 'shared', color: 'independent', shape: 'independent' } },
@@ -229,6 +249,7 @@
 			return;
 		}
 		viewHandle = result;
+		if (container) chartExtra = container.clientHeight - plotHeight;
 		detachNav = attachChartNav(container, result.view, goto);
 	}
 
@@ -242,6 +263,7 @@
 
 	$effect(() => {
 		rows;
+		plotHeight;
 		$themeStore;
 		xField; yField; xScale; yScale;
 		render();
@@ -251,6 +273,7 @@
 <div class="flex flex-col gap-4 lg:flex-row lg:items-start">
 	<div class="min-w-0 flex-1">
 		<div bind:this={container} class="w-full"></div>
+		<div bind:clientHeight={belowHeight}>
 		{#if renderError}
 			<p class="mt-1 text-xs text-pqs-scarlet" role="alert">Chart failed to render.</p>
 		{/if}
@@ -263,6 +286,9 @@
 				class="text-xs text-pqs-steel hover:text-pqs-apricot dark:text-pqs-bluegray dark:hover:text-pqs-apricot transition-colors"
 			>Reset zoom</button>
 		</div>
+		</div>
 	</div>
-	<ChartLegend groups={legend} footnote={timeAxes ? TIME_FOOTNOTE : undefined} />
+	<div bind:clientHeight={legendHeight} class="lg:shrink-0">
+		<ChartLegend groups={legend} footnote={timeAxes ? TIME_FOOTNOTE : undefined} />
+	</div>
 </div>
