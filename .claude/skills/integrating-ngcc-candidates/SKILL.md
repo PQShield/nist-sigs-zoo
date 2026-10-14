@@ -39,7 +39,7 @@ Before you call a non-PASS row a submission defect, work through `build-triage.m
 ## 3. ref or opt
 
 Set `impl=opt` only when all three hold:
-1. The opt tree builds (C/asm only; C++ trees stay ref).
+1. The opt tree builds (C, C++ or asm) through its own ICCS adapter (`SIG_/KEM_AlgorithmInstance.*`).
 2. The KAT is **PASS** against the opt tree's **own** KAT file if it ships one (`*_OPT.txt`, `*_AVX2.txt`, `*-Optimized.txt`, `Test_Vectors/Optimized_Implementation/`).
 3. pk/sk/sig|ct sizes are identical to the ref build's.
 

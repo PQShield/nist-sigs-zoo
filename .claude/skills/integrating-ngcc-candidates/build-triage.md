@@ -12,7 +12,7 @@ Check the "our row" causes first. Treat a failure as a submission defect only wh
 | opt sizes differ from ref | different parameter set or a defect in the opt headers | keep ref; note why |
 | CRASH (SIGABRT) in keygen/sign | debug `assert` still on | `-DNDEBUG` if the submitter's default build sets it; otherwise the assert is a finding |
 | CRYPTOFAIL / valid sig rejected | compiler-flag-dependent UB, or a buffer-length misreport in the ICCS wrapper | check the documented flags; fix the length in a patched wrapper copy |
-| LOADFAIL / undefined symbol | `*` does not descend into subdirectories; C++ sources not compiled | list the subdir sources and `incs` explicitly; C++ trees stay ref |
+| LOADFAIL / undefined symbol | `*` does not descend into subdirectories (e.g. `avx2/*.cpp`) | list the subdir sources and `incs` explicitly |
 | link error `relocation ... can not be used when making a shared object` | asm reads constant tables PC-relative | compile the consts `.c` through a hidden-visibility wrapper in `patches/<id>/` (`#pragma GCC visibility push(hidden)` / `#include` / `pop`) |
 | duplicate symbol `crypto_sign_*` / `crypto_kem_*` | candidate defines NIST-API names that the shim exports | `defs` `-Dcrypto_sign_keypair=cand_crypto_sign_keypair` etc. |
 | TIMEOUT | the KAT replay is slow, or a missing fast-path define (e.g. `SBOX_TABLE`) | add the define first; then raise `NGCC_KAT_TIMEOUT` / lower `katn`, and record either in a comment |

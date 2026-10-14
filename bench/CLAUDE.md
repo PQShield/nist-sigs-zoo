@@ -309,6 +309,9 @@ through `scripts/ngcc-run`; see "Running NGCC candidates" below.
   (visibility wrappers, missing headers, DRNG copies) keep the plain `PATCH (nist-sigs-zoo)`.
 - Compiler flags are global: every candidate builds with `NGCC_CFLAGS` from `ngcc.mk`
   (`-O3 -march=native -mtune=native -fPIC -std=gnu17`). There are no per-row CFLAGS.
+  C++ sources (`.cpp`/`.cc`/`.cxx`, picked up by `*` like `.c`) are compiled with `$(CXX)`
+  and `NGCC_CXXFLAGS` (same flags, `-std=gnu++23`, which covers the submitters' c++20/c++23
+  trees) into `build/obj/<file>/`; such a `.so` is linked with `-lstdc++`.
   Mirror the submitter's preprocessor defines and source list in `defs`/`srcs`, but not
   their optimisation or codegen flags: `-Ofast`, `-funroll*-loops`, `-flto`, `-fopenmp`,
   `-fno-stack-protector`, `-fcf-protection=none`, `-O2` and the like are ignored. A row
@@ -317,8 +320,9 @@ through `scripts/ngcc-run`; see "Running NGCC candidates" below.
 - Optimised x86 builds: a row is `impl=opt` only where the submitted `Optimized_Implementation`
   (avx2/asm) builds here, reproduces the submitted KAT (`status.tsv` `PASS`) and gives the same
   pk/sk/sig sizes as the reference build (`ngcc_sizes.tsv` stays identical). Everything else keeps its
-  reference row; the reason is in the `params.tsv` comment above the candidate. Optimised trees written
-  in C++ (Galas, Lynxer, ReSolveD, sydo) are not built: the NGCC tooling compiles C and assembly only.
+  reference row; the reason is in the `params.tsv` comment above the candidate. C++ optimised trees
+  are built like C ones (Lynxer, ReSolveD, sydo); Galas stays on the reference build because its
+  optimised tree has no ICCS adapter.
   Multithreaded optimised trees (Sigurd) also stay on the reference build: benchmarks are
   single-threaded and the cycle counter only sees the calling thread.
 - KATs are replayed by our `ngcc_kat` (ICCS seed schedule) and the first `katn` records are
