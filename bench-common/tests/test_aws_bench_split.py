@@ -316,11 +316,10 @@ FAKE_AWS_BENCH = """\
 # quota), then "runs": writes a results file for its filters, or with $FAKE_HANG
 # waits in a foreground child (like ssh) until interrupted.
 set -u
-suite=""; filters=()
+filters=()
 while [ $# -gt 0 ]; do
     case "$1" in
-        --suite) suite=$2; shift 2 ;;
-        --instance-type|--ttl|--ngcc-src) shift 2 ;;
+        --suite|--instance-type|--ttl|--ngcc-src) shift 2 ;;
         *) filters+=("$1"); shift ;;
     esac
 done
