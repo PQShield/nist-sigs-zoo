@@ -13,78 +13,46 @@ versions:
     ngcc_level: 128
     pk: 121
     sig: 5307
-    signing_cycles: 3157687293
-    verification_cycles: 3122149579
-    signing_us: 922669.1
-    verification_us: 911796.4
-    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+    notes: Optimised x86 implementation; uses the ICCS SM3 implementation from the submission package.
   - name: ReSolveD-alpha-160f
     ngcc_level: 128
     pk: 121
     sig: 6851
-    signing_cycles: 418737033
-    verification_cycles: 394252350
-    signing_us: 122395.9
-    verification_us: 115169.2
-    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+    notes: Optimised x86 implementation; uses the ICCS SM3 implementation from the submission package.
   - name: ReSolveD-alpha-256s
     ngcc_level: 256
     pk: 194
     sig: 13973
-    signing_cycles: 9019654517
-    verification_cycles: 8909686768
-    signing_us: 2418998.1
-    verification_us: 2388980.9
-    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+    notes: Optimised x86 implementation; uses the ICCS SM3 implementation from the submission package.
     broken: Reused tweaks let an attacker recover the signing key from a single signature with work below this set's claimed level (<a href="https://list.niccs.org.cn/archives/list/pkcforum@list.niccs.org.cn/message/PH6Q6UHS7YJAN3RHER7YWUNXOHOZYIFF/">Xiong and Wang</a>).
   - name: ReSolveD-alpha-256f
     ngcc_level: 256
     pk: 194
     sig: 17932
-    signing_cycles: 984815746
-    verification_cycles: 933000971
-    signing_us: 288048.4
-    verification_us: 272596.9
-    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+    notes: Optimised x86 implementation; uses the ICCS SM3 implementation from the submission package.
     broken: Reused tweaks let an attacker recover the signing key from a single signature with work below this set's claimed level (<a href="https://list.niccs.org.cn/archives/list/pkcforum@list.niccs.org.cn/message/PH6Q6UHS7YJAN3RHER7YWUNXOHOZYIFF/">Xiong and Wang</a>).
   - name: ReSolveD-alpha-384s
     ngcc_level: 384
     pk: 288
     sig: 31575
-    signing_cycles: 26111027482
-    verification_cycles: 25808958370
-    signing_us: 7001379.7
-    verification_us: 6920272.5
-    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+    notes: Optimised x86 implementation; uses the ICCS SM3 implementation from the submission package.
     broken: Reused tweaks let an attacker recover the signing key from a single signature with work below this set's claimed level (<a href="https://list.niccs.org.cn/archives/list/pkcforum@list.niccs.org.cn/message/PH6Q6UHS7YJAN3RHER7YWUNXOHOZYIFF/">Xiong and Wang</a>).
   - name: ReSolveD-alpha-384f
     ngcc_level: 384
     pk: 288
     sig: 40469
-    signing_cycles: 2967854984
-    verification_cycles: 2819914017
-    signing_us: 805308.8
-    verification_us: 764704.4
-    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+    notes: Optimised x86 implementation; uses the ICCS SM3 implementation from the submission package.
     broken: Reused tweaks let an attacker recover the signing key from a single signature with work below this set's claimed level (<a href="https://list.niccs.org.cn/archives/list/pkcforum@list.niccs.org.cn/message/PH6Q6UHS7YJAN3RHER7YWUNXOHOZYIFF/">Xiong and Wang</a>).
   - name: ReSolveD-alpha-512s
     ngcc_level: 512
     pk: 385
     sig: 56239
-    signing_cycles: 3894221793
-    verification_cycles: 3157467479
-    signing_us: 1059960.9
-    verification_us: 859003.0
-    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+    notes: Optimised x86 implementation; uses the ICCS SM3 implementation from the submission package.
     broken: Reused tweaks let an attacker recover the signing key from a single signature with work below this set's claimed level (<a href="https://list.niccs.org.cn/archives/list/pkcforum@list.niccs.org.cn/message/PH6Q6UHS7YJAN3RHER7YWUNXOHOZYIFF/">Xiong and Wang</a>).
   - name: ReSolveD-alpha-512f
     ngcc_level: 512
     pk: 385
     sig: 72611
-    signing_cycles: 782698914
-    verification_cycles: 616074599
-    signing_us: 213876.4
-    verification_us: 167675.0
-    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+    notes: Optimised x86 implementation; uses the ICCS SM3 implementation from the submission package.
     broken: Reused tweaks let an attacker recover the signing key from a single signature with work below this set's claimed level (<a href="https://list.niccs.org.cn/archives/list/pkcforum@list.niccs.org.cn/message/PH6Q6UHS7YJAN3RHER7YWUNXOHOZYIFF/">Xiong and Wang</a>).
   findings_url: https://ngcc.dev/reports/sign-21.html
