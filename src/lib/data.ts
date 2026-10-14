@@ -175,6 +175,7 @@ export function processYamlSchemes(
 		const sorted = [...yaml.versions].sort((a, b) => b.date.localeCompare(a.date));
 
 		let latest;
+		let dropProgramme: string | null = null;
 		if (filter) {
 			const atStage = sorted.filter(
 				(v) => versionProgrammes(v)[filter.programme]?.includes(filter.stage)
@@ -191,6 +192,10 @@ export function processYamlSchemes(
 					: isReferenceScheme(yaml.versions)
 			) {
 				latest = sorted[0];
+				// Shown for another programme only: it did not reach this stage, so in this view
+				// it is not a member of `filter.programme` (e.g. AIMer and HAETAE, KpqC selections
+				// eliminated from the on-ramp after round 1, must not match the on-ramp filter).
+				if (includeOtherProgrammes) dropProgramme = filter.programme;
 			} else {
 				continue; // a competition entrant that was not at this stage
 			}
@@ -198,7 +203,7 @@ export function processYamlSchemes(
 			latest = sorted[0];
 		}
 
-		const programmes = schemeProgrammes(yaml.versions);
+		const programmes = schemeProgrammes(yaml.versions).filter((m) => m.programme !== dropProgramme);
 
 		const scheme: Scheme = {
 			scheme: yaml.name,

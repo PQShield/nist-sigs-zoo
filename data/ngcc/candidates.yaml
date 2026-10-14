@@ -1688,7 +1688,7 @@
   file: HARE
   website: https://www.niccs.org.cn/niccs/Round1Additional/pc/content/content_2101560844942397440.html
   category: Code-based
-  assumption: Quasi-Cyclic Syndrome Decoding
+  assumption: QCSD
   spec: Algorithm specifications/HARE算法文档.pdf
   findings:
     url: https://ngcc.dev/reports/kem-16.html
@@ -1721,7 +1721,7 @@
   file: HEP-QC
   website: https://www.niccs.org.cn/niccs/Round1Additional/pc/content/content_2101560853532332032.html
   category: Code-based
-  assumption: Quasi-Cyclic Syndrome Decoding
+  assumption: QCSD
   spec: Algorithm specifications/算法文本.pdf
   findings:
     url: https://ngcc.dev/reports/kem-17.html

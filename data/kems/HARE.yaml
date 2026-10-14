@@ -1,7 +1,7 @@
 name: HARE
 website: https://www.niccs.org.cn/niccs/Round1Additional/pc/content/content_2101560844942397440.html
 category: Code-based
-assumption: Quasi-Cyclic Syndrome Decoding
+assumption: QCSD
 status: NGCC round 1
 programmes:
   china-ngcc: round-1

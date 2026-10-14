@@ -2,7 +2,7 @@ name: HEP-QC
 full_name: Hybrid Equivalent Punctured and Quasi-Cyclic
 website: https://www.niccs.org.cn/niccs/Round1Additional/pc/content/content_2101560853532332032.html
 category: Code-based
-assumption: Quasi-Cyclic Syndrome Decoding
+assumption: QCSD
 status: NGCC round 1
 programmes:
   china-ngcc: round-1

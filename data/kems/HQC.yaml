@@ -1,7 +1,7 @@
 name: HQC
 website: https://pqc-hqc.org/
 category: Code-based
-assumption: Quasi-Cyclic Syndrome Decoding
+assumption: QCSD
 status: To be standardized
 programmes:
   nist-pqc: selected

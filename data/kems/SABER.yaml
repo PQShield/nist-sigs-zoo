@@ -1,7 +1,7 @@
 name: SABER
 website: https://github.com/KULeuven-COSIC/SABER
 category: Lattices
-assumption: Module Learning With Rounding (MLWR)
+assumption: MLWR
 status: Round-3 finalist
 programmes:
   nist-pqc: round-3

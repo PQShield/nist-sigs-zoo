@@ -166,6 +166,13 @@ describe('processYamlSchemes', () => {
 		expect(processYamlSchemes(data, ONRAMP_R2, { includeOtherProgrammes: true }).schemes.map((s) => s.scheme)).toEqual(['HAETAE']);
 	});
 
+	it('with includeOtherProgrammes, drops the membership of a programme the scheme left', () => {
+		const data = [scheme({ name: 'HAETAE', versions: [{ version: 'Round 1', date: '2023-05-31', status: 'On-ramp', programmes: { 'nist-onramp': 'round-1', kpqc: 'selected' }, parametersets: [BASE_PS] }] })];
+		const { schemes, parameterSets } = processYamlSchemes(data, ONRAMP_R2, { includeOtherProgrammes: true });
+		expect(schemes[0].programmes.map((m) => m.programme)).toEqual(['kpqc']);
+		expect(parameterSets.every((p) => p.programmes.every((m) => m.programme !== 'nist-onramp'))).toBe(true);
+	});
+
 	it('still drops on-ramp-only entrants that did not reach the stage, even with an untagged newer version', () => {
 		const data = [scheme({ name: 'Dropped', versions: [
 			{ version: 'Round 1', date: '2023-05-31', status: 'On-ramp', programmes: { 'nist-onramp': 'round-1' }, parametersets: [BASE_PS] },
