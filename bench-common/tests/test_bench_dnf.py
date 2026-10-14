@@ -78,12 +78,13 @@ def harness(request, tmp_path_factory):
     return suite, exe, toys
 
 
-def run(exe, *filters, timeout="2"):
+def run(exe, *filters, timeout="2", **extra_env):
     env = {
         **os.environ,
         "BENCH_ITER": "5",
         "BENCH_TIMEOUT": timeout,
         "BENCH_CYCLES": "tsc",
+        **extra_env,
     }
     return subprocess.run(
         [str(exe), *filters],
@@ -159,6 +160,23 @@ def test_timeout_0_disables_the_limit(harness):
     finally:
         os.killpg(proc.pid, signal.SIGKILL)
         proc.wait()
+
+
+def test_op_limit_ends_a_slow_warm_up_operation(harness):
+    # Toy-Hang never returns from sign (bench/) or encaps (bench-kem/).
+    _, exe, _ = harness
+    proc = run(exe, "hang", timeout="20", BENCH_OP_LIMIT="1")
+    assert [DNF_ROW.match(r)["reason"] for r in data_rows(proc.stdout)] == [
+        "operation-over-1s"
+    ], proc.stdout + proc.stderr
+
+
+def test_op_limit_rejects_a_value_that_is_not_seconds(harness):
+    # Falls back to the 600 s default, so the hang runs into BENCH_TIMEOUT instead.
+    _, exe, _ = harness
+    proc = run(exe, "hang", timeout="2", BENCH_OP_LIMIT="10m")
+    assert "BENCH_OP_LIMIT=10m is not a number of seconds; using 600" in proc.stderr
+    assert [DNF_ROW.match(r)["reason"] for r in data_rows(proc.stdout)] == ["timeout"]
 
 
 def test_sizes_unchanged(harness):

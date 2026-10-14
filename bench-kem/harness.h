@@ -78,12 +78,14 @@ static const char *bench_run(const bench_scheme_t *s, FILE *out) {
     cycles_setup();
 
     /* Warm up with a full keygen → encaps → decaps round trip, and check that it
-     * works: every call succeeds and both sides agree on the shared secret. */
+     * works: every call succeeds and both sides agree on the shared secret.
+     * Encaps and decaps run under BENCH_OP_LIMIT (harness_common.h). */
+    int _bench_rc;
     if (s->keygen_fn(pk, sk) != 0)
         why = "keygen-failed";
-    else if (s->encaps_fn(ct, ss1, pk) != 0)
+    else if (BENCH_LIMITED(s->encaps_fn(ct, ss1, pk)) != 0)
         why = "encaps-failed";
-    else if (s->decaps_fn(ss2, ct, sk) != 0)
+    else if (BENCH_LIMITED(s->decaps_fn(ss2, ct, sk)) != 0)
         why = "decaps-failed";
     else if (memcmp(ss1, ss2, s->ss_bytes) != 0)
         why = "shared-secret-mismatch";

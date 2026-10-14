@@ -101,7 +101,9 @@ int crypto_kem_dec(uint8_t *ss, const uint8_t *ct, const uint8_t *sk);
   occasional decryption failure (e.g. HQC's non-zero DFR) is informative, not fatal.
 - **Crash isolation**: as in `bench/` (see "Crash isolation and DNF rows" in
   `../bench/CLAUDE.md`, shared code in `../bench-common/isolate.h`), each scheme runs in
-  its own forked child with a `BENCH_TIMEOUT` (default 3600 s, 0 = none). A crash, hang or
+  its own forked child with a `BENCH_TIMEOUT` (default 3600 s, 0 = none), and the warm-up
+  encaps and decaps each run under `BENCH_OP_LIMIT` (default 600 s, 0 = none; reason
+  `operation-over-600s`; key generation is not limited). A crash, hang or
   failed warm-up gives a DNF row and the run continues; the reason sits in the `ok`
   column, so the column count is unchanged:
 

@@ -126,7 +126,7 @@ NGCC-Tins128                     2             DNF         DNF             DNF  
 ```
 
 i.e. name, iters, six `DNF` timing columns, and a one-word reason: the signal
-(`SIGABRT`, `SIGSEGV`, `SIGFPE`, …, `signal-N`), `timeout`, `exit-N`, `no-result`, or
+(`SIGABRT`, `SIGSEGV`, `SIGFPE`, …, `signal-N`), `timeout`, `operation-over-<n>s`, `exit-N`, `no-result`, or
 the failed check (`keygen-failed`, `sign-failed`, `bad-signature-length`,
 `valid-signature-rejected`, `tampered-signature-accepted`, `tampered-message-accepted`,
 `<op>-error-in-timed-loop`, `alloc-failed`). Each DNF also prints `DNF <name>: <reason>`
@@ -135,10 +135,14 @@ on stderr. The run always continues with the next scheme.
 - `BENCH_TIMEOUT` (seconds, default 3600, `0` = none) bounds each scheme's wall-clock
   time, including all iterations; on expiry the child gets `SIGKILL` (`timeout`).
   Raise it for runs whose slowest scheme legitimately needs more than an hour.
-- `BENCH_OP_LIMIT` (seconds, default 600, `0` = none): policy (Thom, 2026-10-13) is that a scheme
-  needing more than 10 minutes for one signature or verification is not benchmarked. Each sign/verify
-  call of the warm-up check runs under `alarm()`; on expiry the child dies with SIGALRM and the DNF
-  reason is `sign-or-verify-over-600s`. Key generation is not limited (UVW-512 uses `iters skip`).
+- `BENCH_OP_LIMIT` (seconds, default 600, `0` = none; shared with `bench-kem/`, in
+  `../bench-common/harness_common.h`): policy (Thom, 2026-10-13) is that a scheme needing more
+  than 10 minutes for one signature or verification (KEMs: one encapsulation or decapsulation) is
+  not benchmarked. Each such call of the warm-up check runs under `alarm()`; on expiry the child
+  dies with SIGALRM and the DNF reason is `operation-over-600s` (runs before 2026-10-14 wrote
+  `sign-or-verify-over-600s`; the importers accept any one-word reason). A value that is not a
+  number of seconds is reported on stderr and the default is used. Key generation is not limited
+  (UVW-512 uses `iters skip`).
 - Exit status: 0, or **2 if every scheme that ran was DNF** (usually a broken setup).
   Filters that match nothing exit 0.
 - `--sizes` is unchanged (in-process, no isolation).

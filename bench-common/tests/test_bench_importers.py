@@ -52,6 +52,7 @@ scheme                       iters    keygen (cyc)  keygen (us)    encaps (cyc) 
 ML-KEM-512                      20           31088        15.6           34950        17.6           45729        23.0     yes
   ! Toy: 1/20 shared-secret mismatches
 NGCC-E1                         20             DNF         DNF             DNF         DNF             DNF         DNF  SIGABRT
+NGCC-E2                         20             DNF         DNF             DNF         DNF             DNF         DNF  operation-over-600s
 """
 
 
@@ -79,6 +80,7 @@ def test_kem_parser_reads_rows_and_dnf(kem, tmp_path):
     assert [(r["name"], r["dnf"]) for r in rows] == [
         ("ML-KEM-512", None),
         ("NGCC-E1", "SIGABRT"),
+        ("NGCC-E2", "operation-over-600s"),
     ]
     assert rows[0]["decaps_cycles"] == 45729 and rows[0]["ok"] == "yes"
 
@@ -94,6 +96,14 @@ def test_sig_dnf_on_ngcc_drops_timings_and_notes_it(sig):
     assert changed and "DNF" in msg
     assert "signing_cycles" not in ps and "signing_us" not in ps
     assert ps["notes"] == "Ref. Benchmark did not finish (valid signature rejected)."
+
+
+def test_op_limit_dnf_note_reads_naturally(sig):
+    ps = {"name": "TRINE-512-Balanced", "signing_cycles": 1, "notes": "Ref."}
+    row = {"name": "NGCC-TRINE-512-Balanced", "dnf": "operation-over-600s"}
+    changed, _ = sig.apply_row(sig_doc(ps), "TRINE-512-Balanced", row)
+    assert changed and "signing_cycles" not in ps
+    assert ps["notes"] == "Ref. Benchmark did not finish (operation over 600s)."
 
 
 def test_sig_dnf_elsewhere_keeps_timings(sig):

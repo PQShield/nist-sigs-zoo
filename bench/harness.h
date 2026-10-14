@@ -43,17 +43,6 @@ static int bench_iters(const bench_scheme_t *s) {
     return env_n > 0 ? env_n : (s->iters > 0 ? s->iters : BENCH_ITER);
 }
 
-/* BENCH_OP_LIMIT (seconds, default 600, 0 = none): a single sign or verify call
- * that runs longer kills the child with SIGALRM, recorded as the DNF reason
- * "sign-or-verify-over-<n>s" (see isolate.h). Policy: a scheme that needs more
- * than 10 minutes for one signature or verification is not benchmarked. */
-#define BENCH_OP_LIMIT_DEFAULT 600
-static unsigned bench_op_limit(void) {
-    const char *e = getenv("BENCH_OP_LIMIT");
-    return (e && *e) ? (unsigned)strtoul(e, NULL, 10) : BENCH_OP_LIMIT_DEFAULT;
-}
-#define BENCH_LIMITED(call) (alarm(bench_op_limit()), _bench_rc = (call), alarm(0), _bench_rc)
-
 /* Benchmark one scheme and write its results row, prefixed "R ", to `out`.
  * Returns NULL on success, or a one-word DNF reason if the scheme failed a
  * correctness check (then no row is written, so a broken build can't be

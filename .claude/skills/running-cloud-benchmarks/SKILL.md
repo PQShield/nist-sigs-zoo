@@ -48,7 +48,7 @@ A full NGCC suite takes 5+ hours on one instance and spot instances can be inter
   python3 bench-common/merge_results.py bench/results/<first-timestamp>_<cpu>_ngcc_sigs_merged.txt <rerun>.txt <parts>.txt...
   ```
   It refuses parts from different CPU models, lists every part in the header and drops stdout noise from candidates.
-- A single sign or verify over 10 minutes is a DNF by policy (`BENCH_OP_LIMIT`, default 600 s; reason `sign-or-verify-over-600s`), so TRINE-512-Balanced (about 20 min per signature) is a DNF. Don't raise limits to time such schemes without asking Thom: compute isn't free.
+- A single sign or verify (KEMs: encaps or decaps) over 10 minutes is a DNF by policy (`BENCH_OP_LIMIT`, default 600 s; reason `operation-over-600s`), so TRINE-512-Balanced (about 20 min per signature) is a DNF. Don't raise limits to time such schemes without asking Thom: compute isn't free.
 
 ## Review before importing
 

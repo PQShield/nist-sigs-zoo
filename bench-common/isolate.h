@@ -15,11 +15,14 @@
  *
  * BENCH_TIMEOUT (seconds, default 3600, 0 = none) bounds each scheme's wall-clock
  * time; on expiry the child is killed with SIGKILL and the reason is "timeout".
+ * A single operation over BENCH_OP_LIMIT (harness_common.h) ends the child with
+ * SIGALRM: reason "operation-over-<n>s".
  *
  * Fork happens before dlopen, so the scheme's own constructors run in the child
  * too. CPU affinity is inherited, and the cycle counter is opened per scheme
  * inside the child's worker thread (cycles_setup() in bench_run()).
  */
+#include "harness_common.h"
 #include <errno.h>
 #include <limits.h>
 #include <poll.h>
@@ -167,9 +170,8 @@ static int bench_isolated(const char *so_path, bench_child_fn child, void *ctx,
         if (timed_out)
             snprintf(reason, sizeof reason, "timeout");
         else if (WIFSIGNALED(status) && WTERMSIG(status) == SIGALRM) {
-            /* A single operation exceeded BENCH_OP_LIMIT (bench/harness.h). */
-            const char *lim = getenv("BENCH_OP_LIMIT");
-            snprintf(reason, sizeof reason, "sign-or-verify-over-%ss", lim && *lim ? lim : "600");
+            /* A single operation exceeded BENCH_OP_LIMIT (harness_common.h). */
+            snprintf(reason, sizeof reason, "operation-over-%us", bench_op_limit());
         } else if (WIFSIGNALED(status))
             snprintf(reason, sizeof reason, "%s", bench_signame(WTERMSIG(status)));
         else if (WIFEXITED(status) && WEXITSTATUS(status) != 0)
