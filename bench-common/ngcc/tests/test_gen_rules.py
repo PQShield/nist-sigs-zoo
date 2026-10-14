@@ -49,6 +49,44 @@ def test_star_skips_driver_files(tmp_path):
     ]
 
 
+def test_star_includes_cxx_sources(tmp_path):
+    make_instance(
+        tmp_path / "src", ["a.cpp", "b.cc", "c.cxx", "drng.c", "main.cpp", "d.hpp"]
+    )
+    row = read_params(write_params(tmp_path, ROW))[0]
+    assert [p.name for p in resolve_sources(row, tmp_path / "src", tmp_path)] == [
+        "a.cpp",
+        "b.cc",
+        "c.cxx",
+        "drng.c",
+    ]
+
+
+def test_cxx_sources_compile_with_cxx_and_link_libstdcxx(tmp_path):
+    make_instance(tmp_path / "src", ["drng.c", "x.cpp", "avx2/x.cpp"])
+    srcs = "* avx2/x.cpp"
+    row = ROW[:6] + (srcs, "-", "-DFOO")
+    text = render_rules(
+        read_params(write_params(tmp_path, row)), tmp_path / "src", tmp_path
+    )
+    lines = text.splitlines()
+    cxx = [ln for ln in lines if "$(CXX)" in ln]
+    assert len(cxx) == 2
+    assert all("$(NGCC_CXXFLAGS) -DFOO" in ln and " -c " in ln for ln in cxx)
+    assert "-c $(BUILD)/src/x/x.cpp -o $(BUILD)/obj/x/1_x.o" in cxx[0]
+    assert "-c $(BUILD)/src/x/avx2/x.cpp -o $(BUILD)/obj/x/2_x.o" in cxx[1]
+    link = next(ln for ln in lines if "-shared" in ln)
+    assert link.split("$(CC)")[1].startswith(" $(NGCC_CFLAGS)")
+    assert "$(BUILD)/src/x/drng.c $(BUILD)/obj/x/1_x.o $(BUILD)/obj/x/2_x.o" in link
+    assert "-lstdc++ -lm" in link
+    assert "x.cpp" not in link.replace("_x.o", "")
+
+
+def test_c_only_rows_do_not_use_cxx(tmp_path):
+    text = rules_for(tmp_path, ROW)
+    assert "$(CXX)" not in text and "-lstdc++" not in text and "obj/" not in text
+
+
 def test_drop_subdir_and_patch(tmp_path):
     d = make_instance(
         tmp_path / "src", ["a.c", "drng.c", "kat_test/SIG_AlgorithmInstance.c"]

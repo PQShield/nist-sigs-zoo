@@ -35,6 +35,10 @@ KAT_HASHES  ?= $(NGCC_ROOT)/kat_hashes.tsv
 NGCC_CFLAGS ?= -O3 -march=native -mtune=native -fPIC -std=gnu17 -fcommon \
     -Wno-error=incompatible-pointer-types -Wno-error=implicit-function-declaration \
     -Wno-error=int-conversion
+# C++ sources (.cpp/.cc/.cxx, see gen_rules.py) get the same optimisation, arch and -fPIC
+# flags as C, with a C++ standard: gnu++23 covers the submitters' -std=c++20/c++23 trees.
+# Compiled with $(CXX) (make's default g++); the .so links them with -lstdc++.
+NGCC_CXXFLAGS ?= -O3 -march=native -mtune=native -fPIC -std=gnu++23
 SUITE_PREFIX := schemes/ngcc
 
 .PHONY: all sos built-list status clean

@@ -45,7 +45,33 @@ def test_failed_instance_does_not_fail_the_build(tmp_path):
     assert proc.returncode == 0, proc.stdout + proc.stderr
     assert "FAIL  NGCC-Toy-Missing" in proc.stdout
     built = [Path(line).name for line in (tmp_path / "built.list").read_text().split()]
-    assert built == ["toy_sig_1.so", "toy_sig_long.so"]
+    assert built == ["toy_sig_1.so", "toy_sig_long.so", "toy_sig_cxx.so"]
+
+
+def test_cxx_sources_link_the_cxx_runtime(tmp_path):
+    """A row with a .cpp source compiles it with $(CXX) and links libstdc++ into the .so."""
+    make(tmp_path)
+    so = tmp_path / "toy_sig_cxx.so"
+    dyn = subprocess.run(
+        ["readelf", "-d", str(so)], capture_output=True, text=True, check=True
+    ).stdout
+    assert "libstdc++" in dyn
+    assert (
+        "libstdc++"
+        not in subprocess.run(
+            ["readelf", "-d", str(tmp_path / "toy_sig_1.so")],
+            capture_output=True,
+            text=True,
+            check=True,
+        ).stdout
+    )
+    lib = ctypes.CDLL(str(so))
+    pk, sk, sig = (ctypes.create_string_buffer(32) for _ in range(3))
+    msg, siglen, n = bytes(32), ctypes.c_size_t(), ctypes.c_size_t(32)
+    assert lib.crypto_sign_keypair(pk, sk) == 0
+    assert lib.crypto_sign_signature(sig, ctypes.byref(siglen), msg, n, sk) == 0
+    assert lib.crypto_sign_verify(sig, siglen, msg, n, pk) == 0
+    assert lib.crypto_sign_verify(sig, siglen, b"\x01" + msg[1:], n, pk) != 0
 
 
 def test_shim_round_trips_and_rejects_tampering(tmp_path):
@@ -90,6 +116,10 @@ def test_status_records_build_kat_and_hash(tmp_path):
         "ref",
     )
     assert rows["NGCC-Toy-Sig-Long"]["kat"] == "CRYPTOFAIL"
+    assert (rows["NGCC-Toy-Sig-Cxx"]["build"], rows["NGCC-Toy-Sig-Cxx"]["kat"]) == (
+        "ok",
+        "PASS",
+    )
     assert (rows["NGCC-Toy-Missing"]["build"], rows["NGCC-Toy-Missing"]["kat"]) == (
         "FAIL",
         "-",
