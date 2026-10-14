@@ -12,7 +12,7 @@ NTRU_SOS    = $(addprefix schemes/ntru/build/,     ntruhps2048509.so ntruhps2048
 NTRUP_SOS   = $(addprefix schemes/ntruprime/build/, sntrup653.so sntrup761.so sntrup857.so sntrup953.so sntrup1013.so sntrup1277.so)
 SABER_SOS   = $(addprefix schemes/saber/build/,    lightsaber.so saber.so firesaber.so)
 NTRUPLUS_SOS= $(addprefix schemes/ntruplus/build/, ntruplus768.so ntruplus864.so ntruplus1152.so)
-SMAUGT_SOS  = $(addprefix schemes/smaugt/build/,   smaugt1.so smaugt3.so smaugt5.so)
+SMAUGT_SOS  = $(addprefix schemes/smaugt/build/,   smaugt1.so smaugt3.so smaugt5.so timer.so)
 
 MIKE_SOS    = $(addprefix schemes/mike/build/,    mikefast1.so mikefast3.so mikefast5.so mikerigorous1.so mikerigorous3.so mikerigorous5.so)
 

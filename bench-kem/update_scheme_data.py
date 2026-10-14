@@ -67,6 +67,7 @@ BENCH_TO_YAML: dict[str, tuple[str, str]] = {
     "SMAUG-T128": ("SMAUGT.yaml", "SMAUG-T128"),
     "SMAUG-T192": ("SMAUGT.yaml", "SMAUG-T192"),
     "SMAUG-T256": ("SMAUGT.yaml", "SMAUG-T256"),
+    "TiMER": ("SMAUGT.yaml", "TiMER"),
     "LightSaber": ("SABER.yaml", "LightSaber"),
     "Saber": ("SABER.yaml", "Saber"),
     "FireSaber": ("SABER.yaml", "FireSaber"),
