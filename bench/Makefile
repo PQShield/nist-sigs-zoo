@@ -9,7 +9,9 @@ SLHDSA_SOS  = $(addprefix schemes/slhdsa/build/,   \
     slhdsa_sha2_192s.so  slhdsa_shake_192s.so       \
     slhdsa_sha2_192f.so  slhdsa_shake_192f.so       \
     slhdsa_sha2_256s.so  slhdsa_shake_256s.so       \
-    slhdsa_sha2_256f.so  slhdsa_shake_256f.so)
+    slhdsa_sha2_256f.so  slhdsa_shake_256f.so       \
+    slhdsa_shake_128_24.so slhdsa_shake_192_24.so    \
+    slhdsa_shake_256_24.so)
 FNDSA_SOS   = $(addprefix schemes/fndsa/build/,    fndsa512.so fndsa1024.so)
 CLASSIC_SOS = $(addprefix schemes/classic/build/,  \
     rsa2048.so rsa3072.so rsa4096.so                \

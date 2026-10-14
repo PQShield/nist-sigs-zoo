@@ -9,7 +9,8 @@ PARAM_SETS = \
     slhdsa_sha2_192s  slhdsa_shake_192s \
     slhdsa_sha2_192f  slhdsa_shake_192f \
     slhdsa_sha2_256s  slhdsa_shake_256s \
-    slhdsa_sha2_256f  slhdsa_shake_256f
+    slhdsa_sha2_256f  slhdsa_shake_256f \
+    slhdsa_shake_128_24 slhdsa_shake_192_24 slhdsa_shake_256_24
 
 TARGETS = $(addprefix $(BUILD)/, $(addsuffix .so, $(PARAM_SETS)))
 SHIM_FILES = $(addsuffix _shim.c, $(PARAM_SETS))

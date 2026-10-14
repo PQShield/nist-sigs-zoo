@@ -38,6 +38,10 @@ BENCH_TO_YAML: dict[str, tuple[str, str]] = {
     "SLH-DSA-SHAKE-192f": ("SLH-DSA.yaml", "SHAKE-192f"),
     "SLH-DSA-SHAKE-256s": ("SLH-DSA.yaml", "SHAKE-256s"),
     "SLH-DSA-SHAKE-256f": ("SLH-DSA.yaml", "SHAKE-256f"),
+    # SP 800-230 ipd limited-signature sets (2^24 signatures per key)
+    "SLH-DSA-SHAKE-128-24": ("SLH-DSA.yaml", "SHAKE-128-24"),
+    "SLH-DSA-SHAKE-192-24": ("SLH-DSA.yaml", "SHAKE-192-24"),
+    "SLH-DSA-SHAKE-256-24": ("SLH-DSA.yaml", "SHAKE-256-24"),
     # FN-DSA / Falcon
     "FN-DSA-512": ("Falcon.yaml", "512"),
     "FN-DSA-1024": ("Falcon.yaml", "1024"),
