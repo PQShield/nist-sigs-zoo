@@ -178,11 +178,7 @@ def check_coverage(cands: list[dict], kind: str, sizes: dict) -> None:
 def ps_notes(status: dict | None) -> str:
     if not status:
         return ""
-    parts = [
-        "Optimised x86 implementation"
-        if status.get("impl") == "opt"
-        else "Reference implementation"
-    ]
+    parts = [IMPL_NOTE["opt" if status.get("impl") == "opt" else "ref"]]
     if status.get("hash") in HASH_NOTE:
         parts.append(HASH_NOTE[status["hash"]])
     if status.get("kat") in KAT_NOTE:
@@ -210,6 +206,25 @@ def spec_differences(inst: dict, measured: dict, key: str) -> str:
         for field in ("pk", "sk", key)
         if field in inst and inst[field] != measured[field]
     )
+
+
+IMPL_NOTE = {"opt": "Optimised x86 implementation", "ref": "Reference implementation"}
+
+
+def _old_impl(old: dict | None) -> str | None:
+    """The implementation (opt/ref) the existing YAML entry was built from, read from its notes."""
+    notes = str((old or {}).get("notes") or "")
+    return next((k for k, v in IMPL_NOTE.items() if notes.startswith(v)), None)
+
+
+def impl_changed(old: dict | None, status: dict | None) -> bool:
+    """True if the existing entry came from the other build (ref vs opt) than status.tsv now names.
+
+    Its timings (and any DNF) were measured on that other build, so they are not carried over:
+    the instance shows 'not yet benchmarked' until the next benchmark import.
+    """
+    was, now = _old_impl(old), (status or {}).get("impl")
+    return was is not None and now in IMPL_NOTE and was != now
 
 
 def parameterset(
@@ -243,6 +258,8 @@ def parameterset(
         note = (
             f"Sizes from the specification ({inst['size_ref']}); not measured, {why}."
         )
+    if impl_changed(old, status.get(name)):
+        old = None  # measured on the other build: drop its timings and DNF
     if name in untimed:
         note = f"{note} {UNTIMED_NOTE}".strip()
     else:

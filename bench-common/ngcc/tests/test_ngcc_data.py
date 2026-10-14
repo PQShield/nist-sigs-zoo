@@ -269,6 +269,38 @@ def test_reimport_keeps_dnf_note(tmp_path):
     assert ps["dnf"] == "SIGFPE"
 
 
+def test_switching_ref_to_opt_drops_timings_measured_on_ref(tmp_path):
+    """Timings (and a DNF) of the reference build never stay attached to an opt build."""
+    nd.write_files(CANDS, "signature", SIG_SIZES, STATUS, tmp_path)
+    path = tmp_path / "Aigis-Sig-plus.yaml"
+    yaml = YAML()
+    doc = yaml.load(path.read_text())
+    a1, a2 = doc["versions"][0]["parametersets"][:2]
+    a1["signing_cycles"], a1["verification_us"] = 1000, 0.4
+    a2["signing_cycles"] = 2000
+    nd.mark_dnf(a1, "signature", "SIGFPE")
+    with open(path, "w") as f:
+        yaml.dump(doc, f)
+    status = {**STATUS, "NGCC-A1": {**STATUS["NGCC-A1"], "impl": "opt"}}
+    nd.write_files(CANDS, "signature", SIG_SIZES, status, tmp_path)
+    a1, a2 = load(path)["versions"][0]["parametersets"][:2]
+    assert not {"signing_cycles", "verification_us", "dnf"} & a1.keys()
+    assert a1["notes"] == nd.ps_notes(status["NGCC-A1"])
+    assert a1["notes"].startswith("Optimised x86 implementation")
+    assert a2["signing_cycles"] == 2000  # impl unchanged: kept
+
+
+def test_impl_changed_needs_a_known_old_and_new_impl():
+    ref = {"notes": "Reference implementation."}
+    assert nd.impl_changed(ref, {"impl": "opt"})
+    assert not nd.impl_changed(ref, {"impl": "ref"})
+    assert not nd.impl_changed(
+        {"notes": "Sizes from the specification."}, {"impl": "opt"}
+    )
+    assert not nd.impl_changed(None, {"impl": "opt"})
+    assert not nd.impl_changed(ref, None)
+
+
 def test_patched_build_is_noted_neutrally():
     note = nd.ps_notes({"impl": "ref", "kat": "PASS", "hash": "own", "patch": "fix"})
     assert note == (
