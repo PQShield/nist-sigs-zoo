@@ -49,7 +49,10 @@ describe('compareVersions', () => {
 	});
 
 	it('pairs a renamed set with its previous name, in either direction', () => {
-		const renamed: VersionYaml = { ...R3, parametersets: [{ name: 'old3', renamed_from: 'old', level: 3, pk: 120, sig: 100 }] };
+		const renamed: VersionYaml = {
+			...R3,
+			parametersets: [{ name: 'old3', renamed_from: 'old', level: 3, pk: 120, sig: 100 }]
+		};
 		expect(compareVersions(R2, renamed).rows.map((r) => [r.name, r.presence])).toEqual([
 			['old3', 'both'],
 			['one', 'removed'],
