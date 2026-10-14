@@ -166,6 +166,22 @@ export function decodeCommonFilters(state: CommonFilter, params: URLSearchParams
 }
 
 /** One-line summary for the collapsed mobile filter header, e.g. "4 programmes · 18 schemes · all levels". */
+/** Schemes listed in the filter panel: those in a selected programme group. */
+export function listedSchemes<S extends Pick<FilterableRow, 'programmes' | 'classical'>>(
+	schemes: S[],
+	programmes: Set<ProgrammeGroup>
+): S[] {
+	return schemes.filter((s) => rowProgrammeGroups(s).some((g) => programmes.has(g)));
+}
+
+/** Ticked schemes the panel lists (ticked schemes hidden by the programme filter don't count). */
+export function listedSchemeCount(
+	schemes: (Pick<FilterableRow, 'programmes' | 'classical'> & { scheme: string })[],
+	f: Pick<CommonFilter, 'programmes'> & { schemes: Set<string> }
+): number {
+	return listedSchemes(schemes, f.programmes).filter((s) => f.schemes.has(s.scheme)).length;
+}
+
 export function filterSummary(f: CommonFilter, schemeCount: number): string {
 	const plural = (n: number, word: string) => `${n} ${word}${n === 1 ? '' : 's'}`;
 	const allLevels = f.levels.size === ALL_LEVELS.length && f.ngccLevels.size === NGCC_LEVELS.length;

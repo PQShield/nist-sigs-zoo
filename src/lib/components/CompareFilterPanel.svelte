@@ -8,7 +8,7 @@
 	import ParamSetFilter from './ParamSetFilter.svelte';
 	import StatusFilter from './StatusFilter.svelte';
 	import { FILTER_HEADING } from './filterStyles';
-	import { rowProgrammeGroups } from '$lib/compareFilters';
+	import { listedSchemes as listed } from '$lib/compareFilters';
 
 	interface Props {
 		spec: FilterSpec<R, G, F>;
@@ -42,7 +42,7 @@
 	}
 
 	// Only schemes in a selected programme are listed (their checked state is kept while hidden).
-	const listedSchemes = $derived(schemes.filter((s) => rowProgrammeGroups(s).some((g) => filter.programmes.has(g))));
+	const listedSchemes = $derived(listed(schemes, filter.programmes));
 	const schemesByCategory = $derived(
 		Object.fromEntries(categories.map((cat) => [cat, listedSchemes.filter((s) => s.category === cat)]))
 	);

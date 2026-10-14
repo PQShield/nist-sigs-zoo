@@ -4,7 +4,7 @@
 	import { navigating } from '$app/state';
 	import { base } from '$app/paths';
 	import { scheduleUrlSync } from '$lib/urlSync';
-	import { encodeCommonFilters, filterSummary } from '$lib/compareFilters';
+	import { encodeCommonFilters, filterSummary, listedSchemeCount } from '$lib/compareFilters';
 	import {
 		decodeAxes,
 		decodeCompareFilter,
@@ -163,7 +163,7 @@
 	{/if}
 
 	<div class="flex flex-col gap-6 lg:flex-row lg:gap-8">
-		<FilterSidebar summary={filterSummary(filter, filter.schemes.size)}>
+		<FilterSidebar summary={filterSummary(filter, listedSchemeCount(data.schemes, filter))}>
 			<CompareFilterPanel
 				spec={cfg.filter}
 				schemes={data.schemes}

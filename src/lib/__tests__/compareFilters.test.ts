@@ -4,6 +4,7 @@ import {
 	defaultCommonFilter,
 	encodeCommonFilters,
 	filterSummary,
+	listedSchemeCount,
 	passesCommonFilters,
 	presentProgrammeGroups,
 	rowProgrammeGroups,
@@ -194,6 +195,20 @@ describe('common URL codec', () => {
 		expect(ALL.programmes.size).toBe(GROUPS.length);
 		expect(ALL.levels.size).toBe(6);
 		expect(ALL.ngccLevels.size).toBe(4);
+	});
+});
+
+describe('listedSchemeCount', () => {
+	it('counts ticked schemes only when their programme is selected', () => {
+		const schemes = [
+			{ ...row({ programmes: [{ programme: 'nist-onramp', stage: 'round-2' }] }), scheme: 'A' },
+			{ ...row({ programmes: [{ programme: 'china-ngcc', stage: 'round-1' }] }), scheme: 'B' },
+			{ ...row({ programmes: [{ programme: 'nist-onramp', stage: 'round-1' }] }), scheme: 'C' }
+		];
+		const f = { programmes: new Set<ProgrammeGroup>(['nist-onramp']), schemes: new Set(['A', 'B']) };
+		expect(listedSchemeCount(schemes, f)).toBe(1);
+		expect(listedSchemeCount(schemes, { ...f, programmes: new Set(GROUPS) })).toBe(2);
+		expect(listedSchemeCount(schemes, { ...f, programmes: new Set() })).toBe(0);
 	});
 });
 
