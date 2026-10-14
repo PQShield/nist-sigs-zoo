@@ -170,6 +170,7 @@ export function processYamlSchemes(
 		if (!yaml.versions || yaml.versions.length === 0) continue;
 
 		const sorted = [...yaml.versions].sort((a, b) => b.date.localeCompare(a.date));
+		const memberships = schemeProgrammes(yaml.versions);
 
 		let latest;
 		let dropProgramme: string | null = null;
@@ -182,8 +183,7 @@ export function processYamlSchemes(
 					? // Latest view: the stage only scopes this programme's entrants. Standards,
 						// other programmes and pre-quantum schemes show their newest spec; the
 						// programme filter on the page decides whether they are visible.
-						schemeProgrammes(yaml.versions).length === 0 ||
-						schemeProgrammes(yaml.versions).some((m) => m.programme !== filter.programme)
+						memberships.length === 0 || memberships.some((m) => m.programme !== filter.programme)
 					: isReferenceScheme(yaml.versions)
 			) {
 				latest = sorted[0];
@@ -198,7 +198,7 @@ export function processYamlSchemes(
 			latest = sorted[0];
 		}
 
-		const programmes = schemeProgrammes(yaml.versions).filter((m) => m.programme !== dropProgramme);
+		const programmes = memberships.filter((m) => m.programme !== dropProgramme);
 
 		const scheme: Scheme = {
 			scheme: yaml.name,
