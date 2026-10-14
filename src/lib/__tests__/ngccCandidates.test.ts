@@ -115,10 +115,14 @@ describe('data/ngcc/candidates.yaml', () => {
 	it('keeps findings short, linked and credited to their authors', () => {
 		// Each summary ends with a parenthesised author credit, e.g. "... (Xiong and Wang).", and
 		// each credited name links to its disclosure: (<a href="https://...">Xiong and Wang</a>).
+		// Lowercase connecting words are allowed: "(@; made practical by @)", "(@, extended by @)".
 		const credited = /\([^()]+\)\.$/;
 		const unlinkedCredit = (text: string) =>
 			(text.replace(/<a href="https:\/\/[^"]+">[^<]+<\/a>/g, '@').match(/\([^()]*\)/g) ?? []).some((g) =>
-				g.slice(1, -1).split(/; | and /).some((s) => s !== '@')
+				g
+					.slice(1, -1)
+					.split(/; | and |, /)
+					.some((s) => !/^(?:[a-z0-9-]+ )*@$/.test(s) && !/^[a-z0-9 -]+$/.test(s))
 			);
 		const errors = candidates.flatMap((c) => {
 			const f = c.findings;
