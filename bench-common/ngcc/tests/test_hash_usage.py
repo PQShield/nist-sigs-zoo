@@ -20,3 +20,20 @@ def test_comments_auxfunc_and_missing_files_are_ignored(tmp_path):
         hash_usage([tmp_path / "a.c", tmp_path / "auxfunc.c", tmp_path / "gone.c"])
         == "own"
     )
+
+
+def test_cxx_headers_in_srcdir_and_incs_are_scanned(tmp_path):
+    from status import scanned_headers
+
+    src = tmp_path / "X"
+    (src / "src").mkdir(parents=True)
+    (src / "deep").mkdir()
+    for f in ("a.h", "b.hpp", "src/c.hpp", "src/d.h", "deep/e.hpp"):
+        (src / f).write_text("")
+    row = {"incs": "src"}
+    names = sorted(
+        p.relative_to(src).as_posix() for p in scanned_headers(row, src, tmp_path)
+    )
+    assert names == ["a.h", "b.hpp", "src/c.hpp"]
+    (src / "src/c.hpp").write_text("inline void f() { sm3hash(256, 0, 0, 0); }\n")
+    assert hash_usage(scanned_headers(row, src, tmp_path)) == "sm3"

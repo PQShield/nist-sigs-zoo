@@ -104,6 +104,25 @@ def patch_status(row: dict, src_root: Path, suite_dir: Path) -> str:
     return ""
 
 
+CXX_HEADERS = ("*.hpp", "*.hh", "*.hxx")
+
+
+def scanned_headers(row: dict, srcdir: Path, suite_dir: Path) -> list[Path]:
+    """Headers whose calls count for the hash column: the srcdir's *.h, plus C++ headers
+    (header-only templates hold most of a C++ tree's code) in srcdir and the row's incs."""
+    if not srcdir.is_dir():
+        return []
+    headers = sorted(srcdir.glob("*.h"))
+    dirs = [srcdir] + [
+        suite_dir / d if d.startswith("patches/") else srcdir / d
+        for d in row["incs"].split()
+    ]
+    for d in dirs:
+        if d.is_dir():
+            headers += sorted(p for pat in CXX_HEADERS for p in d.glob(pat))
+    return headers
+
+
 def status_row(
     row: dict,
     kind: str,
@@ -114,7 +133,7 @@ def status_row(
     hashes: dict[tuple[str, str], list[str]],
 ) -> dict:
     srcdir = instance_dir(row, src_root)
-    headers = sorted(srcdir.glob("*.h")) if srcdir.is_dir() else []
+    headers = scanned_headers(row, srcdir, suite_dir)
     out = {k: row[k] for k in ("file", "name", "id", "instance", "impl")}
     out["katrec"] = ""
     out["patch"] = patch_status(row, src_root, suite_dir)
