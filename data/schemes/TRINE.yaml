@@ -50,8 +50,8 @@ versions:
     pk: 797290
     sig: 46565
     notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it; the test-vector run timed out in our build. Benchmark did not finish (timeout).
-    dnf: timeout
     info: Our build could not check the submitted test vectors in time.
+    dnf: timeout
   - name: TRINE-512-ShortSig
     ngcc_level: 512
     pk: 3188776
