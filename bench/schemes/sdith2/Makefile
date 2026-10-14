@@ -49,7 +49,10 @@ ALL_OBJS := $(SHA3_COBJS) $(SHA3_AVX2OBJ) $(SHA3_SOBJ) $(AES_COBJS) $(VOLE_COBJS
 # ---------------------------------------------------------------------------
 PARAMS     := sdith2_cat1_short sdith2_cat1_fast \
               sdith2_cat3_short sdith2_cat3_fast \
-              sdith2_cat5_short sdith2_cat5_fast
+              sdith2_cat5_short sdith2_cat5_fast \
+              sdith2_cat1_short_cipherpow sdith2_cat1_fast_cipherpow \
+              sdith2_cat3_short_cipherpow sdith2_cat3_fast_cipherpow \
+              sdith2_cat5_short_cipherpow sdith2_cat5_fast_cipherpow
 SHIM_FILES := $(addsuffix _shim.c, $(PARAMS))
 SOS        := $(addprefix $(BUILD)/, $(addsuffix .so, $(PARAMS)))
 

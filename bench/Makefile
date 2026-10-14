@@ -53,7 +53,10 @@ SQISIGN_SOS = $(addprefix schemes/sqisign/build/, \
 SDITH2_SOS  = $(addprefix schemes/sdith2/build/, \
     sdith2_cat1_short.so sdith2_cat1_fast.so \
     sdith2_cat3_short.so sdith2_cat3_fast.so \
-    sdith2_cat5_short.so sdith2_cat5_fast.so)
+    sdith2_cat5_short.so sdith2_cat5_fast.so \
+    sdith2_cat1_short_cipherpow.so sdith2_cat1_fast_cipherpow.so \
+    sdith2_cat3_short_cipherpow.so sdith2_cat3_fast_cipherpow.so \
+    sdith2_cat5_short_cipherpow.so sdith2_cat5_fast_cipherpow.so)
 MQOM_SOS    = $(addprefix schemes/mqom/build/, \
     mqom3_cat1_gf2_shorter_ct.so mqom3_cat1_gf2_shorter_ot.so \
     mqom3_cat1_gf16_short_ct.so  mqom3_cat1_gf16_short_ot.so  \

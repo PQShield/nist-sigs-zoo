@@ -9,8 +9,10 @@ versions:
   programmes:
     nist-onramp: round-3
   perf_source: "sizes verified against kat_r3 KAT vectors (github.com/sdith/sdith tag v3.0.0)"
+  # recommended: spec v3.0 §2.2 "While our main instances rely on hash-based grinding, we also provide alternative instances based on the cipher-based grinding technique proposed by [Riv26]" (Table 4 main, Table 5 alternative) (https://github.com/sdith/sdith/blob/v3.0.0/docs/sdith-v3.0.pdf)
   parametersets:
   - name: SDitH3-L1-gf2-short
+    recommended: true
     renamed_from: SDitH2-L1-gf2-short
     level: 1
     pk: 70
@@ -20,6 +22,7 @@ versions:
     signing_us: 2548.2
     verification_us: 2240.0
   - name: SDitH3-L1-gf2-fast
+    recommended: true
     renamed_from: SDitH2-L1-gf2-fast
     level: 1
     pk: 70
@@ -29,6 +32,7 @@ versions:
     signing_us: 538.6
     verification_us: 458.9
   - name: SDitH3-L3-gf2-short
+    recommended: true
     renamed_from: SDitH2-L3-gf2-short
     level: 3
     pk: 98
@@ -38,6 +42,7 @@ versions:
     signing_us: 11529.6
     verification_us: 11351.0
   - name: SDitH3-L3-gf2-fast
+    recommended: true
     renamed_from: SDitH2-L3-gf2-fast
     level: 3
     pk: 98
@@ -47,6 +52,7 @@ versions:
     signing_us: 2589.5
     verification_us: 2434.7
   - name: SDitH3-L5-gf2-short
+    recommended: true
     renamed_from: SDitH2-L5-gf2-short
     level: 5
     pk: 132
@@ -56,6 +62,7 @@ versions:
     signing_us: 17908.8
     verification_us: 17691.3
   - name: SDitH3-L5-gf2-fast
+    recommended: true
     renamed_from: SDitH2-L5-gf2-fast
     level: 5
     pk: 132
@@ -64,6 +71,36 @@ versions:
     verification_cycles: 13481963
     signing_us: 3899.5
     verification_us: 3656.6
+  - name: SDitH3-L1-gf2-short-cipherpow
+    level: 1
+    pk: 70
+    sig: 3721
+    notes: Alternative instance with cipher-based grinding (spec v3.0 Table 5).
+  - name: SDitH3-L1-gf2-fast-cipherpow
+    level: 1
+    pk: 70
+    sig: 4643
+    notes: Alternative instance with cipher-based grinding (spec v3.0 Table 5).
+  - name: SDitH3-L3-gf2-short-cipherpow
+    level: 3
+    pk: 98
+    sig: 8484
+    notes: Alternative instance with cipher-based grinding (spec v3.0 Table 5).
+  - name: SDitH3-L3-gf2-fast-cipherpow
+    level: 3
+    pk: 98
+    sig: 10452
+    notes: Alternative instance with cipher-based grinding (spec v3.0 Table 5).
+  - name: SDitH3-L5-gf2-short-cipherpow
+    level: 5
+    pk: 132
+    sig: 15147
+    notes: Alternative instance with cipher-based grinding (spec v3.0 Table 5).
+  - name: SDitH3-L5-gf2-fast-cipherpow
+    level: 5
+    pk: 132
+    sig: 19144
+    notes: Alternative instance with cipher-based grinding (spec v3.0 Table 5).
 - version: v2.0
   date: '2025-02-05'
   status: On-ramp
