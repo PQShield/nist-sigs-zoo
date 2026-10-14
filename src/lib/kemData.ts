@@ -1,15 +1,6 @@
-import type {
-	KemDataRanges,
-	KemFilterState,
-	KemParameterSet,
-	KemScheme,
-	KemSchemeYaml,
-	NistLevel,
-	ProgrammeGroup
-} from './types';
+import type { KemDataRanges, KemParameterSet, KemScheme, KemSchemeYaml, NistLevel } from './types';
 import { CPUSPEED } from './constants';
 import { lastStage } from './programmes';
-import { decodeCommonFilters, defaultCommonFilter, encodeCommonFilters, passesCommonFilters } from './compareFilters';
 import { kemTimes, timeRange } from './timing';
 
 /**
@@ -119,92 +110,4 @@ export function computeKemRanges(rows: KemParameterSet[]): KemDataRanges {
 		encapsUs: timeRange(times.map((t) => t.encaps)),
 		decapsUs: timeRange(times.map((t) => t.decaps))
 	};
-}
-
-/** Default filter: every scheme and programme group, all levels, bounds at the data extremes. */
-export function defaultKemFilter(
-	ranges: KemDataRanges,
-	schemeNames: Iterable<string>,
-	groups: Iterable<ProgrammeGroup>
-): KemFilterState {
-	return {
-		...defaultCommonFilter(groups),
-		schemes: new Set(schemeNames),
-		minPk: ranges.pk[0],
-		maxPk: ranges.pk[1],
-		minCt: ranges.ct[0],
-		maxCt: ranges.ct[1],
-		minPkPlusCt: ranges.pkPlusCt[0],
-		maxPkPlusCt: ranges.pkPlusCt[1],
-		minKeygenUs: ranges.keygenUs?.[0] ?? 0,
-		maxKeygenUs: ranges.keygenUs?.[1] ?? Infinity,
-		minEncapsUs: ranges.encapsUs?.[0] ?? 0,
-		maxEncapsUs: ranges.encapsUs?.[1] ?? Infinity,
-		minDecapsUs: ranges.decapsUs?.[0] ?? 0,
-		maxDecapsUs: ranges.decapsUs?.[1] ?? Infinity
-	};
-}
-
-/** Numeric bound fields and their URL keys. */
-const BOUNDS = [
-	['pkMin', 'minPk'], ['pkMax', 'maxPk'],
-	['ctMin', 'minCt'], ['ctMax', 'maxCt'],
-	['pcMin', 'minPkPlusCt'], ['pcMax', 'maxPkPlusCt'],
-	['kuMin', 'minKeygenUs'], ['kuMax', 'maxKeygenUs'],
-	['euMin', 'minEncapsUs'], ['euMax', 'maxEncapsUs'],
-	['duMin', 'minDecapsUs'], ['duMax', 'maxDecapsUs']
-] as const;
-
-/** Encode non-default filter state as URL query params (shares the common codec with the signatures page). */
-export function buildKemUrlParams(state: KemFilterState, defaults: KemFilterState): URLSearchParams {
-	const p = new URLSearchParams();
-
-	if (
-		state.schemes.size !== defaults.schemes.size ||
-		![...state.schemes].every((s) => defaults.schemes.has(s))
-	) {
-		p.set('s', [...state.schemes].map(encodeURIComponent).join(','));
-	}
-
-	encodeCommonFilters(state, defaults, p);
-
-	for (const [key, field] of BOUNDS) {
-		if (state[field] !== defaults[field]) p.set(key, String(state[field]));
-	}
-
-	return p;
-}
-
-/** Decode URL query params onto a copy of the default filter state. */
-export function applyKemUrlParams(defaults: KemFilterState, params: URLSearchParams): KemFilterState {
-	const s: KemFilterState = { ...defaults, schemes: new Set(defaults.schemes) };
-
-	const schemesParam = params.get('s');
-	if (schemesParam) s.schemes = new Set(schemesParam.split(',').map(decodeURIComponent));
-
-	for (const [key, field] of BOUNDS) {
-		if (params.has(key)) s[field] = Number(params.get(key));
-	}
-
-	return { ...s, ...decodeCommonFilters(s, params) };
-}
-
-function outside(v: number | null, min: number, max: number): boolean {
-	return v != null && (v < min || v > max);
-}
-
-/** Apply scheme, common (programme/level/parameter-set/status), size and µs filters. */
-export function filterKemRows(rows: KemParameterSet[], filter: KemFilterState): KemParameterSet[] {
-	return rows.filter((row) => {
-		if (!filter.schemes.has(row.scheme)) return false;
-		if (!passesCommonFilters(row, filter)) return false;
-		if (row.pk < filter.minPk || row.pk > filter.maxPk) return false;
-		if (row.ct < filter.minCt || row.ct > filter.maxCt) return false;
-		if (row.pkPlusCt < filter.minPkPlusCt || row.pkPlusCt > filter.maxPkPlusCt) return false;
-		const t = kemTimes(row);
-		if (outside(t.keygen, filter.minKeygenUs, filter.maxKeygenUs)) return false;
-		if (outside(t.encaps, filter.minEncapsUs, filter.maxEncapsUs)) return false;
-		if (outside(t.decaps, filter.minDecapsUs, filter.maxDecapsUs)) return false;
-		return true;
-	});
 }

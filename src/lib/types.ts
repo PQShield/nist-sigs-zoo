@@ -229,6 +229,8 @@ export interface KemFilterState extends CommonFilter {
 	maxEncapsUs: number;
 	minDecapsUs: number;
 	maxDecapsUs: number;
+	sortCol: KemSortableColumn;
+	sortDir: 'asc' | 'desc';
 }
 
 export interface BenchmarkEnv {

@@ -2,7 +2,9 @@
 	import { untrack } from 'svelte';
 	import { base } from '$app/paths';
 	import { presentProgrammeGroups } from '$lib/compareFilters';
-	import { computeKemRanges, defaultKemFilter, filterKemRows } from '$lib/kemData';
+	import { computeKemRanges } from '$lib/kemData';
+	import { defaultCompareFilter, filterCompareRows } from '$lib/compare';
+	import { KEM_FILTER } from '$lib/primitives';
 	import { allKemData } from '$lib/kemSchemeData';
 	import {
 		anyKemTimings,
@@ -24,7 +26,8 @@
 	const rows = programmeKemRows(p.id, allKemData);
 	const targets = ngccTargets(rows);
 	const timed = anyKemTimings(rows);
-	const defaults = defaultKemFilter(
+	const defaults = defaultCompareFilter(
+		KEM_FILTER,
 		computeKemRanges(rows),
 		new Set(rows.map((r) => r.scheme)),
 		presentProgrammeGroups(rows)
@@ -34,7 +37,7 @@
 	let target = $state<NgccLevel | null>(firstTarget);
 	let filter = $state(focusTarget(defaults, firstTarget));
 
-	const filtered = $derived(filterKemRows(rows, filter));
+	const filtered = $derived(filterCompareRows(KEM_FILTER, rows, filter));
 	const unmapped = $derived(target === null ? [] : unmappedAtTarget(rows, target));
 
 	function chooseTarget(next: NgccLevel) {

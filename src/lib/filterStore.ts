@@ -1,145 +1,23 @@
 import { derived, writable } from 'svelte/store';
 import type { Readable, Writable } from 'svelte/store';
-import type { DataRanges, FilterState, ParameterSet, ProgrammeGroup, SortableColumn } from './types';
-import { sigTimes } from './timing';
+import type { DataRanges, FilterState, ParameterSet, SortableColumn } from './types';
+import { presentProgrammeGroups } from './compareFilters';
 import {
-	decodeCommonFilters,
-	defaultCommonFilter,
-	encodeCommonFilters,
-	passesCommonFilters,
-	presentProgrammeGroups
-} from './compareFilters';
-
-const DEFAULT_SORT_COL: SortableColumn = 'scheme';
-const DEFAULT_SORT_DIR = 'asc' as const;
-
-function defaultFilter(ranges: DataRanges, allSchemes: Set<string>, groups: ProgrammeGroup[]): FilterState {
-	return {
-		...defaultCommonFilter(groups),
-		schemes: new Set(allSchemes),
-		minPk: ranges.pk[0],
-		maxPk: ranges.pk[1],
-		minSig: ranges.sig[0],
-		maxSig: ranges.sig[1],
-		minPkPlusSig: ranges.pkPlusSig[0],
-		maxPkPlusSig: ranges.pkPlusSig[1],
-		minSigningCycles: ranges.signingCycles[0],
-		maxSigningCycles: ranges.signingCycles[1],
-		minVerificationCycles: ranges.verificationCycles[0],
-		maxVerificationCycles: ranges.verificationCycles[1],
-		minSigningUs: ranges.signingUs?.[0] ?? 0,
-		maxSigningUs: ranges.signingUs?.[1] ?? Infinity,
-		minVerificationUs: ranges.verificationUs?.[0] ?? 0,
-		maxVerificationUs: ranges.verificationUs?.[1] ?? Infinity,
-		sortCol: DEFAULT_SORT_COL,
-		sortDir: DEFAULT_SORT_DIR,
-	};
-}
-
-function applyUrlParams(state: FilterState, params: URLSearchParams): FilterState {
-	const s = { ...state };
-
-	const schemesParam = params.get('s');
-	if (schemesParam) {
-		s.schemes = new Set(schemesParam.split(',').map(decodeURIComponent));
-	}
-
-	if (params.has('pkMin')) s.minPk = Number(params.get('pkMin'));
-	if (params.has('pkMax')) s.maxPk = Number(params.get('pkMax'));
-	if (params.has('sigMin')) s.minSig = Number(params.get('sigMin'));
-	if (params.has('sigMax')) s.maxSig = Number(params.get('sigMax'));
-	if (params.has('psMin')) s.minPkPlusSig = Number(params.get('psMin'));
-	if (params.has('psMax')) s.maxPkPlusSig = Number(params.get('psMax'));
-	if (params.has('scMin')) s.minSigningCycles = Number(params.get('scMin'));
-	if (params.has('scMax')) s.maxSigningCycles = Number(params.get('scMax'));
-	if (params.has('vcMin')) s.minVerificationCycles = Number(params.get('vcMin'));
-	if (params.has('vcMax')) s.maxVerificationCycles = Number(params.get('vcMax'));
-	if (params.has('suMin')) s.minSigningUs = Number(params.get('suMin'));
-	if (params.has('suMax')) s.maxSigningUs = Number(params.get('suMax'));
-	if (params.has('vuMin')) s.minVerificationUs = Number(params.get('vuMin'));
-	if (params.has('vuMax')) s.maxVerificationUs = Number(params.get('vuMax'));
-
-	const sortParam = params.get('sort');
-	if (sortParam) s.sortCol = sortParam as SortableColumn;
-	const dirParam = params.get('dir');
-	if (dirParam === 'asc' || dirParam === 'desc') s.sortDir = dirParam;
-
-	return { ...s, ...decodeCommonFilters(s, params) };
-}
+	compareRows,
+	decodeCompareFilter,
+	defaultCompareFilter,
+	encodeCompareFilter,
+	filterCompareRows
+} from './compare';
+import { SIGNATURE_FILTER } from './primitives';
 
 export function buildUrlParams(state: FilterState, defaults: FilterState): URLSearchParams {
-	const params = new URLSearchParams();
-
-	const allSchemes = defaults.schemes;
-	if (state.schemes.size !== allSchemes.size || ![...state.schemes].every((s) => allSchemes.has(s))) {
-		params.set('s', [...state.schemes].map(encodeURIComponent).join(','));
-	}
-
-	encodeCommonFilters(state, defaults, params);
-
-	if (state.minPk !== defaults.minPk) params.set('pkMin', String(state.minPk));
-	if (state.maxPk !== defaults.maxPk) params.set('pkMax', String(state.maxPk));
-	if (state.minSig !== defaults.minSig) params.set('sigMin', String(state.minSig));
-	if (state.maxSig !== defaults.maxSig) params.set('sigMax', String(state.maxSig));
-	if (state.minPkPlusSig !== defaults.minPkPlusSig) params.set('psMin', String(state.minPkPlusSig));
-	if (state.maxPkPlusSig !== defaults.maxPkPlusSig) params.set('psMax', String(state.maxPkPlusSig));
-	if (state.minSigningCycles !== defaults.minSigningCycles) params.set('scMin', String(state.minSigningCycles));
-	if (state.maxSigningCycles !== defaults.maxSigningCycles) params.set('scMax', String(state.maxSigningCycles));
-	if (state.minVerificationCycles !== defaults.minVerificationCycles) params.set('vcMin', String(state.minVerificationCycles));
-	if (state.maxVerificationCycles !== defaults.maxVerificationCycles) params.set('vcMax', String(state.maxVerificationCycles));
-	if (state.minSigningUs !== defaults.minSigningUs) params.set('suMin', String(state.minSigningUs));
-	if (state.maxSigningUs !== defaults.maxSigningUs) params.set('suMax', String(state.maxSigningUs));
-	if (state.minVerificationUs !== defaults.minVerificationUs) params.set('vuMin', String(state.minVerificationUs));
-	if (state.maxVerificationUs !== defaults.maxVerificationUs) params.set('vuMax', String(state.maxVerificationUs));
-
-	if (state.sortCol !== DEFAULT_SORT_COL) params.set('sort', state.sortCol);
-	if (state.sortDir !== DEFAULT_SORT_DIR) params.set('dir', state.sortDir);
-
-	return params;
-}
-
-/** Displayed time in µs, or null when the row has no timing data (shown as "—"). */
-function timeValue(row: ParameterSet, col: 'signingUs' | 'verificationUs'): number | null {
-	const t = sigTimes(row);
-	return col === 'signingUs' ? t.sign : t.verify;
-}
-
-function compareValues(a: ParameterSet, b: ParameterSet, col: SortableColumn): number {
-	const levelOrder: Record<string, number> = {
-		'Pre-Quantum': 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5,
-	};
-
-	switch (col) {
-		case 'level': {
-			const av = levelOrder[String(a.level)] ?? 99;
-			const bv = levelOrder[String(b.level)] ?? 99;
-			return av - bv;
-		}
-		case 'pk': return a.pk - b.pk;
-		case 'sig': return a.sig - b.sig;
-		case 'pkPlusSig': return a.pkPlusSig - b.pkPlusSig;
-		case 'signingCycles': return a.signingCycles - b.signingCycles;
-		case 'verificationCycles': return a.verificationCycles - b.verificationCycles;
-		default: {
-			const av = String(a[col] ?? '').toLowerCase();
-			const bv = String(b[col] ?? '').toLowerCase();
-			return av < bv ? -1 : av > bv ? 1 : 0;
-		}
-	}
+	return encodeCompareFilter(SIGNATURE_FILTER, state, defaults);
 }
 
 /** Sort comparator: time columns keep rows without data last regardless of direction. */
 export function sortRows(a: ParameterSet, b: ParameterSet, col: SortableColumn, dir: 'asc' | 'desc'): number {
-	if (col === 'signingUs' || col === 'verificationUs') {
-		const av = timeValue(a, col);
-		const bv = timeValue(b, col);
-		if (av == null && bv == null) return 0;
-		if (av == null) return 1;
-		if (bv == null) return -1;
-		return dir === 'asc' ? av - bv : bv - av;
-	}
-	const cmp = compareValues(a, b, col);
-	return dir === 'asc' ? cmp : -cmp;
+	return compareRows(SIGNATURE_FILTER, a, b, col, dir);
 }
 
 // Stable module-level stores — created once, updated in place on round changes
@@ -156,50 +34,24 @@ export function createFilterStore(
 	adjust: (f: FilterState) => FilterState = (f) => f
 ) {
 	const allSchemes = new Set(allRows.map((r) => r.scheme));
-	const defaults = defaultFilter(ranges, allSchemes, presentProgrammeGroups(allRows));
-	const initial = adjust(applyUrlParams(defaults, urlParams));
+	const defaults = defaultCompareFilter(
+		SIGNATURE_FILTER,
+		ranges,
+		allSchemes,
+		presentProgrammeGroups(allRows)
+	);
+	const initial = adjust(decodeCompareFilter(SIGNATURE_FILTER, defaults, urlParams));
 
 	_defaults = defaults;
 	_allRows.set(allRows);
 
 	if (!_store || !_filteredRows) {
 		_store = writable(initial);
-		_filteredRows = derived([_store, _allRows], ([$state, $rows]) => {
-			return $rows
-				.filter((row) => {
-					if (!$state.schemes.has(row.scheme)) return false;
-					if (!passesCommonFilters(row, $state)) return false;
-					if (row.pk < $state.minPk || row.pk > $state.maxPk) return false;
-					if (row.sig < $state.minSig || row.sig > $state.maxSig) return false;
-					if (row.pkPlusSig < $state.minPkPlusSig || row.pkPlusSig > $state.maxPkPlusSig)
-						return false;
-					// Unbenchmarked rows (0 cycles) pass the cycle filters, like the KEM page.
-					if (
-						row.signingCycles > 0 &&
-						(row.signingCycles < $state.minSigningCycles ||
-							row.signingCycles > $state.maxSigningCycles)
-					)
-						return false;
-					if (
-						row.verificationCycles > 0 &&
-						(row.verificationCycles < $state.minVerificationCycles ||
-							row.verificationCycles > $state.maxVerificationCycles)
-					)
-						return false;
-					if (
-						row.signingUs != null &&
-						(row.signingUs < $state.minSigningUs || row.signingUs > $state.maxSigningUs)
-					)
-						return false;
-					if (
-						row.verificationUs != null &&
-						(row.verificationUs < $state.minVerificationUs || row.verificationUs > $state.maxVerificationUs)
-					)
-						return false;
-					return true;
-				})
-				.sort((a, b) => sortRows(a, b, $state.sortCol, $state.sortDir));
-		});
+		_filteredRows = derived([_store, _allRows], ([$state, $rows]) =>
+			filterCompareRows(SIGNATURE_FILTER, $rows, $state).sort((a, b) =>
+				sortRows(a, b, $state.sortCol, $state.sortDir)
+			)
+		);
 	} else {
 		// Round change: reset filter state to new defaults, data already updated via _allRows
 		_store.set(initial);
@@ -218,7 +70,7 @@ export function getFilterStore() {
 		filteredRows: _filteredRows as Readable<ParameterSet[]>,
 		applyUrl(params: URLSearchParams) {
 			// read _defaults at call time: createFilterStore() may have replaced them since
-			store.set(applyUrlParams(_defaults ?? defaults, params));
+			store.set(decodeCompareFilter(SIGNATURE_FILTER, _defaults ?? defaults, params));
 		},
 	};
 }

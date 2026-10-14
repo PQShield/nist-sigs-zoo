@@ -12,14 +12,9 @@
 	import KemTable from '$lib/components/KemTable.svelte';
 	import BenchmarkEnvInfo from '$lib/components/BenchmarkEnvInfo.svelte';
 	import { filterSummary, presentProgrammeGroups } from '$lib/compareFilters';
-	import {
-		applyKemUrlParams,
-		buildKemUrlParams,
-		computeKemRanges,
-		defaultKemFilter,
-		filterKemRows,
-		processKemSchemes
-	} from '$lib/kemData';
+	import { computeKemRanges, processKemSchemes } from '$lib/kemData';
+	import { decodeCompareFilter, defaultCompareFilter, encodeCompareFilter, filterCompareRows } from '$lib/compare';
+	import { KEM_FILTER } from '$lib/primitives';
 	import { allKemData, kemBenchmarkEnv } from '$lib/kemSchemeData';
 	import type { PageData } from './$types';
 
@@ -32,10 +27,10 @@
 	const categories = [...new Set(schemes.map((s) => s.category))].sort();
 	const groups = presentProgrammeGroups(parameterSets);
 
-	const defaults = defaultKemFilter(ranges, schemes.map((s) => s.scheme), groups);
-	let filter = $state(defaultKemFilter(ranges, schemes.map((s) => s.scheme), groups));
+	const defaults = defaultCompareFilter(KEM_FILTER, ranges, schemes.map((s) => s.scheme), groups);
+	let filter = $state(defaultCompareFilter(KEM_FILTER, ranges, schemes.map((s) => s.scheme), groups));
 
-	const filteredRows = $derived(filterKemRows(parameterSets, filter));
+	const filteredRows = $derived(filterCompareRows(KEM_FILTER, parameterSets, filter));
 
 	// URL state: filter params encoded as query params (same common codec as the signatures page).
 	// Applied client-side in onMount (the page is prerendered); synced back, debounced.
@@ -43,7 +38,7 @@
 
 	onMount(() => {
 		const params = new URLSearchParams(window.location.search);
-		if (params.toString()) filter = applyKemUrlParams(defaults, params);
+		if (params.toString()) filter = decodeCompareFilter(KEM_FILTER, defaults, params);
 		urlReady = true;
 	});
 
@@ -51,7 +46,7 @@
 		filter; // track filter changes
 		if (!urlReady) return;
 		const timer = setTimeout(() => {
-			const qs = buildKemUrlParams(filter, defaults).toString();
+			const qs = encodeCompareFilter(KEM_FILTER, filter, defaults).toString();
 			const target = urlSyncTarget(
 				qs,
 				window.location.pathname,

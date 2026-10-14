@@ -10,14 +10,9 @@
 	import KemFilterPanel from '$lib/components/KemFilterPanel.svelte';
 	import KemScatterPlot from '$lib/components/KemScatterPlot.svelte';
 	import KemTable from '$lib/components/KemTable.svelte';
-	import {
-		applyKemUrlParams,
-		buildKemUrlParams,
-		computeKemRanges,
-		defaultKemFilter,
-		filterKemRows,
-		processKemSchemes
-	} from '$lib/kemData';
+	import { computeKemRanges, processKemSchemes } from '$lib/kemData';
+	import { decodeCompareFilter, defaultCompareFilter, encodeCompareFilter, filterCompareRows } from '$lib/compare';
+	import { KEM_FILTER } from '$lib/primitives';
 	import { allKemData } from '$lib/kemSchemeData';
 	import type { KemAxisField, ScaleType } from '$lib/types';
 	import type { PageData } from './$types';
@@ -31,10 +26,10 @@
 	const categories = [...new Set(schemes.map((s) => s.category))].sort();
 	const groups = presentProgrammeGroups(parameterSets);
 
-	const defaults = defaultKemFilter(ranges, schemes.map((s) => s.scheme), groups);
-	let filter = $state(defaultKemFilter(ranges, schemes.map((s) => s.scheme), groups));
+	const defaults = defaultCompareFilter(KEM_FILTER, ranges, schemes.map((s) => s.scheme), groups);
+	let filter = $state(defaultCompareFilter(KEM_FILTER, ranges, schemes.map((s) => s.scheme), groups));
 
-	const filteredRows = $derived(filterKemRows(parameterSets, filter));
+	const filteredRows = $derived(filterCompareRows(KEM_FILTER, parameterSets, filter));
 
 	let xField = $state<KemAxisField>('pk');
 	let yField = $state<KemAxisField>('ct');
@@ -97,7 +92,7 @@
 		if (xs === 'log' || xs === 'linear') xScale = xs;
 		if (ys === 'log' || ys === 'linear') yScale = ys;
 
-		if (params.toString()) filter = applyKemUrlParams(defaults, params);
+		if (params.toString()) filter = decodeCompareFilter(KEM_FILTER, defaults, params);
 		urlReady = true;
 	});
 
@@ -105,7 +100,7 @@
 		filter; xField; yField; xScale; yScale;
 		if (!urlReady) return;
 		const timer = setTimeout(() => {
-			const p = buildKemUrlParams(filter, defaults);
+			const p = encodeCompareFilter(KEM_FILTER, filter, defaults);
 			if (xField !== 'pk') p.set('x', xField);
 			if (yField !== 'ct') p.set('y', yField);
 			if (xScale !== 'log') p.set('xs', xScale);

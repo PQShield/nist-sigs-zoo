@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { CommonFilter, KemDataRanges, KemFilterState, KemScheme, ProgrammeGroup } from '$lib/types';
-	import { defaultKemFilter } from '$lib/kemData';
+	import { defaultCompareFilter } from '$lib/compare';
+	import { KEM_FILTER } from '$lib/primitives';
 	import RangeField from './RangeField.svelte';
 	import ProgrammeFilter from './ProgrammeFilter.svelte';
 	import LevelFilter from './LevelFilter.svelte';
@@ -65,7 +66,12 @@
 	}
 
 	function reset() {
-		filter = { ...defaultKemFilter(ranges, allSchemeNames, groups), chart: filter.chart };
+		filter = {
+			...defaultCompareFilter(KEM_FILTER, ranges, allSchemeNames, groups),
+			sortCol: filter.sortCol,
+			sortDir: filter.sortDir,
+			chart: filter.chart
+		};
 	}
 
 	function indeterminate(el: HTMLInputElement, value: boolean) {
