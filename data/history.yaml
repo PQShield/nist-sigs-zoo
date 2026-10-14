@@ -1,7 +1,7 @@
 - date: '2026-10-14'
   type: update
-  description: "Where a specification lists alternative or additional parameter sets next to its main ones, the main sets are now marked, so the Recommended filter hides the alternatives: SNOVA, MAYO, QR-UOV, SQIsign and FAEST (FAEST-EM is the specification's alternative variant). The round-3 specifications of SNOVA (Table 6), MAYO (Table 2.2), QR-UOV (Appendix B) and SQIsign (Appendix P) also list alternative or additional parameter sets; these are now shown under All parameter sets, with sizes from the specifications. The six odd-characteristic SNOVA alternatives are marked broken by Beullens &amp; Hess's vinegar-bias attack."
-  schemes: [SNOVA, MAYO, QR-UOV, SQIsign, PREON, EagleSign, Classic McEliece]
+  description: "Where a specification lists alternative or additional parameter sets next to its main ones, the main sets are now marked, so the Recommended filter hides the alternatives: SNOVA, MAYO, QR-UOV, SQIsign and FAEST (FAEST-EM is the specification's alternative variant), and the NGCC KEMs DTRU (DTRU-Light and DTRU-Prime are the alternatives to the primary tricyclotomic sets) and MAMBA-Frost (the compact-ciphertext CC variants are additional to the default sets). The round-3 specifications of SNOVA (Table 6), MAYO (Table 2.2), QR-UOV (Appendix B) and SQIsign (Appendix P) also list alternative or additional parameter sets; these are now shown under All parameter sets, with sizes from the specifications. The six odd-characteristic SNOVA alternatives are marked broken by Beullens &amp; Hess's vinegar-bias attack."
+  schemes: [SNOVA, MAYO, QR-UOV, SQIsign, FAEST, DTRU, MAMBA-Frost]
 
 - date: '2026-10-14'
   type: update

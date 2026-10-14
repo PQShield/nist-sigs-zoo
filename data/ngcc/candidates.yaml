@@ -1635,8 +1635,13 @@
       - https://ngcc.dev/reports/kem-14.html
   instances:
     # "-PACK_PK" variants (lossless pk compression) are encodings of the same sets, not instances
+    # recommended: §1 (PDF p. 2) "Our primary instantiation employs tricyclotomic rings ... Additionally, we provide
+    # DTRU-Prime instantiation ... and DTRU-Light instantiation"; §1.4 (PDF p. 6) "DTRU-Prime offers an alternative
+    # instantiation at 256-bit security level"; DTRU-Light "only provides parameters for reference" (PDF p. 7).
+    # So the tricyclotomic sets are the main ones; Light and Prime are the alternatives.
     - instance: DTRU-648
       ngcc_level: 128
+      recommended: true
       ref: "§1.4 Table 1-2 (PDF pp. 6-7); footnote says '128-bit quantum' but Table 2 groups it under 128 bits"
     - instance: DTRU-Light
       ngcc_level: 128
@@ -1646,15 +1651,18 @@
       ref: "§1.4 Table 2 (PDF p. 7)"
     - instance: DTRU-1024
       ngcc_level: 256
+      recommended: true
       ref: "§1.4 Table 1-2 (PDF pp. 6-7)"
     - instance: DTRU-Prime
       ngcc_level: 256
       ref: "§1.4 'alternative instantiation at 256-bit' (PDF p. 6), Table 2 (p. 7)"
     - instance: DTRU-1536
       ngcc_level: 384
+      recommended: true
       ref: "§1.4 Table 2 (PDF p. 7)"
     - instance: DTRU-2048
       ngcc_level: 512
+      recommended: true
       ref: "§1.4 Table 2 (PDF p. 7)"
 
 - id: kem-15
@@ -1820,21 +1828,27 @@
     sources:
       - https://list.niccs.org.cn/archives/list/pkcforum@list.niccs.org.cn/message/XYDLYDGUCEQ6QPUCAL3T3RWJBIIGPDU4/
   instances:
-    # "default" profiles are all five sizes; no single one is designated per target
+    # recommended: §1 (PDF p. 4) "This document specifies five default parameter sets: Frost-128, ..., Frost-512 ...
+    # For the two highest security levels, this specification additionally defines compact-ciphertext variants
+    # (denoted with the suffix -CC)". The default sets are the main ones; CC-384/-512 are the additional variants.
     - instance: MAMBA-Frost-128
       ngcc_level: 128
+      recommended: true
       ref: "Table 2-3 (PDF pp. 5, 10)"
     - instance: MAMBA-Frost-192
       omit: "Intermediate 192-bit set; not an NGCC target (spec Table 2, PDF p. 5)"
       ref: "Table 2 (PDF p. 5)"
     - instance: MAMBA-Frost-256
       ngcc_level: 256
+      recommended: true
       ref: "Table 2-3 (PDF pp. 5, 10)"
     - instance: MAMBA-Frost-384
       ngcc_level: 384
+      recommended: true
       ref: "Table 2-3 (PDF pp. 5, 10)"
     - instance: MAMBA-Frost-512
       ngcc_level: 512
+      recommended: true
       ref: "Table 2-3 (PDF pp. 5, 10)"
     # CC-128/-192/-256 have sizes identical to the default instances ("uniform API", Table 5 note, p. 13); omitted as duplicates.
     - instance: MAMBA-Frost-CC-128

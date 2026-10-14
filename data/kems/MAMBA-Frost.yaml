@@ -8,6 +8,7 @@ programmes:
 parametersets:
 - name: MAMBA-Frost-128
   ngcc_level: 128
+  recommended: true
   pk: 5152
   ct: 5192
   keygen_cycles: 1384504
@@ -19,6 +20,7 @@ parametersets:
   notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 - name: MAMBA-Frost-256
   ngcc_level: 256
+  recommended: true
   pk: 16776
   ct: 15552
   keygen_cycles: 5850744
@@ -30,6 +32,7 @@ parametersets:
   notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 - name: MAMBA-Frost-384
   ngcc_level: 384
+  recommended: true
   pk: 25096
   ct: 37736
   keygen_cycles: 10392444
@@ -41,6 +44,7 @@ parametersets:
   notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 - name: MAMBA-Frost-512
   ngcc_level: 512
+  recommended: true
   pk: 36432
   ct: 72944
   keygen_cycles: 18727217

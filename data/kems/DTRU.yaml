@@ -8,6 +8,7 @@ programmes:
 parametersets:
 - name: DTRU-648
   ngcc_level: 128
+  recommended: true
   pk: 972
   ct: 729
   keygen_cycles: 409195
@@ -30,6 +31,7 @@ parametersets:
   notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 - name: DTRU-1024
   ngcc_level: 256
+  recommended: true
   pk: 1536
   ct: 1280
   keygen_cycles: 451778
@@ -52,6 +54,7 @@ parametersets:
   notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 - name: DTRU-1536
   ngcc_level: 384
+  recommended: true
   pk: 2304
   ct: 1920
   keygen_cycles: 604310
@@ -63,6 +66,7 @@ parametersets:
   notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 - name: DTRU-2048
   ngcc_level: 512
+  recommended: true
   pk: 3072
   ct: 2560
   keygen_cycles: 1105176
