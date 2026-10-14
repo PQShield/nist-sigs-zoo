@@ -18,8 +18,8 @@ bench binary's scheme list are generated from), minus rows with iters `skip`. NG
 the rows like run_bench.sh does (case-insensitive substrings, non-alphanumerics ignored,
 OR-ed).
 
-Estimates: a row found in the newest *merged* results file of the suite that has it
-(non-DNF) takes (iters+1) x (keygen + sign + verify us) (KEMs: keygen + encaps +
+Estimates: a row found (non-DNF) in the suite's results files, merged files first,
+newest first, takes (iters+1) x (keygen + sign + verify us) (KEMs: keygen + encaps +
 decaps) plus a little overhead; otherwise its params.tsv iters decide: 1 -> 25 min,
 5 -> 10 min, 10 -> 3 min, other < 1000 -> 45 s, 1000 -> 20 s. BENCH_ITER scales both.
 
@@ -171,17 +171,16 @@ def parse_results(path: Path) -> dict[str, list[str]]:
     return rows
 
 
-def results_files(results_dir: Path, merged_only: bool = True) -> list[Path]:
-    """Results files, newest first (filenames start with a UTC timestamp)."""
+def results_files(results_dir: Path) -> list[Path]:
+    """Results files: merged ones first, each newest first (names start with a UTC
+    timestamp)."""
     files = [p for p in results_dir.glob("*.txt") if re.match(r"\d{8}T\d{6}Z_", p.name)]
-    if merged_only:
-        files = [p for p in files if "merged" in p.name]
-    return sorted(files, key=lambda p: p.name, reverse=True)
+    return sorted(files, key=lambda p: ("merged" in p.name, p.name), reverse=True)
 
 
 def measured_us(results_dir: Path) -> dict[str, float]:
-    """name -> keygen+op1+op2 microseconds, from the newest merged file that has a
-    non-DNF row for it."""
+    """name -> keygen+op1+op2 microseconds, from the first file (results_files order)
+    with a non-DNF row for it."""
     out: dict[str, float] = {}
     for path in results_files(results_dir):
         for name, f in parse_results(path).items():
@@ -797,9 +796,7 @@ def main(argv: list[str] | None = None) -> int:
     )
     by_iters = sum(r.source == "iters" for r in rows)
     if by_iters:
-        print(
-            f"{by_iters} rows have no merged results to estimate from; used their iters"
-        )
+        print(f"{by_iters} rows have no results to estimate from; used their iters")
     for g in groups:
         ttl = args.ttl or ttl_minutes(g.est_s)
         print(

@@ -117,8 +117,8 @@ def test_iters_heuristic():
 def test_estimates_from_newest_merged_results(tmp_path):
     rd = tmp_path / "results"
     rd.mkdir()
-    # Newest merged file wins; an unmerged file is ignored; a DNF row falls through
-    # to an older merged file.
+    # Newest merged file wins over an unmerged one; a DNF row falls through to an
+    # older merged file; a row in no merged file comes from an unmerged one.
     (rd / "20261013T000000Z_cpu_merged.txt").write_text(
         results([row("A", 10, "100.0", "200.0", "300.0"), row("B", 10, "1", "1", "1")])
     )
@@ -126,10 +126,10 @@ def test_estimates_from_newest_merged_results(tmp_path):
         results([row("A", 10, "1000.0", "2000.0", "3000.0"), dnf("B", 10)])
     )
     (rd / "20261015T000000Z_cpu_a.txt").write_text(
-        results([row("A", 10, "9", "9", "9")])
+        results([row("A", 10, "9", "9", "9"), row("E", 10, "1", "2", "3")])
     )
     m = S.measured_us(rd)
-    assert m == {"A": 6000.0, "B": 3.0}
+    assert m == {"A": 6000.0, "B": 3.0, "E": 6.0}
 
     rows = S.estimate_rows([("A", "10"), ("C", "10"), ("D", "0")], m, None, 3600)
     a, c, d = rows
