@@ -18,7 +18,8 @@
 	import { processYamlSchemes } from '$lib/data';
 	import { getFilterStore, buildUrlParams, createFilterStore } from '$lib/filterStore';
 	import { roundStore, roundToFilter, type Round } from '$lib/roundStore';
-	import { allSchemeData, benchmarkEnv, lastUpdated } from '$lib/schemeData';
+	import { allSchemeData, benchmarkEnv } from '$lib/schemeData';
+	import { lastDataChange } from '$lib/dataDates';
 	import type { PageData } from './$types';
 
 	let { data: _ }: { data: PageData } = $props();
@@ -121,13 +122,13 @@
 		</p>
 		<p class="mt-1.5 text-xs text-pqs-steel/70 dark:text-pqs-bluegray/70">
 			{#if $roundStore === 'latest'}
-				Data reflects the latest known specifications for each scheme, last updated {lastUpdated}.
+				Data reflects the latest known specifications for each scheme, last updated {lastDataChange}.
 				Each scheme page links to the scheme's website and lists its recorded versions.
 			{:else if $roundStore === 'round-3'}
 				Showing the 9 schemes selected for Round 3 of the NIST Additional Signatures competition.
-				Round 3 specific submission data is not yet available; data reflects the most recent known specifications (last updated {lastUpdated}).
+				Round 3 specific submission data is not yet available; data reflects the most recent known specifications (last updated {lastDataChange}).
 			{:else}
-				Data reflects scheme specifications as submitted at the start of {$roundStore === 'round-1' ? 'Round 1' : 'Round 2'} of the NIST Additional Signatures competition (data last updated {lastUpdated}).
+				Data reflects scheme specifications as submitted at the start of {$roundStore === 'round-1' ? 'Round 1' : 'Round 2'} of the NIST Additional Signatures competition (data last updated {lastDataChange}).
 				Schemes may have been updated since; see the individual scheme pages for later versions.
 			{/if}
 		</p>

@@ -4,7 +4,7 @@
 	import { page } from '$app/stores';
 	import { base } from '$app/paths';
 	import { themeStore } from '$lib/themeStore';
-	import { lastUpdated } from '$lib/schemeData';
+	import { lastDataChange } from '$lib/dataDates';
 	import { SITE_NAME } from '$lib/constants';
 
 	let { children } = $props();
@@ -140,7 +140,7 @@
         Built by Thom Wiggers / PQShield.
 				Data licensed under
 				<a href="{base}/LICENSE.md" class="text-pqs-apricot hover:underline">CC BY-SA 4.0</a>.
-        Most recent scheme data is dated {lastUpdated}.
+        Data last changed {lastDataChange}.
 			</p>
 			<p>
 				<a

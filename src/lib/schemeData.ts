@@ -6,12 +6,6 @@ const modules = import.meta.glob('../../data/schemes/*.yaml', {
 
 export const allSchemeData: SchemeYaml[] = Object.values(modules).map((m) => m.default);
 
-export const lastUpdated: string = allSchemeData
-	.flatMap((s) => s.versions.map((v) => v.date))
-	.filter(Boolean)
-	.sort()
-	.at(-1) ?? '';
-
 const benchEnvModule = import.meta.glob('../../data/benchmark_env.yaml', {
 	eager: true,
 }) as Record<string, { default: BenchmarkEnv }>;

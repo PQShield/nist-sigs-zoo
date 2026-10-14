@@ -3,7 +3,7 @@
 	import { base } from '$app/paths';
 	import { legacyHomeRedirect } from '$lib/legacy';
 	import { SITE_NAME } from '$lib/constants';
-	import { lastUpdated } from '$lib/schemeData';
+	import { lastDataChange } from '$lib/dataDates';
 	import { summariseGroups, type StageGroup } from '$lib/programmes';
 	import type { PageData } from './$types';
 
@@ -52,7 +52,7 @@
 			<div class="flex flex-col-reverse"><dt class="text-sm text-pqs-bluegray">signature schemes</dt><dd class="text-3xl font-bold">{data.signatureCount}</dd></div>
 			<div class="flex flex-col-reverse"><dt class="text-sm text-pqs-bluegray">KEMs</dt><dd class="text-3xl font-bold">{data.kemCount}</dd></div>
 			<div class="flex flex-col-reverse"><dt class="text-sm text-pqs-bluegray">programmes</dt><dd class="text-3xl font-bold">{data.summaries.length}</dd></div>
-			<div class="flex flex-col-reverse"><dt class="text-sm text-pqs-bluegray">last data change</dt><dd class="text-3xl font-bold">{lastUpdated}</dd></div>
+			<div class="flex flex-col-reverse"><dt class="text-sm text-pqs-bluegray">last data change</dt><dd class="text-3xl font-bold">{lastDataChange}</dd></div>
 		</dl>
 	</div>
 </section>
