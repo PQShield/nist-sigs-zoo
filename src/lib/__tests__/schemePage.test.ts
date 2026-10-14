@@ -249,4 +249,14 @@ describe('hostOf / timeCell', () => {
 	it('marks unbenchmarked cells', () => {
 		expect(timeCell(null, 0)).toEqual({ text: '—', kind: 'missing', title: 'Not yet benchmarked' });
 	});
+
+	it('marks cells of a benchmark that did not finish, but keeps any measured value', () => {
+		expect(timeCell(null, 0, 'timeout')).toEqual({
+			text: 'timeout',
+			kind: 'dnf',
+			title: 'Benchmark did not finish (timeout)'
+		});
+		expect(timeCell(null, 0, 'SIGSEGV').text).toBe('DNF');
+		expect(timeCell(2, 0, 'SIGSEGV').kind).toBe('value');
+	});
 });

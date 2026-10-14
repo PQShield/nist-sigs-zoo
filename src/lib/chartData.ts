@@ -1,5 +1,5 @@
 import { fmtTime } from './format';
-import { displayUs, kemTimes, sigTimes } from './timing';
+import { displayUs, dnfCell, kemTimes, sigTimes } from './timing';
 import type { AxisField, KemAxisField, KemParameterSet, ParameterSet } from './types';
 
 /** Chart value of a signature row on an axis; null when the row has no value there. */
@@ -50,18 +50,32 @@ export function partitionPlottable<T, F>(
 	return { plotted, omitted };
 }
 
-export function omittedNote(n: number): string {
-	return n === 1
-		? '1 parameter set is not shown: not yet benchmarked.'
-		: `${n} parameter sets are not shown: not yet benchmarked.`;
+/** Why rows are missing from the chart: `notBenchmarked` have no timings yet, `didNotFinish`
+ * have none because their benchmark did not finish (timeout or error). */
+export function omittedNote(notBenchmarked: number, didNotFinish = 0): string {
+	const n = notBenchmarked + didNotFinish;
+	const head = n === 1 ? '1 parameter set is not shown' : `${n} parameter sets are not shown`;
+	if (didNotFinish === 0) return `${head}: not yet benchmarked.`;
+	if (notBenchmarked === 0) return `${head}: did not finish.`;
+	return `${head}: ${didNotFinish} did not finish, ${notBenchmarked} not yet benchmarked.`;
 }
 
-/** Tooltip entries for operation times: formatted like the tables, marked when extrapolated from cycles. */
-export function timeTooltip(ops: { label: string; us: number | null; cycles: number }[]): Record<string, string> {
+/** Tooltip entries for operation times: formatted like the tables, marked when extrapolated from
+ * cycles; "timeout" / "DNF (reason)" when the benchmark did not finish. */
+export function timeTooltip(
+	ops: { label: string; us: number | null; cycles: number }[],
+	dnf: string | null = null
+): Record<string, string> {
 	const out: Record<string, string> = {};
 	for (const { label, us, cycles } of ops) {
 		const t = displayUs(us, cycles);
-		if (t == null) continue;
+		if (t == null) {
+			if (dnf) {
+				const { text } = dnfCell(dnf);
+				out[`${label} time`] = dnf === text ? text : `${text} (${dnf.replace(/-/g, ' ')})`;
+			}
+			continue;
+		}
 		out[`${label} time`] = us == null ? `${fmtTime(t)} (estimated from cycles)` : fmtTime(t);
 	}
 	return out;

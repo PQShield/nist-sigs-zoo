@@ -77,6 +77,7 @@ export function processKemSchemes(schemeData: KemSchemeYaml[]): {
 				website: yaml.website,
 				assumption: yaml.assumption,
 				notes: ps.notes ?? null,
+				dnf: ps.dnf ?? null,
 				programmes,
 				ngccLevel: ps.ngcc_level ?? null,
 				recommended: anyRecommended ? ps.recommended === true : true,

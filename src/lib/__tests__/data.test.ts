@@ -33,6 +33,15 @@ describe('processYamlSchemes', () => {
 		expect(parameterSets[0].pkPlusSig).toBe(3000);
 	});
 
+	it('carries the did-not-finish reason, null when absent', () => {
+		const dnf = { name: 'Slow', level: 2 as const, pk: 1, sig: 2, dnf: 'timeout' };
+		const data = [
+			scheme({ versions: [{ version: 'v1', date: '2024-01-01', status: 'On-ramp', parametersets: [BASE_PS, dnf] }] })
+		];
+		const { parameterSets } = processYamlSchemes(data);
+		expect(parameterSets.map((p) => p.dnf)).toEqual([null, 'timeout']);
+	});
+
 	it('uses signing_cycles directly when present', () => {
 		const data = [
 			scheme({ versions: [{ version: 'v1', date: '2024-01-01', status: 'On-ramp', parametersets: [BASE_PS] }] })

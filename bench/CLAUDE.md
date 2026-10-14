@@ -147,9 +147,10 @@ on stderr. The run always continues with the next scheme.
   Filters that match nothing exit 0.
 - `--sizes` is unchanged (in-process, no isolation).
 - The importer (`update_scheme_data.py`) never imports timings from a DNF row. On an
-  NGCC parameter set it removes the old timings and appends
-  `Benchmark did not finish (<reason>).` to its notes (`ngcc_data.mark_dnf`; a later
-  good row removes it, `--ngcc-sizes` keeps it). On any other scheme it prints a
+  NGCC parameter set it removes the old timings, appends
+  `Benchmark did not finish (<reason>).` to its notes and writes `dnf: <reason>` (shown as
+  "timeout" or "DNF" in the timing cells; `ngcc_data.mark_dnf`; a later good row removes
+  both, `--ngcc-sizes` keeps them). `iters skip` rows get `dnf: timeout`. On any other scheme it prints a
   warning and keeps the existing timings.
 - This is generic: never special-case a candidate here. A crasher is fixed in its own
   wrapper (see "NGCC candidates") or shows up as DNF.

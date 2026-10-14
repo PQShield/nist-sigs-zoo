@@ -23,6 +23,8 @@ export interface CompareRow extends FilterableRow {
 	info: false | string;
 	findingsUrl: string | null;
 	notes: string | null;
+	/** Why the benchmark did not finish; its timing cells say so instead of "—". */
+	dnf: string | null;
 	version?: string;
 }
 
@@ -142,7 +144,10 @@ export function chartTooltip<R extends CompareRow, A extends string>(
 		'Security level': levelDescription(d.level, d.ngccLevel),
 		...Object.fromEntries(spec.sizes.map(([label, value]) => [label, value(d).toLocaleString()])),
 		...cycles,
-		...timeTooltip(spec.ops.map((op) => ({ label: op.label, us: op.us(d), cycles: op.cycles(d) }))),
+		...timeTooltip(
+			spec.ops.map((op) => ({ label: op.label, us: op.us(d), cycles: op.cycles(d) })),
+			d.dnf
+		),
 		...(notes ? { Notes: notes } : {}),
 		'Scheme page': 'click the point'
 	};

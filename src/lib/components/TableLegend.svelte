@@ -17,5 +17,6 @@
 		><span class="underline decoration-pqs-scarlet decoration-wavy">value</span> estimated from cycle counts at {CPU_GHZ_LABEL}</span
 	>
 	<span>— not yet benchmarked</span>
+	<span>timeout / DNF benchmark did not finish (too slow / failed)</span>
 	<span>Select an icon for details</span>
 </div>

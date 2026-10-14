@@ -88,6 +88,9 @@ describe('omittedNote', () => {
 	it('says how many parameter sets are missing and why', () => {
 		expect(omittedNote(1)).toBe('1 parameter set is not shown: not yet benchmarked.');
 		expect(omittedNote(4)).toBe('4 parameter sets are not shown: not yet benchmarked.');
+		expect(omittedNote(0, 1)).toBe('1 parameter set is not shown: did not finish.');
+		expect(omittedNote(0, 2)).toBe('2 parameter sets are not shown: did not finish.');
+		expect(omittedNote(3, 1)).toBe('4 parameter sets are not shown: 1 did not finish, 3 not yet benchmarked.');
 	});
 });
 
@@ -101,5 +104,15 @@ describe('timeTooltip', () => {
 		expect(t['Signing time']).toBe('12.3 µs');
 		expect(t['Verification time']).toBe('2.0 µs (estimated from cycles)');
 		expect(t).not.toHaveProperty('Keygen time');
+	});
+
+	it('says why a time is missing when the benchmark did not finish', () => {
+		const ops = [
+			{ label: 'Signing', us: null, cycles: 0 },
+			{ label: 'Verification', us: 3, cycles: 0 }
+		];
+		expect(timeTooltip(ops, 'timeout')).toEqual({ 'Signing time': 'timeout', 'Verification time': '3.0 µs' });
+		expect(timeTooltip(ops, 'operation-over-600s')['Signing time']).toBe('timeout (operation over 600s)');
+		expect(timeTooltip(ops, 'SIGSEGV')['Signing time']).toBe('DNF (SIGSEGV)');
 	});
 });

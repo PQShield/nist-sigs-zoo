@@ -37,6 +37,8 @@ export interface ParameterSet {
 	website: string;
 	assumption: string;
 	notes: string | null;
+	/** Why the benchmark did not finish (`timeout`, `operation-over-600s`, `SIGSEGV`, …); null otherwise. */
+	dnf: string | null;
 	version: string;
 	perfSource: string | null;
 	programmes: ProgrammeMembership[];
@@ -66,6 +68,8 @@ export interface ParameterSetYaml {
 	warning?: string;
 	info?: string;
 	notes?: string;
+	/** One-word reason the benchmark did not finish (written by the importers); no timings then. */
+	dnf?: string;
 }
 
 export interface VersionYaml {
@@ -116,6 +120,8 @@ export interface KemParameterSetYaml {
 	warning?: string;
 	info?: string;
 	notes?: string;
+	/** One-word reason the benchmark did not finish (written by the importers); no timings then. */
+	dnf?: string;
 }
 
 export interface KemSchemeYaml {
@@ -173,6 +179,8 @@ export interface KemParameterSet {
 	website: string;
 	assumption: string;
 	notes: string | null;
+	/** Why the benchmark did not finish (`timeout`, `operation-over-600s`, `SIGSEGV`, …); null otherwise. */
+	dnf: string | null;
 	programmes: ProgrammeMembership[];
 	ngccLevel: NgccLevel | null;
 	recommended: boolean;

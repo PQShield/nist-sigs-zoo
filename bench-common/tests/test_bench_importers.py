@@ -96,6 +96,7 @@ def test_sig_dnf_on_ngcc_drops_timings_and_notes_it(sig):
     assert changed and "DNF" in msg
     assert "signing_cycles" not in ps and "signing_us" not in ps
     assert ps["notes"] == "Ref. Benchmark did not finish (valid signature rejected)."
+    assert ps["dnf"] == "valid-signature-rejected"
 
 
 def test_op_limit_dnf_note_reads_naturally(sig):
@@ -104,6 +105,7 @@ def test_op_limit_dnf_note_reads_naturally(sig):
     changed, _ = sig.apply_row(sig_doc(ps), "TRINE-512-Balanced", row)
     assert changed and "signing_cycles" not in ps
     assert ps["notes"] == "Ref. Benchmark did not finish (operation over 600s)."
+    assert ps["dnf"] == "operation-over-600s"
 
 
 def test_sig_dnf_elsewhere_keeps_timings(sig):
@@ -116,7 +118,11 @@ def test_sig_dnf_elsewhere_keeps_timings(sig):
 
 
 def test_sig_timings_clear_an_old_ngcc_dnf_note(sig):
-    ps = {"name": "Tins256", "notes": "Ref. Benchmark did not finish (SIGABRT)."}
+    ps = {
+        "name": "Tins256",
+        "notes": "Ref. Benchmark did not finish (SIGABRT).",
+        "dnf": "SIGABRT",
+    }
     row = {
         "name": "NGCC-Tins256",
         "dnf": None,
@@ -128,6 +134,7 @@ def test_sig_timings_clear_an_old_ngcc_dnf_note(sig):
     changed, _ = sig.apply_row(sig_doc(ps), "Tins256", row)
     assert changed
     assert ps["notes"] == "Ref." and ps["signing_cycles"] == 5
+    assert "dnf" not in ps
 
 
 def test_sig_missing_parameterset(sig):
@@ -145,6 +152,7 @@ def test_kem_dnf_on_ngcc_and_elsewhere(kem):
     assert changed and ngcc == {
         "name": "E1",
         "notes": "Benchmark did not finish (timeout).",
+        "dnf": "timeout",
     }
     other = {"name": "ML-KEM-512", "keygen_cycles": 1}
     changed, msg = kem.apply_row(

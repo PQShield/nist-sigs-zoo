@@ -39,3 +39,16 @@ export function timeRange(values: (number | null)[]): [number, number] | null {
 	if (known.length === 0) return null;
 	return [Math.floor(Math.min(...known) * 10) / 10, Math.ceil(Math.max(...known) * 10) / 10];
 }
+
+/** Reasons that mean "too slow for our limits": the run timeout, the per-operation limit, and
+ * parameter sets skipped because a single run takes hours (written as `timeout`). */
+const TIME_LIMIT = /^(?:timeout|(?:operation|sign-or-verify)-over-\d+s)$/;
+
+/** How the timing cells of a parameter set whose benchmark did not finish read: "timeout" for
+ * time limits, "DNF" otherwise; the title gives the exact reason. */
+export function dnfCell(reason: string): { text: 'timeout' | 'DNF'; title: string } {
+	return {
+		text: TIME_LIMIT.test(reason) ? 'timeout' : 'DNF',
+		title: `Benchmark did not finish (${reason.replace(/-/g, ' ')})`
+	};
+}

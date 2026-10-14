@@ -64,13 +64,16 @@ KAT_INFO_DEFAULT = "The submitted test vectors were not checked against our buil
 
 # status.tsv `patch` column set (status.py): a patched copy of submitted code is built.
 # params.tsv `iters` = skip: the instance is built and measured for sizes/KAT only.
+# It is skipped because it exceeds our time limits, so its `dnf` reason is "timeout".
 UNTIMED_NOTE = "Not benchmarked: a single run takes hours."
+UNTIMED_DNF = "timeout"
 
 PATCH_NOTE = "our build applies a small patch to the submitted code"
 
 
 # A benchmark run that ended in a DNF row (crash, timeout, failed warm-up check)
-# leaves this sentence at the end of the parameter set's notes; see mark_dnf().
+# leaves this sentence at the end of the parameter set's notes and the one-word
+# reason in its `dnf` field (shown in the timing cells); see mark_dnf().
 DNF_NOTE = "Benchmark did not finish"
 _DNF_RE = re.compile(r"\s*" + DNF_NOTE + r" \([^)]*\)\.")
 
@@ -81,7 +84,8 @@ def _dnf_sentence(notes) -> str:
 
 
 def clear_dnf(ps) -> None:
-    """Remove a DNF sentence from a parameter set's notes (dropping empty notes)."""
+    """Remove a DNF sentence and `dnf` field from a parameter set (dropping empty notes)."""
+    ps.pop("dnf", None)
     notes = _DNF_RE.sub("", str(ps.get("notes") or "")).strip()
     if notes:
         ps["notes"] = notes
@@ -96,6 +100,7 @@ def mark_dnf(ps, kind: str, reason: str) -> None:
     clear_dnf(ps)
     sentence = f"{DNF_NOTE} ({reason.replace('-', ' ')})."
     ps["notes"] = f"{ps['notes']} {sentence}" if ps.get("notes") else sentence
+    ps["dnf"] = reason
 
 
 class NgccDataError(ValueError):
@@ -249,6 +254,10 @@ def parameterset(
         note = f"{note} {dnf}".strip()
     if note:
         ps["notes"] = note
+    if name in untimed:
+        ps["dnf"] = UNTIMED_DNF
+    elif dnf and old.get("dnf"):
+        ps["dnf"] = old["dnf"]
     info = " ".join(t for t in (inst.get("info"), kat_info(status.get(name))) if t)
     if info:
         ps["info"] = info

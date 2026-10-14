@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { displayUs, kemTimes, sigTimes, timeRange } from '$lib/timing';
+import { displayUs, dnfCell, kemTimes, sigTimes, timeRange } from '$lib/timing';
 import { CYCLES_PER_US } from '$lib/constants';
 
 describe('displayUs', () => {
@@ -32,5 +32,19 @@ describe('timeRange', () => {
 	});
 	it('is null without any timing', () => {
 		expect(timeRange([null, null])).toBeNull();
+	});
+});
+
+describe('dnfCell', () => {
+	it('reads "timeout" for time limits and "DNF" for anything else, with the exact reason as title', () => {
+		expect(dnfCell('timeout')).toEqual({ text: 'timeout', title: 'Benchmark did not finish (timeout)' });
+		expect(dnfCell('operation-over-600s')).toEqual({
+			text: 'timeout',
+			title: 'Benchmark did not finish (operation over 600s)'
+		});
+		expect(dnfCell('sign-or-verify-over-600s').text).toBe('timeout');
+		expect(dnfCell('SIGSEGV')).toEqual({ text: 'DNF', title: 'Benchmark did not finish (SIGSEGV)' });
+		expect(dnfCell('tampered-signature-accepted').text).toBe('DNF');
+		expect(dnfCell('timeout-ish').text).toBe('DNF');
 	});
 });

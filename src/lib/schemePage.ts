@@ -7,6 +7,7 @@ import { schemeProgrammes } from './programmes';
 import { schemeEvents, type SchemeEvent } from './schemeHistory';
 import { schemeSlug } from './slugs';
 import { levelText, versionOptions, type VersionOption } from './versionCompare';
+import { dnfCell } from './timing';
 import type {
 	HistoryEntry,
 	KemParameterSet,
@@ -19,7 +20,7 @@ import type {
 
 export interface TableCell {
 	text: string;
-	kind: 'value' | 'estimated' | 'missing';
+	kind: 'value' | 'estimated' | 'missing' | 'dnf';
 	title?: string;
 }
 
@@ -92,8 +93,9 @@ function findingsLink(url: string | null | undefined): { url: string; host: stri
 
 const num = (n: number): TableCell => ({ text: fmt(n), kind: 'value' });
 
-/** Measured µs, else estimated from measured cycles, else "not yet benchmarked". */
-export function timeCell(us: number | null, cycles: number): TableCell {
+/** Measured µs, else estimated from measured cycles, else "timeout"/"DNF" when the benchmark did
+ * not finish, else "not yet benchmarked". */
+export function timeCell(us: number | null, cycles: number, dnf: string | null = null): TableCell {
 	if (us != null) return { text: fmtTime(us), kind: 'value' };
 	if (cycles > 0) {
 		return {
@@ -102,6 +104,7 @@ export function timeCell(us: number | null, cycles: number): TableCell {
 			title: `Estimated from ${fmtCycles(cycles)} cycles @ ${CPU_GHZ_LABEL}`
 		};
 	}
+	if (dnf) return { ...dnfCell(dnf), kind: 'dnf' };
 	return { text: '—', kind: 'missing', title: 'Not yet benchmarked' };
 }
 
@@ -119,8 +122,8 @@ export function signatureTable(rows: ParameterSet[]): ParamSetTableModel {
 				num(r.pk),
 				num(r.sig),
 				num(r.pkPlusSig),
-				timeCell(r.signingUs, r.signingCycles),
-				timeCell(r.verificationUs, r.verificationCycles)
+				timeCell(r.signingUs, r.signingCycles, r.dnf),
+				timeCell(r.verificationUs, r.verificationCycles, r.dnf)
 			]
 		}))
 	};
@@ -140,9 +143,9 @@ export function kemTable(rows: KemParameterSet[]): ParamSetTableModel {
 				num(r.pk),
 				num(r.ct),
 				num(r.pkPlusCt),
-				timeCell(r.keygenUs, r.keygenCycles),
-				timeCell(r.encapsUs, r.encapsCycles),
-				timeCell(r.decapsUs, r.decapsCycles)
+				timeCell(r.keygenUs, r.keygenCycles, r.dnf),
+				timeCell(r.encapsUs, r.encapsCycles, r.dnf),
+				timeCell(r.decapsUs, r.decapsCycles, r.dnf)
 			]
 		}))
 	};

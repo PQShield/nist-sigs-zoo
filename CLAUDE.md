@@ -135,6 +135,8 @@ versions:
         signing_us: null       # microseconds; use cycles OR us, not both
         verification_us: null
         notes: null
+        dnf: timeout           # written by the importers when the benchmark did not finish (no timings
+                               # then): timeout / operation-over-600s show as "timeout", others as "DNF"
 ```
 
 Security flags (`broken`/`warning`/`info`) can be set at version level (applies to all
@@ -209,6 +211,7 @@ parametersets:
     encaps_us: 13.4
     decaps_us: 14.2
     notes: null
+    dnf: SIGSEGV       # as for signatures: benchmark did not finish (importer-written)
 ```
 
 Benchmark fields are optional and produced by `bench-kem/update_scheme_data.py` from a
@@ -473,6 +476,10 @@ stays `Pre-Quantum`.
 
 Cycles extrapolated from ms values use `CPUSPEED = 2_500_000_000` (2.5 GHz).
 Extrapolated values shown with wavy red underline (`decoration-wavy decoration-red-500`).
+A parameter set with `dnf:` (benchmark did not finish) shows "timeout" (reasons `timeout`,
+`operation-over-<n>s`; also NGCC `iters skip` sets) or "DNF" in its timing cells, with the exact
+reason as title (`dnfCell()` in `src/lib/timing.ts`; compare tables, scheme pages, chart tooltips);
+the chart's omitted note counts such sets as "did not finish".
 Never import third-party benchmark numbers; timings come from `bench/` and `bench-kem/` only.
 
 ### Cloud benchmark runs — `scripts/aws-bench.sh`

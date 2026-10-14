@@ -152,6 +152,26 @@ describe('data/ngcc/candidates.yaml', () => {
 		expect(flagged.length).toBeGreaterThan(0);
 	});
 
+	it('gives every set whose benchmark did not finish a dnf reason and no timings', () => {
+		const TIMING = /_(cycles|us)$/;
+		const errors = candidates.flatMap((c) => {
+			if (!existsSync(yamlPath(c))) return [];
+			const doc = yaml.load(readFileSync(yamlPath(c), 'utf8'));
+			const sets = (c.kind === 'signature'
+				? ((doc as SchemeYaml).versions.find((v) => v.programmes?.['china-ngcc'])?.parametersets ?? [])
+				: (doc as KemSchemeYaml).parametersets) as unknown as Record<string, unknown>[];
+			return sets.flatMap((p) => {
+				const notes = String(p.notes ?? '');
+				const unfinished = /Benchmark did not finish|Not benchmarked/.test(notes);
+				const e: string[] = [];
+				if (unfinished !== (typeof p.dnf === 'string')) e.push(`${p.name}: dnf and notes disagree`);
+				if (p.dnf && Object.keys(p).some((k) => TIMING.test(k))) e.push(`${p.name}: dnf set with timings`);
+				return e;
+			});
+		});
+		expect(errors).toEqual([]);
+	});
+
 	it('keeps findings short, linked and credited to their authors', () => {
 		// Each summary ends with a parenthesised author credit, e.g. "... (Xiong and Wang).", and
 		// each credited name links to its disclosure: (<a href="https://...">Xiong and Wang</a>).

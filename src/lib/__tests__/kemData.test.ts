@@ -28,6 +28,14 @@ const ecdh: KemSchemeYaml = {
 };
 
 describe('processKemSchemes', () => {
+	it('carries the did-not-finish reason, null when absent', () => {
+		const slow: KemSchemeYaml = {
+			...mlkem,
+			parametersets: [mlkem.parametersets[0], { ...mlkem.parametersets[1], dnf: 'SIGSEGV' }]
+		};
+		expect(processKemSchemes([slow]).parameterSets.map((p) => p.dnf)).toEqual([null, 'SIGSEGV']);
+	});
+
 	it('flattens parameter sets and computes pk+ct', () => {
 		const { schemes, parameterSets } = processKemSchemes([mlkem]);
 		expect(schemes).toHaveLength(1);

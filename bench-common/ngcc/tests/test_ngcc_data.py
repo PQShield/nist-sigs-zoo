@@ -234,6 +234,7 @@ def test_dnf_note_replaces_timings_and_is_cleared_again():
     }
     nd.mark_dnf(ps, "kem", "valid-signature-rejected")
     assert "keygen_cycles" not in ps and "decaps_us" not in ps
+    assert ps["dnf"] == "valid-signature-rejected"
     assert ps["notes"] == (
         "Reference implementation. Benchmark did not finish (valid signature rejected)."
     )
@@ -241,8 +242,9 @@ def test_dnf_note_replaces_timings_and_is_cleared_again():
     assert (
         ps["notes"] == "Reference implementation. Benchmark did not finish (SIGABRT)."
     )
+    assert ps["dnf"] == "SIGABRT"
     nd.clear_dnf(ps)
-    assert ps["notes"] == "Reference implementation."
+    assert ps["notes"] == "Reference implementation." and "dnf" not in ps
     bare = {"name": "E1"}
     nd.mark_dnf(bare, "signature", "timeout")
     assert bare["notes"] == "Benchmark did not finish (timeout)."
@@ -264,6 +266,7 @@ def test_reimport_keeps_dnf_note(tmp_path):
         ps["notes"]
         == nd.ps_notes(STATUS["NGCC-A1"]) + " Benchmark did not finish (SIGFPE)."
     )
+    assert ps["dnf"] == "SIGFPE"
 
 
 def test_patched_build_is_noted_neutrally():
@@ -295,6 +298,7 @@ def test_untimed_instance_keeps_sizes_and_notes_it_is_not_benchmarked(tmp_path):
         nd.UNTIMED_NOTE in a1["notes"] and nd.ps_notes(STATUS["NGCC-A1"]) in a1["notes"]
     )
     assert a2["signing_cycles"] == 5 and nd.UNTIMED_NOTE not in a2["notes"]
+    assert a1["dnf"] == "timeout" and "dnf" not in a2
 
 
 def _params(tmp_path, *pairs):
