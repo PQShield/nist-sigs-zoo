@@ -52,7 +52,7 @@ export function securityBadges(row: {
 	return badges;
 }
 
-export type ChipTone = 'standard' | 'new' | 'plain';
+export type ChipTone = 'standard' | 'plain';
 
 export interface Chip {
 	label: string;
@@ -86,7 +86,7 @@ export function programmeChips(
 		if (standardShown && m.programme === STANDARDS_PROGRAMME) continue;
 		chips.push({
 			label: membershipChipLabel(m, registry),
-			tone: m.programme === 'china-ngcc' ? 'new' : 'plain',
+			tone: 'plain',
 			programme: m.programme
 		});
 	}

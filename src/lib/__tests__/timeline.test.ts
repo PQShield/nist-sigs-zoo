@@ -152,10 +152,10 @@ describe('options and labels', () => {
 		expect(isHistoryType('attack')).toBe(true);
 		expect(isHistoryType('standardisation')).toBe(false);
 	});
-	it('builds chips with the option labels; NGCC gets the "new" tone', () => {
+	it('builds chips with the option labels, all in the plain tone', () => {
 		const options = programmeOptions(items, REGISTRY);
 		expect(entryChips(['china-ngcc', 'kpqc'], options)).toEqual([
-			{ label: 'China NGCC', tone: 'new', programme: 'china-ngcc' },
+			{ label: 'China NGCC', tone: 'plain', programme: 'china-ngcc' },
 			{ label: 'KpqC', tone: 'plain', programme: 'kpqc' }
 		]);
 		expect(entryChips([SITE_PROGRAMME], options)).toEqual([{ label: 'Site updates', tone: 'plain' }]);

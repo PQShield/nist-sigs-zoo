@@ -93,7 +93,7 @@ export function entryChips(programmes: string[], options: ProgrammeOption[]): Ch
 	return programmes.map(
 		(id): Chip => ({
 			label: options.find((o) => o.id === id)?.label ?? id,
-			tone: id === 'china-ngcc' ? 'new' : 'plain',
+			tone: 'plain',
 			...(id === SITE_PROGRAMME ? {} : { programme: id })
 		})
 	);

@@ -28,9 +28,6 @@
 			<label class={FILTER_OPTION}>
 				<input type="checkbox" class="accent-pqs-apricot" checked={filter.programmes.has(group)} onchange={() => toggle(group)} />
 				<span class={FILTER_OPTION_TEXT}>{PROGRAMME_GROUP_LABELS[group]}</span>
-				{#if group === 'china-ngcc'}
-					<span class="rounded bg-[#fdf3e6] px-1.5 text-[11px] font-bold text-[#8a5208]">New</span>
-				{/if}
 			</label>
 			{#if group === 'nist-onramp' && onramp}
 				<div class="ml-5">{@render onramp(filter.programmes.has('nist-onramp'))}</div>

@@ -139,7 +139,7 @@ describe('kemPage', () => {
 	it('has programmes, status, an NGCC-scale table and no versions', () => {
 		expect(page).toMatchObject({ primitive: 'kem', slug: 'toykem', status: 'Research proposal', websiteHost: null, findings: null });
 		expect(page).not.toHaveProperty('versions');
-		expect(page.chips).toEqual([{ label: 'NGCC R1', tone: 'new', programme: 'china-ngcc' }]);
+		expect(page.chips).toEqual([{ label: 'NGCC R1', tone: 'plain', programme: 'china-ngcc' }]);
 		expect(page.table.headers).toEqual(['pk (B)', 'ct (B)', 'pk+ct (B)', 'Keygen', 'Encaps', 'Decaps']);
 		expect(page.table.rows[0].level).toBe('128-bit');
 		expect(page.table.rows[0].cells.slice(3).map((c) => c.kind)).toEqual(['missing', 'missing', 'missing']);

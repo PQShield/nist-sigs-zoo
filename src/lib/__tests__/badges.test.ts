@@ -73,9 +73,9 @@ describe('programmeChips', () => {
 			.toEqual([{ label: 'ISO', tone: 'plain', programme: 'iso' }]);
 	});
 
-	it('highlights NGCC memberships as new', () => {
+	it('shows NGCC memberships like any other programme', () => {
 		expect(programmeChips({ status: 'NGCC', programmes: [{ programme: 'china-ngcc', stage: 'round-1' }] }, REGISTRY))
-			.toEqual([{ label: 'NGCC R1', tone: 'new', programme: 'china-ngcc' }]);
+			.toEqual([{ label: 'NGCC R1', tone: 'plain', programme: 'china-ngcc' }]);
 	});
 
 	it('labels schemes outside every programme', () => {

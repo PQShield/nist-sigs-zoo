@@ -6,7 +6,6 @@
 
 	const TONE: Record<ChipTone, string> = {
 		standard: 'bg-[#fbe9d2] text-[#7a4606] dark:bg-pqs-apricot/20 dark:text-pqs-apricot',
-		new: 'bg-[#fdf3e6] text-[#8a5208] dark:bg-pqs-apricot/10 dark:text-pqs-apricot-light',
 		plain: 'bg-pqs-ashgray text-pqs-midnight dark:bg-pqs-steel/40 dark:text-pqs-smoke'
 	};
 </script>
