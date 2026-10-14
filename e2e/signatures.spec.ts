@@ -191,6 +191,14 @@ test.describe('Signatures page', () => {
 			expect(page.url()).toMatch(/s=MAYO/);
 		});
 
+		test('a malformed scheme escape (?s=MAYO,UOV%) still applies the URL state', async ({ page }) => {
+			await page.goto('/signatures/?r=2&s=MAYO,UOV%&sort=sig');
+			const names = await schemeCells(page);
+			expect(names.length).toBeGreaterThan(0);
+			for (const n of names) expect(n).toBe('MAYO');
+			expect(page.url()).toMatch(/[?&]r=2/);
+		});
+
 		test('hash survives the URL sync', async ({ page }) => {
 			await page.goto('/signatures/?s=MAYO#table');
 			await schemeCells(page);

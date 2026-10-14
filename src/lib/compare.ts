@@ -183,7 +183,7 @@ export function encodeCompareFilter<R, G, F extends CompareFilter>(
 ): URLSearchParams {
 	const p = new URLSearchParams();
 	if (state.schemes.size !== defaults.schemes.size || ![...state.schemes].every((s) => defaults.schemes.has(s))) {
-		p.set('s', [...state.schemes].map(encodeURIComponent).join(','));
+		p.set('s', [...state.schemes].join(',')); // URLSearchParams percent-encodes; no name has a comma
 	}
 	encodeCommonFilters(state, defaults, p);
 	const s = state as unknown as Bounds;
@@ -199,6 +199,20 @@ export function encodeCompareFilter<R, G, F extends CompareFilter>(
 	return p;
 }
 
+/**
+ * One scheme name from the `s` param. Links made before 2026-10 encoded each name with
+ * `encodeURIComponent` on top of the query encoding (`Aigis-Sig%252B`), so a token that is not a
+ * known name is percent-decoded once more; a malformed escape (`MAYO%`) is kept as is.
+ */
+function schemeToken(token: string, known: Set<string>): string {
+	if (known.has(token)) return token;
+	try {
+		return decodeURIComponent(token);
+	} catch {
+		return token;
+	}
+}
+
 /** Decode URL query params onto a copy of `defaults`. */
 export function decodeCompareFilter<R, G, F extends CompareFilter>(
 	spec: FilterSpec<R, G, F>,
@@ -207,7 +221,7 @@ export function decodeCompareFilter<R, G, F extends CompareFilter>(
 ): F {
 	const s: F = { ...defaults, schemes: new Set(defaults.schemes) };
 	const schemesParam = params.get('s');
-	if (schemesParam) s.schemes = new Set(schemesParam.split(',').map(decodeURIComponent));
+	if (schemesParam) s.schemes = new Set(schemesParam.split(',').map((t) => schemeToken(t, defaults.schemes)));
 	const bounds = s as unknown as Bounds;
 	for (const b of spec.bounds) {
 		if (params.has(`${b.url}Min`)) bounds[minKey(b)] = Number(params.get(`${b.url}Min`));

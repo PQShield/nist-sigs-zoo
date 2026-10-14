@@ -90,6 +90,41 @@ describe('URL codec', () => {
 		expect([back.maxSize, back.minTime, back.minSize]).toEqual([25, 2, 10]);
 	});
 
+	it('encodes scheme names once and round-trips odd names', () => {
+		const odd = defaultCompareFilter(spec(true), RANGES, ['a', 'Aigis-Sig+', '100%', 'MAYO%', 'B C'], ['research']);
+		const state = { ...odd, schemes: new Set(['Aigis-Sig+', '100%', 'B C']) };
+		const p = encodeCompareFilter(spec(true), state, odd);
+		expect(p.toString()).toBe('s=Aigis-Sig%2B%2C100%25%2CB+C');
+		expect([...decodeCompareFilter(spec(true), odd, new URLSearchParams(p.toString())).schemes]).toEqual([
+			'Aigis-Sig+',
+			'100%',
+			'B C'
+		]);
+		expect([...decodeCompareFilter(spec(true), odd, new URLSearchParams('s=100%')).schemes]).toEqual(['100%']);
+	});
+
+	it('still reads links from the old double-encoding encoder', () => {
+		// The old encoder ran encodeURIComponent on each name before URLSearchParams encoded the list.
+		const odd = defaultCompareFilter(spec(true), RANGES, ['a', 'Aigis-Sig+', '100%', 'B C'], ['research']);
+		const old = new URLSearchParams();
+		old.set('s', ['Aigis-Sig+', '100%', 'B C'].map(encodeURIComponent).join(','));
+		expect(old.toString()).toBe('s=Aigis-Sig%252B%2C100%2525%2CB%2520C');
+		expect([...decodeCompareFilter(spec(true), odd, new URLSearchParams(old.toString())).schemes]).toEqual([
+			'Aigis-Sig+',
+			'100%',
+			'B C'
+		]);
+	});
+
+	it('ignores a malformed scheme escape instead of throwing', () => {
+		const f = decodeCompareFilter(spec(true), defaults, new URLSearchParams('?s=MAYO%&szMax=25'));
+		expect([...f.schemes]).toEqual(['MAYO%']);
+		expect(f.maxSize).toBe(25);
+		const p = new URLSearchParams();
+		p.set('s', 'a,%E0%A4%A');
+		expect([...decodeCompareFilter(spec(true), defaults, p).schemes]).toEqual(['a', '%E0%A4%A']);
+	});
+
 	it('carries the sort only when the spec says so', () => {
 		const state = { ...defaults, sortCol: 'scheme', sortDir: 'desc' as const };
 		expect(encodeCompareFilter(spec(true), state, defaults).toString()).toBe('sort=scheme&dir=desc');
