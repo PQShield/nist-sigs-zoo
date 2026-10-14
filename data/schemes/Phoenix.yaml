@@ -90,6 +90,7 @@ versions:
     signing_us: 3071301.1
     verification_us: 10731.0
     notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it; our build does not reproduce the submitted test vectors (cause unknown).
+    info: Our build does not reproduce the submitted test vectors.
   - name: Phoenix-SM3-192f
     ngcc_level: 128
     pk: 48
@@ -99,6 +100,7 @@ versions:
     signing_us: 170114.1
     verification_us: 4593.5
     notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it; our build does not reproduce the submitted test vectors (cause unknown).
+    info: Our build does not reproduce the submitted test vectors.
   - name: Phoenix-SM3-256s
     ngcc_level: 256
     pk: 64
@@ -108,6 +110,7 @@ versions:
     signing_us: 2841833.5
     verification_us: 18329.3
     notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it; our build does not reproduce the submitted test vectors (cause unknown).
+    info: Our build does not reproduce the submitted test vectors.
   - name: Phoenix-SM3-256f
     ngcc_level: 256
     pk: 64
@@ -117,6 +120,7 @@ versions:
     signing_us: 327359.0
     verification_us: 8815.3
     notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it; our build does not reproduce the submitted test vectors (cause unknown).
+    info: Our build does not reproduce the submitted test vectors.
   - name: Phoenix-SM3-384s
     ngcc_level: 384
     pk: 96
@@ -126,6 +130,7 @@ versions:
     signing_us: 4529344.4
     verification_us: 29171.7
     notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it; our build does not reproduce the submitted test vectors (cause unknown).
+    info: Our build does not reproduce the submitted test vectors.
     implementation: The submitted SM3 code compresses messages to 256 bits, so a second preimage after one signing query costs about 2^256, below this set's target (<a href="https://ngcc.dev/reports/sign-19.html#sign-19-4-a-256-bit-sm3-prehash-caps-message-retargeting-security">Saarinen</a>).
   - name: Phoenix-SM3-384f
     ngcc_level: 384
@@ -136,6 +141,7 @@ versions:
     signing_us: 1043660.3
     verification_us: 19827.0
     notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it; our build does not reproduce the submitted test vectors (cause unknown).
+    info: Our build does not reproduce the submitted test vectors.
     implementation: The submitted SM3 code compresses messages to 256 bits, so a second preimage after one signing query costs about 2^256, below this set's target (<a href="https://ngcc.dev/reports/sign-19.html#sign-19-4-a-256-bit-sm3-prehash-caps-message-retargeting-security">Saarinen</a>).
   - name: Phoenix-SM3-512s
     ngcc_level: 512
@@ -146,6 +152,7 @@ versions:
     signing_us: 6594480.6
     verification_us: 11702.3
     notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it; our build does not reproduce the submitted test vectors (cause unknown).
+    info: Our build does not reproduce the submitted test vectors.
     implementation: The submitted SM3 code compresses messages to 256 bits, so a second preimage after one signing query costs about 2^256, below this set's target (<a href="https://ngcc.dev/reports/sign-19.html#sign-19-4-a-256-bit-sm3-prehash-caps-message-retargeting-security">Saarinen</a>).
   - name: Phoenix-SM3-512f
     ngcc_level: 512
@@ -156,5 +163,6 @@ versions:
     signing_us: 1742179.1
     verification_us: 39529.0
     notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it; our build does not reproduce the submitted test vectors (cause unknown).
+    info: Our build does not reproduce the submitted test vectors.
     implementation: The submitted SM3 code compresses messages to 256 bits, so a second preimage after one signing query costs about 2^256, below this set's target (<a href="https://ngcc.dev/reports/sign-19.html#sign-19-4-a-256-bit-sm3-prehash-caps-message-retargeting-security">Saarinen</a>).
   findings_url: https://ngcc.dev/reports/sign-19.html

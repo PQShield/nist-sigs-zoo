@@ -236,7 +236,8 @@ uv run bench-kem/update_scheme_data.py --ngcc-sizes bench-kem/results/ngcc_sizes
 
 Sizes come from our builds of the official archives (`./bench --sizes NGCC`, run through
 `scripts/ngcc-run`); per-instance notes record the implementation (reference/optimised),
-ICCS placeholder-hash use and KAT status from `<suite>/schemes/ngcc/status.tsv`.
+ICCS placeholder-hash use and KAT status from `<suite>/schemes/ngcc/status.tsv`; a KAT status
+other than `PASS` also sets the parameter set's `info` flag (a visible "note" badge).
 `src/lib/__tests__/ngccCandidates.test.ts` validates the claims and their agreement with the
 generated files. ngcc.dev data is cross-check only; findings links/flags are added only with
 Thom's sign-off. No NGCC timings exist yet (they come from our own AWS runs).

@@ -321,7 +321,9 @@ through `scripts/ngcc-run`; see "Running NGCC candidates" below.
   `../bench-common/ngcc/kat_hashes.tsv` (canonical record form defined in `kat_compare.py`,
   plus each file's raw sha256), so the KAT files themselves need not be extracted.
   `status.tsv` `katrec` gives the first mismatching record. Mismatches are recorded, not
-  hidden, and shown in the parameter set's notes. To diagnose one, `extract.py --kats <id>`
+  hidden: any built instance whose `kat` is not `PASS` gets a neutral `info` flag (the "note"
+  badge, `KAT_INFO` in `ngcc_data.py`) besides its notes, so its timings never appear without a
+  caveat (`ngccCandidates.test.ts` checks this against `status.tsv`). To diagnose one, `extract.py --kats <id>`
   and `python3 -I bench-common/ngcc/kat_compare.py OURS.txt SUBMITTED.txt`.
 
 ## Running NGCC candidates

@@ -304,3 +304,40 @@ def _params(tmp_path, *pairs):
         "# c\nfile\tname\titers\n" + "".join(f"f\t{n}\t{i}\n" for n, i in rows)
     )
     return p
+
+
+@pytest.mark.parametrize(
+    "kat", ["MISMATCH", "TIMEOUT", "NOKAT", "CRYPTOFAIL", "CRASH", "LOADFAIL", "ODD"]
+)
+def test_non_pass_kat_status_gets_a_visible_info_flag(kat):
+    status = {"NGCC-A1": {"impl": "ref", "kat": kat, "hash": "own", "build": "ok"}}
+    inst = CANDS[0]["instances"][0]
+    ps = nd.parameterset(inst, "signature", SIG_SIZES, status, None)
+    assert ps["info"] == nd.KAT_INFO.get(kat, nd.KAT_INFO_DEFAULT)
+    assert ps["info"].endswith(".")
+
+
+@pytest.mark.parametrize("kat", ["PASS", "-", ""])
+def test_pass_or_unbuilt_kat_status_has_no_info_flag(kat):
+    status = {"NGCC-A1": {"impl": "ref", "kat": kat, "hash": "own", "build": "ok"}}
+    ps = nd.parameterset(CANDS[0]["instances"][0], "signature", SIG_SIZES, status, None)
+    assert "info" not in ps
+
+
+def test_kat_info_is_combined_with_a_curated_info_text():
+    inst = dict(CANDS[0]["instances"][1], info="Curated note.")
+    ps = nd.parameterset(inst, "signature", SIG_SIZES, STATUS, None)
+    assert ps["info"] == "Curated note. " + nd.KAT_INFO["MISMATCH"]
+    assert "info" not in nd.parameterset(
+        CANDS[0]["instances"][0], "signature", SIG_SIZES, STATUS, None
+    )
+
+
+def test_written_files_flag_mismatched_sets(tmp_path):
+    nd.write_files(CANDS, "signature", SIG_SIZES, STATUS, tmp_path)
+    sets = {
+        p["name"]: p
+        for p in load(tmp_path / "Aigis-Sig-plus.yaml")["versions"][0]["parametersets"]
+    }
+    assert sets["A2"]["info"] == nd.KAT_INFO["MISMATCH"]
+    assert "info" not in sets["A1"]

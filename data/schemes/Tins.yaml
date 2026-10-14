@@ -14,6 +14,7 @@ versions:
     pk: 55
     sig: 3896
     notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it; the submitted code failed its own test-vector run in our build. Benchmark did not finish (valid signature rejected).
+    info: The submitted code failed its own test-vector run in our build.
   - name: Tins256
     ngcc_level: 256
     pk: 98

@@ -50,6 +50,17 @@ KAT_NOTE = {
     "TIMEOUT": "the test-vector run timed out in our build",
     "LOADFAIL": "the built library is missing ICCS API symbols",
 }
+# The visible `info` flag ("note" badge) for any instance whose KAT status is not PASS,
+# so timings from such a build are never shown without a caveat. Neutral and factual.
+KAT_INFO = {
+    "MISMATCH": "Our build does not reproduce the submitted test vectors.",
+    "TIMEOUT": "Our build could not check the submitted test vectors in time.",
+    "NOKAT": "No submitted test vectors for this instance.",
+    "CRYPTOFAIL": "The submitted code failed its own test-vector run in our build.",
+    "CRASH": "The test-vector run crashed in our build.",
+    "LOADFAIL": "Our build could not check the submitted test vectors.",
+}
+KAT_INFO_DEFAULT = "The submitted test vectors were not checked against our build."
 
 # status.tsv `patch` column set (status.py): a patched copy of submitted code is built.
 # params.tsv `iters` = skip: the instance is built and measured for sizes/KAT only.
@@ -176,6 +187,17 @@ def ps_notes(status: dict | None) -> str:
     return "; ".join(parts) + "."
 
 
+def kat_info(status: dict | None) -> str:
+    """The `info` text for a non-PASS KAT status.
+
+    "" for PASS, no status row, or a failed build (kat `-`: nothing measured or timed).
+    """
+    kat = (status or {}).get("kat")
+    if kat in (None, "", "-", "PASS"):
+        return ""
+    return KAT_INFO.get(kat, KAT_INFO_DEFAULT)
+
+
 def spec_differences(inst: dict, measured: dict, key: str) -> str:
     """Spec values (pk/sk/size) that disagree with our measured ones, e.g. 'pk 405 B, sk 488 B'."""
     return ", ".join(
@@ -227,6 +249,9 @@ def parameterset(
         note = f"{note} {dnf}".strip()
     if note:
         ps["notes"] = note
+    info = " ".join(t for t in (inst.get("info"), kat_info(status.get(name))) if t)
+    if info:
+        ps["info"] = info
     for flag in ("implementation", "broken"):
         if inst.get(flag):
             ps[flag] = inst[flag]

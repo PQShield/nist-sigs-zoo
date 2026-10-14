@@ -122,6 +122,36 @@ describe('data/ngcc/candidates.yaml', () => {
 		expect(errors).toEqual([]);
 	});
 
+	it('flags every built instance whose KAT status is not PASS with a visible note', () => {
+		// The caveat must be a badge (`info`), not only `notes`, which the signature table never shows.
+		const byId = new Map(candidates.map((c) => [c.id, c]));
+		const flagged: string[] = [];
+		const errors = ['bench', 'bench-kem'].flatMap((suite) => {
+			const [header, ...rows] = readFileSync(join(process.cwd(), suite, 'schemes', 'ngcc', 'status.tsv'), 'utf8')
+				.trim()
+				.split('\n')
+				.map((l) => l.split('\t'));
+			const col = (name: string) => header.indexOf(name);
+			return rows.flatMap((r) => {
+				const [id, instance, build, kat] = [r[col('id')], r[col('instance')], r[col('build')], r[col('kat')]];
+				if (build !== 'ok' || kat === 'PASS') return [];
+				const c = byId.get(id);
+				if (!c || !existsSync(yamlPath(c))) return [`${id}: no generated YAML`];
+				const doc = yaml.load(readFileSync(yamlPath(c), 'utf8'));
+				const sets: { name: string; info?: string | false }[] =
+					c.kind === 'signature'
+						? ((doc as SchemeYaml).versions.find((v) => v.programmes?.['china-ngcc'])?.parametersets ?? [])
+						: (doc as KemSchemeYaml).parametersets;
+				const ps = sets.find((p) => String(p.name) === instance);
+				if (!ps) return []; // omitted instance: not on the site
+				flagged.push(instance);
+				return typeof ps.info === 'string' && ps.info.length > 0 ? [] : [`${instance} (${kat}) has no info flag`];
+			});
+		});
+		expect(errors).toEqual([]);
+		expect(flagged.length).toBeGreaterThan(0);
+	});
+
 	it('keeps findings short, linked and credited to their authors', () => {
 		// Each summary ends with a parenthesised author credit, e.g. "... (Xiong and Wang).", and
 		// each credited name links to its disclosure: (<a href="https://...">Xiong and Wang</a>).

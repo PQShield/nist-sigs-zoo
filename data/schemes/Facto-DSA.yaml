@@ -37,5 +37,6 @@ versions:
     signing_us: 57224.2
     verification_us: 40285.0
     notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it; no submitted test vectors found for this instance.
+    info: No submitted test vectors for this instance.
     broken: Unsalted message digests let a collision transfer a signature to a new message with less work than the 512-bit target (<a href="https://ngcc.dev/reports/sign-10.html#sign-10-3-unsalted-hash-targets-permit-below-level-signature-transfers">Saarinen</a>).
   findings_url: https://ngcc.dev/reports/sign-10.html
