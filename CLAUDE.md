@@ -48,7 +48,11 @@ once per clone (and update the hashes if those commits are rebased).
 npm run test          # unit tests (Vitest, fast, no browser)
 npm run test:watch    # unit tests in watch mode
 npm run test:e2e      # E2E tests (Playwright, builds site first)
+uv run --with pytest --with 'ruamel.yaml>=0.18' pytest -q bench-common/tests bench-common/ngcc/tests  # Python (bench tooling)
 ```
+
+CI (`.github/workflows/ci.yml`) runs all four: lint/format, unit (`npm run check` + Vitest),
+Python tests and E2E.
 
 ### Unit tests — `src/lib/__tests__/*.test.ts`
 

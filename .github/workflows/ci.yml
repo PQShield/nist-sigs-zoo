@@ -54,6 +54,18 @@ jobs:
 
       - run: npm run test
 
+  python:
+    name: Python tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # Only GitHub-owned actions are allowed, so install uv with pipx instead of setup-uv.
+      - run: pipx install uv
+
+      # Toy fixtures only (no NGCC code); builds the harnesses with the preinstalled cc.
+      - run: uv run --with pytest --with 'ruamel.yaml>=0.18' pytest -q bench-common/tests bench-common/ngcc/tests
+
   e2e:
     name: E2E tests
     runs-on: ubuntu-latest

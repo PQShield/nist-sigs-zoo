@@ -150,7 +150,7 @@ on stderr. The run always continues with the next scheme.
 - This is generic: never special-case a candidate here. A crasher is fixed in its own
   wrapper (see "NGCC candidates") or shows up as DNF.
 - Tests: `uv run --with pytest --with 'ruamel.yaml>=0.18' pytest -q bench-common/tests`
-  builds both harnesses against toy schemes (`bench-common/tests/fixtures/`) that abort,
+  (CI runs it together with `bench-common/ngcc/tests`) builds both harnesses against toy schemes (`bench-common/tests/fixtures/`) that abort,
   segfault, divide by zero, hang, fail the warm-up check or succeed, and tests the
   importers' parsers. Host-safe: no real scheme code runs.
 
