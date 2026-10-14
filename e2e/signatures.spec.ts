@@ -82,7 +82,7 @@ test.describe('Signatures page', () => {
 		await page.goto('/signatures/');
 		await expect(page.getByRole('columnheader', { name: 'Programmes' })).toBeVisible();
 		await expect(page.getByRole('columnheader', { name: /^Status/ })).toHaveCount(0);
-		await expect(page.locator('tbody')).toContainText('On-ramp round 3');
+		await expect(page.locator('tbody')).toContainText('On-ramp R3');
 		await expect(page.locator('tbody')).toContainText('FIPS 204');
 	});
 

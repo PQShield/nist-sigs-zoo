@@ -62,14 +62,20 @@ describe('programmeChips', () => {
 
 	it('lists every other programme membership', () => {
 		expect(programmeChips({ status: 'On-ramp', programmes: [{ programme: 'nist-onramp', stage: 'round-1' }, { programme: 'kpqc', stage: 'selected' }] }, REGISTRY))
-			.toEqual([{ label: 'On-ramp round 1', tone: 'plain', programme: 'nist-onramp' }, { label: 'KpqC selected', tone: 'plain', programme: 'kpqc' }]);
+			.toEqual([{ label: 'On-ramp R1', tone: 'plain', programme: 'nist-onramp' }, { label: 'KpqC selected', tone: 'plain', programme: 'kpqc' }]);
 		expect(programmeChips({ status: 'ISO standardisation', programmes: [{ programme: 'nist-pqc', stage: 'round-3' }, { programme: 'iso', stage: 'in-progress' }] }, REGISTRY))
-			.toEqual([{ label: 'NIST round 3', tone: 'plain', programme: 'nist-pqc' }, { label: 'ISO in progress', tone: 'plain', programme: 'iso' }]);
+			.toEqual([{ label: 'NIST R3', tone: 'plain', programme: 'nist-pqc' }, { label: 'ISO in progress', tone: 'plain', programme: 'iso' }]);
+	});
+
+	it('shows only the programme name for a stage with an empty chip', () => {
+		const reg = [...REGISTRY.filter((p) => p.id !== 'iso'), { ...REGISTRY.find((p) => p.id === 'iso')!, stages: [{ id: 'published', label: 'published', chip: '' }] }];
+		expect(programmeChips({ status: 'ISO standard', programmes: [{ programme: 'iso', stage: 'published' }] }, reg))
+			.toEqual([{ label: 'ISO', tone: 'plain', programme: 'iso' }]);
 	});
 
 	it('highlights NGCC memberships as new', () => {
 		expect(programmeChips({ status: 'NGCC', programmes: [{ programme: 'china-ngcc', stage: 'round-1' }] }, REGISTRY))
-			.toEqual([{ label: 'NGCC round 1', tone: 'new', programme: 'china-ngcc' }]);
+			.toEqual([{ label: 'NGCC R1', tone: 'new', programme: 'china-ngcc' }]);
 	});
 
 	it('labels schemes outside every programme', () => {

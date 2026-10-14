@@ -161,7 +161,7 @@
   region: International
   primitives: [kem]
   stages:
-    - { id: published, label: published }
+    - { id: published, label: published, chip: '' }
   nav_label: ISO/IEC 18033-2
   organiser_detail: ISO/IEC JTC 1/SC 27
   description: >-

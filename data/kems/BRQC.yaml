@@ -10,34 +10,34 @@ parametersets:
   ngcc_level: 128
   pk: 1954
   ct: 3844
-  notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
   keygen_cycles: 771793
   encaps_cycles: 1432650
   decaps_cycles: 5488388
   keygen_us: 204.3
   encaps_us: 378.9
   decaps_us: 1456.3
+  notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 - name: BRQC-256
   ngcc_level: 256
   pk: 3345
   ct: 6626
-  notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
   keygen_cycles: 2041908
   encaps_cycles: 3296924
   decaps_cycles: 15696829
   keygen_us: 544.6
   encaps_us: 875.4
   decaps_us: 4162.3
+  notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 - name: BRQC-512
   ngcc_level: 512
   pk: 6562
   ct: 13060
-  notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
   keygen_cycles: 3644387
   encaps_cycles: 5808506
   decaps_cycles: 32822412
   keygen_us: 966.8
   encaps_us: 1541.8
   decaps_us: 8702.7
+  notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 findings_url: https://ngcc.dev/reports/kem-07.html
 implementation: The submitted decapsulation ignores padding bits, so altered copies of a challenge ciphertext decapsulate to the same key, breaking IND-CCA security (Saarinen).

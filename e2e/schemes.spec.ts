@@ -51,7 +51,7 @@ test.describe('Scheme pages', () => {
 		await expect(crumb.getByRole('link', { name: 'Signatures' })).toHaveAttribute('href', '/signatures/');
 		await expect(page.getByText('Multivariate · Multivariate Quadratic')).toBeVisible();
 		await expect(page.getByRole('link', { name: /pqmayo\.org/ })).toHaveAttribute('href', 'https://pqmayo.org');
-		await expect(page.getByText('On-ramp round 3')).toBeVisible();
+		await expect(page.getByText('On-ramp R3')).toBeVisible();
 		await expect(page.getByText('Round 3 · 31 Aug 2026').first()).toBeVisible();
 		await expect(page.getByText('None on current sets')).toBeVisible();
 	});

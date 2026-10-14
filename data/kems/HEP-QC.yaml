@@ -1,4 +1,5 @@
-name: Hybrid Equivalent Punctured and Quasi-Cyclic
+name: HEP-QC
+full_name: Hybrid Equivalent Punctured and Quasi-Cyclic
 website: https://www.niccs.org.cn/niccs/Round1Additional/pc/content/content_2101560853532332032.html
 category: Code-based
 assumption: Quasi-Cyclic Syndrome Decoding
@@ -10,35 +11,35 @@ parametersets:
   ngcc_level: 128
   pk: 285889
   ct: 4433
-  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
   keygen_cycles: 246563486
   encaps_cycles: 13158903
   decaps_cycles: 233898174
   keygen_us: 65729.6
   encaps_us: 3489.0
   decaps_us: 62106.5
+  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 - name: HEP-QC-5
   ngcc_level: 256
   pk: 1852485
   ct: 14421
-  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
   keygen_cycles: 937202421
   encaps_cycles: 88509698
   decaps_cycles: 819362339
   keygen_us: 250798.0
   encaps_us: 23505.1
   decaps_us: 217852.6
+  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 - name: HEP-QC-7
   ngcc_level: 512
   pk: 12644449
   ct: 49297
-  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
-  broken: Key generation has at most 2^256 possible seeds, below the 512-bit target (Saarinen).
   keygen_cycles: 4745766136
   encaps_cycles: 593990578
   decaps_cycles: 3170057579
   keygen_us: 1278031.5
   encaps_us: 157595.0
   decaps_us: 843566.4
+  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+  broken: Key generation has at most 2^256 possible seeds, below the 512-bit target (Saarinen).
 findings_url: https://ngcc.dev/reports/kem-17.html
 implementation: The submitted code produces reproducible secret keys and a reproducible first encapsulation in each process (Saarinen).

@@ -10,46 +10,46 @@ parametersets:
   ngcc_level: 128
   pk: 608
   ct: 736
-  notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
   keygen_cycles: 143871
   encaps_cycles: 230385
   decaps_cycles: 264347
   keygen_us: 39.0
   encaps_us: 61.7
   decaps_us: 70.7
+  notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 - name: MAMBA-Viper-256
   ngcc_level: 256
   pk: 1312
   ct: 1472
-  notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
   keygen_cycles: 469924
   encaps_cycles: 603622
   decaps_cycles: 635046
   keygen_us: 124.8
   encaps_us: 160.0
   decaps_us: 168.3
+  notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 - name: MAMBA-Viper-384
   ngcc_level: 384
   pk: 2496
   ct: 2656
-  notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
-  implementation: The submitted code derives the secret from a 256-bit seed, so key search falls below this set's target (Saarinen).
   keygen_cycles: 1346076
   encaps_cycles: 1567981
   decaps_cycles: 1607972
   keygen_us: 355.7
   encaps_us: 416.8
   decaps_us: 427.9
+  notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+  implementation: The submitted code derives the secret from a 256-bit seed, so key search falls below this set's target (Saarinen).
 - name: MAMBA-Viper-512
   ngcc_level: 512
   pk: 3200
   ct: 3456
-  notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
-  implementation: The submitted code derives the secret from a 256-bit seed, so key search falls below this set's target (Saarinen).
   keygen_cycles: 2131414
   encaps_cycles: 2402291
   decaps_cycles: 2444060
   keygen_us: 568.1
   encaps_us: 639.3
   decaps_us: 650.4
+  notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+  implementation: The submitted code derives the secret from a 256-bit seed, so key search falls below this set's target (Saarinen).
 findings_url: https://ngcc.dev/reports/kem-21.html

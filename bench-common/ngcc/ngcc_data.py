@@ -266,7 +266,10 @@ def scheme_doc(
         for i in listed(cand)
     ]
     doc = CommentedMap()
-    for field in ("name", "website", "category", "assumption"):
+    doc["name"] = cand["name"]
+    if cand.get("full_name"):  # the submission's full title; "name" is what tables show
+        doc["full_name"] = cand["full_name"]
+    for field in ("website", "category", "assumption"):
         doc[field] = cand[field]
     programmes = CommentedMap([(PROGRAMME, STAGE)])
     if kind == "signature":

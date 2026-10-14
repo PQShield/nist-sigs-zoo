@@ -1,4 +1,4 @@
-import { membershipLabel, STANDARDS_PROGRAMME } from './programmes';
+import { membershipChipLabel, STANDARDS_PROGRAMME } from './programmes';
 import type { ProgrammeMembership, ProgrammeYaml } from './types';
 
 export type BadgeKind = 'pre-quantum' | 'broken' | 'implementation' | 'warning' | 'note';
@@ -85,7 +85,7 @@ export function programmeChips(
 	for (const m of row.programmes) {
 		if (standardShown && m.programme === STANDARDS_PROGRAMME) continue;
 		chips.push({
-			label: membershipLabel(m, registry),
+			label: membershipChipLabel(m, registry),
 			tone: m.programme === 'china-ngcc' ? 'new' : 'plain',
 			programme: m.programme
 		});

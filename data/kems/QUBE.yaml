@@ -10,45 +10,45 @@ parametersets:
   ngcc_level: 128
   pk: 3294
   ct: 3287
-  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
   keygen_cycles: 568661
   encaps_cycles: 621236
   decaps_cycles: 1010588
   keygen_us: 150.7
   encaps_us: 164.6
   decaps_us: 267.1
+  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 - name: QUBE-256
   ngcc_level: 256
   pk: 10446
   ct: 10423
-  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
   keygen_cycles: 2552659
   encaps_cycles: 2660001
   decaps_cycles: 4726494
   keygen_us: 679.1
   encaps_us: 701.3
   decaps_us: 1251.4
+  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 - name: QUBE-384
   ngcc_level: 384
   pk: 20738
   ct: 20633
-  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
   keygen_cycles: 6578505
   encaps_cycles: 6644005
   decaps_cycles: 11624034
   keygen_us: 1745.4
   encaps_us: 1762.4
   decaps_us: 3082.3
+  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 - name: QUBE-512
   ngcc_level: 512
   pk: 34028
   ct: 33846
-  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
   keygen_cycles: 17000615
   encaps_cycles: 17211201
   decaps_cycles: 25439180
   keygen_us: 4508.7
   encaps_us: 4564.5
   decaps_us: 6747.5
+  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 findings_url: https://ngcc.dev/reports/kem-33.html
 implementation: The optimised implementation produces predictable keys and encapsulations (Xiong and Wang).

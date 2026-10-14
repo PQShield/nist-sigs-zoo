@@ -1,4 +1,5 @@
-name: 'BIT: Bimodal Triangular distribution based lattice signatures'
+name: BiT
+full_name: 'BIT: Bimodal Triangular distribution based lattice signatures'
 website: https://www.niccs.org.cn/niccs/Round1Additional/pc/content/content_2101561076358926336.html
 category: Lattices
 assumption: MLWE/MSIS

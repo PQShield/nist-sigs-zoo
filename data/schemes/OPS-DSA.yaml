@@ -1,4 +1,5 @@
-name: OPS Digital Signature Algorithm
+name: OPS-DSA
+full_name: OPS Digital Signature Algorithm
 website: https://www.niccs.org.cn/niccs/Round1Additional/pc/content/content_2101561086848880640.html
 category: Lattices
 assumption: MLWE/MSIS

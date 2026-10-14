@@ -68,7 +68,8 @@
 # Spec Table 1/10 also describe 80/192/384-bit sets 'for other application scenarios'; only 384 is an NGCC (optional) target. 384 has no code in the archive (inventory lists 128/256/512 only).
 - id: sign-02
   kind: signature
-  name: "BIT: Bimodal Triangular distribution based lattice signatures"
+  name: BiT
+  full_name: "BIT: Bimodal Triangular distribution based lattice signatures"
   file: BiT
   website: https://www.niccs.org.cn/niccs/Round1Additional/pc/content/content_2101561076358926336.html
   category: Lattices
@@ -446,7 +447,8 @@
 # inventory.py reports instance name 'ngcc' for all dirs; real names are the Galas-<n><S|F> directories. Table 1 claims 128(80) for lambda=160. No recommended set.
 - id: sign-12
   kind: signature
-  name: Galas Signature Scheme
+  name: Galas
+  full_name: Galas Signature Scheme
   file: Galas
   website: https://www.niccs.org.cn/niccs/Round1Additional/pc/content/content_2101561077713686528.html
   category: Symmetric
@@ -489,7 +491,8 @@
 # The cross-check CSV assigns the 128 set to 128.
 - id: sign-13
   kind: signature
-  name: GreatWall Signature Algorithm
+  name: GreatWall
+  full_name: GreatWall Signature Algorithm
   file: GreatWall
   website: https://www.niccs.org.cn/niccs/Round1Additional/pc/content/content_2101561077852098560.html
   category: Symmetric
@@ -632,7 +635,8 @@
 # Spec Table 1 labels the instances Level-1 (128/80), Level-3 (256/128), Level-5 (512/256). No recommended set.
 - id: sign-17
   kind: signature
-  name: OPS Digital Signature Algorithm
+  name: OPS-DSA
+  full_name: OPS Digital Signature Algorithm
   file: OPS-DSA
   website: https://www.niccs.org.cn/niccs/Round1Additional/pc/content/content_2101561086848880640.html
   category: Lattices
@@ -1193,7 +1197,8 @@
 # §6 Table 1 (PDF p. 20): 128/256/512-bit classical security levels "according to the NGCC recommendations"; no 384 set, no recommended set.
 - id: sign-33
   kind: signature
-  name: "VDOO: Vinegar-Diagonal-Oil-Oil"
+  name: VDOO
+  full_name: "VDOO: Vinegar-Diagonal-Oil-Oil"
   file: VDOO
   website: https://www.niccs.org.cn/niccs/Round1Additional/pc/content/content_2101561114325766144.html
   category: Multivariate
@@ -1591,7 +1596,8 @@
 
 - id: kem-13
   kind: kem
-  name: DKEM (Ding Key Encapsulation)
+  name: DKEM
+  full_name: DKEM (Ding Key Encapsulation)
   file: DKEM
   website: https://www.niccs.org.cn/niccs/Round1Additional/pc/content/content_2101560844552327168.html
   category: Lattices
@@ -1710,7 +1716,8 @@
 
 - id: kem-17
   kind: kem
-  name: Hybrid Equivalent Punctured and Quasi-Cyclic
+  name: HEP-QC
+  full_name: Hybrid Equivalent Punctured and Quasi-Cyclic
   file: HEP-QC
   website: https://www.niccs.org.cn/niccs/Round1Additional/pc/content/content_2101560853532332032.html
   category: Code-based
@@ -2045,7 +2052,8 @@
 # Spec names the sets NTRE-<q>-<n>; code/KAT names are NTRE-128/256/512 (mapped by size and level).
 - id: kem-27
   kind: kem
-  name: NTRE Key Encapsulation Mechanism
+  name: NTRE
+  full_name: NTRE Key Encapsulation Mechanism
   file: NTRE
   website: https://www.niccs.org.cn/niccs/Round1Additional/pc/content/content_2101560863326031872.html
   category: Lattices
@@ -2186,7 +2194,8 @@
       size_ref: "Table 7.1, compressed columns (PDF p. 57)"
 - id: kem-32
   kind: kem
-  name: Quasi-Cyclic Twisted McEliece Key Encapsulation Mechanism
+  name: QCTM
+  full_name: Quasi-Cyclic Twisted McEliece Key Encapsulation Mechanism
   file: QCTM
   website: https://www.niccs.org.cn/niccs/Round1Additional/pc/content/content_2101560872431865856.html
   category: Code-based
@@ -2347,7 +2356,8 @@
 # Spec Table 1 is titled "Recommended Parameter Sets" but lists only one set per target; all marked recommended on that wording.
 - id: kem-38
   kind: kem
-  name: UVW Key Encapsulation Mechanism
+  name: UVW KEM
+  full_name: UVW Key Encapsulation Mechanism
   file: UVW-KEM
   website: https://www.niccs.org.cn/niccs/Round1Additional/pc/content/content_2101560881697083392.html
   category: Code-based

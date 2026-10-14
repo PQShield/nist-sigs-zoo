@@ -11,37 +11,37 @@ parametersets:
   recommended: true
   pk: 615
   ct: 512
-  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
   keygen_cycles: 228189
   encaps_cycles: 154703
   decaps_cycles: 198060
   keygen_us: 61.2
   encaps_us: 41.8
   decaps_us: 53.2
+  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 - name: ZEN_256
   ngcc_level: 256
   recommended: true
   pk: 1229
   ct: 1024
-  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
   keygen_cycles: 377864
   encaps_cycles: 215224
   decaps_cycles: 329097
   keygen_us: 100.6
   encaps_us: 57.8
   decaps_us: 87.8
+  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 - name: ZEN_512
   ngcc_level: 512
   recommended: true
   pk: 2458
   ct: 2048
-  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
   keygen_cycles: 1023091
   encaps_cycles: 574210
   decaps_cycles: 861932
   keygen_us: 270.4
   encaps_us: 152.2
   decaps_us: 228.2
+  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 - name: ZEN-256-backup
   ngcc_level: 256
   pk: 1229

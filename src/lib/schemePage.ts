@@ -45,6 +45,7 @@ export interface FlagNote extends Badge {
 
 interface PageCommon {
 	name: string;
+	fullName: string | null;
 	slug: string;
 	website: string;
 	websiteHost: string | null;
@@ -187,6 +188,7 @@ export function signaturePage(yaml: SchemeYaml, history: HistoryEntry[], registr
 	return {
 		primitive: 'signature',
 		name: yaml.name,
+		fullName: yaml.full_name ?? null,
 		slug: schemeSlug(yaml),
 		website: yaml.website,
 		websiteHost: hostOf(yaml.website),
@@ -213,6 +215,7 @@ export function kemPage(yaml: KemSchemeYaml, history: HistoryEntry[], registry: 
 	return {
 		primitive: 'kem',
 		name: yaml.name,
+		fullName: yaml.full_name ?? null,
 		slug: schemeSlug(yaml),
 		website: yaml.website,
 		websiteHost: hostOf(yaml.website),

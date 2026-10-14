@@ -21,6 +21,7 @@
 </nav>
 
 <h1 class="mt-2 font-heading text-3xl font-bold text-pqs-midnight dark:text-pqs-smoke">{page.name}</h1>
+{#if page.fullName}<p class="mt-1 text-lg text-pqs-midnight dark:text-pqs-smoke">{page.fullName}</p>{/if}
 <p class="mt-1 text-pqs-steel dark:text-pqs-bluegray">
 	{page.category}{#if page.assumption && page.assumption !== page.category}{' · '}{page.assumption}{/if}{#if page.websiteHost}{' '}
 		<span class="whitespace-nowrap">·

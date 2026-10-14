@@ -1,4 +1,5 @@
-name: UVW Key Encapsulation Mechanism
+name: UVW KEM
+full_name: UVW Key Encapsulation Mechanism
 website: https://www.niccs.org.cn/niccs/Round1Additional/pc/content/content_2101560881697083392.html
 category: Code-based
 assumption: SD, (U+V,U+W) code distinguishing
@@ -11,37 +12,37 @@ parametersets:
   recommended: true
   pk: 208013
   ct: 1032
-  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
-  implementation: Unused ciphertext bits in the submitted code let altered ciphertexts decapsulate to the same key (Saarinen).
   keygen_cycles: 1351599795
   encaps_cycles: 730585
   decaps_cycles: 2991744851
   keygen_us: 358385.7
   encaps_us: 196.6
   decaps_us: 793619.0
+  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+  implementation: Unused ciphertext bits in the submitted code let altered ciphertexts decapsulate to the same key (Saarinen).
 - name: UVW-KEM-256
   ngcc_level: 256
   recommended: true
   pk: 911645
   ct: 2199
-  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
   keygen_cycles: 10423771540
   encaps_cycles: 3001864
   decaps_cycles: 19780285307
   keygen_us: 2768915.5
   encaps_us: 808.3
   decaps_us: 5259788.1
+  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 - name: UVW-KEM-512
   ngcc_level: 512
   recommended: true
   pk: 4001850
   ct: 4820
-  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
-  implementation: Unused ciphertext bits let altered ciphertexts decapsulate to the same key, and the encryption pair derives from only 256 bits, below the target (Saarinen).
   keygen_cycles: 74903977526
   encaps_cycles: 17041603
   decaps_cycles: 131141000988
   keygen_us: 20009991.4
   encaps_us: 4618.3
   decaps_us: 35048078.6
+  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+  implementation: Unused ciphertext bits let altered ciphertexts decapsulate to the same key, and the encryption pair derives from only 256 bits, below the target (Saarinen).
 findings_url: https://ngcc.dev/reports/kem-38.html

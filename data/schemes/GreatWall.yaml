@@ -1,4 +1,5 @@
-name: GreatWall Signature Algorithm
+name: GreatWall
+full_name: GreatWall Signature Algorithm
 website: https://www.niccs.org.cn/niccs/Round1Additional/pc/content/content_2101561077852098560.html
 category: Symmetric
 assumption: Pylon OWF

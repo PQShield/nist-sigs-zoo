@@ -10,44 +10,44 @@ parametersets:
   ngcc_level: 128
   pk: 6096
   ct: 6160
-  notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
   keygen_cycles: 3436133
   encaps_cycles: 3557434
   decaps_cycles: 3292598
   keygen_us: 911.9
   encaps_us: 943.9
   decaps_us: 873.9
+  notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 - name: Scloudplus-256
   ngcc_level: 256
   pk: 16296
   ct: 17925
-  notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
   keygen_cycles: 13124829
   encaps_cycles: 13658295
   decaps_cycles: 13021995
   keygen_us: 3480.2
   encaps_us: 3622.2
   decaps_us: 3452.8
+  notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 - name: Scloudplus-384
   ngcc_level: 384
   pk: 33296
   ct: 33600
-  notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
   keygen_cycles: 26264589
   encaps_cycles: 26982917
   decaps_cycles: 25671772
   keygen_us: 6963.2
   encaps_us: 7154.3
   decaps_us: 6806.9
+  notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 - name: Scloudplus-512
   ngcc_level: 512
   pk: 48016
   ct: 48320
-  notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
   keygen_cycles: 52933978
   encaps_cycles: 53914291
   decaps_cycles: 52026957
   keygen_us: 14039.1
   encaps_us: 14299.0
   decaps_us: 13796.0
+  notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 findings_url: https://ngcc.dev/reports/kem-35.html

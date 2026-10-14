@@ -1,4 +1,5 @@
-name: Quasi-Cyclic Twisted McEliece Key Encapsulation Mechanism
+name: QCTM
+full_name: Quasi-Cyclic Twisted McEliece Key Encapsulation Mechanism
 website: https://www.niccs.org.cn/niccs/Round1Additional/pc/content/content_2101560872431865856.html
 category: Code-based
 assumption: QC twisted Goppa SD
@@ -10,34 +11,34 @@ parametersets:
   ngcc_level: 128
   pk: 167987
   ct: 640
-  notes: Optimised x86 implementation.
   keygen_cycles: 7590651644
   encaps_cycles: 2186190
   decaps_cycles: 7050399
   keygen_us: 2057497.8
   encaps_us: 580.3
   decaps_us: 1893.8
+  notes: Optimised x86 implementation.
 - name: QCTM256
   ngcc_level: 256
   pk: 595662
   ct: 1153
-  notes: Optimised x86 implementation.
   keygen_cycles: 83309025439
   encaps_cycles: 4572097
   decaps_cycles: 16622109
   keygen_us: 22493860.5
   encaps_us: 1212.6
   decaps_us: 4519.3
+  notes: Optimised x86 implementation.
 - name: QCTM512
   ngcc_level: 512
   pk: 2374727
   ct: 2264
-  notes: Optimised x86 implementation.
-  implementation: The bundled random generator limits key-generation randomness to 384 bits, below the 512-bit target (Saarinen).
   keygen_cycles: 286376967653
   encaps_cycles: 9286478
   decaps_cycles: 57230963
   keygen_us: 77245832.6
   encaps_us: 2496.4
   decaps_us: 15324.9
+  notes: Optimised x86 implementation.
+  implementation: The bundled random generator limits key-generation randomness to 384 bits, below the 512-bit target (Saarinen).
 findings_url: https://ngcc.dev/reports/kem-32.html

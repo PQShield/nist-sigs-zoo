@@ -84,6 +84,8 @@ export interface VersionYaml {
 
 export interface SchemeYaml {
 	name: string;
+	/** Full title when `name` is an abbreviation (shown on the scheme page only). */
+	full_name?: string;
 	website: string;
 	category: string;
 	assumption: string;
@@ -116,6 +118,8 @@ export interface KemParameterSetYaml {
 
 export interface KemSchemeYaml {
 	name: string;
+	/** Full title when `name` is an abbreviation (shown on the scheme page only). */
+	full_name?: string;
 	website: string;
 	category: string;
 	assumption: string;
@@ -316,6 +320,8 @@ export interface DataRanges {
 export interface ProgrammeStageYaml {
 	id: string;
 	label: string;
+	/** Badge text after the programme's short name; "" shows the short name alone. Default: the label, with "round N" as "RN". */
+	chip?: string;
 }
 
 export interface ProgrammeLinkYaml {

@@ -52,6 +52,16 @@ export function membershipLabel(m: ProgrammeMembership, programmes: ProgrammeYam
 	return `${programme.short} ${stage.label}`;
 }
 
+/** Compact membership text for badges: "NGCC R1", "NIST standard", "ISO". */
+export function membershipChipLabel(m: ProgrammeMembership, programmes: ProgrammeYaml[]): string {
+	const programme = programmes.find((p) => p.id === m.programme);
+	if (!programme) throw new Error(`unknown programme "${m.programme}"`);
+	const stage = programme.stages.find((s) => s.id === m.stage);
+	if (!stage) throw new Error(`unknown stage "${m.stage}" in programme "${m.programme}"`);
+	const chip = stage.chip ?? stage.label.replace(/^round (\d+)$/, 'R$1');
+	return chip ? `${programme.short} ${chip}` : programme.short;
+}
+
 import type { ProgrammeStageYaml } from './types';
 
 export interface StageGroup {
