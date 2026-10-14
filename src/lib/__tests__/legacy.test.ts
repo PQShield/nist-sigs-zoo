@@ -1,6 +1,8 @@
 import { describe, it, expect } from 'vitest';
 import { legacyHomeRedirect, legacyPathRedirect, SIGNATURE_PARAMS } from '$lib/legacy';
-import { buildUrlParams } from '$lib/filterStore';
+import { encodeCompareFilter } from '$lib/compare';
+import { SIGNATURE_FILTER } from '$lib/primitives';
+import { roundFromParam, roundParam } from '$lib/roundStore';
 import { defaultCommonFilter } from '$lib/compareFilters';
 import type { FilterState, ProgrammeGroup } from '$lib/types';
 
@@ -37,7 +39,7 @@ describe('legacyPathRedirect', () => {
 });
 
 describe('SIGNATURE_PARAMS', () => {
-	it('covers every key buildUrlParams can emit', () => {
+	it('covers every key the signature URL codec can emit', () => {
 		const defaults: FilterState = {
 			...defaultCommonFilter(['nist-onramp', 'kpqc']),
 			schemes: new Set(['A', 'B']),
@@ -55,12 +57,23 @@ describe('SIGNATURE_PARAMS', () => {
 			minSigningUs: 2, maxSigningUs: 9, minVerificationUs: 2, maxVerificationUs: 9,
 			sortCol: 'pk', sortDir: 'desc'
 		};
-		const keys = [...buildUrlParams(state, defaults).keys()];
+		const keys = [...encodeCompareFilter(SIGNATURE_FILTER, state, defaults).keys()];
 		expect(keys.length).toBe(SIGNATURE_PARAMS.length - 1); // every key except the round param
 		for (const k of keys) expect(SIGNATURE_PARAMS as readonly string[]).toContain(k);
 	});
 
 	it('forwards an old home link that carries a new filter key', () => {
 		expect(legacyHomeRedirect('?p=kpqc', '', '')).toBe('/signatures/?p=kpqc');
+	});
+});
+
+describe('round URL param', () => {
+	it('round-trips every round, with no param for Latest', () => {
+		for (const round of ['latest', 'round-1', 'round-2', 'round-3'] as const) {
+			expect(roundFromParam(roundParam(round))).toBe(round);
+		}
+		expect(roundParam('latest')).toBeNull();
+		expect(roundParam('round-2')).toBe('2');
+		expect(roundFromParam('7')).toBe('latest');
 	});
 });

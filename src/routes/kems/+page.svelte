@@ -1,72 +1,17 @@
 <script lang="ts">
 	import { SITE_NAME } from '$lib/constants';
-	import { onMount } from 'svelte';
-	import { goto } from '$app/navigation';
-	import { navigating } from '$app/state';
-	import { urlSyncTarget } from '$lib/urlSync';
+	import ComparePage from '$lib/components/ComparePage.svelte';
+	import { kemCompareData } from '$lib/compareData';
+	import { KEMS } from '$lib/primitives';
 	import { base } from '$app/paths';
-	import FilterSidebar from '$lib/components/FilterSidebar.svelte';
-	import KemFilterPanel from '$lib/components/KemFilterPanel.svelte';
-	import ChartModeToggle from '$lib/components/ChartModeToggle.svelte';
-	import CompareChart from '$lib/components/CompareChart.svelte';
-	import CompareTable from '$lib/components/CompareTable.svelte';
-	import BenchmarkEnvInfo from '$lib/components/BenchmarkEnvInfo.svelte';
-	import { filterSummary, presentProgrammeGroups } from '$lib/compareFilters';
-	import { computeKemRanges, processKemSchemes } from '$lib/kemData';
-	import { decodeCompareFilter, defaultCompareFilter, encodeCompareFilter, filterCompareRows } from '$lib/compare';
-	import { KEM_FILTER, KEMS } from '$lib/primitives';
-	import { allKemData, kemBenchmarkEnv } from '$lib/kemSchemeData';
-	import type { PageData } from './$types';
-
-	// load (+page.ts) drives prerendering; data is read from the module glob here
-	// (matching the signatures page) so the one-time filter init stays warning-free.
-	let { data: _ }: { data: PageData } = $props();
-
-	const { schemes, parameterSets } = processKemSchemes(allKemData);
-	const ranges = computeKemRanges(parameterSets);
-	const categories = [...new Set(schemes.map((s) => s.category))].sort();
-	const groups = presentProgrammeGroups(parameterSets);
-
-	const defaults = defaultCompareFilter(KEM_FILTER, ranges, schemes.map((s) => s.scheme), groups);
-	let filter = $state(defaultCompareFilter(KEM_FILTER, ranges, schemes.map((s) => s.scheme), groups));
-
-	const filteredRows = $derived(filterCompareRows(KEM_FILTER, parameterSets, filter));
-
-	// URL state: filter params encoded as query params (same common codec as the signatures page).
-	// Applied client-side in onMount (the page is prerendered); synced back, debounced.
-	let urlReady = $state(false);
-
-	onMount(() => {
-		const params = new URLSearchParams(window.location.search);
-		if (params.toString()) filter = decodeCompareFilter(KEM_FILTER, defaults, params);
-		urlReady = true;
-	});
-
-	$effect(() => {
-		filter; // track filter changes
-		if (!urlReady) return;
-		const timer = setTimeout(() => {
-			const qs = encodeCompareFilter(KEM_FILTER, filter, defaults).toString();
-			const target = urlSyncTarget(
-				qs,
-				window.location.pathname,
-				window.location.hash,
-				window.location.search,
-				navigating.to !== null
-			);
-			if (target === null) return;
-			goto(target, { replaceState: true, keepFocus: true, noScroll: true });
-		}, 300);
-		return () => clearTimeout(timer);
-	});
+	import { kemBenchmarkEnv } from '$lib/kemSchemeData';
 </script>
 
 <svelte:head>
 	<title>KEMs · {SITE_NAME}</title>
 </svelte:head>
 
-<div class="mx-auto max-w-[120rem] px-6 py-8">
-	<!-- Hero header -->
+{#snippet hero()}
 	<div class="mb-8 border-l-4 border-pqs-apricot pl-4">
 		<h1 class="font-heading text-3xl font-bold text-pqs-midnight dark:text-white">
 			Key Encapsulation Mechanisms
@@ -84,61 +29,17 @@
 			for signature schemes.
 		</p>
 	</div>
+{/snippet}
 
-	<div class="flex flex-col gap-6 lg:flex-row lg:gap-8">
-		<FilterSidebar summary={filterSummary(filter, filter.schemes.size)}>
-			<KemFilterPanel {schemes} {categories} {ranges} {groups} bind:filter />
-		</FilterSidebar>
-
-		<!-- Main content -->
-		<div class="min-w-0 flex-1 space-y-6">
-			<!-- Scatter plot -->
-			<section class="rounded border border-pqs-ashgray bg-white p-4 shadow-sm dark:border-pqs-steel dark:bg-pqs-midnight-mid">
-				<div class="mb-3 flex flex-wrap items-center justify-between gap-3">
-					<h2 class="font-heading text-base font-semibold text-pqs-steel dark:text-pqs-apricot">
-						{filter.chart === 'speed' ? 'Encapsulation vs. decapsulation time' : 'pk size vs. ciphertext size'}
-						<span class="font-normal text-pqs-bluegray">(log–log scale)</span>
-					</h2>
-					<ChartModeToggle mode={filter.chart} onchange={(chart) => (filter = { ...filter, chart })} />
-				</div>
-				<CompareChart
-					config={KEMS}
-					rows={filteredRows}
-					xField={KEMS.chart.views[filter.chart].x}
-					yField={KEMS.chart.views[filter.chart].y}
-				/>
-				<div class="mt-2 flex justify-end">
-					<a href="{base}/kems/advanced/" class="text-xs text-pqs-steel hover:text-pqs-apricot dark:text-pqs-bluegray dark:hover:text-pqs-apricot transition-colors">
-						Advanced graph →
-					</a>
-				</div>
-			</section>
-
-			<!-- Performance note -->
-			{#if kemBenchmarkEnv}
-				<div class="rounded border border-pqs-apricot/40 bg-pqs-apricot/10 px-4 py-3 text-xs text-pqs-midnight dark:border-pqs-apricot/30 dark:bg-pqs-apricot/5 dark:text-pqs-smoke">
-					<strong class="font-heading font-semibold text-pqs-apricot">Performance note:</strong>
-					Keygen / encapsulation / decapsulation timings are from our own benchmarks on a
-					{kemBenchmarkEnv.cpu.model} (ML-KEM and HQC use AVX2; ECDH uses OpenSSL); see the
-					environment details below. Schemes not yet in our harness show sizes only.
-				</div>
-			{/if}
-
-			<!-- Table -->
-			<section>
-				<CompareTable
-					config={KEMS}
-					rows={filteredRows}
-					sortCol={filter.sortCol}
-					sortDir={filter.sortDir}
-					onsort={(sortCol, sortDir) => (filter = { ...filter, sortCol, sortDir })}
-				/>
-			</section>
-
-			<!-- Benchmark environment -->
-			{#if kemBenchmarkEnv}
-				<BenchmarkEnvInfo env={kemBenchmarkEnv} />
-			{/if}
+{#snippet note()}
+	{#if kemBenchmarkEnv}
+		<div class="rounded border border-pqs-apricot/40 bg-pqs-apricot/10 px-4 py-3 text-xs text-pqs-midnight dark:border-pqs-apricot/30 dark:bg-pqs-apricot/5 dark:text-pqs-smoke">
+			<strong class="font-heading font-semibold text-pqs-apricot">Performance note:</strong>
+			Keygen / encapsulation / decapsulation timings are from our own benchmarks on a
+			{kemBenchmarkEnv.cpu.model} (ML-KEM and HQC use AVX2; ECDH uses OpenSSL); see the
+			environment details below. Schemes not yet in our harness show sizes only.
 		</div>
-	</div>
-</div>
+	{/if}
+{/snippet}
+
+<ComparePage config={KEMS} load={kemCompareData} {hero} {note} env={kemBenchmarkEnv} />

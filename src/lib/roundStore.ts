@@ -18,3 +18,12 @@ export function roundToFilter(round: Round): {
 		includeOtherProgrammes: round === 'latest'
 	};
 }
+
+/** URL `r` value of a round; null for Latest (no param). */
+export function roundParam(round: Round): string | null {
+	return round === 'latest' ? null : round.slice('round-'.length);
+}
+
+export function roundFromParam(v: string | null): Round {
+	return v === '1' || v === '2' || v === '3' ? `round-${v}` : 'latest';
+}

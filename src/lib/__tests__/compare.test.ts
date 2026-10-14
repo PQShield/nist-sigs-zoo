@@ -1,9 +1,12 @@
 import { describe, expect, it } from 'vitest';
 import {
 	chartTooltip,
+	compareData,
 	compareRows,
+	decodeAxes,
 	decodeCompareFilter,
 	defaultCompareFilter,
+	encodeAxes,
 	encodeCompareFilter,
 	filterCompareRows,
 	sortCompareRows,
@@ -155,5 +158,32 @@ describe('chartTooltip', () => {
 			Notes: '⚠ attack | reference code',
 			'Scheme page': 'click the point'
 		});
+	});
+});
+
+describe('advanced page axes', () => {
+	it('decode keeps offered fields and known scales, defaulting to the Sizes view on log scales', () => {
+		expect(decodeAxes(SIGNATURES.chart, new URLSearchParams(''))).toEqual({ x: 'pk', y: 'sig', xs: 'log', ys: 'log' });
+		expect(decodeAxes(KEMS.chart, new URLSearchParams('x=keygenUs&ys=linear'))).toEqual({ x: 'keygenUs', y: 'ct', xs: 'log', ys: 'linear' });
+		// time axes belong to the main page's Speed view and are not offered here
+		expect(decodeAxes(SIGNATURES.chart, new URLSearchParams('x=signingTime&y=nope&xs=cubic')).x).toBe('pk');
+	});
+
+	it('encode omits defaults', () => {
+		const p = new URLSearchParams();
+		encodeAxes(SIGNATURES.chart, { x: 'pk', y: 'signingUs', xs: 'linear', ys: 'log' }, p);
+		expect(p.toString()).toBe('y=signingUs&xs=linear');
+	});
+});
+
+describe('compareData', () => {
+	it('lists sorted categories and the programme groups present', () => {
+		const { schemes, parameterSets } = processKemSchemes([
+			{ name: 'B', website: '', category: 'Lattices', assumption: '', status: 'x', parametersets: [{ name: 'B-1', level: 1, pk: 1, ct: 1 }] },
+			{ name: 'A', website: '', category: 'Code-based', assumption: '', status: 'x', programmes: { kpqc: 'round-1' }, parametersets: [{ name: 'A-1', level: 1, pk: 1, ct: 1 }] }
+		]);
+		const d = compareData(schemes, parameterSets, null);
+		expect(d.categories).toEqual(['Code-based', 'Lattices']);
+		expect(d.groups).toEqual(['kpqc', 'research']);
 	});
 });

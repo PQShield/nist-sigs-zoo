@@ -1,9 +1,32 @@
 import { describe, it, expect } from 'vitest';
-import { buildUrlParams, sortRows, createFilterStore } from '$lib/filterStore';
-import { get } from 'svelte/store';
+import {
+	compareRows,
+	decodeCompareFilter,
+	defaultCompareFilter,
+	encodeCompareFilter,
+	filterCompareRows,
+	sortCompareRows
+} from '$lib/compare';
 import { processYamlSchemes } from '$lib/data';
-import { defaultCommonFilter } from '$lib/compareFilters';
-import type { FilterState, ParameterSetYaml, SchemeYaml } from '$lib/types';
+import { defaultCommonFilter, presentProgrammeGroups } from '$lib/compareFilters';
+import { SIGNATURE_FILTER } from '$lib/primitives';
+import type { DataRanges, FilterState, ParameterSet, ParameterSetYaml, SchemeYaml } from '$lib/types';
+
+const buildUrlParams = (state: FilterState, defaults: FilterState) => encodeCompareFilter(SIGNATURE_FILTER, state, defaults);
+
+/** The signatures page's filter for `params` over these rows, and the rows it shows (sorted like the table). */
+function signaturePage(parameterSets: ParameterSet[], ranges: DataRanges, params: string) {
+	const defaults = defaultCompareFilter(
+		SIGNATURE_FILTER,
+		ranges,
+		parameterSets.map((r) => r.scheme),
+		presentProgrammeGroups(parameterSets)
+	);
+	const filter = decodeCompareFilter(SIGNATURE_FILTER, defaults, new URLSearchParams(params));
+	const shown = (f: FilterState) =>
+		sortCompareRows(SIGNATURE_FILTER, filterCompareRows(SIGNATURE_FILTER, parameterSets, f), f.sortCol, f.sortDir);
+	return { defaults, filter, shown };
+}
 
 function makeDefaults(): FilterState {
 	return {
@@ -103,12 +126,10 @@ describe('NGCC-scale rows and the NIST level filter', () => {
 			{ name: 'Ngcc', website: '', category: 'Lattices', assumption: '', versions: [{ version: 'R1', date: '2026-09-20', status: 'NGCC', parametersets: [{ name: 'X-128', ngcc_level: 128, pk: 100, sig: 200, signing_cycles: 1000, verification_cycles: 1000 }] }] }
 		];
 		const { parameterSets, ranges } = processYamlSchemes(data);
-		const { store, filteredRows } = createFilterStore(parameterSets, ranges, new URLSearchParams());
-		expect(get(filteredRows).map((r) => r.scheme)).toEqual(['Ngcc', 'Nist']);
-		store.update((f) => ({ ...f, ngccLevels: new Set() }));
-		expect(get(filteredRows).map((r) => r.scheme)).toEqual(['Nist']);
-		store.update((f) => ({ ...f, levels: new Set(), ngccLevels: new Set([128 as const]) }));
-		expect(get(filteredRows).map((r) => r.scheme)).toEqual(['Ngcc']);
+		const { filter, shown } = signaturePage(parameterSets, ranges, '');
+		expect(shown(filter).map((r) => r.scheme)).toEqual(['Ngcc', 'Nist']);
+		expect(shown({ ...filter, ngccLevels: new Set() }).map((r) => r.scheme)).toEqual(['Nist']);
+		expect(shown({ ...filter, levels: new Set(), ngccLevels: new Set([128 as const]) }).map((r) => r.scheme)).toEqual(['Ngcc']);
 	});
 
 	it('sort by level keeps NGCC-scale rows last without throwing', () => {
@@ -119,7 +140,7 @@ describe('NGCC-scale rows and the NIST level filter', () => {
 			] }] }
 		];
 		const { parameterSets } = processYamlSchemes(data);
-		const sorted = [...parameterSets].sort((a, b) => sortRows(a, b, 'level', 'asc'));
+		const sorted = [...parameterSets].sort((a, b) => compareRows(SIGNATURE_FILTER, a, b, 'level', 'asc'));
 		expect(sorted.map((r) => r.parameterset)).toEqual(['l', 'n']);
 	});
 });
@@ -134,8 +155,10 @@ describe('programme, parameter-set and status filters', () => {
 		{ name: 'Buggy', website: '', category: 'Lattices', assumption: '', versions: [{ version: 'v1', date: '2025-01-01', status: 'KpqC', programmes: { kpqc: 'round-1' }, implementation: 'buffer overflow', parametersets: [ps('x')] }] }
 	];
 	const { parameterSets, ranges } = processYamlSchemes(DATA);
-	const shown = (params: string) =>
-		get(createFilterStore(parameterSets, ranges, new URLSearchParams(params)).filteredRows).map((r) => `${r.scheme}/${r.parameterset}`);
+	const shown = (params: string) => {
+		const { filter, shown } = signaturePage(parameterSets, ranges, params);
+		return shown(filter).map((r) => `${r.scheme}/${r.parameterset}`);
+	};
 
 	it('shows recommended parameter sets of every programme by default', () => {
 		expect(shown('')).toEqual(['Broken/b', 'Buggy/x', 'OnRamp/fast']);
@@ -155,8 +178,8 @@ describe('programme, parameter-set and status filters', () => {
 	});
 
 	it('round-trips the new keys through buildUrlParams', () => {
-		const { store, defaults } = createFilterStore(parameterSets, ranges, new URLSearchParams('p=kpqc&ps=all&hw=1&v=speed'));
-		const p = buildUrlParams(get(store), defaults);
+		const { filter, defaults } = signaturePage(parameterSets, ranges, 'p=kpqc&ps=all&hw=1&v=speed');
+		const p = buildUrlParams(filter, defaults);
 		expect(p.get('p')).toBe('kpqc');
 		expect(p.get('ps')).toBe('all');
 		expect(p.get('hw')).toBe('1');
@@ -173,8 +196,10 @@ describe('cycle filters and unbenchmarked rows', () => {
 		{ name: 'Unbenched', website: '', category: 'Lattices', assumption: '', versions: [{ version: 'v1', date: '2025-01-01', status: 'On-ramp', parametersets: [ps('u', undefined)] }] }
 	];
 	const { parameterSets, ranges } = processYamlSchemes(DATA);
-	const shown = (params: string) =>
-		get(createFilterStore(parameterSets, ranges, new URLSearchParams(params)).filteredRows).map((r) => `${r.scheme}/${r.parameterset}`);
+	const shown = (params: string) => {
+		const { filter, shown } = signaturePage(parameterSets, ranges, params);
+		return shown(filter).map((r) => `${r.scheme}/${r.parameterset}`);
+	};
 
 	it('keeps unbenchmarked rows by default', () => {
 		expect(shown('ps=all')).toContain('Unbenched/u');

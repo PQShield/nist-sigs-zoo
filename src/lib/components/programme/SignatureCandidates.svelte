@@ -1,7 +1,8 @@
 <script lang="ts">
 	import { untrack } from 'svelte';
 	import { base } from '$app/paths';
-	import { createFilterStore } from '$lib/filterStore';
+	import { presentProgrammeGroups } from '$lib/compareFilters';
+	import { defaultCompareFilter, filterCompareRows } from '$lib/compare';
 	import {
 		anySigTimings,
 		compareHref,
@@ -13,8 +14,8 @@
 		unmappedAtTarget
 	} from '$lib/programmePage';
 	import { allSchemeData } from '$lib/schemeData';
-	import { SIGNATURES } from '$lib/primitives';
-	import type { NgccLevel, ProgrammeYaml } from '$lib/types';
+	import { SIGNATURE_FILTER, SIGNATURES } from '$lib/primitives';
+	import type { DataRanges, NgccLevel, ParameterSet, ProgrammeYaml } from '$lib/types';
 	import ChartModeToggle from '../ChartModeToggle.svelte';
 	import CompareChart from '../CompareChart.svelte';
 	import CompareTable from '../CompareTable.svelte';
@@ -27,14 +28,15 @@
 	const initial = programmeSignatureRows(p.id, allSchemeData, CURRENT_VIEW);
 	const firstTarget = ngccTargets(initial.parameterSets)[0] ?? null;
 
-	// The chart and table show the shared filter store; this section owns it while mounted
-	// (every compare page rebuilds it on load). createFilterStore() keeps the same store object.
-	const { store, filteredRows } = createFilterStore(initial.parameterSets, initial.ranges, new URLSearchParams());
-	store.update((f) => focusTarget(f, firstTarget));
+	const defaultsFor = (r: { parameterSets: ParameterSet[]; ranges: DataRanges }) =>
+		defaultCompareFilter(SIGNATURE_FILTER, r.ranges, r.parameterSets.map((x) => x.scheme), presentProgrammeGroups(r.parameterSets));
 
 	let view = $state(CURRENT_VIEW);
 	let rows = $state(initial.parameterSets);
 	let target = $state<NgccLevel | null>(firstTarget);
+	let filter = $state(focusTarget(defaultsFor(initial), firstTarget));
+
+	const filtered = $derived(filterCompareRows(SIGNATURE_FILTER, rows, filter));
 
 	const targets = $derived(ngccTargets(rows));
 	const timed = $derived(anySigTimings(rows));
@@ -45,13 +47,13 @@
 		const r = programmeSignatureRows(p.id, allSchemeData, next);
 		rows = r.parameterSets;
 		target = ngccTargets(r.parameterSets)[0] ?? null;
-		// A stage change intentionally resets the other filters; one store write, no transient state.
-		createFilterStore(r.parameterSets, r.ranges, new URLSearchParams(), (f) => focusTarget(f, target));
+		// A stage change intentionally resets the other filters.
+		filter = focusTarget(defaultsFor(r), target);
 	}
 
 	function chooseTarget(next: NgccLevel) {
 		target = next;
-		store.update((f) => focusTarget(f, next));
+		filter = focusTarget(filter, next);
 	}
 </script>
 
@@ -80,18 +82,18 @@
 		<div class="rounded border border-pqs-ashgray bg-white p-4 shadow-sm dark:border-pqs-steel dark:bg-pqs-midnight-mid">
 			<div class="mb-3 flex flex-wrap items-center justify-between gap-3">
 				<h3 class="font-heading text-base font-semibold text-pqs-steel dark:text-pqs-apricot">
-					{$store.chart === 'speed' ? 'Signing vs. verification time' : 'pk size vs. sig size'}
+					{filter.chart === 'speed' ? 'Signing vs. verification time' : 'pk size vs. sig size'}
 					<span class="font-normal text-pqs-bluegray">(log–log scale)</span>
 				</h3>
 				{#if timed}
-					<ChartModeToggle mode={$store.chart} onchange={(chart) => store.update((f) => ({ ...f, chart }))} />
+					<ChartModeToggle mode={filter.chart} onchange={(chart) => (filter = { ...filter, chart })} />
 				{/if}
 			</div>
 			<CompareChart
 				config={SIGNATURES}
-				rows={$filteredRows}
-				xField={SIGNATURES.chart.views[$store.chart].x}
-				yField={SIGNATURES.chart.views[$store.chart].y}
+				rows={filtered}
+				xField={SIGNATURES.chart.views[filter.chart].x}
+				yField={SIGNATURES.chart.views[filter.chart].y}
 			/>
 		</div>
 
@@ -104,10 +106,10 @@
 
 		<CompareTable
 			config={SIGNATURES}
-			rows={$filteredRows}
-			sortCol={$store.sortCol}
-			sortDir={$store.sortDir}
-			onsort={(sortCol, sortDir) => store.update((f) => ({ ...f, sortCol, sortDir }))}
+			rows={filtered}
+			sortCol={filter.sortCol}
+			sortDir={filter.sortDir}
+			onsort={(sortCol, sortDir) => (filter = { ...filter, sortCol, sortDir })}
 		/>
 
 		{#if unmapped.length > 0}

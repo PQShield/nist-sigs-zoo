@@ -1,8 +1,9 @@
-import type { ChartMode, CompareFilter, ProgrammeGroup, SortDir } from './types';
+import type { ChartMode, CompareFilter, ProgrammeGroup, ProgrammeMembership, ScaleType, SortDir } from './types';
 import { levelDescription } from './chartLegend';
 import { timeTooltip } from './chartData';
 import { stripHtml } from './html';
 import {
+	presentProgrammeGroups,
 	decodeCommonFilters,
 	defaultCommonFilter,
 	encodeCommonFilters,
@@ -97,6 +98,10 @@ export interface ChartSpec<R, A extends string> {
 
 /** Everything the shared compare components need to know about one primitive. */
 export interface CompareConfig<R extends CompareRow, G, F extends CompareFilter, A extends string = string> {
+	/** Route under the base path, e.g. "signatures". */
+	path: string;
+	/** What the rows are, in running text ("schemes", "KEMs"). */
+	noun: string;
 	filter: FilterSpec<R, G, F>;
 	table: TableSpec<R>;
 	chart: ChartSpec<R, A>;
@@ -256,4 +261,60 @@ export function compareRows<R, G, F extends CompareFilter>(spec: FilterSpec<R, G
 
 export function sortCompareRows<R, G, F extends CompareFilter>(spec: FilterSpec<R, G, F>, rows: R[], col: string, dir: SortDir): R[] {
 	return [...rows].sort((a, b) => compareRows(spec, a, b, col, dir));
+}
+
+/** One dataset of a compare page. */
+export interface CompareData<R, G> {
+	schemes: { scheme: string; category: string; programmes: ProgrammeMembership[]; classical: boolean }[];
+	parameterSets: R[];
+	ranges: G;
+	categories: string[];
+	groups: ProgrammeGroup[];
+}
+
+export function compareData<R extends FilterableRow, G>(
+	schemes: CompareData<R, G>['schemes'],
+	parameterSets: R[],
+	ranges: G
+): CompareData<R, G> {
+	return {
+		schemes,
+		parameterSets,
+		ranges,
+		categories: [...new Set(schemes.map((s) => s.category))].sort(),
+		groups: presentProgrammeGroups(parameterSets)
+	};
+}
+
+/** Advanced page axes; defaults are the Sizes view on log scales. */
+export interface Axes<A extends string> {
+	x: A;
+	y: A;
+	xs: ScaleType;
+	ys: ScaleType;
+}
+
+export function defaultAxes<R, A extends string>(spec: ChartSpec<R, A>): Axes<A> {
+	return { x: spec.views.sizes.x, y: spec.views.sizes.y, xs: 'log', ys: 'log' };
+}
+
+/** Axes from the URL (`x`, `y`: an offered field; `xs`, `ys`: log | linear); invalid values are ignored. */
+export function decodeAxes<R, A extends string>(spec: ChartSpec<R, A>, params: URLSearchParams): Axes<A> {
+	const axes = defaultAxes(spec);
+	const field = (v: string | null) => spec.axisOptions.find((f) => f === v);
+	const scale = (v: string | null) => (v === 'log' || v === 'linear' ? v : undefined);
+	return {
+		x: field(params.get('x')) ?? axes.x,
+		y: field(params.get('y')) ?? axes.y,
+		xs: scale(params.get('xs')) ?? axes.xs,
+		ys: scale(params.get('ys')) ?? axes.ys
+	};
+}
+
+/** Add the non-default axes to `params`. */
+export function encodeAxes<R, A extends string>(spec: ChartSpec<R, A>, axes: Axes<A>, params: URLSearchParams): void {
+	const d = defaultAxes(spec);
+	for (const k of ['x', 'y', 'xs', 'ys'] as const) {
+		if (axes[k] !== d[k]) params.set(k, axes[k]);
+	}
 }

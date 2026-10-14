@@ -1,7 +1,7 @@
-<script lang="ts">
-	import type { CommonFilter, KemDataRanges, KemFilterState, KemScheme, ProgrammeGroup } from '$lib/types';
-	import { defaultCompareFilter } from '$lib/compare';
-	import { KEM_FILTER } from '$lib/primitives';
+<script lang="ts" generics="R extends CompareRow, G, F extends CompareFilter">
+	import type { Snippet } from 'svelte';
+	import type { CommonFilter, CompareFilter, ProgrammeGroup, ProgrammeMembership } from '$lib/types';
+	import type { BoundSpec, CompareRow, FilterSpec } from '$lib/compare';
 	import RangeField from './RangeField.svelte';
 	import ProgrammeFilter from './ProgrammeFilter.svelte';
 	import LevelFilter from './LevelFilter.svelte';
@@ -11,15 +11,35 @@
 	import { rowProgrammeGroups } from '$lib/compareFilters';
 
 	interface Props {
-		schemes: KemScheme[];
+		spec: FilterSpec<R, G, F>;
+		schemes: { scheme: string; category: string; programmes: ProgrammeMembership[]; classical: boolean }[];
 		categories: string[];
-		ranges: KemDataRanges;
+		ranges: G;
 		groups: ProgrammeGroup[];
-		filter: KemFilterState;
+		defaults: F;
+		filter: F;
+		/** Rendered under "NIST on-ramp" (the on-ramp round select). */
+		onramp?: Snippet<[boolean]>;
 	}
-	let { schemes, categories, ranges, groups, filter = $bindable() }: Props = $props();
+	let { spec, schemes, categories, ranges, groups, defaults, filter = $bindable(), onramp }: Props = $props();
 
-	const allSchemeNames = $derived(schemes.map((s) => s.scheme));
+	// Bound sections in spec order; fields without data (null range) are left out.
+	const sections = $derived.by(() => {
+		const out: { title: string; bounds: BoundSpec<R, G>[] }[] = [];
+		for (const b of spec.bounds) {
+			if (b.range(ranges) === null) continue;
+			const last = out.at(-1);
+			if (last?.title === b.section) last.bounds.push(b);
+			else out.push({ title: b.section, bounds: [b] });
+		}
+		return out;
+	});
+
+	const bound = (key: string): number => (filter as unknown as Record<string, number>)[key];
+
+	function setBound(key: string, v: number) {
+		filter = { ...filter, [key]: v };
+	}
 
 	// Only schemes in a selected programme are listed (their checked state is kept while hidden).
 	const listedSchemes = $derived(
@@ -58,7 +78,7 @@
 	}
 
 	function selectAll() {
-		filter = { ...filter, schemes: new Set(allSchemeNames) };
+		filter = { ...filter, schemes: new Set(defaults.schemes) };
 	}
 
 	function selectNone() {
@@ -66,12 +86,7 @@
 	}
 
 	function reset() {
-		filter = {
-			...defaultCompareFilter(KEM_FILTER, ranges, allSchemeNames, groups),
-			sortCol: filter.sortCol,
-			sortDir: filter.sortDir,
-			chart: filter.chart
-		};
+		filter = { ...defaults, sortCol: filter.sortCol, sortDir: filter.sortDir, chart: filter.chart };
 	}
 
 	function indeterminate(el: HTMLInputElement, value: boolean) {
@@ -87,7 +102,7 @@
 <aside class="rounded border border-pqs-ashgray bg-white p-4 text-sm shadow-sm dark:border-pqs-steel dark:bg-pqs-midnight-mid">
 	<h2 class="mb-4 hidden font-heading text-base font-bold text-pqs-midnight dark:text-white lg:block">Filters</h2>
 
-	<ProgrammeFilter {filter} {groups} onchange={patch} />
+	<ProgrammeFilter {filter} {groups} onchange={patch} {onramp} />
 
 	<hr class="mb-4 border-pqs-ashgray dark:border-pqs-steel" />
 
@@ -136,37 +151,17 @@
 
 	<hr class="mb-4 border-pqs-ashgray dark:border-pqs-steel" />
 
-	<section class="mb-5">
-		<h3 class={FILTER_HEADING}>Sizes (bytes)</h3>
-		<div class="space-y-2">
-			<RangeField label="Min pk" value={filter.minPk} onchange={(v) => (filter = { ...filter, minPk: v })} />
-			<RangeField label="Max pk" value={filter.maxPk} onchange={(v) => (filter = { ...filter, maxPk: v })} />
-			<RangeField label="Min ct" value={filter.minCt} onchange={(v) => (filter = { ...filter, minCt: v })} />
-			<RangeField label="Max ct" value={filter.maxCt} onchange={(v) => (filter = { ...filter, maxCt: v })} />
-			<RangeField label="Min pk+ct" value={filter.minPkPlusCt} onchange={(v) => (filter = { ...filter, minPkPlusCt: v })} />
-			<RangeField label="Max pk+ct" value={filter.maxPkPlusCt} onchange={(v) => (filter = { ...filter, maxPkPlusCt: v })} />
-		</div>
-	</section>
-
-	{#if ranges.keygenUs || ranges.encapsUs || ranges.decapsUs}
+	{#each sections as section (section.title)}
 		<section class="mb-5">
-			<h3 class={FILTER_HEADING}>Performance (µs)</h3>
+			<h3 class={FILTER_HEADING}>{section.title}</h3>
 			<div class="space-y-2">
-				{#if ranges.keygenUs}
-					<RangeField label="Min keygen" value={filter.minKeygenUs} onchange={(v) => (filter = { ...filter, minKeygenUs: v })} />
-					<RangeField label="Max keygen" value={filter.maxKeygenUs} onchange={(v) => (filter = { ...filter, maxKeygenUs: v })} />
-				{/if}
-				{#if ranges.encapsUs}
-					<RangeField label="Min encaps" value={filter.minEncapsUs} onchange={(v) => (filter = { ...filter, minEncapsUs: v })} />
-					<RangeField label="Max encaps" value={filter.maxEncapsUs} onchange={(v) => (filter = { ...filter, maxEncapsUs: v })} />
-				{/if}
-				{#if ranges.decapsUs}
-					<RangeField label="Min decaps" value={filter.minDecapsUs} onchange={(v) => (filter = { ...filter, minDecapsUs: v })} />
-					<RangeField label="Max decaps" value={filter.maxDecapsUs} onchange={(v) => (filter = { ...filter, maxDecapsUs: v })} />
-				{/if}
+				{#each section.bounds as b (b.field)}
+					<RangeField label="Min {b.label}" value={bound(`min${b.field}`)} onchange={(v) => setBound(`min${b.field}`, v)} />
+					<RangeField label="Max {b.label}" value={bound(`max${b.field}`)} onchange={(v) => setBound(`max${b.field}`, v)} />
+				{/each}
 			</div>
 		</section>
-	{/if}
+	{/each}
 
 	<hr class="mb-4 border-pqs-ashgray dark:border-pqs-steel" />
 
