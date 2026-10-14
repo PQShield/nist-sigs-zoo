@@ -1,3 +1,9 @@
+- date: '2026-10-14'
+  type: update
+  description: "ISO/IEC 18033-2:2006/Amd 2:2026, published in June 2026, standardises FrodoKEM and Classic McEliece (the latter without mceliece348864). Both are now shown as ISO standards, and the ISO programme as completed."
+  programmes: [iso]
+  schemes: [FrodoKEM, Classic McEliece]
+
 - date: '2026-10-13'
   type: update
   description: "Benchmarked the round-1 candidates of China's NGCC programme on our own harness (AWS c7i.4xlarge, Intel Xeon Platinum 8488C, core cycles via rdpmc): 178 signature and 160 KEM parameter sets. Tins128/256/512 fail our sign/verify checks and are shown as not finished. We do not benchmark parameter sets that need more than 10 minutes for one signature or verification (TRINE-512-Balanced) or hours for key generation (UVW-512). A few submissions needed small fixes to their own code to run reliably; each is noted on the parameter set. The signature run also refreshes the timings of the NIST on-ramp schemes."

@@ -2,10 +2,10 @@ name: FrodoKEM
 website: https://frodokem.org/
 category: Lattices
 assumption: LWE
-status: ISO standardisation
+status: ISO standard
 programmes:
   nist-pqc: round-3
-  iso: in-progress
+  iso: published
 info: Conservative plain-LWE KEM (no algebraic ring structure). Sizes are the standard (ISO) FrodoKEM with the salt countermeasure — ciphertexts are slightly larger than older round-3 tables. Both AES128 and SHAKE128 matrix-A generation are shown; sizes are identical, only timings differ.
 parametersets:
 - name: FrodoKEM-640-AES
