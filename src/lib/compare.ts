@@ -1,4 +1,7 @@
-import type { CompareFilter, ProgrammeGroup, SortDir } from './types';
+import type { ChartMode, CompareFilter, ProgrammeGroup, SortDir } from './types';
+import { levelDescription } from './chartLegend';
+import { timeTooltip } from './chartData';
+import { stripHtml } from './html';
 import {
 	decodeCommonFilters,
 	defaultCommonFilter,
@@ -65,10 +68,69 @@ export interface TableSpec<R> {
 	emptyText: string;
 }
 
+/** A timed operation, for the chart tooltip. */
+export interface ChartOp<R> {
+	label: string;
+	us: (row: R) => number | null;
+	cycles: (row: R) => number;
+}
+
+export interface ChartSpec<R, A extends string> {
+	/** Every axis field (the point carries all of them) and its axis title. */
+	axisTitles: Record<A, string>;
+	/** Short names for the advanced page heading. */
+	axisShort: Record<A, string>;
+	/** Fields offered by the advanced page's axis selects; the rest are the main page's time axes. */
+	axisOptions: A[];
+	/** Axis value of a row; null when it has none (left out of the chart). */
+	value: (row: R, field: A) => number | null;
+	/** Main page views: heading and axes per chart mode. */
+	views: Record<ChartMode, { title: string; x: A; y: A }>;
+	/** Tooltip size entries. */
+	sizes: [label: string, value: (row: R) => number][];
+	ops: ChartOp<R>[];
+	/** Add the parameter set's notes to the tooltip notes. */
+	rowNotes: boolean;
+	/** Point sizes: default, per family (Standardised and others), and the broken/warning rings. */
+	marks: { size: number; families: Record<string, number>; ring: number };
+}
+
 /** Everything the shared compare components need to know about one primitive. */
-export interface CompareConfig<R extends CompareRow, G, F extends CompareFilter> {
+export interface CompareConfig<R extends CompareRow, G, F extends CompareFilter, A extends string = string> {
 	filter: FilterSpec<R, G, F>;
 	table: TableSpec<R>;
+	chart: ChartSpec<R, A>;
+}
+
+/** Chart tooltip of a row, in display order. */
+export function chartTooltip<R extends CompareRow, A extends string>(
+	spec: ChartSpec<R, A>,
+	d: R
+): Record<string, string | number> {
+	const notes = [
+		d.broken && !d.classical ? `⚠ ${stripHtml(d.broken)}` : null,
+		d.warning ? `⚠ ${stripHtml(d.warning)}` : null,
+		spec.rowNotes ? (d.notes ?? null) : null
+	]
+		.filter(Boolean)
+		.join(' | ');
+	const cycles: Record<string, string> = {};
+	for (const op of spec.ops) {
+		const c = op.cycles(d);
+		if (c > 0) cycles[`${op.label} (cycles)`] = c.toLocaleString();
+	}
+	return {
+		Scheme: d.scheme,
+		'Parameter set': d.parameterset,
+		...(d.version ? { Version: d.version } : {}),
+		Family: d.category,
+		'Security level': levelDescription(d.level, d.ngccLevel),
+		...Object.fromEntries(spec.sizes.map(([label, value]) => [label, value(d).toLocaleString()])),
+		...cycles,
+		...timeTooltip(spec.ops.map((op) => ({ label: op.label, us: op.us(d), cycles: op.cycles(d) }))),
+		...(notes ? { Notes: notes } : {}),
+		'Scheme page': 'click the point'
+	};
 }
 
 type Bounds = Record<string, number>;

@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import {
+	chartTooltip,
 	compareRows,
 	decodeCompareFilter,
 	defaultCompareFilter,
@@ -8,6 +9,9 @@ import {
 	sortCompareRows,
 	type FilterSpec
 } from '$lib/compare';
+import { processYamlSchemes } from '$lib/data';
+import { processKemSchemes } from '$lib/kemData';
+import { KEMS, SIGNATURES } from '$lib/primitives';
 import type { CompareFilter, NistLevel, NgccLevel, ProgrammeMembership } from '$lib/types';
 
 interface Row {
@@ -115,5 +119,41 @@ describe('sortCompareRows', () => {
 
 	it('treats an unknown column from the URL as text', () => {
 		expect(compareRows(spec(true), ROWS[0], ROWS[1], 'constructor', 'asc')).toBe(0);
+	});
+});
+
+describe('chartTooltip', () => {
+	it('lists a signature row with its version, cycles and times but not its notes', () => {
+		const [row] = processYamlSchemes([
+			{ name: 'S', website: '', category: 'Lattices', assumption: '', versions: [{ version: 'v2', date: '2025-01-01', status: 'On-ramp', warning: 'side <b>channel</b>', parametersets: [{ name: 'S-1', level: 1, pk: 1000, sig: 2000, signing_cycles: 2_500_000, verification_us: 3, notes: 'n' }] }] }
+		]).parameterSets;
+		const t = chartTooltip(SIGNATURES.chart, row);
+		expect(Object.keys(t)).toEqual([
+			'Scheme', 'Parameter set', 'Version', 'Family', 'Security level', 'pk (bytes)', 'sig (bytes)', 'pk+sig (bytes)',
+			'Signing (cycles)', 'Signing time', 'Verification time', 'Notes', 'Scheme page'
+		]);
+		expect(t['pk+sig (bytes)']).toBe((3000).toLocaleString());
+		expect(t['Signing time']).toBe('1.00 ms (estimated from cycles)');
+		expect(t.Notes).toBe('⚠ side channel');
+	});
+
+	it('lists a KEM row with all three operations and its notes', () => {
+		const [row] = processKemSchemes([
+			{ name: 'K', website: '', category: 'Lattices', assumption: '', status: 'x', broken: 'attack', parametersets: [{ name: 'K-1', ngcc_level: 128, pk: 10, ct: 20, encaps_cycles: 2500, notes: 'reference code' }] }
+		]).parameterSets;
+		const t = chartTooltip(KEMS.chart, row);
+		expect(t).toEqual({
+			Scheme: 'K',
+			'Parameter set': 'K-1',
+			Family: 'Lattices',
+			'Security level': 'NGCC target: 128-bit classical',
+			'pk (bytes)': '10',
+			'ct (bytes)': '20',
+			'pk+ct (bytes)': '30',
+			'Encapsulation (cycles)': (2500).toLocaleString(),
+			'Encapsulation time': '1.0 µs (estimated from cycles)',
+			Notes: '⚠ attack | reference code',
+			'Scheme page': 'click the point'
+		});
 	});
 });

@@ -15,7 +15,7 @@
 	import FilterPanel from '$lib/components/FilterPanel.svelte';
 	import CompareTable from '$lib/components/CompareTable.svelte';
 	import { SIGNATURES } from '$lib/primitives';
-	import ScatterPlot from '$lib/components/ScatterPlot.svelte';
+	import CompareChart from '$lib/components/CompareChart.svelte';
 	import { processYamlSchemes } from '$lib/data';
 	import { getFilterStore, buildUrlParams, createFilterStore } from '$lib/filterStore';
 	import { roundStore, roundToFilter, type Round } from '$lib/roundStore';
@@ -158,9 +158,11 @@
 					</h2>
 					<ChartModeToggle mode={$store.chart} onchange={(chart) => store.update((f) => ({ ...f, chart }))} />
 				</div>
-				<ScatterPlot
-					xField={$store.chart === 'speed' ? 'signingTime' : 'pk'}
-					yField={$store.chart === 'speed' ? 'verificationTime' : 'sig'}
+				<CompareChart
+					config={SIGNATURES}
+					rows={$filteredRows}
+					xField={SIGNATURES.chart.views[$store.chart].x}
+					yField={SIGNATURES.chart.views[$store.chart].y}
 				/>
 				<div class="mt-2 flex justify-end">
 					<a href="{base}/signatures/advanced/" class="text-xs text-pqs-steel hover:text-pqs-apricot dark:text-pqs-bluegray dark:hover:text-pqs-apricot transition-colors">

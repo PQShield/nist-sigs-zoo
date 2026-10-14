@@ -1,4 +1,4 @@
-<script lang="ts" generics="R extends CompareRow, G, F extends CompareFilter">
+<script lang="ts" generics="R extends CompareRow, G, F extends CompareFilter, A extends string">
 	import { base } from '$app/paths';
 	import { slugOf } from '$lib/schemeIndex';
 	import { schemeHref } from '$lib/slugs';
@@ -14,7 +14,7 @@
 	import TableLegend from './TableLegend.svelte';
 
 	interface Props {
-		config: CompareConfig<R, G, F>;
+		config: CompareConfig<R, G, F, A>;
 		rows: R[];
 		sortCol: string;
 		sortDir: SortDir;

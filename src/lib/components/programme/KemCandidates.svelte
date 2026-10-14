@@ -16,7 +16,7 @@
 	} from '$lib/programmePage';
 	import type { NgccLevel, ProgrammeYaml } from '$lib/types';
 	import ChartModeToggle from '../ChartModeToggle.svelte';
-	import KemScatterPlot from '../KemScatterPlot.svelte';
+	import CompareChart from '../CompareChart.svelte';
 	import CompareTable from '../CompareTable.svelte';
 	import SegmentedToggle from '../SegmentedToggle.svelte';
 
@@ -71,10 +71,11 @@
 					<ChartModeToggle mode={filter.chart} onchange={(chart) => (filter = { ...filter, chart })} />
 				{/if}
 			</div>
-			<KemScatterPlot
+			<CompareChart
+				config={KEMS}
 				rows={filtered}
-				xField={filter.chart === 'speed' ? 'encapsTime' : 'pk'}
-				yField={filter.chart === 'speed' ? 'decapsTime' : 'ct'}
+				xField={KEMS.chart.views[filter.chart].x}
+				yField={KEMS.chart.views[filter.chart].y}
 			/>
 		</div>
 

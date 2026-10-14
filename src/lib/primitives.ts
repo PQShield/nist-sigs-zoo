@@ -1,6 +1,17 @@
 import type { CompareConfig, FilterSpec } from './compare';
+import { kemAxisValue, sigAxisValue } from './chartData';
+import { STANDARDISED } from './chartLegend';
 import { kemTimes, sigTimes } from './timing';
-import type { DataRanges, FilterState, KemDataRanges, KemFilterState, KemParameterSet, ParameterSet } from './types';
+import type {
+	AxisField,
+	DataRanges,
+	FilterState,
+	KemAxisField,
+	KemDataRanges,
+	KemFilterState,
+	KemParameterSet,
+	ParameterSet
+} from './types';
 
 const SIZES = 'Sizes (bytes)';
 const CYCLES = 'Performance (cycles)';
@@ -51,7 +62,7 @@ export const KEM_FILTER: FilterSpec<KemParameterSet, KemDataRanges, KemFilterSta
 	}
 };
 
-export const SIGNATURES: CompareConfig<ParameterSet, DataRanges, FilterState> = {
+export const SIGNATURES: CompareConfig<ParameterSet, DataRanges, FilterState, AxisField> = {
 	filter: SIGNATURE_FILTER,
 	table: {
 		columns: [
@@ -63,10 +74,51 @@ export const SIGNATURES: CompareConfig<ParameterSet, DataRanges, FilterState> = 
 		],
 		shortParamSet: false,
 		emptyText: 'No parameter sets match the current filters.'
+	},
+	chart: {
+		axisTitles: {
+			pk: 'Public key (bytes)',
+			sig: 'Signature (bytes)',
+			pkPlusSig: 'pk + sig (bytes)',
+			signingCycles: 'Signing (cycles)',
+			verificationCycles: 'Verification (cycles)',
+			signingUs: 'Signing (µs)',
+			verificationUs: 'Verification (µs)',
+			signingTime: 'Signing time (µs)',
+			verificationTime: 'Verification time (µs)'
+		},
+		axisShort: {
+			pk: 'pk size',
+			sig: 'sig size',
+			pkPlusSig: 'pk+sig',
+			signingCycles: 'signing (cycles)',
+			verificationCycles: 'verification (cycles)',
+			signingUs: 'signing (µs)',
+			verificationUs: 'verification (µs)',
+			signingTime: 'signing time',
+			verificationTime: 'verification time'
+		},
+		axisOptions: ['pk', 'sig', 'pkPlusSig', 'signingCycles', 'verificationCycles', 'signingUs', 'verificationUs'],
+		value: sigAxisValue,
+		views: {
+			sizes: { title: 'pk size vs. sig size', x: 'pk', y: 'sig' },
+			speed: { title: 'Signing vs. verification time', x: 'signingTime', y: 'verificationTime' }
+		},
+		sizes: [
+			['pk (bytes)', (r) => r.pk],
+			['sig (bytes)', (r) => r.sig],
+			['pk+sig (bytes)', (r) => r.pkPlusSig]
+		],
+		ops: [
+			{ label: 'Signing', us: (r) => r.signingUs, cycles: (r) => r.signingCycles },
+			{ label: 'Verification', us: (r) => r.verificationUs, cycles: (r) => r.verificationCycles }
+		],
+		rowNotes: false,
+		marks: { size: 100, families: { [STANDARDISED]: 180, Lattices: 70 }, ring: 120 }
 	}
 };
 
-export const KEMS: CompareConfig<KemParameterSet, KemDataRanges, KemFilterState> = {
+export const KEMS: CompareConfig<KemParameterSet, KemDataRanges, KemFilterState, KemAxisField> = {
 	filter: KEM_FILTER,
 	table: {
 		columns: [
@@ -79,5 +131,53 @@ export const KEMS: CompareConfig<KemParameterSet, KemDataRanges, KemFilterState>
 		],
 		shortParamSet: true,
 		emptyText: 'No KEMs to display.'
+	},
+	chart: {
+		axisTitles: {
+			pk: 'Public key (bytes)',
+			ct: 'Ciphertext (bytes)',
+			pkPlusCt: 'pk + ct (bytes)',
+			keygenCycles: 'Keygen (cycles)',
+			encapsCycles: 'Encapsulation (cycles)',
+			decapsCycles: 'Decapsulation (cycles)',
+			keygenUs: 'Keygen (µs)',
+			encapsUs: 'Encapsulation (µs)',
+			decapsUs: 'Decapsulation (µs)',
+			keygenTime: 'Keygen time (µs)',
+			encapsTime: 'Encapsulation time (µs)',
+			decapsTime: 'Decapsulation time (µs)'
+		},
+		axisShort: {
+			pk: 'pk size',
+			ct: 'ct size',
+			pkPlusCt: 'pk+ct',
+			keygenCycles: 'keygen (cycles)',
+			encapsCycles: 'encaps (cycles)',
+			decapsCycles: 'decaps (cycles)',
+			keygenUs: 'keygen (µs)',
+			encapsUs: 'encaps (µs)',
+			decapsUs: 'decaps (µs)',
+			keygenTime: 'keygen time',
+			encapsTime: 'encaps time',
+			decapsTime: 'decaps time'
+		},
+		axisOptions: ['pk', 'ct', 'pkPlusCt', 'keygenCycles', 'encapsCycles', 'decapsCycles', 'keygenUs', 'encapsUs', 'decapsUs'],
+		value: kemAxisValue,
+		views: {
+			sizes: { title: 'pk size vs. ciphertext size', x: 'pk', y: 'ct' },
+			speed: { title: 'Encapsulation vs. decapsulation time', x: 'encapsTime', y: 'decapsTime' }
+		},
+		sizes: [
+			['pk (bytes)', (r) => r.pk],
+			['ct (bytes)', (r) => r.ct],
+			['pk+ct (bytes)', (r) => r.pkPlusCt]
+		],
+		ops: [
+			{ label: 'Keygen', us: (r) => r.keygenUs, cycles: (r) => r.keygenCycles },
+			{ label: 'Encapsulation', us: (r) => r.encapsUs, cycles: (r) => r.encapsCycles },
+			{ label: 'Decapsulation', us: (r) => r.decapsUs, cycles: (r) => r.decapsCycles }
+		],
+		rowNotes: true,
+		marks: { size: 120, families: { [STANDARDISED]: 200 }, ring: 140 }
 	}
 };

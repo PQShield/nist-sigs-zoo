@@ -13,7 +13,7 @@
 	import FilterPanel from '$lib/components/FilterPanel.svelte';
 	import CompareTable from '$lib/components/CompareTable.svelte';
 	import { SIGNATURES } from '$lib/primitives';
-	import ScatterPlot from '$lib/components/ScatterPlot.svelte';
+	import CompareChart from '$lib/components/CompareChart.svelte';
 	import { processYamlSchemes } from '$lib/data';
 	import { getFilterStore, buildUrlParams, createFilterStore } from '$lib/filterStore';
 	import { allSchemeData } from '$lib/schemeData';
@@ -193,7 +193,7 @@
 					</div>
 				</div>
 
-				<ScatterPlot {xField} {yField} {xScale} {yScale} />
+				<CompareChart config={SIGNATURES} rows={$filteredRows} {xField} {yField} {xScale} {yScale} />
 			</section>
 
 			<!-- Scheme table -->

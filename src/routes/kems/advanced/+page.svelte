@@ -8,7 +8,7 @@
 	import FilterSidebar from '$lib/components/FilterSidebar.svelte';
 	import { filterSummary, presentProgrammeGroups } from '$lib/compareFilters';
 	import KemFilterPanel from '$lib/components/KemFilterPanel.svelte';
-	import KemScatterPlot from '$lib/components/KemScatterPlot.svelte';
+	import CompareChart from '$lib/components/CompareChart.svelte';
 	import CompareTable from '$lib/components/CompareTable.svelte';
 	import { computeKemRanges, processKemSchemes } from '$lib/kemData';
 	import { decodeCompareFilter, defaultCompareFilter, encodeCompareFilter, filterCompareRows } from '$lib/compare';
@@ -195,7 +195,7 @@
 					</div>
 				</div>
 
-				<KemScatterPlot rows={filteredRows} {xField} {yField} {xScale} {yScale} />
+				<CompareChart config={KEMS} rows={filteredRows} {xField} {yField} {xScale} {yScale} />
 			</section>
 
 			<!-- Table -->

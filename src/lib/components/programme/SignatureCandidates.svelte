@@ -16,7 +16,7 @@
 	import { SIGNATURES } from '$lib/primitives';
 	import type { NgccLevel, ProgrammeYaml } from '$lib/types';
 	import ChartModeToggle from '../ChartModeToggle.svelte';
-	import ScatterPlot from '../ScatterPlot.svelte';
+	import CompareChart from '../CompareChart.svelte';
 	import CompareTable from '../CompareTable.svelte';
 	import SegmentedToggle from '../SegmentedToggle.svelte';
 
@@ -27,7 +27,7 @@
 	const initial = programmeSignatureRows(p.id, allSchemeData, CURRENT_VIEW);
 	const firstTarget = ngccTargets(initial.parameterSets)[0] ?? null;
 
-	// ScatterPlot and SchemeTable read the shared filter store; this section owns it while mounted
+	// The chart and table show the shared filter store; this section owns it while mounted
 	// (every compare page rebuilds it on load). createFilterStore() keeps the same store object.
 	const { store, filteredRows } = createFilterStore(initial.parameterSets, initial.ranges, new URLSearchParams());
 	store.update((f) => focusTarget(f, firstTarget));
@@ -87,9 +87,11 @@
 					<ChartModeToggle mode={$store.chart} onchange={(chart) => store.update((f) => ({ ...f, chart }))} />
 				{/if}
 			</div>
-			<ScatterPlot
-				xField={$store.chart === 'speed' ? 'signingTime' : 'pk'}
-				yField={$store.chart === 'speed' ? 'verificationTime' : 'sig'}
+			<CompareChart
+				config={SIGNATURES}
+				rows={$filteredRows}
+				xField={SIGNATURES.chart.views[$store.chart].x}
+				yField={SIGNATURES.chart.views[$store.chart].y}
 			/>
 		</div>
 

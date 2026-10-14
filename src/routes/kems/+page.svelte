@@ -8,7 +8,7 @@
 	import FilterSidebar from '$lib/components/FilterSidebar.svelte';
 	import KemFilterPanel from '$lib/components/KemFilterPanel.svelte';
 	import ChartModeToggle from '$lib/components/ChartModeToggle.svelte';
-	import KemScatterPlot from '$lib/components/KemScatterPlot.svelte';
+	import CompareChart from '$lib/components/CompareChart.svelte';
 	import CompareTable from '$lib/components/CompareTable.svelte';
 	import BenchmarkEnvInfo from '$lib/components/BenchmarkEnvInfo.svelte';
 	import { filterSummary, presentProgrammeGroups } from '$lib/compareFilters';
@@ -101,10 +101,11 @@
 					</h2>
 					<ChartModeToggle mode={filter.chart} onchange={(chart) => (filter = { ...filter, chart })} />
 				</div>
-				<KemScatterPlot
+				<CompareChart
+					config={KEMS}
 					rows={filteredRows}
-					xField={filter.chart === 'speed' ? 'encapsTime' : 'pk'}
-					yField={filter.chart === 'speed' ? 'decapsTime' : 'ct'}
+					xField={KEMS.chart.views[filter.chart].x}
+					yField={KEMS.chart.views[filter.chart].y}
 				/>
 				<div class="mt-2 flex justify-end">
 					<a href="{base}/kems/advanced/" class="text-xs text-pqs-steel hover:text-pqs-apricot dark:text-pqs-bluegray dark:hover:text-pqs-apricot transition-colors">
