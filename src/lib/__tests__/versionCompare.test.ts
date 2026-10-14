@@ -48,6 +48,16 @@ describe('compareVersions', () => {
 		]);
 	});
 
+	it('pairs a renamed set with its previous name, in either direction', () => {
+		const renamed: VersionYaml = { ...R3, parametersets: [{ name: 'old3', renamed_from: 'old', level: 3, pk: 120, sig: 100 }] };
+		expect(compareVersions(R2, renamed).rows.map((r) => [r.name, r.presence])).toEqual([
+			['old3', 'both'],
+			['one', 'removed'],
+			['two', 'removed']
+		]);
+		expect(compareVersions(renamed, R2).rows.find((r) => r.name === 'old')!.presence).toBe('both');
+	});
+
 	it('computes percentage changes', () => {
 		expect(row(c, 'two').metrics.pk.pct).toBeCloseTo(-40.39, 2);
 		expect(row(c, 'two').metrics.sig.pct).toBeCloseTo(28.49, 2);

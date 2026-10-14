@@ -137,13 +137,37 @@ BENCH_TO_YAML: dict[str, tuple[str, str]] = {
     "MQOM3-L5-gf16-short-ot": ("MQOM.yaml", "L5-gf16-short-ot"),
     "MQOM3-L5-gf16-fast-ct": ("MQOM.yaml", "L5-gf16-fast-ct"),
     "MQOM3-L5-gf16-fast-ot": ("MQOM.yaml", "L5-gf16-fast-ot"),
-    # SDitH2 — gf2 variants (v3.0.0 first in YAML, so it gets the numbers) (bench output name matches shim's @NAME@)
-    "SDitH2-L1-gf2-short": ("SDitH.yaml", "SDitH2-L1-gf2-short"),
-    "SDitH2-L1-gf2-fast": ("SDitH.yaml", "SDitH2-L1-gf2-fast"),
-    "SDitH2-L3-gf2-short": ("SDitH.yaml", "SDitH2-L3-gf2-short"),
-    "SDitH2-L3-gf2-fast": ("SDitH.yaml", "SDitH2-L3-gf2-fast"),
-    "SDitH2-L5-gf2-short": ("SDitH.yaml", "SDitH2-L5-gf2-short"),
-    "SDitH2-L5-gf2-fast": ("SDitH.yaml", "SDitH2-L5-gf2-fast"),
+    # SDitH v3.0.0 (round 3) gf2 sets; bench output name matches the shim's @NAME@
+    "SDitH3-L1-gf2-short": ("SDitH.yaml", "SDitH3-L1-gf2-short"),
+    "SDitH2-L1-gf2-short": (
+        "SDitH.yaml",
+        "SDitH3-L1-gf2-short",
+    ),  # results files before 2026-10-14 (same v3.0.0 code)
+    "SDitH3-L1-gf2-fast": ("SDitH.yaml", "SDitH3-L1-gf2-fast"),
+    "SDitH2-L1-gf2-fast": (
+        "SDitH.yaml",
+        "SDitH3-L1-gf2-fast",
+    ),  # results files before 2026-10-14 (same v3.0.0 code)
+    "SDitH3-L3-gf2-short": ("SDitH.yaml", "SDitH3-L3-gf2-short"),
+    "SDitH2-L3-gf2-short": (
+        "SDitH.yaml",
+        "SDitH3-L3-gf2-short",
+    ),  # results files before 2026-10-14 (same v3.0.0 code)
+    "SDitH3-L3-gf2-fast": ("SDitH.yaml", "SDitH3-L3-gf2-fast"),
+    "SDitH2-L3-gf2-fast": (
+        "SDitH.yaml",
+        "SDitH3-L3-gf2-fast",
+    ),  # results files before 2026-10-14 (same v3.0.0 code)
+    "SDitH3-L5-gf2-short": ("SDitH.yaml", "SDitH3-L5-gf2-short"),
+    "SDitH2-L5-gf2-short": (
+        "SDitH.yaml",
+        "SDitH3-L5-gf2-short",
+    ),  # results files before 2026-10-14 (same v3.0.0 code)
+    "SDitH3-L5-gf2-fast": ("SDitH.yaml", "SDitH3-L5-gf2-fast"),
+    "SDitH2-L5-gf2-fast": (
+        "SDitH.yaml",
+        "SDitH3-L5-gf2-fast",
+    ),  # results files before 2026-10-14 (same v3.0.0 code)
     # SQIsign
     "SQIsign-I": ("SQIsign.yaml", "I"),
     "SQIsign-III": ("SQIsign.yaml", "III"),

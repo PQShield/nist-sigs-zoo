@@ -137,11 +137,17 @@ function flagChange(from: VersionFlag | null, to: VersionFlag | null): FlagChang
 }
 
 export function compareVersions(from: VersionYaml, to: VersionYaml): VersionComparison {
-	const fromByName = new Map(from.parametersets.map((p) => [p.name, p]));
-	const toNames = new Set(to.parametersets.map((p) => p.name));
+	// Same name, or renamed between the two versions (either direction, so swapping works).
+	const same = (a: ParameterSetYaml, b: ParameterSetYaml) =>
+		a.name === b.name || b.renamed_from === a.name || a.renamed_from === b.name;
 	const pairs: [ParameterSetYaml | null, ParameterSetYaml | null][] = [
-		...to.parametersets.map((b): [ParameterSetYaml | null, ParameterSetYaml] => [fromByName.get(b.name) ?? null, b]),
-		...from.parametersets.filter((a) => !toNames.has(a.name)).map((a): [ParameterSetYaml, null] => [a, null])
+		...to.parametersets.map((b): [ParameterSetYaml | null, ParameterSetYaml] => [
+			from.parametersets.find((a) => same(a, b)) ?? null,
+			b
+		]),
+		...from.parametersets
+			.filter((a) => !to.parametersets.some((b) => same(a, b)))
+			.map((a): [ParameterSetYaml, null] => [a, null])
 	];
 
 	const rows = pairs.map(([a, b]): ParamSetComparison => {

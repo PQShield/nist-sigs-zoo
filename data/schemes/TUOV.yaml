@@ -1,5 +1,5 @@
 name: TUOV
-website: https://www.tuovsig.org/
+website: https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/round-1/spec-files/TUOV-spec-web.pdf
 category: Multivariate
 assumption: UOV
 versions:

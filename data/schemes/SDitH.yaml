@@ -10,7 +10,8 @@ versions:
     nist-onramp: round-3
   perf_source: "sizes verified against kat_r3 KAT vectors (github.com/sdith/sdith tag v3.0.0)"
   parametersets:
-  - name: SDitH2-L1-gf2-short
+  - name: SDitH3-L1-gf2-short
+    renamed_from: SDitH2-L1-gf2-short
     level: 1
     pk: 70
     sig: 3721
@@ -18,7 +19,8 @@ versions:
     verification_cycles: 8262686
     signing_us: 2548.2
     verification_us: 2240.0
-  - name: SDitH2-L1-gf2-fast
+  - name: SDitH3-L1-gf2-fast
+    renamed_from: SDitH2-L1-gf2-fast
     level: 1
     pk: 70
     sig: 4914
@@ -26,7 +28,8 @@ versions:
     verification_cycles: 1707881
     signing_us: 538.6
     verification_us: 458.9
-  - name: SDitH2-L3-gf2-short
+  - name: SDitH3-L3-gf2-short
+    renamed_from: SDitH2-L3-gf2-short
     level: 3
     pk: 98
     sig: 8484
@@ -34,7 +37,8 @@ versions:
     verification_cycles: 41809417
     signing_us: 11529.6
     verification_us: 11351.0
-  - name: SDitH2-L3-gf2-fast
+  - name: SDitH3-L3-gf2-fast
+    renamed_from: SDitH2-L3-gf2-fast
     level: 3
     pk: 98
     sig: 10852
@@ -42,7 +46,8 @@ versions:
     verification_cycles: 8961817
     signing_us: 2589.5
     verification_us: 2434.7
-  - name: SDitH2-L5-gf2-short
+  - name: SDitH3-L5-gf2-short
+    renamed_from: SDitH2-L5-gf2-short
     level: 5
     pk: 132
     sig: 15147
@@ -50,7 +55,8 @@ versions:
     verification_cycles: 65144856
     signing_us: 17908.8
     verification_us: 17691.3
-  - name: SDitH2-L5-gf2-fast
+  - name: SDitH3-L5-gf2-fast
+    renamed_from: SDitH2-L5-gf2-fast
     level: 5
     pk: 132
     sig: 19144

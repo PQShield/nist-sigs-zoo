@@ -50,6 +50,8 @@ export interface ParameterSet {
 
 export interface ParameterSetYaml {
 	name: string;
+	/** The set's name in the previous version, when it was renamed (pairs them in version comparisons). */
+	renamed_from?: string;
 	level?: number | 'Pre-Quantum';
 	ngcc_level?: NgccLevel;
 	recommended?: boolean;
