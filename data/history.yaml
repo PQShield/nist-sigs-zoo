@@ -20,6 +20,11 @@
 - date: '2026-10-07'
   type: update
   description: "Scheme data now records which standardisation programmes each scheme belongs to (NIST PQC, NIST on-ramp, KpqC, ISO), in preparation for tracking China's NGCC programme."
+- date: '2026-09-27'
+  type: attack
+  description: "Public-key-only universal forgery on AIM2-based AIMer (Liu, Peng, Liu, Jia, Wang, Wang &amp; Fan, <a href=\"https://eprint.iacr.org/2026/2235\">ePrint 2026/2235</a>): BN++ checks each inverse Mersenne S-box of AIM2 through the quadratic relation t^(2^e) + &gamma;t = pt&middot;t, which holds for any pt when the S-box output t is zero. Setting all first-layer outputs to zero and pt = ct + b^(2^e*&minus;1), computed from the public key alone, gives a witness that satisfies every checked equation without being an AIM2 preimage; the unmodified prover then signs any message, with probability one, for every honest key of every parameter set. Forgeries were accepted by the unmodified reference verifier for AIMer-128f/192f/256f (about 11.6 ms per AIMer-256f forgery). The paper attacks the January 2026 AIM2 specification; v2.0 and v2.1 use the same relation, so we mark them broken. The AIMer team confirmed the attack, and the AIM3 relation of v3.0 rules out the zero branch. The paper also forges signatures for some Lynxer variants. v1.0 (AIM) is not covered by the paper."
+  schemes: [AIMer]
+
 - date: '2026-09-22'
   type: attack
   description: "Key-recovery attack on SNOVA's biased vinegar sampling (Beullens &amp; Hess, IBM Research, <a href=\"https://groups.google.com/a/list.nist.gov/d/msgid/pqc-forum/000001dd4a73%247e3c04e0%247ab40ea0%24%40beullens.com\">pqc-forum OFFICIAL COMMENT</a>, paper to appear on ePrint): the round-3 signer draws vinegar variables by reducing uniform byte strings modulo q^g, which is never uniform when q is odd, so every signature yields noisy linear equations in the secret transformation T. Key recovery becomes a q-ary LPN problem with a known full-support error distribution, solved with BKW reduction plus Fourier hypothesis testing. This affects only the <strong>six odd-characteristic alternative parameter sets</strong> of Table 6 in the round-3 spec &mdash; (27 4 19 4 6), (27 5 13 4 4), (39 5 11 4 6), (38 5 19 4 6), (40 5 19 5 6) and (47 6 19 4 6) &mdash; all of which fall far below their claimed 170&ndash;331 bits (2^90&ndash;2^130 operations from ~6&ndash;11k signatures). Four were broken end to end against the unmodified reference implementation: 9M, 16.5M, 9M and 180M signatures recovered in 22s, 34s, 22s and 16min respectively (<a href=\"https://github.com/WardBeullens/SNOVA_LPN_Attack\">proof of concept</a>). <strong>The recommended parameter sets shown here (SNOVA_{I,III,V}_{K,B,S}) use q = 16 and are unaffected</strong>, since 16^g divides 256^b exactly; no flags are changed for them. The fix is simple: sample the vinegar variables uniformly, e.g. by rejection sampling as QR-UOV does. The first version of the attack was found independently by an AI system (gpt-5.6-sol); the authors verified it, improved it and wrote it up."
@@ -69,6 +74,11 @@
   type: update
   description: "MAYO published its round-3 spec (<a href=\"https://pqmayo.org/assets/specs/mayo-round3.pdf\">PDF</a>): MAYO2's parameters change to increase its margin against the Wedge attack (Ran, ePrint 2025/1143), shrinking its public key from 4912B to 2928B while growing its signature from 186B to 239B; MAYO1 grows slightly (pk 1420&rarr;1456B, sig 454&rarr;464B) to push the improved-MQ attack (Asanuma et al., ePrint 2026/1054) margin back above the NIST Level I threshold &mdash; both flags are dropped for the round-3 parameter sets. Also adds an explicit linear term to the verification equation to block a newly disclosed claw-finding forgery attack, and fixes a low-rank weakness in the whipping schedule. MAYO3 and MAYO5 sizes are unchanged. The team also widened MAYO2's margin further in response to a new, not-yet-public UOV-like key-recovery attack privately disclosed by Lars Ran and Simon-Philipp Merz shortly before the deadline."
   schemes: [MAYO]
+
+- date: '2026-08-19'
+  type: update
+  description: "AIMer v3.0 (<a href=\"https://aimer-signature.org/docs/AIMer-specification-v3%20(Eng).pdf\">specification</a>, dated 31 July 2026) replaces AIM2 with AIM3, citing the Magic Pot attack: an IV-derived linear layer now precedes the first S-boxes (as proposed by Sun et al. for AIM2-patch) and the inverse Mersenne S-boxes become enhanced Mersenne S-boxes x^(2^e&minus;1) + x^(2^n&minus;2), whose quadratic relation only holds for non-zero inputs; key generation rejects keys with a zero S-box input. Parameter sets keep their names and public keys, but signatures grow by 13&ndash;25% (e.g. AIMer-128s 4,160&rarr;4,704 bytes, AIMer-256f 25,120&rarr;31,360 bytes). The specification no longer contains benchmarks, so no timings are shown for v3.0."
+  schemes: [AIMer]
 
 - date: '2026-08-07'
   type: attack
@@ -149,6 +159,11 @@
   description: Updated 7 schemes to their latest published specifications. PERK redesigned parameter sets (v2.2.0). MQOM adds gf16 variants (v2.1). RYDE and Mirath corrected signature sizes and added faster variants. CROSS, SQIsign, and MAYO updated with revised benchmarks.
   schemes: [CROSS, MAYO, MQOM, Mirath, PERK, RYDE, SQIsign]
 
+- date: '2026-05-08'
+  type: attack
+  description: "Magic Pot (Biryukov, Garc&iacute;a Fern&aacute;ndez &amp; Udovenko, <a href=\"https://eprint.iacr.org/2026/903\">ePrint 2026/903</a>, EUROCRYPT 2026): a new algebraic elimination framework recovers AIM2 keys from a single public key in 2^103.66, 2^147.46 and 2^213.19 encryptions for AIM2-I, -III and -V, below the claimed 128, 192 and 256 bits. If one secret key is reused under several IVs, or keys are related, key recovery becomes practical and was run: 11, 20 and 52 public keys in about 33, 30 and 37 hours. This affects AIMer v2.0 and v2.1; the AIMer team replaced AIM2 by AIM3 in v3.0 in response."
+  schemes: [AIMer]
+
 - date: '2026-05-07'
   type: update
   description: Fixed some typos in scheme data. <a href="https://github.com/PQShield/nist-sigs-zoo/commit/355b685ab03fa8f51b8bd1fec2b17e46ed701ffa">commit</a>
@@ -156,3 +171,34 @@
 - date: '2026-05-07'
   type: update
   description: Website rewritten with SvelteKit, Tailwind CSS v4, and a new round selector, filter panel, and scatter plot.
+
+- date: '2025-12-18'
+  type: attack
+  description: "Sun, Chen, Liu, Wang &amp; Niu (<a href=\"https://eprint.iacr.org/2025/2272\">ePrint 2025/2272</a>) give resultant-based algebraic attacks on AIM2: 2^188.76 primitive calls for AIM2-III with &omega; = 2 (2^195.05 with &omega; = 2.373), against 192 claimed bits, and 2^295.97 for AIM2-V via subfield reduction, about 2^100 below the designers&rsquo; Gr&ouml;bner-basis estimate but above 256 bits. They propose AIM2-patch, which adds a linear layer after the key. The AIMer team&rsquo;s January 2026 specification counts these attacks at more than an exhaustive search of AES at the same level. No flag change."
+  schemes: [AIMer]
+
+- date: '2025-01-16'
+  type: milestone
+  description: "KpqC <a href=\"https://groups.google.com/g/kpqc-bulletin/c/FSqdwf4WcXc\">announced its final algorithms</a>: AIMer and HAETAE (signatures), NTRU+ and SMAUG-T (KEMs). AIMer was then at v2.1."
+  schemes: [AIMer, HAETAE, SMAUG-T, NTRU+]
+  programmes: [kpqc]
+
+- date: '2024-07-12'
+  type: update
+  description: "AIMer v2.1 (<a href=\"https://aimer-signature.org/docs/AIMer-specification-v2.1.pdf\">specification</a>, <a href=\"https://groups.google.com/g/kpqc-bulletin/c/QicD0wIDrAU\">announcement</a>): implementation-only changes (PQClean compatibility, a memory-optimised C implementation, ARM SHAKE optimisation, and constant-time patches recommended by D. J. Bernstein). Sizes are unchanged from v2.0."
+  schemes: [AIMer]
+
+- date: '2024-02-23'
+  type: update
+  description: "AIMer v2.0 (<a href=\"https://aimer-signature.org/docs/AIMer-specification-v2.0.pdf\">specification</a>), the KpqC round-2 submission, replaces AIM with AIM2 (<a href=\"https://eprint.iacr.org/2023/1474\">Kim, Ha, Son &amp; Lee, ePrint 2023/1474</a>) to counter the 2023 attacks on AIM: inverse Mersenne S-boxes in the first round and a distinct constant added before each S-box. It also halves the salt, adds message pre-hashing and cuts the twelve parameter sets to six (AIMer-128f/s, -192f/s, -256f/s). Signatures at the same level are similar in size to v1.0 (e.g. 4,160 bytes for AIMer-128s against 4,176 bytes for L1_PARAM3)."
+  schemes: [AIMer]
+
+- date: '2023-09-18'
+  type: attack
+  description: "Zhang, Wang, Yu, Guo &amp; Cui (<a href=\"https://eprint.iacr.org/2023/1397\">ePrint 2023/1397</a>, ASIACRYPT 2023) attack full AIM-III in 2^186.5 encryptions, below its 192-bit target, by exploiting the algebraic structure of its power-function S-boxes."
+  schemes: [AIMer]
+
+- date: '2023-07-20'
+  type: attack
+  description: "Liu, Mahzoun, &Oslash;ygarden &amp; Meier (<a href=\"https://eprint.iacr.org/2023/1133\">ePrint 2023/1133</a>, ToSC 2023(4)) find equivalent representations of full AIM that admit fast exhaustive search, recovering AIM-I/III/V keys in 2^136.2/2^200.7/2^265 bit operations, about 2^115/2^178/2^241 AIM evaluations. AIM therefore misses the NIST levels claimed by AIMer v1.0."
+  schemes: [AIMer]
