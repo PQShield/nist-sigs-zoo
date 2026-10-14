@@ -56,7 +56,7 @@
 				Implementation sources ▸
 			</summary>
 			<ul class="mt-2 space-y-0.5 font-mono">
-				{#each Object.entries(env.sources).sort() as [scheme, url]}
+				{#each Object.entries(env.sources).sort() as [scheme, url] (scheme)}
 					{@const m = url.match(/^(.*)@([0-9a-f]{7,40})$/)}
 					{@const repoUrl = (m ? m[1] : url).replace(/\.git$/, '')}
 					{@const commit = m ? m[2] : null}

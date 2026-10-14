@@ -107,7 +107,7 @@ def test_each_scheme_gets_a_row_in_order(harness):
     assert proc.returncode == 0, proc.stderr
     rows = data_rows(proc.stdout)
     assert len(rows) == len(toys), proc.stdout
-    for row, (name, _, reason) in zip(rows, toys):
+    for row, (name, _, reason) in zip(rows, toys, strict=True):
         if reason is None:
             m = NUM_ROW.match(row)
             assert m and m["name"] == name, row

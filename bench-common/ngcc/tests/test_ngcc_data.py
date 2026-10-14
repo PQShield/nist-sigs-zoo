@@ -298,7 +298,7 @@ def test_untimed_instance_keeps_sizes_and_notes_it_is_not_benchmarked(tmp_path):
 
 
 def _params(tmp_path, *pairs):
-    rows = zip(pairs[::2], pairs[1::2])
+    rows = zip(pairs[::2], pairs[1::2], strict=True)
     p = tmp_path / "params.tsv"
     p.write_text(
         "# c\nfile\tname\titers\n" + "".join(f"f\t{n}\t{i}\n" for n, i in rows)

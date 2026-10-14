@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { untrack } from 'svelte';
 	import { CPU_GHZ_LABEL } from '$lib/constants';
 	import { fmtDate } from '$lib/dates';
 	import { fmt, fmtCycles } from '$lib/format';
@@ -19,8 +20,8 @@
 	let { versions, options }: { versions: VersionYaml[]; options: VersionOption[] } = $props();
 
 	// The page wraps this component in {#key slug}, so reading props once at init is intended.
-	let fromId = $state(options[1]?.id ?? options[0].id);
-	let toId = $state(options[0].id);
+	let fromId = $state(untrack(() => options[1]?.id ?? options[0].id));
+	let toId = $state(untrack(() => options[0].id));
 	let mode = $state<CompareMode>('sizes');
 
 	const indexOf = (id: string) =>

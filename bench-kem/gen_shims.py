@@ -34,7 +34,7 @@ def main():
         row = [v.strip() for v in row]
         if not any(row):
             continue
-        params = dict(zip(headers, row))
+        params = dict(zip(headers, row, strict=False))
         content = template
         for key, val in params.items():
             content = content.replace(f"@{key.upper()}@", val)

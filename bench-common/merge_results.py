@@ -71,7 +71,7 @@ def main() -> None:
     assert first_header is not None
     # Insert the part list just before the cycle-counter line (or at the end of the header).
     idx = next(
-        (i for i, l in enumerate(first_header) if l.startswith("# cyclecounter:")),
+        (i for i, ln in enumerate(first_header) if ln.startswith("# cyclecounter:")),
         len(first_header),
     )
     note = [

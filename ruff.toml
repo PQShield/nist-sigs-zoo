@@ -35,3 +35,10 @@ select = [
 ignore = [
     "E501", # the formatter owns line length; what remains is long strings, URLs and comments
 ]
+
+[lint.per-file-ignores]
+# These scripts put a sibling directory on sys.path before importing from it.
+"bench/update_scheme_data.py" = ["E402"]
+"bench-kem/update_scheme_data.py" = ["E402"]
+"bench-common/ngcc/kat_hashes.py" = ["E402"]
+"bench-common/ngcc/unpack_nested.py" = ["E402"]
