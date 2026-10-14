@@ -40,7 +40,12 @@
 	const firstTarget = ngccTargets(initial.parameterSets)[0] ?? null;
 
 	const defaultsFor = (r: { parameterSets: R[]; ranges: G }) =>
-		defaultCompareFilter(cfg.filter, r.ranges, r.parameterSets.map((x) => x.scheme), presentProgrammeGroups(r.parameterSets));
+		defaultCompareFilter(
+			cfg.filter,
+			r.ranges,
+			r.parameterSets.map((x) => x.scheme),
+			presentProgrammeGroups(r.parameterSets)
+		);
 
 	let view = $state(CURRENT_VIEW);
 	let rows = $state.raw(initial.parameterSets);
@@ -70,7 +75,9 @@
 </script>
 
 {#if initial.parameterSets.length === 0}
-	<p class="rounded border border-dashed border-pqs-bluegray px-4 py-6 text-sm text-pqs-steel dark:border-pqs-steel dark:text-pqs-bluegray">
+	<p
+		class="rounded border border-dashed border-pqs-bluegray px-4 py-6 text-sm text-pqs-steel dark:border-pqs-steel dark:text-pqs-bluegray"
+	>
 		No {cfg.label.many} from this programme are in our data yet.
 	</p>
 {:else}
@@ -78,7 +85,12 @@
 		{#if views.length > 0 || targets.length > 1}
 			<div class="flex flex-wrap items-center gap-3">
 				{#if views.length > 0}
-					<SegmentedToggle label="Stage" options={views.map((v) => ({ value: v.id, label: v.label }))} value={view} onchange={chooseView} />
+					<SegmentedToggle
+						label="Stage"
+						options={views.map((v) => ({ value: v.id, label: v.label }))}
+						value={view}
+						onchange={chooseView}
+					/>
 				{/if}
 				{#if targets.length > 1}
 					<SegmentedToggle
@@ -91,7 +103,9 @@
 			</div>
 		{/if}
 
-		<div class="rounded border border-pqs-ashgray bg-white p-4 shadow-sm dark:border-pqs-steel dark:bg-pqs-midnight-mid">
+		<div
+			class="rounded border border-pqs-ashgray bg-white p-4 shadow-sm dark:border-pqs-steel dark:bg-pqs-midnight-mid"
+		>
 			<div class="mb-3 flex flex-wrap items-center justify-between gap-3">
 				<h3 class="font-heading text-base font-semibold text-pqs-steel dark:text-pqs-apricot">
 					{chartView.title}
@@ -106,8 +120,8 @@
 
 		{#if !timed}
 			<p role="note" class="text-xs text-pqs-steel dark:text-pqs-bluegray">
-				Sizes only for now: none of these candidates is in our benchmark harness yet, so the table
-				shows them as not yet benchmarked. Timings will follow once they are added.
+				Sizes only for now: none of these candidates is in our benchmark harness yet, so the table shows them as not yet
+				benchmarked. Timings will follow once they are added.
 			</p>
 		{/if}
 
@@ -126,7 +140,10 @@
 		{/if}
 
 		<p class="text-right">
-			<a href={compareHref(base, p.id, cfg.kind, { target, stage: view })} class="font-heading text-sm font-semibold text-pqs-steel hover:text-pqs-apricot dark:text-pqs-apricot">
+			<a
+				href={compareHref(base, p.id, cfg.kind, { target, stage: view })}
+				class="font-heading text-sm font-semibold text-pqs-steel hover:text-pqs-apricot dark:text-pqs-apricot"
+			>
 				Open in the {cfg.label.one} comparison →
 			</a>
 		</p>

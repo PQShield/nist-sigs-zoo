@@ -88,8 +88,7 @@ export function passesCommonFilters(row: FilterableRow, f: CommonFilter): boolea
 	if (!rowProgrammeGroups(row).some((g) => f.programmes.has(g))) return false;
 	// Each scale is matched only against its own filter group; the scales are never converted.
 	const levelOk =
-		(row.level !== null && f.levels.has(row.level)) ||
-		(row.ngccLevel !== null && f.ngccLevels.has(row.ngccLevel));
+		(row.level !== null && f.levels.has(row.level)) || (row.ngccLevel !== null && f.ngccLevels.has(row.ngccLevel));
 	if (!levelOk) return false;
 	if (f.paramSets === 'recommended' && !row.recommended) return false;
 	if (f.hideBroken && row.broken !== false && !row.classical) return false;

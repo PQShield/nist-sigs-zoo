@@ -21,24 +21,47 @@ export const SIGNATURE_FILTER: FilterSpec<ParameterSet, DataRanges, FilterState>
 	bounds: [
 		{ field: 'Pk', url: 'pk', label: 'pk', section: SIZES, value: (r) => r.pk, range: (g) => g.pk },
 		{ field: 'Sig', url: 'sig', label: 'sig', section: SIZES, value: (r) => r.sig, range: (g) => g.sig },
-		{ field: 'PkPlusSig', url: 'ps', label: 'pk+sig', section: SIZES, value: (r) => r.pkPlusSig, range: (g) => g.pkPlusSig },
+		{
+			field: 'PkPlusSig',
+			url: 'ps',
+			label: 'pk+sig',
+			section: SIZES,
+			value: (r) => r.pkPlusSig,
+			range: (g) => g.pkPlusSig
+		},
 		// Unbenchmarked rows (0 cycles) pass the cycle filters.
 		{
-			field: 'SigningCycles', url: 'sc', label: 'signing', section: CYCLES,
-			value: (r) => (r.signingCycles > 0 ? r.signingCycles : null), range: (g) => g.signingCycles
+			field: 'SigningCycles',
+			url: 'sc',
+			label: 'signing',
+			section: CYCLES,
+			value: (r) => (r.signingCycles > 0 ? r.signingCycles : null),
+			range: (g) => g.signingCycles
 		},
 		{
-			field: 'VerificationCycles', url: 'vc', label: 'verification', section: CYCLES,
-			value: (r) => (r.verificationCycles > 0 ? r.verificationCycles : null), range: (g) => g.verificationCycles
+			field: 'VerificationCycles',
+			url: 'vc',
+			label: 'verification',
+			section: CYCLES,
+			value: (r) => (r.verificationCycles > 0 ? r.verificationCycles : null),
+			range: (g) => g.verificationCycles
 		},
 		// Raw measured µs (not extrapolated from cycles), unlike the KEM time bounds.
 		{
-			field: 'SigningUs', url: 'su', label: 'signing µs', section: US,
-			value: (r) => r.signingUs, range: (g) => g.signingUs
+			field: 'SigningUs',
+			url: 'su',
+			label: 'signing µs',
+			section: US,
+			value: (r) => r.signingUs,
+			range: (g) => g.signingUs
 		},
 		{
-			field: 'VerificationUs', url: 'vu', label: 'verification µs', section: US,
-			value: (r) => r.verificationUs, range: (g) => g.verificationUs
+			field: 'VerificationUs',
+			url: 'vu',
+			label: 'verification µs',
+			section: US,
+			value: (r) => r.verificationUs,
+			range: (g) => g.verificationUs
 		}
 	],
 	defaultSort: 'scheme',
@@ -60,10 +83,38 @@ export const KEM_FILTER: FilterSpec<KemParameterSet, KemDataRanges, KemFilterSta
 	bounds: [
 		{ field: 'Pk', url: 'pk', label: 'pk', section: SIZES, value: (r) => r.pk, range: (g) => g.pk },
 		{ field: 'Ct', url: 'ct', label: 'ct', section: SIZES, value: (r) => r.ct, range: (g) => g.ct },
-		{ field: 'PkPlusCt', url: 'pc', label: 'pk+ct', section: SIZES, value: (r) => r.pkPlusCt, range: (g) => g.pkPlusCt },
-		{ field: 'KeygenUs', url: 'ku', label: 'keygen', section: US, value: (r) => kemTimes(r).keygen, range: (g) => g.keygenUs },
-		{ field: 'EncapsUs', url: 'eu', label: 'encaps', section: US, value: (r) => kemTimes(r).encaps, range: (g) => g.encapsUs },
-		{ field: 'DecapsUs', url: 'du', label: 'decaps', section: US, value: (r) => kemTimes(r).decaps, range: (g) => g.decapsUs }
+		{
+			field: 'PkPlusCt',
+			url: 'pc',
+			label: 'pk+ct',
+			section: SIZES,
+			value: (r) => r.pkPlusCt,
+			range: (g) => g.pkPlusCt
+		},
+		{
+			field: 'KeygenUs',
+			url: 'ku',
+			label: 'keygen',
+			section: US,
+			value: (r) => kemTimes(r).keygen,
+			range: (g) => g.keygenUs
+		},
+		{
+			field: 'EncapsUs',
+			url: 'eu',
+			label: 'encaps',
+			section: US,
+			value: (r) => kemTimes(r).encaps,
+			range: (g) => g.encapsUs
+		},
+		{
+			field: 'DecapsUs',
+			url: 'du',
+			label: 'decaps',
+			section: US,
+			value: (r) => kemTimes(r).decaps,
+			range: (g) => g.decapsUs
+		}
 	],
 	defaultSort: 'pkPlusCt',
 	sortInUrl: false,
@@ -182,7 +233,17 @@ export const KEMS: CompareConfig<KemParameterSet, KemDataRanges, KemFilterState,
 			encapsTime: 'encaps time',
 			decapsTime: 'decaps time'
 		},
-		axisOptions: ['pk', 'ct', 'pkPlusCt', 'keygenCycles', 'encapsCycles', 'decapsCycles', 'keygenUs', 'encapsUs', 'decapsUs'],
+		axisOptions: [
+			'pk',
+			'ct',
+			'pkPlusCt',
+			'keygenCycles',
+			'encapsCycles',
+			'decapsCycles',
+			'keygenUs',
+			'encapsUs',
+			'decapsUs'
+		],
 		value: kemAxisValue,
 		views: {
 			sizes: { title: 'pk size vs. ciphertext size', x: 'pk', y: 'ct' },

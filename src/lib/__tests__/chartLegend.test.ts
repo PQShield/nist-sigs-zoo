@@ -1,5 +1,13 @@
 import { describe, expect, it } from 'vitest';
-import { chartLegend, familyKey, FAMILY_SHAPES, levelColourScale, levelDescription, levelKey, STANDARDISED } from '$lib/chartLegend';
+import {
+	chartLegend,
+	familyKey,
+	FAMILY_SHAPES,
+	levelColourScale,
+	levelDescription,
+	levelKey,
+	STANDARDISED
+} from '$lib/chartLegend';
 
 describe('levelKey', () => {
 	it('names NIST levels and NGCC targets on their own scales', () => {
@@ -44,10 +52,13 @@ describe('familyKey', () => {
 
 describe('chartLegend', () => {
 	it('adds an NGCC target group with its note only when NGCC points are shown', () => {
-		const groups = chartLegend([
-			{ family: 'Lattices', level: 'Level 1', security: 'ok' },
-			{ family: 'Lattices', level: '128-bit', security: 'broken' }
-		], false);
+		const groups = chartLegend(
+			[
+				{ family: 'Lattices', level: 'Level 1', security: 'ok' },
+				{ family: 'Lattices', level: '128-bit', security: 'broken' }
+			],
+			false
+		);
 		expect(groups.map((g) => g.title)).toEqual(['Family', 'NIST category', 'NGCC target', 'Security']);
 		const ngcc = groups.find((g) => g.title === 'NGCC target')!;
 		expect(ngcc.items.map((i) => i.label)).toEqual(['128-bit classical']);

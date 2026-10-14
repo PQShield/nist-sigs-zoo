@@ -70,7 +70,11 @@ describe('compareVersions', () => {
 	});
 
 	it('reports the flag of each version and how it changed', () => {
-		expect(row(c, 'two')).toMatchObject({ fromFlag: { kind: 'broken', html: 'Wedge' }, toFlag: null, flagChange: 'cleared' });
+		expect(row(c, 'two')).toMatchObject({
+			fromFlag: { kind: 'broken', html: 'Wedge' },
+			toFlag: null,
+			flagChange: 'cleared'
+		});
 		expect(row(c, 'one')).toMatchObject({ flagChange: 'unchanged' });
 		expect(row(c, 'new').flagChange).toBe('n/a');
 		expect(row(c, 'old').flagChange).toBe('n/a');
@@ -88,29 +92,43 @@ describe('compareVersions', () => {
 
 	it('compares a version with itself as unchanged', () => {
 		const self = compareVersions(R3, R3);
-		expect(self.rows.every((r) => r.presence === 'both' && (r.metrics.pk.pct === 0))).toBe(true);
+		expect(self.rows.every((r) => r.presence === 'both' && r.metrics.pk.pct === 0)).toBe(true);
 		expect(self.rows.map((r) => r.flagChange)).toEqual(['none', 'unchanged', 'none']);
 	});
 
 	it('raises and changes flags', () => {
 		const flagged: VersionYaml = { ...R3, warning: 'new attack' };
 		expect(row(compareVersions(R3, flagged), 'two').flagChange).toBe('raised');
-		const worse: VersionYaml = { ...R2, parametersets: R2.parametersets.map((p) => ({ ...p, warning: undefined, broken: 'x' })) };
+		const worse: VersionYaml = {
+			...R2,
+			parametersets: R2.parametersets.map((p) => ({ ...p, warning: undefined, broken: 'x' }))
+		};
 		expect(row(compareVersions(R2, worse), 'one').flagChange).toBe('changed');
 	});
 });
 
 describe('parameterSetFlag', () => {
-	const v: VersionYaml = { version: 'v', date: '2025-01-01', status: 'On-ramp', broken: 'version-wide', parametersets: [] };
+	const v: VersionYaml = {
+		version: 'v',
+		date: '2025-01-01',
+		status: 'On-ramp',
+		broken: 'version-wide',
+		parametersets: []
+	};
 
 	it('applies a version-level flag to every set and lets a set override it', () => {
 		expect(parameterSetFlag(v, { name: 'a', pk: 1, sig: 1 })).toEqual({ kind: 'broken', html: 'version-wide' });
-		expect(parameterSetFlag(v, { name: 'b', pk: 1, sig: 1, broken: 'set-specific' })).toEqual({ kind: 'broken', html: 'set-specific' });
+		expect(parameterSetFlag(v, { name: 'b', pk: 1, sig: 1, broken: 'set-specific' })).toEqual({
+			kind: 'broken',
+			html: 'set-specific'
+		});
 	});
 
 	it('ranks broken over implementation findings over warnings', () => {
 		const plain: VersionYaml = { ...v, broken: undefined };
-		expect(parameterSetFlag(plain, { name: 'a', pk: 1, sig: 1, implementation: 'bug', warning: 'w' })?.kind).toBe('implementation');
+		expect(parameterSetFlag(plain, { name: 'a', pk: 1, sig: 1, implementation: 'bug', warning: 'w' })?.kind).toBe(
+			'implementation'
+		);
 		expect(parameterSetFlag(plain, { name: 'a', pk: 1, sig: 1, warning: 'w' })?.kind).toBe('warning');
 		expect(parameterSetFlag(plain, { name: 'a', pk: 1, sig: 1, info: 'just a note' })).toBeNull();
 	});
@@ -157,7 +175,13 @@ describe('formatChange', () => {
 
 describe('versionOptions', () => {
 	it('keeps the given order and gives same-date versions distinct ids', () => {
-		const a: VersionYaml = { version: 'Round 2', date: '2025-03-26', status: 'On-ramp', perf_source: 'x', parametersets: [] };
+		const a: VersionYaml = {
+			version: 'Round 2',
+			date: '2025-03-26',
+			status: 'On-ramp',
+			perf_source: 'x',
+			parametersets: []
+		};
 		const b: VersionYaml = { version: 'Round 2', date: '2025-03-26', status: 'On-ramp', parametersets: [] };
 		expect(versionOptions([a, b, R2])).toEqual([
 			{ id: '2025-03-26', label: 'Round 2', date: '2025-03-26', perfSource: 'x' },

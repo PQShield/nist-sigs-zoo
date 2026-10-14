@@ -5,7 +5,9 @@
 </script>
 
 <p class="max-w-[80ch] text-sm text-pqs-steel dark:text-pqs-bluegray">{table.intro}</p>
-<div class="mt-3 max-w-3xl overflow-x-auto rounded border border-pqs-ashgray bg-white dark:border-pqs-steel dark:bg-pqs-midnight-mid">
+<div
+	class="mt-3 max-w-3xl overflow-x-auto rounded border border-pqs-ashgray bg-white dark:border-pqs-steel dark:bg-pqs-midnight-mid"
+>
 	<table class="min-w-full text-sm">
 		<thead>
 			<tr class="bg-pqs-steel font-heading text-xs text-white">

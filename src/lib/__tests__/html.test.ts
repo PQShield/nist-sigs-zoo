@@ -21,15 +21,11 @@ describe('decodeEntities', () => {
 
 describe('stripHtml', () => {
 	it('drops tags but keeps their text', () => {
-		expect(stripHtml('see <a href="https://example.org/p.pdf">paper</a> for details')).toBe(
-			'see paper for details'
-		);
+		expect(stripHtml('see <a href="https://example.org/p.pdf">paper</a> for details')).toBe('see paper for details');
 	});
 
 	it('decodes entities after stripping tags', () => {
-		expect(stripHtml('Straznickas &amp; Weis (<a href="#">paper</a>)')).toBe(
-			'Straznickas & Weis (paper)'
-		);
+		expect(stripHtml('Straznickas &amp; Weis (<a href="#">paper</a>)')).toBe('Straznickas & Weis (paper)');
 	});
 
 	it('collapses whitespace and trims', () => {

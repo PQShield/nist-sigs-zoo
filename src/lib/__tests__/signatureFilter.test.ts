@@ -12,7 +12,8 @@ import { defaultCommonFilter, presentProgrammeGroups } from '$lib/compareFilters
 import { SIGNATURE_FILTER } from '$lib/primitives';
 import type { DataRanges, FilterState, ParameterSet, ParameterSetYaml, SchemeYaml } from '$lib/types';
 
-const buildUrlParams = (state: FilterState, defaults: FilterState) => encodeCompareFilter(SIGNATURE_FILTER, state, defaults);
+const buildUrlParams = (state: FilterState, defaults: FilterState) =>
+	encodeCompareFilter(SIGNATURE_FILTER, state, defaults);
 
 /** The signatures page's filter for `params` over these rows, and the rows it shows (sorted like the table). */
 function signaturePage(parameterSets: ParameterSet[], ranges: DataRanges, params: string) {
@@ -32,15 +33,22 @@ function makeDefaults(): FilterState {
 	return {
 		...defaultCommonFilter(['nist-onramp', 'pre-quantum']),
 		schemes: new Set(['SchemeA', 'SchemeB']),
-		minPk: 100, maxPk: 50000,
-		minSig: 200, maxSig: 80000,
-		minPkPlusSig: 300, maxPkPlusSig: 130000,
-		minSigningCycles: 10000, maxSigningCycles: 5000000,
-		minVerificationCycles: 5000, maxVerificationCycles: 1000000,
-		minSigningUs: 0, maxSigningUs: Infinity,
-		minVerificationUs: 0, maxVerificationUs: Infinity,
+		minPk: 100,
+		maxPk: 50000,
+		minSig: 200,
+		maxSig: 80000,
+		minPkPlusSig: 300,
+		maxPkPlusSig: 130000,
+		minSigningCycles: 10000,
+		maxSigningCycles: 5000000,
+		minVerificationCycles: 5000,
+		maxVerificationCycles: 1000000,
+		minSigningUs: 0,
+		maxSigningUs: Infinity,
+		minVerificationUs: 0,
+		maxVerificationUs: Infinity,
 		sortCol: 'scheme',
-		sortDir: 'asc',
+		sortDir: 'asc'
 	};
 }
 
@@ -122,22 +130,67 @@ describe('buildUrlParams', () => {
 describe('NGCC-scale rows and the NIST level filter', () => {
 	it('match NGCC targets only, never a NIST level', () => {
 		const data: SchemeYaml[] = [
-			{ name: 'Nist', website: '', category: 'Lattices', assumption: '', versions: [{ version: 'v1', date: '2024-01-01', status: 'On-ramp', parametersets: [{ name: 'L1', level: 1, pk: 100, sig: 200, signing_cycles: 1000, verification_cycles: 1000 }] }] },
-			{ name: 'Ngcc', website: '', category: 'Lattices', assumption: '', versions: [{ version: 'R1', date: '2026-09-20', status: 'NGCC', parametersets: [{ name: 'X-128', ngcc_level: 128, pk: 100, sig: 200, signing_cycles: 1000, verification_cycles: 1000 }] }] }
+			{
+				name: 'Nist',
+				website: '',
+				category: 'Lattices',
+				assumption: '',
+				versions: [
+					{
+						version: 'v1',
+						date: '2024-01-01',
+						status: 'On-ramp',
+						parametersets: [
+							{ name: 'L1', level: 1, pk: 100, sig: 200, signing_cycles: 1000, verification_cycles: 1000 }
+						]
+					}
+				]
+			},
+			{
+				name: 'Ngcc',
+				website: '',
+				category: 'Lattices',
+				assumption: '',
+				versions: [
+					{
+						version: 'R1',
+						date: '2026-09-20',
+						status: 'NGCC',
+						parametersets: [
+							{ name: 'X-128', ngcc_level: 128, pk: 100, sig: 200, signing_cycles: 1000, verification_cycles: 1000 }
+						]
+					}
+				]
+			}
 		];
 		const { parameterSets, ranges } = processYamlSchemes(data);
 		const { filter, shown } = signaturePage(parameterSets, ranges, '');
 		expect(shown(filter).map((r) => r.scheme)).toEqual(['Ngcc', 'Nist']);
 		expect(shown({ ...filter, ngccLevels: new Set() }).map((r) => r.scheme)).toEqual(['Nist']);
-		expect(shown({ ...filter, levels: new Set(), ngccLevels: new Set([128 as const]) }).map((r) => r.scheme)).toEqual(['Ngcc']);
+		expect(shown({ ...filter, levels: new Set(), ngccLevels: new Set([128 as const]) }).map((r) => r.scheme)).toEqual([
+			'Ngcc'
+		]);
 	});
 
 	it('sort by level keeps NGCC-scale rows last without throwing', () => {
 		const data: SchemeYaml[] = [
-			{ name: 'A', website: '', category: 'Lattices', assumption: '', versions: [{ version: 'v', date: '2026-01-01', status: 'x', parametersets: [
-				{ name: 'n', ngcc_level: 256, pk: 1, sig: 1, signing_cycles: 1, verification_cycles: 1 },
-				{ name: 'l', level: 3, pk: 1, sig: 1, signing_cycles: 1, verification_cycles: 1 }
-			] }] }
+			{
+				name: 'A',
+				website: '',
+				category: 'Lattices',
+				assumption: '',
+				versions: [
+					{
+						version: 'v',
+						date: '2026-01-01',
+						status: 'x',
+						parametersets: [
+							{ name: 'n', ngcc_level: 256, pk: 1, sig: 1, signing_cycles: 1, verification_cycles: 1 },
+							{ name: 'l', level: 3, pk: 1, sig: 1, signing_cycles: 1, verification_cycles: 1 }
+						]
+					}
+				]
+			}
 		];
 		const { parameterSets } = processYamlSchemes(data);
 		const sorted = [...parameterSets].sort((a, b) => compareRows(SIGNATURE_FILTER, a, b, 'level', 'asc'));
@@ -147,12 +200,62 @@ describe('NGCC-scale rows and the NIST level filter', () => {
 
 describe('programme, parameter-set and status filters', () => {
 	const ps = (name: string, extra: Partial<ParameterSetYaml> = {}): ParameterSetYaml => ({
-		name, level: 1, pk: 10, sig: 20, signing_cycles: 100, verification_cycles: 100, ...extra
+		name,
+		level: 1,
+		pk: 10,
+		sig: 20,
+		signing_cycles: 100,
+		verification_cycles: 100,
+		...extra
 	});
 	const DATA: SchemeYaml[] = [
-		{ name: 'OnRamp', website: '', category: 'Lattices', assumption: '', versions: [{ version: 'v1', date: '2025-01-01', status: 'On-ramp', programmes: { 'nist-onramp': 'round-2' }, parametersets: [ps('fast', { recommended: true }), ps('small')] }] },
-		{ name: 'Broken', website: '', category: 'Lattices', assumption: '', versions: [{ version: 'v1', date: '2025-01-01', status: 'KpqC', programmes: { kpqc: 'round-2' }, broken: 'key recovery', parametersets: [ps('b')] }] },
-		{ name: 'Buggy', website: '', category: 'Lattices', assumption: '', versions: [{ version: 'v1', date: '2025-01-01', status: 'KpqC', programmes: { kpqc: 'round-1' }, implementation: 'buffer overflow', parametersets: [ps('x')] }] }
+		{
+			name: 'OnRamp',
+			website: '',
+			category: 'Lattices',
+			assumption: '',
+			versions: [
+				{
+					version: 'v1',
+					date: '2025-01-01',
+					status: 'On-ramp',
+					programmes: { 'nist-onramp': 'round-2' },
+					parametersets: [ps('fast', { recommended: true }), ps('small')]
+				}
+			]
+		},
+		{
+			name: 'Broken',
+			website: '',
+			category: 'Lattices',
+			assumption: '',
+			versions: [
+				{
+					version: 'v1',
+					date: '2025-01-01',
+					status: 'KpqC',
+					programmes: { kpqc: 'round-2' },
+					broken: 'key recovery',
+					parametersets: [ps('b')]
+				}
+			]
+		},
+		{
+			name: 'Buggy',
+			website: '',
+			category: 'Lattices',
+			assumption: '',
+			versions: [
+				{
+					version: 'v1',
+					date: '2025-01-01',
+					status: 'KpqC',
+					programmes: { kpqc: 'round-1' },
+					implementation: 'buffer overflow',
+					parametersets: [ps('x')]
+				}
+			]
+		}
 	];
 	const { parameterSets, ranges } = processYamlSchemes(DATA);
 	const shown = (params: string) => {
@@ -189,11 +292,30 @@ describe('programme, parameter-set and status filters', () => {
 
 describe('cycle filters and unbenchmarked rows', () => {
 	const ps = (name: string, cycles: number | undefined): ParameterSetYaml => ({
-		name, level: 1, pk: 10, sig: 20, signing_cycles: cycles, verification_cycles: cycles
+		name,
+		level: 1,
+		pk: 10,
+		sig: 20,
+		signing_cycles: cycles,
+		verification_cycles: cycles
 	});
 	const DATA: SchemeYaml[] = [
-		{ name: 'Fast', website: '', category: 'Lattices', assumption: '', versions: [{ version: 'v1', date: '2025-01-01', status: 'On-ramp', parametersets: [ps('a', 1000), ps('b', 9000)] }] },
-		{ name: 'Unbenched', website: '', category: 'Lattices', assumption: '', versions: [{ version: 'v1', date: '2025-01-01', status: 'On-ramp', parametersets: [ps('u', undefined)] }] }
+		{
+			name: 'Fast',
+			website: '',
+			category: 'Lattices',
+			assumption: '',
+			versions: [
+				{ version: 'v1', date: '2025-01-01', status: 'On-ramp', parametersets: [ps('a', 1000), ps('b', 9000)] }
+			]
+		},
+		{
+			name: 'Unbenched',
+			website: '',
+			category: 'Lattices',
+			assumption: '',
+			versions: [{ version: 'v1', date: '2025-01-01', status: 'On-ramp', parametersets: [ps('u', undefined)] }]
+		}
 	];
 	const { parameterSets, ranges } = processYamlSchemes(DATA);
 	const shown = (params: string) => {

@@ -30,19 +30,32 @@ const ALL = defaultCommonFilter(GROUPS);
 
 describe('rowProgrammeGroups', () => {
 	it('splits NIST PQC into standards and earlier rounds', () => {
-		expect(rowProgrammeGroups(row({ programmes: [{ programme: 'nist-pqc', stage: 'standardised' }] }))).toEqual(['nist-standards']);
-		expect(rowProgrammeGroups(row({ programmes: [{ programme: 'nist-pqc', stage: 'selected' }] }))).toEqual(['nist-standards']);
-		expect(rowProgrammeGroups(row({ programmes: [{ programme: 'nist-pqc', stage: 'round-3' }] }))).toEqual(['nist-pqc-rounds']);
+		expect(rowProgrammeGroups(row({ programmes: [{ programme: 'nist-pqc', stage: 'standardised' }] }))).toEqual([
+			'nist-standards'
+		]);
+		expect(rowProgrammeGroups(row({ programmes: [{ programme: 'nist-pqc', stage: 'selected' }] }))).toEqual([
+			'nist-standards'
+		]);
+		expect(rowProgrammeGroups(row({ programmes: [{ programme: 'nist-pqc', stage: 'round-3' }] }))).toEqual([
+			'nist-pqc-rounds'
+		]);
 	});
 
 	it('lists every programme a scheme is in, in display order', () => {
-		const r = row({ programmes: [{ programme: 'kpqc', stage: 'selected' }, { programme: 'nist-onramp', stage: 'round-1' }] });
+		const r = row({
+			programmes: [
+				{ programme: 'kpqc', stage: 'selected' },
+				{ programme: 'nist-onramp', stage: 'round-1' }
+			]
+		});
 		expect(rowProgrammeGroups(r)).toEqual(['nist-onramp', 'kpqc']);
 	});
 
 	it('files schemes outside every programme under research, pre-quantum ones under pre-quantum', () => {
 		expect(rowProgrammeGroups(row())).toEqual(['research']);
-		expect(rowProgrammeGroups(row({ classical: true, broken: 'classical', level: 'Pre-Quantum' }))).toEqual(['pre-quantum']);
+		expect(rowProgrammeGroups(row({ classical: true, broken: 'classical', level: 'Pre-Quantum' }))).toEqual([
+			'pre-quantum'
+		]);
 	});
 });
 
@@ -59,7 +72,12 @@ describe('presentProgrammeGroups', () => {
 
 describe('passesCommonFilters', () => {
 	it('keeps a row when any of its programmes is selected', () => {
-		const r = row({ programmes: [{ programme: 'nist-onramp', stage: 'round-1' }, { programme: 'kpqc', stage: 'selected' }] });
+		const r = row({
+			programmes: [
+				{ programme: 'nist-onramp', stage: 'round-1' },
+				{ programme: 'kpqc', stage: 'selected' }
+			]
+		});
 		expect(passesCommonFilters(r, { ...ALL, programmes: new Set<ProgrammeGroup>(['kpqc']) })).toBe(true);
 		expect(passesCommonFilters(r, { ...ALL, programmes: new Set<ProgrammeGroup>(['china-ngcc']) })).toBe(false);
 	});
@@ -69,7 +87,9 @@ describe('passesCommonFilters', () => {
 		expect(passesCommonFilters(ngcc, ALL)).toBe(true);
 		expect(passesCommonFilters(ngcc, { ...ALL, ngccLevels: new Set() })).toBe(false);
 		expect(passesCommonFilters(ngcc, { ...ALL, levels: new Set(), ngccLevels: new Set<NgccLevel>([128]) })).toBe(true);
-		expect(passesCommonFilters(row({ level: 1 }), { ...ALL, levels: new Set(), ngccLevels: new Set<NgccLevel>([128]) })).toBe(false);
+		expect(
+			passesCommonFilters(row({ level: 1 }), { ...ALL, levels: new Set(), ngccLevels: new Set<NgccLevel>([128]) })
+		).toBe(false);
 	});
 
 	it('drops a row that states no level on either scale', () => {
@@ -180,6 +200,8 @@ describe('common URL codec', () => {
 describe('filterSummary', () => {
 	it('summarises programmes, schemes and levels', () => {
 		expect(filterSummary(ALL, 18)).toBe('6 programmes · 18 schemes · all levels');
-		expect(filterSummary({ ...ALL, levels: new Set<NistLevel>([1]), ngccLevels: new Set() }, 1)).toBe('6 programmes · 1 scheme · 1 level');
+		expect(filterSummary({ ...ALL, levels: new Set<NistLevel>([1]), ngccLevels: new Set() }, 1)).toBe(
+			'6 programmes · 1 scheme · 1 level'
+		);
 	});
 });

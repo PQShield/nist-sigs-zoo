@@ -17,7 +17,7 @@
 <select
 	{id}
 	{disabled}
-	class="mb-1.5 mt-0.5 h-8 w-full rounded border border-pqs-bluegray bg-white px-2 text-sm text-pqs-midnight disabled:opacity-50 dark:border-pqs-steel dark:bg-pqs-midnight dark:text-pqs-smoke"
+	class="mt-0.5 mb-1.5 h-8 w-full rounded border border-pqs-bluegray bg-white px-2 text-sm text-pqs-midnight disabled:opacity-50 dark:border-pqs-steel dark:bg-pqs-midnight dark:text-pqs-smoke"
 	value={$roundStore}
 	onchange={(e) => roundStore.set(e.currentTarget.value as Round)}
 >

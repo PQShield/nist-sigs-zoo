@@ -59,6 +59,6 @@ test('external links announce that they open in a new tab', async ({ page }) => 
 	await page.goto('/kems/');
 	const links = page.locator('a[target="_blank"]');
 	for (const a of await links.all()) {
-		expect(await a.textContent(), await a.getAttribute('href') ?? '').toContain('opens in a new tab');
+		expect(await a.textContent(), (await a.getAttribute('href')) ?? '').toContain('opens in a new tab');
 	}
 });

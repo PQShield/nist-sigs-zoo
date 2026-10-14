@@ -106,7 +106,10 @@ describe('processKemSchemes', () => {
 	it('carries scheme-level programmes onto schemes and parameter sets', () => {
 		const data = [{ ...mlkem, name: 'FrodoKEM', programmes: { 'nist-pqc': 'round-3', iso: 'in-progress' } }];
 		const { schemes, parameterSets } = processKemSchemes(data);
-		const expected = [{ programme: 'nist-pqc', stage: 'round-3' }, { programme: 'iso', stage: 'in-progress' }];
+		const expected = [
+			{ programme: 'nist-pqc', stage: 'round-3' },
+			{ programme: 'iso', stage: 'in-progress' }
+		];
 		expect(schemes[0].programmes).toEqual(expected);
 		expect(parameterSets.every((p) => JSON.stringify(p.programmes) === JSON.stringify(expected))).toBe(true);
 	});
@@ -124,19 +127,34 @@ describe('KEM filtering', () => {
 
 	it('computeKemRanges handles an empty dataset', () => {
 		expect(computeKemRanges([])).toEqual({
-			pk: [0, 0], ct: [0, 0], pkPlusCt: [0, 0], keygenUs: null, encapsUs: null, decapsUs: null
+			pk: [0, 0],
+			ct: [0, 0],
+			pkPlusCt: [0, 0],
+			keygenUs: null,
+			encapsUs: null,
+			decapsUs: null
 		});
 	});
 
 	it('default filter passes every row through', () => {
 		const ranges = computeKemRanges(parameterSets);
-		const filter = defaultCompareFilter(KEM_FILTER, ranges, schemes.map((s) => s.scheme), presentProgrammeGroups(parameterSets));
+		const filter = defaultCompareFilter(
+			KEM_FILTER,
+			ranges,
+			schemes.map((s) => s.scheme),
+			presentProgrammeGroups(parameterSets)
+		);
 		expect(filterCompareRows(KEM_FILTER, parameterSets, filter)).toHaveLength(parameterSets.length);
 	});
 
 	it('filters by scheme', () => {
 		const ranges = computeKemRanges(parameterSets);
-		const filter = defaultCompareFilter(KEM_FILTER, ranges, schemes.map((s) => s.scheme), presentProgrammeGroups(parameterSets));
+		const filter = defaultCompareFilter(
+			KEM_FILTER,
+			ranges,
+			schemes.map((s) => s.scheme),
+			presentProgrammeGroups(parameterSets)
+		);
 		filter.schemes = new Set(['ECDH']);
 		const out = filterCompareRows(KEM_FILTER, parameterSets, filter);
 		expect(out.every((r) => r.scheme === 'ECDH')).toBe(true);
@@ -145,7 +163,12 @@ describe('KEM filtering', () => {
 
 	it('filters by level', () => {
 		const ranges = computeKemRanges(parameterSets);
-		const filter = defaultCompareFilter(KEM_FILTER, ranges, schemes.map((s) => s.scheme), presentProgrammeGroups(parameterSets));
+		const filter = defaultCompareFilter(
+			KEM_FILTER,
+			ranges,
+			schemes.map((s) => s.scheme),
+			presentProgrammeGroups(parameterSets)
+		);
 		filter.levels = new Set([1]);
 		const out = filterCompareRows(KEM_FILTER, parameterSets, filter);
 		expect(out.map((r) => r.parameterset)).toEqual(['ML-KEM-512']);
@@ -153,19 +176,37 @@ describe('KEM filtering', () => {
 
 	it('filters by ciphertext size bounds', () => {
 		const ranges = computeKemRanges(parameterSets);
-		const filter = defaultCompareFilter(KEM_FILTER, ranges, schemes.map((s) => s.scheme), presentProgrammeGroups(parameterSets));
+		const filter = defaultCompareFilter(
+			KEM_FILTER,
+			ranges,
+			schemes.map((s) => s.scheme),
+			presentProgrammeGroups(parameterSets)
+		);
 		filter.maxCt = 100;
 		const out = filterCompareRows(KEM_FILTER, parameterSets, filter);
 		expect(out.map((r) => r.parameterset)).toEqual(['X25519']);
 	});
 
 	it('matches an NGCC-scale KEM against the NGCC targets only', () => {
-		const ngcc = { ...mlkem, name: 'Aigis-Enc+', parametersets: [{ name: 'Aigis-enc1', ngcc_level: 128 as const, pk: 656, ct: 896 }] };
+		const ngcc = {
+			...mlkem,
+			name: 'Aigis-Enc+',
+			parametersets: [{ name: 'Aigis-enc1', ngcc_level: 128 as const, pk: 656, ct: 896 }]
+		};
 		const { schemes, parameterSets } = processKemSchemes([mlkem, ngcc]);
-		const filter = defaultCompareFilter(KEM_FILTER, computeKemRanges(parameterSets), schemes.map((s) => s.scheme), presentProgrammeGroups(parameterSets));
+		const filter = defaultCompareFilter(
+			KEM_FILTER,
+			computeKemRanges(parameterSets),
+			schemes.map((s) => s.scheme),
+			presentProgrammeGroups(parameterSets)
+		);
 		expect(filterCompareRows(KEM_FILTER, parameterSets, filter).map((r) => r.scheme)).toContain('Aigis-Enc+');
-		expect(filterCompareRows(KEM_FILTER, parameterSets, { ...filter, ngccLevels: new Set() }).map((r) => r.scheme)).not.toContain('Aigis-Enc+');
-		expect(filterCompareRows(KEM_FILTER, parameterSets, { ...filter, levels: new Set() }).map((r) => r.scheme)).toEqual(['Aigis-Enc+']);
+		expect(
+			filterCompareRows(KEM_FILTER, parameterSets, { ...filter, ngccLevels: new Set() }).map((r) => r.scheme)
+		).not.toContain('Aigis-Enc+');
+		expect(filterCompareRows(KEM_FILTER, parameterSets, { ...filter, levels: new Set() }).map((r) => r.scheme)).toEqual(
+			['Aigis-Enc+']
+		);
 	});
 });
 
@@ -176,7 +217,13 @@ describe('KEM URL codec', () => {
 	const defaults = defaultCompareFilter(KEM_FILTER, ranges, names, presentProgrammeGroups(parameterSets));
 
 	it('encodes nothing when state equals defaults', () => {
-		expect(encodeCompareFilter(KEM_FILTER, defaultCompareFilter(KEM_FILTER, ranges, names, presentProgrammeGroups(parameterSets)), defaults).toString()).toBe('');
+		expect(
+			encodeCompareFilter(
+				KEM_FILTER,
+				defaultCompareFilter(KEM_FILTER, ranges, names, presentProgrammeGroups(parameterSets)),
+				defaults
+			).toString()
+		).toBe('');
 	});
 
 	it('round-trips a modified filter through encode → decode', () => {
@@ -220,7 +267,12 @@ describe('KEM timings', () => {
 	};
 	const { schemes, parameterSets } = processKemSchemes([timed, ecdh]);
 	const ranges = computeKemRanges(parameterSets);
-	const defaults = defaultCompareFilter(KEM_FILTER, ranges, schemes.map((s) => s.scheme), presentProgrammeGroups(parameterSets));
+	const defaults = defaultCompareFilter(
+		KEM_FILTER,
+		ranges,
+		schemes.map((s) => s.scheme),
+		presentProgrammeGroups(parameterSets)
+	);
 
 	it('computes µs ranges over measured and extrapolated times', () => {
 		expect(ranges.encapsUs).toEqual([10, 20]);
@@ -249,7 +301,10 @@ describe('KEM timings', () => {
 	});
 
 	it('shows only recommended parameter sets by default', () => {
-		const flagged: KemSchemeYaml = { ...mlkem, parametersets: [{ ...mlkem.parametersets[0], recommended: true }, mlkem.parametersets[1]] };
+		const flagged: KemSchemeYaml = {
+			...mlkem,
+			parametersets: [{ ...mlkem.parametersets[0], recommended: true }, mlkem.parametersets[1]]
+		};
 		const rows = processKemSchemes([flagged]).parameterSets;
 		const f = defaultCompareFilter(KEM_FILTER, computeKemRanges(rows), ['ML-KEM'], presentProgrammeGroups(rows));
 		expect(filterCompareRows(KEM_FILTER, rows, f).map((r) => r.parameterset)).toEqual(['ML-KEM-512']);

@@ -6,11 +6,9 @@ export default defineConfig({
 	// flakiness under load; the specs are written to avoid races, not rely on this.
 	retries: process.env.CI ? 2 : 1,
 	use: {
-		baseURL: 'http://localhost:4175',
+		baseURL: 'http://localhost:4175'
 	},
-	projects: [
-		{ name: 'chromium', use: { ...devices['Desktop Chrome'] } },
-	],
+	projects: [{ name: 'chromium', use: { ...devices['Desktop Chrome'] } }],
 	webServer: {
 		// CI pre-builds before running tests; locally reuse whatever server is already running
 		command: process.env.CI
@@ -18,6 +16,6 @@ export default defineConfig({
 			: 'corepack npm run build && corepack npm run preview -- --port 4175',
 		url: 'http://localhost:4175',
 		reuseExistingServer: !process.env.CI,
-		timeout: 120_000,
-	},
+		timeout: 120_000
+	}
 });

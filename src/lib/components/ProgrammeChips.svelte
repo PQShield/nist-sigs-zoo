@@ -15,10 +15,11 @@
 		{#if link && chip.programme}
 			<a
 				href="{base}/programmes/{chip.programme}/"
-				class="whitespace-nowrap rounded px-1.5 py-px text-[11px] font-bold hover:underline {TONE[chip.tone]}">{chip.label}</a
+				class="rounded px-1.5 py-px text-[11px] font-bold whitespace-nowrap hover:underline {TONE[chip.tone]}"
+				>{chip.label}</a
 			>
 		{:else}
-			<span class="whitespace-nowrap rounded px-1.5 py-px text-[11px] font-bold {TONE[chip.tone]}">{chip.label}</span>
+			<span class="rounded px-1.5 py-px text-[11px] font-bold whitespace-nowrap {TONE[chip.tone]}">{chip.label}</span>
 		{/if}
 	{/each}
 </span>

@@ -10,11 +10,23 @@
 <fieldset class="mb-5 space-y-0.5">
 	<legend class={FILTER_HEADING}>Parameter sets</legend>
 	<label class={FILTER_OPTION}>
-		<input type="radio" {name} class="accent-pqs-apricot" checked={filter.paramSets === 'recommended'} onchange={() => onchange({ paramSets: 'recommended' })} />
+		<input
+			type="radio"
+			{name}
+			class="accent-pqs-apricot"
+			checked={filter.paramSets === 'recommended'}
+			onchange={() => onchange({ paramSets: 'recommended' })}
+		/>
 		<span class={FILTER_OPTION_TEXT}>Recommended (where designers name them)</span>
 	</label>
 	<label class={FILTER_OPTION}>
-		<input type="radio" {name} class="accent-pqs-apricot" checked={filter.paramSets === 'all'} onchange={() => onchange({ paramSets: 'all' })} />
+		<input
+			type="radio"
+			{name}
+			class="accent-pqs-apricot"
+			checked={filter.paramSets === 'all'}
+			onchange={() => onchange({ paramSets: 'all' })}
+		/>
 		<span class={FILTER_OPTION_TEXT}>All parameter sets</span>
 	</label>
 </fieldset>

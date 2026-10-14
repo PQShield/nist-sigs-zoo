@@ -50,14 +50,11 @@ export function parseSchemes(csv: string): Scheme[] {
 		warning: d['Warning'] === '' ? false : d['Warning'],
 		info: d['Info'] === '' ? false : d['Info'],
 		classical: d['Broken'] === 'classical',
-		programmes: [],
+		programmes: []
 	}));
 }
 
-export function parseParameterSets(
-	csv: string,
-	schemes: Scheme[]
-): { rows: ParameterSet[]; ranges: DataRanges } {
+export function parseParameterSets(csv: string, schemes: Scheme[]): { rows: ParameterSet[]; ranges: DataRanges } {
 	const schemeMap = new Map(schemes.map((s) => [s.scheme, s]));
 
 	const rows: ParameterSet[] = parseCsv(csv).map((d) => {
@@ -77,8 +74,7 @@ export function parseParameterSets(
 		} else {
 			extrapolated = true;
 			signingCycles = signingUs != null ? Math.round((CPUSPEED * signingUs) / 1_000_000) : 0;
-			verificationCycles =
-				verificationUs != null ? Math.round((CPUSPEED * verificationUs) / 1_000_000) : 0;
+			verificationCycles = verificationUs != null ? Math.round((CPUSPEED * verificationUs) / 1_000_000) : 0;
 		}
 
 		const scheme = schemeMap.get(d['Scheme']);
@@ -119,7 +115,7 @@ export function parseParameterSets(
 			ngccLevel: null,
 			recommended: true,
 			implementation: false,
-			findingsUrl: null,
+			findingsUrl: null
 		};
 	});
 
@@ -129,26 +125,26 @@ export function parseParameterSets(
 	const ranges: DataRanges = {
 		pk: [Math.min(...rows.map((r) => r.pk)), Math.max(...rows.map((r) => r.pk))],
 		sig: [Math.min(...rows.map((r) => r.sig)), Math.max(...rows.map((r) => r.sig))],
-		pkPlusSig: [
-			Math.min(...rows.map((r) => r.pkPlusSig)),
-			Math.max(...rows.map((r) => r.pkPlusSig)),
-		],
+		pkPlusSig: [Math.min(...rows.map((r) => r.pkPlusSig)), Math.max(...rows.map((r) => r.pkPlusSig))],
 		signingCycles: [
 			Math.min(...rows.filter((r) => r.signingCycles > 0).map((r) => r.signingCycles)),
-			Math.max(...rows.map((r) => r.signingCycles)),
+			Math.max(...rows.map((r) => r.signingCycles))
 		],
 		verificationCycles: [
-			Math.min(
-				...rows.filter((r) => r.verificationCycles > 0).map((r) => r.verificationCycles)
-			),
-			Math.max(...rows.map((r) => r.verificationCycles)),
+			Math.min(...rows.filter((r) => r.verificationCycles > 0).map((r) => r.verificationCycles)),
+			Math.max(...rows.map((r) => r.verificationCycles))
 		],
-		signingUs: withSignUs.length > 0
-			? [Math.min(...withSignUs.map((r) => r.signingUs!)), Math.max(...withSignUs.map((r) => r.signingUs!))]
-			: null,
-		verificationUs: withVerifyUs.length > 0
-			? [Math.min(...withVerifyUs.map((r) => r.verificationUs!)), Math.max(...withVerifyUs.map((r) => r.verificationUs!))]
-			: null,
+		signingUs:
+			withSignUs.length > 0
+				? [Math.min(...withSignUs.map((r) => r.signingUs!)), Math.max(...withSignUs.map((r) => r.signingUs!))]
+				: null,
+		verificationUs:
+			withVerifyUs.length > 0
+				? [
+						Math.min(...withVerifyUs.map((r) => r.verificationUs!)),
+						Math.max(...withVerifyUs.map((r) => r.verificationUs!))
+					]
+				: null
 	};
 
 	return { rows, ranges };
@@ -177,9 +173,7 @@ export function processYamlSchemes(
 		let latest;
 		let dropProgramme: string | null = null;
 		if (filter) {
-			const atStage = sorted.filter(
-				(v) => versionProgrammes(v)[filter.programme]?.includes(filter.stage)
-			);
+			const atStage = sorted.filter((v) => versionProgrammes(v)[filter.programme]?.includes(filter.stage));
 			if (atStage.length > 0) {
 				latest = useLatestVersion ? sorted[0] : atStage[0];
 			} else if (
@@ -215,18 +209,14 @@ export function processYamlSchemes(
 			warning: latest.warning ?? false,
 			info: latest.info ?? false,
 			classical: latest.broken === 'classical',
-			programmes,
+			programmes
 		};
 		schemes.push(scheme);
 
 		const anyRecommended = latest.parametersets.some((p) => p.recommended);
 		for (const ps of latest.parametersets) {
 			const level: NistLevel | null =
-				ps.level === undefined
-					? null
-					: ps.level === 'Pre-Quantum'
-						? 'Pre-Quantum'
-						: (ps.level as 1 | 2 | 3 | 4 | 5);
+				ps.level === undefined ? null : ps.level === 'Pre-Quantum' ? 'Pre-Quantum' : (ps.level as 1 | 2 | 3 | 4 | 5);
 
 			const signingUs = ps.signing_us ?? null;
 			const verificationUs = ps.verification_us ?? null;
@@ -242,8 +232,7 @@ export function processYamlSchemes(
 			} else {
 				extrapolated = true;
 				signingCycles = signingUs != null ? Math.round((CPUSPEED * signingUs) / 1_000_000) : 0;
-				verificationCycles =
-					verificationUs != null ? Math.round((CPUSPEED * verificationUs) / 1_000_000) : 0;
+				verificationCycles = verificationUs != null ? Math.round((CPUSPEED * verificationUs) / 1_000_000) : 0;
 			}
 
 			// Parameterset flags fall back to version-level flags
@@ -282,7 +271,7 @@ export function processYamlSchemes(
 				ngccLevel: ps.ngcc_level ?? null,
 				recommended: anyRecommended ? ps.recommended === true : true,
 				implementation,
-				findingsUrl: latest.findings_url ?? null,
+				findingsUrl: latest.findings_url ?? null
 			});
 		}
 	}
@@ -295,24 +284,26 @@ export function processYamlSchemes(
 	const ranges: DataRanges = {
 		pk: [Math.min(...rows.map((r) => r.pk)), Math.max(...rows.map((r) => r.pk))],
 		sig: [Math.min(...rows.map((r) => r.sig)), Math.max(...rows.map((r) => r.sig))],
-		pkPlusSig: [
-			Math.min(...rows.map((r) => r.pkPlusSig)),
-			Math.max(...rows.map((r) => r.pkPlusSig)),
-		],
+		pkPlusSig: [Math.min(...rows.map((r) => r.pkPlusSig)), Math.max(...rows.map((r) => r.pkPlusSig))],
 		signingCycles: [
 			Math.min(...nonZeroSign.map((r) => r.signingCycles)),
-			Math.max(...nonZeroSign.map((r) => r.signingCycles)),
+			Math.max(...nonZeroSign.map((r) => r.signingCycles))
 		],
 		verificationCycles: [
 			Math.min(...nonZeroVerify.map((r) => r.verificationCycles)),
-			Math.max(...nonZeroVerify.map((r) => r.verificationCycles)),
+			Math.max(...nonZeroVerify.map((r) => r.verificationCycles))
 		],
-		signingUs: withSignUs.length > 0
-			? [Math.min(...withSignUs.map((r) => r.signingUs!)), Math.max(...withSignUs.map((r) => r.signingUs!))]
-			: null,
-		verificationUs: withVerifyUs.length > 0
-			? [Math.min(...withVerifyUs.map((r) => r.verificationUs!)), Math.max(...withVerifyUs.map((r) => r.verificationUs!))]
-			: null,
+		signingUs:
+			withSignUs.length > 0
+				? [Math.min(...withSignUs.map((r) => r.signingUs!)), Math.max(...withSignUs.map((r) => r.signingUs!))]
+				: null,
+		verificationUs:
+			withVerifyUs.length > 0
+				? [
+						Math.min(...withVerifyUs.map((r) => r.verificationUs!)),
+						Math.max(...withVerifyUs.map((r) => r.verificationUs!))
+					]
+				: null
 	};
 
 	return { schemes, parameterSets: rows, ranges };

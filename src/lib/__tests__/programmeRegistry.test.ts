@@ -4,9 +4,7 @@ import { join } from 'node:path';
 import yaml from 'js-yaml';
 import type { ProgrammeYaml } from '$lib/types';
 
-const programmes = yaml.load(
-	readFileSync(join(process.cwd(), 'data', 'programmes.yaml'), 'utf8')
-) as ProgrammeYaml[];
+const programmes = yaml.load(readFileSync(join(process.cwd(), 'data', 'programmes.yaml'), 'utf8')) as ProgrammeYaml[];
 const byId = new Map(programmes.map((p) => [p.id, p]));
 const DATE = /^\d{4}(-\d{2}(-\d{2})?)?$/;
 
@@ -39,7 +37,10 @@ describe('programme page fields in data/programmes.yaml', () => {
 			const tl = p.timeline ?? [];
 			const i = tl.findIndex((e) => e.current);
 			if (i < 0) continue;
-			expect(tl.slice(i + 1).filter((e) => e.date), p.id).toEqual([]);
+			expect(
+				tl.slice(i + 1).filter((e) => e.date),
+				p.id
+			).toEqual([]);
 		}
 	});
 

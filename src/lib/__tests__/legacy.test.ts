@@ -34,7 +34,9 @@ describe('legacyPathRedirect', () => {
 		);
 	});
 	it('moves /history/ with base and hash', () => {
-		expect(legacyPathRedirect('timeline/', '', '#2026-09-22', '/nist-sigs-zoo')).toBe('/nist-sigs-zoo/timeline/#2026-09-22');
+		expect(legacyPathRedirect('timeline/', '', '#2026-09-22', '/nist-sigs-zoo')).toBe(
+			'/nist-sigs-zoo/timeline/#2026-09-22'
+		);
 	});
 });
 
@@ -43,19 +45,49 @@ describe('SIGNATURE_PARAMS', () => {
 		const defaults: FilterState = {
 			...defaultCommonFilter(['nist-onramp', 'kpqc']),
 			schemes: new Set(['A', 'B']),
-			minPk: 1, maxPk: 10, minSig: 1, maxSig: 10, minPkPlusSig: 1, maxPkPlusSig: 10,
-			minSigningCycles: 1, maxSigningCycles: 10, minVerificationCycles: 1, maxVerificationCycles: 10,
-			minSigningUs: 0, maxSigningUs: Infinity, minVerificationUs: 0, maxVerificationUs: Infinity,
-			sortCol: 'scheme', sortDir: 'asc'
+			minPk: 1,
+			maxPk: 10,
+			minSig: 1,
+			maxSig: 10,
+			minPkPlusSig: 1,
+			maxPkPlusSig: 10,
+			minSigningCycles: 1,
+			maxSigningCycles: 10,
+			minVerificationCycles: 1,
+			maxVerificationCycles: 10,
+			minSigningUs: 0,
+			maxSigningUs: Infinity,
+			minVerificationUs: 0,
+			maxVerificationUs: Infinity,
+			sortCol: 'scheme',
+			sortDir: 'asc'
 		};
 		const state: FilterState = {
-			programmes: new Set<ProgrammeGroup>(['kpqc']), levels: new Set([1] as const), ngccLevels: new Set([128] as const),
-			paramSets: 'all', hideBroken: true, hideImplementation: true, hideWarnings: true, chart: 'speed',
+			programmes: new Set<ProgrammeGroup>(['kpqc']),
+			levels: new Set([1] as const),
+			ngccLevels: new Set([128] as const),
+			paramSets: 'all',
+			hideBroken: true,
+			hideImplementation: true,
+			hideWarnings: true,
+			chart: 'speed',
 			schemes: new Set(['A']),
-			minPk: 2, maxPk: 9, minSig: 2, maxSig: 9, minPkPlusSig: 2, maxPkPlusSig: 9,
-			minSigningCycles: 2, maxSigningCycles: 9, minVerificationCycles: 2, maxVerificationCycles: 9,
-			minSigningUs: 2, maxSigningUs: 9, minVerificationUs: 2, maxVerificationUs: 9,
-			sortCol: 'pk', sortDir: 'desc'
+			minPk: 2,
+			maxPk: 9,
+			minSig: 2,
+			maxSig: 9,
+			minPkPlusSig: 2,
+			maxPkPlusSig: 9,
+			minSigningCycles: 2,
+			maxSigningCycles: 9,
+			minVerificationCycles: 2,
+			maxVerificationCycles: 9,
+			minSigningUs: 2,
+			maxSigningUs: 9,
+			minVerificationUs: 2,
+			maxVerificationUs: 9,
+			sortCol: 'pk',
+			sortDir: 'desc'
 		};
 		const keys = [...encodeCompareFilter(SIGNATURE_FILTER, state, defaults).keys()];
 		expect(keys.length).toBe(SIGNATURE_PARAMS.length - 1); // every key except the round param

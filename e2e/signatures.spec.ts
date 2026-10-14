@@ -9,11 +9,13 @@ test.describe('Signatures page', () => {
 	test('Vega scatter plot renders', async ({ page }) => {
 		await page.goto('/signatures/');
 		// Wait for the dynamic vega-embed import to complete and draw SVG
-		await page.waitForFunction(
-			() => [...document.querySelectorAll('svg')].some((s) => s.querySelector('g')),
-			{ timeout: 15_000 }
-		);
-		const vegaSvg = await page.locator('svg').filter({ has: page.locator('g') }).first();
+		await page.waitForFunction(() => [...document.querySelectorAll('svg')].some((s) => s.querySelector('g')), {
+			timeout: 15_000
+		});
+		const vegaSvg = await page
+			.locator('svg')
+			.filter({ has: page.locator('g') })
+			.first();
 		await expect(vegaSvg).toBeVisible();
 	});
 
@@ -89,7 +91,10 @@ test.describe('Signatures page', () => {
 	test('a security badge expands a detail row under its parameter set', async ({ page }) => {
 		await page.goto('/signatures/?ps=all');
 		await page.waitForLoadState('networkidle');
-		const badge = page.locator('tbody').getByRole('button', { name: /: show details$/ }).first();
+		const badge = page
+			.locator('tbody')
+			.getByRole('button', { name: /: show details$/ })
+			.first();
 		await expect(badge).toHaveAttribute('aria-expanded', 'false');
 		const id = await badge.getAttribute('aria-controls');
 		expect(id).toBeTruthy();
@@ -132,7 +137,9 @@ test.describe('Signatures page', () => {
 		// EagleSign (on-ramp round 1) has two sets with sizes but no timings. ps=all keeps them from being hidden as
 		// non-recommended; unbenchmarked rows pass the default cycle filters.
 		await page.goto('/signatures/?r=1&v=speed&ps=all');
-		await page.waitForFunction(() => [...document.querySelectorAll('svg')].some((s) => s.querySelector('g')), { timeout: 15_000 });
+		await page.waitForFunction(() => [...document.querySelectorAll('svg')].some((s) => s.querySelector('g')), {
+			timeout: 15_000
+		});
 		await expect(page.getByRole('note').filter({ hasText: 'not yet benchmarked' })).toBeVisible();
 	});
 
@@ -151,12 +158,15 @@ test.describe('Signatures page', () => {
 			await page.waitForLoadState('networkidle');
 			let previous: string | null = null;
 			await expect
-				.poll(async () => {
-					const current = JSON.stringify(await readSchemeCells(page));
-					const stable = current === previous;
-					previous = current;
-					return stable;
-				}, { intervals: [100, 200, 300], timeout: 10_000 })
+				.poll(
+					async () => {
+						const current = JSON.stringify(await readSchemeCells(page));
+						const stable = current === previous;
+						previous = current;
+						return stable;
+					},
+					{ intervals: [100, 200, 300], timeout: 10_000 }
+				)
 				.toBe(true);
 			return readSchemeCells(page);
 		}
@@ -274,10 +284,9 @@ test.describe('Signatures filters', () => {
 
 test.describe('Signatures chart legend', () => {
 	async function waitForChart(page: import('@playwright/test').Page) {
-		await page.waitForFunction(
-			() => [...document.querySelectorAll('svg')].some((s) => s.querySelector('g')),
-			{ timeout: 15_000 }
-		);
+		await page.waitForFunction(() => [...document.querySelectorAll('svg')].some((s) => s.querySelector('g')), {
+			timeout: 15_000
+		});
 	}
 
 	test('sits beside the plot on desktop and below it on a phone', async ({ page }) => {
@@ -286,14 +295,20 @@ test.describe('Signatures chart legend', () => {
 		const legend = page.getByRole('group', { name: 'Legend' });
 		await expect(legend).toContainText('Family');
 		await expect(legend).toContainText('NIST category');
-		const chart = page.locator('section svg').filter({ has: page.locator('g') }).first();
+		const chart = page
+			.locator('section svg')
+			.filter({ has: page.locator('g') })
+			.first();
 		const l = (await legend.boundingBox())!;
 		const c = (await chart.boundingBox())!;
 		expect(l.x).toBeGreaterThanOrEqual(c.x + c.width - 1);
 
 		await page.setViewportSize({ width: 390, height: 844 });
 		await expect
-			.poll(async () => (await legend.boundingBox())!.y - ((await chart.boundingBox())!.y + (await chart.boundingBox())!.height))
+			.poll(
+				async () =>
+					(await legend.boundingBox())!.y - ((await chart.boundingBox())!.y + (await chart.boundingBox())!.height)
+			)
 			.toBeGreaterThanOrEqual(-1);
 	});
 });

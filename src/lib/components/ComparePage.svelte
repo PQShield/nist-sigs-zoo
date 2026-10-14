@@ -46,7 +46,12 @@
 	const loadData = untrack(() => load);
 
 	const defaultsFor = (d: CompareData<R, G>) =>
-		defaultCompareFilter(cfg.filter, d.ranges, d.parameterSets.map((r) => r.scheme), d.groups);
+		defaultCompareFilter(
+			cfg.filter,
+			d.ranges,
+			d.parameterSets.map((r) => r.scheme),
+			d.groups
+		);
 
 	// Prerendered with the latest data; the URL (round, filters, axes) is applied in onMount.
 	const initial = loadData('latest');
@@ -116,7 +121,8 @@
 	});
 
 	const view = $derived(cfg.chart.views[filter.chart]);
-	const selectClass = 'rounded border border-pqs-ashgray bg-white px-2 py-1 text-sm text-pqs-midnight dark:border-pqs-steel dark:bg-pqs-midnight-mid dark:text-pqs-smoke focus:outline-none focus:ring-1 focus:ring-pqs-apricot';
+	const selectClass =
+		'rounded border border-pqs-ashgray bg-white px-2 py-1 text-sm text-pqs-midnight dark:border-pqs-steel dark:bg-pqs-midnight-mid dark:text-pqs-smoke focus:outline-none focus:ring-1 focus:ring-pqs-apricot';
 	const scaleClass = (on: boolean) =>
 		`px-2 py-1 text-xs font-heading transition-colors ${on ? 'bg-pqs-apricot text-pqs-midnight font-semibold' : 'bg-white text-pqs-steel hover:text-pqs-midnight dark:bg-pqs-midnight-mid dark:text-pqs-bluegray dark:hover:text-white'}`;
 </script>
@@ -127,13 +133,16 @@
 
 {#snippet axisControl(label: string, axis: 'x' | 'y', scale: 'xs' | 'ys')}
 	<div class="flex items-center gap-2">
-		<span class="w-14 shrink-0 font-heading text-xs font-semibold uppercase tracking-wider text-pqs-steel dark:text-pqs-bluegray">{label}</span>
+		<span
+			class="w-14 shrink-0 font-heading text-xs font-semibold tracking-wider text-pqs-steel uppercase dark:text-pqs-bluegray"
+			>{label}</span
+		>
 		<select bind:value={axes[axis]} class="{selectClass} flex-1">
 			{#each cfg.chart.axisOptions as field (field)}
 				<option value={field}>{cfg.chart.axisTitles[field]}</option>
 			{/each}
 		</select>
-		<div class="flex rounded border border-pqs-ashgray dark:border-pqs-steel overflow-hidden shrink-0">
+		<div class="flex shrink-0 overflow-hidden rounded border border-pqs-ashgray dark:border-pqs-steel">
 			<button onclick={() => (axes[scale] = 'log')} class={scaleClass(axes[scale] === 'log')}>log</button>
 			<button onclick={() => (axes[scale] = 'linear')} class={scaleClass(axes[scale] === 'linear')}>linear</button>
 		</div>
@@ -144,10 +153,11 @@
 	{#if advanced}
 		<div class="mb-8 border-l-4 border-pqs-apricot pl-4">
 			<div class="flex items-baseline gap-3">
-				<h1 class="font-heading text-3xl font-bold text-pqs-midnight dark:text-white">
-					Advanced Graph
-				</h1>
-				<a href="{base}/{cfg.path}/" class="text-sm text-pqs-steel hover:text-pqs-apricot dark:text-pqs-bluegray dark:hover:text-pqs-apricot transition-colors">
+				<h1 class="font-heading text-3xl font-bold text-pqs-midnight dark:text-white">Advanced Graph</h1>
+				<a
+					href="{base}/{cfg.path}/"
+					class="text-sm text-pqs-steel transition-colors hover:text-pqs-apricot dark:text-pqs-bluegray dark:hover:text-pqs-apricot"
+				>
 					← Back
 				</a>
 			</div>
@@ -176,7 +186,9 @@
 		<!-- Main content -->
 		<div class="min-w-0 flex-1 space-y-6">
 			<!-- Scatter plot -->
-			<section class="rounded border border-pqs-ashgray bg-white p-4 shadow-sm dark:border-pqs-steel dark:bg-pqs-midnight-mid">
+			<section
+				class="rounded border border-pqs-ashgray bg-white p-4 shadow-sm dark:border-pqs-steel dark:bg-pqs-midnight-mid"
+			>
 				{#if advanced}
 					<h2 class="mb-4 font-heading text-base font-semibold text-pqs-steel dark:text-pqs-apricot">
 						{cfg.chart.axisShort[axes.x]} vs. {cfg.chart.axisShort[axes.y]}
@@ -188,7 +200,14 @@
 						{@render axisControl('Y axis', 'y', 'ys')}
 					</div>
 
-					<CompareChart config={cfg} rows={filteredRows} xField={axes.x} yField={axes.y} xScale={axes.xs} yScale={axes.ys} />
+					<CompareChart
+						config={cfg}
+						rows={filteredRows}
+						xField={axes.x}
+						yField={axes.y}
+						xScale={axes.xs}
+						yScale={axes.ys}
+					/>
 				{:else}
 					<div class="mb-3 flex flex-wrap items-center justify-between gap-3">
 						<h2 class="font-heading text-base font-semibold text-pqs-steel dark:text-pqs-apricot">
@@ -199,7 +218,10 @@
 					</div>
 					<CompareChart config={cfg} rows={filteredRows} xField={view.x} yField={view.y} />
 					<div class="mt-2 flex justify-end">
-						<a href="{base}/{cfg.path}/advanced/" class="text-xs text-pqs-steel hover:text-pqs-apricot dark:text-pqs-bluegray dark:hover:text-pqs-apricot transition-colors">
+						<a
+							href="{base}/{cfg.path}/advanced/"
+							class="text-xs text-pqs-steel transition-colors hover:text-pqs-apricot dark:text-pqs-bluegray dark:hover:text-pqs-apricot"
+						>
 							Advanced graph →
 						</a>
 					</div>

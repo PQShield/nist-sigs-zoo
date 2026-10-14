@@ -118,9 +118,7 @@ export function parameterSetFlag(v: VersionYaml, ps: ParameterSetYaml): VersionF
 export function metricValue(ps: ParameterSetYaml, key: MetricKey): MetricValue | null {
 	if (key === 'pk' || key === 'sig') return { value: ps[key], estimated: false };
 	const [cycles, us] =
-		key === 'signingCycles'
-			? [ps.signing_cycles, ps.signing_us]
-			: [ps.verification_cycles, ps.verification_us];
+		key === 'signingCycles' ? [ps.signing_cycles, ps.signing_us] : [ps.verification_cycles, ps.verification_us];
 	if (cycles != null && cycles > 0) return { value: cycles, estimated: false };
 	if (us != null && us > 0) return { value: Math.round(us * CYCLES_PER_US), estimated: true };
 	return null;
@@ -143,9 +141,7 @@ export function compareVersions(from: VersionYaml, to: VersionYaml): VersionComp
 	const toNames = new Set(to.parametersets.map((p) => p.name));
 	const pairs: [ParameterSetYaml | null, ParameterSetYaml | null][] = [
 		...to.parametersets.map((b): [ParameterSetYaml | null, ParameterSetYaml] => [fromByName.get(b.name) ?? null, b]),
-		...from.parametersets
-			.filter((a) => !toNames.has(a.name))
-			.map((a): [ParameterSetYaml, null] => [a, null])
+		...from.parametersets.filter((a) => !toNames.has(a.name)).map((a): [ParameterSetYaml, null] => [a, null])
 	];
 
 	const rows = pairs.map(([a, b]): ParamSetComparison => {

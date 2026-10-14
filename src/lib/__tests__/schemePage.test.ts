@@ -3,9 +3,36 @@ import { flagSummary, hostOf, kemPage, signaturePage, timeCell } from '$lib/sche
 import type { HistoryEntry, KemSchemeYaml, ProgrammeYaml, SchemeYaml } from '$lib/types';
 
 const REGISTRY: ProgrammeYaml[] = [
-	{ id: 'nist-pqc', name: 'NIST PQC', short: 'NIST', organiser: 'NIST', region: 'US', primitives: ['signature', 'kem'], stages: [{ id: 'standardised', label: 'standard' }] },
-	{ id: 'nist-onramp', name: 'On-ramp', short: 'On-ramp', organiser: 'NIST', region: 'US', primitives: ['signature'], stages: [{ id: 'round-1', label: 'round 1' }, { id: 'round-2', label: 'round 2' }] },
-	{ id: 'china-ngcc', name: 'NGCC', short: 'NGCC', organiser: 'ICCS', region: 'China', primitives: ['signature', 'kem'], stages: [{ id: 'round-1', label: 'round 1' }] }
+	{
+		id: 'nist-pqc',
+		name: 'NIST PQC',
+		short: 'NIST',
+		organiser: 'NIST',
+		region: 'US',
+		primitives: ['signature', 'kem'],
+		stages: [{ id: 'standardised', label: 'standard' }]
+	},
+	{
+		id: 'nist-onramp',
+		name: 'On-ramp',
+		short: 'On-ramp',
+		organiser: 'NIST',
+		region: 'US',
+		primitives: ['signature'],
+		stages: [
+			{ id: 'round-1', label: 'round 1' },
+			{ id: 'round-2', label: 'round 2' }
+		]
+	},
+	{
+		id: 'china-ngcc',
+		name: 'NGCC',
+		short: 'NGCC',
+		organiser: 'ICCS',
+		region: 'China',
+		primitives: ['signature', 'kem'],
+		stages: [{ id: 'round-1', label: 'round 1' }]
+	}
 ];
 
 const SIG: SchemeYaml = {
@@ -15,15 +42,29 @@ const SIG: SchemeYaml = {
 	assumption: 'MQ',
 	versions: [
 		{
-			version: 'v1', date: '2024-01-01', status: 'On-ramp', programmes: { 'nist-onramp': 'round-1' },
+			version: 'v1',
+			date: '2024-01-01',
+			status: 'On-ramp',
+			programmes: { 'nist-onramp': 'round-1' },
 			parametersets: [{ name: 'a', level: 1, pk: 100, sig: 50, signing_cycles: 1000, verification_cycles: 500 }]
 		},
 		{
-			version: 'v2', date: '2025-01-01', status: 'On-ramp', programmes: { 'nist-onramp': 'round-2' },
+			version: 'v2',
+			date: '2025-01-01',
+			status: 'On-ramp',
+			programmes: { 'nist-onramp': 'round-2' },
 			findings_url: 'https://www.ngcc.dev/r.html',
 			parametersets: [
 				{ name: 'a', level: 1, pk: 90, sig: 60, signing_us: 2.5, verification_us: 1, warning: 'MQ estimate lowered' },
-				{ name: 'b', level: 3, pk: 200, sig: 120, signing_cycles: 25000, verification_cycles: 10000, warning: 'MQ estimate lowered' }
+				{
+					name: 'b',
+					level: 3,
+					pk: 200,
+					sig: 120,
+					signing_cycles: 25000,
+					verification_cycles: 10000,
+					warning: 'MQ estimate lowered'
+				}
 			]
 		}
 	]
@@ -65,9 +106,16 @@ describe('signaturePage', () => {
 
 	it('builds the parameter-set table of the newest version', () => {
 		expect(page.table.headers).toEqual(['pk (B)', 'sig (B)', 'pk+sig (B)', 'Sign', 'Verify']);
-		expect(page.table.rows.map((r) => [r.name, r.level])).toEqual([['a', '1'], ['b', '3']]);
+		expect(page.table.rows.map((r) => [r.name, r.level])).toEqual([
+			['a', '1'],
+			['b', '3']
+		]);
 		expect(page.table.rows[0].cells.map((c) => c.text)).toEqual(['90', '60', '150', '2.5 µs', '1.0 µs']);
-		expect(page.table.rows[1].cells[3]).toEqual({ text: '10.0 µs', kind: 'estimated', title: 'Estimated from 25K cycles @ 2.5 GHz' });
+		expect(page.table.rows[1].cells[3]).toEqual({
+			text: '10.0 µs',
+			kind: 'estimated',
+			title: 'Estimated from 25K cycles @ 2.5 GHz'
+		});
 		expect(page.table.rows[0].badges.map((b) => b.kind)).toEqual(['warning']);
 	});
 
@@ -87,10 +135,24 @@ describe('signaturePage', () => {
 });
 
 describe('signaturePage flags and versions', () => {
-	const set = (extra: object) => ({ name: 'a', level: 1, pk: 1, sig: 1, signing_cycles: 1, verification_cycles: 1, ...extra });
+	const set = (extra: object) => ({
+		name: 'a',
+		level: 1,
+		pk: 1,
+		sig: 1,
+		signing_cycles: 1,
+		verification_cycles: 1,
+		...extra
+	});
 	const mk = (versions: object[]): SchemeYaml =>
 		({ name: 'Flagged', website: 'https://x.example/', category: 'c', assumption: 'a', versions }) as SchemeYaml;
-	const ver = (date: string, extra: object, sets: object[]) => ({ version: date, date, status: 'On-ramp', ...extra, parametersets: sets });
+	const ver = (date: string, extra: object, sets: object[]) => ({
+		version: date,
+		date,
+		status: 'On-ramp',
+		...extra,
+		parametersets: sets
+	});
 
 	it('never yields a broken note for a classical scheme', () => {
 		const page = signaturePage(mk([ver('2025-01-01', { broken: 'classical' }, [set({})])]), [], REGISTRY);
@@ -108,10 +170,7 @@ describe('signaturePage flags and versions', () => {
 
 	it('takes findings from the latest version only', () => {
 		const page = signaturePage(
-			mk([
-				ver('2024-01-01', { findings_url: 'https://old.example/r' }, [set({})]),
-				ver('2025-01-01', {}, [set({})])
-			]),
+			mk([ver('2024-01-01', { findings_url: 'https://old.example/r' }, [set({})]), ver('2025-01-01', {}, [set({})])]),
 			[],
 			REGISTRY
 		);
@@ -137,7 +196,13 @@ describe('kemPage', () => {
 	const page = kemPage(KEM, HISTORY, REGISTRY);
 
 	it('has programmes, status, an NGCC-scale table and no versions', () => {
-		expect(page).toMatchObject({ primitive: 'kem', slug: 'toykem', status: 'Research proposal', websiteHost: null, findings: null });
+		expect(page).toMatchObject({
+			primitive: 'kem',
+			slug: 'toykem',
+			status: 'Research proposal',
+			websiteHost: null,
+			findings: null
+		});
 		expect(page).not.toHaveProperty('versions');
 		expect(page.chips).toEqual([{ label: 'NGCC R1', tone: 'plain', programme: 'china-ngcc' }]);
 		expect(page.table.headers).toEqual(['pk (B)', 'ct (B)', 'pk+ct (B)', 'Keygen', 'Encaps', 'Decaps']);
@@ -158,7 +223,9 @@ describe('kemPage', () => {
 describe('flagSummary', () => {
 	it('says there are no flags, counts partial flags, and ignores notes', () => {
 		expect(flagSummary([], 4)).toBe('None on current sets');
-		expect(flagSummary([{ kind: 'note', title: 'Note', html: 'n', href: null, sets: ['a'], allSets: false }], 4)).toBe('None on current sets');
+		expect(flagSummary([{ kind: 'note', title: 'Note', html: 'n', href: null, sets: ['a'], allSets: false }], 4)).toBe(
+			'None on current sets'
+		);
 		expect(
 			flagSummary(
 				[

@@ -27,5 +27,7 @@
 </svelte:head>
 
 <div class="mx-auto max-w-screen-md px-6 py-10">
-	<p class="text-sm">This page has moved to <a class="text-pqs-steel underline dark:text-pqs-apricot" {href}>{title}</a>.</p>
+	<p class="text-sm">
+		This page has moved to <a class="text-pqs-steel underline dark:text-pqs-apricot" {href}>{title}</a>.
+	</p>
 </div>

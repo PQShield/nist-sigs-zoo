@@ -105,7 +105,10 @@
 			tooltip: chartTooltip(chart, d)
 		}));
 
-		const colour = levelColourScale(values.map((v) => v.level), isDark);
+		const colour = levelColourScale(
+			values.map((v) => v.level),
+			isDark
+		);
 		const families = Object.keys(FAMILY_SHAPES).filter((f) => values.some((v) => v.family === f));
 		legend = chartLegend(values, isDark);
 		const tone = isDark ? 'dark' : 'light';
@@ -147,12 +150,26 @@
 				},
 				{
 					transform: [{ filter: "datum.security === 'broken'" }],
-					mark: { type: 'point', filled: false, shape: 'circle', size: chart.marks.ring, strokeWidth: 2, cursor: 'pointer' },
+					mark: {
+						type: 'point',
+						filled: false,
+						shape: 'circle',
+						size: chart.marks.ring,
+						strokeWidth: 2,
+						cursor: 'pointer'
+					},
 					encoding: { color: { value: RINGS.broken[tone] } }
 				},
 				{
 					transform: [{ filter: "datum.security === 'warning'" }],
-					mark: { type: 'point', filled: false, shape: 'circle', size: chart.marks.ring, strokeWidth: 2, cursor: 'pointer' },
+					mark: {
+						type: 'point',
+						filled: false,
+						shape: 'circle',
+						size: chart.marks.ring,
+						strokeWidth: 2,
+						cursor: 'pointer'
+					},
 					encoding: { color: { value: RINGS.warning[tone] } }
 				}
 			],
@@ -210,7 +227,10 @@
 		config;
 		plotHeight;
 		$themeStore;
-		xField; yField; xScale; yScale;
+		xField;
+		yField;
+		xScale;
+		yScale;
 		render();
 	});
 </script>
@@ -219,18 +239,21 @@
 	<div class="min-w-0 flex-1">
 		<div bind:this={container} class="w-full"></div>
 		<div bind:clientHeight={belowHeight}>
-		{#if renderError}
-			<p class="mt-1 text-xs text-pqs-scarlet" role="alert">Chart failed to render.</p>
-		{/if}
-		<OmittedNote count={omitted} />
-		<div class="mt-1 flex items-center justify-between">
-			<p class="text-xs text-pqs-steel dark:text-pqs-bluegray">Scroll to zoom · drag to pan<span class="sm:hidden"> · tap a point for details</span></p>
-			<button
-				type="button"
-				onclick={render}
-				class="text-xs text-pqs-steel hover:text-pqs-apricot dark:text-pqs-bluegray dark:hover:text-pqs-apricot transition-colors"
-			>Reset zoom</button>
-		</div>
+			{#if renderError}
+				<p class="mt-1 text-xs text-pqs-scarlet" role="alert">Chart failed to render.</p>
+			{/if}
+			<OmittedNote count={omitted} />
+			<div class="mt-1 flex items-center justify-between">
+				<p class="text-xs text-pqs-steel dark:text-pqs-bluegray">
+					Scroll to zoom · drag to pan<span class="sm:hidden"> · tap a point for details</span>
+				</p>
+				<button
+					type="button"
+					onclick={render}
+					class="text-xs text-pqs-steel transition-colors hover:text-pqs-apricot dark:text-pqs-bluegray dark:hover:text-pqs-apricot"
+					>Reset zoom</button
+				>
+			</div>
 		</div>
 	</div>
 	<div bind:clientHeight={legendHeight} class="lg:shrink-0">

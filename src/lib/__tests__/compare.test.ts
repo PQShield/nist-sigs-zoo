@@ -128,12 +128,39 @@ describe('sortCompareRows', () => {
 describe('chartTooltip', () => {
 	it('lists a signature row with its version, cycles and times but not its notes', () => {
 		const [row] = processYamlSchemes([
-			{ name: 'S', website: '', category: 'Lattices', assumption: '', versions: [{ version: 'v2', date: '2025-01-01', status: 'On-ramp', warning: 'side <b>channel</b>', parametersets: [{ name: 'S-1', level: 1, pk: 1000, sig: 2000, signing_cycles: 2_500_000, verification_us: 3, notes: 'n' }] }] }
+			{
+				name: 'S',
+				website: '',
+				category: 'Lattices',
+				assumption: '',
+				versions: [
+					{
+						version: 'v2',
+						date: '2025-01-01',
+						status: 'On-ramp',
+						warning: 'side <b>channel</b>',
+						parametersets: [
+							{ name: 'S-1', level: 1, pk: 1000, sig: 2000, signing_cycles: 2_500_000, verification_us: 3, notes: 'n' }
+						]
+					}
+				]
+			}
 		]).parameterSets;
 		const t = chartTooltip(SIGNATURES.chart, row);
 		expect(Object.keys(t)).toEqual([
-			'Scheme', 'Parameter set', 'Version', 'Family', 'Security level', 'pk (bytes)', 'sig (bytes)', 'pk+sig (bytes)',
-			'Signing (cycles)', 'Signing time', 'Verification time', 'Notes', 'Scheme page'
+			'Scheme',
+			'Parameter set',
+			'Version',
+			'Family',
+			'Security level',
+			'pk (bytes)',
+			'sig (bytes)',
+			'pk+sig (bytes)',
+			'Signing (cycles)',
+			'Signing time',
+			'Verification time',
+			'Notes',
+			'Scheme page'
 		]);
 		expect(t['pk+sig (bytes)']).toBe((3000).toLocaleString());
 		expect(t['Signing time']).toBe('1.00 ms (estimated from cycles)');
@@ -142,7 +169,15 @@ describe('chartTooltip', () => {
 
 	it('lists a KEM row with all three operations and its notes', () => {
 		const [row] = processKemSchemes([
-			{ name: 'K', website: '', category: 'Lattices', assumption: '', status: 'x', broken: 'attack', parametersets: [{ name: 'K-1', ngcc_level: 128, pk: 10, ct: 20, encaps_cycles: 2500, notes: 'reference code' }] }
+			{
+				name: 'K',
+				website: '',
+				category: 'Lattices',
+				assumption: '',
+				status: 'x',
+				broken: 'attack',
+				parametersets: [{ name: 'K-1', ngcc_level: 128, pk: 10, ct: 20, encaps_cycles: 2500, notes: 'reference code' }]
+			}
 		]).parameterSets;
 		const t = chartTooltip(KEMS.chart, row);
 		expect(t).toEqual({
@@ -164,7 +199,12 @@ describe('chartTooltip', () => {
 describe('advanced page axes', () => {
 	it('decode keeps offered fields and known scales, defaulting to the Sizes view on log scales', () => {
 		expect(decodeAxes(SIGNATURES.chart, new URLSearchParams(''))).toEqual({ x: 'pk', y: 'sig', xs: 'log', ys: 'log' });
-		expect(decodeAxes(KEMS.chart, new URLSearchParams('x=keygenUs&ys=linear'))).toEqual({ x: 'keygenUs', y: 'ct', xs: 'log', ys: 'linear' });
+		expect(decodeAxes(KEMS.chart, new URLSearchParams('x=keygenUs&ys=linear'))).toEqual({
+			x: 'keygenUs',
+			y: 'ct',
+			xs: 'log',
+			ys: 'linear'
+		});
 		// time axes belong to the main page's Speed view and are not offered here
 		expect(decodeAxes(SIGNATURES.chart, new URLSearchParams('x=signingTime&y=nope&xs=cubic')).x).toBe('pk');
 	});
@@ -179,8 +219,23 @@ describe('advanced page axes', () => {
 describe('compareData', () => {
 	it('lists sorted categories and the programme groups present', () => {
 		const { schemes, parameterSets } = processKemSchemes([
-			{ name: 'B', website: '', category: 'Lattices', assumption: '', status: 'x', parametersets: [{ name: 'B-1', level: 1, pk: 1, ct: 1 }] },
-			{ name: 'A', website: '', category: 'Code-based', assumption: '', status: 'x', programmes: { kpqc: 'round-1' }, parametersets: [{ name: 'A-1', level: 1, pk: 1, ct: 1 }] }
+			{
+				name: 'B',
+				website: '',
+				category: 'Lattices',
+				assumption: '',
+				status: 'x',
+				parametersets: [{ name: 'B-1', level: 1, pk: 1, ct: 1 }]
+			},
+			{
+				name: 'A',
+				website: '',
+				category: 'Code-based',
+				assumption: '',
+				status: 'x',
+				programmes: { kpqc: 'round-1' },
+				parametersets: [{ name: 'A-1', level: 1, pk: 1, ct: 1 }]
+			}
 		]);
 		const d = compareData(schemes, parameterSets, null);
 		expect(d.categories).toEqual(['Code-based', 'Lattices']);

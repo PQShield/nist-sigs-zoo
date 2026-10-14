@@ -42,9 +42,7 @@
 	}
 
 	// Only schemes in a selected programme are listed (their checked state is kept while hidden).
-	const listedSchemes = $derived(
-		schemes.filter((s) => rowProgrammeGroups(s).some((g) => filter.programmes.has(g)))
-	);
+	const listedSchemes = $derived(schemes.filter((s) => rowProgrammeGroups(s).some((g) => filter.programmes.has(g))));
 	const schemesByCategory = $derived(
 		Object.fromEntries(categories.map((cat) => [cat, listedSchemes.filter((s) => s.category === cat)]))
 	);
@@ -99,8 +97,10 @@
 	}
 </script>
 
-<aside class="rounded border border-pqs-ashgray bg-white p-4 text-sm shadow-sm dark:border-pqs-steel dark:bg-pqs-midnight-mid">
-	<h2 class="mb-4 hidden font-heading text-base font-bold text-pqs-midnight dark:text-white lg:block">Filters</h2>
+<aside
+	class="rounded border border-pqs-ashgray bg-white p-4 text-sm shadow-sm dark:border-pqs-steel dark:bg-pqs-midnight-mid"
+>
+	<h2 class="mb-4 hidden font-heading text-base font-bold text-pqs-midnight lg:block dark:text-white">Filters</h2>
 
 	<ProgrammeFilter {filter} {groups} onchange={patch} {onramp} />
 
@@ -125,9 +125,11 @@
 						onchange={() => toggleCategory(cat)}
 						class="shrink-0 accent-pqs-apricot"
 					/>
-					<span class="font-heading font-semibold text-pqs-midnight dark:text-pqs-smoke">{cat === 'Pre-Quantum' ? 'Pre-quantum' : cat}</span>
+					<span class="font-heading font-semibold text-pqs-midnight dark:text-pqs-smoke"
+						>{cat === 'Pre-Quantum' ? 'Pre-quantum' : cat}</span
+					>
 				</summary>
-				<div class="ml-5 mt-0.5 space-y-0.5">
+				<div class="mt-0.5 ml-5 space-y-0.5">
 					{#each schemesByCategory[cat] as scheme (scheme.scheme)}
 						<label class="flex cursor-pointer items-center gap-1.5">
 							<input
@@ -156,8 +158,16 @@
 			<h3 class={FILTER_HEADING}>{section.title}</h3>
 			<div class="space-y-2">
 				{#each section.bounds as b (b.field)}
-					<RangeField label="Min {b.label}" value={bound(`min${b.field}`)} onchange={(v) => setBound(`min${b.field}`, v)} />
-					<RangeField label="Max {b.label}" value={bound(`max${b.field}`)} onchange={(v) => setBound(`max${b.field}`, v)} />
+					<RangeField
+						label="Min {b.label}"
+						value={bound(`min${b.field}`)}
+						onchange={(v) => setBound(`min${b.field}`, v)}
+					/>
+					<RangeField
+						label="Max {b.label}"
+						value={bound(`max${b.field}`)}
+						onchange={(v) => setBound(`max${b.field}`, v)}
+					/>
 				{/each}
 			</div>
 		</section>
@@ -171,5 +181,6 @@
 		type="button"
 		onclick={reset}
 		class="h-10 w-full rounded border border-pqs-bluegray font-heading font-semibold text-pqs-steel hover:bg-pqs-smoke dark:border-pqs-steel dark:text-pqs-apricot dark:hover:bg-pqs-steel/30"
-	>Reset filters</button>
+		>Reset filters</button
+	>
 </aside>

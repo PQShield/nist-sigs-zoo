@@ -18,9 +18,9 @@ function checkMembership(file: string, map: Record<string, string | string[]> | 
 	return Object.entries(map ?? {}).flatMap(([programme, value]) => {
 		const stages = stagesOf.get(programme);
 		if (!stages) return [`${file}: unknown programme "${programme}"`];
-		return [value].flat().flatMap((stage) =>
-			stages.has(stage) ? [] : [`${file}: unknown stage "${stage}" in programme "${programme}"`]
-		);
+		return [value]
+			.flat()
+			.flatMap((stage) => (stages.has(stage) ? [] : [`${file}: unknown stage "${stage}" in programme "${programme}"`]));
 	});
 }
 
@@ -56,16 +56,24 @@ describe('programme references in scheme data', () => {
 		const count = (stage: string) =>
 			readdirSync(dir)
 				.filter((f) => f.endsWith('.yaml'))
-				.filter((f) => load<SchemeYaml>(join(dir, f)).versions.some((v) => versionProgrammes(v)['nist-onramp']?.includes(stage))).length;
+				.filter((f) =>
+					load<SchemeYaml>(join(dir, f)).versions.some((v) => versionProgrammes(v)['nist-onramp']?.includes(stage))
+				).length;
 		expect([count('round-1'), count('round-2'), count('round-3')]).toEqual([40, 14, 9]);
 	});
 	it('China NGCC round 1 has 34 signature and 41 KEM files', () => {
 		const sigs = readdirSync(join(DATA, 'schemes'))
 			.filter((f) => f.endsWith('.yaml'))
-			.filter((f) => load<SchemeYaml>(join(DATA, 'schemes', f)).versions.some((v) => versionProgrammes(v)['china-ngcc']?.includes('round-1'))).length;
+			.filter((f) =>
+				load<SchemeYaml>(join(DATA, 'schemes', f)).versions.some((v) =>
+					versionProgrammes(v)['china-ngcc']?.includes('round-1')
+				)
+			).length;
 		const kems = readdirSync(join(DATA, 'kems'))
 			.filter((f) => f.endsWith('.yaml'))
-			.filter((f) => [load<KemSchemeYaml>(join(DATA, 'kems', f)).programmes?.['china-ngcc'] ?? []].flat().includes('round-1')).length;
+			.filter((f) =>
+				[load<KemSchemeYaml>(join(DATA, 'kems', f)).programmes?.['china-ngcc'] ?? []].flat().includes('round-1')
+			).length;
 		expect([sigs, kems]).toEqual([34, 41]);
 	});
 	it('every signature version references a known programme and stage', () => {
@@ -91,7 +99,15 @@ describe('programme references in scheme data', () => {
 		const sigErrors = readdirSync(join(DATA, 'schemes'))
 			.filter((f) => f.endsWith('.yaml'))
 			.flatMap((f) =>
-				wrong(f, [...new Set(load<SchemeYaml>(join(DATA, 'schemes', f)).versions.flatMap((v) => Object.keys(versionProgrammes(v))))], 'signature')
+				wrong(
+					f,
+					[
+						...new Set(
+							load<SchemeYaml>(join(DATA, 'schemes', f)).versions.flatMap((v) => Object.keys(versionProgrammes(v)))
+						)
+					],
+					'signature'
+				)
 			);
 		const kemErrors = readdirSync(join(DATA, 'kems'))
 			.filter((f) => f.endsWith('.yaml'))
@@ -108,19 +124,22 @@ describe('security levels in data', () => {
 			const hasNist = ps.level !== undefined;
 			const hasNgcc = ps.ngcc_level !== undefined;
 			if (hasNist === hasNgcc) return [`${file} ${ps.name}: needs exactly one of level / ngcc_level`];
-			if (hasNgcc && !NGCC.has(ps.ngcc_level as number)) return [`${file} ${ps.name}: ngcc_level must be 128, 256, 384 or 512`];
+			if (hasNgcc && !NGCC.has(ps.ngcc_level as number))
+				return [`${file} ${ps.name}: ngcc_level must be 128, 256, 384 or 512`];
 			return [];
 		});
 	}
 	it('every signature parameter set states exactly one level scale', () => {
 		const dir = join(DATA, 'schemes');
-		const errors = readdirSync(dir).filter((f) => f.endsWith('.yaml'))
+		const errors = readdirSync(dir)
+			.filter((f) => f.endsWith('.yaml'))
 			.flatMap((f) => load<SchemeYaml>(join(dir, f)).versions.flatMap((v) => check(f, v.parametersets as Ps[])));
 		expect(errors).toEqual([]);
 	});
 	it('every KEM parameter set states exactly one level scale', () => {
 		const dir = join(DATA, 'kems');
-		const errors = readdirSync(dir).filter((f) => f.endsWith('.yaml'))
+		const errors = readdirSync(dir)
+			.filter((f) => f.endsWith('.yaml'))
 			.flatMap((f) => check(f, load<KemSchemeYaml>(join(dir, f)).parametersets as Ps[]));
 		expect(errors).toEqual([]);
 	});

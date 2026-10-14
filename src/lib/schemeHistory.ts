@@ -40,7 +40,5 @@ export function schemeEvents(
 	for (const e of mine) {
 		if (!merged.has(e)) events.push({ date: e.date, kind: e.type, title: null, html: e.description });
 	}
-	return events.sort(
-		(a, b) => b.date.localeCompare(a.date) || KIND_ORDER.indexOf(a.kind) - KIND_ORDER.indexOf(b.kind)
-	);
+	return events.sort((a, b) => b.date.localeCompare(a.date) || KIND_ORDER.indexOf(a.kind) - KIND_ORDER.indexOf(b.kind));
 }

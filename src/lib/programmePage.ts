@@ -66,9 +66,7 @@ export function stageViews(programme: ProgrammeYaml, sigs: SchemeYaml[]): StageV
 	const rounds = [...programme.stages]
 		.reverse()
 		.filter(
-			(stage) =>
-				ROUND.test(stage.id) &&
-				members.some((s) => s.versions.some((v) => atStage(v, programme.id, stage.id)))
+			(stage) => ROUND.test(stage.id) && members.some((s) => s.versions.some((v) => atStage(v, programme.id, stage.id)))
 		);
 	if (rounds.length < 2) return [];
 	return [
@@ -172,7 +170,14 @@ export function findingsSummary(rows: FindingRow[]): FindingsCount {
 		if (prev === undefined || RANK[c] > RANK[prev]) worst.set(r.scheme, c);
 		if (r.findingsUrl) reports.add(r.scheme);
 	}
-	const count: FindingsCount = { candidates: worst.size, design: 0, implementation: 0, warning: 0, none: 0, reports: reports.size };
+	const count: FindingsCount = {
+		candidates: worst.size,
+		design: 0,
+		implementation: 0,
+		warning: 0,
+		none: 0,
+		reports: reports.size
+	};
 	for (const c of worst.values()) count[c]++;
 	return count;
 }
@@ -224,7 +229,10 @@ export function programmeFacts(programme: ProgrammeYaml, counts: { signature: nu
 	];
 	const stage = stageText(programme);
 	if (stage) facts.push({ term: 'Stage', detail: stage });
-	const kinds = [['signature', 'Signatures'], ['kem', 'KEMs']] as const;
+	const kinds = [
+		['signature', 'Signatures'],
+		['kem', 'KEMs']
+	] as const;
 	for (const [kind, term] of kinds) {
 		if (!programme.primitives.includes(kind)) continue;
 		facts.push({ term, detail: countText(counts[kind], programme.official_counts?.[kind]) });

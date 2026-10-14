@@ -7,7 +7,7 @@
 <div
 	role="group"
 	aria-label="Legend"
-	class="flex flex-wrap gap-x-8 gap-y-3 text-xs text-pqs-midnight dark:text-pqs-smoke lg:w-44 lg:shrink-0 lg:flex-col lg:flex-nowrap lg:gap-5"
+	class="flex flex-wrap gap-x-8 gap-y-3 text-xs text-pqs-midnight lg:w-44 lg:shrink-0 lg:flex-col lg:flex-nowrap lg:gap-5 dark:text-pqs-smoke"
 >
 	{#each groups as group (group.title)}
 		<div>
@@ -20,9 +20,11 @@
 								<path d={item.shape} class="fill-pqs-steel dark:fill-pqs-bluegray" />
 							</svg>
 						{:else if item.colour}
-							<span class="inline-block h-2.5 w-2.5 rounded-sm" style:background={item.colour} aria-hidden="true"></span>
+							<span class="inline-block h-2.5 w-2.5 rounded-sm" style:background={item.colour} aria-hidden="true"
+							></span>
 						{:else if item.ring}
-							<span class="inline-block h-3 w-3 rounded-full border-2" style:border-color={item.ring} aria-hidden="true"></span>
+							<span class="inline-block h-3 w-3 rounded-full border-2" style:border-color={item.ring} aria-hidden="true"
+							></span>
 						{/if}
 						{item.label}
 					</li>

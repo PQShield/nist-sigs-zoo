@@ -45,7 +45,12 @@ export function securityBadges(row: {
 		badges.push({ kind: 'broken', title: 'Broken', html: row.broken, href: null });
 	}
 	if (row.implementation) {
-		badges.push({ kind: 'implementation', title: 'Implementation findings', html: row.implementation, href: httpUrl(row.findingsUrl) });
+		badges.push({
+			kind: 'implementation',
+			title: 'Implementation findings',
+			html: row.implementation,
+			href: httpUrl(row.findingsUrl)
+		});
 	}
 	if (row.warning) badges.push({ kind: 'warning', title: 'Warning', html: row.warning, href: null });
 	if (row.info) badges.push({ kind: 'note', title: 'Note', html: row.info, href: null });

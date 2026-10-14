@@ -41,7 +41,11 @@ export function schemeProgrammeIndex(sigs: SchemeYaml[], kems: KemSchemeYaml[]):
 		for (const id of ids) set.add(id);
 		index.set(name, set);
 	};
-	for (const s of sigs) add(s.name, s.versions.flatMap((v) => Object.keys(v.programmes ?? {})));
+	for (const s of sigs)
+		add(
+			s.name,
+			s.versions.flatMap((v) => Object.keys(v.programmes ?? {}))
+		);
 	for (const k of kems) add(k.name, Object.keys(k.programmes ?? {}));
 	return index;
 }
@@ -90,13 +94,11 @@ export function presentTypes(items: TimelineItem[]): HistoryType[] {
 }
 
 export function entryChips(programmes: string[], options: ProgrammeOption[]): Chip[] {
-	return programmes.map(
-		(id): Chip => ({
-			label: options.find((o) => o.id === id)?.label ?? id,
-			tone: 'plain',
-			...(id === SITE_PROGRAMME ? {} : { programme: id })
-		})
-	);
+	return programmes.map((id): Chip => ({
+		label: options.find((o) => o.id === id)?.label ?? id,
+		tone: 'plain',
+		...(id === SITE_PROGRAMME ? {} : { programme: id })
+	}));
 }
 
 export function defaultTimelineFilter(programmes: string[], types: HistoryType[]): TimelineFilter {

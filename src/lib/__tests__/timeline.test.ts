@@ -55,18 +55,35 @@ function sig(name: string, ...versions: Record<string, string>[]): SchemeYaml {
 }
 
 function kem(name: string, programmes?: Record<string, string>): KemSchemeYaml {
-	return { name, website: '', category: 'Lattice', assumption: '', status: 'Research', programmes, parametersets: [] } as KemSchemeYaml;
+	return {
+		name,
+		website: '',
+		category: 'Lattice',
+		assumption: '',
+		status: 'Research',
+		programmes,
+		parametersets: []
+	} as KemSchemeYaml;
 }
 
 // MAYO: the newest version has left the on-ramp map (post-round update) but MAYO still counts as on-ramp.
 // Dual: a signature in KpqC and a KEM of the same name in NGCC. Real data forbids shared names
 // (buildSchemeIndex throws); this is a defensive check of the union behaviour.
 const INDEX = schemeProgrammeIndex(
-	[sig('MAYO', { 'nist-onramp': 'round-1' }, {}), sig('ML-DSA', { 'nist-pqc': 'standardised' }), sig('Dual', { kpqc: 'round-1' })],
+	[
+		sig('MAYO', { 'nist-onramp': 'round-1' }, {}),
+		sig('ML-DSA', { 'nist-pqc': 'standardised' }),
+		sig('Dual', { kpqc: 'round-1' })
+	],
 	[kem('Dual', { 'china-ngcc': 'round-1' }), kem('ML-KEM', { 'nist-pqc': 'standardised' }), kem('Plain')]
 );
 
-const entry = (o: Partial<HistoryEntry> = {}): HistoryEntry => ({ date: '2026-01-01', type: 'update', description: 'x', ...o });
+const entry = (o: Partial<HistoryEntry> = {}): HistoryEntry => ({
+	date: '2026-01-01',
+	type: 'update',
+	description: 'x',
+	...o
+});
 
 describe('schemeProgrammeIndex', () => {
 	it('collects programmes from every version', () => {
@@ -105,7 +122,9 @@ describe('entryProgrammes', () => {
 		expect(entryProgrammes(entry({ schemes: ['Plain'] }), INDEX, REGISTRY)).toEqual([SITE_PROGRAMME]);
 	});
 	it('ignores unknown schemes and programme ids (the data test reports them)', () => {
-		expect(entryProgrammes(entry({ schemes: ['Nope'], programmes: ['bogus'] }), INDEX, REGISTRY)).toEqual([SITE_PROGRAMME]);
+		expect(entryProgrammes(entry({ schemes: ['Nope'], programmes: ['bogus'] }), INDEX, REGISTRY)).toEqual([
+			SITE_PROGRAMME
+		]);
 	});
 });
 
@@ -134,7 +153,12 @@ describe('options and labels', () => {
 		REGISTRY
 	);
 	it('offers only programmes that occur, in registry order, then site', () => {
-		expect(programmeOptions(items, REGISTRY).map((o) => o.id)).toEqual(['nist-onramp', 'china-ngcc', 'kpqc', SITE_PROGRAMME]);
+		expect(programmeOptions(items, REGISTRY).map((o) => o.id)).toEqual([
+			'nist-onramp',
+			'china-ngcc',
+			'kpqc',
+			SITE_PROGRAMME
+		]);
 	});
 	it('offers only event types that occur, in filter order', () => {
 		expect(presentTypes(items)).toEqual(['milestone', 'attack', 'update']);
@@ -207,7 +231,9 @@ describe('timeline URL codec', () => {
 		expect(decodeTimelineFilter(p, programmes, types)).toEqual(f);
 	});
 	it('reads a missing param as all', () => {
-		expect(decodeTimelineFilter(new URLSearchParams('t=attack'), programmes, types).programmes).toEqual(new Set(programmes));
+		expect(decodeTimelineFilter(new URLSearchParams('t=attack'), programmes, types).programmes).toEqual(
+			new Set(programmes)
+		);
 	});
 	it('reads an empty param as none, and encodes none as an empty param', () => {
 		const f = decodeTimelineFilter(new URLSearchParams('p='), programmes, types);

@@ -14,7 +14,10 @@
 
 <svelte:head>
 	<title>{page.name} · {SITE_NAME}</title>
-	<meta name="description" content="{page.name}: parameter sets, sizes, timings, programmes, security flags and history." />
+	<meta
+		name="description"
+		content="{page.name}: parameter sets, sizes, timings, programmes, security flags and history."
+	/>
 </svelte:head>
 
 <!-- Keyed so that back/forward between two scheme pages resets per-page state (e.g. the version selects). -->
@@ -23,7 +26,9 @@
 		<SchemeHeader {page} />
 
 		<section aria-labelledby="sets-heading" class="mt-10">
-			<h2 id="sets-heading" class="font-heading text-xl font-bold text-pqs-midnight dark:text-pqs-smoke">Parameter sets</h2>
+			<h2 id="sets-heading" class="font-heading text-xl font-bold text-pqs-midnight dark:text-pqs-smoke">
+				Parameter sets
+			</h2>
 			{#if page.primitive === 'signature'}
 				<p class="mt-1 text-sm text-pqs-steel dark:text-pqs-bluegray">
 					{page.latest.label} · {fmtDate(page.latest.date)}

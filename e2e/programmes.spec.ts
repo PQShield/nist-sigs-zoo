@@ -65,7 +65,10 @@ test.describe('Programme pages', () => {
 		await stages.getByRole('button', { name: 'Round 1' }).click();
 		await expect(stages.getByRole('button', { name: 'Round 1' })).toHaveAttribute('aria-pressed', 'true');
 		await expect(candidates.locator('tbody')).toContainText('3WISE');
-		await expect(candidates.getByRole('link', { name: /signature comparison/ })).toHaveAttribute('href', /\/signatures\/\?p=nist-onramp&r=1$/);
+		await expect(candidates.getByRole('link', { name: /signature comparison/ })).toHaveAttribute(
+			'href',
+			/\/signatures\/\?p=nist-onramp&r=1$/
+		);
 
 		await stages.getByRole('button', { name: 'Round 2' }).click();
 		await expect(candidates.locator('tbody')).not.toContainText('3WISE');
@@ -108,7 +111,10 @@ test.describe('Programme pages', () => {
 			await expect(candidates.locator('table')).toHaveCount(0);
 		} else {
 			await expect(candidates.locator('tbody tr').first()).toBeVisible();
-			await expect(candidates.getByRole('link', { name: /signature comparison/ })).toHaveAttribute('href', /\/signatures\/\?p=china-ngcc/);
+			await expect(candidates.getByRole('link', { name: /signature comparison/ })).toHaveAttribute(
+				'href',
+				/\/signatures\/\?p=china-ngcc/
+			);
 		}
 	});
 

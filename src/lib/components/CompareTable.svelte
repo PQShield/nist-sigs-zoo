@@ -77,16 +77,19 @@
 
 {#snippet timeCell(us: number | null, cyc: number)}
 	{@const shown = displayUs(us, cyc)}
-	<td class="whitespace-nowrap px-2 py-1.5 text-right tabular-nums">
+	<td class="px-2 py-1.5 text-right whitespace-nowrap tabular-nums">
 		{#if us != null}
 			{fmtTime(us)}
 		{:else if shown != null}
 			<span
-				class="underline decoration-wavy decoration-pqs-scarlet"
+				class="underline decoration-pqs-scarlet decoration-wavy"
 				title="Estimated from {fmtCycles(cyc)} cycles @ {CPU_GHZ_LABEL}"
-			>{fmtTime(shown)}<span class="sr-only"> (estimated from {fmtCycles(cyc)} cycles @ {CPU_GHZ_LABEL})</span></span>
+				>{fmtTime(shown)}<span class="sr-only"> (estimated from {fmtCycles(cyc)} cycles @ {CPU_GHZ_LABEL})</span></span
+			>
 		{:else}
-			<span class="text-pqs-bluegray" title="Not yet benchmarked">—<span class="sr-only"> not yet benchmarked</span></span>
+			<span class="text-pqs-bluegray" title="Not yet benchmarked"
+				>—<span class="sr-only"> not yet benchmarked</span></span
+			>
 		{/if}
 	</td>
 {/snippet}
@@ -98,13 +101,15 @@
 				<tr class="bg-pqs-steel font-heading text-xs text-white">
 					{#each columns as col, i (col.key)}
 						{#if i === 2}
-							<th scope="col" class="whitespace-nowrap px-2 py-2.5 text-left font-semibold">Programmes</th>
+							<th scope="col" class="px-2 py-2.5 text-left font-semibold whitespace-nowrap">Programmes</th>
 						{/if}
-						<th scope="col" aria-sort={ariaSort(col.key)} class="whitespace-nowrap p-0">
+						<th scope="col" aria-sort={ariaSort(col.key)} class="p-0 whitespace-nowrap">
 							<button
 								type="button"
 								onclick={() => setSort(col.key)}
-								class="w-full cursor-pointer select-none px-2 py-2.5 font-semibold hover:bg-pqs-steel-light {col.numeric ? 'text-right' : 'text-left'}"
+								class="w-full cursor-pointer px-2 py-2.5 font-semibold select-none hover:bg-pqs-steel-light {col.numeric
+									? 'text-right'
+									: 'text-left'}"
 							>
 								{col.label}{sortIndicator(col.key)}
 							</button>
@@ -120,11 +125,12 @@
 					{@const openBadge = badges.find((b) => b.kind === open[key])}
 					{@const detailId = `${idPrefix}-detail-${i}`}
 					<tr class="hover:bg-pqs-smoke dark:hover:bg-pqs-steel/30">
-						<td class="whitespace-nowrap px-2 py-1.5">
+						<td class="px-2 py-1.5 whitespace-nowrap">
 							<a
 								href={schemeHref(base, slugOf(row.scheme))}
 								class="font-heading font-semibold text-pqs-steel hover:text-pqs-apricot dark:text-pqs-apricot dark:hover:text-pqs-apricot-light"
-							>{row.scheme}</a>
+								>{row.scheme}</a
+							>
 							{#each badges as badge (badge.kind)}
 								<button
 									type="button"
@@ -132,22 +138,26 @@
 									aria-label="{badge.title}: show details"
 									aria-expanded={open[key] === badge.kind}
 									aria-controls={detailId}
-									onclick={() => toggle(key, badge.kind)}
-								><BadgeIcon kind={badge.kind} /></button>
+									onclick={() => toggle(key, badge.kind)}><BadgeIcon kind={badge.kind} /></button
+								>
 							{/each}
 						</td>
-						<td class="whitespace-nowrap px-2 py-1.5 text-pqs-steel dark:text-pqs-bluegray">{row.category}</td>
+						<td class="px-2 py-1.5 whitespace-nowrap text-pqs-steel dark:text-pqs-bluegray">{row.category}</td>
 						<td class="px-2 py-1.5"><ProgrammeChips chips={programmeChips(row, allProgrammes)} /></td>
 						{#if config.table.shortParamSet}
-							<td class="whitespace-nowrap px-2 py-1.5 font-mono text-xs" title={row.parameterset}>{shortParam(row)}</td>
+							<td class="px-2 py-1.5 font-mono text-xs whitespace-nowrap" title={row.parameterset}>{shortParam(row)}</td
+							>
 						{:else}
-							<td class="whitespace-nowrap px-2 py-1.5 font-mono text-xs">{row.parameterset}</td>
+							<td class="px-2 py-1.5 font-mono text-xs whitespace-nowrap">{row.parameterset}</td>
 						{/if}
-						<td class="px-2 py-1.5 text-right tabular-nums text-pqs-steel dark:text-pqs-bluegray">
+						<td class="px-2 py-1.5 text-right text-pqs-steel tabular-nums dark:text-pqs-bluegray">
 							{#if row.level !== null}
 								{row.level === 'Pre-Quantum' ? 'Pre-quantum' : row.level}
 							{:else if row.ngccLevel !== null}
-								<span class="font-semibold text-[#6b21a8] dark:text-[#d8b4fe]" title="China NGCC target in classical bits; not a NIST level">{row.ngccLevel}-bit</span>
+								<span
+									class="font-semibold text-[#6b21a8] dark:text-[#d8b4fe]"
+									title="China NGCC target in classical bits; not a NIST level">{row.ngccLevel}-bit</span
+								>
 							{:else}
 								—
 							{/if}
@@ -160,19 +170,26 @@
 								<td class="px-2 py-1.5 text-right tabular-nums">{fmt(col.size(row))}</td>
 							{/if}
 						{/each}
-						<td class="max-w-48 whitespace-normal px-2 py-1.5 text-pqs-steel/80 dark:text-pqs-bluegray">{row.assumption}</td>
+						<td class="max-w-48 px-2 py-1.5 whitespace-normal text-pqs-steel/80 dark:text-pqs-bluegray"
+							>{row.assumption}</td
+						>
 					</tr>
 					{#if badges.length > 0}
 						<tr id={detailId} hidden={!openBadge} class={openBadge ? DETAIL_TONE[openBadge.kind] : ''}>
-							<td colspan={colspan} class="whitespace-normal px-3 py-2.5 pl-9 text-sm leading-relaxed text-pqs-midnight dark:text-pqs-smoke [&_a]:text-pqs-apricot [&_a]:underline">
+							<td
+								{colspan}
+								class="px-3 py-2.5 pl-9 text-sm leading-relaxed whitespace-normal text-pqs-midnight dark:text-pqs-smoke [&_a]:text-pqs-apricot [&_a]:underline"
+							>
 								<div class="sticky left-0 max-w-[calc(100vw-3rem)]">
-								{#if openBadge}
-									<strong class="font-heading">{openBadge.title}:</strong>
-									{@html openBadge.html}
-									{#if openBadge.href && /^https?:\/\//.test(openBadge.href)}
-										<a href={openBadge.href} target="_blank" rel="noopener noreferrer">Full findings report<span class="sr-only"> (opens in a new tab)</span></a>
+									{#if openBadge}
+										<strong class="font-heading">{openBadge.title}:</strong>
+										{@html openBadge.html}
+										{#if openBadge.href && /^https?:\/\//.test(openBadge.href)}
+											<a href={openBadge.href} target="_blank" rel="noopener noreferrer"
+												>Full findings report<span class="sr-only"> (opens in a new tab)</span></a
+											>
+										{/if}
 									{/if}
-								{/if}
 								</div>
 							</td>
 						</tr>
@@ -180,13 +197,15 @@
 				{/each}
 				{#if sortedRows.length === 0}
 					<tr>
-						<td colspan={colspan} class="px-3 py-10 text-center text-pqs-bluegray">{config.table.emptyText}</td>
+						<td {colspan} class="px-3 py-10 text-center text-pqs-bluegray">{config.table.emptyText}</td>
 					</tr>
 				{/if}
 			</tbody>
 		</table>
 	</div>
-	<div class="border-t border-pqs-ashgray bg-pqs-smoke px-3 py-1.5 font-heading text-xs text-pqs-steel dark:border-pqs-steel dark:bg-pqs-midnight-mid dark:text-pqs-bluegray">
+	<div
+		class="border-t border-pqs-ashgray bg-pqs-smoke px-3 py-1.5 font-heading text-xs text-pqs-steel dark:border-pqs-steel dark:bg-pqs-midnight-mid dark:text-pqs-bluegray"
+	>
 		<span>{sortedRows.length} parameter set{sortedRows.length === 1 ? '' : 's'}</span>
 	</div>
 	<TableLegend />

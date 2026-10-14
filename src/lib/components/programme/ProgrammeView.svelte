@@ -41,7 +41,12 @@
 	};
 	const findingGroups = [
 		...(hasSigs
-			? [{ label: 'Signatures', count: findingsSummary(programmeSignatureRows(p.id, allSchemeData, CURRENT_VIEW).parameterSets) }]
+			? [
+					{
+						label: 'Signatures',
+						count: findingsSummary(programmeSignatureRows(p.id, allSchemeData, CURRENT_VIEW).parameterSets)
+					}
+				]
 			: []),
 		...(hasKems ? [{ label: 'KEMs', count: findingsSummary(programmeKemRows(p.id, allKemData)) }] : [])
 	];
@@ -79,15 +84,25 @@
 				{#if p.links?.length}
 					<ul class="mt-4 flex flex-wrap gap-x-5 gap-y-2 font-heading text-sm font-semibold">
 						{#each p.links as l (l.url)}
-							<li><a href={l.url} target="_blank" rel="noopener noreferrer" class={LINK}>{l.label} ↗<span class="sr-only"> (opens in a new tab)</span></a></li>
+							<li>
+								<a href={l.url} target="_blank" rel="noopener noreferrer" class={LINK}
+									>{l.label} ↗<span class="sr-only"> (opens in a new tab)</span></a
+								>
+							</li>
 						{/each}
 					</ul>
 				{/if}
 			</div>
-			<dl class="grid content-start gap-3 rounded border border-pqs-ashgray bg-white p-4 text-sm dark:border-pqs-steel dark:bg-pqs-midnight-mid">
+			<dl
+				class="grid content-start gap-3 rounded border border-pqs-ashgray bg-white p-4 text-sm dark:border-pqs-steel dark:bg-pqs-midnight-mid"
+			>
 				{#each facts as f (f.term)}
 					<div>
-						<dt class="font-heading text-xs font-semibold uppercase tracking-wide text-pqs-steel dark:text-pqs-bluegray">{f.term}</dt>
+						<dt
+							class="font-heading text-xs font-semibold tracking-wide text-pqs-steel uppercase dark:text-pqs-bluegray"
+						>
+							{f.term}
+						</dt>
 						<dd>{f.detail}</dd>
 					</div>
 				{/each}
@@ -124,7 +139,12 @@
 			<p class="font-heading text-sm font-semibold">{kindOptions[0].label}</p>
 		{/if}
 		{#if kind === 'signature'}
-			<ProgrammeCandidates programme={p} config={SIGNATURES} load={signatureRows} views={stageViews(p, allSchemeData)} />
+			<ProgrammeCandidates
+				programme={p}
+				config={SIGNATURES}
+				load={signatureRows}
+				views={stageViews(p, allSchemeData)}
+			/>
 		{:else}
 			<ProgrammeCandidates programme={p} config={KEMS} load={kemRows} />
 		{/if}

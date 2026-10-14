@@ -26,7 +26,12 @@
 	<div class="space-y-0.5">
 		{#each groups as group (group)}
 			<label class={FILTER_OPTION}>
-				<input type="checkbox" class="accent-pqs-apricot" checked={filter.programmes.has(group)} onchange={() => toggle(group)} />
+				<input
+					type="checkbox"
+					class="accent-pqs-apricot"
+					checked={filter.programmes.has(group)}
+					onchange={() => toggle(group)}
+				/>
 				<span class={FILTER_OPTION_TEXT}>{PROGRAMME_GROUP_LABELS[group]}</span>
 			</label>
 			{#if group === 'nist-onramp' && onramp}

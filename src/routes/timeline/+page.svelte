@@ -27,7 +27,12 @@
 
 	// The prerendered page shows everything; the URL's filter is applied once hydrated.
 	// svelte-ignore state_referenced_locally
-	let filter = $state<TimelineFilter>(defaultTimelineFilter(data.programmeOptions.map((o) => o.id), data.types));
+	let filter = $state<TimelineFilter>(
+		defaultTimelineFilter(
+			data.programmeOptions.map((o) => o.id),
+			data.types
+		)
+	);
 	let ready = $state(false);
 	const shown = $derived(filterTimeline(data.items, filter));
 
@@ -117,7 +122,8 @@
 				type="button"
 				onclick={showAll}
 				class="font-heading text-sm font-semibold text-pqs-steel underline hover:text-pqs-apricot dark:text-pqs-apricot"
-			>Show all events</button>
+				>Show all events</button
+			>
 		</form>
 
 		<div>
@@ -134,20 +140,26 @@
 					<li class="relative flex gap-6 pb-8 last:pb-0">
 						<!-- spine -->
 						<div class="flex flex-col items-center" aria-hidden="true">
-							<div class="mt-1 h-3 w-3 shrink-0 rounded-full border-2 border-pqs-apricot bg-pqs-smoke dark:bg-pqs-midnight"></div>
+							<div
+								class="mt-1 h-3 w-3 shrink-0 rounded-full border-2 border-pqs-apricot bg-pqs-smoke dark:bg-pqs-midnight"
+							></div>
 							<div class="mt-1 w-px flex-1 bg-pqs-ashgray dark:bg-pqs-steel/40"></div>
 						</div>
 						<!-- content -->
 						<div class="min-w-0 pb-2">
 							<div class="flex flex-wrap items-center gap-2">
-								<time datetime={item.entry.date} class="font-mono text-xs text-pqs-steel dark:text-pqs-bluegray">{fmtDate(item.entry.date)}</time>
+								<time datetime={item.entry.date} class="font-mono text-xs text-pqs-steel dark:text-pqs-bluegray"
+									>{fmtDate(item.entry.date)}</time
+								>
 								<span class="rounded px-1.5 py-0.5 font-heading text-xs font-semibold {TYPE_BADGE[item.entry.type]}">
 									{HISTORY_TYPE_LABELS[item.entry.type]}
 								</span>
 								<span class="sr-only">Programmes:</span>
 								<ProgrammeChips link chips={entryChips(item.programmes, data.programmeOptions)} />
 							</div>
-							<p class="mt-1 text-sm text-pqs-midnight dark:text-pqs-smoke [&_a]:text-pqs-steel [&_a]:underline dark:[&_a]:text-pqs-apricot">
+							<p
+								class="mt-1 text-sm text-pqs-midnight dark:text-pqs-smoke [&_a]:text-pqs-steel [&_a]:underline dark:[&_a]:text-pqs-apricot"
+							>
 								{@html item.entry.description}
 							</p>
 							{#if item.entry.schemes && item.entry.schemes.length}
@@ -155,7 +167,10 @@
 								<p class="mt-1 text-xs text-pqs-steel dark:text-pqs-bluegray">
 									<span class="sr-only">Schemes:</span>
 									{#each names as name, i (name)}
-<a href={schemeHref(base, slugOf(name))} class="underline hover:text-pqs-apricot">{name}</a>{i < names.length - 1 ? ', ' : ''}
+										<a href={schemeHref(base, slugOf(name))} class="underline hover:text-pqs-apricot">{name}</a>{i <
+										names.length - 1
+											? ', '
+											: ''}
 									{/each}
 								</p>
 							{/if}

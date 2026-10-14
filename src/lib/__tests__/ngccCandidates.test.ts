@@ -36,7 +36,8 @@ const DATA = join(process.cwd(), 'data');
 const candidates = yaml.load(readFileSync(join(DATA, 'ngcc', 'candidates.yaml'), 'utf8')) as NgccCandidate[];
 const FAMILIES = ['Lattices', 'Code-based', 'Multivariate', 'Symmetric', 'MPCitH', 'Isogenies', 'Other'];
 const LEVELS = [128, 256, 384, 512];
-const ids = (prefix: string, n: number) => Array.from({ length: n }, (_, i) => `${prefix}-${String(i + 1).padStart(2, '0')}`);
+const ids = (prefix: string, n: number) =>
+	Array.from({ length: n }, (_, i) => `${prefix}-${String(i + 1).padStart(2, '0')}`);
 const yamlPath = (c: NgccCandidate) => join(DATA, c.kind === 'signature' ? 'schemes' : 'kems', `${c.file}.yaml`);
 
 describe('data/ngcc/candidates.yaml', () => {
@@ -49,7 +50,9 @@ describe('data/ngcc/candidates.yaml', () => {
 		const errors = candidates.flatMap((c) => [
 			...(FAMILIES.includes(c.category) ? [] : [`${c.id}: unknown family "${c.category}"`]),
 			...(c.assumption?.trim() ? [] : [`${c.id}: empty assumption`]),
-			...(/^https:\/\/www\.niccs\.org\.cn\//.test(c.website ?? '') ? [] : [`${c.id}: website must be the official NICCS page`]),
+			...(/^https:\/\/www\.niccs\.org\.cn\//.test(c.website ?? '')
+				? []
+				: [`${c.id}: website must be the official NICCS page`]),
 			...(c.spec?.trim() ? [] : [`${c.id}: empty spec`])
 		]);
 		expect(errors).toEqual([]);
@@ -62,7 +65,8 @@ describe('data/ngcc/candidates.yaml', () => {
 				if (!i.ref?.trim()) e.push(`${c.id} ${i.instance}: missing ref`);
 				if (i.omit !== undefined) {
 					if (!i.omit.trim()) e.push(`${c.id} ${i.instance}: empty omit reason`);
-					if (i.ngcc_level !== undefined || i.recommended) e.push(`${c.id} ${i.instance}: omitted instances carry no level or recommendation`);
+					if (i.ngcc_level !== undefined || i.recommended)
+						e.push(`${c.id} ${i.instance}: omitted instances carry no level or recommendation`);
 				} else if (!LEVELS.includes(i.ngcc_level as number)) {
 					e.push(`${c.id} ${i.instance}: ngcc_level must be 128, 256, 384 or 512`);
 				}
@@ -103,11 +107,17 @@ describe('data/ngcc/candidates.yaml', () => {
 			const sets: { name: string; ngcc_level?: number; recommended?: boolean }[] | undefined =
 				c.kind === 'signature'
 					? (doc as SchemeYaml).versions.find((v) => v.programmes?.['china-ngcc'])?.parametersets
-					: (doc as KemSchemeYaml).programmes?.['china-ngcc'] ? (doc as KemSchemeYaml).parametersets : undefined;
+					: (doc as KemSchemeYaml).programmes?.['china-ngcc']
+						? (doc as KemSchemeYaml).parametersets
+						: undefined;
 			if (!sets) return [`${c.file}.yaml exists but is not an NGCC entry`];
-			const want = c.instances.filter((i) => i.omit === undefined).map((i) => `${i.instance}:${i.ngcc_level}:${!!i.recommended}`);
+			const want = c.instances
+				.filter((i) => i.omit === undefined)
+				.map((i) => `${i.instance}:${i.ngcc_level}:${!!i.recommended}`);
 			const got = sets.map((p) => `${p.name}:${p.ngcc_level}:${!!p.recommended}`);
-			return JSON.stringify(got) === JSON.stringify(want) ? [] : [`${c.file}.yaml parameter sets differ from candidates.yaml`];
+			return JSON.stringify(got) === JSON.stringify(want)
+				? []
+				: [`${c.file}.yaml parameter sets differ from candidates.yaml`];
 		});
 		expect(errors).toEqual([]);
 	});
@@ -131,15 +141,18 @@ describe('data/ngcc/candidates.yaml', () => {
 			);
 			const e: string[] = [];
 			if (!f) return texts.length ? [`${c.id}: instance flags need a findings block`] : [];
-			if (f.url !== `https://ngcc.dev/reports/${c.id}.html`) e.push(`${c.id}: findings url must be its ngcc.dev report`);
+			if (f.url !== `https://ngcc.dev/reports/${c.id}.html`)
+				e.push(`${c.id}: findings url must be its ngcc.dev report`);
 			for (const text of texts) {
 				const plain = stripHtml(text);
 				if (plain.length > 280) e.push(`${c.id}: summary over 280 characters`);
 				if (!credited.test(plain)) e.push(`${c.id}: summary must end with a parenthesised credit`);
 				if (unlinkedCredit(text)) e.push(`${c.id}: link each credited author to their disclosure`);
-				if (/ngcc\.dev\)/.test(text) && !text.endsWith('(reported on ngcc.dev).')) e.push(`${c.id}: credit authors, not the venue`);
+				if (/ngcc\.dev\)/.test(text) && !text.endsWith('(reported on ngcc.dev).'))
+					e.push(`${c.id}: credit authors, not the venue`);
 			}
-			for (const u of f.sources ?? []) if (!/^https:\/\/\S+$/.test(u)) e.push(`${c.id}: source is not an https URL: ${u}`);
+			for (const u of f.sources ?? [])
+				if (!/^https:\/\/\S+$/.test(u)) e.push(`${c.id}: source is not an https URL: ${u}`);
 			if (texts.length && !f.sources?.length) e.push(`${c.id}: summaries need sources`);
 			return e;
 		});

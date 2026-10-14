@@ -17,15 +17,18 @@
 	<div class="mb-8 border-l-4 border-pqs-apricot pl-4">
 		<h1 class="font-heading text-3xl font-bold text-pqs-midnight dark:text-white">Programmes</h1>
 		<p class="mt-2 max-w-[72ch] text-sm text-pqs-steel dark:text-pqs-bluegray">
-			Standardisation programmes and competitions whose candidates we track. Each page has the
-			programme's timeline, its security-level scale and its candidates.
+			Standardisation programmes and competitions whose candidates we track. Each page has the programme's timeline, its
+			security-level scale and its candidates.
 		</p>
 	</div>
 	<ul class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
 		{#each data.cards as c (c.programme.id)}
 			<li class="rounded border border-pqs-ashgray bg-white p-5 dark:border-pqs-steel dark:bg-pqs-midnight-mid">
 				<h2 class="font-heading text-xl font-bold">
-					<a href="{base}/programmes/{c.programme.id}/" class="text-pqs-steel hover:text-pqs-apricot dark:text-pqs-apricot">
+					<a
+						href="{base}/programmes/{c.programme.id}/"
+						class="text-pqs-steel hover:text-pqs-apricot dark:text-pqs-apricot"
+					>
 						{c.programme.nav_label ?? c.programme.short}
 					</a>
 				</h2>

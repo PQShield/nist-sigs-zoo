@@ -11,14 +11,14 @@ function yamlPlugin() {
 				const parsed = yaml.load(src);
 				return {
 					code: `export default ${JSON.stringify(parsed)}`,
-					map: null,
+					map: null
 				};
 			}
-		},
+		}
 	};
 }
 
 export default defineConfig({
 	plugins: [yamlPlugin(), tailwindcss(), sveltekit()],
-	build: { chunkSizeWarningLimit: 1000 },
+	build: { chunkSizeWarningLimit: 1000 }
 });

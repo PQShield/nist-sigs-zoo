@@ -19,13 +19,7 @@ import {
 	type FindingRow
 } from '$lib/programmePage';
 import { defaultCommonFilter } from '$lib/compareFilters';
-import type {
-	KemSchemeYaml,
-	ParameterSetYaml,
-	ProgrammeYaml,
-	SchemeYaml,
-	VersionYaml
-} from '$lib/types';
+import type { KemSchemeYaml, ParameterSetYaml, ProgrammeYaml, SchemeYaml, VersionYaml } from '$lib/types';
 
 function ver(
 	date: string,
@@ -60,14 +54,26 @@ function kem(name: string, programmes?: Record<string, string | string[]>): KemS
 }
 
 const ONRAMP: ProgrammeYaml = {
-	id: 'nist-onramp', name: 'Additional signatures', short: 'On-ramp', organiser: 'NIST', region: 'US',
+	id: 'nist-onramp',
+	name: 'Additional signatures',
+	short: 'On-ramp',
+	organiser: 'NIST',
+	region: 'US',
 	primitives: ['signature'],
-	stages: [{ id: 'round-1', label: 'round 1' }, { id: 'round-2', label: 'round 2' }, { id: 'round-3', label: 'round 3' }]
+	stages: [
+		{ id: 'round-1', label: 'round 1' },
+		{ id: 'round-2', label: 'round 2' },
+		{ id: 'round-3', label: 'round 3' }
+	]
 };
 
 const NGCC: ProgrammeYaml = {
-	id: 'china-ngcc', name: 'Next-generation commercial cryptographic algorithms', short: 'NGCC',
-	organiser: 'ICCS', region: 'China', primitives: ['signature', 'kem'],
+	id: 'china-ngcc',
+	name: 'Next-generation commercial cryptographic algorithms',
+	short: 'NGCC',
+	organiser: 'ICCS',
+	region: 'China',
+	primitives: ['signature', 'kem'],
 	stages: [{ id: 'round-1', label: 'round 1' }],
 	organiser_detail: 'ICCS, Beijing',
 	out_of_scope: '9 key exchange, 35 hash functions',
@@ -80,13 +86,23 @@ const NGCC: ProgrammeYaml = {
 };
 
 const KPQC: ProgrammeYaml = {
-	id: 'kpqc', name: 'KpqC', short: 'KpqC', organiser: 'KpqC', region: 'South Korea',
-	primitives: ['signature', 'kem'], stages: [{ id: 'selected', label: 'selected' }]
+	id: 'kpqc',
+	name: 'KpqC',
+	short: 'KpqC',
+	organiser: 'KpqC',
+	region: 'South Korea',
+	primitives: ['signature', 'kem'],
+	stages: [{ id: 'selected', label: 'selected' }]
 };
 
 const ISO: ProgrammeYaml = {
-	id: 'iso', name: 'ISO/IEC 18033-2 amendment', short: 'ISO', organiser: 'ISO/IEC', region: 'International',
-	primitives: ['kem'], stages: [{ id: 'in-progress', label: 'in progress' }],
+	id: 'iso',
+	name: 'ISO/IEC 18033-2 amendment',
+	short: 'ISO',
+	organiser: 'ISO/IEC',
+	region: 'International',
+	primitives: ['kem'],
+	stages: [{ id: 'in-progress', label: 'in progress' }],
 	timeline: [{ label: 'Amendment in preparation', current: true }]
 };
 
@@ -178,7 +194,9 @@ describe('programmeKemRows', () => {
 
 describe('NGCC targets', () => {
 	it('lists the targets present, in scale order', () => {
-		expect(ngccTargets([{ ngccLevel: 512 }, { ngccLevel: null }, { ngccLevel: 128 }, { ngccLevel: 512 }])).toEqual([128, 512]);
+		expect(ngccTargets([{ ngccLevel: 512 }, { ngccLevel: null }, { ngccLevel: 128 }, { ngccLevel: 512 }])).toEqual([
+			128, 512
+		]);
 		expect(ngccTargets([])).toEqual([]);
 	});
 	it('names schemes without a recommended set at a target', () => {
@@ -205,7 +223,9 @@ describe('timings presence', () => {
 	const base = { signingUs: null, verificationUs: null, signingCycles: 0, verificationCycles: 0 };
 	it('detects signature timings, measured or from cycles', () => {
 		expect(anyTimings(SIGNATURES.chart, [])).toBe(false);
-		expect(anyTimings(SIGNATURES.chart, programmeSignatureRows('nist-onramp', SIGS, CURRENT_VIEW).parameterSets)).toBe(false);
+		expect(anyTimings(SIGNATURES.chart, programmeSignatureRows('nist-onramp', SIGS, CURRENT_VIEW).parameterSets)).toBe(
+			false
+		);
 		const rows = programmeSignatureRows('nist-onramp', SIGS, CURRENT_VIEW).parameterSets;
 		expect(anyTimings(SIGNATURES.chart, [{ ...rows[0], ...base, signingCycles: 1000 }])).toBe(true);
 	});
@@ -218,7 +238,13 @@ describe('timings presence', () => {
 
 describe('findingsSummary', () => {
 	const row = (scheme: string, f: Partial<FindingRow> = {}): FindingRow => ({
-		scheme, classical: false, broken: false, implementation: false, warning: false, findingsUrl: null, ...f
+		scheme,
+		classical: false,
+		broken: false,
+		implementation: false,
+		warning: false,
+		findingsUrl: null,
+		...f
 	});
 	it('counts each candidate once, under its worst finding', () => {
 		const s = findingsSummary([
@@ -234,14 +260,31 @@ describe('findingsSummary', () => {
 	});
 	it('does not count a pre-quantum scheme as a broken scheme', () => {
 		expect(findingsSummary([row('RSA', { classical: true, broken: 'classical' })])).toEqual({
-			candidates: 1, design: 0, implementation: 0, warning: 0, none: 1, reports: 0
+			candidates: 1,
+			design: 0,
+			implementation: 0,
+			warning: 0,
+			none: 1,
+			reports: 0
 		});
-		expect(
-			findingsSummary([row('RSA', { classical: true, broken: 'classical', implementation: 'bug' })])
-		).toEqual({ candidates: 1, design: 0, implementation: 1, warning: 0, none: 0, reports: 0 });
+		expect(findingsSummary([row('RSA', { classical: true, broken: 'classical', implementation: 'bug' })])).toEqual({
+			candidates: 1,
+			design: 0,
+			implementation: 1,
+			warning: 0,
+			none: 0,
+			reports: 0
+		});
 	});
 	it('is all zeros without candidates', () => {
-		expect(findingsSummary([])).toEqual({ candidates: 0, design: 0, implementation: 0, warning: 0, none: 0, reports: 0 });
+		expect(findingsSummary([])).toEqual({
+			candidates: 0,
+			design: 0,
+			implementation: 0,
+			warning: 0,
+			none: 0,
+			reports: 0
+		});
 	});
 });
 
@@ -258,7 +301,9 @@ describe('compareHref', () => {
 	it('carries the on-ramp round for signatures only', () => {
 		expect(compareHref('', 'nist-onramp', 'signature', { stage: 'round-2' })).toBe('/signatures/?p=nist-onramp&r=2');
 		expect(compareHref('', 'nist-onramp', 'signature', { stage: CURRENT_VIEW })).toBe('/signatures/?p=nist-onramp');
-		expect(compareHref('', 'china-ngcc', 'signature', { stage: 'round-1', target: null })).toBe('/signatures/?p=china-ngcc');
+		expect(compareHref('', 'china-ngcc', 'signature', { stage: 'round-1', target: null })).toBe(
+			'/signatures/?p=china-ngcc'
+		);
 	});
 });
 

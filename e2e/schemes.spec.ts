@@ -19,9 +19,7 @@ interface SourceScheme {
 }
 const sigs = readDir<SourceScheme>('schemes');
 const kems = readDir<{ name: string; slug?: string }>('kems');
-const singleVersion = sigs
-	.filter((s) => s.versions.length === 1)
-	.sort((a, b) => a.name.localeCompare(b.name))[0];
+const singleVersion = sigs.filter((s) => s.versions.length === 1).sort((a, b) => a.name.localeCompare(b.name))[0];
 
 test.describe('Scheme pages', () => {
 	test('header omits an assumption that repeats the category, and spaces the website', async ({ page }) => {
@@ -70,9 +68,9 @@ test.describe('Scheme pages', () => {
 	test('a single-version scheme shows its sets and no comparison', async ({ page }) => {
 		await page.goto(`/schemes/${schemeSlug(singleVersion)}/`);
 		await expect(page.locator('h1')).toHaveText(singleVersion.name);
-		await expect(page.getByRole('table', { name: `Parameter sets of ${singleVersion.name}` }).locator('tbody tr')).toHaveCount(
-			singleVersion.versions[0].parametersets.length
-		);
+		await expect(
+			page.getByRole('table', { name: `Parameter sets of ${singleVersion.name}` }).locator('tbody tr')
+		).toHaveCount(singleVersion.versions[0].parametersets.length);
 		await expect(page.getByRole('heading', { name: 'Compare versions' })).toHaveCount(0);
 		await expect(page.getByText(/Only one version of .* is recorded/)).toBeVisible();
 	});
@@ -80,7 +78,9 @@ test.describe('Scheme pages', () => {
 	test('a KEM page has sets, programmes and no comparison', async ({ page }) => {
 		await page.goto('/schemes/ml-kem/');
 		await expect(page.locator('h1')).toHaveText('ML-KEM');
-		await expect(page.getByRole('navigation', { name: 'Breadcrumb' }).getByRole('link', { name: 'KEMs' })).toBeVisible();
+		await expect(
+			page.getByRole('navigation', { name: 'Breadcrumb' }).getByRole('link', { name: 'KEMs' })
+		).toBeVisible();
 		const table = page.getByRole('table', { name: 'Parameter sets of ML-KEM' });
 		await expect(table.getByRole('columnheader', { name: 'ct (B)', exact: true })).toBeVisible();
 		await expect(table.getByRole('rowheader', { name: /ML-KEM-768/ })).toBeVisible();
@@ -91,13 +91,14 @@ test.describe('Scheme pages', () => {
 		await page.setViewportSize({ width: 390, height: 800 });
 		await page.goto('/schemes/mirith/');
 		await expect(page.locator('h1')).toHaveText('MiRitH');
-		expect(await page.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth)).toBe(true);
+		expect(
+			await page.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth)
+		).toBe(true);
 	});
 });
 
 test.describe('Compare versions (MAYO)', () => {
-	const compareTable = (page: import('@playwright/test').Page) =>
-		page.getByRole('table', { name: /^Change from / });
+	const compareTable = (page: import('@playwright/test').Page) => page.getByRole('table', { name: /^Change from / });
 	const setRow = (page: import('@playwright/test').Page, name: string) =>
 		compareTable(page).locator('tbody tr', { has: page.getByRole('rowheader', { name: new RegExp(`^${name}\\b`) }) });
 
@@ -109,8 +110,12 @@ test.describe('Compare versions (MAYO)', () => {
 	test('defaults to the previous version against the latest and tells same-label versions apart', async ({ page }) => {
 		await expect(page.getByRole('heading', { name: 'Compare versions' })).toBeVisible();
 		await expect(page.getByLabel('From', { exact: true })).toHaveValue('2025-03-26');
-		await expect(page.getByLabel('From', { exact: true }).locator('option:checked')).toHaveText('Round 2 · 26 Mar 2025');
-		await expect(page.getByLabel('From', { exact: true }).locator('option', { hasText: 'Round 2 · 5 Feb 2025' })).toHaveCount(1);
+		await expect(page.getByLabel('From', { exact: true }).locator('option:checked')).toHaveText(
+			'Round 2 · 26 Mar 2025'
+		);
+		await expect(
+			page.getByLabel('From', { exact: true }).locator('option', { hasText: 'Round 2 · 5 Feb 2025' })
+		).toHaveCount(1);
 		await expect(page.getByLabel('To', { exact: true })).toHaveValue('2026-08-31');
 		const two = setRow(page, 'two');
 		await expect(two).toContainText('4,912');

@@ -1,18 +1,10 @@
-import type {
-	KemSchemeYaml,
-	ProgrammeMembership,
-	ProgrammeYaml,
-	SchemeYaml,
-	VersionYaml
-} from './types';
+import type { KemSchemeYaml, ProgrammeMembership, ProgrammeYaml, SchemeYaml, VersionYaml } from './types';
 
 /** Programme id of the NIST standards track; its members are shown in every view. */
 export const STANDARDS_PROGRAMME = 'nist-pqc';
 
 /** Programme id -> stage ids. A scalar in the YAML is normalised to a one-element list. */
-export function versionProgrammes(v: {
-	programmes?: Record<string, string | string[]>;
-}): Record<string, string[]> {
+export function versionProgrammes(v: { programmes?: Record<string, string | string[]> }): Record<string, string[]> {
 	return Object.fromEntries(
 		Object.entries(v.programmes ?? {}).map(([programme, stages]) => [
 			programme,
@@ -39,9 +31,7 @@ export function schemeProgrammes(versions: VersionYaml[]): ProgrammeMembership[]
 
 /** Standards and pre-quantum schemes: shown as reference rows in every competition view. */
 export function isReferenceScheme(versions: VersionYaml[]): boolean {
-	return versions.every((v) =>
-		Object.keys(versionProgrammes(v)).every((p) => p === STANDARDS_PROGRAMME)
-	);
+	return versions.every((v) => Object.keys(versionProgrammes(v)).every((p) => p === STANDARDS_PROGRAMME));
 }
 
 export function membershipLabel(m: ProgrammeMembership, programmes: ProgrammeYaml[]): string {
@@ -77,10 +67,7 @@ export interface ProgrammeSummary {
 }
 
 /** Group scheme names by stage; most advanced (last registry stage) first, empty groups omitted. */
-function groupByStage(
-	programme: ProgrammeYaml,
-	members: { name: string; stage: string | undefined }[]
-): StageGroup[] {
+function groupByStage(programme: ProgrammeYaml, members: { name: string; stage: string | undefined }[]): StageGroup[] {
 	return [...programme.stages]
 		.reverse()
 		.map((stage) => ({

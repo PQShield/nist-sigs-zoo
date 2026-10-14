@@ -21,10 +21,16 @@
 	{:else}
 		<ol class="mt-3">
 			{#each events as event, i (i)}
-				<li class="grid gap-1 border-t border-pqs-ashgray py-4 sm:grid-cols-[8rem_minmax(0,1fr)] sm:gap-6 dark:border-pqs-steel">
+				<li
+					class="grid gap-1 border-t border-pqs-ashgray py-4 sm:grid-cols-[8rem_minmax(0,1fr)] sm:gap-6 dark:border-pqs-steel"
+				>
 					<div>
-						<time datetime={event.date} class="font-mono text-xs text-pqs-steel dark:text-pqs-bluegray">{fmtDate(event.date)}</time>
-						<span class="mt-1 block w-fit rounded px-1.5 py-0.5 font-heading text-xs font-semibold {TONE[event.kind]}">{EVENT_LABELS[event.kind]}</span>
+						<time datetime={event.date} class="font-mono text-xs text-pqs-steel dark:text-pqs-bluegray"
+							>{fmtDate(event.date)}</time
+						>
+						<span class="mt-1 block w-fit rounded px-1.5 py-0.5 font-heading text-xs font-semibold {TONE[event.kind]}"
+							>{EVENT_LABELS[event.kind]}</span
+						>
 					</div>
 					<div class="text-sm text-pqs-midnight dark:text-pqs-smoke [&_a]:text-pqs-apricot [&_a]:hover:underline">
 						{#if event.title}<p class="font-heading font-semibold">{event.title}</p>{/if}

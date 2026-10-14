@@ -35,17 +35,13 @@ export function processKemSchemes(schemeData: KemSchemeYaml[]): {
 			warning: yaml.warning ?? false,
 			info: yaml.info ?? false,
 			classical: yaml.broken === 'classical',
-			programmes,
+			programmes
 		});
 
 		const anyRecommended = yaml.parametersets.some((p) => p.recommended);
 		for (const ps of yaml.parametersets) {
 			const level: NistLevel | null =
-				ps.level === undefined
-					? null
-					: ps.level === 'Pre-Quantum'
-						? 'Pre-Quantum'
-						: (ps.level as 1 | 2 | 3 | 4 | 5);
+				ps.level === undefined ? null : ps.level === 'Pre-Quantum' ? 'Pre-Quantum' : (ps.level as 1 | 2 | 3 | 4 | 5);
 
 			// Parameter-set flags fall back to scheme-level flags.
 			const broken = ps.broken ?? yaml.broken ?? false;
@@ -57,11 +53,7 @@ export function processKemSchemes(schemeData: KemSchemeYaml[]): {
 			const encapsUs = ps.encaps_us ?? null;
 			const decapsUs = ps.decaps_us ?? null;
 			const cyc = (cycles?: number, us?: number | null) =>
-				cycles != null && cycles > 0
-					? cycles
-					: us != null
-						? Math.round((CPUSPEED * us) / 1_000_000)
-						: 0;
+				cycles != null && cycles > 0 ? cycles : us != null ? Math.round((CPUSPEED * us) / 1_000_000) : 0;
 
 			rows.push({
 				scheme: yaml.name,
@@ -89,7 +81,7 @@ export function processKemSchemes(schemeData: KemSchemeYaml[]): {
 				ngccLevel: ps.ngcc_level ?? null,
 				recommended: anyRecommended ? ps.recommended === true : true,
 				implementation,
-				findingsUrl: yaml.findings_url ?? null,
+				findingsUrl: yaml.findings_url ?? null
 			});
 		}
 	}

@@ -6,8 +6,34 @@ import { CYCLES_PER_US } from '$lib/constants';
 import type { SchemeYaml } from '$lib/types';
 
 const SIGS: SchemeYaml[] = [
-	{ name: 'Fast', website: '', category: 'Lattices', assumption: '', versions: [{ version: 'v', date: '2025-01-01', status: 'On-ramp', parametersets: [{ name: 'f', level: 1, pk: 1, sig: 2, signing_cycles: 2500, verification_cycles: 5000 }] }] },
-	{ name: 'Sized', website: '', category: 'Lattices', assumption: '', versions: [{ version: 'v', date: '2026-09-20', status: 'NGCC', parametersets: [{ name: 's', ngcc_level: 128, pk: 3, sig: 4 }] }] }
+	{
+		name: 'Fast',
+		website: '',
+		category: 'Lattices',
+		assumption: '',
+		versions: [
+			{
+				version: 'v',
+				date: '2025-01-01',
+				status: 'On-ramp',
+				parametersets: [{ name: 'f', level: 1, pk: 1, sig: 2, signing_cycles: 2500, verification_cycles: 5000 }]
+			}
+		]
+	},
+	{
+		name: 'Sized',
+		website: '',
+		category: 'Lattices',
+		assumption: '',
+		versions: [
+			{
+				version: 'v',
+				date: '2026-09-20',
+				status: 'NGCC',
+				parametersets: [{ name: 's', ngcc_level: 128, pk: 3, sig: 4 }]
+			}
+		]
+	}
 ];
 const rows = processYamlSchemes(SIGS).parameterSets;
 
@@ -25,8 +51,16 @@ describe('sigAxisValue', () => {
 
 describe('kemAxisValue', () => {
 	it('uses measured µs, else cycles', () => {
-		const [k] = processKemSchemes([{ name: 'K', website: '', category: 'Lattices', assumption: '', status: 'x',
-			parametersets: [{ name: 'k', level: 1, pk: 1, ct: 1, encaps_us: 7, decaps_cycles: 2500 }] }]).parameterSets;
+		const [k] = processKemSchemes([
+			{
+				name: 'K',
+				website: '',
+				category: 'Lattices',
+				assumption: '',
+				status: 'x',
+				parametersets: [{ name: 'k', level: 1, pk: 1, ct: 1, encaps_us: 7, decaps_cycles: 2500 }]
+			}
+		]).parameterSets;
 		expect(kemAxisValue(k, 'encapsTime')).toBe(7);
 		expect(kemAxisValue(k, 'decapsTime')).toBe(1);
 		expect(kemAxisValue(k, 'keygenTime')).toBeNull();

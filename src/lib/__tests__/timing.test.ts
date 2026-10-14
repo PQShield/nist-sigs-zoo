@@ -16,8 +16,13 @@ describe('displayUs', () => {
 
 describe('sigTimes / kemTimes', () => {
 	it('derive every displayed time of a row', () => {
-		expect(sigTimes({ signingUs: null, signingCycles: 2500, verificationUs: 3, verificationCycles: 0 })).toEqual({ sign: 1, verify: 3 });
-		expect(kemTimes({ keygenUs: null, keygenCycles: 0, encapsUs: 2, encapsCycles: 0, decapsUs: null, decapsCycles: 5000 })).toEqual({ keygen: null, encaps: 2, decaps: 2 });
+		expect(sigTimes({ signingUs: null, signingCycles: 2500, verificationUs: 3, verificationCycles: 0 })).toEqual({
+			sign: 1,
+			verify: 3
+		});
+		expect(
+			kemTimes({ keygenUs: null, keygenCycles: 0, encapsUs: 2, encapsCycles: 0, decapsUs: null, decapsCycles: 5000 })
+		).toEqual({ keygen: null, encaps: 2, decaps: 2 });
 	});
 });
 

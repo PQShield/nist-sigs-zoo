@@ -57,9 +57,7 @@ export function omittedNote(n: number): string {
 }
 
 /** Tooltip entries for operation times: formatted like the tables, marked when extrapolated from cycles. */
-export function timeTooltip(
-	ops: { label: string; us: number | null; cycles: number }[]
-): Record<string, string> {
+export function timeTooltip(ops: { label: string; us: number | null; cycles: number }[]): Record<string, string> {
 	const out: Record<string, string> = {};
 	for (const { label, us, cycles } of ops) {
 		const t = displayUs(us, cycles);

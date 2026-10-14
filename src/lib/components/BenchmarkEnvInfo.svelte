@@ -7,17 +7,15 @@
 		new Date(env.date).toLocaleDateString('en-GB', {
 			year: 'numeric',
 			month: 'long',
-			day: 'numeric',
-		}),
+			day: 'numeric'
+		})
 	);
 </script>
 
 <section
 	class="rounded border border-pqs-ashgray bg-white p-4 text-xs text-pqs-midnight dark:border-pqs-steel dark:bg-pqs-midnight-mid dark:text-pqs-smoke"
 >
-	<h2 class="mb-3 font-heading text-base font-semibold text-pqs-steel dark:text-pqs-apricot">
-		Benchmark environment
-	</h2>
+	<h2 class="mb-3 font-heading text-base font-semibold text-pqs-steel dark:text-pqs-apricot">Benchmark environment</h2>
 
 	<div class="grid gap-x-8 gap-y-1 sm:grid-cols-2">
 		<div class="flex gap-2">
@@ -53,7 +51,7 @@
 	{#if env.sources && Object.keys(env.sources).length > 0}
 		<details class="mt-3">
 			<summary
-				class="cursor-pointer select-none font-heading text-xs font-semibold text-pqs-steel hover:text-pqs-apricot dark:text-pqs-bluegray dark:hover:text-pqs-apricot"
+				class="cursor-pointer font-heading text-xs font-semibold text-pqs-steel select-none hover:text-pqs-apricot dark:text-pqs-bluegray dark:hover:text-pqs-apricot"
 			>
 				Implementation sources ▸
 			</summary>

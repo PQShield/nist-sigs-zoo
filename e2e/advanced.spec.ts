@@ -15,7 +15,7 @@ test.describe('Advanced page', () => {
 		await expect(back).toBeVisible();
 		await back.click();
 		await expect(page.locator('h1')).toHaveText('Post-Quantum Signature Schemes', {
-			timeout: 15_000,
+			timeout: 15_000
 		});
 	});
 
@@ -33,11 +33,13 @@ test.describe('Advanced page', () => {
 
 	test('Vega scatter plot renders', async ({ page }) => {
 		await page.goto('/signatures/advanced/');
-		await page.waitForFunction(
-			() => [...document.querySelectorAll('svg')].some((s) => s.querySelector('g')),
-			{ timeout: 15_000 }
-		);
-		const vegaSvg = page.locator('svg').filter({ has: page.locator('g') }).first();
+		await page.waitForFunction(() => [...document.querySelectorAll('svg')].some((s) => s.querySelector('g')), {
+			timeout: 15_000
+		});
+		const vegaSvg = page
+			.locator('svg')
+			.filter({ has: page.locator('g') })
+			.first();
 		await expect(vegaSvg).toBeVisible();
 	});
 

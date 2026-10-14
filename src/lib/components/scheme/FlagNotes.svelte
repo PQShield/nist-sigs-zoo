@@ -16,16 +16,26 @@
 
 {#if notes.length > 0}
 	<section aria-labelledby="flags-heading" class="mt-8">
-		<h2 id="flags-heading" class="font-heading text-xl font-bold text-pqs-midnight dark:text-pqs-smoke">Security flags</h2>
+		<h2 id="flags-heading" class="font-heading text-xl font-bold text-pqs-midnight dark:text-pqs-smoke">
+			Security flags
+		</h2>
 		<ul class="mt-3 space-y-2">
 			{#each notes as note (note.kind + note.html)}
-				<li class="rounded px-3 py-2.5 text-sm leading-relaxed text-pqs-midnight dark:text-pqs-smoke [&_a]:text-pqs-apricot [&_a]:underline {TONE[note.kind]}">
+				<li
+					class="rounded px-3 py-2.5 text-sm leading-relaxed text-pqs-midnight dark:text-pqs-smoke [&_a]:text-pqs-apricot [&_a]:underline {TONE[
+						note.kind
+					]}"
+				>
 					<BadgeIcon kind={note.kind} />
 					<strong class="font-heading">{note.title}</strong>
-					<span class="text-pqs-steel dark:text-pqs-bluegray">({note.allSets ? 'all parameter sets' : note.sets.join(', ')})</span>:
+					<span class="text-pqs-steel dark:text-pqs-bluegray"
+						>({note.allSets ? 'all parameter sets' : note.sets.join(', ')})</span
+					>:
 					{@html note.html}
 					{#if note.href}
-						<a href={note.href} target="_blank" rel="noopener noreferrer">Full findings report<span class="sr-only"> (opens in a new tab)</span></a>
+						<a href={note.href} target="_blank" rel="noopener noreferrer"
+							>Full findings report<span class="sr-only"> (opens in a new tab)</span></a
+						>
 					{/if}
 				</li>
 			{/each}

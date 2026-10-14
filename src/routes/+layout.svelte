@@ -9,9 +9,7 @@
 
 	let { children } = $props();
 
-	const themeIcon = $derived(
-		$themeStore === 'dark' ? '🌙' : $themeStore === 'light' ? '☀️' : '🖥️'
-	);
+	const themeIcon = $derived($themeStore === 'dark' ? '🌙' : $themeStore === 'light' ? '☀️' : '🖥️');
 	const themeLabel = $derived(`Theme: ${$themeStore} — click to cycle`);
 
 	const path = $derived($page.url.pathname.slice(base.length));
@@ -50,7 +48,9 @@
 					<a
 						href="{base}/{item.href}"
 						aria-current={path.startsWith('/' + item.href) ? 'page' : undefined}
-						class="transition-colors hover:text-pqs-apricot {path.startsWith('/' + item.href) ? 'text-white' : 'text-pqs-bluegray'}"
+						class="transition-colors hover:text-pqs-apricot {path.startsWith('/' + item.href)
+							? 'text-white'
+							: 'text-pqs-bluegray'}"
 					>
 						{item.label}
 					</a>
@@ -59,7 +59,7 @@
 					href="https://github.com/pqshield/nist-sigs-zoo"
 					target="_blank"
 					rel="noopener noreferrer"
-					class="text-pqs-bluegray hover:text-pqs-apricot transition-colors"
+					class="text-pqs-bluegray transition-colors hover:text-pqs-apricot"
 				>
 					Contribute ↗<span class="sr-only"> (opens in a new tab)</span>
 				</a>
@@ -67,7 +67,7 @@
 					onclick={() => themeStore.toggle()}
 					aria-label={themeLabel}
 					title={themeLabel}
-					class="rounded px-2 py-1 text-base text-pqs-bluegray hover:text-white hover:bg-pqs-steel transition-colors"
+					class="rounded px-2 py-1 text-base text-pqs-bluegray transition-colors hover:bg-pqs-steel hover:text-white"
 				>
 					{themeIcon}
 				</button>
@@ -79,7 +79,7 @@
 					onclick={() => themeStore.toggle()}
 					aria-label={themeLabel}
 					title={themeLabel}
-					class="rounded px-2 py-1 text-base text-pqs-bluegray hover:text-white hover:bg-pqs-steel transition-colors"
+					class="rounded px-2 py-1 text-base text-pqs-bluegray transition-colors hover:bg-pqs-steel hover:text-white"
 				>
 					{themeIcon}
 				</button>
@@ -87,14 +87,28 @@
 					onclick={() => (menuOpen = !menuOpen)}
 					aria-label="Toggle menu"
 					aria-expanded={menuOpen}
-					class="rounded p-1.5 text-pqs-bluegray hover:text-white hover:bg-pqs-steel transition-colors"
+					class="rounded p-1.5 text-pqs-bluegray transition-colors hover:bg-pqs-steel hover:text-white"
 				>
 					{#if menuOpen}
-						<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							class="h-6 w-6"
+							fill="none"
+							viewBox="0 0 24 24"
+							stroke="currentColor"
+							stroke-width="2"
+						>
 							<path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
 						</svg>
 					{:else}
-						<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							class="h-6 w-6"
+							fill="none"
+							viewBox="0 0 24 24"
+							stroke="currentColor"
+							stroke-width="2"
+						>
 							<path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
 						</svg>
 					{/if}
@@ -104,14 +118,16 @@
 
 		<!-- Mobile dropdown -->
 		{#if menuOpen}
-			<div class="border-t border-pqs-steel/30 px-6 pb-4 pt-3 font-heading text-sm md:hidden">
+			<div class="border-t border-pqs-steel/30 px-6 pt-3 pb-4 font-heading text-sm md:hidden">
 				<div class="flex flex-col gap-3">
 					{#each NAV as item (item.href)}
 						<a
 							href="{base}/{item.href}"
 							onclick={closeMenu}
 							aria-current={path.startsWith('/' + item.href) ? 'page' : undefined}
-							class="transition-colors hover:text-pqs-apricot {path.startsWith('/' + item.href) ? 'text-white' : 'text-pqs-bluegray'}"
+							class="transition-colors hover:text-pqs-apricot {path.startsWith('/' + item.href)
+								? 'text-white'
+								: 'text-pqs-bluegray'}"
 						>
 							{item.label}
 						</a>
@@ -121,7 +137,7 @@
 						target="_blank"
 						rel="noopener noreferrer"
 						onclick={closeMenu}
-						class="text-pqs-bluegray hover:text-pqs-apricot transition-colors"
+						class="text-pqs-bluegray transition-colors hover:text-pqs-apricot"
 					>
 						Contribute ↗<span class="sr-only"> (opens in a new tab)</span>
 					</a>
@@ -134,13 +150,13 @@
 		{@render children()}
 	</main>
 
-	<footer class="mt-8 border-t border-pqs-bluegray/30 bg-pqs-midnight px-6 py-6 text-xs text-pqs-bluegray dark:border-pqs-steel">
+	<footer
+		class="mt-8 border-t border-pqs-bluegray/30 bg-pqs-midnight px-6 py-6 text-xs text-pqs-bluegray dark:border-pqs-steel"
+	>
 		<div class="mx-auto max-w-[120rem] space-y-1">
 			<p>
-        Built by Thom Wiggers / PQShield.
-				Data licensed under
-				<a href="{base}/LICENSE.md" class="text-pqs-apricot hover:underline">CC BY-SA 4.0</a>.
-        Data last changed {lastDataChange}.
+				Built by Thom Wiggers / PQShield. Data licensed under
+				<a href="{base}/LICENSE.md" class="text-pqs-apricot hover:underline">CC BY-SA 4.0</a>. Data last changed {lastDataChange}.
 			</p>
 			<p>
 				<a

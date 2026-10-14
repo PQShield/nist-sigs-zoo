@@ -179,18 +179,18 @@ export interface KemParameterSet {
 }
 
 export type KemAxisField =
-    | 'pk'
-    | 'ct'
-    | 'pkPlusCt'
-    | 'keygenCycles'
-    | 'encapsCycles'
-    | 'decapsCycles'
-    | 'keygenUs'
-    | 'encapsUs'
-    | 'decapsUs'
-    | 'keygenTime'
-    | 'encapsTime'
-    | 'decapsTime';
+	| 'pk'
+	| 'ct'
+	| 'pkPlusCt'
+	| 'keygenCycles'
+	| 'encapsCycles'
+	| 'decapsCycles'
+	| 'keygenUs'
+	| 'encapsUs'
+	| 'decapsUs'
+	| 'keygenTime'
+	| 'encapsTime'
+	| 'decapsTime';
 
 export interface KemDataRanges {
 	pk: [number, number];
@@ -253,8 +253,15 @@ export interface HistoryEntry {
 
 /** `signingTime` / `verificationTime`: displayed µs (measured, else extrapolated from cycles). */
 export type AxisField =
-	| 'pk' | 'sig' | 'pkPlusSig' | 'signingCycles' | 'verificationCycles' | 'signingUs' | 'verificationUs'
-	| 'signingTime' | 'verificationTime';
+	| 'pk'
+	| 'sig'
+	| 'pkPlusSig'
+	| 'signingCycles'
+	| 'verificationCycles'
+	| 'signingUs'
+	| 'verificationUs'
+	| 'signingTime'
+	| 'verificationTime';
 export type ScaleType = 'log' | 'linear';
 
 export interface FilterState extends CompareFilter {
@@ -365,14 +372,7 @@ export interface StageFilter {
 
 /** Programme filter buckets on the compare pages (see rowProgrammeGroups in compareFilters.ts). */
 export type ProgrammeGroup =
-	| 'nist-standards'
-	| 'nist-pqc-rounds'
-	| 'nist-onramp'
-	| 'china-ngcc'
-	| 'kpqc'
-	| 'iso'
-	| 'research'
-	| 'pre-quantum';
+	'nist-standards' | 'nist-pqc-rounds' | 'nist-onramp' | 'china-ngcc' | 'kpqc' | 'iso' | 'research' | 'pre-quantum';
 
 export type ChartMode = 'sizes' | 'speed';
 

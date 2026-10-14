@@ -24,8 +24,13 @@ function programmesByScheme(): Map<string, Set<string>> {
 		index.set(name, set);
 	};
 	for (const f of yamlFiles('schemes')) {
-		const s = load<{ name: string; versions: { programmes?: Record<string, unknown> }[] }>(path.join(DATA, 'schemes', f));
-		add(s.name, s.versions.flatMap((v) => Object.keys(v.programmes ?? {})));
+		const s = load<{ name: string; versions: { programmes?: Record<string, unknown> }[] }>(
+			path.join(DATA, 'schemes', f)
+		);
+		add(
+			s.name,
+			s.versions.flatMap((v) => Object.keys(v.programmes ?? {}))
+		);
 	}
 	for (const f of yamlFiles('kems')) {
 		const k = load<{ name: string; programmes?: Record<string, unknown> }>(path.join(DATA, 'kems', f));
@@ -114,7 +119,9 @@ test.describe('timeline', () => {
 	test('no horizontal page scroll at 390px', async ({ page }) => {
 		await page.setViewportSize({ width: 390, height: 800 });
 		await open(page, '/timeline/');
-		const overflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
+		const overflow = await page.evaluate(
+			() => document.documentElement.scrollWidth - document.documentElement.clientWidth
+		);
 		expect(overflow).toBeLessThanOrEqual(0);
 	});
 });

@@ -83,11 +83,13 @@ test.describe('KEMs page', () => {
 
 	test('Vega scatter plot renders', async ({ page }) => {
 		await page.goto('/kems/');
-		await page.waitForFunction(
-			() => [...document.querySelectorAll('svg')].some((s) => s.querySelector('g')),
-			{ timeout: 15_000 }
-		);
-		const vegaSvg = page.locator('svg').filter({ has: page.locator('g') }).first();
+		await page.waitForFunction(() => [...document.querySelectorAll('svg')].some((s) => s.querySelector('g')), {
+			timeout: 15_000
+		});
+		const vegaSvg = page
+			.locator('svg')
+			.filter({ has: page.locator('g') })
+			.first();
 		await expect(vegaSvg).toBeVisible();
 	});
 
@@ -197,7 +199,13 @@ test.describe('KEMs page', () => {
 
 	test('KEM filters have the same sections as the signatures page', async ({ page }) => {
 		await page.goto('/kems/');
-		for (const name of ['Programme', 'NIST category', 'NGCC target (classical bits)', 'Parameter sets', 'Security status']) {
+		for (const name of [
+			'Programme',
+			'NIST category',
+			'NGCC target (classical bits)',
+			'Parameter sets',
+			'Security status'
+		]) {
 			await expect(page.getByRole('group', { name })).toBeVisible();
 		}
 		await expect(page.getByRole('button', { name: 'Reset filters' })).toBeVisible();
