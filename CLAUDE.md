@@ -4,7 +4,9 @@ This file provides guidance to Claude Code when working with code in this reposi
 
 ## Overview
 
-Static website comparing post-quantum signature schemes submitted to the NIST on-ramp.
+Static website comparing post-quantum signature schemes and KEMs across standardisation
+programmes (NIST PQC and the NIST signature on-ramp, KpqC, China NGCC, ISO; see
+`data/programmes.yaml`), with scheme, programme and timeline pages.
 Built with SvelteKit (adapter-static) + Tailwind CSS v4 + TypeScript.
 Deploy: `npm run build` → `dist/`. GitHub Actions deploys to GitHub Pages.
 
@@ -12,7 +14,8 @@ Deploy: `npm run build` → `dist/`. GitHub Actions deploys to GitHub Pages.
 
 - **Framework**: SvelteKit 2 + Svelte 5 (runes mode), adapter-static → `dist/`
 - **CSS**: Tailwind CSS v4 via `@tailwindcss/vite`
-- **Charts**: Vega-Lite (log-log scatter of pk vs sig size)
+- **Charts**: Vega-Lite scatter plots (Sizes: pk vs sig/ct; Speed: operation times; the advanced
+  pages choose axes and log/linear scales)
 - **Language**: TypeScript throughout
 
 ## Development
@@ -26,7 +29,7 @@ npm run lint      # ESLint (eslint.config.js)
 npm run format    # Prettier: rewrite JS/TS/Svelte/CSS/JSON/workflow YAML in place
 npm run format:check
 uvx ruff check --fix && uvx ruff format   # Python under bench*/ and scripts/ (ruff.toml)
-shellcheck -S warning scripts/*.sh scripts/ngcc-run scripts/ngcc-container/*.sh bench*/run_bench.sh  # shell (CI runs this)
+shellcheck -S warning scripts/*.sh scripts/ngcc-run scripts/ngcc-container/*.sh bench*/run_bench.sh bench-kem/schemes/*/build_libs.sh  # shell (CI runs this)
 ```
 
 ### Style
@@ -34,7 +37,7 @@ shellcheck -S warning scripts/*.sh scripts/ngcc-run scripts/ngcc-container/*.sh 
 The formatters are the source of truth: don't hand-match style, run `npm run format` and
 `uvx ruff format` (plus `uvx ruff check --fix`) before committing; CI fails on unformatted
 code or lint errors. Prettier (`.prettierrc`: tabs, single quotes, no trailing commas,
-width 120, Tailwind class sorting) skips `data/`, `static/`, `round-1/`, `bench*/` and
+width 120, Tailwind class sorting) skips `data/`, `static/`, `bench*/` and
 Markdown (see `.prettierignore`). ESLint rules that do not fit this codebase are switched
 off in `eslint.config.js` with a reason; prefer that over inline disable comments. Ruff
 targets Python 3.10, line length 88, and excludes vendored sources (`bench*/schemes/*/ref`,
@@ -74,8 +77,10 @@ Vitest with node environment. Tests pure TypeScript functions only — no Svelte
 - `schemeHistory.test.ts`, `dates.test.ts` — history slice; date format (`fmtDate`, the single formatter, partial dates)
 - `schemePage.test.ts` — scheme page model
 - `chartNav.test.ts` — chart click vs. drag
-- `timeline.test.ts` — entry programmes, timeline filter and URL codec; `urlSync.test.ts` — when the URL sync is skipped
-- `html.test.ts` — HTML sanitising; `dataFiles.test.ts` — validates `data/**/*.yaml` (incl. history dates/types/programmes and programme primitives)
+- `timeline.test.ts` — entry programmes, timeline filter and URL codec; `urlSync.test.ts` — when the URL sync is skipped or rescheduled
+- `ngccCandidates.test.ts` — `data/ngcc/candidates.yaml` claims vs. the generated NGCC YAML (incl. KAT notes, `dnf`)
+- `lastDataChange.test.ts` — the "data last changed" date
+- `html.test.ts` — stripping tags / decoding entities for text contexts (tooltips, titles; not a sanitiser for `{@html}`); `dataFiles.test.ts` — validates `data/**/*.yaml` (incl. history dates/types/programmes and programme primitives)
 
 **Adding unit tests:** create `src/lib/__tests__/<module>.test.ts`. Import directly from `$lib/...`.
 Pass mock `SchemeYaml[]` objects to `processYamlSchemes` — no fixture files needed.
@@ -106,14 +111,14 @@ Schema per file:
 ```yaml
 name: SchemeName
 website: https://...
-category: Lattice | Multivariate | Hash-based | ...
+category: Lattices | Code-based | Multivariate | Symmetric | MPCitH | Isogenies | Other | Pre-Quantum
 assumption: ...
 slug: ntru-plus        # optional; URL slug for /schemes/<slug>/. Default: slugify(name). Needed only
                        # when two schemes (signature or KEM) clash or the name has no ASCII letters/digits
 versions:
   - version: "FIPS 206"        # human-readable version label
     date: "2024-08-13"         # ISO date, used to pick latest
-    status: Standardized | On-ramp
+    status: On-ramp | FIPS | NGCC round 1 | KpqC selected | ...   # free text shown on the site
     programmes:                # programme id → stage id (see data/programmes.yaml)
       nist-onramp: round-3     # omit entirely for reference schemes (pre-quantum)
                                # a stage may be a list, e.g. [round-2, round-3], when one version spans several stages
@@ -218,7 +223,7 @@ Benchmark fields are optional and produced by `bench-kem/update_scheme_data.py` 
 `bench-kem/results/*.txt` run; that script also writes `data/kem_benchmark_env.yaml`
 (loaded as `kemBenchmarkEnv`, shown via `BenchmarkEnvInfo` on the page). The table shows
 keygen/encaps/decaps µs; when only cycles are present the time is extrapolated (wavy
-underline) at `KEM_CPUSPEED` (2.5 GHz).
+underline) at `CPUSPEED` (2.5 GHz).
 
 Flags (`broken`/`warning`/`info`) set at scheme level apply to all parameter sets, overridable
 per parameter set. Loaded via `import.meta.glob` in `src/lib/kemSchemeData.ts`; flattened by
@@ -247,7 +252,8 @@ ICCS placeholder-hash use and KAT status from `<suite>/schemes/ngcc/status.tsv`;
 other than `PASS` also sets the parameter set's `info` flag (a visible "note" badge).
 `src/lib/__tests__/ngccCandidates.test.ts` validates the claims and their agreement with the
 generated files. ngcc.dev data is cross-check only; findings links/flags are added only with
-Thom's sign-off. No NGCC timings exist yet (they come from our own AWS runs).
+Thom's sign-off. NGCC timings come only from our own AWS runs (the 2026-10-13 runs on
+`c7i.4xlarge`, Xeon Platinum 8488C), imported with the suites' `update_scheme_data.py`.
 
 ## Architecture
 
@@ -262,7 +268,7 @@ src/
 ├── lib/
 │   ├── types.ts          # Scheme, ParameterSet, SchemeYaml, VersionYaml, FilterState, Kem* types
 │   ├── constants.ts      # CPUSPEED, NIST_LEVELS
-│   ├── data.ts           # processYamlSchemes() — tag-filtered YAML → Scheme[] + ParameterSet[]
+│   ├── data.ts           # processYamlSchemes() — stage-filtered (programmes) YAML → Scheme[] + ParameterSet[]
 │   ├── kemData.ts        # processKemSchemes() — KEM YAML → KemScheme[] + KemParameterSet[] (pure)
 │   ├── compareFilters.ts # programme groups, CommonFilter predicate + URL codec (both compare pages)
 │   ├── compare.ts        # generic compare helpers: FilterSpec/TableSpec/ChartSpec/CompareConfig types,
@@ -286,6 +292,9 @@ src/
 │   ├── timeline.ts       # timeline: scheme→programme index, entry programmes, filter, URL codec (p, t)
 │   ├── urlSync.ts        # urlSyncTarget(): debounced filter→URL sync skips no-op and in-flight navigations
 │   ├── dates.ts          # fmtDate: the single date formatter (YYYY, YYYY-MM, YYYY-MM-DD)
+│   ├── dataDates.ts / lastDataChange.ts  # "data last changed" date
+│   ├── format.ts         # number / cycle / time formatters
+│   ├── html.ts           # strip tags / decode entities for text contexts (not a sanitiser)
 │   ├── schemePage.ts     # scheme page model (pure): header, tables, flag notes, events
 │   ├── chartNav.ts       # chart point click → scheme page; attachChartNav (capturing pointerdown tells click from drag)
 │   ├── schemeData.ts     # import.meta.glob loader → allSchemeData: SchemeYaml[]
@@ -329,7 +338,7 @@ src/
         └── advanced/     # ComparePage with KEMS, advanced
 
 src/lib/__tests__/       # Vitest unit tests (vitest.config.ts): badges, chartData, chartLegend,
-                         # compare, compareFilters, data, dataFiles, signatureFilter, html, kemData, legacy,
+                         # compare, compareFilters, data, dataFiles, signatureFilter, html, kemData, legacy, ngccCandidates, lastDataChange,
                          # programmePage, programmeRegistry, programmes, timing, slugs, versionCompare, schemeHistory,
                          # dates, schemePage, chartNav, timeline, urlSync
 e2e/                     # Playwright E2E tests (playwright.config.ts)
@@ -474,8 +483,9 @@ stays `Pre-Quantum`.
 
 ### Performance Data
 
-Cycles extrapolated from ms values use `CPUSPEED = 2_500_000_000` (2.5 GHz).
-Extrapolated values shown with wavy red underline (`decoration-wavy decoration-red-500`).
+Cycles ↔ µs extrapolation uses `CPUSPEED = 2_500_000_000` (2.5 GHz; `CYCLES_PER_US` in
+`src/lib/constants.ts`), for signatures and KEMs alike. Extrapolated values are shown with a wavy
+underline (`decoration-wavy decoration-pqs-scarlet`).
 A parameter set with `dnf:` (benchmark did not finish) shows "timeout" (reasons `timeout`,
 `operation-over-<n>s`; also NGCC `iters skip` sets) or "DNF" in its timing cells, with the exact
 reason as title (`dnfCell()` in `src/lib/timing.ts`; compare tables, scheme pages, chart tooltips);
@@ -537,7 +547,7 @@ sets `NGCC_BUILD=1` on the VM; without it NGCC instances are skipped.
   each NGCC instance at about 30 s of timed work (floor 10, or 5 above 60 s per
   iteration). Estimated runtime on a laptop-class core: signatures ~320 min, KEMs ~130 min
   for the NGCC instances alone, plus build time and the non-NGCC schemes.
-  Crashing or hanging schemes (e.g. SQISign2Dsquare-*, SQIsign2D-lvl2) become DNF rows
+  Crashing, hanging or failing schemes (e.g. Tins*, failed warm-up check; TRINE-512-Balanced, timeout) become DNF rows
   and the run continues (`BENCH_TIMEOUT`, default 3600 s per scheme, is forwarded). QCTM512 and
   vistrutith-d3-512s take 10 min per iteration; the TTL fetches partial results.
   Smoke runs of NGCC code go through `scripts/ngcc-run` only (never the host).
@@ -567,7 +577,3 @@ third-party actions). A sticky PR comment (`actions/github-script`) links
 `CLOUDFLARE_API_TOKEN` (Account → Cloudflare Pages → Edit) and `CLOUDFLARE_ACCOUNT_ID`.
 Fork PRs are skipped (no secrets). Production stays on GitHub Pages; `main` is never
 deployed to Cloudflare.
-
-## round-1/
-
-Contains a standalone snapshot of round-1 data. **Do not modify.** Served at `/round-1/`.
