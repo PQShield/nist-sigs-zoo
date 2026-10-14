@@ -5,11 +5,11 @@ import { stripHtml } from './html';
 import type { Primitive } from './slugs';
 import { displayUs } from './timing';
 import {
-	presentProgrammeGroups,
 	decodeCommonFilters,
 	defaultCommonFilter,
 	encodeCommonFilters,
 	passesCommonFilters,
+	presentProgrammeGroups,
 	type FilterableRow
 } from './compareFilters';
 
@@ -244,7 +244,13 @@ export function filterCompareRows<R extends FilterableRow & { scheme: string }, 
 const LEVEL_ORDER: Record<string, number> = { 'Pre-Quantum': 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5 };
 
 /** Sort comparator: time columns keep rows without data last regardless of direction. */
-export function compareRows<R, G, F extends CompareFilter>(spec: FilterSpec<R, G, F>, a: R, b: R, col: string, dir: SortDir): number {
+export function compareRows<R, G, F extends CompareFilter>(
+	spec: FilterSpec<R, G, F>,
+	a: R,
+	b: R,
+	col: string,
+	dir: SortDir
+): number {
 	const time = Object.hasOwn(spec.timeSort, col) ? spec.timeSort[col] : undefined;
 	if (time) {
 		const av = time(a);
@@ -269,7 +275,12 @@ export function compareRows<R, G, F extends CompareFilter>(spec: FilterSpec<R, G
 	return dir === 'asc' ? cmp : -cmp;
 }
 
-export function sortCompareRows<R, G, F extends CompareFilter>(spec: FilterSpec<R, G, F>, rows: R[], col: string, dir: SortDir): R[] {
+export function sortCompareRows<R, G, F extends CompareFilter>(
+	spec: FilterSpec<R, G, F>,
+	rows: R[],
+	col: string,
+	dir: SortDir
+): R[] {
 	return [...rows].sort((a, b) => compareRows(spec, a, b, col, dir));
 }
 

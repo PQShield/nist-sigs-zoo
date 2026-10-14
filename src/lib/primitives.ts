@@ -23,10 +23,23 @@ export const SIGNATURE_FILTER: FilterSpec<ParameterSet, DataRanges, FilterState>
 		{ field: 'Sig', url: 'sig', label: 'sig', section: SIZES, value: (r) => r.sig, range: (g) => g.sig },
 		{ field: 'PkPlusSig', url: 'ps', label: 'pk+sig', section: SIZES, value: (r) => r.pkPlusSig, range: (g) => g.pkPlusSig },
 		// Unbenchmarked rows (0 cycles) pass the cycle filters.
-		{ field: 'SigningCycles', url: 'sc', label: 'signing', section: CYCLES, value: (r) => (r.signingCycles > 0 ? r.signingCycles : null), range: (g) => g.signingCycles },
-		{ field: 'VerificationCycles', url: 'vc', label: 'verification', section: CYCLES, value: (r) => (r.verificationCycles > 0 ? r.verificationCycles : null), range: (g) => g.verificationCycles },
-		{ field: 'SigningUs', url: 'su', label: 'signing µs', section: US, value: (r) => r.signingUs, range: (g) => g.signingUs },
-		{ field: 'VerificationUs', url: 'vu', label: 'verification µs', section: US, value: (r) => r.verificationUs, range: (g) => g.verificationUs }
+		{
+			field: 'SigningCycles', url: 'sc', label: 'signing', section: CYCLES,
+			value: (r) => (r.signingCycles > 0 ? r.signingCycles : null), range: (g) => g.signingCycles
+		},
+		{
+			field: 'VerificationCycles', url: 'vc', label: 'verification', section: CYCLES,
+			value: (r) => (r.verificationCycles > 0 ? r.verificationCycles : null), range: (g) => g.verificationCycles
+		},
+		// Raw measured µs (not extrapolated from cycles), unlike the KEM time bounds.
+		{
+			field: 'SigningUs', url: 'su', label: 'signing µs', section: US,
+			value: (r) => r.signingUs, range: (g) => g.signingUs
+		},
+		{
+			field: 'VerificationUs', url: 'vu', label: 'verification µs', section: US,
+			value: (r) => r.verificationUs, range: (g) => g.verificationUs
+		}
 	],
 	defaultSort: 'scheme',
 	sortInUrl: true,

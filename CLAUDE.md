@@ -37,8 +37,9 @@ npm run test:e2e      # E2E tests (Playwright, builds site first)
 Vitest with node environment. Tests pure TypeScript functions only — no Svelte components, no browser.
 
 - `data.test.ts` — `processYamlSchemes()`: stage filtering, version selection, field computation, flag propagation
-- `kemData.test.ts` — `processKemSchemes()`, KEM ranges/filter helpers
-- `filterStore.test.ts` — `buildUrlParams()`: URL encoding of filter state
+- `kemData.test.ts` — `processKemSchemes()`, KEM ranges, KEM filter/URL codec via `KEM_FILTER`
+- `compare.test.ts` — generic compare helpers: filter defaults/codec/bounds, sort, tooltip, axes
+- `signatureFilter.test.ts` — the signature filter, URL codec and sort via `SIGNATURE_FILTER`
 - `compareFilters.test.ts` — programme groups, `CommonFilter` predicate, common URL codec
 - `badges.test.ts` — badge derivation and programme chips
 - `chartData.test.ts`, `chartLegend.test.ts` — chart axis values; legend + colour/shape scales
@@ -196,16 +197,11 @@ underline) at `KEM_CPUSPEED` (2.5 GHz).
 
 Flags (`broken`/`warning`/`info`) set at scheme level apply to all parameter sets, overridable
 per parameter set. Loaded via `import.meta.glob` in `src/lib/kemSchemeData.ts`; flattened by
-`processKemSchemes()` in `src/lib/kemData.ts` (pure, unit-tested). The page is self-contained
-and does **not** reuse the signature `filterStore` singleton: `kemData.ts` also exports pure
-`computeKemRanges()` / `defaultKemFilter()` / `filterKemRows()`, the page holds filter state in a
-`$state` rune and derives `filteredRows`, and `KemFilterPanel` (scheme/level/size/time, `bind:filter`),
-`KemTable` (local sort) and `KemScatterPlot` (pk vs ct) all take plain props.
+`processKemSchemes()` in `src/lib/kemData.ts` (pure, unit-tested); `computeKemRanges()` gives the
+filter bounds. The page is the shared `ComparePage` with the `KEMS` config (see Compare pages).
 
-Both compare pages share programme, NIST/NGCC level, Recommended/All and "Hide …" filters
-(`CommonFilter`), the table layout (Programmes column, badge detail rows, `TableLegend`) and the
-chart (HTML legend, Sizes/Speed toggle). NGCC targets have their own filter group and purple
-colour scale and are never mapped onto NIST levels.
+NGCC targets have their own filter group and purple colour scale and are never mapped onto NIST
+levels.
 
 ### China NGCC
 
@@ -243,12 +239,15 @@ src/
 │   ├── data.ts           # processYamlSchemes() — tag-filtered YAML → Scheme[] + ParameterSet[]
 │   ├── kemData.ts        # processKemSchemes() — KEM YAML → KemScheme[] + KemParameterSet[] (pure)
 │   ├── compareFilters.ts # programme groups, CommonFilter predicate + URL codec (both compare pages)
+│   ├── compare.ts        # generic compare helpers: FilterSpec/TableSpec/ChartSpec/CompareConfig types,
+│   │                     # filter defaults, URL codec, row filter + sort, chart tooltip, advanced axes
+│   ├── primitives.ts     # the two configs: SIGNATURES (SIGNATURE_FILTER) and KEMS (KEM_FILTER)
+│   ├── compareData.ts    # loaders: signatureCompareData(round), kemCompareData()
 │   ├── badges.ts         # security badges (incl. implementation findings) + Programmes-column chips
 │   ├── chartLegend.ts    # family shapes, NIST + NGCC colour scales, HTML legend groups
 │   ├── chartData.ts      # axis values, leaving out unbenchmarked rows (Speed view); timeTooltip() marks estimated times
 │   ├── timing.ts         # displayed µs (measured, else extrapolated from cycles)
-│   ├── filterStore.ts    # Svelte writable store + derived filteredRows + URL codec
-│   ├── roundStore.ts     # writable<'round-1'|'round-2'|'round-3'|'latest'> — drives dataset selection
+│   ├── roundStore.ts     # writable<'round-1'|'round-2'|'round-3'|'latest'>, roundToFilter, `r` param codec
 │   ├── legacy.ts         # legacyHomeRedirect / legacyPathRedirect (old URL forwarding)
 │   ├── programmes.ts     # programme data model
 │   ├── programmeData.ts  # programme YAML loader
@@ -276,26 +275,22 @@ src/
 │       ├── OmittedNote.svelte    # "N parameter sets are not shown: not yet benchmarked" under both scatter plots
 │       ├── SegmentedToggle.svelte # generic fieldset of aria-pressed buttons (programme pages)
 │       ├── scheme/               # scheme page: SchemeHeader, ParamSetTable, FlagNotes, VersionCompare, SchemeEvents
-│       ├── programme/            # ProgrammeView, ProgrammeTimeline, SecurityLevelsTable, FindingsSummary, SignatureCandidates, KemCandidates
-│       ├── FilterPanel.svelte    # filter controls (categories, levels, ranges)
+│       ├── programme/            # ProgrammeView, ProgrammeTimeline, SecurityLevelsTable, FindingsSummary, ProgrammeCandidates
 │       ├── RangeField.svelte     # reusable number input
-│       ├── SchemeTable.svelte    # sortable table (one row per parameter set); scroll wrapper is `relative overflow-x-auto`
-│       ├── ScatterPlot.svelte    # Vega-Lite scatter plot; accepts xField/yField/xScale/yScale props
+│       ├── ComparePage.svelte    # whole compare page (both primitives, main + advanced): filter state, URL sync
+│       ├── CompareFilterPanel.svelte # programme/scheme/level/status filters + the config's size/time bounds
+│       ├── CompareTable.svelte   # sortable table (one row per parameter set); scroll wrapper is `relative overflow-x-auto`
+│       ├── CompareChart.svelte   # Vega-Lite scatter plot with legend; config + rows + x/y fields and scales
 │       ├── RoundSelect.svelte    # "On-ramp round" <select> in the programme filter, writes roundStore
-│       ├── LegacyRedirect.svelte # redirect stub body (meta refresh fallback + JS redirect keeping search/hash)
-│       ├── KemTable.svelte       # KEM size table (rows prop, local sort)
-│       ├── KemScatterPlot.svelte # KEM pk-vs-ct Vega-Lite scatter (rows prop)
-│       └── KemFilterPanel.svelte # KEM scheme/level/size/time filters (bind:filter)
+│       └── LegacyRedirect.svelte # redirect stub body (meta refresh fallback + JS redirect keeping search/hash)
 └── routes/
     ├── +layout.svelte    # nav (logo, Signatures, KEMs, Programmes, Timeline, Contribute, theme toggle; no round selector), footer
     ├── +page.ts          # load: programme summaries, scheme/KEM counts, 3 latest history entries
     ├── +page.svelte      # home: hero, programme table (names link to /programmes/<id>/), latest changes; forwards legacy /?filters links (legacyHomeRedirect)
     ├── signatures/
-    │   ├── +page.ts      # load: processYamlSchemes('round-3', {useLatestVersion:true}), createFilterStore
-    │   ├── +page.svelte  # page composition, round switching, URL state sync
-    │   └── advanced/
-    │       ├── +page.ts      # same load as signatures page
-    │       └── +page.svelte  # axis selectors, scale toggles, ScatterPlot, FilterPanel, SchemeTable
+    │   ├── +page.ts      # prerender only (no load: ComparePage reads the module glob)
+    │   ├── +page.svelte  # ComparePage with SIGNATURES, rounds, hero + performance note snippets
+    │   └── advanced/     # ComparePage with SIGNATURES, advanced
     ├── programmes/       # index (+page.ts: programmeCards) and [id]/ (entries() per registry id; {#key} ProgrammeView)
     ├── schemes/[slug]/   # one prerendered page per signature or KEM (entries() from schemeIndex):
     │                     # header, parameter sets, security flags, version comparison (signatures), history slice
@@ -303,12 +298,12 @@ src/
     ├── advanced/         # redirect stub → /signatures/advanced/ (LegacyRedirect)
     ├── history/          # redirect stub → /timeline/ (LegacyRedirect)
     └── kems/
-        ├── +page.ts      # load: processKemSchemes(allKemData); trailingSlash 'always'
-        ├── +page.svelte  # KEM hero, KemScatterPlot, KemTable
-        └── advanced/     # /kems/advanced/: axis selectors, scale toggles, KemScatterPlot, KemFilterPanel, KemTable
+        ├── +page.ts      # prerender; trailingSlash 'always'
+        ├── +page.svelte  # ComparePage with KEMS, hero + performance note snippets
+        └── advanced/     # ComparePage with KEMS, advanced
 
 src/lib/__tests__/       # Vitest unit tests (vitest.config.ts): badges, chartData, chartLegend,
-                         # compareFilters, data, dataFiles, filterStore, html, kemData, legacy,
+                         # compare, compareFilters, data, dataFiles, signatureFilter, html, kemData, legacy,
                          # programmePage, programmeRegistry, programmes, timing, slugs, versionCompare, schemeHistory,
                          # dates, schemePage, chartNav, timeline, urlSync
 e2e/                     # Playwright E2E tests (playwright.config.ts)
@@ -338,36 +333,49 @@ e2e/                     # Playwright E2E tests (playwright.config.ts)
 - Schemes whose memberships include `filter.programme` but never reached the stage are excluded.
 - Every `Scheme` / `ParameterSet` (and KEM equivalent) carries `programmes: ProgrammeMembership[]`.
 
-### Filter Store
+### Compare pages
 
-`src/lib/filterStore.ts` uses stable module-level store references. `_store` and `_filteredRows`
-are created once; `createFilterStore()` on subsequent calls (round changes) updates `_allRows`
-and resets `_store` in place. This means components calling `getFilterStore()` at init always
-hold valid references — no stale subscription bugs.
+`/signatures/`, `/kems/` and their `advanced/` pages are one component, `ComparePage.svelte`,
+driven by a `CompareConfig` (`src/lib/compare.ts`; instances `SIGNATURES` / `KEMS` in
+`src/lib/primitives.ts`) and a data loader (`src/lib/compareData.ts`). The config holds:
+- `filter: FilterSpec` — the min/max bounds (filter fields `min<field>`/`max<field>`, URL keys
+  `<url>Min`/`<url>Max`, panel label and section, row value, data range), default sort, whether the
+  sort travels in the URL (signatures only), numeric and time sort keys;
+- `table: TableSpec` — size and time columns after Scheme/Category/Programmes/Parameter Set/Level;
+- `chart: ChartSpec` — axis titles/short names/options, axis values, Sizes/Speed views, tooltip sizes
+  and operations, point sizes.
+Pure helpers in `compare.ts` (`defaultCompareFilter`, `encode`/`decodeCompareFilter`,
+`filterCompareRows`, `sortCompareRows`, `chartTooltip`, `decodeAxes`/`encodeAxes`, `anyTimings`) do
+the work; the components (`CompareFilterPanel`, `CompareChart`, `CompareTable`) take the config and
+plain props. The page owns the filter as `$state` (sort column/direction included), derives the
+filtered rows, passes them unsorted to the chart and the table (which sorts), and syncs the URL with
+a 300 ms debounce. Programme pages reuse the chart and table through `ProgrammeCandidates`.
 
 Category checkbox state is **derived** from the scheme set, not stored separately.
 
-Cycle filters: rows with no timing (0 cycles, shown as "—") pass the signature cycle min/max
-filters, mirroring KEM `outside()` in `kemData.ts`; the default minimums are computed over
-benchmarked rows only. Without this, unbenchmarked sets would vanish by default.
+Time/cycle filters: rows with no value (shown as "—") pass the min/max bounds; signature cycle
+minimums are computed over benchmarked rows only. Without this, unbenchmarked sets would vanish by
+default. Signature µs bounds use measured µs; KEM µs bounds use displayed (extrapolated) µs.
 
 URL state: filter params encoded as query params, applied client-side in `onMount`. The URL is
-the source of truth on load: the round is applied from it first (no `r` = latest), defaults are
-read at sync time, and the hash is kept.
+the source of truth on load: the round is applied from it first (no `r` = latest), and the hash is
+kept.
 Round encoded as `?r=1|2|3`. Common keys (both compare pages,
 `encodeCommonFilters`/`decodeCommonFilters` in `compareFilters.ts`): `p` programme groups,
 `l` NIST levels (`PQ` = pre-quantum), `nl` NGCC targets (`l` without `nl` = old link, no NGCC
 targets), `ps=all`, `hb`/`hi`/`hw` hide broken / implementation findings / warnings, `v=speed`.
-Every signature key must be in `SIGNATURE_PARAMS` (`src/lib/legacy.ts`). KEM-only:
-`pkMin…pcMax` sizes and `kuMin kuMax euMin euMax duMin duMax` µs.
+Every signature key must be in `SIGNATURE_PARAMS` (`src/lib/legacy.ts`). Signature bounds:
+`pk sig ps` sizes, `sc vc` cycles, `su vu` µs (each `…Min`/`…Max`), plus `sort`/`dir`. KEM bounds:
+`pk ct pc` sizes and `ku eu du` µs (KEM sort is not in the URL). Advanced pages add `x`, `y`,
+`xs`, `ys`.
 Changing the on-ramp round keeps the common filters and the sort.
 
 ### Round Selector
 
 `RoundSelect.svelte` ("On-ramp round", visually hidden label) sits under "NIST on-ramp" in the
 programme filter on `/signatures/` and is disabled while that is unticked (not in the nav). Choosing
-a value updates `roundStore`, which triggers `applyRound()` in `signatures/+page.svelte`, which
-calls `createFilterStore()` with new data.
+a value updates `roundStore`; `ComparePage` (with `rounds`) reloads the data for that round and
+rebuilds the filter, carrying over the common filters and the sort.
 
 ### Latest View
 
@@ -399,9 +407,8 @@ The registry also drives the programme pages (all optional; see `ProgrammeYaml` 
 
 `/programmes/` lists the programmes. `/programmes/<id>/` (prerendered via `entries()`) shows breadcrumb,
 title block, facts, timeline, level table, findings summary and candidates. Logic is in
-`src/lib/programmePage.ts` (pure). Candidates reuse the compare components: signatures go through the
-`filterStore` singleton (the section calls `createFilterStore()` with the programme's members only;
-every compare page rebuilds it on load), KEMs through `KemTable` / `KemScatterPlot` with a local filter.
+`src/lib/programmePage.ts` (pure). Candidates (`ProgrammeCandidates`, one component for both
+primitives) reuse `CompareChart` / `CompareTable` with a local filter over the programme's members.
 Stage toggle: "All, latest specs" plus each `round-N` stage with recorded versions (pinned versions,
 as the on-ramp round selector). NGCC targets are focused with `ngccLevels` only. The findings summary
 counts each member once under its worst flag (`broken` not classical > `implementation` > `warning`)
