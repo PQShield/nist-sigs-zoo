@@ -13,6 +13,8 @@
 	const themeLabel = $derived(`Theme: ${$themeStore} — click to cycle`);
 
 	const path = $derived($page.url.pathname.slice(base.length));
+	/** Whether a nav item is the current section (its page or any page under it). */
+	const isCurrent = (href: string) => path.startsWith('/' + href);
 
 	const NAV = [
 		{ href: 'signatures/', label: 'Signatures' },
@@ -47,10 +49,8 @@
 				{#each NAV as item (item.href)}
 					<a
 						href="{base}/{item.href}"
-						aria-current={path.startsWith('/' + item.href) ? 'page' : undefined}
-						class="transition-colors hover:text-pqs-apricot {path.startsWith('/' + item.href)
-							? 'text-white'
-							: 'text-pqs-bluegray'}"
+						aria-current={isCurrent(item.href) ? 'page' : undefined}
+						class="transition-colors hover:text-pqs-apricot {isCurrent(item.href) ? 'text-white' : 'text-pqs-bluegray'}"
 					>
 						{item.label}
 					</a>
@@ -124,8 +124,8 @@
 						<a
 							href="{base}/{item.href}"
 							onclick={closeMenu}
-							aria-current={path.startsWith('/' + item.href) ? 'page' : undefined}
-							class="transition-colors hover:text-pqs-apricot {path.startsWith('/' + item.href)
+							aria-current={isCurrent(item.href) ? 'page' : undefined}
+							class="transition-colors hover:text-pqs-apricot {isCurrent(item.href)
 								? 'text-white'
 								: 'text-pqs-bluegray'}"
 						>
