@@ -3,6 +3,7 @@ import http.server
 import threading
 
 import pytest
+
 from fetch import ArchiveError, fetch_one
 
 ZIP = b"PK\x03\x04archive"

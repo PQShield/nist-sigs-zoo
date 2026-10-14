@@ -1,6 +1,7 @@
-import ngcc_data as nd
 import pytest
 from ruamel.yaml import YAML
+
+import ngcc_data as nd
 
 CANDS = [
     {

@@ -5,9 +5,10 @@
 """Migrate static/data/{schemes,parametersets}.csv → data/schemes/*.yaml"""
 
 import csv
-import yaml
-from pathlib import Path
 from collections import defaultdict
+from pathlib import Path
+
+import yaml
 
 base = Path(__file__).parent.parent / "static" / "data"
 out_dir = Path(__file__).parent.parent / "data" / "schemes"

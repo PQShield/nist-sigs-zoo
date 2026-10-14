@@ -13,9 +13,11 @@ Usage:
 
 If no results_file is given, uses the most recent file in bench-kem/results/.
 """
+
 import re
 import sys
 from pathlib import Path
+
 from ruamel.yaml import YAML
 
 REPO_ROOT = Path(__file__).parent.parent
@@ -112,7 +114,9 @@ _NUM = r"(\d+)\s+(\d+\.\d+)"  # cycles, then µs printed as %.1f
 ROW_RE = re.compile(
     rf"^(?P<name>\S.*?)\s+(?P<iters>\d+)\s+{_NUM}\s+{_NUM}\s+{_NUM}\s+(?P<ok>\S+)\s*$"
 )
-DNF_RE = re.compile(r"^(?P<name>\S.*?)\s+(?P<iters>\d+|-)(?:\s+DNF){6}\s+(?P<reason>\S+)\s*$")
+DNF_RE = re.compile(
+    r"^(?P<name>\S.*?)\s+(?P<iters>\d+|-)(?:\s+DNF){6}\s+(?P<reason>\S+)\s*$"
+)
 
 
 def parse_results_file(path: Path) -> tuple[dict, list[dict]]:
@@ -136,25 +140,29 @@ def parse_results_file(path: Path) -> tuple[dict, list[dict]]:
                 in_data = True
             elif in_data and (m := DNF_RE.match(line)):
                 iters = m["iters"]
-                rows.append({
-                    "name": m["name"],
-                    "iters": int(iters) if iters.isdigit() else None,
-                    "dnf": m["reason"],
-                })
+                rows.append(
+                    {
+                        "name": m["name"],
+                        "iters": int(iters) if iters.isdigit() else None,
+                        "dnf": m["reason"],
+                    }
+                )
             elif in_data and (m := ROW_RE.match(line)):
                 kg_c, kg_u, en_c, en_u, de_c, de_u = m.groups()[2:8]
-                rows.append({
-                    "name": m["name"],
-                    "iters": int(m["iters"]),
-                    "dnf": None,
-                    "keygen_cycles": int(kg_c),
-                    "encaps_cycles": int(en_c),
-                    "decaps_cycles": int(de_c),
-                    "keygen_us": float(kg_u),
-                    "encaps_us": float(en_u),
-                    "decaps_us": float(de_u),
-                    "ok": m["ok"],
-                })
+                rows.append(
+                    {
+                        "name": m["name"],
+                        "iters": int(m["iters"]),
+                        "dnf": None,
+                        "keygen_cycles": int(kg_c),
+                        "encaps_cycles": int(en_c),
+                        "decaps_cycles": int(de_c),
+                        "keygen_us": float(kg_u),
+                        "encaps_us": float(en_u),
+                        "decaps_us": float(de_u),
+                        "ok": m["ok"],
+                    }
+                )
     return meta, rows
 
 
@@ -166,7 +174,11 @@ def apply_row(yaml_data, ps_name: str, row: dict) -> tuple[bool, str | None]:
     other scheme it only warns, so a crash never overwrites measured timings.
     """
     ps = next(
-        (p for p in yaml_data.get("parametersets", []) if str(p.get("name", "")) == ps_name),
+        (
+            p
+            for p in yaml_data.get("parametersets", [])
+            if str(p.get("name", "")) == ps_name
+        ),
         None,
     )
     if ps is None:
@@ -219,7 +231,9 @@ def write_benchmark_env(meta: dict, path: Path) -> None:
     env["kernel"] = meta.get("kernel", "")
     env["compiler"] = meta.get("compiler", "")
     env["openssl"] = meta.get("openssl", "")
-    counter = meta.get("cyclecounter", "rdtsc + lfence (constant TSC rate, not execution cycles)")
+    counter = meta.get(
+        "cyclecounter", "rdtsc + lfence (constant TSC rate, not execution cycles)"
+    )
     env["notes"] = (
         "KEM keygen/encapsulation/decapsulation. "
         "Median over 1000 iterations (fewer for slow schemes). "

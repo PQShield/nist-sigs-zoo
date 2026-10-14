@@ -1,4 +1,5 @@
 import pytest
+
 from gen_rules import (
     ParamsError,
     read_params,

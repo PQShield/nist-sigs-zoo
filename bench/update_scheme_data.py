@@ -13,9 +13,11 @@ Usage:
 
 If no results_file is given, uses the most recent file in bench/results/.
 """
+
 import re
 import sys
 from pathlib import Path
+
 from ruamel.yaml import YAML
 
 REPO_ROOT = Path(__file__).parent.parent
@@ -137,11 +139,11 @@ BENCH_TO_YAML: dict[str, tuple[str, str]] = {
     "MQOM3-L5-gf16-fast-ot": ("MQOM.yaml", "L5-gf16-fast-ot"),
     # SDitH2 — gf2 variants (v3.0.0 first in YAML, so it gets the numbers) (bench output name matches shim's @NAME@)
     "SDitH2-L1-gf2-short": ("SDitH.yaml", "SDitH2-L1-gf2-short"),
-    "SDitH2-L1-gf2-fast":  ("SDitH.yaml", "SDitH2-L1-gf2-fast"),
+    "SDitH2-L1-gf2-fast": ("SDitH.yaml", "SDitH2-L1-gf2-fast"),
     "SDitH2-L3-gf2-short": ("SDitH.yaml", "SDitH2-L3-gf2-short"),
-    "SDitH2-L3-gf2-fast":  ("SDitH.yaml", "SDitH2-L3-gf2-fast"),
+    "SDitH2-L3-gf2-fast": ("SDitH.yaml", "SDitH2-L3-gf2-fast"),
     "SDitH2-L5-gf2-short": ("SDitH.yaml", "SDitH2-L5-gf2-short"),
-    "SDitH2-L5-gf2-fast":  ("SDitH.yaml", "SDitH2-L5-gf2-fast"),
+    "SDitH2-L5-gf2-fast": ("SDitH.yaml", "SDitH2-L5-gf2-fast"),
     # SQIsign
     "SQIsign-I": ("SQIsign.yaml", "I"),
     "SQIsign-III": ("SQIsign.yaml", "III"),
@@ -184,7 +186,9 @@ def import_ngcc_sizes(sizes_file: Path) -> None:
         )
     except ngcc_data.NgccDataError as e:
         sys.exit(f"NGCC import failed:\n{e}")
-    print(f"Wrote {len(written)} NGCC signature files in {SCHEMES_DIR.relative_to(REPO_ROOT)}")
+    print(
+        f"Wrote {len(written)} NGCC signature files in {SCHEMES_DIR.relative_to(REPO_ROOT)}"
+    )
 
 
 # Results rows: "<name> <iters> kg_cyc kg_us sign_cyc sign_us verify_cyc verify_us",
@@ -192,8 +196,12 @@ def import_ngcc_sizes(sizes_file: Path) -> None:
 # timing columns read DNF, followed by a one-word reason. The name may contain
 # spaces. Anything else (stderr lines merged in by run_bench.sh) is skipped.
 _NUM = r"(\d+)\s+(\d+\.\d+)"  # cycles, then µs printed as %.1f
-ROW_RE = re.compile(rf"^(?P<name>\S.*?)\s+(?P<iters>\d+)\s+{_NUM}\s+{_NUM}\s+{_NUM}\s*$")
-DNF_RE = re.compile(r"^(?P<name>\S.*?)\s+(?P<iters>\d+|-)(?:\s+DNF){6}\s+(?P<reason>\S+)\s*$")
+ROW_RE = re.compile(
+    rf"^(?P<name>\S.*?)\s+(?P<iters>\d+)\s+{_NUM}\s+{_NUM}\s+{_NUM}\s*$"
+)
+DNF_RE = re.compile(
+    r"^(?P<name>\S.*?)\s+(?P<iters>\d+|-)(?:\s+DNF){6}\s+(?P<reason>\S+)\s*$"
+)
 
 
 def parse_results_file(path: Path) -> tuple[dict, list[dict]]:
@@ -218,23 +226,29 @@ def parse_results_file(path: Path) -> tuple[dict, list[dict]]:
                 in_data = True
             elif in_data and (m := DNF_RE.match(line)):
                 iters = m["iters"]
-                rows.append({
-                    "name": m["name"],
-                    "iters": int(iters) if iters.isdigit() else None,
-                    "dnf": m["reason"],
-                })
+                rows.append(
+                    {
+                        "name": m["name"],
+                        "iters": int(iters) if iters.isdigit() else None,
+                        "dnf": m["reason"],
+                    }
+                )
             elif in_data and (m := ROW_RE.match(line)):
-                _kg_cyc, _kg_us, sign_cyc, sign_us, verify_cyc, verify_us = m.groups()[2:]
-                rows.append({
-                    "name": m["name"],
-                    "iters": int(m["iters"]),
-                    "dnf": None,
-                    "keygen_cycles": int(_kg_cyc),
-                    "signing_cycles": int(sign_cyc),
-                    "verification_cycles": int(verify_cyc),
-                    "signing_us": float(sign_us),
-                    "verification_us": float(verify_us),
-                })
+                _kg_cyc, _kg_us, sign_cyc, sign_us, verify_cyc, verify_us = m.groups()[
+                    2:
+                ]
+                rows.append(
+                    {
+                        "name": m["name"],
+                        "iters": int(m["iters"]),
+                        "dnf": None,
+                        "keygen_cycles": int(_kg_cyc),
+                        "signing_cycles": int(sign_cyc),
+                        "verification_cycles": int(verify_cyc),
+                        "signing_us": float(sign_us),
+                        "verification_us": float(verify_us),
+                    }
+                )
     return meta, rows
 
 
@@ -262,7 +276,12 @@ def apply_row(yaml_data, ps_name: str, row: dict) -> tuple[bool, str | None]:
             ngcc_data.mark_dnf(ps, "signature", row["dnf"])
             return True, f"DNF ({row['dnf']}): timings removed, noted"
         return False, f"WARNING: DNF ({row['dnf']}); existing timings kept"
-    for field in ("signing_cycles", "verification_cycles", "signing_us", "verification_us"):
+    for field in (
+        "signing_cycles",
+        "verification_cycles",
+        "signing_us",
+        "verification_us",
+    ):
         ps[field] = row[field]
     if ngcc:
         ngcc_data.clear_dnf(ps)
@@ -307,7 +326,9 @@ def write_benchmark_env(meta: dict, path: Path) -> None:
     env["kernel"] = meta.get("kernel", "")
     env["compiler"] = meta.get("compiler", "")
     env["openssl"] = meta.get("openssl", "")
-    counter = meta.get("cyclecounter", "rdtsc + lfence (constant TSC rate, not execution cycles)")
+    counter = meta.get(
+        "cyclecounter", "rdtsc + lfence (constant TSC rate, not execution cycles)"
+    )
     env["notes"] = (
         "Median over 1000 iterations (fewer for slow schemes). "
         f"Cycle counter: {counter}. "
@@ -412,7 +433,9 @@ def main() -> None:
 
     # Report what was NOT updated
     run_bench_names = {row["name"] for row in rows}
-    yaml_to_bench: dict[tuple[str, str], str] = {(v[0], v[1]): k for k, v in BENCH_TO_YAML.items()}
+    yaml_to_bench: dict[tuple[str, str], str] = {
+        (v[0], v[1]): k for k, v in BENCH_TO_YAML.items()
+    }
 
     # Bench-mapped parametersets absent from this run's results
     not_in_run: dict[str, list[str]] = {}
@@ -427,7 +450,7 @@ def main() -> None:
     for yaml_path in sorted(SCHEMES_DIR.glob("*.yaml")):
         with open(yaml_path) as f:
             data = yaml.load(f)
-        for version in (data.get("versions") or []):
+        for version in data.get("versions") or []:
             tags = version.get("tags") or []
             if "round-2" in tags or "round-3" in tags:
                 round_key = "round-2"
@@ -435,10 +458,12 @@ def main() -> None:
                 round_key = "round-1"
             else:
                 round_key = "untagged"
-            for ps in (version.get("parametersets") or []):
+            for ps in version.get("parametersets") or []:
                 key = (yaml_path.name, str(ps.get("name", "")))
                 if key not in yaml_to_bench:
-                    no_bench[round_key].setdefault(yaml_path.name, []).append(str(ps.get("name", "")))
+                    no_bench[round_key].setdefault(yaml_path.name, []).append(
+                        str(ps.get("name", ""))
+                    )
 
     if not_in_run:
         total = sum(len(v) for v in not_in_run.values())
@@ -446,7 +471,9 @@ def main() -> None:
         for yaml_file, names in sorted(not_in_run.items()):
             print(f"  {yaml_file}: {', '.join(names)}")
 
-    total_no_bench = sum(len(names) for r in ROUND_ORDER for names in no_bench[r].values())
+    total_no_bench = sum(
+        len(names) for r in ROUND_ORDER for names in no_bench[r].values()
+    )
     if total_no_bench:
         print(f"\nNo bench mapping ({total_no_bench}):")
         labels = {"round-2": "Round 2", "round-1": "Round 1", "untagged": "Untagged"}
