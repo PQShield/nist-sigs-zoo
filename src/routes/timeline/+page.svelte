@@ -1,12 +1,14 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
+	import { navigating } from '$app/state';
 	import { base } from '$app/paths';
 	import { SITE_NAME } from '$lib/constants';
 	import ProgrammeChips from '$lib/components/ProgrammeChips.svelte';
 	import { FILTER_HEADING, FILTER_OPTION, FILTER_OPTION_TEXT } from '$lib/components/filterStyles';
 	import { fmtDate } from '$lib/dates';
 	import { schemeHref } from '$lib/slugs';
+	import { scheduleUrlSync } from '$lib/urlSync';
 	import { slugOf } from '$lib/schemeIndex';
 	import {
 		decodeTimelineFilter,
@@ -44,8 +46,11 @@
 	$effect(() => {
 		if (!ready) return;
 		const qs = encodeTimelineFilter(filter, programmeIds, data.types).toString();
-		if (qs === location.search.replace(/^\?/, '')) return;
-		goto((qs ? `?${qs}` : location.pathname) + location.hash, { replaceState: true, keepFocus: true, noScroll: true });
+		return scheduleUrlSync(qs, {
+			location: window.location,
+			isNavigating: () => navigating.to !== null,
+			goto: (target) => goto(target, { replaceState: true, keepFocus: true, noScroll: true })
+		});
 	});
 
 	function toggleProgramme(id: string) {

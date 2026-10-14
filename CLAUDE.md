@@ -174,8 +174,8 @@ programme ids.
 
 Timeline URL params: `p` (programme ids, plus `site`) and `t` (types), comma-separated. A missing
 param means all, `p=` means none, and unknown values are ignored. Logic is in `src/lib/timeline.ts`
-(pure, unit-tested). The page keeps the filter in a `$state` rune and syncs it with
-`goto(…, { replaceState: true })`. Scheme names link to `/schemes/<slug>/`
+(pure, unit-tested). The page keeps the filter in a `$state` rune and syncs it to the URL with
+the shared `scheduleUrlSync()` (see Page conventions). Scheme names link to `/schemes/<slug>/`
 (`schemeHref(base, slugOf(name))`); programme chips link to `/programmes/<id>/`. Dates are shown
 with `fmtDate`.
 
@@ -290,7 +290,7 @@ src/
 │   ├── schemeHistory.ts  # a scheme's slice of the history log (via `schemes:` names)
 │   ├── historyData.ts    # single runtime loader for data/history.yaml (throws if missing)
 │   ├── timeline.ts       # timeline: scheme→programme index, entry programmes, filter, URL codec (p, t)
-│   ├── urlSync.ts        # urlSyncTarget(): debounced filter→URL sync skips no-op and in-flight navigations
+│   ├── urlSync.ts        # scheduleUrlSync(): debounced filter→URL sync; skips no-ops, reschedules during navigations
 │   ├── dates.ts          # fmtDate: the single date formatter (YYYY, YYYY-MM, YYYY-MM-DD)
 │   ├── dataDates.ts / lastDataChange.ts  # "data last changed" date
 │   ├── format.ts         # number / cycle / time formatters
@@ -470,9 +470,10 @@ category, and KEM pages show their status once (no Parameter-sets subtitle).
 
 - Titles: `<page> · {SITE_NAME}` (" · " everywhere); `app.html`'s static `og:title` equals `SITE_NAME`.
 - Every `target="_blank"` link carries `<span class="sr-only"> (opens in a new tab)</span>`.
-- Debounced filter→URL syncs (`replaceState` `goto`) go through `urlSyncTarget()`, which skips a
-  no-op URL and any sync while `navigating.to` is set; otherwise the mount-time sync cancels a
-  click on a scheme link.
+- Filter→URL syncs (`replaceState` `goto`, compare pages and timeline) go through
+  `scheduleUrlSync()` in `src/lib/urlSync.ts`: 300 ms debounce, no-op URLs skipped
+  (`urlSyncTarget()`), and a sync that falls due while `navigating.to` is set is rescheduled, not
+  dropped; otherwise the mount-time sync cancels a click on a scheme link.
 
 ### Parameter-set labels
 

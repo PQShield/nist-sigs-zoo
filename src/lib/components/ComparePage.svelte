@@ -3,7 +3,7 @@
 	import { goto } from '$app/navigation';
 	import { navigating } from '$app/state';
 	import { base } from '$app/paths';
-	import { urlSyncTarget } from '$lib/urlSync';
+	import { scheduleUrlSync } from '$lib/urlSync';
 	import { encodeCommonFilters, filterSummary } from '$lib/compareFilters';
 	import {
 		decodeAxes,
@@ -106,18 +106,11 @@
 		if (r) p.set('r', r);
 		const qs = p.toString();
 		if (!urlReady) return;
-		const timer = setTimeout(() => {
-			const target = urlSyncTarget(
-				qs,
-				window.location.pathname,
-				window.location.hash,
-				window.location.search,
-				navigating.to !== null
-			);
-			if (target === null) return;
-			goto(target, { replaceState: true, keepFocus: true, noScroll: true });
-		}, 300);
-		return () => clearTimeout(timer);
+		return scheduleUrlSync(qs, {
+			location: window.location,
+			isNavigating: () => navigating.to !== null,
+			goto: (target) => goto(target, { replaceState: true, keepFocus: true, noScroll: true })
+		});
 	});
 
 	const view = $derived(cfg.chart.views[filter.chart]);

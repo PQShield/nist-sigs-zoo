@@ -1,5 +1,5 @@
-import { describe, it, expect } from 'vitest';
-import { urlSyncTarget } from '$lib/urlSync';
+import { afterEach, beforeEach, describe, it, expect, vi } from 'vitest';
+import { scheduleUrlSync, urlSyncTarget, type UrlSyncEnv } from '$lib/urlSync';
 
 describe('urlSyncTarget', () => {
 	it('skips when the query string already matches', () => {
@@ -17,5 +17,58 @@ describe('urlSyncTarget', () => {
 	});
 	it('returns the pathname when clearing filters', () => {
 		expect(urlSyncTarget('', '/kems/', '', '?a=1', false)).toBe('/kems/');
+	});
+});
+
+describe('scheduleUrlSync', () => {
+	beforeEach(() => vi.useFakeTimers());
+	afterEach(() => vi.useRealTimers());
+
+	function env(search = '?a=1') {
+		const state = { navigating: false, calls: [] as string[] };
+		const e: UrlSyncEnv = {
+			location: { pathname: '/kems/', hash: '', search },
+			isNavigating: () => state.navigating,
+			goto: (t) => state.calls.push(t)
+		};
+		return { e, state };
+	}
+
+	it('syncs after the debounce', () => {
+		const { e, state } = env();
+		scheduleUrlSync('a=2', e);
+		vi.advanceTimersByTime(299);
+		expect(state.calls).toEqual([]);
+		vi.advanceTimersByTime(1);
+		expect(state.calls).toEqual(['?a=2']);
+	});
+
+	it('reschedules a sync that falls due during a navigation instead of dropping it', () => {
+		const { e, state } = env();
+		state.navigating = true;
+		scheduleUrlSync('a=2', e);
+		vi.advanceTimersByTime(900);
+		expect(state.calls).toEqual([]);
+		state.navigating = false;
+		vi.advanceTimersByTime(300);
+		expect(state.calls).toEqual(['?a=2']);
+	});
+
+	it('does nothing once cancelled, also after a reschedule', () => {
+		const { e, state } = env();
+		state.navigating = true;
+		const cancel = scheduleUrlSync('a=2', e);
+		vi.advanceTimersByTime(600);
+		cancel();
+		state.navigating = false;
+		vi.advanceTimersByTime(3000);
+		expect(state.calls).toEqual([]);
+	});
+
+	it('skips a no-op sync', () => {
+		const { e, state } = env('?a=2');
+		scheduleUrlSync('a=2', e);
+		vi.advanceTimersByTime(1000);
+		expect(state.calls).toEqual([]);
 	});
 });
