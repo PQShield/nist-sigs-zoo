@@ -1,5 +1,10 @@
 - date: '2026-10-14'
   type: update
+  description: "Parameter sets that a scheme's designers explicitly recommend are now marked, so the Recommended filter hides the alternatives: SNOVA, MAYO, QR-UOV, SQIsign, Preon (aggressive and balanced sets), EagleSign (level 3 only) and Classic McEliece (the team recommends the mceliece6* sizes, level 5 only). The round-3 specifications of SNOVA (Table 6), MAYO (Table 2.2), QR-UOV (Appendix B) and SQIsign (Appendix P) also list alternative or additional parameter sets; these are now shown under All parameter sets, with sizes from the specifications. The six odd-characteristic SNOVA alternatives are marked broken by Beullens &amp; Hess's vinegar-bias attack."
+  schemes: [SNOVA, MAYO, QR-UOV, SQIsign, PREON, EagleSign, Classic McEliece]
+
+- date: '2026-10-14'
+  type: update
   description: "ISO/IEC 18033-2:2006/Amd 2:2026, published in June 2026, standardises FrodoKEM and Classic McEliece (the latter without mceliece348864). Both are now shown as ISO standards, and the ISO programme as completed."
   programmes: [iso]
   schemes: [FrodoKEM, Classic McEliece]

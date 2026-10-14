@@ -9,9 +9,11 @@ versions:
   programmes:
     nist-onramp: round-3
   perf_source: submission document
+  # recommended: round-3 spec Appendix P Table 20 "List of alternate prime suggestions. Primes in bold refer to our selected primes" (p324.3, p500.27, p664.17 = I, III, V); the other primes are "parameter sets of interest" for further cryptanalysis (https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/sqisign_specification.pdf)
   parametersets:
   - name: V
     level: 5
+    recommended: true
     pk: 169
     sig: 406
     signing_cycles: 747859076
@@ -20,6 +22,7 @@ versions:
     verification_us: 21007.1
   - name: III
     level: 3
+    recommended: true
     pk: 129
     sig: 306
     signing_cycles: 313219226
@@ -28,12 +31,78 @@ versions:
     verification_us: 8602.0
   - name: I
     level: 1
+    recommended: true
     pk: 83
     sig: 200
     signing_cycles: 98879739
     verification_cycles: 12145617
     signing_us: 27004.6
     verification_us: 3318.5
+  - name: alt p306.3
+    level: 1
+    pk: 79
+    sig: 192
+    notes: "Alternate prime from spec Appendix P Table 20 (\"other parameter sets of interest\", more aggressive or more conservative than the selected primes); sizes from the specification, not implemented or benchmarked."
+  - name: alt p305.55
+    level: 1
+    pk: 79
+    sig: 192
+    notes: "Alternate prime from spec Appendix P Table 20 (\"other parameter sets of interest\", more aggressive or more conservative than the selected primes); sizes from the specification, not implemented or benchmarked."
+  - name: alt p313.69
+    level: 1
+    pk: 81
+    sig: 198
+    notes: "Alternate prime from spec Appendix P Table 20 (\"other parameter sets of interest\", more aggressive or more conservative than the selected primes); sizes from the specification, not implemented or benchmarked."
+  - name: alt p343.9
+    level: 1
+    pk: 89
+    sig: 214
+    notes: "Alternate prime from spec Appendix P Table 20 (\"other parameter sets of interest\", more aggressive or more conservative than the selected primes); sizes from the specification, not implemented or benchmarked."
+  - name: alt p376.65
+    level: 1
+    pk: 97
+    sig: 230
+    notes: "Alternate prime from spec Appendix P Table 20 (\"other parameter sets of interest\", more aggressive or more conservative than the selected primes); sizes from the specification, not implemented or benchmarked."
+  - name: alt p448.3
+    level: 3
+    pk: 117
+    sig: 286
+    notes: "Alternate prime from spec Appendix P Table 20 (\"other parameter sets of interest\", more aggressive or more conservative than the selected primes); sizes from the specification, not implemented or benchmarked."
+  - name: alt p470.3
+    level: 3
+    pk: 119
+    sig: 288
+    notes: "Alternate prime from spec Appendix P Table 20 (\"other parameter sets of interest\", more aggressive or more conservative than the selected primes); sizes from the specification, not implemented or benchmarked."
+  - name: alt p521.1
+    level: 3
+    pk: 133
+    sig: 314
+    notes: "Alternate prime from spec Appendix P Table 20 (\"other parameter sets of interest\", more aggressive or more conservative than the selected primes); sizes from the specification, not implemented or benchmarked."
+  - name: alt p574.27
+    level: 3
+    pk: 147
+    sig: 344
+    notes: "Alternate prime from spec Appendix P Table 20 (\"other parameter sets of interest\", more aggressive or more conservative than the selected primes); sizes from the specification, not implemented or benchmarked."
+  - name: alt p607.1
+    level: 5
+    pk: 153
+    sig: 373
+    notes: "Alternate prime from spec Appendix P Table 20 (\"other parameter sets of interest\", more aggressive or more conservative than the selected primes); sizes from the specification, not implemented or benchmarked."
+  - name: alt p612.17
+    level: 5
+    pk: 157
+    sig: 378
+    notes: "Alternate prime from spec Appendix P Table 20 (\"other parameter sets of interest\", more aggressive or more conservative than the selected primes); sizes from the specification, not implemented or benchmarked."
+  - name: alt p665.19
+    level: 5
+    pk: 169
+    sig: 406
+    notes: "Alternate prime from spec Appendix P Table 20 (\"other parameter sets of interest\", more aggressive or more conservative than the selected primes); sizes from the specification, not implemented or benchmarked."
+  - name: alt p767.43
+    level: 5
+    pk: 195
+    sig: 456
+    notes: "Alternate prime from spec Appendix P Table 20 (\"other parameter sets of interest\", more aggressive or more conservative than the selected primes); sizes from the specification, not implemented or benchmarked."
 - version: v2.0.1
   date: '2025-07-07'
   status: On-ramp

@@ -31,7 +31,14 @@ SDITH_SOS   = $(addprefix schemes/sdith/build/, \
 SNOVA_SOS   = $(addprefix schemes/snova/build/, \
     snova_i_k.so   snova_i_b.so   snova_i_s.so   \
     snova_iii_k.so snova_iii_b.so snova_iii_s.so \
-    snova_v_k.so   snova_v_b.so   snova_v_s.so)
+    snova_v_k.so   snova_v_b.so   snova_v_s.so   \
+    snova_27_3_16_4_7_5_84.so     snova_27_4_16_4_5_5_80.so   \
+    snova_27_4_19_4_6_5_96.so     snova_27_5_13_4_4_5_80.so   \
+    snova_50_17_16_2_2_17_68.so   snova_27_4_16_5_5_4_100.so  \
+    snova_33_5_16_4_5_6_100.so    snova_39_5_11_4_6_7_120.so  \
+    snova_38_5_19_4_6_7_120.so    snova_76_25_16_2_2_25_100.so \
+    snova_40_5_19_5_6_6_150.so    snova_47_6_19_4_6_9_144.so  \
+    snova_104_33_16_2_2_33_132.so)
 UOV_SOS     = $(addprefix schemes/uov/build/, \
     uov_Ip_pkc.so uov_Ip_classic.so \
     uov_Is_pkc.so uov_Is_classic.so \

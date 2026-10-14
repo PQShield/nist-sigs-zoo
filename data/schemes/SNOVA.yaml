@@ -10,9 +10,11 @@ versions:
     nist-onramp: round-3
   perf_source: official spec (AVX2, SHAKE128 public XOF)
   info: "The round-3 vinegar sampler reduces uniform bytes modulo q^g, which is biased for odd q; <a href=\"https://groups.google.com/a/list.nist.gov/d/msgid/pqc-forum/000001dd4a73%247e3c04e0%247ab40ea0%24%40beullens.com\">Beullens &amp; Hess</a> recover secret keys from signatures for the six odd-characteristic alternative parameter sets (LPN/BKW attack, to appear on ePrint). The recommended sets below use q = 16 and are unaffected. Easily fixed by sampling vinegar uniformly."
+  # recommended: round-3 spec v3.0 §1.9.1 Table 5 "Recommended parameter sets"; §1.9.2 Table 6 lists "Alternative SNOVA parameter sets" whose "security margins are less conservative than those of the recommended parameter sets" (https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/SNOVA_specifications.pdf)
   parametersets:
   - name: SNOVA_I_K
     level: 1
+    recommended: true
     pk: 376
     sig: 528
     signing_cycles: 620614
@@ -21,6 +23,7 @@ versions:
     verification_us: 62.4
   - name: SNOVA_I_B
     level: 1
+    recommended: true
     pk: 656
     sig: 388
     signing_cycles: 663062
@@ -29,6 +32,7 @@ versions:
     verification_us: 56.9
   - name: SNOVA_I_S
     level: 1
+    recommended: true
     pk: 1016
     sig: 272
     signing_cycles: 489469
@@ -37,6 +41,7 @@ versions:
     verification_us: 50.7
   - name: SNOVA_III_K
     level: 3
+    recommended: true
     pk: 912
     sig: 688
     signing_cycles: 1343086
@@ -45,6 +50,7 @@ versions:
     verification_us: 131.2
   - name: SNOVA_III_B
     level: 3
+    recommended: true
     pk: 1416
     sig: 532
     signing_cycles: 1458281
@@ -53,6 +59,7 @@ versions:
     verification_us: 130.4
   - name: SNOVA_III_S
     level: 3
+    recommended: true
     pk: 2032
     sig: 456
     signing_cycles: 1697313
@@ -61,6 +68,7 @@ versions:
     verification_us: 135.6
   - name: SNOVA_V_K
     level: 5
+    recommended: true
     pk: 1216
     sig: 896
     signing_cycles: 3567495
@@ -69,6 +77,7 @@ versions:
     verification_us: 279.2
   - name: SNOVA_V_B
     level: 5
+    recommended: true
     pk: 1891
     sig: 691
     signing_cycles: 3519012
@@ -77,12 +86,84 @@ versions:
     verification_us: 216.7
   - name: SNOVA_V_S
     level: 5
+    recommended: true
     pk: 2716
     sig: 591
     signing_cycles: 3766030
     verification_cycles: 789326
     signing_us: 1049.2
     verification_us: 216.9
+  - name: SNOVA (27 3 16 4 7 5 84)
+    level: 1
+    pk: 376
+    sig: 436
+    notes: "Alternative parameter set (v, o, q, l, r, m1, m2) from spec Table 6 (claimed security 169 bits); sizes from the specification, not benchmarked."
+  - name: SNOVA (27 4 16 4 5 5 80)
+    level: 1
+    pk: 656
+    sig: 326
+    notes: "Alternative parameter set (v, o, q, l, r, m1, m2) from spec Table 6 (claimed security 177 bits); sizes from the specification, not benchmarked."
+  - name: SNOVA (27 4 19 4 6 5 96)
+    level: 1
+    pk: 699
+    sig: 413
+    broken: "Key recovery from signatures: the vinegar sampler reduces uniform bytes modulo q^g, which is biased for odd q, turning key recovery into an LPN problem far below the claimed security (<a href=\"https://groups.google.com/a/list.nist.gov/d/msgid/pqc-forum/000001dd4a73%247e3c04e0%247ab40ea0%24%40beullens.com\">Beullens &amp; Hess</a>)"
+    notes: "Alternative parameter set (v, o, q, l, r, m1, m2) from spec Table 6 (claimed security 201 bits); sizes from the specification, not benchmarked."
+  - name: SNOVA (27 5 13 4 4 5 80)
+    level: 1
+    pk: 950
+    sig: 255
+    broken: "Key recovery from signatures: the vinegar sampler reduces uniform bytes modulo q^g, which is biased for odd q, turning key recovery into an LPN problem far below the claimed security (<a href=\"https://groups.google.com/a/list.nist.gov/d/msgid/pqc-forum/000001dd4a73%247e3c04e0%247ab40ea0%24%40beullens.com\">Beullens &amp; Hess</a>)"
+    notes: "Alternative parameter set (v, o, q, l, r, m1, m2) from spec Table 6 (claimed security 170 bits); sizes from the specification, not benchmarked."
+  - name: SNOVA (50 17 16 2 2 17 68)
+    level: 1
+    pk: 9842
+    sig: 150
+    notes: "Alternative parameter set (v, o, q, l, r, m1, m2) from spec Table 6 (claimed security 158 bits); sizes from the specification, not benchmarked."
+  - name: SNOVA (27 4 16 5 5 4 100)
+    level: 3
+    pk: 816
+    sig: 404
+    notes: "Alternative parameter set (v, o, q, l, r, m1, m2) from spec Table 6 (claimed security 221 bits); sizes from the specification, not benchmarked."
+  - name: SNOVA (33 5 16 4 5 6 100)
+    level: 3
+    pk: 1216
+    sig: 396
+    notes: "Alternative parameter set (v, o, q, l, r, m1, m2) from spec Table 6 (claimed security 221 bits); sizes from the specification, not benchmarked."
+  - name: SNOVA (39 5 11 4 6 7 120)
+    level: 3
+    pk: 1241
+    sig: 478
+    broken: "Key recovery from signatures: the vinegar sampler reduces uniform bytes modulo q^g, which is biased for odd q, turning key recovery into an LPN problem far below the claimed security (<a href=\"https://groups.google.com/a/list.nist.gov/d/msgid/pqc-forum/000001dd4a73%247e3c04e0%247ab40ea0%24%40beullens.com\">Beullens &amp; Hess</a>)"
+    notes: "Alternative parameter set (v, o, q, l, r, m1, m2) from spec Table 6 (claimed security 230 bits); sizes from the specification, not benchmarked."
+  - name: SNOVA (38 5 19 4 6 7 120)
+    level: 3
+    pk: 1510
+    sig: 567
+    broken: "Key recovery from signatures: the vinegar sampler reduces uniform bytes modulo q^g, which is biased for odd q, turning key recovery into an LPN problem far below the claimed security (<a href=\"https://groups.google.com/a/list.nist.gov/d/msgid/pqc-forum/000001dd4a73%247e3c04e0%247ab40ea0%24%40beullens.com\">Beullens &amp; Hess</a>)"
+    notes: "Alternative parameter set (v, o, q, l, r, m1, m2) from spec Table 6 (claimed security 269 bits); sizes from the specification, not benchmarked."
+  - name: SNOVA (76 25 16 2 2 25 100)
+    level: 3
+    pk: 31266
+    sig: 218
+    notes: "Alternative parameter set (v, o, q, l, r, m1, m2) from spec Table 6 (claimed security 223 bits); sizes from the specification, not benchmarked."
+  - name: SNOVA (40 5 19 5 6 6 150)
+    level: 5
+    pk: 2016
+    sig: 736
+    broken: "Key recovery from signatures: the vinegar sampler reduces uniform bytes modulo q^g, which is biased for odd q, turning key recovery into an LPN problem far below the claimed security (<a href=\"https://groups.google.com/a/list.nist.gov/d/msgid/pqc-forum/000001dd4a73%247e3c04e0%247ab40ea0%24%40beullens.com\">Beullens &amp; Hess</a>)"
+    notes: "Alternative parameter set (v, o, q, l, r, m1, m2) from spec Table 6 (claimed security 331 bits); sizes from the specification, not benchmarked."
+  - name: SNOVA (47 6 19 4 6 9 144)
+    level: 5
+    pk: 2781
+    sig: 695
+    broken: "Key recovery from signatures: the vinegar sampler reduces uniform bytes modulo q^g, which is biased for odd q, turning key recovery into an LPN problem far below the claimed security (<a href=\"https://groups.google.com/a/list.nist.gov/d/msgid/pqc-forum/000001dd4a73%247e3c04e0%247ab40ea0%24%40beullens.com\">Beullens &amp; Hess</a>)"
+    notes: "Alternative parameter set (v, o, q, l, r, m1, m2) from spec Table 6 (claimed security 318 bits); sizes from the specification, not benchmarked."
+  - name: SNOVA (104 33 16 2 2 33 132)
+    level: 5
+    pk: 71890
+    sig: 290
+    notes: "Alternative parameter set (v, o, q, l, r, m1, m2) from spec Table 6 (claimed security 287 bits); sizes from the specification, not benchmarked."
 - version: v2.3
   date: '2026-04-03'
   status: On-ramp
