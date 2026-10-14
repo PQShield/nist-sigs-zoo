@@ -1,7 +1,7 @@
 name: Chinith
 website: https://www.niccs.org.cn/niccs/Round1Additional/pc/content/content_2101561076774162432.html
 category: Symmetric
-assumption: SM4/uBlock/Vistrutah OWF
+assumption: Block-cipher OWF
 versions:
 - version: Round 1
   date: '2026-09-20'
