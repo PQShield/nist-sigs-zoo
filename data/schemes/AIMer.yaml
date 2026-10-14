@@ -6,6 +6,9 @@ versions:
 - version: v3.0
   date: '2026-07-31'
   status: KpqC selected
+  programmes:
+    kpqc: selected
+  info: 'v3.0 replaces AIM2 with AIM3. The earlier AIM2-based versions, v2.0 and v2.1 (the version KpqC selected), are broken by a public-key-only universal forgery (<a href="https://eprint.iacr.org/2026/2235">Liu et al.</a>); the AIM cipher of v1.0 falls short of its claimed security (<a href="https://eprint.iacr.org/2023/1133">Liu, Mahzoun, Øygarden &amp; Meier</a>). We list v3.0 as the KpqC selection, expecting KpqC to adopt it.'
   parametersets:
   - name: AIMer-128f
     level: 1
@@ -34,8 +37,6 @@ versions:
 - version: v2.1
   date: '2024-07-12'
   status: KpqC selected
-  programmes:
-    kpqc: selected
   perf_source: submission document (AVX2, Intel Xeon E5-1650 v3 Haswell)
   parametersets:
   - name: AIMer-128f
