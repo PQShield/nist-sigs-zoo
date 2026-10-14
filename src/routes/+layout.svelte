@@ -36,7 +36,7 @@
 
 <div class="flex min-h-screen flex-col bg-pqs-smoke text-pqs-midnight dark:bg-pqs-midnight dark:text-pqs-smoke">
 	<header class="bg-pqs-midnight shadow-md">
-		<nav class="mx-auto flex max-w-screen-2xl items-center gap-6 px-6 py-4">
+		<nav class="mx-auto flex max-w-[120rem] items-center gap-6 px-6 py-4">
 			<a href="{base}/" class="flex items-center gap-2 text-white" onclick={closeMenu}>
 				<span class="font-heading text-xl font-bold tracking-tight">PQShield</span>
 				<span class="rounded bg-pqs-apricot px-2 py-0.5 font-heading text-xs font-semibold text-pqs-midnight">
@@ -135,7 +135,7 @@
 	</main>
 
 	<footer class="mt-8 border-t border-pqs-bluegray/30 bg-pqs-midnight px-6 py-6 text-xs text-pqs-bluegray dark:border-pqs-steel">
-		<div class="mx-auto max-w-screen-2xl space-y-1">
+		<div class="mx-auto max-w-[120rem] space-y-1">
 			<p>
         Built by Thom Wiggers / PQShield.
 				Data licensed under

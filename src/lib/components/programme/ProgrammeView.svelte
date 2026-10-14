@@ -54,7 +54,7 @@
 	<title>{navLabel} programme · {SITE_NAME}</title>
 </svelte:head>
 
-<div class="mx-auto max-w-screen-2xl space-y-12 px-6 py-8">
+<div class="mx-auto max-w-[120rem] space-y-12 px-6 py-8">
 	<header>
 		<nav aria-label="Breadcrumb" class="mb-4 font-heading text-sm">
 			<ol class="flex flex-wrap gap-2 text-pqs-steel dark:text-pqs-bluegray">

@@ -36,7 +36,7 @@
 </svelte:head>
 
 <section class="bg-pqs-midnight text-pqs-smoke">
-	<div class="mx-auto max-w-screen-2xl px-6 py-16">
+	<div class="mx-auto max-w-[120rem] px-6 py-16">
 		<h1 class="max-w-[18ch] font-heading text-4xl font-bold leading-tight md:text-5xl">
 			Post-quantum schemes, compared across standards programmes.
 		</h1>
@@ -57,7 +57,7 @@
 	</div>
 </section>
 
-<div class="mx-auto max-w-screen-2xl space-y-14 px-6 py-14">
+<div class="mx-auto max-w-[120rem] space-y-14 px-6 py-14">
 	<section aria-labelledby="programmes-h">
 		<h2 id="programmes-h" class="mb-4 font-heading text-2xl font-bold">Programmes</h2>
 		<div class="overflow-x-auto rounded border border-pqs-ashgray bg-white dark:border-pqs-steel dark:bg-pqs-midnight-mid">

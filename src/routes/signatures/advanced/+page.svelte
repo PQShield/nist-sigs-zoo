@@ -123,7 +123,7 @@
 	<title>Signatures advanced graph · {SITE_NAME}</title>
 </svelte:head>
 
-<div class="mx-auto max-w-screen-2xl px-6 py-8">
+<div class="mx-auto max-w-[120rem] px-6 py-8">
 	<div class="mb-8 border-l-4 border-pqs-apricot pl-4">
 		<div class="flex items-baseline gap-3">
 			<h1 class="font-heading text-3xl font-bold text-pqs-midnight dark:text-white">

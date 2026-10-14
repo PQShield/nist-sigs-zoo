@@ -13,7 +13,7 @@
 	<title>Programmes · {SITE_NAME}</title>
 </svelte:head>
 
-<div class="mx-auto max-w-screen-2xl px-6 py-8">
+<div class="mx-auto max-w-[120rem] px-6 py-8">
 	<div class="mb-8 border-l-4 border-pqs-apricot pl-4">
 		<h1 class="font-heading text-3xl font-bold text-pqs-midnight dark:text-white">Programmes</h1>
 		<p class="mt-2 max-w-[72ch] text-sm text-pqs-steel dark:text-pqs-bluegray">
