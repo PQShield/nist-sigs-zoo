@@ -1,5 +1,5 @@
-/* PATCH (nist-sigs-zoo): unmodified copy of the submitted vole_params.h, so that its #include "prgs.h" picks up
- * patches/sign-13/prgs.h (see that file; docs/ngcc-submission-bugs.md U10). The wrap_*.c files include it first. */
+/* PATCH (nist-sigs-zoo, fix): unmodified copy of the submitted vole_params.h, so that its #include "prgs.h" picks up
+ * patches/sign-13/prgs.h (see that file). The wrap_*.c files include it first. */
 #ifndef VOLE_PARMS_H
 #define VOLE_PARMS_H
 

@@ -9,8 +9,8 @@
   katrec first mismatching record index (0-based) for MISMATCH, else empty
   hash   placeholder | sm3 | own (hash_usage.py)
   impl   copied from params.tsv (ref | opt)
-  patch  'fix' if a listed patches/<id>/ source works around a documented submission
-         defect (its PATCH header cites docs/ngcc-submission-bugs.md), else empty
+  patch  'fix' if a listed patches/<id>/ source works around a submission defect
+         (its header starts with `PATCH (nist-sigs-zoo, fix)`), else empty
 
 The output is committed as <suite>/schemes/ngcc/status.tsv and read by the YAML import.
 Per-instance KAT timeout: NGCC_KAT_TIMEOUT seconds (default 900).
@@ -50,7 +50,7 @@ COLUMNS = [
 ]
 EXIT = {2: "LOADFAIL", 3: "CRYPTOFAIL"}
 TIMEOUT = int(os.environ.get("NGCC_KAT_TIMEOUT", "900"))
-BUG_DOC = "docs/ngcc-submission-bugs.md"
+FIX_MARKER = "PATCH (nist-sigs-zoo, fix)"
 
 
 def build_kat_tool(build: Path) -> Path:
@@ -88,16 +88,17 @@ def kat_status(
 
 
 def patch_status(row: dict, src_root: Path, suite_dir: Path) -> str:
-    """'fix' if one of the row's patches/ sources cites BUG_DOC in its header, else ''.
+    """'fix' if one of the row's patches/ sources carries FIX_MARKER in its header, else ''.
 
-    Build-only patches (visibility wrappers, missing headers, DRNG copies) do not cite
-    it; a workaround for a documented submission defect does (see bench/CLAUDE.md).
+    Build-only patches (visibility wrappers, missing headers, DRNG copies) use a plain
+    `PATCH (nist-sigs-zoo)` header; a workaround for a submission defect is marked
+    `PATCH (nist-sigs-zoo, fix)` (see bench/CLAUDE.md).
     """
     patches = suite_dir / "patches"
     for p in resolve_sources(row, src_root, suite_dir):
         if (
             p.is_relative_to(patches)
-            and BUG_DOC in p.read_text(errors="replace")[:4096]
+            and FIX_MARKER in p.read_text(errors="replace")[:4096]
         ):
             return "fix"
     return ""

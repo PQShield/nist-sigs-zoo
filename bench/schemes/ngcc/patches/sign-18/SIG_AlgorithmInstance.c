@@ -1,5 +1,5 @@
-/* PATCH (nist-sigs-zoo): sig_sign returned -4 in about 7% of calls: the tail zone has no variables to resample,
- * so all MAX_SIGN_ATTEMPTS retries rebuild the same singular matrix; see docs/ngcc-submission-bugs.md item 16.
+/* PATCH (nist-sigs-zoo, fix): sig_sign returned -4 in about 7% of calls: the tail zone has no variables to resample,
+ * so all MAX_SIGN_ATTEMPTS retries rebuild the same singular matrix.
  * The submitter's own benchmark driver (Common/bench_sig.c, sign_with_retry) and comm_cost.c call sig_sign again
  * on -4, which draws a fresh salt from drng_algorithm. This copy does that retry inside sig_sign (same limit,
  * 10000 calls). The first attempt is unchanged, so a call that succeeded before gives the same signature.

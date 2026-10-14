@@ -1,6 +1,6 @@
-/* PATCH (nist-sigs-zoo): sig_keygen never read the ICCS DRNG drng_algorithm: unless the non-standard hook
+/* PATCH (nist-sigs-zoo, fix): sig_keygen never read the ICCS DRNG drng_algorithm: unless the non-standard hook
  * galas_set_kat_seed() had been called, it seeded a local DRNG with a constant all-zero seed, so every key pair
- * generated through the ICCS API was the same; see docs/ngcc-submission-bugs.md item 1. This copy draws k and x
+ * generated through the ICCS API was the same. This copy draws k and x
  * from drng_algorithm instead (the galas_set_kat_seed() path is unchanged). Because the ICCS KAT driver seeds
  * drng_algorithm with the record seed that kat_gen.c passes to galas_set_kat_seed(), the draws are the same as in
  * the submitted KAT generator. Nothing else is changed. Identical for all 8 instances (the submitted files are identical). */

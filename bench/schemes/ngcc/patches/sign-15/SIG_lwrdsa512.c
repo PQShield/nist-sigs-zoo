@@ -1,6 +1,6 @@
-﻿/* PATCH (nist-sigs-zoo): sig_sign wrote a detached signature of CRYPTO_BYTES bytes (pack_sig) but reported
+﻿/* PATCH (nist-sigs-zoo, fix): sig_sign wrote a detached signature of CRYPTO_BYTES bytes (pack_sig) but reported
  * *sn_len_bytes = m_len_bytes + CRYPTO_BYTES, as if the message were appended. The reported length exceeds the
- * sig_get_sn_len_bytes() buffer, so callers read m_len_bytes bytes past it (docs/ngcc-submission-bugs.md item 2).
+ * sig_get_sn_len_bytes() buffer, so callers read m_len_bytes bytes past it.
  * This copy reports CRYPTO_BYTES, the bytes actually written; nothing else is changed. */
 /*
 The software is provided by the Institute of Commercial Cryptography Standards (ICCS), and is used for algorithm submissions in the Next-generation Commercial Cryptographic Algorithms Program (NGCC).

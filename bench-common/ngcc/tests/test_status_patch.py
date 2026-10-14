@@ -20,9 +20,7 @@ def _tree(tmp_path: Path) -> tuple[Path, Path]:
     (src / "sign-99" / "inst" / "drng.c").write_text("int d;\n")
     p = suite / "patches" / "sign-99"
     p.mkdir(parents=True)
-    (p / "fix.c").write_text(
-        "/* PATCH (nist-sigs-zoo): x; see docs/ngcc-submission-bugs.md item 1. */\nint f;\n"
-    )
+    (p / "fix.c").write_text("/* PATCH (nist-sigs-zoo, fix): x. */\nint f;\n")
     (p / "wrap.c").write_text(
         "/* PATCH (nist-sigs-zoo): hidden visibility for the asm tables. */\nint w;\n"
     )

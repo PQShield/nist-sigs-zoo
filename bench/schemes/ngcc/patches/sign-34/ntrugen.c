@@ -1,9 +1,9 @@
-/* PATCH (nist-sigs-zoo): copy of the submitted yuanyang-1024 keygen/ntrugen/src/ntrugen.c (Optimized_Implementation;
+/* PATCH (nist-sigs-zoo, fix): copy of the submitted yuanyang-1024 keygen/ntrugen/src/ntrugen.c (Optimized_Implementation;
  * identical to the yuanyang-512 copy and, apart from two `#pragma omp simd` lines, to the Reference_Implementation
  * copies), CRLF converted to LF. One functional change: the debug `assert(maxe<0.1)` before the precision check of
  * the reconstruction step is removed, so a lack of floating-point precision takes the existing `return -2`
  * (NTRUGEN_ERR_VERIFY) path and keygen samples another (f, g) pair instead of aborting the process. This is what
- * the submitters' own yuanyang-2048 copy does. See docs/ngcc-submission-bugs.md item 18.
+ * the submitters' own yuanyang-2048 copy does.
  * Build-only change: the fft.h include names keygen/ntrugen/src explicitly (this copy lives elsewhere, and the
  * instance directory, searched first, has a different fft.h). */
 #include "complex.h"

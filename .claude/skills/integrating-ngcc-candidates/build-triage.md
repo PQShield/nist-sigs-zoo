@@ -1,6 +1,6 @@
 # NGCC build triage: symptom → likely cause in our row
 
-Check the "our row" causes first. Treat a failure as a submission defect only when the row matches the submitter's default build and the failure still reproduces. In that case write it up in `docs/ngcc-submission-bugs.md`.
+Check the "our row" causes first. Treat a failure as a submission defect only when the row matches the submitter's default build and the failure still reproduces. In that case note it in the internal `docs/ngcc-submission-bugs.md` (local only, git-excluded: never commit it or link to it from committed files).
 
 | Symptom (status.tsv / bench) | Likely cause in our row | Fix |
 |---|---|---|

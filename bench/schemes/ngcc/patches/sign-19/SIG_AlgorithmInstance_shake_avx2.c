@@ -1,6 +1,6 @@
-/* PATCH (nist-sigs-zoo): the AVX2 SHAKE parameter headers define SPX_BYTES without the 2-byte TFORS length field
+/* PATCH (nist-sigs-zoo, fix): the AVX2 SHAKE parameter headers define SPX_BYTES without the 2-byte TFORS length field
  * that the signer writes (its own signature_length_from_tfors() adds it), so CRYPTO_BYTES and sig_get_sn_len_bytes()
- * were 2 bytes below the maximum signature length; see docs/ngcc-submission-bugs.md item 3. CRYPTO_BYTES is used
+ * were 2 bytes below the maximum signature length. CRYPTO_BYTES is used
  * only in this file, so this copy redefines it as SPX_BYTES + 2, the value of the reference and SM3 headers.
  * Nothing else is changed. Identical for all 10 AVX2 SHAKE instances (the submitted files are identical). */
 /*

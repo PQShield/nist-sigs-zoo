@@ -51,7 +51,7 @@ Credit each finding to its original authors ("A and B", "A et al."), linking the
 
 ## 6. Write-up
 
-Item in `docs/ngcc-submission-bugs.md`: Candidate (id, archive) · Affected (instances, tree, unchecked) · Severity · Security-critical (criterion) · Description (incl. what the submitter's build sets) · Evidence: `file:line` + short quote, re-checked against the archive · Reproduce (row, the change that flips it) · Suggested fix · Prior reports (searched what, or authors, venue, date, URL). Plus a summary-table row with Confidence.
+Item in the internal `docs/ngcc-submission-bugs.md` (local only, git-excluded: never commit it or cite it from committed files; rate crash/availability bugs in candidate code Low unless they leak secrets or allow forgery, and treat a prior report of the same root bug as already reported): Candidate (id, archive) · Affected (instances, tree, unchecked) · Severity · Security-critical (criterion) · Description (incl. what the submitter's build sets) · Evidence: `file:line` + short quote, re-checked against the archive · Reproduce (row, the change that flips it) · Suggested fix · Prior reports (searched what, or authors, venue, date, URL). Plus a summary-table row with Confidence.
 
 Site notes stay neutral ("cause unknown", "did not finish"). Defect claims stay in the unpublished report; Thom discloses.
 

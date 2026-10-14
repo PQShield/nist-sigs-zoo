@@ -51,7 +51,7 @@ Smoke-bench the changed rows (`BENCH_ITER=3` via `ngcc-run`). Compare per-op cyc
 
 ## 5. Candidate bugs
 
-Put a patched copy in `<suite>/schemes/ngcc/patches/<id>/` with a `/* PATCH (nist-sigs-zoo): why */` header, list it in `srcs`, mention it in the row comment, and link the item in `docs/ngcc-submission-bugs.md`. Never edit extracted sources, the shim template, `ngcc_kat`, `status.py` or `kat_compare` for one candidate.
+Put a patched copy in `<suite>/schemes/ngcc/patches/<id>/` with a header that describes the defect and the workaround (`/* PATCH (nist-sigs-zoo, fix): why */` for a defect workaround, which sets `patch=fix` in `status.tsv`; plain `/* PATCH (nist-sigs-zoo): why */` for build-only changes), list it in `srcs`, and describe it in the row comment. Keep both self-contained: no pointers to the internal bug notes. Never edit extracted sources, the shim template, `ngcc_kat`, `status.py` or `kat_compare` for one candidate.
 
 ## 6. Regenerate and test
 

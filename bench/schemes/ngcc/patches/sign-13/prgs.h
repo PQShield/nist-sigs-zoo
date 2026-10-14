@@ -1,6 +1,6 @@
-/* PATCH (nist-sigs-zoo): in the SECURITY_PARAM == 512 branch, prg_*_gen copies keys into a malloc() buffer of
+/* PATCH (nist-sigs-zoo, fix): in the SECURITY_PARAM == 512 branch, prg_*_gen copies keys into a malloc() buffer of
  * block_secpar = block512 (two __m256i, 32-byte alignment). malloc() only guarantees 16 bytes, so the aligned AVX2
- * stores fault (SIGSEGV in prg_tree_gen in the first sig_sign; see docs/ngcc-submission-bugs.md U10). This copy
+ * stores fault (SIGSEGV in prg_tree_gen in the first sig_sign). This copy
  * allocates that buffer with aligned_alloc(_Alignof(block_secpar), ...), as the rest of the tree (faest.c,
  * vole_commit.c) does. Nothing else is changed. It is reached through patches/sign-13/vole_params.h, which the
  * wrap_*.c files in this directory include first (same PRGS_H guard), so the submitted prgs.h is skipped in those

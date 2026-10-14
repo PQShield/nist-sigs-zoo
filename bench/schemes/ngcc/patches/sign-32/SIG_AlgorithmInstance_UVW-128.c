@@ -1,5 +1,5 @@
-/* PATCH (nist-sigs-zoo): sig_verify stored the result of uvw_verify in `result` but always returned 0, so every
- * signature was accepted for every message; see docs/ngcc-submission-bugs.md item 15. This copy returns `result`
+/* PATCH (nist-sigs-zoo, fix): sig_verify stored the result of uvw_verify in `result` but always returned 0, so every
+ * signature was accepted for every message. This copy returns `result`
  * (0 = valid, -1 = invalid, as computed by the submitted code); nothing else is changed. */
 /*
 The software is provided by the Institute of Commercial Cryptography Standards

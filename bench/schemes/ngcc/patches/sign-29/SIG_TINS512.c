@@ -1,6 +1,6 @@
-/* PATCH (nist-sigs-zoo): sig_verify copied the uninitialised stmp buffer over the aux part of the signature
+/* PATCH (nist-sigs-zoo, fix): sig_verify copied the uninitialised stmp buffer over the aux part of the signature
  * (memcpy(sn+pos, stmp, ...)) instead of reading the aux part into stmp, so it decoded uninitialised memory and
- * overwrote the caller's signature; see docs/ngcc-submission-bugs.md item 7. This copy reads memcpy(stmp, sn+pos, ...),
+ * overwrote the caller's signature. This copy reads memcpy(stmp, sn+pos, ...),
  * the inverse of sig_sign's packing. Nothing else is changed. */
 /*
 The software is provided by the Institute of Commercial Cryptography Standards

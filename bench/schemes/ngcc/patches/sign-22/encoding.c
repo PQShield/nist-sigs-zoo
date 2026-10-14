@@ -1,12 +1,12 @@
-/* PATCH (nist-sigs-zoo): Rhyme-SHAKE only. encode_z indexes the z1 rANS symbol table es1[RANS_NZ1] with
+/* PATCH (nist-sigs-zoo, fix): Rhyme-SHAKE only. encode_z indexes the z1 rANS symbol table es1[RANS_NZ1] with
  * hi = (z1 + B0) >> RANS_L1 and no bound check. rans_freqs.h (identical in all trees) was sized for the SM3
  * parameters (B0 = 382/582/599/903), but the SHAKE params_tables.h has larger bounds (B0 = 388/598/605/916), so
  * the table has fewer z1 symbols than (2*B0 >> RANS_L1) + 1: 96 < 98 (128), 146 < 150 (256), 150 < 152 (384),
  * 113 < 115 (512). Sample_Z accepts every |z1| <= B0, so a z1 coefficient >= 380, 570, 595 or 892 reads a
  * RansEncSymbol past the end of es1 (ASan: global-buffer-overflow). Depending on what lies there, the
  * renormalisation loop in RansEncPutSymbol writes below the malloc'd rtmp buffer until it faults (SIGSEGV), or
- * the signer returns a signature that verify rejects (decode_z can never produce hi >= RANS_NZ1); see
- * docs/ngcc-submission-bugs.md item 17. This copy treats such a z1 as unencodable: encode_z returns 0, pack_sig
+ * the signer returns a signature that verify rejects (decode_z can never produce hi >= RANS_NZ1).
+ * This copy treats such a z1 as unencodable: encode_z returns 0, pack_sig
  * fails and crypto_sign_signature moves on to its next iteration, as it already does for any encoding failure.
  * Signatures that encoded correctly before are unchanged (KAT PASS). Otherwise the submitted src/encoding.c. */
 #include <stdint.h>
