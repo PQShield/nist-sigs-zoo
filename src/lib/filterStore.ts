@@ -1,6 +1,6 @@
 import { derived, writable } from 'svelte/store';
 import type { Readable, Writable } from 'svelte/store';
-import type { DataRanges, FilterState, ParameterSet, SortableColumn } from './types';
+import type { DataRanges, FilterState, ParameterSet, SortDir } from './types';
 import { presentProgrammeGroups } from './compareFilters';
 import {
 	compareRows,
@@ -16,7 +16,7 @@ export function buildUrlParams(state: FilterState, defaults: FilterState): URLSe
 }
 
 /** Sort comparator: time columns keep rows without data last regardless of direction. */
-export function sortRows(a: ParameterSet, b: ParameterSet, col: SortableColumn, dir: 'asc' | 'desc'): number {
+export function sortRows(a: ParameterSet, b: ParameterSet, col: string, dir: SortDir): number {
 	return compareRows(SIGNATURE_FILTER, a, b, col, dir);
 }
 

@@ -192,19 +192,6 @@ export type KemAxisField =
     | 'encapsTime'
     | 'decapsTime';
 
-export type KemSortableColumn =
-	| 'scheme'
-	| 'category'
-	| 'status'
-	| 'parameterset'
-	| 'level'
-	| 'pk'
-	| 'ct'
-	| 'pkPlusCt'
-	| 'keygenUs'
-	| 'encapsUs'
-	| 'decapsUs';
-
 export interface KemDataRanges {
 	pk: [number, number];
 	ct: [number, number];
@@ -215,8 +202,7 @@ export interface KemDataRanges {
 	decapsUs: [number, number] | null;
 }
 
-export interface KemFilterState extends CommonFilter {
-	schemes: Set<string>;
+export interface KemFilterState extends CompareFilter {
 	minPk: number;
 	maxPk: number;
 	minCt: number;
@@ -229,8 +215,6 @@ export interface KemFilterState extends CommonFilter {
 	maxEncapsUs: number;
 	minDecapsUs: number;
 	maxDecapsUs: number;
-	sortCol: KemSortableColumn;
-	sortDir: 'asc' | 'desc';
 }
 
 export interface BenchmarkEnv {
@@ -273,22 +257,7 @@ export type AxisField =
 	| 'signingTime' | 'verificationTime';
 export type ScaleType = 'log' | 'linear';
 
-export type SortableColumn =
-	| 'scheme'
-	| 'category'
-	| 'status'
-	| 'parameterset'
-	| 'level'
-	| 'pk'
-	| 'sig'
-	| 'pkPlusSig'
-	| 'signingCycles'
-	| 'verificationCycles'
-	| 'signingUs'
-	| 'verificationUs';
-
-export interface FilterState extends CommonFilter {
-	schemes: Set<string>;
+export interface FilterState extends CompareFilter {
 	minPk: number;
 	maxPk: number;
 	minSig: number;
@@ -303,8 +272,6 @@ export interface FilterState extends CommonFilter {
 	maxSigningUs: number;
 	minVerificationUs: number;
 	maxVerificationUs: number;
-	sortCol: SortableColumn;
-	sortDir: 'asc' | 'desc';
 }
 
 export interface DataRanges {
@@ -420,4 +387,13 @@ export interface CommonFilter {
 	hideWarnings: boolean;
 	/** Main compare chart axes. View state, kept here so it shares the URL codec. */
 	chart: ChartMode;
+}
+
+export type SortDir = 'asc' | 'desc';
+
+/** Filter state of a compare page; each bound of its FilterSpec adds `min<Field>` / `max<Field>`. */
+export interface CompareFilter extends CommonFilter {
+	schemes: Set<string>;
+	sortCol: string;
+	sortDir: SortDir;
 }

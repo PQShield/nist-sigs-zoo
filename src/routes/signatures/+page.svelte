@@ -13,7 +13,8 @@
 	import FilterSidebar from '$lib/components/FilterSidebar.svelte';
 	import { encodeCommonFilters, filterSummary, presentProgrammeGroups } from '$lib/compareFilters';
 	import FilterPanel from '$lib/components/FilterPanel.svelte';
-	import SchemeTable from '$lib/components/SchemeTable.svelte';
+	import CompareTable from '$lib/components/CompareTable.svelte';
+	import { SIGNATURES } from '$lib/primitives';
 	import ScatterPlot from '$lib/components/ScatterPlot.svelte';
 	import { processYamlSchemes } from '$lib/data';
 	import { getFilterStore, buildUrlParams, createFilterStore } from '$lib/filterStore';
@@ -29,7 +30,7 @@
 	let categories = $state([...new Set(_init.schemes.map((s) => s.category))].sort());
 	let ranges = $state(_init.ranges);
 	let groups = $state(presentProgrammeGroups(_init.parameterSets));
-	const { store } = getFilterStore();
+	const { store, filteredRows } = getFilterStore();
 
 	function applyRound(round: Round, urlParams: URLSearchParams = new URLSearchParams()) {
 		const { filter, useLatestVersion, includeOtherProgrammes } = roundToFilter(round);
@@ -182,7 +183,13 @@
 
 			<!-- Unified table -->
 			<section>
-				<SchemeTable />
+				<CompareTable
+					config={SIGNATURES}
+					rows={$filteredRows}
+					sortCol={$store.sortCol}
+					sortDir={$store.sortDir}
+					onsort={(sortCol, sortDir) => store.update((f) => ({ ...f, sortCol, sortDir }))}
+				/>
 			</section>
 
 			<!-- Benchmark environment -->

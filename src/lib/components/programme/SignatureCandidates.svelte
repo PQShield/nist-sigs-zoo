@@ -13,10 +13,11 @@
 		unmappedAtTarget
 	} from '$lib/programmePage';
 	import { allSchemeData } from '$lib/schemeData';
+	import { SIGNATURES } from '$lib/primitives';
 	import type { NgccLevel, ProgrammeYaml } from '$lib/types';
 	import ChartModeToggle from '../ChartModeToggle.svelte';
 	import ScatterPlot from '../ScatterPlot.svelte';
-	import SchemeTable from '../SchemeTable.svelte';
+	import CompareTable from '../CompareTable.svelte';
 	import SegmentedToggle from '../SegmentedToggle.svelte';
 
 	let { programme }: { programme: ProgrammeYaml } = $props();
@@ -28,7 +29,7 @@
 
 	// ScatterPlot and SchemeTable read the shared filter store; this section owns it while mounted
 	// (every compare page rebuilds it on load). createFilterStore() keeps the same store object.
-	const { store } = createFilterStore(initial.parameterSets, initial.ranges, new URLSearchParams());
+	const { store, filteredRows } = createFilterStore(initial.parameterSets, initial.ranges, new URLSearchParams());
 	store.update((f) => focusTarget(f, firstTarget));
 
 	let view = $state(CURRENT_VIEW);
@@ -99,7 +100,13 @@
 			</p>
 		{/if}
 
-		<SchemeTable />
+		<CompareTable
+			config={SIGNATURES}
+			rows={$filteredRows}
+			sortCol={$store.sortCol}
+			sortDir={$store.sortDir}
+			onsort={(sortCol, sortDir) => store.update((f) => ({ ...f, sortCol, sortDir }))}
+		/>
 
 		{#if unmapped.length > 0}
 			<p class="text-xs text-pqs-steel dark:text-pqs-bluegray">

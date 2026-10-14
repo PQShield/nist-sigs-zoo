@@ -9,10 +9,10 @@
 	import { filterSummary, presentProgrammeGroups } from '$lib/compareFilters';
 	import KemFilterPanel from '$lib/components/KemFilterPanel.svelte';
 	import KemScatterPlot from '$lib/components/KemScatterPlot.svelte';
-	import KemTable from '$lib/components/KemTable.svelte';
+	import CompareTable from '$lib/components/CompareTable.svelte';
 	import { computeKemRanges, processKemSchemes } from '$lib/kemData';
 	import { decodeCompareFilter, defaultCompareFilter, encodeCompareFilter, filterCompareRows } from '$lib/compare';
-	import { KEM_FILTER } from '$lib/primitives';
+	import { KEM_FILTER, KEMS } from '$lib/primitives';
 	import { allKemData } from '$lib/kemSchemeData';
 	import type { KemAxisField, ScaleType } from '$lib/types';
 	import type { PageData } from './$types';
@@ -200,7 +200,13 @@
 
 			<!-- Table -->
 			<section>
-				<KemTable rows={filteredRows} />
+				<CompareTable
+					config={KEMS}
+					rows={filteredRows}
+					sortCol={filter.sortCol}
+					sortDir={filter.sortDir}
+					onsort={(sortCol, sortDir) => (filter = { ...filter, sortCol, sortDir })}
+				/>
 			</section>
 		</div>
 	</div>

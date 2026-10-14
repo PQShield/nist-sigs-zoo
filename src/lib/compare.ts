@@ -1,4 +1,4 @@
-import type { CommonFilter, ProgrammeGroup } from './types';
+import type { CompareFilter, ProgrammeGroup, SortDir } from './types';
 import {
 	decodeCommonFilters,
 	defaultCommonFilter,
@@ -7,15 +7,6 @@ import {
 	type FilterableRow
 } from './compareFilters';
 
-export type SortDir = 'asc' | 'desc';
-
-/** Filter state of a compare page; each bound adds numeric `min<Field>` / `max<Field>` fields. */
-export interface CompareFilter extends CommonFilter {
-	schemes: Set<string>;
-	sortCol: string;
-	sortDir: SortDir;
-}
-
 /** Row fields the shared sort and table read. ParameterSet and KemParameterSet both satisfy it. */
 export interface CompareRow extends FilterableRow {
 	scheme: string;
@@ -23,6 +14,10 @@ export interface CompareRow extends FilterableRow {
 	category: string;
 	status: string;
 	assumption: string;
+	info: false | string;
+	findingsUrl: string | null;
+	notes: string | null;
+	version?: string;
 }
 
 /** A min/max filter on one row value. */
@@ -51,6 +46,29 @@ export interface FilterSpec<R, G, F extends CompareFilter = CompareFilter> {
 	numericSort: Record<string, (row: R) => number>;
 	/** Time sort keys: rows without a time sort last in both directions. */
 	timeSort: Record<string, (row: R) => number | null>;
+}
+
+/** A table column after Scheme / Category / Programmes / Parameter Set / Level. */
+export interface TableColumn<R> {
+	key: string;
+	label: string;
+	/** Size in bytes. */
+	size?: (row: R) => number;
+	/** Measured µs and cycle count; the time is extrapolated from cycles when not measured. */
+	time?: (row: R) => [number | null, number];
+}
+
+export interface TableSpec<R> {
+	columns: TableColumn<R>[];
+	/** Show the parameter set without the "<scheme>-" prefix (full name as title). */
+	shortParamSet: boolean;
+	emptyText: string;
+}
+
+/** Everything the shared compare components need to know about one primitive. */
+export interface CompareConfig<R extends CompareRow, G, F extends CompareFilter> {
+	filter: FilterSpec<R, G, F>;
+	table: TableSpec<R>;
 }
 
 type Bounds = Record<string, number>;

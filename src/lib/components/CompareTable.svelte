@@ -1,10 +1,10 @@
-<script lang="ts">
+<script lang="ts" generics="R extends CompareRow, G, F extends CompareFilter">
 	import { base } from '$app/paths';
 	import { slugOf } from '$lib/schemeIndex';
 	import { schemeHref } from '$lib/slugs';
 	import { programmeChips, securityBadges, type BadgeKind } from '$lib/badges';
-	import type { ParameterSet, SortableColumn } from '$lib/types';
-	import { getFilterStore } from '$lib/filterStore';
+	import { sortCompareRows, type CompareConfig, type CompareRow } from '$lib/compare';
+	import type { CompareFilter, SortDir } from '$lib/types';
 	import { allProgrammes } from '$lib/programmeData';
 	import { CPU_GHZ_LABEL } from '$lib/constants';
 	import { fmt, fmtCycles, fmtTime } from '$lib/format';
@@ -13,58 +13,65 @@
 	import ProgrammeChips from './ProgrammeChips.svelte';
 	import TableLegend from './TableLegend.svelte';
 
-	const { store, filteredRows } = getFilterStore();
+	interface Props {
+		config: CompareConfig<R, G, F>;
+		rows: R[];
+		sortCol: string;
+		sortDir: SortDir;
+		onsort: (col: string, dir: SortDir) => void;
+	}
+	let { config, rows, sortCol, sortDir, onsort }: Props = $props();
+
 	const idPrefix = $props.id();
 
 	/** Sortable columns; the Programmes column (not sortable) is inserted before index 2. */
-	const COLUMNS: { key: SortableColumn; label: string; numeric?: boolean }[] = [
-		{ key: 'scheme', label: 'Scheme' },
-		{ key: 'category', label: 'Category' },
-		{ key: 'parameterset', label: 'Parameter Set' },
+	const columns = $derived([
+		{ key: 'scheme', label: 'Scheme', numeric: false },
+		{ key: 'category', label: 'Category', numeric: false },
+		{ key: 'parameterset', label: 'Parameter Set', numeric: false },
 		{ key: 'level', label: 'Level', numeric: true },
-		{ key: 'pk', label: 'pk (B)', numeric: true },
-		{ key: 'sig', label: 'sig (B)', numeric: true },
-		{ key: 'pkPlusSig', label: 'pk+sig (B)', numeric: true },
-		{ key: 'signingUs', label: 'Sign', numeric: true },
-		{ key: 'verificationUs', label: 'Verify', numeric: true },
-	];
-	const COLSPAN = COLUMNS.length + 2; // + Programmes + Assumption
+		...config.table.columns.map((c) => ({ key: c.key, label: c.label, numeric: true }))
+	]);
+	const colspan = $derived(columns.length + 2); // + Programmes + Assumption
+
+	const sortedRows = $derived(sortCompareRows(config.filter, rows, sortCol, sortDir));
 
 	const DETAIL_TONE: Record<BadgeKind, string> = {
 		'pre-quantum': 'bg-pqs-smoke dark:bg-pqs-steel/20',
 		broken: 'bg-[#fdf2f2] dark:bg-[#3b1219]',
 		implementation: 'bg-[#fff4ec] dark:bg-[#3a1d0c]',
 		warning: 'bg-[#fdf6e7] dark:bg-[#33270a]',
-		note: 'bg-pqs-smoke dark:bg-pqs-steel/20',
+		note: 'bg-pqs-smoke dark:bg-pqs-steel/20'
 	};
 
 	/** Which badge's detail row is open, per parameter set. */
 	let open = $state<Record<string, BadgeKind | undefined>>({});
 
-	function rowKey(row: ParameterSet): string {
+	function rowKey(row: R): string {
 		return `${row.scheme}/${row.parameterset}`;
+	}
+
+	function shortParam(row: R): string {
+		const prefix = row.scheme + '-';
+		return row.parameterset.startsWith(prefix) ? row.parameterset.slice(prefix.length) : row.parameterset;
 	}
 
 	function toggle(key: string, kind: BadgeKind) {
 		open[key] = open[key] === kind ? undefined : kind;
 	}
 
-	function setSort(col: SortableColumn) {
-		store.update((f) => ({
-			...f,
-			sortCol: col,
-			sortDir: f.sortCol === col && f.sortDir === 'asc' ? 'desc' : 'asc',
-		}));
+	function setSort(col: string) {
+		onsort(col, sortCol === col && sortDir === 'asc' ? 'desc' : 'asc');
 	}
 
-	function sortIndicator(col: SortableColumn): string {
-		if ($store.sortCol !== col) return '';
-		return $store.sortDir === 'asc' ? ' ▲' : ' ▼';
+	function sortIndicator(col: string): string {
+		if (sortCol !== col) return '';
+		return sortDir === 'asc' ? ' ▲' : ' ▼';
 	}
 
-	function ariaSort(col: SortableColumn): 'ascending' | 'descending' | undefined {
-		if ($store.sortCol !== col) return undefined;
-		return $store.sortDir === 'asc' ? 'ascending' : 'descending';
+	function ariaSort(col: string): 'ascending' | 'descending' | undefined {
+		if (sortCol !== col) return undefined;
+		return sortDir === 'asc' ? 'ascending' : 'descending';
 	}
 </script>
 
@@ -89,7 +96,7 @@
 		<table class="min-w-full text-sm">
 			<thead class="sticky top-0 z-10">
 				<tr class="bg-pqs-steel font-heading text-xs text-white">
-					{#each COLUMNS as col, i (col.key)}
+					{#each columns as col, i (col.key)}
 						{#if i === 2}
 							<th scope="col" class="whitespace-nowrap px-2 py-2.5 text-left font-semibold">Programmes</th>
 						{/if}
@@ -107,7 +114,7 @@
 				</tr>
 			</thead>
 			<tbody class="divide-y divide-pqs-ashgray bg-white dark:divide-pqs-steel dark:bg-pqs-midnight-mid">
-				{#each $filteredRows as row, i (rowKey(row))}
+				{#each sortedRows as row, i (rowKey(row))}
 					{@const key = rowKey(row)}
 					{@const badges = securityBadges(row)}
 					{@const openBadge = badges.find((b) => b.kind === open[key])}
@@ -131,7 +138,11 @@
 						</td>
 						<td class="whitespace-nowrap px-2 py-1.5 text-pqs-steel dark:text-pqs-bluegray">{row.category}</td>
 						<td class="px-2 py-1.5"><ProgrammeChips chips={programmeChips(row, allProgrammes)} /></td>
-						<td class="whitespace-nowrap px-2 py-1.5 font-mono text-xs">{row.parameterset}</td>
+						{#if config.table.shortParamSet}
+							<td class="whitespace-nowrap px-2 py-1.5 font-mono text-xs" title={row.parameterset}>{shortParam(row)}</td>
+						{:else}
+							<td class="whitespace-nowrap px-2 py-1.5 font-mono text-xs">{row.parameterset}</td>
+						{/if}
 						<td class="px-2 py-1.5 text-right tabular-nums text-pqs-steel dark:text-pqs-bluegray">
 							{#if row.level !== null}
 								{row.level === 'Pre-Quantum' ? 'Pre-quantum' : row.level}
@@ -141,16 +152,19 @@
 								—
 							{/if}
 						</td>
-						<td class="px-2 py-1.5 text-right tabular-nums">{fmt(row.pk)}</td>
-						<td class="px-2 py-1.5 text-right tabular-nums">{fmt(row.sig)}</td>
-						<td class="px-2 py-1.5 text-right tabular-nums">{fmt(row.pkPlusSig)}</td>
-						{@render timeCell(row.signingUs, row.signingCycles)}
-						{@render timeCell(row.verificationUs, row.verificationCycles)}
+						{#each config.table.columns as col (col.key)}
+							{#if col.time}
+								{@const [us, cycles] = col.time(row)}
+								{@render timeCell(us, cycles)}
+							{:else if col.size}
+								<td class="px-2 py-1.5 text-right tabular-nums">{fmt(col.size(row))}</td>
+							{/if}
+						{/each}
 						<td class="max-w-48 whitespace-normal px-2 py-1.5 text-pqs-steel/80 dark:text-pqs-bluegray">{row.assumption}</td>
 					</tr>
 					{#if badges.length > 0}
 						<tr id={detailId} hidden={!openBadge} class={openBadge ? DETAIL_TONE[openBadge.kind] : ''}>
-							<td colspan={COLSPAN} class="whitespace-normal px-3 py-2.5 pl-9 text-sm leading-relaxed text-pqs-midnight dark:text-pqs-smoke [&_a]:text-pqs-apricot [&_a]:underline">
+							<td colspan={colspan} class="whitespace-normal px-3 py-2.5 pl-9 text-sm leading-relaxed text-pqs-midnight dark:text-pqs-smoke [&_a]:text-pqs-apricot [&_a]:underline">
 								<div class="sticky left-0 max-w-[calc(100vw-3rem)]">
 								{#if openBadge}
 									<strong class="font-heading">{openBadge.title}:</strong>
@@ -164,18 +178,16 @@
 						</tr>
 					{/if}
 				{/each}
-				{#if $filteredRows.length === 0}
+				{#if sortedRows.length === 0}
 					<tr>
-						<td colspan={COLSPAN} class="px-3 py-10 text-center text-pqs-bluegray">
-							No parameter sets match the current filters.
-						</td>
+						<td colspan={colspan} class="px-3 py-10 text-center text-pqs-bluegray">{config.table.emptyText}</td>
 					</tr>
 				{/if}
 			</tbody>
 		</table>
 	</div>
 	<div class="border-t border-pqs-ashgray bg-pqs-smoke px-3 py-1.5 font-heading text-xs text-pqs-steel dark:border-pqs-steel dark:bg-pqs-midnight-mid dark:text-pqs-bluegray">
-		<span>{$filteredRows.length} parameter set{$filteredRows.length === 1 ? '' : 's'}</span>
+		<span>{sortedRows.length} parameter set{sortedRows.length === 1 ? '' : 's'}</span>
 	</div>
 	<TableLegend />
 </div>

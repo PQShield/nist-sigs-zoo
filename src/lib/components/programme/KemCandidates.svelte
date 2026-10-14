@@ -4,7 +4,7 @@
 	import { presentProgrammeGroups } from '$lib/compareFilters';
 	import { computeKemRanges } from '$lib/kemData';
 	import { defaultCompareFilter, filterCompareRows } from '$lib/compare';
-	import { KEM_FILTER } from '$lib/primitives';
+	import { KEM_FILTER, KEMS } from '$lib/primitives';
 	import { allKemData } from '$lib/kemSchemeData';
 	import {
 		anyKemTimings,
@@ -17,7 +17,7 @@
 	import type { NgccLevel, ProgrammeYaml } from '$lib/types';
 	import ChartModeToggle from '../ChartModeToggle.svelte';
 	import KemScatterPlot from '../KemScatterPlot.svelte';
-	import KemTable from '../KemTable.svelte';
+	import CompareTable from '../CompareTable.svelte';
 	import SegmentedToggle from '../SegmentedToggle.svelte';
 
 	let { programme }: { programme: ProgrammeYaml } = $props();
@@ -85,7 +85,13 @@
 			</p>
 		{/if}
 
-		<KemTable rows={filtered} />
+		<CompareTable
+			config={KEMS}
+			rows={filtered}
+			sortCol={filter.sortCol}
+			sortDir={filter.sortDir}
+			onsort={(sortCol, sortDir) => (filter = { ...filter, sortCol, sortDir })}
+		/>
 
 		{#if unmapped.length > 0}
 			<p class="text-xs text-pqs-steel dark:text-pqs-bluegray">

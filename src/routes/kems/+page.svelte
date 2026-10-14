@@ -9,12 +9,12 @@
 	import KemFilterPanel from '$lib/components/KemFilterPanel.svelte';
 	import ChartModeToggle from '$lib/components/ChartModeToggle.svelte';
 	import KemScatterPlot from '$lib/components/KemScatterPlot.svelte';
-	import KemTable from '$lib/components/KemTable.svelte';
+	import CompareTable from '$lib/components/CompareTable.svelte';
 	import BenchmarkEnvInfo from '$lib/components/BenchmarkEnvInfo.svelte';
 	import { filterSummary, presentProgrammeGroups } from '$lib/compareFilters';
 	import { computeKemRanges, processKemSchemes } from '$lib/kemData';
 	import { decodeCompareFilter, defaultCompareFilter, encodeCompareFilter, filterCompareRows } from '$lib/compare';
-	import { KEM_FILTER } from '$lib/primitives';
+	import { KEM_FILTER, KEMS } from '$lib/primitives';
 	import { allKemData, kemBenchmarkEnv } from '$lib/kemSchemeData';
 	import type { PageData } from './$types';
 
@@ -125,7 +125,13 @@
 
 			<!-- Table -->
 			<section>
-				<KemTable rows={filteredRows} />
+				<CompareTable
+					config={KEMS}
+					rows={filteredRows}
+					sortCol={filter.sortCol}
+					sortDir={filter.sortDir}
+					onsort={(sortCol, sortDir) => (filter = { ...filter, sortCol, sortDir })}
+				/>
 			</section>
 
 			<!-- Benchmark environment -->

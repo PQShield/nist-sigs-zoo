@@ -11,7 +11,8 @@
 	import FilterSidebar from '$lib/components/FilterSidebar.svelte';
 	import { filterSummary, presentProgrammeGroups } from '$lib/compareFilters';
 	import FilterPanel from '$lib/components/FilterPanel.svelte';
-	import SchemeTable from '$lib/components/SchemeTable.svelte';
+	import CompareTable from '$lib/components/CompareTable.svelte';
+	import { SIGNATURES } from '$lib/primitives';
 	import ScatterPlot from '$lib/components/ScatterPlot.svelte';
 	import { processYamlSchemes } from '$lib/data';
 	import { getFilterStore, buildUrlParams, createFilterStore } from '$lib/filterStore';
@@ -31,7 +32,7 @@
 	createFilterStore(_init.parameterSets, _init.ranges, new URLSearchParams());
 
 	// Stable module-level stores: one lookup serves the whole page.
-	const { applyUrl, store } = getFilterStore();
+	const { applyUrl, store, filteredRows } = getFilterStore();
 
 	let xField = $state<AxisField>('pk');
 	let yField = $state<AxisField>('sig');
@@ -197,7 +198,13 @@
 
 			<!-- Scheme table -->
 			<section>
-				<SchemeTable />
+				<CompareTable
+					config={SIGNATURES}
+					rows={$filteredRows}
+					sortCol={$store.sortCol}
+					sortDir={$store.sortDir}
+					onsort={(sortCol, sortDir) => store.update((f) => ({ ...f, sortCol, sortDir }))}
+				/>
 			</section>
 		</div>
 	</div>

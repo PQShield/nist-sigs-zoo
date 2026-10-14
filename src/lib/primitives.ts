@@ -1,4 +1,4 @@
-import type { FilterSpec } from './compare';
+import type { CompareConfig, FilterSpec } from './compare';
 import { kemTimes, sigTimes } from './timing';
 import type { DataRanges, FilterState, KemDataRanges, KemFilterState, KemParameterSet, ParameterSet } from './types';
 
@@ -48,5 +48,36 @@ export const KEM_FILTER: FilterSpec<KemParameterSet, KemDataRanges, KemFilterSta
 		keygenUs: (r) => kemTimes(r).keygen,
 		encapsUs: (r) => kemTimes(r).encaps,
 		decapsUs: (r) => kemTimes(r).decaps
+	}
+};
+
+export const SIGNATURES: CompareConfig<ParameterSet, DataRanges, FilterState> = {
+	filter: SIGNATURE_FILTER,
+	table: {
+		columns: [
+			{ key: 'pk', label: 'pk (B)', size: (r) => r.pk },
+			{ key: 'sig', label: 'sig (B)', size: (r) => r.sig },
+			{ key: 'pkPlusSig', label: 'pk+sig (B)', size: (r) => r.pkPlusSig },
+			{ key: 'signingUs', label: 'Sign', time: (r) => [r.signingUs, r.signingCycles] },
+			{ key: 'verificationUs', label: 'Verify', time: (r) => [r.verificationUs, r.verificationCycles] }
+		],
+		shortParamSet: false,
+		emptyText: 'No parameter sets match the current filters.'
+	}
+};
+
+export const KEMS: CompareConfig<KemParameterSet, KemDataRanges, KemFilterState> = {
+	filter: KEM_FILTER,
+	table: {
+		columns: [
+			{ key: 'pk', label: 'pk (B)', size: (r) => r.pk },
+			{ key: 'ct', label: 'ct (B)', size: (r) => r.ct },
+			{ key: 'pkPlusCt', label: 'pk+ct (B)', size: (r) => r.pkPlusCt },
+			{ key: 'keygenUs', label: 'Keygen', time: (r) => [r.keygenUs, r.keygenCycles] },
+			{ key: 'encapsUs', label: 'Encaps', time: (r) => [r.encapsUs, r.encapsCycles] },
+			{ key: 'decapsUs', label: 'Decaps', time: (r) => [r.decapsUs, r.decapsCycles] }
+		],
+		shortParamSet: true,
+		emptyText: 'No KEMs to display.'
 	}
 };

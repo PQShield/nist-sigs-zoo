@@ -6,10 +6,9 @@ import {
 	encodeCompareFilter,
 	filterCompareRows,
 	sortCompareRows,
-	type CompareFilter,
 	type FilterSpec
 } from '$lib/compare';
-import type { NistLevel, NgccLevel, ProgrammeMembership } from '$lib/types';
+import type { CompareFilter, NistLevel, NgccLevel, ProgrammeMembership } from '$lib/types';
 
 interface Row {
 	scheme: string;
