@@ -33,21 +33,22 @@ tar -C bench-common/ngcc -czf /tmp/ngcc-src.tar.gz --exclude=Test_Vectors \
 - **Sigs and KEMs are separate runs.** Never use `both` with NGCC.
 - **The TTL counts from boot**: upload, cloud-init and build all come out of it. When the TTL runs out, only partial results come back. Leave margin.
 - `BENCH_TIMEOUT` (per-scheme seconds, default 3600) is forwarded to the VM; a scheme that exceeds it becomes a `timeout` DNF.
-- **Instance:** the default is `c8i.4xlarge` (check its first results header says `rdpmc`). The NGCC data of 2026-10-13 is from `c7i.4xlarge`: re-run single rows with `--instance-type c7i.4xlarge` so they stay comparable. `c7i.4xlarge` has a virtual PMU. A `*.metal*` type avoids noisy neighbours but costs more, so ask first. If the script warns `fell back to rdtsc`, the cycles are reference cycles: tell Thom before importing.
+- **Instance:** keep one instance type per dataset, so rows stay comparable. Each results header records the CPU model (`# cpu:`), and `data/benchmark_env.yaml` / `data/kem_benchmark_env.yaml` (`cpu.model`) say what the current data was measured on. Re-run single rows on that same type (pass `--instance-type` if it is not the script's default); a different CPU model means re-running the whole suite, so ask Thom. On the first run on a new type, check its header says `# cyclecounter: rdpmc`. A `*.metal*` type avoids noisy neighbours but costs more, so ask first. If the script warns `fell back to rdtsc`, the cycles are reference cycles: tell Thom before importing.
 
 ## Split runs (when Thom wants it fast)
 
-A full NGCC suite takes 5+ hours on one instance and spot instances can be interrupted. Thom accepted splitting it over several instances of the same type (2026-10-13); say "same instance type", not "same machine", in the write-up.
-- Positional filters are case-insensitive substrings, OR-ed. Use full row names and check that no name is a substring of another (`NGCC-Aigis-Enc+-I` also matches `-II`, `-III`); duplicates only cost time.
-- Pack groups so each times about 15–20 min (each instance also spends ~10 min on setup and building the whole suite). Rows with `iters` 1 or 5 get their own instance. Long filter lists give a hashed results filename.
-- The account allows **16 spot instances** (`MaxSpotInstanceCountExceeded`); a refused launch cleans up after itself, so retry it as slots free up. Region: `AWS_REGION=eu-north-1` (the profile sets none).
-- Every instance builds and uploads independently; each has its own key pair and security group, so concurrent `aws-bench.sh` calls are safe. Launch them while the tree is clean and **don't commit tracked changes until every launch has passed its clean-tree check**.
-- A spot interruption loses the results file, but the rows are in the script's streamed log: rebuild a results file from it (header lines plus rows, add a `# note:` line).
-- Merge before importing; reruns go first, because the first non-DNF row per scheme wins:
-  ```bash
-  python3 bench-common/merge_results.py bench/results/<first-timestamp>_<cpu>_ngcc_sigs_merged.txt <rerun>.txt <parts>.txt...
-  ```
-  It refuses parts from different CPU models, lists every part in the header and drops stdout noise from candidates.
+A full NGCC suite takes 5+ hours on one instance and spot instances can be interrupted. Thom accepted splitting it over several instances of the same type (2026-10-13); say "same instance type", not "same machine", in the write-up. Use `scripts/aws-bench-split`, not hand-made filter lists.
+
+1. **Plan (free):** `python3 scripts/aws-bench-split --suite sigs --ngcc-src /tmp/ngcc-src.tar.gz --dry-run [filter...]` (filters restrict the rows, as in `run_bench.sh`). It prints each group with per-row estimates, `--ttl`, warnings, and the exact `aws-bench.sh` commands. Show Thom the plan (group count, longest group, total minutes) and **wait for his go**.
+2. **Run:** the same command without `--dry-run`, prefixed `AWS_PROFILE=bench AWS_REGION=eu-north-1` (the profile sets no region). Run it in the background and read its status table. Logs go to `$TMPDIR/aws-bench-split-<time>/group-NN.log`.
+3. **Merge:** happens at the end, into `<suite>/results/<first-timestamp>_<cpu>_split_merged.txt`. Pass `--rerun-first FILE...` for re-runs that must win over the parts. Report the printed DNF rows and missing rows, and the leftover-resource check, to Thom. Review and import only the merged file.
+
+What it does for you, so don't redo it by hand:
+- **Rows and estimates:** rows come from `<suite>/schemes/*/*params*.tsv` (NGCC only with `--ngcc-src`). Each row's time comes from the newest merged results file, or failing that from its `iters`. Rows of 10+ minutes get their own instance; the rest are packed into groups of `--bin-minutes` (default 16). Each instance also spends about 10 minutes on setup and building. Rows whose names contain one another (`NGCC-Aigis-Enc+-I` / `-II`) are kept in one group, because filters are substring matches.
+- **Quota:** at most `--max-instances` (default 16, the account's spot limit) run at once. Launches refused with `MaxSpotInstanceCountExceeded` or `InsufficientInstanceCapacity` are retried.
+- **Clean tree:** each instance builds local `HEAD`. The script stops launching if the tree gets dirty or `HEAD` moves. Still, **don't commit tracked changes while groups are launching**.
+- **Ctrl-C:** it forwards the signal to every `aws-bench.sh` and its ssh children, waits for them to terminate their instances, and still merges what came back. A second Ctrl-C does not abort that cleanup.
+- **Spot interruption:** that group's rows are rebuilt from its streamed log into a `*_recovered.txt` part with a `# note:`. Re-run the missing rows (it prints them), then merge: `python3 bench-common/merge_results.py OUT <rerun>.txt <split_merged>.txt` (reruns first: the first non-DNF row per scheme wins).
 - A single sign or verify (KEMs: encaps or decaps) over 10 minutes is a DNF by policy (`BENCH_OP_LIMIT`, default 600 s; reason `operation-over-600s`), so TRINE-512-Balanced (about 20 min per signature) is a DNF. Don't raise limits to time such schemes without asking Thom: compute isn't free.
 
 ## Review before importing
