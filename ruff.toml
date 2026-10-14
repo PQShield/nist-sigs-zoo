@@ -1,5 +1,6 @@
 # Ruff config for the repo's own Python helpers (bench/, bench-kem/, bench-common/, scripts/).
 # Scripts declare `requires-python = ">=3.10"` in their uv script headers.
+required-version = ">=0.16.9"
 target-version = "py310"
 line-length = 88
 # Directories whose modules are imported as top-level names (tests put them on sys.path).

@@ -22,7 +22,24 @@ npm run dev       # dev server at http://localhost:5173
 npm run build     # build to dist/
 npm run preview   # preview dist/ at http://localhost:4173
 npm run check     # type-check with svelte-check
+npm run lint      # ESLint (eslint.config.js)
+npm run format    # Prettier: rewrite JS/TS/Svelte/CSS/JSON/workflow YAML in place
+npm run format:check
+uvx ruff check --fix && uvx ruff format   # Python under bench*/ and scripts/ (ruff.toml)
 ```
+
+### Style
+
+The formatters are the source of truth: don't hand-match style, run `npm run format` and
+`uvx ruff format` (plus `uvx ruff check --fix`) before committing; CI fails on unformatted
+code or lint errors. Prettier (`.prettierrc`: tabs, single quotes, no trailing commas,
+width 120, Tailwind class sorting) skips `data/`, `static/`, `round-1/`, `bench*/` and
+Markdown (see `.prettierignore`). ESLint rules that do not fit this codebase are switched
+off in `eslint.config.js` with a reason; prefer that over inline disable comments. Ruff
+targets Python 3.10, line length 88, and excludes vendored sources (`bench*/schemes/*/ref`,
+`bench-common/ngcc/src`); CI pins the Ruff version. Pure reformat commits are listed in
+`.git-blame-ignore-revs`; run `git config blame.ignoreRevsFile .git-blame-ignore-revs`
+once per clone (and update the hashes if those commits are rebased).
 
 ## Testing
 
