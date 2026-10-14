@@ -7,6 +7,7 @@
 	import ParamSetFilter from './ParamSetFilter.svelte';
 	import StatusFilter from './StatusFilter.svelte';
 	import { FILTER_HEADING } from './filterStyles';
+	import { rowProgrammeGroups } from '$lib/compareFilters';
 
 	interface Props {
 		schemes: KemScheme[];
@@ -19,9 +20,14 @@
 
 	const allSchemeNames = $derived(schemes.map((s) => s.scheme));
 
-	const schemesByCategory = $derived(
-		Object.fromEntries(categories.map((cat) => [cat, schemes.filter((s) => s.category === cat)]))
+	// Only schemes in a selected programme are listed (their checked state is kept while hidden).
+	const listedSchemes = $derived(
+		schemes.filter((s) => rowProgrammeGroups(s).some((g) => filter.programmes.has(g)))
 	);
+	const schemesByCategory = $derived(
+		Object.fromEntries(categories.map((cat) => [cat, listedSchemes.filter((s) => s.category === cat)]))
+	);
+	const listedCategories = $derived(categories.filter((cat) => schemesByCategory[cat].length > 0));
 
 	function patch(p: Partial<CommonFilter>) {
 		filter = { ...filter, ...p };
@@ -87,7 +93,7 @@
 				<button type="button" onclick={selectNone} class="text-pqs-apricot underline hover:no-underline">None</button>
 			</span>
 		</div>
-		{#each categories as cat (cat)}
+		{#each listedCategories as cat (cat)}
 			<details class="mb-1" open>
 				<summary class="flex cursor-pointer list-none items-center gap-1.5 py-0.5">
 					<input

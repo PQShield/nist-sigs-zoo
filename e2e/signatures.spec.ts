@@ -198,6 +198,17 @@ test.describe('Signatures page', () => {
 });
 
 test.describe('Signatures filters', () => {
+	test('scheme checkboxes list only schemes in the selected programmes', async ({ page }) => {
+		await page.goto('/signatures/?p=nist-onramp');
+		await page.waitForLoadState('networkidle');
+		const panel = page.locator('aside').first();
+		await expect(panel.getByLabel('NIST on-ramp')).toBeChecked({ timeout: 15_000 });
+		await expect(panel.getByLabel('China NGCC')).not.toBeChecked();
+		await expect(panel.getByRole('checkbox', { name: 'SQIsign', exact: true })).toBeVisible();
+		await expect(panel.getByRole('checkbox', { name: 'BiT', exact: true })).toHaveCount(0);
+		await expect(panel.getByRole('checkbox', { name: 'AIMer', exact: true })).toHaveCount(0);
+	});
+
 	test('programme filter narrows the table and survives a reload', async ({ page }) => {
 		await page.goto('/signatures/');
 		await page.waitForLoadState('networkidle');
