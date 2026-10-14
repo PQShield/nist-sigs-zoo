@@ -2,6 +2,8 @@ import type { ChartMode, CompareFilter, ProgrammeGroup, ProgrammeMembership, Sca
 import { levelDescription } from './chartLegend';
 import { timeTooltip } from './chartData';
 import { stripHtml } from './html';
+import type { Primitive } from './slugs';
+import { displayUs } from './timing';
 import {
 	presentProgrammeGroups,
 	decodeCommonFilters,
@@ -98,13 +100,21 @@ export interface ChartSpec<R, A extends string> {
 
 /** Everything the shared compare components need to know about one primitive. */
 export interface CompareConfig<R extends CompareRow, G, F extends CompareFilter, A extends string = string> {
+	kind: Primitive;
 	/** Route under the base path, e.g. "signatures". */
 	path: string;
-	/** What the rows are, in running text ("schemes", "KEMs"). */
+	/** The primitive in running text: "signature" / "signatures", "KEM" / "KEMs". */
+	label: { one: string; many: string };
+	/** What the advanced page compares ("schemes", "KEMs"). */
 	noun: string;
 	filter: FilterSpec<R, G, F>;
 	table: TableSpec<R>;
 	chart: ChartSpec<R, A>;
+}
+
+/** Whether any row has a time (measured or from cycles) for any operation. */
+export function anyTimings<R, A extends string>(spec: ChartSpec<R, A>, rows: R[]): boolean {
+	return rows.some((r) => spec.ops.some((op) => displayUs(op.us(r), op.cycles(r)) !== null));
 }
 
 /** Chart tooltip of a row, in display order. */

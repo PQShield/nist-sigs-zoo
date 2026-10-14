@@ -11,13 +11,15 @@
 		programmeFacts,
 		programmeKemRows,
 		programmeSignatureRows,
-		signatureMembers
+		signatureMembers,
+		stageViews
 	} from '$lib/programmePage';
+	import { computeKemRanges } from '$lib/kemData';
+	import { KEMS, SIGNATURES } from '$lib/primitives';
 	import type { ProgrammeYaml } from '$lib/types';
 	import SegmentedToggle from '../SegmentedToggle.svelte';
 	import FindingsSummary from './FindingsSummary.svelte';
-	import KemCandidates from './KemCandidates.svelte';
-	import SignatureCandidates from './SignatureCandidates.svelte';
+	import ProgrammeCandidates from './ProgrammeCandidates.svelte';
 	import ProgrammeTimeline from './ProgrammeTimeline.svelte';
 	import SecurityLevelsTable from './SecurityLevelsTable.svelte';
 
@@ -32,6 +34,11 @@
 	const facts = programmeFacts(p, { signature: sigCount, kem: kemCount });
 	const navLabel = p.nav_label ?? p.short;
 	const heading = p.name.includes(p.short) ? p.name : `${p.name} (${p.short})`;
+	const signatureRows = (view: string) => programmeSignatureRows(p.id, allSchemeData, view);
+	const kemRows = () => {
+		const rows = programmeKemRows(p.id, allKemData);
+		return { parameterSets: rows, ranges: computeKemRanges(rows) };
+	};
 	const findingGroups = [
 		...(hasSigs
 			? [{ label: 'Signatures', count: findingsSummary(programmeSignatureRows(p.id, allSchemeData, CURRENT_VIEW).parameterSets) }]
@@ -117,9 +124,9 @@
 			<p class="font-heading text-sm font-semibold">{kindOptions[0].label}</p>
 		{/if}
 		{#if kind === 'signature'}
-			<SignatureCandidates programme={p} />
+			<ProgrammeCandidates programme={p} config={SIGNATURES} load={signatureRows} views={stageViews(p, allSchemeData)} />
 		{:else}
-			<KemCandidates programme={p} />
+			<ProgrammeCandidates programme={p} config={KEMS} load={kemRows} />
 		{/if}
 	</section>
 </div>

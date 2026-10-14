@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
+import { anyTimings } from '$lib/compare';
+import { KEMS, SIGNATURES } from '$lib/primitives';
 import {
-	anyKemTimings,
-	anySigTimings,
 	compareHref,
 	CURRENT_VIEW,
 	currentStage,
@@ -204,15 +204,15 @@ describe('NGCC targets', () => {
 describe('timings presence', () => {
 	const base = { signingUs: null, verificationUs: null, signingCycles: 0, verificationCycles: 0 };
 	it('detects signature timings, measured or from cycles', () => {
-		expect(anySigTimings([])).toBe(false);
-		expect(anySigTimings(programmeSignatureRows('nist-onramp', SIGS, CURRENT_VIEW).parameterSets)).toBe(false);
+		expect(anyTimings(SIGNATURES.chart, [])).toBe(false);
+		expect(anyTimings(SIGNATURES.chart, programmeSignatureRows('nist-onramp', SIGS, CURRENT_VIEW).parameterSets)).toBe(false);
 		const rows = programmeSignatureRows('nist-onramp', SIGS, CURRENT_VIEW).parameterSets;
-		expect(anySigTimings([{ ...rows[0], ...base, signingCycles: 1000 }])).toBe(true);
+		expect(anyTimings(SIGNATURES.chart, [{ ...rows[0], ...base, signingCycles: 1000 }])).toBe(true);
 	});
 	it('detects KEM timings', () => {
 		const rows = programmeKemRows('kpqc', [kem('A', { kpqc: 'selected' })]);
-		expect(anyKemTimings(rows)).toBe(false);
-		expect(anyKemTimings([{ ...rows[0], encapsUs: 12 }])).toBe(true);
+		expect(anyTimings(KEMS.chart, rows)).toBe(false);
+		expect(anyTimings(KEMS.chart, [{ ...rows[0], encapsUs: 12 }])).toBe(true);
 	});
 });
 

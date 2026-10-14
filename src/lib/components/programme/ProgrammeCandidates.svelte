@@ -1,50 +1,62 @@
-<script lang="ts">
+<script lang="ts" generics="R extends CompareRow, G, F extends CompareFilter, A extends string">
 	import { untrack } from 'svelte';
 	import { base } from '$app/paths';
 	import { presentProgrammeGroups } from '$lib/compareFilters';
-	import { defaultCompareFilter, filterCompareRows } from '$lib/compare';
 	import {
-		anySigTimings,
+		anyTimings,
+		defaultCompareFilter,
+		filterCompareRows,
+		type CompareConfig,
+		type CompareRow
+	} from '$lib/compare';
+	import {
 		compareHref,
 		CURRENT_VIEW,
 		focusTarget,
 		ngccTargets,
-		programmeSignatureRows,
-		stageViews,
-		unmappedAtTarget
+		unmappedAtTarget,
+		type StageView
 	} from '$lib/programmePage';
-	import { allSchemeData } from '$lib/schemeData';
-	import { SIGNATURE_FILTER, SIGNATURES } from '$lib/primitives';
-	import type { DataRanges, NgccLevel, ParameterSet, ProgrammeYaml } from '$lib/types';
+	import type { CompareFilter, NgccLevel, ProgrammeYaml } from '$lib/types';
 	import ChartModeToggle from '../ChartModeToggle.svelte';
 	import CompareChart from '../CompareChart.svelte';
 	import CompareTable from '../CompareTable.svelte';
 	import SegmentedToggle from '../SegmentedToggle.svelte';
 
-	let { programme }: { programme: ProgrammeYaml } = $props();
+	interface Props {
+		programme: ProgrammeYaml;
+		config: CompareConfig<R, G, F, A>;
+		/** The programme's rows for a stage view (CURRENT_VIEW: every member's newest version). */
+		load: (view: string) => { parameterSets: R[]; ranges: G };
+		/** Stage toggle; empty for none. */
+		views?: StageView[];
+	}
+	let { programme, config, load, views = [] }: Props = $props();
 
 	const p = untrack(() => programme);
-	const views = stageViews(p, allSchemeData);
-	const initial = programmeSignatureRows(p.id, allSchemeData, CURRENT_VIEW);
+	const cfg = untrack(() => config);
+	const loadView = untrack(() => load);
+	const initial = loadView(CURRENT_VIEW);
 	const firstTarget = ngccTargets(initial.parameterSets)[0] ?? null;
 
-	const defaultsFor = (r: { parameterSets: ParameterSet[]; ranges: DataRanges }) =>
-		defaultCompareFilter(SIGNATURE_FILTER, r.ranges, r.parameterSets.map((x) => x.scheme), presentProgrammeGroups(r.parameterSets));
+	const defaultsFor = (r: { parameterSets: R[]; ranges: G }) =>
+		defaultCompareFilter(cfg.filter, r.ranges, r.parameterSets.map((x) => x.scheme), presentProgrammeGroups(r.parameterSets));
 
 	let view = $state(CURRENT_VIEW);
-	let rows = $state(initial.parameterSets);
+	let rows = $state.raw(initial.parameterSets);
 	let target = $state<NgccLevel | null>(firstTarget);
 	let filter = $state(focusTarget(defaultsFor(initial), firstTarget));
 
-	const filtered = $derived(filterCompareRows(SIGNATURE_FILTER, rows, filter));
+	const filtered = $derived(filterCompareRows(cfg.filter, rows, filter));
+	const chartView = $derived(cfg.chart.views[filter.chart]);
 
 	const targets = $derived(ngccTargets(rows));
-	const timed = $derived(anySigTimings(rows));
+	const timed = $derived(anyTimings(cfg.chart, rows));
 	const unmapped = $derived(target === null ? [] : unmappedAtTarget(rows, target));
 
 	function chooseView(next: string) {
 		view = next;
-		const r = programmeSignatureRows(p.id, allSchemeData, next);
+		const r = loadView(next);
 		rows = r.parameterSets;
 		target = ngccTargets(r.parameterSets)[0] ?? null;
 		// A stage change intentionally resets the other filters.
@@ -59,7 +71,7 @@
 
 {#if initial.parameterSets.length === 0}
 	<p class="rounded border border-dashed border-pqs-bluegray px-4 py-6 text-sm text-pqs-steel dark:border-pqs-steel dark:text-pqs-bluegray">
-		No signatures from this programme are in our data yet.
+		No {cfg.label.many} from this programme are in our data yet.
 	</p>
 {:else}
 	<div class="space-y-4">
@@ -82,19 +94,14 @@
 		<div class="rounded border border-pqs-ashgray bg-white p-4 shadow-sm dark:border-pqs-steel dark:bg-pqs-midnight-mid">
 			<div class="mb-3 flex flex-wrap items-center justify-between gap-3">
 				<h3 class="font-heading text-base font-semibold text-pqs-steel dark:text-pqs-apricot">
-					{filter.chart === 'speed' ? 'Signing vs. verification time' : 'pk size vs. sig size'}
+					{chartView.title}
 					<span class="font-normal text-pqs-bluegray">(log–log scale)</span>
 				</h3>
 				{#if timed}
 					<ChartModeToggle mode={filter.chart} onchange={(chart) => (filter = { ...filter, chart })} />
 				{/if}
 			</div>
-			<CompareChart
-				config={SIGNATURES}
-				rows={filtered}
-				xField={SIGNATURES.chart.views[filter.chart].x}
-				yField={SIGNATURES.chart.views[filter.chart].y}
-			/>
+			<CompareChart config={cfg} rows={filtered} xField={chartView.x} yField={chartView.y} />
 		</div>
 
 		{#if !timed}
@@ -105,7 +112,7 @@
 		{/if}
 
 		<CompareTable
-			config={SIGNATURES}
+			config={cfg}
 			rows={filtered}
 			sortCol={filter.sortCol}
 			sortDir={filter.sortDir}
@@ -119,8 +126,8 @@
 		{/if}
 
 		<p class="text-right">
-			<a href={compareHref(base, p.id, 'signature', { target, stage: view })} class="font-heading text-sm font-semibold text-pqs-steel hover:text-pqs-apricot dark:text-pqs-apricot">
-				Open in the signature comparison →
+			<a href={compareHref(base, p.id, cfg.kind, { target, stage: view })} class="font-heading text-sm font-semibold text-pqs-steel hover:text-pqs-apricot dark:text-pqs-apricot">
+				Open in the {cfg.label.one} comparison →
 			</a>
 		</p>
 	</div>

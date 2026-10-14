@@ -3,7 +3,6 @@ import { fmtDate } from './dates';
 import { processYamlSchemes } from './data';
 import { processKemSchemes } from './kemData';
 import { STANDARDS_PROGRAMME, versionProgrammes } from './programmes';
-import { kemTimes, sigTimes } from './timing';
 import type {
 	CommonFilter,
 	DataRanges,
@@ -121,20 +120,6 @@ export function unmappedAtTarget(
 /** Show one NGCC target only. NIST levels are left alone: the scales are never converted. */
 export function focusTarget<T extends CommonFilter>(filter: T, target: NgccLevel | null): T {
 	return target === null ? filter : { ...filter, ngccLevels: new Set<NgccLevel>([target]) };
-}
-
-export function anySigTimings(rows: ParameterSet[]): boolean {
-	return rows.some((r) => {
-		const t = sigTimes(r);
-		return t.sign !== null || t.verify !== null;
-	});
-}
-
-export function anyKemTimings(rows: KemParameterSet[]): boolean {
-	return rows.some((r) => {
-		const t = kemTimes(r);
-		return t.keygen !== null || t.encaps !== null || t.decaps !== null;
-	});
 }
 
 export type FindingClass = 'design' | 'implementation' | 'warning' | 'none';

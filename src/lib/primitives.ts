@@ -63,7 +63,9 @@ export const KEM_FILTER: FilterSpec<KemParameterSet, KemDataRanges, KemFilterSta
 };
 
 export const SIGNATURES: CompareConfig<ParameterSet, DataRanges, FilterState, AxisField> = {
+	kind: 'signature',
 	path: 'signatures',
+	label: { one: 'signature', many: 'signatures' },
 	noun: 'schemes',
 	filter: SIGNATURE_FILTER,
 	table: {
@@ -121,7 +123,9 @@ export const SIGNATURES: CompareConfig<ParameterSet, DataRanges, FilterState, Ax
 };
 
 export const KEMS: CompareConfig<KemParameterSet, KemDataRanges, KemFilterState, KemAxisField> = {
+	kind: 'kem',
 	path: 'kems',
+	label: { one: 'KEM', many: 'KEMs' },
 	noun: 'KEMs',
 	filter: KEM_FILTER,
 	table: {
