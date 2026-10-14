@@ -9,8 +9,10 @@ versions:
   programmes:
     nist-onramp: round-3
   perf_source: faest-arch-opt (AVX2+AES-NI optimized implementation)
+  # recommended: spec v3.0 §1 "This document also specifies alternative variants for security categories 1, 3 and 5, called FAEST-EM" (https://faest.info/faest-spec-v3.0.pdf)
   parametersets:
   - name: 128s
+    recommended: true
     level: 1
     pk: 32
     sig: 4066
@@ -19,6 +21,7 @@ versions:
     signing_cycles: 9923883
     verification_cycles: 8534011
   - name: 128f
+    recommended: true
     level: 1
     pk: 32
     sig: 5170
@@ -43,6 +46,7 @@ versions:
     signing_cycles: 1336059
     verification_cycles: 886191
   - name: 192s
+    recommended: true
     level: 3
     pk: 48
     sig: 9410
@@ -51,6 +55,7 @@ versions:
     signing_cycles: 40901717
     verification_cycles: 33292700
   - name: 192f
+    recommended: true
     level: 3
     pk: 48
     sig: 11738
@@ -75,6 +80,7 @@ versions:
     signing_cycles: 4495785
     verification_cycles: 3420525
   - name: 256s
+    recommended: true
     level: 5
     pk: 48
     sig: 16626
@@ -83,6 +89,7 @@ versions:
     signing_cycles: 56683570
     verification_cycles: 54851895
   - name: 256f
+    recommended: true
     level: 5
     pk: 48
     sig: 20856
