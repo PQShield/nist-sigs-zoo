@@ -59,7 +59,8 @@ test.describe('Scheme pages', () => {
 	test('MAYO parameter sets and history slice', async ({ page }) => {
 		await page.goto('/schemes/mayo/');
 		const table = page.getByRole('table', { name: 'Parameter sets of MAYO' });
-		await expect(table.locator('tbody tr')).toHaveCount(4);
+		// The scheme page lists every set: the 4 main sets plus the 30 additional ones of the round-3 spec.
+		await expect(table.locator('tbody tr')).toHaveCount(34);
 		const history = page.getByRole('region', { name: 'History' });
 		await expect(history).toContainText('New version');
 		await expect(history).toContainText('Wedge attack');
