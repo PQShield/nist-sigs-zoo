@@ -86,6 +86,8 @@
 [submodule "bench/schemes/mayo_r1/ref"]
 	path = bench/schemes/mayo_r1/ref
 	url = https://github.com/PQCMayo/MAYO-C.git
+	ignore = dirty
 [submodule "bench/schemes/mayo_r2/ref"]
 	path = bench/schemes/mayo_r2/ref
 	url = https://github.com/PQCMayo/MAYO-C.git
+	ignore = dirty
