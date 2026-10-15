@@ -324,7 +324,7 @@ test.describe('Signatures chart legend', () => {
 test.describe('China NGCC candidates', () => {
 	test.use({ colorScheme: 'light' });
 
-	test('rows show NGCC targets in purple, never as NIST levels', async ({ page }) => {
+	test('rows show NGCC targets in bits, never as NIST levels', async ({ page }) => {
 		await page.goto('/signatures/');
 		await page.waitForLoadState('networkidle');
 		await expect(page.getByRole('group', { name: 'Programme' }).getByLabel('China NGCC')).toBeChecked();
@@ -332,6 +332,9 @@ test.describe('China NGCC candidates', () => {
 		await expect(row).toBeVisible();
 		const level = row.getByTitle('China NGCC target in classical bits; not a NIST level');
 		await expect(level).toHaveText('128-bit');
-		await expect(level).toHaveCSS('color', 'rgb(107, 33, 168)');
+		// The level cell holds only the bit target: no NIST level digit or "Level" label.
+		const cell = level.locator('xpath=ancestor::td[1]');
+		await expect(cell).toHaveText(/^\s*128-bit\s*$/);
+		await expect(cell).not.toHaveText(/Level|^\s*[1-5]\s*$/);
 	});
 });

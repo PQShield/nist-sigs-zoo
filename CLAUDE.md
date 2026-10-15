@@ -248,8 +248,8 @@ per parameter set. Loaded via `import.meta.glob` in `src/lib/kemSchemeData.ts`; 
 `processKemSchemes()` in `src/lib/kemData.ts` (pure, unit-tested); `computeKemRanges()` gives the
 filter bounds. The page is the shared `ComparePage` with the `KEMS` config (see Compare pages).
 
-NGCC targets have their own filter group and purple colour scale and are never mapped onto NIST
-levels.
+NGCC targets have their own filter group and, in charts only, their own purple colour scale; they
+are never mapped onto NIST levels. Table cells show them as plain text ("128-bit").
 
 ### China NGCC
 

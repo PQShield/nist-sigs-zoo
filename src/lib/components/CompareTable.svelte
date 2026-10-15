@@ -164,10 +164,7 @@
 							{#if row.level !== null}
 								{row.level === 'Pre-Quantum' ? 'Pre-quantum' : row.level}
 							{:else if row.ngccLevel !== null}
-								<span
-									class="font-semibold text-[#6b21a8] dark:text-[#d8b4fe]"
-									title="China NGCC target in classical bits; not a NIST level">{row.ngccLevel}-bit</span
-								>
+								<span title="China NGCC target in classical bits; not a NIST level">{row.ngccLevel}-bit</span>
 							{:else}
 								—
 							{/if}
