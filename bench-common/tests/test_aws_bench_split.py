@@ -584,3 +584,78 @@ def test_script_is_executable_and_documents_usage():
     )
     assert r.returncode == 0 and "--dry-run" in r.stdout
     assert textwrap.dedent(S.__doc__).strip().startswith("Split one benchmark suite")
+
+
+# --- staleness -------------------------------------------------------------------------
+
+
+def record_fresh(suite, names, instance_type="c8i.4xlarge"):
+    """fingerprints.tsv saying `names` were measured with today's inputs."""
+    FP = S.FP
+    FP._cache.clear()
+    fps = FP.suite_fingerprints(suite.parent, "bench")
+    pv = FP.Provenance("abc1234", instance_type, "CPU", "2026-10-13T00:00:00Z", "r.txt")
+    FP.write_fingerprints(
+        FP.fingerprints_path(suite.parent, "bench"),
+        {n: FP.entry(n, fps[n], "ok", pv, "r.txt") for n in names},
+    )
+
+
+def test_only_stale_rows_are_planned_unless_all(fakes):
+    tmp, suite, state, env, args = fakes
+    record_fresh(suite, ["Alpha-1", "RSA-2048 (PSS)"])
+    (suite / "results" / "20261013T000000Z_cpu.txt").write_text(
+        results([row("Alpha-2", 10, "1.0", "1.0", "1.0")])
+    )
+    r = subprocess.run([*args, "--dry-run"], env=env, capture_output=True, text=True)
+    assert r.returncode == 0, r.stderr
+    assert "1 of 3 selected rows need a run on c8i.4xlarge" in r.stdout
+    assert "2 NGCC rows also need a run (they need --ngcc-src)" in r.stdout
+    cmds = r.stdout.split("commands:")[1].strip().splitlines()
+    assert len(cmds) == 1 and cmds[0].endswith(" Alpha-2")
+    assert "[no timing]" in r.stdout
+
+    every = subprocess.run(
+        [*args, "--dry-run", "--all"], env=env, capture_output=True, text=True
+    )
+    assert len(every.stdout.split("commands:")[1].strip().splitlines()) == 3
+
+    # A filter only narrows the stale set.
+    fresh = subprocess.run(
+        [*args, "--dry-run", "Alpha-1"], env=env, capture_output=True, text=True
+    )
+    assert fresh.returncode == 0 and "nothing to run" in fresh.stdout
+    assert "commands:" not in fresh.stdout
+
+
+def test_stale_report_gives_reasons(fakes):
+    tmp, suite, state, env, args = fakes
+    record_fresh(suite, ["Alpha-1", "Alpha-2"], instance_type="c7i.4xlarge")
+    record = S.FP.read_fingerprints(S.FP.fingerprints_path(tmp, "bench"))
+    record["RSA-2048 (PSS)"] = dict(record["Alpha-1"], name="RSA-2048 (PSS)")
+    S.FP.write_fingerprints(S.FP.fingerprints_path(tmp, "bench"), record)
+    params = suite / "schemes" / "a" / "params.tsv"
+    params.write_text(
+        params.read_text().replace("a2\tAlpha-2\t1\t10", "a2\tAlpha-2\t2\t10")
+    )
+    r = subprocess.run(
+        [*args, "--stale-report", "--instance-type", "c7i.4xlarge"],
+        env=env,
+        capture_output=True,
+        text=True,
+    )
+    assert r.returncode == 0, r.stderr
+    out = r.stdout
+    assert "sigs: 4 of 5 rows need a run on c7i.4xlarge; 1 up to date" in out
+    lines = {
+        ln.split("  ")[1].strip(): ln.rsplit("  ", 1)[1] for ln in out.splitlines()[2:]
+    }
+    assert lines["Alpha-2"] == "params row"
+    assert lines["RSA-2048 (PSS)"] == "params row"  # Alpha-1's record: another row
+    assert lines["NGCC-X-I"] == "new row"  # NGCC rows are reported without --ngcc-src
+    assert "Alpha-1" not in lines
+    c8i = subprocess.run(
+        [*args, "--stale-report", "Alpha-1"], env=env, capture_output=True, text=True
+    )
+    assert "Alpha-1  hardware: c7i.4xlarge → c8i.4xlarge" in c8i.stdout
+    assert not list(state.iterdir())  # nothing launched

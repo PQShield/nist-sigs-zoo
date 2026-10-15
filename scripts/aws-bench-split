@@ -18,6 +18,17 @@ bench binary's scheme list are generated from), minus rows with iters `skip`. NG
 the rows like run_bench.sh does (case-insensitive substrings, non-alphanumerics ignored,
 OR-ed).
 
+Staleness: by default only rows that need a run are planned (filters are intersected
+with them; --all plans every selected row). A row needs a run when it is not in
+<suite>/results/fingerprints.tsv ("new row", or "no timing" if a results file has it but
+it was never imported), when it was last measured on another instance type than
+--instance-type ("hardware: c7i.4xlarge → c8i.4xlarge"), or when an input of its
+timing changed since the commit that run built: source, params row, patch, build or
+harness (bench-common/fingerprint.py; the importers record fingerprints.tsv). A row
+whose last result was a DNF the importer recorded (NGCC, e.g. operation-over-600s) is up
+to date until one of those changes. --stale-report prints every selected row that needs
+a run, NGCC included, with its reasons, and plans nothing.
+
 Estimates: a row found (non-DNF) in the suite's results files, merged files first,
 newest first, takes (iters+1) x (keygen + sign + verify us) (KEMs: keygen + encaps +
 decaps) plus a little overhead; otherwise its params.tsv iters decide: 1 -> 25 min,
@@ -72,6 +83,9 @@ from dataclasses import dataclass, field
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(REPO / "bench-common"))
+import fingerprint as FP  # noqa: E402
+
 AWS_BENCH = REPO / "scripts" / "aws-bench.sh"
 MERGE = REPO / "bench-common" / "merge_results.py"
 SUITE_DIRS = {"sigs": "bench", "kems": "bench-kem"}
@@ -113,6 +127,7 @@ class Row:
     est_s: float = 0.0
     source: str = ""  # "results", "iters" or "exempt" (aws-bench-exemptions.txt)
     exempt: bool = False  # exempt from the time limits (see read_exemptions)
+    why: list[str] = field(default_factory=list)  # why it needs a run (staleness)
 
 
 def read_tsv(path: Path) -> list[dict[str, str]]:
@@ -221,6 +236,52 @@ def read_exemptions(path: Path) -> dict[str, float]:
                 f"{path}: {ln.strip()!r}: expected NAME<TAB>minutes (estimate)"
             ) from None
     return out
+
+
+def stale_reasons(
+    repo: Path, suite: str, names: list[str], instance_type: str
+) -> dict[str, list[str]]:
+    """name -> why it needs a run on instance_type ([] = up to date); see the doc."""
+    suite_dir = SUITE_DIRS[suite]
+    results_dir = repo / suite_dir / "results"
+    in_results: set[str] = set()
+    for p in results_files(results_dir):
+        in_results.update(parse_results(p))
+    return FP.stale_reasons(
+        names,
+        FP.suite_fingerprints(repo, suite_dir),
+        FP.read_fingerprints(FP.fingerprints_path(repo, suite_dir)),
+        instance_type,
+        in_results,
+    )
+
+
+def reason_kind(why: str) -> str:
+    return why.split(":", 1)[0]
+
+
+def stale_report(
+    suite: str, names: list[str], why: dict[str, list[str]], instance_type: str
+) -> str:
+    stale = [n for n in names if why[n]]
+    counts: dict[str, int] = {}
+    for n in stale:
+        for w in why[n]:
+            counts[reason_kind(w)] = counts.get(reason_kind(w), 0) + 1
+    out = [
+        f"{suite}: {len(stale)} of {len(names)} rows need a run on {instance_type}; "
+        f"{len(names) - len(stale)} up to date"
+    ]
+    if counts:
+        out.append(
+            "by reason: "
+            + ", ".join(
+                f"{k} {v}" for k, v in sorted(counts.items(), key=lambda x: -x[1])
+            )
+        )
+    width = max((len(n) for n in stale), default=0)
+    out += [f"  {n:<{width}}  {'; '.join(why[n])}" for n in stale]
+    return "\n".join(out)
 
 
 def estimate_rows(
@@ -803,6 +864,16 @@ def parse_args(argv: list[str] | None) -> argparse.Namespace:
     ap.add_argument("--ngcc-src", metavar="TARBALL")
     ap.add_argument("--rerun-first", nargs="+", default=[], metavar="FILE", type=Path)
     ap.add_argument("--dry-run", action="store_true")
+    ap.add_argument(
+        "--all",
+        action="store_true",
+        help="plan every selected row, not only those that need a run (only when Thom asks)",
+    )
+    ap.add_argument(
+        "--stale-report",
+        action="store_true",
+        help="print the rows that need a run and why (NGCC included), plan nothing",
+    )
     ap.add_argument("--stagger", type=float, default=5, help="seconds between launches")
     ap.add_argument("--retry-delay", type=float, default=60)
     ap.add_argument("--max-retries", type=int, default=30)
@@ -836,16 +907,39 @@ def main(argv: list[str] | None = None) -> int:
     timeout = env.get("BENCH_TIMEOUT", "")
     timeout_s = int(timeout) if timeout.isdigit() else DEFAULT_BENCH_TIMEOUT_S
 
+    full = load_registry(suite_dir, include_ngcc=True)
     registry = load_registry(suite_dir, include_ngcc=bool(args.ngcc_src))
+    why = stale_reasons(args.repo, args.suite, [n for n, _ in full], instance_type)
+    if args.stale_report:
+        names = [n for n, _ in full if matches(n, args.filters)]
+        print(stale_report(args.suite, names, why, instance_type))
+        return 0
     selected = [(n, i) for n, i in registry if matches(n, args.filters)]
     if not selected:
         sys.exit(
             "no rows match" + ("" if args.ngcc_src else " (NGCC rows need --ngcc-src)")
         )
+    if not args.all:
+        n_sel = len(selected)
+        selected = [(n, i) for n, i in selected if why[n]]
+        print(
+            f"{len(selected)} of {n_sel} selected rows need a run on {instance_type} "
+            "(--stale-report says why; --all plans them all)"
+        )
+        if not args.ngcc_src:
+            ngcc = [n for n, _ in full if n.startswith("NGCC-") and why[n]]
+            ngcc = [n for n in ngcc if matches(n, args.filters)]
+            if ngcc:
+                print(f"{len(ngcc)} NGCC rows also need a run (they need --ngcc-src)")
+        if not selected:
+            print("nothing to run")
+            return 0
     exempt = read_exemptions(args.exempt_file)
     rows = estimate_rows(
         selected, measured_us(results_dir), bench_iter, timeout_s, exempt
     )
+    for r in rows:
+        r.why = why.get(r.name, [])
     groups = partition(rows, args.bin_minutes * 60)
     all_names = [n for n, _ in registry]
     jobs: list[Job] = []
@@ -882,8 +976,9 @@ def main(argv: list[str] | None = None) -> int:
             + (flag if g.exempt else "")
         )
         for r in g.rows:
+            stale = f"  [{'; '.join(r.why)}]" if r.why else ""
             print(
-                f"    {r.name:<34} iters {r.iters:>5}  {r.est_s:7.0f} s  ({r.source})"
+                f"    {r.name:<34} iters {r.iters:>5}  {r.est_s:7.0f} s  ({r.source}){stale}"
             )
         for f, extra in collisions(g.filters, all_names).items():
             print(f"    WARNING: filter {f!r} also runs {', '.join(extra)}")
