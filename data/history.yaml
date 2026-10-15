@@ -1,3 +1,7 @@
+- date: '2026-10-15'
+  type: update
+  description: "Re-benchmarked every signature and KEM on AWS c8i.4xlarge (Intel Xeon 6975P-C, core cycles via rdpmc), replacing the c7i.4xlarge timings of 2026-10-13. This also times for the first time the C++ optimised builds of Lynxer, ReSolveD-&alpha; and SYDO, the SNOVA, SDitH and SMAUG-T alternative sets, and the SP 800-230 SLH-DSA-SHAKE-*-24 sets, which are exempt from our 10-minute limit: one signature takes 6.6&ndash;11.3 minutes. TRINE-512-Balanced still exceeds the limit."
+
 - date: '2026-10-14'
   type: update
   description: "Lynxer, ReSolveD-ɑ and SYDO are now built from their submitted optimised x86 implementations (C++ with AVX2) instead of the reference code. The optimised builds reproduce the submitted test vectors and give the same key and signature sizes. Their earlier timings came from the reference code and are removed until our next benchmark run. Galas stays on its reference code, because its optimised code has no implementation of the NGCC signature interface."

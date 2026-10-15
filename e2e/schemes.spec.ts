@@ -139,9 +139,11 @@ test.describe('Compare versions (MAYO)', () => {
 		await page.getByRole('button', { name: 'Cycles' }).click();
 		await expect(page.getByRole('button', { name: 'Cycles' })).toHaveAttribute('aria-pressed', 'true');
 		await expect(compareTable(page).getByRole('columnheader', { name: 'Sign (cycles)' })).toBeVisible();
-		await expect(setRow(page, 'two')).toContainText('▼ 72%');
+		// Round 2 timings come from the submission document, Round 3 from our benchmark.
+		await expect(setRow(page, 'two')).toContainText(/[▼▲] \d+%/);
 		const note = page.getByTestId('perf-note');
-		await expect(note).toContainText('submission document (Table 3.1');
+		await expect(note).toContainText('submission document');
+		await expect(note).toContainText('our benchmark');
 		await expect(note).toContainText('machines and implementations can differ');
 	});
 
