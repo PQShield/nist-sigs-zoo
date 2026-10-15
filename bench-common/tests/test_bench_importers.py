@@ -373,3 +373,75 @@ def test_older_round_rows_target_their_own_version(sig):
             name = dict(zip(cols, ln.split("\t"), strict=False))["name"]
             assert name in sig.BENCH_TO_YAML, f"{tsv}: {name} has no mapping"
             assert all(v for _, _, v in sig.targets(sig.BENCH_TO_YAML[name])), name
+
+
+# --- older on-ramp rounds (Thom, 2026-10-15) ---------------------------------------
+
+# Versions of active schemes whose round code we cannot benchmark; they keep their
+# reported numbers (reasons in bench/CLAUDE.md, "Older on-ramp rounds").
+NOT_BENCHMARKED: set[tuple[str, str]] = set()
+
+
+def onramp_stages(version) -> set[str]:
+    s = (version.get("programmes") or {}).get("nist-onramp")
+    return set() if not s else {s} if isinstance(s, str) else set(s)
+
+
+def test_full_import_gives_every_older_round_of_active_schemes_our_numbers(
+    sig, tmp_path, monkeypatch, capsys
+):
+    """Import a row for every mapped name into a copy of data/schemes: each round-1 and
+    round-2 version of a scheme still in the on-ramp (one with a round-3 version) is then
+    labelled "our benchmark", and no versioned row lands on an eliminated scheme."""
+    import shutil
+
+    from ruamel.yaml import YAML
+
+    shutil.copytree(REPO / "data" / "schemes", tmp_path / "schemes")
+    monkeypatch.setattr(sig, "SCHEMES_DIR", tmp_path / "schemes")
+    rows = [timed_row(n, 1000) for n in sig.BENCH_TO_YAML if not n.startswith("NGCC-")]
+    sig.import_rows(rows, "2026-10-20-test")
+    capsys.readouterr()
+
+    y = YAML(typ="safe")
+    missing, eliminated_hits = [], []
+    versioned_files = {
+        f
+        for v in sig.BENCH_TO_YAML.values()
+        for f, _, version in sig.targets(v)
+        if version
+    }
+    for path in sorted((tmp_path / "schemes").glob("*.yaml")):
+        doc = y.load(path.read_text())
+        stages = set().union(*(onramp_stages(v) for v in doc["versions"]))
+        if "round-3" not in stages:
+            if path.name in versioned_files:
+                eliminated_hits.append(path.name)
+            continue
+        for v in doc["versions"]:
+            if not {"round-1", "round-2"} & onramp_stages(v):
+                continue
+            if (doc["name"], str(v["version"])) in NOT_BENCHMARKED:
+                continue
+            if v.get("perf_source") != "our benchmark":
+                missing.append(f"{doc['name']} {v['version']}: {v.get('perf_source')}")
+    assert missing == []
+    assert eliminated_hits == []
+
+
+def test_eliminated_round_2_versions_keep_reported_numbers(
+    sig, tmp_path, monkeypatch, capsys
+):
+    import shutil
+
+    from ruamel.yaml import YAML
+
+    shutil.copytree(REPO / "data" / "schemes", tmp_path / "schemes")
+    monkeypatch.setattr(sig, "SCHEMES_DIR", tmp_path / "schemes")
+    rows = [timed_row(n, 1000) for n in sig.BENCH_TO_YAML if not n.startswith("NGCC-")]
+    sig.import_rows(rows, "2026-10-20-test")
+    capsys.readouterr()
+    cross = YAML(typ="safe").load((tmp_path / "schemes" / "CROSS.yaml").read_text())
+    v2 = next(v for v in cross["versions"] if v["version"] == "v2")
+    assert v2["perf_source"] == "submission document"
+    assert not any(p.get("bench_env") for p in v2["parametersets"])
