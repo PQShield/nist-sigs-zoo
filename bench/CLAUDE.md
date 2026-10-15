@@ -58,6 +58,9 @@ bench/
     ├── sqisign/          # SQISign/the-sqisign (CMake build; SQISIGN_BUILD_TYPE=broadwell by default, x86-64 asm field arithmetic)
     ├── aimer/            # samsungsds-opensource/AIMer v3.0 (ships AIMer.zip, unpacked into build/src; reference implementation only)
     ├── haetae/           # HAETAE 1.2.0 (official Google Drive zip, URL + sha256 in .source, fetched into build/dl; reference implementation only)
+    ├── mirath/ ryde/ perk/  # official round-2 zips (URL + sha256 in .source, fetched into build/dl); AVX2 Optimized_Implementation
+    ├── cross/            # CROSS-signature/CROSS-implementation v2.2 (Optimized_Implementation, AVX2)
+    ├── less/             # less-sig/LESS 9ec6915 = NIST round-2 code (Optimized_Implementation/avx2)
     └── <name>/
         ├── params.tsv       # one row per parameter set; columns substituted into template
         ├── shim_template.c  # C template with @COLNAME@ tokens
@@ -235,6 +238,10 @@ The shim adapts upstream API conventions to the bench contract. Common issues:
 - **CMake-based upstreams**: run `cmake ref/ -B build/cmake/ -DCMAKE_POSITION_INDEPENDENT_CODE=ON`
   then `make -C build/cmake/` to produce static libs, then link shims against those `.a` files.
   See `schemes/sqisign/Makefile` for the stamp-based pattern.
+- **`-fno-semantic-interposition`**: with `-fPIC -shared` GCC may not inline calls between an
+  upstream's global functions (they could be interposed). RYDE signed up to 4x slower than
+  upstream's own build without it; the schemes added in October 2026 (Mirath, RYDE, PERK, CROSS,
+  LESS) pass it. Older scheme Makefiles do not; check them before relying on cross-scheme ratios.
 - **Large stack**: some variants need >8 MB stack (e.g. SNOVA-97-33-16-2).
   `main.c` runs each scheme (in its child process) in a pthread with a 256 MB stack
   (`pthread_attr_setstacksize`) — this is independent of `RLIMIT_STACK` and
