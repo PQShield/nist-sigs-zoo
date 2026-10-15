@@ -9,7 +9,7 @@ A spec update touches `data/`, `bench*/schemes/<name>/`, `bench*/update_scheme_d
 
 ## Data
 
-- **Signatures:** add the new version at the **top** of `versions:`, because the importer writes timings into the *first* version that has a matching parameter-set name. Leave old versions alone, and keep their flags as a historical record.
+- **Signatures:** add the new version at the **top** of `versions:`, because an unversioned `BENCH_TO_YAML` entry writes timings into the *first* version that has a matching parameter-set name. Leave old versions alone, and keep their flags as a historical record. When a new round starts for a scheme still in the on-ramp, keep the previous round's code benchmarked: move it to `bench/schemes/<x>_r<n>/` with rows that name their version ("Older on-ramp rounds" in `bench/CLAUDE.md`).
 - Quote `date: 'YYYY-MM-DD'` and set it to the spec's publication date.
 - `programmes:` goes only on a stage submission (`nist-onramp: round-3`; stage ids are in `data/programmes.yaml`). A post-round update has **no** `nist-onramp` entry; adding one breaks the round views and the counts in `dataFiles.test.ts`. Never use `tags:`.
 - **KEMs** have no versions: update in place and record the old→new values in the history entry.

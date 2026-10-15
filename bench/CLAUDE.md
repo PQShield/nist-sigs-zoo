@@ -61,6 +61,9 @@ bench/
     ├── mirath/ ryde/ perk/  # official round-2 zips (URL + sha256 in .source, fetched into build/dl; 30-36 MB each, so not vendored); AVX2 Optimized_Implementation
     ├── cross/            # CROSS-signature/CROSS-implementation v2.2 (Optimized_Implementation, AVX2)
     ├── less/             # less-sig/LESS 9ec6915 = NIST round-2 code (Optimized_Implementation/avx2)
+    ├── <x>_r1/ <x>_r2/   # older NIST on-ramp rounds of the schemes still in the competition
+    │                     #   (see "Older on-ramp rounds"): faest, hawk (r1), mayo, mqom, qruov,
+    │                     #   sdith (r2; sdith/ = r1), snova, sqisign, uov
     └── <name>/
         ├── params.tsv       # one row per parameter set; columns substituted into template
         ├── shim_template.c  # C template with @COLNAME@ tokens
@@ -328,6 +331,9 @@ KATs stays, with the reason in a comment next to it. Exceptions (2026-10-15):
 | NGCC | `-std=gnu17 -fcommon -Wno-error=…` | see "NGCC candidates" |
 | SQIsign, MIKE, and other hand-written `.S` files built by CMake | upstream's assembler flags | C codegen flags do not change hand-written assembly |
 | classic, QR-UOV, UOV, SABER, NGCC `-lcrypto` rows | system OpenSSL `libcrypto` | the algorithm (classic) or its hash/DRBG calls run in the distribution's library |
+| UOV R1/R2, QR-UOV R2, SNOVA R1 | system OpenSSL `libcrypto` | as above (SNOVA R1: SHAKE and AES, as upstream links them) |
+| QR-UOV R1 | a pinned static OpenSSL 3.1.8 (`.source-openssl`), linked with `-Wl,--exclude-libs,ALL`; `-fwrapv` | round 1's `mgf.c` uses OpenSSL 3.1 internals (`KECCAK1600_CTX`, 4-argument `SHA3_squeeze`) and crashes with 3.5; `-fwrapv` as upstream (also QR-UOV R2) |
+| SQIsign R1/R2 | system GMP; R2 `-Wno-error` (upstream's ENABLE_STRICT `-Werror` vs a GCC 15 false-positive `-Wmaybe-uninitialized`); R1 `-Wl,--exclude-libs,ALL` | round-1/2 SQIsign needs GMP; round 1's `fp_asm.S` addresses a default-visibility symbol PC-relatively (link-time only, no codegen change) |
 
 `make` does not rebuild objects when only `flags.mk` changed: run `make clean` (the VM always
 builds from scratch). A change to `flags.mk` makes every timed row stale (its fingerprint's
@@ -351,6 +357,33 @@ forces the fallback. Current choices: MAYO `gfni` (GFNI+AVX-512) else `avx2`; QR
 `IMPL=avx2` (Round 3 dropped the Round 2 avx512 implementation); UOV `PROJ=gfni`
 else `avx2`; SQIsign `broadwell`; SNOVA, FAEST,
 MQOM, ML-DSA etc. rely on `-march=native` (in the global flags).
+
+## Older on-ramp rounds
+
+Policy (Thom, 2026-10-15): every round-1 and round-2 version of a scheme still in the NIST
+on-ramp (one with a round-3 version) is benchmarked from that round's own official code, so
+the round views and the scheme pages' version comparison show real round-to-round changes on
+one machine. Eliminated schemes keep their reported numbers; no versioned row targets them.
+
+- One dir per round, `schemes/<x>_r1/`, `schemes/<x>_r2/` (SDitH round 1 is `sdith/`, HAWK
+  v1.1 is round 2 and 3 and stays on `hawk/`). Each pins exactly the submitted code: an
+  upstream tag/commit whose code equals the NIST round package (checked by diff), else the
+  package zip itself via `.source` (URL + sha256, fetched into `build/dl`). The Makefile header
+  says which, and why. Same flag policy, same "fastest backend the submitters shipped" rule.
+- Row names insert the round after the scheme prefix (`MAYO-R2-one`, `QR-UOV-R1-I-(7,740,100,10)`);
+  they must be unique across all dirs (`test_bench_importers.py`).
+- `BENCH_TO_YAML` entries of these rows name their version: `(file, set, version)`, where
+  `version` is the YAML `version:` label or `"label@date"` if the label repeats (MAYO has two
+  "Round 2" versions). A list of targets maps one row to several versions with identical code.
+  Without a version a row lands on the newest version with that set name. The importer refuses
+  targets that do not resolve, and `set_perf_source` relabels a version "our benchmark" once all
+  its timed sets have our timings.
+- Recorded quirks (details in each Makefile/shim): FAEST R1 256s/256f retry keygen until a
+  sign/verify round trip passes (the round-1 AVX2 code checks the AES-256 key schedule against
+  w[k-4] instead of w[k-8] and accepts invalid keys), so those rows' keygen times include it;
+  SNOVA R1 is ssk, R2 ESK (each as its YAML version reports); MQOM R1 signatures are
+  variable-length (`params.tsv` has the maximum); QR-UOV R1 III-(7,1100,140,10) is built as
+  submitted with v=1150 (sig 508; the spec says v=1100, 489).
 
 ## Notes
 
