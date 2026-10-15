@@ -119,3 +119,6 @@
 	path = bench/schemes/sqisign_r2/ref
 	url = https://github.com/SQISign/the-sqisign
 	ignore = dirty
+[submodule "bench/schemes/qruov_r2/ref"]
+	path = bench/schemes/qruov_r2/ref
+	url = https://github.com/qruov/round2.git

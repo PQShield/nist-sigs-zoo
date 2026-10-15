@@ -157,9 +157,19 @@ SQISIGN_R1_SOS = $(addprefix schemes/sqisign_r1/build/, \
     sqisign_r1_lvl1.so sqisign_r1_lvl3.so sqisign_r1_lvl5.so)
 SQISIGN_R2_SOS = $(addprefix schemes/sqisign_r2/build/, \
     sqisign_r2_lvl1.so sqisign_r2_lvl3.so sqisign_r2_lvl5.so)
+QRUOV_R1_SOS = $(addprefix schemes/qruov_r1/build/, \
+    qruov1q127L3v156m54.so qruov1q31L3v165m60.so qruov1q31L10v600m70.so \
+    qruov1q7L10v740m100.so qruov3q127L3v228m78.so qruov3q31L3v246m87.so \
+    qruov3q31L10v890m100.so qruov3q7L10v1100m140.so qruov5q127L3v306m105.so \
+    qruov5q31L3v324m114.so qruov5q31L10v1120m120.so qruov5q7L10v1490m190.so)
+QRUOV_R2_SOS = $(addprefix schemes/qruov_r2/build/, \
+    qruov1q127L3v156m54.so qruov1q31L3v165m60.so qruov1q31L10v600m70.so \
+    qruov1q7L10v740m100.so qruov3q127L3v228m78.so qruov3q31L3v246m87.so \
+    qruov3q31L10v890m100.so qruov3q7L10v1100m140.so qruov5q127L3v306m105.so \
+    qruov5q31L3v324m114.so qruov5q31L10v1120m120.so qruov5q7L10v1490m190.so)
 
-ALL_SOS     = $(MLDSA_SOS) $(SLHDSA_SOS) $(FNDSA_SOS) $(CLASSIC_SOS) $(HAWK_SOS) $(MAYO_SOS) $(FAEST_SOS) $(SDITH_SOS) $(SDITH2_SOS) $(SNOVA_SOS) $(UOV_SOS) $(QRUOV_SOS) $(MQOM_SOS) $(SQISIGN_SOS) $(AIMER_SOS) $(HAETAE_SOS) $(MIRATH_SOS) $(RYDE_SOS) $(PERK_SOS) $(CROSS_SOS) $(LESS_SOS) $(MAYO_R1_SOS) $(MAYO_R2_SOS) $(HAWK_R1_SOS) $(SDITH_R2_SOS) $(MQOM_R1_SOS) $(MQOM_R2_SOS) $(UOV_R1_SOS) $(UOV_R2_SOS) $(FAEST_R1_SOS) $(FAEST_R2_SOS) $(SNOVA_R1_SOS) $(SNOVA_R2_SOS) $(SQISIGN_R1_SOS) $(SQISIGN_R2_SOS)
-SCHEME_DIRS = mldsa slhdsa fndsa classic hawk mayo faest sdith sdith2 snova uov qruov mqom sqisign aimer haetae mirath ryde perk cross less mayo_r1 mayo_r2 hawk_r1 sdith_r2 mqom_r1 mqom_r2 uov_r1 uov_r2 faest_r1 faest_r2 snova_r1 snova_r2 sqisign_r1 sqisign_r2
+ALL_SOS     = $(MLDSA_SOS) $(SLHDSA_SOS) $(FNDSA_SOS) $(CLASSIC_SOS) $(HAWK_SOS) $(MAYO_SOS) $(FAEST_SOS) $(SDITH_SOS) $(SDITH2_SOS) $(SNOVA_SOS) $(UOV_SOS) $(QRUOV_SOS) $(MQOM_SOS) $(SQISIGN_SOS) $(AIMER_SOS) $(HAETAE_SOS) $(MIRATH_SOS) $(RYDE_SOS) $(PERK_SOS) $(CROSS_SOS) $(LESS_SOS) $(MAYO_R1_SOS) $(MAYO_R2_SOS) $(HAWK_R1_SOS) $(SDITH_R2_SOS) $(MQOM_R1_SOS) $(MQOM_R2_SOS) $(UOV_R1_SOS) $(UOV_R2_SOS) $(FAEST_R1_SOS) $(FAEST_R2_SOS) $(SNOVA_R1_SOS) $(SNOVA_R2_SOS) $(SQISIGN_R1_SOS) $(SQISIGN_R2_SOS) $(QRUOV_R1_SOS) $(QRUOV_R2_SOS)
+SCHEME_DIRS = mldsa slhdsa fndsa classic hawk mayo faest sdith sdith2 snova uov qruov mqom sqisign aimer haetae mirath ryde perk cross less mayo_r1 mayo_r2 hawk_r1 sdith_r2 mqom_r1 mqom_r2 uov_r1 uov_r2 faest_r1 faest_r2 snova_r1 snova_r2 sqisign_r1 sqisign_r2 qruov_r1 qruov_r2
 STAMPS      = $(addprefix schemes/, $(addsuffix /.stamp, $(SCHEME_DIRS)))
 
 # China NGCC round-1 candidates: one generic ICCS-API shim, data-driven from
@@ -210,6 +220,8 @@ schemes/snova_r1/.stamp: schemes/snova_r1/Makefile schemes/snova_r1/shim_templat
 schemes/snova_r2/.stamp: schemes/snova_r2/Makefile schemes/snova_r2/shim_template.c schemes/snova_r2/params.tsv
 schemes/sqisign_r1/.stamp: schemes/sqisign_r1/Makefile schemes/sqisign_r1/shim_template.c schemes/sqisign_r1/params.tsv
 schemes/sqisign_r2/.stamp: schemes/sqisign_r2/Makefile schemes/sqisign_r2/shim_template.c schemes/sqisign_r2/params.tsv schemes/sqisign_r2/no_lto.cmake
+schemes/qruov_r1/.stamp: schemes/qruov_r1/Makefile schemes/qruov_r1/shim_template.c schemes/qruov_r1/params.tsv schemes/qruov_r1/.source schemes/qruov_r1/.source-openssl
+schemes/qruov_r2/.stamp: schemes/qruov_r2/Makefile schemes/qruov_r2/shim_template.c schemes/qruov_r2/params.tsv
 $(NGCC_STAMP): $(NGCC_DIR)/Makefile $(NGCC_DIR)/shim_template.c $(NGCC_DIR)/params.tsv \
     ../bench-common/ngcc/ngcc.mk ../bench-common/ngcc/gen_rules.py \
     $(wildcard $(NGCC_DIR)/patches/*/*) $(wildcard ../bench-common/ngcc/src/.extracted)
@@ -258,6 +270,8 @@ $(SNOVA_R1_SOS): schemes/snova_r1/.stamp
 $(SNOVA_R2_SOS): schemes/snova_r2/.stamp
 $(SQISIGN_R1_SOS): schemes/sqisign_r1/.stamp
 $(SQISIGN_R2_SOS): schemes/sqisign_r2/.stamp
+$(QRUOV_R1_SOS): schemes/qruov_r1/.stamp
+$(QRUOV_R2_SOS): schemes/qruov_r2/.stamp
 
 # Generate the SO path list included by main.c.
 $(BUILD)/so_paths.h: Makefile $(NGCC_STAMP) | $(BUILD)
