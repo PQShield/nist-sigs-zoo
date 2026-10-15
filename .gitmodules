@@ -95,3 +95,6 @@
 	path = bench/schemes/hawk_r1/ref
 	url = https://github.com/hawk-sign/dev
 	ignore = dirty
+[submodule "bench/schemes/mqom_r2/ref"]
+	path = bench/schemes/mqom_r2/ref
+	url = https://github.com/mqom/mqom-v2

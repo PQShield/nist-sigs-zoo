@@ -1,0 +1,15 @@
+# sig = the maximum (PARAM_SIGNATURE_SIZEBYTES): v1.0 signatures are variable-length;
+# the YAML lists the spec's (smaller) average sizes.
+file	name	pk	sk	sig	iters
+mqom_cat1_gf31_short	MQOM-R1-L1-gf31-short	47	78	6928	200
+mqom_cat1_gf31_fast	MQOM-R1-L1-gf31-fast	47	78	8713	200
+mqom_cat1_gf251_short	MQOM-R1-L1-gf251-short	59	102	7218	200
+mqom_cat1_gf251_fast	MQOM-R1-L1-gf251-fast	59	102	8874	200
+mqom_cat3_gf31_short	MQOM-R1-L3-gf31-short	73	122	15190	100
+mqom_cat3_gf31_fast	MQOM-R1-L3-gf31-fast	73	122	19021	100
+mqom_cat3_gf251_short	MQOM-R1-L3-gf251-short	92	160	15610	100
+mqom_cat3_gf251_fast	MQOM-R1-L3-gf251-fast	92	160	19652	100
+mqom_cat5_gf31_short	MQOM-R1-L5-gf31-short	99	166	26718	50
+mqom_cat5_gf31_fast	MQOM-R1-L5-gf31-fast	99	166	33132	50
+mqom_cat5_gf251_short	MQOM-R1-L5-gf251-short	125	218	27438	50
+mqom_cat5_gf251_fast	MQOM-R1-L5-gf251-fast	125	218	34188	50
