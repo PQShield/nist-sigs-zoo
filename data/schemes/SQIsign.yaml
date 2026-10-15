@@ -46,66 +46,79 @@ versions:
     pk: 79
     sig: 192
     notes: "Alternate prime from spec Appendix P Table 20 (\"other parameter sets of interest\", more aggressive or more conservative than the selected primes); sizes from the specification, not implemented or benchmarked."
+    no_code: No implementation of this alternative prime in the official code (the implementation covers only the three main primes)
   - name: alt p305.55
     level: 1
     pk: 79
     sig: 192
     notes: "Alternate prime from spec Appendix P Table 20 (\"other parameter sets of interest\", more aggressive or more conservative than the selected primes); sizes from the specification, not implemented or benchmarked."
+    no_code: No implementation of this alternative prime in the official code (the implementation covers only the three main primes)
   - name: alt p313.69
     level: 1
     pk: 81
     sig: 198
     notes: "Alternate prime from spec Appendix P Table 20 (\"other parameter sets of interest\", more aggressive or more conservative than the selected primes); sizes from the specification, not implemented or benchmarked."
+    no_code: No implementation of this alternative prime in the official code (the implementation covers only the three main primes)
   - name: alt p343.9
     level: 1
     pk: 89
     sig: 214
     notes: "Alternate prime from spec Appendix P Table 20 (\"other parameter sets of interest\", more aggressive or more conservative than the selected primes); sizes from the specification, not implemented or benchmarked."
+    no_code: No implementation of this alternative prime in the official code (the implementation covers only the three main primes)
   - name: alt p376.65
     level: 1
     pk: 97
     sig: 230
     notes: "Alternate prime from spec Appendix P Table 20 (\"other parameter sets of interest\", more aggressive or more conservative than the selected primes); sizes from the specification, not implemented or benchmarked."
+    no_code: No implementation of this alternative prime in the official code (the implementation covers only the three main primes)
   - name: alt p448.3
     level: 3
     pk: 117
     sig: 286
     notes: "Alternate prime from spec Appendix P Table 20 (\"other parameter sets of interest\", more aggressive or more conservative than the selected primes); sizes from the specification, not implemented or benchmarked."
+    no_code: No implementation of this alternative prime in the official code (the implementation covers only the three main primes)
   - name: alt p470.3
     level: 3
     pk: 119
     sig: 288
     notes: "Alternate prime from spec Appendix P Table 20 (\"other parameter sets of interest\", more aggressive or more conservative than the selected primes); sizes from the specification, not implemented or benchmarked."
+    no_code: No implementation of this alternative prime in the official code (the implementation covers only the three main primes)
   - name: alt p521.1
     level: 3
     pk: 133
     sig: 314
     notes: "Alternate prime from spec Appendix P Table 20 (\"other parameter sets of interest\", more aggressive or more conservative than the selected primes); sizes from the specification, not implemented or benchmarked."
+    no_code: No implementation of this alternative prime in the official code (the implementation covers only the three main primes)
   - name: alt p574.27
     level: 3
     pk: 147
     sig: 344
     notes: "Alternate prime from spec Appendix P Table 20 (\"other parameter sets of interest\", more aggressive or more conservative than the selected primes); sizes from the specification, not implemented or benchmarked."
+    no_code: No implementation of this alternative prime in the official code (the implementation covers only the three main primes)
   - name: alt p607.1
     level: 5
     pk: 153
     sig: 373
     notes: "Alternate prime from spec Appendix P Table 20 (\"other parameter sets of interest\", more aggressive or more conservative than the selected primes); sizes from the specification, not implemented or benchmarked."
+    no_code: No implementation of this alternative prime in the official code (the implementation covers only the three main primes)
   - name: alt p612.17
     level: 5
     pk: 157
     sig: 378
     notes: "Alternate prime from spec Appendix P Table 20 (\"other parameter sets of interest\", more aggressive or more conservative than the selected primes); sizes from the specification, not implemented or benchmarked."
+    no_code: No implementation of this alternative prime in the official code (the implementation covers only the three main primes)
   - name: alt p665.19
     level: 5
     pk: 169
     sig: 406
     notes: "Alternate prime from spec Appendix P Table 20 (\"other parameter sets of interest\", more aggressive or more conservative than the selected primes); sizes from the specification, not implemented or benchmarked."
+    no_code: No implementation of this alternative prime in the official code (the implementation covers only the three main primes)
   - name: alt p767.43
     level: 5
     pk: 195
     sig: 456
     notes: "Alternate prime from spec Appendix P Table 20 (\"other parameter sets of interest\", more aggressive or more conservative than the selected primes); sizes from the specification, not implemented or benchmarked."
+    no_code: No implementation of this alternative prime in the official code (the implementation covers only the three main primes)
 - version: v2.0.1
   date: '2025-07-07'
   status: On-ramp
