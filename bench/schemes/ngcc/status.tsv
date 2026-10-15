@@ -139,15 +139,15 @@ sign_23_shuttle_512	NGCC-SHUTTLE-512	sign-23	SHUTTLE-512	opt	ok	PASS	own
 sign_24_sigurd128	NGCC-Sigurd128	sign-24	Sigurd128	ref	ok	PASS	placeholder		
 sign_24_sigurd256	NGCC-Sigurd256	sign-24	Sigurd256	ref	ok	PASS	placeholder		
 sign_24_sigurd512	NGCC-Sigurd512	sign-24	Sigurd512	ref	ok	PASS	placeholder		
-sign_25_sqisign2dsquare_level2_eff	NGCC-SQISign2Dsquare-Level2-eff	sign-25	SQISign2Dsquare-Level2-eff	opt	ok	PASS	placeholder		
-sign_25_sqisign2dsquare_level2_sec	NGCC-SQISign2Dsquare-Level2-sec	sign-25	SQISign2Dsquare-Level2-sec	opt	ok	PASS	placeholder		
-sign_25_sqisign2dsquare_level3_eff	NGCC-SQISign2Dsquare-Level3-eff	sign-25	SQISign2Dsquare-Level3-eff	opt	ok	PASS	placeholder		
-sign_25_sqisign2dsquare_level3_sec	NGCC-SQISign2Dsquare-Level3-sec	sign-25	SQISign2Dsquare-Level3-sec	opt	ok	PASS	placeholder		
-sign_25_sqisign2dsquare_level5_eff	NGCC-SQISign2Dsquare-Level5-eff	sign-25	SQISign2Dsquare-Level5-eff	opt	ok	PASS	placeholder		
-sign_25_sqisign2dsquare_level5_sec	NGCC-SQISign2Dsquare-Level5-sec	sign-25	SQISign2Dsquare-Level5-sec	opt	ok	PASS	placeholder		
-sign_26_sqisign2d_lvl2	NGCC-SQIsign2D-lvl2	sign-26	SQIsign2D-lvl2	ref	ok	PASS	placeholder		
-sign_26_sqisign2d_lvl3	NGCC-SQIsign2D-lvl3	sign-26	SQIsign2D-lvl3	ref	ok	MISMATCH	placeholder	0	
-sign_26_sqisign2d_lvl4	NGCC-SQIsign2D-lvl4	sign-26	SQIsign2D-lvl4	ref	ok	PASS	placeholder		
+sign_25_sqisign2dsquare_level2_eff	NGCC-SQISign2Dsquare-Level2-eff	sign-25	SQISign2Dsquare-Level2-eff	opt	ok	PASS	placeholder		fix
+sign_25_sqisign2dsquare_level2_sec	NGCC-SQISign2Dsquare-Level2-sec	sign-25	SQISign2Dsquare-Level2-sec	opt	ok	PASS	placeholder		fix
+sign_25_sqisign2dsquare_level3_eff	NGCC-SQISign2Dsquare-Level3-eff	sign-25	SQISign2Dsquare-Level3-eff	opt	ok	PASS	placeholder		fix
+sign_25_sqisign2dsquare_level3_sec	NGCC-SQISign2Dsquare-Level3-sec	sign-25	SQISign2Dsquare-Level3-sec	opt	ok	PASS	placeholder		fix
+sign_25_sqisign2dsquare_level5_eff	NGCC-SQISign2Dsquare-Level5-eff	sign-25	SQISign2Dsquare-Level5-eff	opt	ok	PASS	placeholder		fix
+sign_25_sqisign2dsquare_level5_sec	NGCC-SQISign2Dsquare-Level5-sec	sign-25	SQISign2Dsquare-Level5-sec	opt	ok	PASS	placeholder		fix
+sign_26_sqisign2d_lvl2	NGCC-SQIsign2D-lvl2	sign-26	SQIsign2D-lvl2	ref	ok	PASS	placeholder		fix
+sign_26_sqisign2d_lvl3	NGCC-SQIsign2D-lvl3	sign-26	SQIsign2D-lvl3	ref	ok	MISMATCH	placeholder	0	fix
+sign_26_sqisign2d_lvl4	NGCC-SQIsign2D-lvl4	sign-26	SQIsign2D-lvl4	ref	ok	PASS	placeholder		fix
 sign_27_sqisigntriangle_lvl2	NGCC-SQIsignTriangle_lvl2	sign-27	SQIsignTriangle_lvl2	ref	ok	PASS	placeholder		
 sign_27_sqisigntriangle_lvl5	NGCC-SQIsignTriangle_lvl5	sign-27	SQIsignTriangle_lvl5	ref	ok	PASS	placeholder		
 sign_27_sqisigntriangle_lvl6	NGCC-SQIsignTriangle_lvl6	sign-27	SQIsignTriangle_lvl6	ref	ok	PASS	placeholder		
