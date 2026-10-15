@@ -1,9 +1,9 @@
+include ../../../bench-common/flags.mk
 CC     ?= cc
 BUILD   = build
 REF     = ref/optimized_implementation/kem
 
-CFLAGS := -O3 -fomit-frame-pointer -fPIC -Wall -Wextra \
-          -mavx2 -mbmi2 -mpopcnt -march=native -mtune=native
+CFLAGS := -Wall -Wextra -mavx2 -mbmi2 -mpopcnt $(BENCH_CFLAGS) -fPIC
 INC    := -I$(REF)/include -I$(REF)/include/keccak -I$(REF)/include/mul
 
 MODES = 1 3 5

@@ -25,6 +25,9 @@ Dependencies: C compiler (cc), make, git submodules. OpenSSL 3.x for ECDH
 (detected via `brew --prefix openssl`, `pkg-config`, or `/usr` fallback).
 ML-KEM builds with AVX2 (`-march=native`).
 
+Compiler flags: every scheme, NGCC included, builds with the global set in
+`../bench-common/flags.mk` (policy and exceptions: "Compiler flags" in `../bench/CLAUDE.md`).
+
 ## Architecture
 
 ```

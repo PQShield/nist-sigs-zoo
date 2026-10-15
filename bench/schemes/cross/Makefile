@@ -1,8 +1,9 @@
+include ../../../bench-common/flags.mk
 # CROSS v2.2 (AVX2 Optimized_Implementation). Upstream:
 #   https://github.com/CROSS-signature/CROSS-implementation  tag v2.2 = b2a84251c838
 # Mirrors Additional_Implementations/Benchmarking/CMakeLists.txt: Optimized_Implementation
 # sources + Reference_Implementation common sources (minus sign.c, which only has the
-# combined API), standalone SHA-3 (no libkeccak), -O3 -march=native, C11.
+# combined API), standalone SHA-3 (no libkeccak), C11; compiler flags: flags.mk.
 .DEFAULT_GOAL := all
 
 CC     ?= cc
@@ -13,7 +14,7 @@ COM    := $(REF)/Reference_Implementation
 
 # SKIP_ASSERT: upstream asserts (aborts) on invalid signatures in CROSS_verify unless
 # this is set; the harness checks that tampered signatures are rejected.
-CFLAGS := -std=c11 -O3 -march=native -mtune=native -Wall -pedantic -fPIC -fno-semantic-interposition -DNDEBUG -DSKIP_ASSERT
+CFLAGS := -std=c11 -Wall -pedantic -DSKIP_ASSERT $(BENCH_CFLAGS) -fPIC
 INCFLAGS := -I$(OPT)/include -I$(COM)/include
 
 SRCS := \

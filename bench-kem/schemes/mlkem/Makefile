@@ -1,6 +1,6 @@
+include ../../../bench-common/flags.mk
 CC      ?= cc
-CFLAGS  := -O3 -fomit-frame-pointer -fPIC -mavx2 -mbmi2 -mpopcnt -maes \
-            -march=native -mtune=native -Wall -Wextra
+CFLAGS  := -mavx2 -mbmi2 -mpopcnt -maes -Wall -Wextra $(BENCH_CFLAGS) -fPIC
 REF      = ref/mlkem
 BUILD    = build
 

@@ -7,6 +7,7 @@
 # $(BUILD)/built.list names the .so files that exist afterwards, and the suite
 # Makefile appends it to SO_PATHS.
 NGCC_ROOT   := $(abspath $(dir $(lastword $(MAKEFILE_LIST))))
+include $(NGCC_ROOT)/../flags.mk
 .DEFAULT_GOAL := all
 
 # Opt-in: this suite compiles and loads untrusted candidate code. It only runs
@@ -28,17 +29,19 @@ PARAMS      ?= params.tsv
 BUILD       ?= build
 STATUS      ?= status.tsv
 KAT_HASHES  ?= $(NGCC_ROOT)/kat_hashes.tsv
+# The global flag set (../flags.mk, policy in bench/CLAUDE.md), plus what the
+# candidates need to build:
 # gnu17: ICCS targets GCC 8.5-era C; GCC 15 defaults to C23 (bool keywords, () prototypes).
 # -fcommon: several submissions rely on tentative definitions shared between files.
 # -Wno-error=...: GCC 14+ turned these into hard errors; the old code relies on them
 # (pointer casts without a cast, undeclared calls that return int).
-NGCC_CFLAGS ?= -O3 -march=native -mtune=native -fPIC -std=gnu17 -fcommon \
+NGCC_CFLAGS ?= $(BENCH_CFLAGS) -fPIC -std=gnu17 -fcommon \
     -Wno-error=incompatible-pointer-types -Wno-error=implicit-function-declaration \
     -Wno-error=int-conversion
-# C++ sources (.cpp/.cc/.cxx, see gen_rules.py) get the same optimisation, arch and -fPIC
-# flags as C, with a C++ standard: gnu++23 covers the submitters' -std=c++20/c++23 trees.
+# C++ sources (.cpp/.cc/.cxx, see gen_rules.py) get the global C++ flags and -fPIC, with a
+# C++ standard: gnu++23 covers the submitters' -std=c++20/c++23 trees.
 # Compiled with $(CXX) (make's default g++); the .so links them with -lstdc++.
-NGCC_CXXFLAGS ?= -O3 -march=native -mtune=native -fPIC -std=gnu++23
+NGCC_CXXFLAGS ?= $(BENCH_CXXFLAGS) -fPIC -std=gnu++23
 SUITE_PREFIX := schemes/ngcc
 
 .PHONY: all sos built-list status clean

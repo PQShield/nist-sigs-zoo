@@ -1,13 +1,13 @@
+include ../../../bench-common/flags.mk
 CC      ?= cc
 # Upstream's CMake Release flags for OPT_IMPL=avx (CMakeLists.txt, src/CMakeLists.txt:
-# -D_SHAKE_TIMES4_; Rijndael commitments, i.e. no -D_SHA3_) plus -march=native as for
-# the other schemes, and -fPIC. (CMAKE_C_STANDARD 11 = -std=gnu11.)
-CFLAGS  := -O3 -flto=auto -Wall -Wextra -Wno-unused-function -ftree-vectorize -funroll-loops \
-           -mpclmul -msse2 -mavx -mavx2 -maes -march=native -mtune=native -std=gnu11 -fPIC -fno-semantic-interposition \
-           -D_SHAKE_TIMES4_
-# -fno-semantic-interposition: with -fPIC -shared GCC otherwise may not inline or
-# specialise calls between the upstream's global functions (they could be interposed);
-# RYDE-1-Short signing was 4x slower without it.
+# -O3 -flto=auto -ftree-vectorize -funroll-loops, ISA flags, -D_SHAKE_TIMES4_; Rijndael
+# commitments, i.e. no -D_SHA3_). We keep the ISA, language (CMAKE_C_STANDARD 11 =
+# -std=gnu11) and define flags and use the global flag set (flags.mk); its
+# -fno-semantic-interposition matters here: RYDE-1-Short signing was 4x slower without it.
+CFLAGS  := -Wall -Wextra -Wno-unused-function \
+           -mpclmul -msse2 -mavx -mavx2 -maes -std=gnu11 \
+           -D_SHAKE_TIMES4_ $(BENCH_CFLAGS) -fPIC
 BUILD   := build
 # RYDE v2.1.0 is released only as a zip on pqc-ryde.org: .source holds its URL
 # (line 1) and sha256 (line 2); it is fetched into build/dl and unpacked into build/src.

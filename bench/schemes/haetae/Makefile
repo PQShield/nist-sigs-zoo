@@ -1,7 +1,8 @@
+include ../../../bench-common/flags.mk
 CC      ?= cc
-# Upstream's CMake release build: -O3 -std=c11 (portable C, no SIMD code); like the
-# other schemes we add -march=native.
-CFLAGS  := -O3 -std=c11 -march=native -mtune=native -Wall -Wextra -fPIC
+# Upstream's CMake release build: -O3 -std=c11 (portable C, no SIMD code); we keep
+# -std=c11 and use the global flag set (flags.mk).
+CFLAGS  := -std=c11 -Wall -Wextra $(BENCH_CFLAGS) -fPIC
 BUILD   := build
 # HAETAE 1.2.0 is released only as a zip on Google Drive. The zip is vendored here
 # (MIT licence, HAETAE-1.2.0/LICENSE in the zip), since the download link may go away;

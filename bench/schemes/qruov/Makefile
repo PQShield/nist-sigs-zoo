@@ -1,3 +1,4 @@
+include ../../../bench-common/flags.mk
 .DEFAULT_GOAL := all
 
 CC      ?= cc
@@ -30,12 +31,10 @@ endif
 OSSL_CFLAGS  := -I$(OSSL_PREFIX)/include
 OSSL_LDFLAGS := -L$(OSSL_LIBDIR) -lcrypto -Wl,-rpath,$(OSSL_LIBDIR)
 
-# Upstream's own CFLAGS are -O3 -flto=auto; -march=native matches the SUPERCOP
-# methodology the spec's numbers were produced with.
-CFLAGS := -O3 -flto=auto -march=native -mtune=native $(IMPL_CFLAGS) $(PRG_CFLAGS) \
-          -fomit-frame-pointer -fPIC -DNDEBUG -Wall \
+# Upstream's own CFLAGS are -O3 -flto=auto; we use the global flag set (flags.mk).
+CFLAGS := $(IMPL_CFLAGS) $(PRG_CFLAGS) -Wall \
           -Wno-unused-parameter -Wno-unused-result \
-          -I$(REFDIR)/src -I$(REFDIR)/src/$(IMPL) $(OSSL_CFLAGS)
+          -I$(REFDIR)/src -I$(REFDIR)/src/$(IMPL) $(OSSL_CFLAGS) $(BENCH_CFLAGS) -fPIC
 
 # rng.c is excluded — the shim provides randombytes() via getrandom() instead of
 # the NIST KAT DRBG.  PQCgenKAT_sign.c has a main().

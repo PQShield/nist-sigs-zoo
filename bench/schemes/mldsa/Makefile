@@ -1,6 +1,6 @@
+include ../../../bench-common/flags.mk
 CC      ?= cc
-CFLAGS  := -O3 -fomit-frame-pointer -fPIC -mavx2 -mpopcnt -march=native \
-            -mtune=native -Wall -Wextra -I ref/avx2
+CFLAGS  := -mavx2 -mpopcnt -Wall -Wextra -I ref/avx2 $(BENCH_CFLAGS) -fPIC
 AVX2_DIR = ref/avx2
 BUILD    = build
 

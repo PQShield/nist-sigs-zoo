@@ -1,12 +1,10 @@
+include ../../../bench-common/flags.mk
 CC      ?= cc
-# Upstream's CMake Release flags (Optimized_Implementation/*/CMakeLists.txt) plus
-# -march=native as for the other schemes, and -fPIC. (CMAKE_C_STANDARD 11 = -std=gnu11.)
-CFLAGS  := -O3 -DNDEBUG -Wall -Wextra -ftree-vectorize -funroll-loops -fomit-frame-pointer \
-           -fno-stack-protector -mavx -mavx2 -mbmi -mbmi2 -maes -march=native -mtune=native \
-           -std=gnu11 -fPIC -fno-semantic-interposition
-# -fno-semantic-interposition: with -fPIC -shared GCC otherwise may not inline or
-# specialise calls between the upstream's global functions (they could be interposed);
-# (RYDE-1-Short signing was 4x slower without it; harmless here.)
+# Upstream's CMake Release flags (Optimized_Implementation/*/CMakeLists.txt) are
+# -O3 -DNDEBUG -ftree-vectorize -funroll-loops -fomit-frame-pointer -fno-stack-protector
+# with ISA flags; we keep the ISA and language flags (CMAKE_C_STANDARD 11 = -std=gnu11)
+# and use the global flag set (flags.mk).
+CFLAGS  := -Wall -Wextra -mavx -mavx2 -mbmi -mbmi2 -maes -std=gnu11 $(BENCH_CFLAGS) -fPIC
 BUILD   := build
 # Mirath v2.1.0 is released only as a zip on pqc-mirath.org: .source holds its URL
 # (line 1) and sha256 (line 2); it is fetched into build/dl and unpacked into build/src.

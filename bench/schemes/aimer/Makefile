@@ -1,8 +1,9 @@
+include ../../../bench-common/flags.mk
 CC      ?= cc
 # Upstream's Makefile builds with -O3 -fomit-frame-pointer (portable C, no SIMD
-# code); like the other schemes we add -march=native. RANDOMIZED_SIGNING stays
+# code); we use the global flag set (flags.mk). RANDOMIZED_SIGNING stays
 # undefined, as in upstream's default build.
-CFLAGS  := -O3 -fomit-frame-pointer -march=native -mtune=native -Wall -Wextra -fPIC
+CFLAGS  := -Wall -Wextra $(BENCH_CFLAGS) -fPIC
 BUILD   := build
 # The upstream repo ships its code only as AIMer.zip; it is unpacked into build/src.
 ZIP     := ref/AIMer.zip

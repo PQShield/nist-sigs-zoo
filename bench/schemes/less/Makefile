@@ -1,9 +1,11 @@
+include ../../../bench-common/flags.mk
 # LESS v2.0 (NIST round 2), AVX2 Optimized_Implementation. Upstream:
 #   https://github.com/less-sig/LESS  commit 9ec6915af5e2 ("release (#65)", 2025-02-04),
 #   byte-identical to the NIST round-2 submission package's code.
 # Mirrors Optimized_Implementation/avx2/CMakeLists.txt, Release build type (its default):
 # -std=gnu99 -DUSE_AVX2 -O3 -DNDEBUG -mavx2 -mavx -mbmi2 -mbmi -flto -ftree-vectorize
-# -funroll-loops. Upstream does not use -march=native for LESS.
+# -funroll-loops. We keep the language, define and ISA flags and use the global flag set
+# (flags.mk) instead of upstream's optimisation flags.
 .DEFAULT_GOAL := all
 
 CC     ?= cc
@@ -12,8 +14,8 @@ REF    := ref
 AVX2   := $(REF)/Optimized_Implementation/avx2
 LIB    := $(AVX2)/lib
 
-CFLAGS := -std=gnu99 -DUSE_AVX2 -O3 -DNDEBUG -Wall -Wextra -Wpedantic -Wno-type-limits \
-          -mavx2 -mavx -mbmi2 -mbmi -flto -ftree-vectorize -funroll-loops -fPIC -fno-semantic-interposition
+CFLAGS := -std=gnu99 -DUSE_AVX2 -Wall -Wextra -Wpedantic -Wno-type-limits \
+          -mavx2 -mavx -mbmi2 -mbmi $(BENCH_CFLAGS) -fPIC
 INCFLAGS := -I$(AVX2)/include
 
 # lib/*.c are symlinks into Optimized_Implementation/common/lib (sign.c deliberately omitted).

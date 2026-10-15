@@ -1,12 +1,13 @@
+include ../../../bench-common/flags.mk
 CC      ?= cc
 BUILD    = build
 SRC      = ref/src
 
 # Upstream's default build: OPT=OPT (SNOVA_OPT=10, snova_opt_16.c) with
-# -march=native, which enables the GFNI and AVX-512 Keccak paths where the
-# CPU has them (snova_opt_16.c / symmetric.c test __GFNI__ / __AVX512F__).
-BASE_CFLAGS := -O3 -fPIC -DNDEBUG -Wall -Wextra -Wno-unused-parameter \
-               -Wno-sign-compare -DSNOVA_OPT=10 -march=native -mtune=native
+# -march=native (in the global flag set, flags.mk), which enables the GFNI and AVX-512
+# Keccak paths where the CPU has them (snova_opt_16.c / symmetric.c test __GFNI__ / __AVX512F__).
+BASE_CFLAGS := -Wall -Wextra -Wno-unused-parameter \
+               -Wno-sign-compare -DSNOVA_OPT=10 $(BENCH_CFLAGS) -fPIC
 
 # Alternative parameter sets (spec Table 6), named snova_<v>_<o>_<q>_<l>_<r>_<m1>_<m2>.
 # The l = 2 sets have 48-byte secret keys in the upstream code (HASH_PK defaults to l > 2),

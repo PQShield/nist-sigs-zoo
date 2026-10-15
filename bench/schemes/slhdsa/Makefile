@@ -1,5 +1,6 @@
+include ../../../bench-common/flags.mk
 CC      ?= cc
-CFLAGS  := -O3 -fomit-frame-pointer -fPIC -Wall -Wextra -std=c99
+CFLAGS  := -Wall -Wextra -std=c99 $(BENCH_CFLAGS) -fPIC
 REF_DIR  = ref
 BUILD    = build
 

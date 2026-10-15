@@ -1,5 +1,8 @@
+include ../bench-common/flags.mk
+
 CC     ?= cc
-CFLAGS := -O2 -Wall -Wextra
+# The harness is built with the schemes' flag set too (no -fPIC: it is the executable).
+CFLAGS := $(BENCH_CFLAGS) -Wall -Wextra
 BUILD   = build
 
 MLDSA_SOS   = $(addprefix schemes/mldsa/build/,    mldsa44.so mldsa65.so mldsa87.so)

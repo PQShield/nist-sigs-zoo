@@ -186,7 +186,7 @@ params.tsv line without `iters`/`kat`/`katn`), `patch` (NGCC: the `patches/<id>/
 srcs name, headers in patch dirs its incs name), `build` (the scheme dir's other tracked files;
 NGCC: shim template, Makefile, `NGCC_CFLAGS`, `NGCC_CXXFLAGS` for C++ rows) and `harness`
 (`harness_common.h` up to its per-operation-limit section, the suite Makefile's `CC`/`CFLAGS`,
-`HARNESS_EPOCH`). Comments and whitespace do not count (Python: its AST). Excluded on purpose:
+`../bench-common/flags.mk`, `HARNESS_EPOCH`). Comments and whitespace do not count (Python: its AST). Excluded on purpose:
 `harness.h`, `main.c`, `isolate.h`, the limits and DNF plumbing, `gen_rules.py`. If a change to
 an excluded file changes what is timed, bump `HARNESS_EPOCH`. No candidate code is read.
 
@@ -237,11 +237,8 @@ The shim adapts upstream API conventions to the bench contract. Common issues:
   `crypto_sign_keypair` generates and stores it, sign/verify use it directly.
 - **CMake-based upstreams**: run `cmake ref/ -B build/cmake/ -DCMAKE_POSITION_INDEPENDENT_CODE=ON`
   then `make -C build/cmake/` to produce static libs, then link shims against those `.a` files.
-  See `schemes/sqisign/Makefile` for the stamp-based pattern.
-- **`-fno-semantic-interposition`**: with `-fPIC -shared` GCC may not inline calls between an
-  upstream's global functions (they could be interposed). RYDE signed up to 4x slower than
-  upstream's own build without it; the schemes added in October 2026 (Mirath, RYDE, PERK, CROSS,
-  LESS) pass it. Older scheme Makefiles do not; check them before relying on cross-scheme ratios.
+  See `schemes/sqisign/Makefile` for the stamp-based pattern, and "Compiler flags" for how the
+  global flags reach a CMake (or Meson, or configure-script) build.
 - **Large stack**: some variants need >8 MB stack (e.g. SNOVA-97-33-16-2).
   `main.c` runs each scheme (in its child process) in a pthread with a 256 MB stack
   (`pthread_attr_setstacksize`) — this is independent of `RLIMIT_STACK` and
@@ -282,11 +279,66 @@ Generated shim files are not committed — each scheme dir has a `.gitignore` wi
 Matching is case-insensitive and ignores non-alphanumeric characters, so `mldsa`,
 `ml-dsa`, and `ML_DSA` all match `ML-DSA-44`.
 
+## Compiler flags
+
+Policy (Thom, 2026-10-15): every benchmarked scheme in `bench/` and `bench-kem/`, NGCC
+included, is compiled with **one global flag set**, `BENCH_CFLAGS` in
+`../bench-common/flags.mk` (C++: `BENCH_CXXFLAGS`, the same flags with the build's own `-std`):
+
+```
+-O3 -march=native -mtune=native -fno-semantic-interposition -DNDEBUG
+-fno-stack-protector -U_FORTIFY_SOURCE -fno-stack-clash-protection -fcf-protection=none
+```
+
+plus `-fPIC` (every scheme is a shared object). The harness (`main.c`, `loader.c`) uses the
+same set without `-fPIC`. Why:
+
+- Ubuntu's GCC enables a stack protector (`-fstack-protector-strong`), `_FORTIFY_SOURCE=3`,
+  stack-clash protection and CET (`-fcf-protection`) by default. None of them is part of an
+  algorithm, and the defaults differ between distributions, so we turn them off.
+  `_FORTIFY_SOURCE` needs `-U_FORTIFY_SOURCE` (GCC's spec only skips its default when the
+  command line has `-U_FORTIFY_SOURCE` or `-D_FORTIFY_SOURCE=…`); check the effective state
+  with `gcc <flags> -dM -E - </dev/null | grep -E 'FORTIFY|SSP|CET'` on GCC 15 (the
+  `scripts/ngcc-run` image, like the VM).
+- `-fno-semantic-interposition`: with `-fPIC -shared` GCC otherwise may not inline or
+  specialise calls between an upstream's global functions (they could be interposed); RYDE
+  signed up to 4x slower without it.
+- `-DNDEBUG`: release builds (no `assert`).
+- Not used: `-funroll-loops`, LTO, PGO, `-fvisibility=hidden`, upstream `-O2`/`-Ofast` and other
+  optimisation flags.
+
+Rules for scheme Makefiles: `include ../../../bench-common/flags.mk`, put `$(BENCH_CFLAGS)
+-fPIC` **after** the scheme's own flags in every compile command, and keep only flags a build
+needs: `-std`, `-m` ISA flags (so the intrinsics compile; `-march=native` enables them on the
+benchmark machine anyway), `-D`/`-I`, warnings. Upstream build systems: CMake (SQIsign, MIKE)
+uses a build type upstream does not know (`Bench`), whose `CMAKE_C_FLAGS_BENCH` comes after
+upstream's `CMAKE_C_FLAGS`, plus `no_lto.cmake` against upstream's forced LTO; Meson (FAEST) gets
+them through `c_args`/`cpp_args`, which Meson puts after its own flags; the djb libraries
+(libmceliece, libntruprime, librandombytes) get them appended to every line of their
+`compilers/*` lists (`build_libs.sh`). A flag that a scheme needs to build or reproduce its
+KATs stays, with the reason in a comment next to it. Exceptions (2026-10-15):
+
+| scheme | kept | why |
+|---|---|---|
+| SQIsign, MIKE | `-fvisibility=hidden`, `-fno-strict-aliasing` (upstream's `CMAKE_C_FLAGS`) | hidden visibility is needed to link the broadwell `fp_asm.S` (PC-relative reference to a C constant) into a shared object; `-fno-strict-aliasing` is upstream's default (ENABLE_STRICT) build |
+| MIKE | `-fno-tree-vectorize -fno-tree-slp-vectorize` on the gf/sat64 target | a target option of upstream's CMakeLists, placed after all configurable flags |
+| PERK | `-fwrapv` for djbsort | as upstream builds it |
+| libmceliece, libntruprime, librandombytes | `-fwrapv`; `-fvisibility=hidden` | `-fwrapv` is in every upstream compiler line; upstream's build scripts add `-fvisibility=hidden` after the compiler line (library-internal symbols) |
+| NTRU+ | `-fvisibility=hidden` for `consts.c` | needed to link the asm's `%rip`-relative table references into a shared object |
+| NGCC | `-std=gnu17 -fcommon -Wno-error=…` | see "NGCC candidates" |
+| SQIsign, MIKE, and other hand-written `.S` files built by CMake | upstream's assembler flags | C codegen flags do not change hand-written assembly |
+| classic, QR-UOV, UOV, SABER, NGCC `-lcrypto` rows | system OpenSSL `libcrypto` | the algorithm (classic) or its hash/DRBG calls run in the distribution's library |
+
+`make` does not rebuild objects when only `flags.mk` changed: run `make clean` (the VM always
+builds from scratch). A change to `flags.mk` makes every timed row stale (its fingerprint's
+`harness` component, see "Provenance and staleness").
+
 ## Optimised builds
 
-Benchmark upstream's **fastest x86-64 build**, as its own build system produces it by
-default. Check this against upstream's Makefile/CMake (e.g. `make -n` in `ref/`), not a
-liboqs META profile: MQOM's portable "default" profile was 3-5x slower (see #58).
+Benchmark upstream's **fastest x86-64 implementation**: the backend its own build system
+selects by default, compiled with our global flags (above). Check the selection against
+upstream's Makefile/CMake (e.g. `make -n` in `ref/`), not a liboqs META profile: MQOM's
+portable "default" profile was 3-5x slower (see #58).
 Backends that need ISA extensions are chosen with `cpu_features.py`, e.g.
 
 ```make
@@ -298,7 +350,7 @@ another machine (`make HAVE_AVX512=1`). `BENCH_DISABLE_FEATURES="gfni avx512f"`
 forces the fallback. Current choices: MAYO `gfni` (GFNI+AVX-512) else `avx2`; QR-UOV
 `IMPL=avx2` (Round 3 dropped the Round 2 avx512 implementation); UOV `PROJ=gfni`
 else `avx2`; SQIsign `broadwell`; SNOVA, FAEST,
-MQOM, ML-DSA etc. rely on `-march=native`.
+MQOM, ML-DSA etc. rely on `-march=native` (in the global flags).
 
 ## Notes
 
@@ -348,11 +400,12 @@ through `scripts/ngcc-run`; see "Running NGCC candidates" below.
   marks the row as patched (`status.tsv` column `patch` = `fix`, set by `status.py`), and the
   site notes then say neutrally that our build applies a small patch. Build-only patches
   (visibility wrappers, missing headers, DRNG copies) keep the plain `PATCH (nist-sigs-zoo)`.
-- Compiler flags are global: every candidate builds with `NGCC_CFLAGS` from `ngcc.mk`
-  (`-O3 -march=native -mtune=native -fPIC -std=gnu17`). There are no per-row CFLAGS.
+- Compiler flags are global: every candidate builds with `NGCC_CFLAGS` from `ngcc.mk`, the
+  global set (`BENCH_CFLAGS`, see "Compiler flags") plus `-fPIC -std=gnu17 -fcommon` and some
+  `-Wno-error=`. There are no per-row CFLAGS.
   C++ sources (`.cpp`/`.cc`/`.cxx`, picked up by `*` like `.c`) are compiled with `$(CXX)`
-  and `NGCC_CXXFLAGS` (same flags, `-std=gnu++23`, which covers the submitters' c++20/c++23
-  trees) into `build/obj/<file>/`; such a `.so` is linked with `-lstdc++`.
+  and `NGCC_CXXFLAGS` (`BENCH_CXXFLAGS -fPIC -std=gnu++23`, which covers the submitters'
+  c++20/c++23 trees) into `build/obj/<file>/`; such a `.so` is linked with `-lstdc++`.
   Mirror the submitter's preprocessor defines and source list in `defs`/`srcs`, but not
   their optimisation or codegen flags: `-Ofast`, `-funroll*-loops`, `-flto`, `-fopenmp`,
   `-fno-stack-protector`, `-fcf-protection=none`, `-O2` and the like are ignored. A row

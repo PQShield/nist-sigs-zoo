@@ -1,13 +1,13 @@
+include ../../../bench-common/flags.mk
 CC      ?= cc
-# Upstream's Makefile flags (Optimized_Implementation/aes_aes/*/Makefile) minus its
-# -Werror/-pedantic warning set, plus -fPIC. djbsort is compiled separately with
-# -fwrapv, as upstream does.
-CFLAGS  := -std=c99 -O3 -funroll-loops -march=native -mavx2 -mpclmul -msse4.2 -maes -fPIC -fno-semantic-interposition \
+# Upstream's Makefile (Optimized_Implementation/aes_aes/*/Makefile) uses -std=c99 -O3
+# -funroll-loops -march=native and ISA flags; we keep the language and ISA flags, drop its
+# -Werror/-pedantic warning set and use the global flag set (flags.mk).
+# Exception: djbsort is compiled separately with -fwrapv, as upstream does (it defines
+# signed overflow, which djbsort's code may rely on).
+CFLAGS  := -std=c99 -mavx2 -mpclmul -msse4.2 -maes \
            -Wall -Wextra -Wno-missing-prototypes -Wno-sign-compare \
-           -Wno-unused-but-set-variable -Wno-unused-parameter
-# -fno-semantic-interposition: with -fPIC -shared GCC otherwise may not inline or
-# specialise calls between the upstream's global functions (they could be interposed);
-# (RYDE-1-Short signing was 4x slower without it; harmless here.)
+           -Wno-unused-but-set-variable -Wno-unused-parameter $(BENCH_CFLAGS) -fPIC
 BUILD   := build
 # PERK v2.2.0 is released only as a zip on pqc-perk.org: .source holds its URL
 # (line 1) and sha256 (line 2); it is fetched into build/dl and unpacked into build/src.

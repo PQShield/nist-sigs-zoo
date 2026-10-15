@@ -1,5 +1,8 @@
+include ../bench-common/flags.mk
+
 CC     ?= cc
-CFLAGS := -O2 -Wall -Wextra
+# The harness is built with the schemes' flag set too (no -fPIC: it is the executable).
+CFLAGS := $(BENCH_CFLAGS) -Wall -Wextra
 BUILD   = build
 
 CLASSIC_SOS = $(addprefix schemes/classic/build/, ecdh_x25519.so ecdh_x448.so ecdh_p256.so ecdh_p384.so)
