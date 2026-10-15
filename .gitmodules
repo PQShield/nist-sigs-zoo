@@ -111,3 +111,11 @@
 [submodule "bench/schemes/snova_r2/ref"]
 	path = bench/schemes/snova_r2/ref
 	url = https://github.com/PQCLAB-SNOVA/SNOVA.git
+[submodule "bench/schemes/sqisign_r1/ref"]
+	path = bench/schemes/sqisign_r1/ref
+	url = https://github.com/SQISign/the-sqisign
+	ignore = dirty
+[submodule "bench/schemes/sqisign_r2/ref"]
+	path = bench/schemes/sqisign_r2/ref
+	url = https://github.com/SQISign/the-sqisign
+	ignore = dirty

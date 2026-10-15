@@ -396,6 +396,14 @@ BENCH_TO_YAML: dict[str, Target | list[Target]] = {
     "SNOVA-R2-(25,8,3)": ("SNOVA.yaml", "(25 8 3)", "v2.0"),
     "SNOVA-R2-(37,17,2)": ("SNOVA.yaml", "(37 17 2)", "v2.0"),
 
+    # SQIsign round 1 (tag nist-v1) and round 2 (tag nist-v2), bench/schemes/sqisign_r1, sqisign_r2
+    "SQIsign-R1-I": ("SQIsign.yaml", "I", "v1.0"),
+    "SQIsign-R1-III": ("SQIsign.yaml", "III", "v1.0"),
+    "SQIsign-R1-V": ("SQIsign.yaml", "V", "v1.0"),
+    "SQIsign-R2-I": ("SQIsign.yaml", "I", "v2.0"),
+    "SQIsign-R2-III": ("SQIsign.yaml", "III", "v2.0"),
+    "SQIsign-R2-V": ("SQIsign.yaml", "V", "v2.0"),
+
     # Classic
     "RSA-2048 (PSS)": ("RSA.yaml", "2048"),
     "RSA-3072 (PSS)": ("RSA.yaml", "3072"),
