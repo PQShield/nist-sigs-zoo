@@ -72,3 +72,6 @@
 	path = bench-kem/schemes/mike/ref
 	url = https://github.com/tensor-mike/mike_c.git
   ignore = "dirty"
+[submodule "bench/schemes/aimer/ref"]
+	path = bench/schemes/aimer/ref
+	url = https://github.com/samsungsds-opensource/AIMer

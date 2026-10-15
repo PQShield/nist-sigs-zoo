@@ -59,6 +59,8 @@ SDITH2_SOS  = $(addprefix schemes/sdith2/build/, \
     sdith2_cat1_short_cipherpow.so sdith2_cat1_fast_cipherpow.so \
     sdith2_cat3_short_cipherpow.so sdith2_cat3_fast_cipherpow.so \
     sdith2_cat5_short_cipherpow.so sdith2_cat5_fast_cipherpow.so)
+AIMER_SOS   = $(addprefix schemes/aimer/build/, \
+    aimer128f.so aimer128s.so aimer192f.so aimer192s.so aimer256f.so aimer256s.so)
 MQOM_SOS    = $(addprefix schemes/mqom/build/, \
     mqom3_cat1_gf2_shorter_ct.so mqom3_cat1_gf2_shorter_ot.so \
     mqom3_cat1_gf16_short_ct.so  mqom3_cat1_gf16_short_ot.so  \
@@ -70,8 +72,8 @@ MQOM_SOS    = $(addprefix schemes/mqom/build/, \
     mqom3_cat5_gf16_short_ct.so  mqom3_cat5_gf16_short_ot.so  \
     mqom3_cat5_gf16_fast_ct.so   mqom3_cat5_gf16_fast_ot.so)
 
-ALL_SOS     = $(MLDSA_SOS) $(SLHDSA_SOS) $(FNDSA_SOS) $(CLASSIC_SOS) $(HAWK_SOS) $(MAYO_SOS) $(FAEST_SOS) $(SDITH_SOS) $(SDITH2_SOS) $(SNOVA_SOS) $(UOV_SOS) $(QRUOV_SOS) $(MQOM_SOS) $(SQISIGN_SOS)
-SCHEME_DIRS = mldsa slhdsa fndsa classic hawk mayo faest sdith sdith2 snova uov qruov mqom sqisign
+ALL_SOS     = $(MLDSA_SOS) $(SLHDSA_SOS) $(FNDSA_SOS) $(CLASSIC_SOS) $(HAWK_SOS) $(MAYO_SOS) $(FAEST_SOS) $(SDITH_SOS) $(SDITH2_SOS) $(SNOVA_SOS) $(UOV_SOS) $(QRUOV_SOS) $(MQOM_SOS) $(SQISIGN_SOS) $(AIMER_SOS)
+SCHEME_DIRS = mldsa slhdsa fndsa classic hawk mayo faest sdith sdith2 snova uov qruov mqom sqisign aimer
 STAMPS      = $(addprefix schemes/, $(addsuffix /.stamp, $(SCHEME_DIRS)))
 
 # China NGCC round-1 candidates: one generic ICCS-API shim, data-driven from
@@ -101,6 +103,7 @@ schemes/qruov/.stamp:   schemes/qruov/Makefile schemes/qruov/shim_template.c sch
 schemes/mqom/.stamp:    schemes/mqom/Makefile  schemes/mqom/shim_template.c  schemes/mqom/params.tsv
 schemes/sdith2/.stamp:  schemes/sdith2/Makefile  schemes/sdith2/shim_template.c  schemes/sdith2/params.tsv
 schemes/sqisign/.stamp: schemes/sqisign/Makefile schemes/sqisign/shim_template.c schemes/sqisign/params.tsv
+schemes/aimer/.stamp:   schemes/aimer/Makefile   schemes/aimer/shim_template.c   schemes/aimer/params.tsv
 $(NGCC_STAMP): $(NGCC_DIR)/Makefile $(NGCC_DIR)/shim_template.c $(NGCC_DIR)/params.tsv \
     ../bench-common/ngcc/ngcc.mk ../bench-common/ngcc/gen_rules.py \
     $(wildcard $(NGCC_DIR)/patches/*/*) $(wildcard ../bench-common/ngcc/src/.extracted)
@@ -128,6 +131,7 @@ $(UOV_SOS):     schemes/uov/.stamp
 $(QRUOV_SOS):   schemes/qruov/.stamp
 $(MQOM_SOS):    schemes/mqom/.stamp
 $(SQISIGN_SOS): schemes/sqisign/.stamp
+$(AIMER_SOS):   schemes/aimer/.stamp
 
 # Generate the SO path list included by main.c.
 $(BUILD)/so_paths.h: Makefile $(NGCC_STAMP) | $(BUILD)

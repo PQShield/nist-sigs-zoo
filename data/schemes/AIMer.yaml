@@ -14,26 +14,32 @@ versions:
     level: 1
     pk: 32
     sig: 6944
+    notes: Reference implementation; the v3.0 release has no optimised implementation.
   - name: AIMer-128s
     level: 1
     pk: 32
     sig: 4704
+    notes: Reference implementation; the v3.0 release has no optimised implementation.
   - name: AIMer-192f
     level: 3
     pk: 48
     sig: 15408
+    notes: Reference implementation; the v3.0 release has no optimised implementation.
   - name: AIMer-192s
     level: 3
     pk: 48
     sig: 10320
+    notes: Reference implementation; the v3.0 release has no optimised implementation.
   - name: AIMer-256f
     level: 5
     pk: 64
     sig: 31360
+    notes: Reference implementation; the v3.0 release has no optimised implementation.
   - name: AIMer-256s
     level: 5
     pk: 64
     sig: 20224
+    notes: Reference implementation; the v3.0 release has no optimised implementation.
 - version: v2.1
   date: '2024-07-12'
   status: KpqC selected

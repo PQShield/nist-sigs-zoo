@@ -144,6 +144,13 @@ BENCH_TO_YAML: dict[str, tuple[str, str]] = {
     "MQOM3-L5-gf16-short-ot": ("MQOM.yaml", "L5-gf16-short-ot"),
     "MQOM3-L5-gf16-fast-ct": ("MQOM.yaml", "L5-gf16-fast-ct"),
     "MQOM3-L5-gf16-fast-ot": ("MQOM.yaml", "L5-gf16-fast-ot"),
+    # AIMer v3.0 (KpqC; reference implementation) — names match the YAML
+    "AIMer-128f": ("AIMer.yaml", "AIMer-128f"),
+    "AIMer-128s": ("AIMer.yaml", "AIMer-128s"),
+    "AIMer-192f": ("AIMer.yaml", "AIMer-192f"),
+    "AIMer-192s": ("AIMer.yaml", "AIMer-192s"),
+    "AIMer-256f": ("AIMer.yaml", "AIMer-256f"),
+    "AIMer-256s": ("AIMer.yaml", "AIMer-256s"),
     # SDitH v3.0.0 (round 3) gf2 sets; bench output name matches the shim's @NAME@
     "SDitH3-L1-gf2-short": ("SDitH.yaml", "SDitH3-L1-gf2-short"),
     "SDitH2-L1-gf2-short": (

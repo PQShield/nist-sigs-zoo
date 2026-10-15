@@ -56,6 +56,7 @@ bench/
     ├── qruov/            # qruov/round3 (IMPL=avx2, PRG=aes; six q=127 parameter sets)
     ├── mqom/             # mqom/mqom-v3
     ├── sqisign/          # SQISign/the-sqisign (CMake build; SQISIGN_BUILD_TYPE=broadwell by default, x86-64 asm field arithmetic)
+    ├── aimer/            # samsungsds-opensource/AIMer v3.0 (ships AIMer.zip, unpacked into build/src; reference implementation only)
     └── <name>/
         ├── params.tsv       # one row per parameter set; columns substituted into template
         ├── shim_template.c  # C template with @COLNAME@ tokens
