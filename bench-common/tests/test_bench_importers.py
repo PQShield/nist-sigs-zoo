@@ -172,3 +172,60 @@ def test_no_bench_mapping_report_groups_by_programme(sig):
         )
         == "kpqc selected, nist-onramp round-2/round-3"
     )
+
+
+# --- benchmark environments ------------------------------------------------------
+
+
+def test_timings_name_their_environment_after_the_timing_fields(sig):
+    from ruamel.yaml.comments import CommentedMap
+
+    ps = CommentedMap(
+        [("name", "Tins256"), ("pk", 1), ("notes", "Ref."), ("bench_env", "old")]
+    )
+    row = {
+        "name": "NGCC-Tins256",
+        "dnf": None,
+        "signing_cycles": 5,
+        "verification_cycles": 6,
+        "signing_us": 0.5,
+        "verification_us": 0.6,
+    }
+    changed, _ = sig.apply_row(sig_doc(ps), "Tins256", row, "2026-10-16-c8i.4xlarge")
+    assert changed
+    keys = list(ps)
+    assert ps["bench_env"] == "2026-10-16-c8i.4xlarge"
+    assert keys.index("bench_env") == keys.index("verification_us") + 1
+    sig.apply_row(sig_doc(ps), "Tins256", {"name": "NGCC-Tins256", "dnf": "SIGABRT"})
+    assert "bench_env" not in ps  # a DNF has no timings and so no environment
+
+
+def test_env_ids_and_file(sig, tmp_path):
+    import bench_env
+
+    meta = {
+        "date": "2026-10-16T09:00:00Z",
+        "cpu": "Intel(R) Xeon(R) 6975P-C",
+        "instance_type": "c8i.4xlarge",
+        "cores": "16 (threads/core: 2)",
+        "_sources": {"mldsa": "https://example.org@abc"},
+    }
+    assert bench_env.env_id(meta) == "2026-10-16-c8i.4xlarge"
+    legacy = {"date": "2026-10-13T10:23:10Z", "cpu": "Intel(R) Xeon(R) Platinum 8488C"}
+    assert bench_env.env_id(legacy) == "2026-10-13-c7i.4xlarge"
+    laptop = {"date": "2026-06-25T16:01:24Z", "cpu": "12th Gen Intel(R) Core(TM) i7"}
+    assert bench_env.env_id(laptop) == "2026-06-25-local-12th_gen_intel_r_core_tm_i7"
+
+    data = tmp_path / "schemes"
+    data.mkdir()
+    (data / "A.yaml").write_text(
+        "name: A\nversions:\n- parametersets:\n  - name: a\n    bench_env: 2026-10-16-c8i.4xlarge\n"
+    )
+    path = tmp_path / "env.yaml"
+    bench_env.update_env_file(path, bench_env.make_env(legacy), data)
+    assert bench_env.load_envs(path) == []  # nothing uses it
+    bench_env.update_env_file(path, bench_env.make_env(meta), data)
+    envs = bench_env.load_envs(path)
+    assert [e["id"] for e in envs] == ["2026-10-16-c8i.4xlarge"]
+    assert envs[0]["cpu"]["cores"] == 16 and envs[0]["sources"] == meta["_sources"]
+    assert path.read_text().startswith("# Licensed under CC BY 4.0")

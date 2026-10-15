@@ -95,7 +95,7 @@ def clear_dnf(ps) -> None:
 
 def mark_dnf(ps, kind: str, reason: str) -> None:
     """Record a DNF benchmark row: drop the timings, note why it did not finish."""
-    for field in TIMING[kind]:
+    for field in (*TIMING[kind], "bench_env"):
         ps.pop(field, None)
     clear_dnf(ps)
     sentence = f"{DNF_NOTE} ({reason.replace('-', ' ')})."
@@ -263,7 +263,8 @@ def parameterset(
     if name in untimed:
         note = f"{note} {UNTIMED_NOTE}".strip()
     else:
-        for field in TIMING[kind]:
+        # bench_env (bench-common/bench_env.py) names where the timings were measured.
+        for field in (*TIMING[kind], "bench_env"):
             if old is not None and field in old:
                 ps[field] = old[field]
     dnf = _dnf_sentence(old.get("notes")) if old is not None else ""

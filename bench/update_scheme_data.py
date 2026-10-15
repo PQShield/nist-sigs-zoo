@@ -5,7 +5,10 @@
 # ///
 """Parse a bench results file and update data/schemes/*.yaml with measured cycles.
 
-Also writes data/benchmark_env.yaml describing the benchmark environment.
+Also adds the run's environment to data/benchmark_env.yaml (each parameter set with timings
+names its environment in `bench_env`) and records each row's input fingerprint in
+bench/results/fingerprints.tsv (bench-common/fingerprint.py), from which
+scripts/aws-bench-split decides which rows need re-running.
 
 Usage:
     uv run bench/update_scheme_data.py [results_file]
@@ -197,6 +200,9 @@ BENCH_TO_YAML: dict[str, tuple[str, str]] = {
 # China NGCC round-1 instances: bench names are NGCC-<instance>. The mapping comes
 # from data/ngcc/candidates.yaml (see bench-common/ngcc/ngcc_data.py).
 sys.path.insert(0, str(REPO_ROOT / "bench-common" / "ngcc"))
+sys.path.insert(0, str(REPO_ROOT / "bench-common"))
+import bench_env
+import fingerprint
 import ngcc_data
 
 NGCC_CANDIDATES = REPO_ROOT / "data" / "ngcc" / "candidates.yaml"
@@ -287,7 +293,12 @@ def parse_results_file(path: Path) -> tuple[dict, list[dict]]:
     return meta, rows
 
 
-def apply_row(yaml_data, ps_name: str, row: dict) -> tuple[bool, str | None]:
+SIG_TIMING = ngcc_data.TIMING["signature"]
+
+
+def apply_row(
+    yaml_data, ps_name: str, row: dict, env: str | None = None
+) -> tuple[bool, str | None]:
     """Apply one results row to the first version containing ps_name.
 
     Returns (changed, message); message is None if ps_name was not found.
@@ -311,89 +322,16 @@ def apply_row(yaml_data, ps_name: str, row: dict) -> tuple[bool, str | None]:
             ngcc_data.mark_dnf(ps, "signature", row["dnf"])
             return True, f"DNF ({row['dnf']}): timings removed, noted"
         return False, f"WARNING: DNF ({row['dnf']}); existing timings kept"
-    for field in (
-        "signing_cycles",
-        "verification_cycles",
-        "signing_us",
-        "verification_us",
-    ):
+    for field in SIG_TIMING:
         ps[field] = row[field]
+    if env:
+        bench_env.set_env(ps, env, SIG_TIMING)
     if ngcc:
         ngcc_data.clear_dnf(ps)
     return True, (
         f"sign={row['signing_cycles']:>12,} ({row['signing_us']} µs)  "
         f"verify={row['verification_cycles']:>12,} ({row['verification_us']} µs)"
     )
-
-
-def write_benchmark_env(meta: dict, path: Path) -> None:
-    """Write data/benchmark_env.yaml from parsed header metadata."""
-    yaml = YAML()
-    yaml.default_flow_style = False
-    yaml.width = 4096
-
-    from ruamel.yaml.comments import CommentedMap
-
-    env: CommentedMap = CommentedMap()
-    env.yaml_set_start_comment(
-        "Licensed under CC BY 4.0: https://creativecommons.org/licenses/by/4.0/"
-    )
-    env["license"] = "CC-BY-4.0"
-    env["attribution"] = "Thom Wiggers / PQShield"
-    env["date"] = meta.get("date", "")
-
-    cpu = CommentedMap()
-    cpu["model"] = meta.get("cpu", "")
-    cores_str = meta.get("cores", "")
-    cores_m = re.match(r"(\d+)\s+\(threads/core:\s+(\d+)\)", cores_str)
-    if cores_m:
-        cpu["cores"] = int(cores_m.group(1))
-        cpu["threads_per_core"] = int(cores_m.group(2))
-    freq_str = meta.get("max_freq_mhz", "")
-    freq_m = re.match(r"(\d+)", freq_str)
-    if freq_m:
-        cpu["max_freq_mhz"] = int(freq_m.group(1))
-    cpu["governor"] = meta.get("governor", "")
-    cpu["turbo"] = meta.get("turbo", "")
-    env["cpu"] = cpu
-
-    env["os"] = meta.get("os", "")
-    env["kernel"] = meta.get("kernel", "")
-    env["compiler"] = meta.get("compiler", "")
-    env["openssl"] = meta.get("openssl", "")
-    counter = meta.get(
-        "cyclecounter", "rdtsc + lfence (constant TSC rate, not execution cycles)"
-    )
-    env["notes"] = (
-        "Median over 1000 iterations (fewer for slow schemes). "
-        f"Cycle counter: {counter}. "
-        "Wall clock: clock_gettime(CLOCK_MONOTONIC). "
-        "Benchmark thread pinned to one core."
-    )
-
-    # Merge with the sources already recorded: a filtered run (e.g. only NGCC)
-    # must not drop the provenance of the schemes it did not run.
-    sources: dict = {}
-    if path.exists():
-        previous = YAML(typ="safe").load(path.read_text()) or {}
-        sources.update(previous.get("sources") or {})
-        prev_cpu = (previous.get("cpu") or {}).get("model")
-        if prev_cpu and prev_cpu != meta.get("cpu", ""):
-            print(
-                f"WARNING: {path.name} was measured on {prev_cpu!r}, "
-                f"this run on {meta.get('cpu')!r}"
-            )
-    sources.update(meta.get("_sources", {}))
-    if sources:
-        src_map = CommentedMap()
-        for k, v in sorted(sources.items()):
-            src_map[k] = v
-        env["sources"] = src_map
-
-    with open(path, "w") as f:
-        yaml.dump(env, f)
-
-    print(f"Wrote {path.relative_to(REPO_ROOT)}")
 
 
 NO_PROGRAMME = "no programme"
@@ -408,6 +346,22 @@ def membership_label(programmes) -> str:
         stages = stage if isinstance(stage, list) else [stage]
         parts.append(f"{programme} {'/'.join(str(s) for s in stages)}")
     return ", ".join(parts)
+
+
+def record_fingerprints(results_file: Path, rows: list[dict]) -> None:
+    """Record each timed row (and NGCC DNF rows, which the YAML now shows as DNF) in
+    bench/results/fingerprints.tsv with the fingerprint of the commit its run built.
+    A DNF row of any other scheme is not recorded: its old timings stay, and so does
+    its staleness."""
+    outcomes = {
+        r["name"]: f"dnf:{r['dnf']}" if r["dnf"] else "ok"
+        for r in rows
+        if not r["dnf"] or r["name"].startswith(ngcc_data.PREFIX)
+    }
+    warnings = fingerprint.record(REPO_ROOT, "bench", Path(results_file), outcomes)
+    print(f"Recorded {len(outcomes)} rows in bench/results/fingerprints.tsv")
+    for w in warnings:
+        print(f"  WARNING: {w}")
 
 
 def main() -> None:
@@ -427,6 +381,7 @@ def main() -> None:
 
     meta, rows = parse_results_file(results_file)
     print(f"Parsed {len(rows)} benchmark rows")
+    env = bench_env.env_id(meta)
 
     yaml = YAML()
     yaml.preserve_quotes = True
@@ -458,7 +413,7 @@ def main() -> None:
 
         changed = False
         for ps_name, row in updates:
-            ps_changed, msg = apply_row(data, ps_name, row)
+            ps_changed, msg = apply_row(data, ps_name, row, env)
             if msg is None:
                 print(f"  NOT FOUND: {yaml_filename}  '{ps_name}'")
                 skipped += 1
@@ -523,7 +478,8 @@ def main() -> None:
             for yaml_file, names in sorted(by_file.items()):
                 print(f"    {yaml_file}: {', '.join(names)}")
 
-    write_benchmark_env(meta, BENCH_ENV_FILE)
+    bench_env.update_env_file(BENCH_ENV_FILE, bench_env.make_env(meta), SCHEMES_DIR)
+    record_fingerprints(results_file, rows)
 
 
 if __name__ == "__main__":

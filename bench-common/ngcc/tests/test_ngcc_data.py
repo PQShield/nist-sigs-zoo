@@ -120,7 +120,8 @@ def test_reimport_keeps_timings(tmp_path):
     path = tmp_path / "Aigis-Enc-plus.yaml"
     path.write_text(
         path.read_text().replace(
-            "ct: 896", "ct: 896\n  keygen_cycles: 1000\n  keygen_us: 0.4"
+            "ct: 896",
+            "ct: 896\n  keygen_cycles: 1000\n  keygen_us: 0.4\n  bench_env: e1",
         )
     )
     nd.write_files(
@@ -132,6 +133,7 @@ def test_reimport_keeps_timings(tmp_path):
     )
     ps = load(path)["parametersets"][0]
     assert (ps["ct"], ps["keygen_cycles"], ps["keygen_us"]) == (900, 1000, 0.4)
+    assert ps["bench_env"] == "e1"  # where the kept timings were measured
 
 
 def test_refuses_to_overwrite_other_schemes(tmp_path):
