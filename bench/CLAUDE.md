@@ -157,6 +157,9 @@ on stderr. The run always continues with the next scheme.
   "timeout" or "DNF" in the timing cells; `ngcc_data.mark_dnf`; a later good row removes
   both, `--ngcc-sizes` keeps them). `iters skip` rows get `dnf: timeout`. On any other scheme it prints a
   warning and keeps the existing timings.
+- A listed NGCC instance with no `params.tsv` row at all (no code in the submission package,
+  e.g. BiT-384) gets `no_code: <reason>` from `ngcc_data.py` (`NO_CODE`, or the instance's
+  `no_code:` in candidates.yaml); the site shows "no code" and aws-bench-split never plans it.
 - This is generic: never special-case a candidate here. A crasher is fixed in its own
   wrapper (see "NGCC candidates") or shows up as DNF.
 - Tests: `uv run --with pytest --with 'ruamel.yaml>=0.18' pytest -q bench-common/tests`

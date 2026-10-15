@@ -47,5 +47,6 @@ versions:
     ngcc_level: 384
     pk: 2435
     sig: 5251
-    notes: Sizes from the specification (Sec. 6.3, Table 10 (PDF p. 35)); not measured, we did not build this instance.
+    notes: Sizes from the specification (Sec. 6.3, Table 10 (PDF p. 35)); not measured, the submission package has no implementation of it.
+    no_code: No implementation in the submission package
   findings_url: https://ngcc.dev/reports/sign-02.html

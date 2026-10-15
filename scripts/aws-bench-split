@@ -16,7 +16,8 @@ bench binary's scheme list are generated from), minus rows with iters `skip`. NG
 (schemes/ngcc/params.tsv, those status.tsv says build) are only included with
 --ngcc-src, because without it the VM does not build them. Positional filters restrict
 the rows like run_bench.sh does (case-insensitive substrings, non-alphanumerics ignored,
-OR-ed).
+OR-ed). Rows whose YAML parameter set has a `no_code` field (no implementation to
+benchmark) are never selected, not even with --all.
 
 Staleness: by default only rows that need a run are planned (filters are intersected
 with them; --all plans every selected row). A row needs a run when it is not in
@@ -71,6 +72,7 @@ Environment: AWS_PROFILE, AWS_REGION and BENCH_* are passed on to aws-bench.sh.
 from __future__ import annotations
 
 import argparse
+import ast
 import math
 import os
 import re
@@ -158,6 +160,66 @@ def load_registry(suite_dir: Path, include_ngcc: bool) -> list[tuple[str, str]]:
                 continue
             rows.append((name, iters))
     return rows
+
+
+# Per suite: the YAML data directory and the importer whose BENCH_TO_YAML maps bench row
+# names to (YAML file, parameter-set name). NGCC files map NGCC-<name> (see ngcc_data.py).
+DATA = {
+    "sigs": ("data/schemes", "bench/update_scheme_data.py"),
+    "kems": ("data/kems", "bench-kem/update_scheme_data.py"),
+}
+_PS_NAME = re.compile(r"^(\s*)- name: (.+?)\s*$")
+
+
+def yaml_no_code(text: str) -> set[str]:
+    """Names of the parameter sets in one data YAML file that carry a `no_code` field.
+
+    A line scan (this script has no YAML dependency): a `- name:` item owns the following
+    lines indented two more spaces, as the importers and ngcc_data.py write them.
+    """
+    out: set[str] = set()
+    name, key_indent = None, None
+    for line in text.splitlines():
+        m = _PS_NAME.match(line)
+        if m:
+            name, key_indent = m.group(2).strip("'\""), " " * (len(m.group(1)) + 2)
+            continue
+        if name is None:
+            continue
+        if line.startswith(key_indent + "no_code:"):
+            out.add(name)
+        elif line.strip() and not line.startswith(key_indent):
+            name = None
+    return out
+
+
+def bench_to_yaml(importer: Path) -> dict[str, tuple[str, str]]:
+    """The importer's literal BENCH_TO_YAML dict, read with ast (the importer is not run);
+    {} without an importer."""
+    if not importer.exists():
+        return {}
+    for node in ast.parse(importer.read_text(encoding="utf-8")).body:
+        target = (
+            node.target
+            if isinstance(node, ast.AnnAssign)
+            else (node.targets[0] if isinstance(node, ast.Assign) else None)
+        )
+        if isinstance(target, ast.Name) and target.id == "BENCH_TO_YAML":
+            return ast.literal_eval(node.value)
+    return {}
+
+
+def no_code_rows(repo: Path, suite: str) -> set[str]:
+    """Bench row names whose parameter set is marked `no_code` in the suite's YAML data."""
+    data_dir, importer = DATA[suite]
+    by_set = {(f, ps): name for name, (f, ps) in bench_to_yaml(repo / importer).items()}
+    out: set[str] = set()
+    for path in sorted((repo / data_dir).glob("*.yaml")):
+        text = path.read_text(encoding="utf-8")
+        ngcc = "china-ngcc" in text
+        for ps in yaml_no_code(text):
+            out.add(f"NGCC-{ps}" if ngcc else by_set.get((path.name, ps), ps))
+    return out
 
 
 def effective_iters(params_iters: int, bench_iter: int | None) -> int:
@@ -907,8 +969,12 @@ def main(argv: list[str] | None = None) -> int:
     timeout = env.get("BENCH_TIMEOUT", "")
     timeout_s = int(timeout) if timeout.isdigit() else DEFAULT_BENCH_TIMEOUT_S
 
-    full = load_registry(suite_dir, include_ngcc=True)
+    no_code = no_code_rows(args.repo, args.suite)
+    full = [
+        r for r in load_registry(suite_dir, include_ngcc=True) if r[0] not in no_code
+    ]
     registry = load_registry(suite_dir, include_ngcc=bool(args.ngcc_src))
+    registry = [r for r in registry if r[0] not in no_code]
     why = stale_reasons(args.repo, args.suite, [n for n, _ in full], instance_type)
     if args.stale_report:
         names = [n for n, _ in full if matches(n, args.filters)]

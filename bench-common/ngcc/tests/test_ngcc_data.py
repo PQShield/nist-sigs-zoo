@@ -403,3 +403,46 @@ def test_perf_source_is_ours_only_when_every_timed_set_is():
     v = {"parametersets": [sizes_only]}
     nd.set_perf_source(v, timing)
     assert "perf_source" not in v
+
+
+def test_listed_instance_without_params_row_is_marked_no_code(tmp_path):
+    # A3 has spec sizes and no params.tsv row: no code in the package. A2 has a row whose
+    # build failed (no sizes): code exists, so it is not no_code.
+    sizes = {"NGCC-A1": SIG_SIZES["NGCC-A1"]}
+    status = {**STATUS, "NGCC-A2": {"build": "FAIL", "kat": "-"}}
+    cands = [dict(CANDS[0])]
+    cands[0]["instances"] = [
+        *CANDS[0]["instances"][:3],
+        {**CANDS[0]["instances"][3]},
+        {
+            "instance": "A4",
+            "ngcc_level": 384,
+            "ref": "T1",
+            "pk": 1,
+            "sig": 2,
+            "size_ref": "T5",
+            "no_code": "Specified but not submitted",
+        },
+    ]
+    cands[0]["instances"][1] = {
+        **cands[0]["instances"][1],
+        "pk": 3,
+        "sig": 4,
+        "size_ref": "T6",
+    }
+    rows = nd.load_rows(_params(tmp_path, "NGCC-A1", "10", "NGCC-A2", "10"))
+    assert rows == {"NGCC-A1", "NGCC-A2"}
+    nd.write_files(cands, "signature", sizes, status, tmp_path, rows=rows)
+    a1, a2, a3, a4 = load(tmp_path / "Aigis-Sig-plus.yaml")["versions"][0][
+        "parametersets"
+    ]
+    assert "no_code" not in a1 and "no_code" not in a2
+    assert "our build of this instance fails" in a2["notes"]
+    assert a3["no_code"] == nd.NO_CODE
+    assert "has no implementation" in a3["notes"]
+    assert a4["no_code"] == "Specified but not submitted"
+    # Without a params.tsv (rows None) nothing is marked.
+    nd.write_files(cands, "signature", sizes, status, tmp_path)
+    sets = load(tmp_path / "Aigis-Sig-plus.yaml")["versions"][0]["parametersets"]
+    assert not any("no_code" in p for p in sets)
+    assert nd.load_rows(tmp_path / "missing.tsv") is None

@@ -49,10 +49,12 @@ parametersets:
   ngcc_level: 256
   pk: 1229
   ct: 1229
-  notes: Sizes from the specification (Table 3 (PDF p. 25)); not measured, we did not build this instance.
+  notes: Sizes from the specification (Table 3 (PDF p. 25)); not measured, the submission package has no implementation of it.
+  no_code: No implementation in the submission package
 - name: ZEN-512-backup
   ngcc_level: 512
   pk: 2458
   ct: 2458
-  notes: Sizes from the specification (Table 3 (PDF p. 25)); not measured, we did not build this instance.
+  notes: Sizes from the specification (Table 3 (PDF p. 25)); not measured, the submission package has no implementation of it.
+  no_code: No implementation in the submission package
 findings_url: https://ngcc.dev/reports/kem-41.html

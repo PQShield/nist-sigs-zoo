@@ -37,7 +37,8 @@ parametersets:
   recommended: true
   pk: 2368
   ct: 2176
-  notes: Sizes from the specification (§6.2 Table 2, BW-KEM-c384 (PDF p. 28); not built in the submission); not measured, we did not build this instance.
+  notes: Sizes from the specification (§6.2 Table 2, BW-KEM-c384 (PDF p. 28); not built in the submission); not measured, the submission package has no implementation of it.
+  no_code: No implementation in the submission package
 - name: BW_KEM_C512
   ngcc_level: 512
   recommended: true

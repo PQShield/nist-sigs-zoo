@@ -70,6 +70,11 @@ UNTIMED_DNF = "timeout"
 
 PATCH_NOTE = "our build applies a small patch to the submitted code"
 
+# A listed instance without a params.tsv row has no code in the submission package (its
+# params.tsv comment says why): its parameter set gets `no_code` (the timing cells read
+# "no code"). candidates.yaml may give a more specific reason per instance (`no_code:`).
+NO_CODE = "No implementation in the submission package"
+
 
 # A benchmark run that ended in a DNF row (crash, timeout, failed warm-up check)
 # leaves this sentence at the end of the parameter set's notes and the one-word
@@ -140,6 +145,13 @@ def load_untimed(path: Path) -> set[str]:
     if not path.exists():
         return set()
     return {r["name"] for r in read_tsv(path) if r.get("iters") == "skip"}
+
+
+def load_rows(path: Path) -> set[str] | None:
+    """Bench names of every params.tsv row (built or not); None without a params.tsv."""
+    if not path.exists():
+        return None
+    return {r["name"] for r in read_tsv(path) if r.get("name")}
 
 
 def of_kind(cands: list[dict], kind: str) -> list[dict]:
@@ -234,8 +246,11 @@ def parameterset(
     status: dict,
     old: dict | None,
     untimed: frozenset | set = frozenset(),
+    rows: set[str] | None = None,
 ) -> CommentedMap:
     name, key = bench_name(inst["instance"]), SIZE_KEY[kind]
+    # No params.tsv row: the submission has no code for this instance (rows None: unknown).
+    no_code = name not in sizes and rows is not None and name not in rows
     ps = CommentedMap()
     ps["name"] = inst["instance"]
     ps["ngcc_level"] = inst["ngcc_level"]
@@ -251,7 +266,9 @@ def parameterset(
         ps["pk"], ps[key] = inst["pk"], inst[key]
         failed = (status.get(name) or {}).get("build") == "FAIL"
         why = (
-            "our build of this instance fails"
+            "the submission package has no implementation of it"
+            if no_code
+            else "our build of this instance fails"
             if failed
             else "we did not build this instance"
         )
@@ -260,6 +277,8 @@ def parameterset(
         )
     if impl_changed(old, status.get(name)):
         old = None  # measured on the other build: drop its timings and DNF
+    if no_code:
+        old = None  # nothing was ever timed
     if name in untimed:
         note = f"{note} {UNTIMED_NOTE}".strip()
     else:
@@ -283,6 +302,8 @@ def parameterset(
         ps["dnf"] = UNTIMED_DNF
     elif dnf and old.get("dnf"):
         ps["dnf"] = old["dnf"]
+    if no_code:
+        ps["no_code"] = inst.get("no_code") or NO_CODE
     return ps
 
 
@@ -329,11 +350,17 @@ def set_perf_source(version, timing_fields) -> None:
 
 
 def scheme_doc(
-    cand: dict, kind: str, sizes: dict, status: dict, old=None, untimed=frozenset()
+    cand: dict,
+    kind: str,
+    sizes: dict,
+    status: dict,
+    old=None,
+    untimed=frozenset(),
+    rows: set[str] | None = None,
 ) -> CommentedMap:
     previous = {str(p["name"]): p for p in _old_sets(old, kind)}
     sets = [
-        parameterset(i, kind, sizes, status, previous.get(i["instance"]), untimed)
+        parameterset(i, kind, sizes, status, previous.get(i["instance"]), untimed, rows)
         for i in listed(cand)
     ]
     doc = CommentedMap()
@@ -375,6 +402,7 @@ def write_files(
     status: dict,
     out_dir: Path,
     untimed=frozenset(),
+    rows: set[str] | None = None,
 ) -> list[Path]:
     check_coverage(cands, kind, sizes)
     yaml = YAML()
@@ -386,7 +414,7 @@ def write_files(
         old = yaml.load(path.read_text(encoding="utf-8")) if path.exists() else None
         if old is not None and not _is_ngcc(old, kind):
             raise NgccDataError(f"{path.name} exists and is not an NGCC file")
-        plans.append((path, scheme_doc(cand, kind, sizes, status, old, untimed)))
+        plans.append((path, scheme_doc(cand, kind, sizes, status, old, untimed, rows)))
     for path, doc in plans:
         with open(path, "w", encoding="utf-8") as f:
             yaml.dump(doc, f)

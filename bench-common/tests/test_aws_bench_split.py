@@ -659,3 +659,28 @@ def test_stale_report_gives_reasons(fakes):
     )
     assert "Alpha-1  hardware: c7i.4xlarge → c8i.4xlarge" in c8i.stdout
     assert not list(state.iterdir())  # nothing launched
+
+
+def test_no_code_sets_are_never_planned(tmp_path):
+    (tmp_path / "data/schemes").mkdir(parents=True)
+    (tmp_path / "bench").mkdir()
+    (tmp_path / "bench/update_scheme_data.py").write_text(
+        "BENCH_TO_YAML: dict[str, tuple[str, str]] = {\n"
+        '    "Foo-1": ("Foo.yaml", "1"),\n    "Foo-2": ("Foo.yaml", "2"),\n}\n'
+    )
+    (tmp_path / "data/schemes/Foo.yaml").write_text(
+        "name: Foo\nversions:\n- version: v1\n  parametersets:\n"
+        "  - name: '1'\n    pk: 1\n    sig: 2\n    no_code: No implementation\n"
+        "  - name: '2'\n    pk: 1\n    sig: 2\n    notes: no_code: in a note\n"
+    )
+    (tmp_path / "data/schemes/Bar.yaml").write_text(
+        "name: Bar\nversions:\n- version: Round 1\n  programmes:\n    china-ngcc: round-1\n"
+        "  parametersets:\n  - name: Bar-384\n    pk: 1\n    sig: 2\n"
+        "    no_code: No implementation in the submission package\n"
+    )
+    assert S.no_code_rows(tmp_path, "sigs") == {"Foo-1", "NGCC-Bar-384"}
+
+
+def test_real_data_marks_bit_384_no_code():
+    assert "NGCC-BiT-384" in S.no_code_rows(REPO, "sigs")
+    assert {"NGCC-ZEN-256-backup", "NGCC-BW_KEM_C384"} <= S.no_code_rows(REPO, "kems")

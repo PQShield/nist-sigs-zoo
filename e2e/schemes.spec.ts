@@ -245,6 +245,23 @@ test.describe('Benchmarks that did not finish', () => {
 	});
 });
 
+test.describe('Parameter sets without code', () => {
+	test('BiT-384 reads "no code" on its scheme page and in the signature table', async ({ page }) => {
+		const reason = 'No implementation in the submission package';
+		await page.goto('/schemes/bit/');
+		const row = page.locator('tr', { has: page.locator('th', { hasText: /^\s*BiT-384/ }) });
+		const cells = row.getByTitle(reason);
+		await expect(cells).toHaveCount(2);
+		await expect(cells.first()).toHaveText(/^no code/);
+
+		await page.goto('/signatures/?s=BiT&ps=all');
+		const tableRow = page.locator('table tbody tr', { hasText: 'BiT-384' });
+		const tableCells = tableRow.getByTitle(reason);
+		await expect(tableCells).toHaveCount(2);
+		await expect(tableCells.first()).toHaveText(/^no code/);
+	});
+});
+
 test.describe('Benchmark environments', () => {
 	test('measured timings on a scheme page name the run they come from', async ({ page }) => {
 		await page.goto('/schemes/ml-kem/');
