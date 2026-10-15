@@ -281,6 +281,17 @@ BENCH_TO_YAML: dict[str, Target | list[Target]] = {
     "MAYO-R2-three": ("MAYO.yaml", "three", "Round 2@2025-02-05"),
     "MAYO-R2-five": ("MAYO.yaml", "five", "Round 2@2025-02-05"),
 
+    # HAWK round 1 (hawk-sign/dev ac3a98c = NIST round-1 package), bench/schemes/hawk_r1
+    "HAWK-R1-512": ("HAWK.yaml", "512", "v1.0"),
+    "HAWK-R1-1024": ("HAWK.yaml", "1024", "v1.0"),
+    # SDitH round 2 (NIST round-2 package, no git tag), bench/schemes/sdith_r2
+    "SDitH-R2-L1-gf2-short": ("SDitH.yaml", "SDitH2-L1-gf2-short", "v2.0"),
+    "SDitH-R2-L1-gf2-fast": ("SDitH.yaml", "SDitH2-L1-gf2-fast", "v2.0"),
+    "SDitH-R2-L3-gf2-short": ("SDitH.yaml", "SDitH2-L3-gf2-short", "v2.0"),
+    "SDitH-R2-L3-gf2-fast": ("SDitH.yaml", "SDitH2-L3-gf2-fast", "v2.0"),
+    "SDitH-R2-L5-gf2-short": ("SDitH.yaml", "SDitH2-L5-gf2-short", "v2.0"),
+    "SDitH-R2-L5-gf2-fast": ("SDitH.yaml", "SDitH2-L5-gf2-fast", "v2.0"),
+
     # Classic
     "RSA-2048 (PSS)": ("RSA.yaml", "2048"),
     "RSA-3072 (PSS)": ("RSA.yaml", "3072"),

@@ -91,3 +91,7 @@
 	path = bench/schemes/mayo_r2/ref
 	url = https://github.com/PQCMayo/MAYO-C.git
 	ignore = dirty
+[submodule "bench/schemes/hawk_r1/ref"]
+	path = bench/schemes/hawk_r1/ref
+	url = https://github.com/hawk-sign/dev
+	ignore = dirty
