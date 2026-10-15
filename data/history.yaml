@@ -1,5 +1,10 @@
 - date: '2026-10-15'
   type: update
+  description: "LESS: the signature sizes of LESS-252-192, LESS-400-220 and LESS-548-345 are now the maximum sizes of the submitted code (2,609, 6,353 and 10,712 bytes) instead of the specification's Table 4 (2,625, 6,329 and 10,680 bytes)."
+  schemes: [LESS]
+
+- date: '2026-10-15'
+  type: update
   description: "Re-benchmarked every signature and KEM on AWS c8i.4xlarge (Intel Xeon 6975P-C, core cycles via rdpmc), replacing the c7i.4xlarge timings of 2026-10-13. This also times for the first time the C++ optimised builds of Lynxer, ReSolveD-&alpha; and SYDO, the SNOVA, SDitH and SMAUG-T alternative sets, and the SP 800-230 SLH-DSA-SHAKE-*-24 sets, which are exempt from our 10-minute limit: one signature takes 6.6&ndash;11.3 minutes. TRINE-512-Balanced still exceeds the limit."
 
 - date: '2026-10-14'

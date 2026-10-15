@@ -13,9 +13,10 @@ versions:
   - name: 252-192
     level: 1
     pk: 13940
-    sig: 2625
+    sig: 2609
     signing_cycles: 127500000
     verification_cycles: 122700000
+    notes: Signature size is the implementation's maximum (CRYPTO_BYTES); specification Table 4 gives 2625 bytes.
   - name: 252-68
     level: 1
     pk: 41788
@@ -31,9 +32,10 @@ versions:
   - name: 400-220
     level: 3
     pk: 35074
-    sig: 6329
+    sig: 6353
     signing_cycles: 401500000
     verification_cycles: 392700000
+    notes: Signature size is the implementation's maximum (CRYPTO_BYTES); specification Table 4 gives 6329 bytes.
   - name: 400-102
     level: 3
     pk: 105174
@@ -43,9 +45,10 @@ versions:
   - name: 548-345
     level: 5
     pk: 65793
-    sig: 10680
+    sig: 10712
     signing_cycles: 1424200000
     verification_cycles: 1396000000
+    notes: Signature size is the implementation's maximum (CRYPTO_BYTES); specification Table 4 gives 10680 bytes.
   - name: 548-137
     level: 5
     pk: 197315
