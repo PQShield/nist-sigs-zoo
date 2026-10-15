@@ -106,7 +106,7 @@ versions:
     level: 1
     pk: 376
     sig: 436
-    notes: "Alternative parameter set (v, o, q, l, r, m1, m2) from spec Table 6 (claimed security 169 bits); sizes from the specification, not benchmarked."
+    notes: "Alternative parameter set (v, o, q, l, r, m1, m2) from spec Table 6 (claimed security 169 bits)."
     signing_cycles: 647583
     verification_cycles: 219006
     signing_us: 167.2
@@ -116,7 +116,7 @@ versions:
     level: 1
     pk: 656
     sig: 326
-    notes: "Alternative parameter set (v, o, q, l, r, m1, m2) from spec Table 6 (claimed security 177 bits); sizes from the specification, not benchmarked."
+    notes: "Alternative parameter set (v, o, q, l, r, m1, m2) from spec Table 6 (claimed security 177 bits)."
     signing_cycles: 622732
     verification_cycles: 201141
     signing_us: 165.8
@@ -127,7 +127,7 @@ versions:
     pk: 699
     sig: 413
     broken: "Key recovery from signatures: the vinegar sampler reduces uniform bytes modulo q^g, which is biased for odd q, turning key recovery into an LPN problem far below the claimed security (<a href=\"https://groups.google.com/a/list.nist.gov/d/msgid/pqc-forum/000001dd4a73%247e3c04e0%247ab40ea0%24%40beullens.com\">Beullens &amp; Hess</a>)"
-    notes: "Alternative parameter set (v, o, q, l, r, m1, m2) from spec Table 6 (claimed security 201 bits); sizes from the specification, not benchmarked."
+    notes: "Alternative parameter set (v, o, q, l, r, m1, m2) from spec Table 6 (claimed security 201 bits)."
     signing_cycles: 17055028
     verification_cycles: 7250606
     signing_us: 4405.2
@@ -138,7 +138,7 @@ versions:
     pk: 950
     sig: 255
     broken: "Key recovery from signatures: the vinegar sampler reduces uniform bytes modulo q^g, which is biased for odd q, turning key recovery into an LPN problem far below the claimed security (<a href=\"https://groups.google.com/a/list.nist.gov/d/msgid/pqc-forum/000001dd4a73%247e3c04e0%247ab40ea0%24%40beullens.com\">Beullens &amp; Hess</a>)"
-    notes: "Alternative parameter set (v, o, q, l, r, m1, m2) from spec Table 6 (claimed security 170 bits); sizes from the specification, not benchmarked."
+    notes: "Alternative parameter set (v, o, q, l, r, m1, m2) from spec Table 6 (claimed security 170 bits)."
     signing_cycles: 13574020
     verification_cycles: 4906954
     signing_us: 3506.3
@@ -148,7 +148,7 @@ versions:
     level: 1
     pk: 9842
     sig: 150
-    notes: "Alternative parameter set (v, o, q, l, r, m1, m2) from spec Table 6 (claimed security 158 bits); sizes from the specification, not benchmarked."
+    notes: "Alternative parameter set (v, o, q, l, r, m1, m2) from spec Table 6 (claimed security 158 bits)."
     signing_cycles: 8789029
     verification_cycles: 565765
     signing_us: 2274.5
@@ -158,7 +158,7 @@ versions:
     level: 3
     pk: 816
     sig: 404
-    notes: "Alternative parameter set (v, o, q, l, r, m1, m2) from spec Table 6 (claimed security 221 bits); sizes from the specification, not benchmarked."
+    notes: "Alternative parameter set (v, o, q, l, r, m1, m2) from spec Table 6 (claimed security 221 bits)."
     signing_cycles: 1279041
     verification_cycles: 268121
     signing_us: 341.8
@@ -168,7 +168,7 @@ versions:
     level: 3
     pk: 1216
     sig: 396
-    notes: "Alternative parameter set (v, o, q, l, r, m1, m2) from spec Table 6 (claimed security 221 bits); sizes from the specification, not benchmarked."
+    notes: "Alternative parameter set (v, o, q, l, r, m1, m2) from spec Table 6 (claimed security 221 bits)."
     signing_cycles: 1073478
     verification_cycles: 333717
     signing_us: 288.6
@@ -179,7 +179,7 @@ versions:
     pk: 1241
     sig: 478
     broken: "Key recovery from signatures: the vinegar sampler reduces uniform bytes modulo q^g, which is biased for odd q, turning key recovery into an LPN problem far below the claimed security (<a href=\"https://groups.google.com/a/list.nist.gov/d/msgid/pqc-forum/000001dd4a73%247e3c04e0%247ab40ea0%24%40beullens.com\">Beullens &amp; Hess</a>)"
-    notes: "Alternative parameter set (v, o, q, l, r, m1, m2) from spec Table 6 (claimed security 230 bits); sizes from the specification, not benchmarked."
+    notes: "Alternative parameter set (v, o, q, l, r, m1, m2) from spec Table 6 (claimed security 230 bits)."
     signing_cycles: 45165141
     verification_cycles: 18559742
     signing_us: 11664.2
@@ -190,7 +190,7 @@ versions:
     pk: 1510
     sig: 567
     broken: "Key recovery from signatures: the vinegar sampler reduces uniform bytes modulo q^g, which is biased for odd q, turning key recovery into an LPN problem far below the claimed security (<a href=\"https://groups.google.com/a/list.nist.gov/d/msgid/pqc-forum/000001dd4a73%247e3c04e0%247ab40ea0%24%40beullens.com\">Beullens &amp; Hess</a>)"
-    notes: "Alternative parameter set (v, o, q, l, r, m1, m2) from spec Table 6 (claimed security 269 bits); sizes from the specification, not benchmarked."
+    notes: "Alternative parameter set (v, o, q, l, r, m1, m2) from spec Table 6 (claimed security 269 bits)."
     signing_cycles: 43573184
     verification_cycles: 18002220
     signing_us: 11254.3
@@ -200,7 +200,7 @@ versions:
     level: 3
     pk: 31266
     sig: 218
-    notes: "Alternative parameter set (v, o, q, l, r, m1, m2) from spec Table 6 (claimed security 223 bits); sizes from the specification, not benchmarked."
+    notes: "Alternative parameter set (v, o, q, l, r, m1, m2) from spec Table 6 (claimed security 223 bits)."
     signing_cycles: 37576627
     verification_cycles: 1968406
     signing_us: 9734.0
@@ -211,7 +211,7 @@ versions:
     pk: 2016
     sig: 736
     broken: "Key recovery from signatures: the vinegar sampler reduces uniform bytes modulo q^g, which is biased for odd q, turning key recovery into an LPN problem far below the claimed security (<a href=\"https://groups.google.com/a/list.nist.gov/d/msgid/pqc-forum/000001dd4a73%247e3c04e0%247ab40ea0%24%40beullens.com\">Beullens &amp; Hess</a>)"
-    notes: "Alternative parameter set (v, o, q, l, r, m1, m2) from spec Table 6 (claimed security 331 bits); sizes from the specification, not benchmarked."
+    notes: "Alternative parameter set (v, o, q, l, r, m1, m2) from spec Table 6 (claimed security 331 bits)."
     signing_cycles: 83399276
     verification_cycles: 33845723
     signing_us: 21549.7
@@ -222,7 +222,7 @@ versions:
     pk: 2781
     sig: 695
     broken: "Key recovery from signatures: the vinegar sampler reduces uniform bytes modulo q^g, which is biased for odd q, turning key recovery into an LPN problem far below the claimed security (<a href=\"https://groups.google.com/a/list.nist.gov/d/msgid/pqc-forum/000001dd4a73%247e3c04e0%247ab40ea0%24%40beullens.com\">Beullens &amp; Hess</a>)"
-    notes: "Alternative parameter set (v, o, q, l, r, m1, m2) from spec Table 6 (claimed security 318 bits); sizes from the specification, not benchmarked."
+    notes: "Alternative parameter set (v, o, q, l, r, m1, m2) from spec Table 6 (claimed security 318 bits)."
     signing_cycles: 88113607
     verification_cycles: 33622212
     signing_us: 22778.1
@@ -232,7 +232,7 @@ versions:
     level: 5
     pk: 71890
     sig: 290
-    notes: "Alternative parameter set (v, o, q, l, r, m1, m2) from spec Table 6 (claimed security 287 bits); sizes from the specification, not benchmarked."
+    notes: "Alternative parameter set (v, o, q, l, r, m1, m2) from spec Table 6 (claimed security 287 bits)."
     signing_cycles: 123449116
     verification_cycles: 5044834
     signing_us: 31982.7
