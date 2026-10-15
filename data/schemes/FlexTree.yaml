@@ -67,11 +67,11 @@ versions:
     ngcc_level: 384
     pk: 96
     sig: 73396
-    signing_cycles: 13318984617
-    verification_cycles: 136455545
-    signing_us: 3559850.8
-    verification_us: 36458.2
-    bench_env: 2026-10-13-c7i.4xlarge
+    signing_cycles: 13464352841
+    verification_cycles: 137812098
+    signing_us: 3482806.0
+    verification_us: 35644.5
+    bench_env: 2026-10-15-c8i.4xlarge
     notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
     broken: A signing counter can be ground without changing the hash-selected instance, so forgeries after many signing queries cost roughly 20 to 30 bits less than claimed, below this set's target (<a href="https://ngcc.dev/reports/sign-11.html#sign-11-1-pors-counter-grinding-reduces-every-claimed-security-level">Kudinov</a>).
   - name: Flextree-512s

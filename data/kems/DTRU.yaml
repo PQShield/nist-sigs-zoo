@@ -48,13 +48,13 @@ parametersets:
   ngcc_level: 256
   pk: 1495
   ct: 1359
-  keygen_cycles: 141170367
-  encaps_cycles: 471095
-  decaps_cycles: 957531
-  keygen_us: 37418.7
-  encaps_us: 125.1
-  decaps_us: 253.2
-  bench_env: 2026-10-13-c7i.4xlarge
+  keygen_cycles: 139405709
+  encaps_cycles: 409180
+  decaps_cycles: 838895
+  keygen_us: 35996.5
+  encaps_us: 106.0
+  decaps_us: 216.2
+  bench_env: 2026-10-15-c8i.4xlarge
   notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 - name: DTRU-1536
   ngcc_level: 384

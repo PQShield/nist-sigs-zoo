@@ -12,18 +12,18 @@ versions:
     level: Pre-Quantum
     pk: 32
     sig: 64
-    signing_cycles: 122940
-    verification_cycles: 333303
-    signing_us: 33.6
-    verification_us: 89.5
-    bench_env: 2026-10-13-c7i.4xlarge
+    signing_cycles: 126756
+    verification_cycles: 341496
+    signing_us: 33.7
+    verification_us: 88.7
+    bench_env: 2026-10-15-c8i.4xlarge
   - name: Ed448
     level: Pre-Quantum
     pk: 57
     sig: 114
-    signing_cycles: 511735
-    verification_cycles: 654055
-    signing_us: 139.0
-    verification_us: 176.7
-    bench_env: 2026-10-13-c7i.4xlarge
+    signing_cycles: 561013
+    verification_cycles: 652096
+    signing_us: 145.0
+    verification_us: 168.4
+    bench_env: 2026-10-15-c8i.4xlarge
   broken: classical

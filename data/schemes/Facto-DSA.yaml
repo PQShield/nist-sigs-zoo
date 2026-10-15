@@ -14,22 +14,22 @@ versions:
     ngcc_level: 128
     pk: 40040
     sig: 40
-    signing_cycles: 1133050
-    verification_cycles: 931229
-    signing_us: 309.9
-    verification_us: 252.1
-    bench_env: 2026-10-13-c7i.4xlarge
+    signing_cycles: 1068288
+    verification_cycles: 950383
+    signing_us: 276.9
+    verification_us: 244.6
+    bench_env: 2026-10-15-c8i.4xlarge
     notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
     broken: An equivalent signing trapdoor can be computed from the public key in seconds (<a href="https://github.com/ngcc-dev/ngcc-harness/issues/5">MingLLuo</a>). Unsalted digests also let signatures be transferred to new messages below the target (<a href="https://ngcc.dev/reports/sign-10.html#sign-10-3-unsalted-hash-targets-permit-below-level-signature-transfers">Saarinen</a>).
   - name: Facto-DSA-256
     ngcc_level: 256
     pk: 456960
     sig: 68
-    signing_cycles: 4241983
-    verification_cycles: 10446327
-    signing_us: 1156.5
-    verification_us: 2818.6
-    bench_env: 2026-10-13-c7i.4xlarge
+    signing_cycles: 3984712
+    verification_cycles: 10545460
+    signing_us: 1035.0
+    verification_us: 2734.4
+    bench_env: 2026-10-15-c8i.4xlarge
     notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
   - name: Facto-DSA-512
     ngcc_level: 512

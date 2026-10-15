@@ -23,13 +23,13 @@ parametersets:
   ngcc_level: 256
   pk: 595662
   ct: 1153
-  keygen_cycles: 83309025439
-  encaps_cycles: 4572097
-  decaps_cycles: 16622109
-  keygen_us: 22493860.5
-  encaps_us: 1212.6
-  decaps_us: 4519.3
-  bench_env: 2026-10-13-c7i.4xlarge
+  keygen_cycles: 116555161370
+  encaps_cycles: 3909528
+  decaps_cycles: 16359639
+  keygen_us: 30840587.5
+  encaps_us: 1011.7
+  decaps_us: 4315.2
+  bench_env: 2026-10-15-c8i.4xlarge
   notes: Optimised x86 implementation.
 - name: QCTM512
   ngcc_level: 512

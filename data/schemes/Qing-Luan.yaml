@@ -14,11 +14,11 @@ versions:
     ngcc_level: 128
     pk: 77
     sig: 18720
-    signing_cycles: 16305734
-    verification_cycles: 7322193
-    signing_us: 4403.2
-    verification_us: 1964.3
-    bench_env: 2026-10-13-c7i.4xlarge
+    signing_cycles: 16386910
+    verification_cycles: 7381544
+    signing_us: 4235.4
+    verification_us: 1908.8
+    bench_env: 2026-10-15-c8i.4xlarge
     notes: Reference implementation; uses the ICCS SM3 implementation from the submission package.
   - name: QingLuan-256
     ngcc_level: 256

@@ -36,41 +36,41 @@ versions:
     level: 1
     pk: 32
     sig: 7856
-    signing_cycles: 2122250945
-    verification_cycles: 2113297
-    signing_us: 567823.0
-    verification_us: 564.8
-    bench_env: 2026-10-13-c7i.4xlarge
+    signing_cycles: 2092625880
+    verification_cycles: 2098024
+    signing_us: 541379.2
+    verification_us: 541.3
+    bench_env: 2026-10-15-c8i.4xlarge
   - name: SHAKE-256f
     recommended: true
     level: 5
     pk: 64
     sig: 49856
-    signing_cycles: 351070091
-    verification_cycles: 9116753
-    signing_us: 95199.8
-    verification_us: 2463.0
-    bench_env: 2026-10-13-c7i.4xlarge
+    signing_cycles: 349669206
+    verification_cycles: 9218082
+    signing_us: 92251.0
+    verification_us: 2428.0
+    bench_env: 2026-10-15-c8i.4xlarge
   - name: SHAKE-192f
     recommended: true
     level: 3
     pk: 48
     sig: 35664
-    signing_cycles: 168461522
-    verification_cycles: 8932905
-    signing_us: 47386.1
-    verification_us: 2512.4
-    bench_env: 2026-10-13-c7i.4xlarge
+    signing_cycles: 166171561
+    verification_cycles: 8856925
+    signing_us: 44113.7
+    verification_us: 2352.1
+    bench_env: 2026-10-15-c8i.4xlarge
   - name: SHAKE-128f
     recommended: true
     level: 1
     pk: 32
     sig: 17088
-    signing_cycles: 102529436
-    verification_cycles: 6104697
-    signing_us: 27850.9
-    verification_us: 1657.9
-    bench_env: 2026-10-13-c7i.4xlarge
+    signing_cycles: 100953382
+    verification_cycles: 6049257
+    signing_us: 26778.3
+    verification_us: 1603.5
+    bench_env: 2026-10-15-c8i.4xlarge
   - name: SHAKE-128-24
     level: 1
     pk: 32

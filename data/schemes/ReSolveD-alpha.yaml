@@ -24,6 +24,11 @@ versions:
     pk: 121
     sig: 6851
     notes: Optimised x86 implementation; uses the ICCS SM3 implementation from the submission package.
+    signing_cycles: 16553066
+    verification_cycles: 8585840
+    signing_us: 4431.1
+    verification_us: 2347.3
+    bench_env: 2026-10-15-c8i.4xlarge
   - name: ReSolveD-alpha-256s
     ngcc_level: 256
     pk: 194

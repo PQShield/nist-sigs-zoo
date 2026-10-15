@@ -70,10 +70,10 @@ parametersets:
   pk: 192
   ct: 192
   notes: Secret key 95 bytes. Ciphertext is the ephemeral public key.
-  keygen_us: 9329.3
-  encaps_us: 71065.5
-  decaps_us: 61770.3
-  keygen_cycles: 31976583
-  encaps_cycles: 243285833
-  decaps_cycles: 211428578
-  bench_env: 2026-10-13-c7i.4xlarge
+  keygen_us: 8432.6
+  encaps_us: 63720.2
+  decaps_us: 55292.7
+  keygen_cycles: 32230355
+  encaps_cycles: 243669544
+  decaps_cycles: 211443621
+  bench_env: 2026-10-15-c8i.4xlarge

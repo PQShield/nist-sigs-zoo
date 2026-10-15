@@ -14,47 +14,47 @@ versions:
     level: 5
     pk: 446992
     sig: 275
-    signing_cycles: 464416
-    verification_cycles: 1604904
-    signing_us: 131.6
-    verification_us: 438.5
-    bench_env: 2026-10-13-c7i.4xlarge
+    signing_cycles: 523479
+    verification_cycles: 1980530
+    signing_us: 148.3
+    verification_us: 542.3
+    bench_env: 2026-10-15-c8i.4xlarge
   - name: V-classic
     level: 5
     pk: 3232320
     sig: 275
-    signing_cycles: 474560
-    verification_cycles: 592245
-    signing_us: 132.1
-    verification_us: 165.1
-    bench_env: 2026-10-13-c7i.4xlarge
+    signing_cycles: 490624
+    verification_cycles: 724700
+    signing_us: 139.0
+    verification_us: 199.0
+    bench_env: 2026-10-15-c8i.4xlarge
   - name: III-pkc
     level: 3
     pk: 189232
     sig: 209
-    signing_cycles: 152059
-    verification_cycles: 627763
-    signing_us: 44.5
-    verification_us: 171.0
-    bench_env: 2026-10-13-c7i.4xlarge
+    signing_cycles: 156841
+    verification_cycles: 666314
+    signing_us: 46.6
+    verification_us: 181.3
+    bench_env: 2026-10-15-c8i.4xlarge
   - name: III-classic
     level: 3
     pk: 1347912
     sig: 209
-    signing_cycles: 154608
-    verification_cycles: 254638
-    signing_us: 44.8
-    verification_us: 69.9
-    bench_env: 2026-10-13-c7i.4xlarge
+    signing_cycles: 163306
+    verification_cycles: 246369
+    signing_us: 48.3
+    verification_us: 70.3
+    bench_env: 2026-10-15-c8i.4xlarge
   - name: Is-pkc
     level: 1
     pk: 66576
     sig: 96
-    signing_cycles: 62035
-    verification_cycles: 176354
-    signing_us: 17.8
-    verification_us: 47.7
-    bench_env: 2026-10-13-c7i.4xlarge
+    signing_cycles: 65429
+    verification_cycles: 192356
+    signing_us: 18.7
+    verification_us: 52.0
+    bench_env: 2026-10-15-c8i.4xlarge
   - name: Is-classic
     level: 1
     pk: 412160

@@ -14,31 +14,31 @@ versions:
     ngcc_level: 128
     pk: 976
     sig: 1548
-    signing_cycles: 2804767
-    verification_cycles: 596615
-    signing_us: 788.8
-    verification_us: 161.2
-    bench_env: 2026-10-13-c7i.4xlarge
+    signing_cycles: 2822065
+    verification_cycles: 603606
+    signing_us: 731.2
+    verification_us: 156.1
+    bench_env: 2026-10-15-c8i.4xlarge
     notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
   - name: CS-256
     ngcc_level: 256
     pk: 1760
     sig: 3164
-    signing_cycles: 11862332
-    verification_cycles: 1112283
-    signing_us: 3241.4
-    verification_us: 302.3
-    bench_env: 2026-10-13-c7i.4xlarge
+    signing_cycles: 11705943
+    verification_cycles: 1128353
+    signing_us: 3024.7
+    verification_us: 292.0
+    bench_env: 2026-10-15-c8i.4xlarge
     notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
   - name: CS-512
     ngcc_level: 512
     pk: 4288
     sig: 5975
-    signing_cycles: 43065908
-    verification_cycles: 3627573
-    signing_us: 11697.6
-    verification_us: 992.5
-    bench_env: 2026-10-13-c7i.4xlarge
+    signing_cycles: 43050676
+    verification_cycles: 3683637
+    signing_us: 11162.9
+    verification_us: 954.9
+    bench_env: 2026-10-15-c8i.4xlarge
     notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
   findings_url: https://ngcc.dev/reports/sign-07.html
   implementation: The submitted code omits a nonce when sampling secrets, collapsing them to one value and making key recovery cheap (<a href="https://list.niccs.org.cn/archives/list/pkcforum@list.niccs.org.cn/message/2OEX5VKCOX3NZV2DFKG3DF7B3OA6Z3FC/">Sun</a>). Signatures are also trivially malleable (<a href="https://ngcc.dev/reports/sign-07.html#sign-07-1-trivial-signature-malleability-violates-suf-cma">Saarinen</a>).

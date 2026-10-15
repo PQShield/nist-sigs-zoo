@@ -16,41 +16,41 @@ versions:
     recommended: true
     pk: 5554
     sig: 964
-    signing_cycles: 812882
-    verification_cycles: 342535
-    signing_us: 215.8
-    verification_us: 91.5
-    bench_env: 2026-10-13-c7i.4xlarge
+    signing_cycles: 827312
+    verification_cycles: 349685
+    signing_us: 221.0
+    verification_us: 93.5
+    bench_env: 2026-10-15-c8i.4xlarge
   - name: three
     level: 3
     recommended: true
     pk: 2986
     sig: 681
-    signing_cycles: 353954
-    verification_cycles: 151841
-    signing_us: 94.5
-    verification_us: 41.1
-    bench_env: 2026-10-13-c7i.4xlarge
+    signing_cycles: 361529
+    verification_cycles: 156220
+    signing_us: 96.9
+    verification_us: 42.2
+    bench_env: 2026-10-15-c8i.4xlarge
   - name: two
     level: 1
     recommended: true
     pk: 2928
     sig: 239
-    signing_cycles: 94892
-    verification_cycles: 38506
-    signing_us: 26.2
-    verification_us: 11.3
-    bench_env: 2026-10-13-c7i.4xlarge
+    signing_cycles: 102462
+    verification_cycles: 41211
+    signing_us: 28.2
+    verification_us: 12.0
+    bench_env: 2026-10-15-c8i.4xlarge
   - name: one
     level: 1
     recommended: true
     pk: 1456
     sig: 464
-    signing_cycles: 168573
-    verification_cycles: 71610
-    signing_us: 47.0
-    verification_us: 20.1
-    bench_env: 2026-10-13-c7i.4xlarge
+    signing_cycles: 171468
+    verification_cycles: 73806
+    signing_us: 46.3
+    verification_us: 20.6
+    bench_env: 2026-10-15-c8i.4xlarge
   - name: alt (85 76 9 9 16)
     level: 1
     pk: 1726

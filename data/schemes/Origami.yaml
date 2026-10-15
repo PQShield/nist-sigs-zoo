@@ -14,11 +14,11 @@ versions:
     ngcc_level: 128
     pk: 2996
     sig: 116
-    signing_cycles: 30499002
-    verification_cycles: 27418622
-    signing_us: 8271.9
-    verification_us: 7416.2
-    bench_env: 2026-10-13-c7i.4xlarge
+    signing_cycles: 30844370
+    verification_cycles: 27728363
+    signing_us: 7977.2
+    verification_us: 7171.0
+    bench_env: 2026-10-15-c8i.4xlarge
     notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it; our build applies a small patch to the submitted code.
   - name: Origami-256
     ngcc_level: 256

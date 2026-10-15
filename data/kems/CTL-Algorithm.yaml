@@ -22,13 +22,13 @@ parametersets:
   ngcc_level: 256
   pk: 1230
   ct: 1006
-  keygen_cycles: 60280128
-  encaps_cycles: 61968
-  decaps_cycles: 387977
-  keygen_us: 15979.4
-  encaps_us: 17.4
-  decaps_us: 103.3
-  bench_env: 2026-10-13-c7i.4xlarge
+  keygen_cycles: 60282850
+  encaps_cycles: 62100
+  decaps_cycles: 391761
+  keygen_us: 15575.1
+  encaps_us: 17.0
+  decaps_us: 101.6
+  bench_env: 2026-10-15-c8i.4xlarge
   notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 - name: CTL-3329-2048
   ngcc_level: 512

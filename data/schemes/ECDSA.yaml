@@ -12,27 +12,27 @@ versions:
     level: Pre-Quantum
     pk: 65
     sig: 72
-    signing_cycles: 79799
-    verification_cycles: 237188
-    signing_us: 22.3
-    verification_us: 63.6
-    bench_env: 2026-10-13-c7i.4xlarge
+    signing_cycles: 83759
+    verification_cycles: 241732
+    signing_us: 22.8
+    verification_us: 63.2
+    bench_env: 2026-10-15-c8i.4xlarge
   - name: P-384
     level: Pre-Quantum
     pk: 97
     sig: 104
-    signing_cycles: 605494
-    verification_cycles: 1375272
-    signing_us: 162.5
-    verification_us: 370.7
-    bench_env: 2026-10-13-c7i.4xlarge
+    signing_cycles: 569256
+    verification_cycles: 1273627
+    signing_us: 147.2
+    verification_us: 328.8
+    bench_env: 2026-10-15-c8i.4xlarge
   - name: P-521
     level: Pre-Quantum
     pk: 133
     sig: 139
-    signing_cycles: 771854
-    verification_cycles: 1473649
-    signing_us: 207.5
-    verification_us: 397.0
-    bench_env: 2026-10-13-c7i.4xlarge
+    signing_cycles: 753892
+    verification_cycles: 1416993
+    signing_us: 194.8
+    verification_us: 367.3
+    bench_env: 2026-10-15-c8i.4xlarge
   broken: classical

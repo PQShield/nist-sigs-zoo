@@ -16,21 +16,21 @@ versions:
     recommended: true
     pk: 24256
     sig: 200
-    signing_cycles: 540873
-    verification_cycles: 299695
-    signing_us: 146.6
-    verification_us: 81.5
-    bench_env: 2026-10-13-c7i.4xlarge
+    signing_cycles: 544405
+    verification_cycles: 295990
+    signing_us: 140.7
+    verification_us: 77.0
+    bench_env: 2026-10-15-c8i.4xlarge
   - name: I-(127 540 60 10)
     level: 1
     recommended: true
     pk: 11041
     sig: 541
-    signing_cycles: 2711838
-    verification_cycles: 864423
-    signing_us: 732.7
-    verification_us: 234.3
-    bench_env: 2026-10-13-c7i.4xlarge
+    signing_cycles: 2561561
+    verification_cycles: 847424
+    signing_us: 664.6
+    verification_us: 218.6
+    bench_env: 2026-10-15-c8i.4xlarge
   - name: III-(127 228 78 3)
     level: 3
     recommended: true
@@ -46,31 +46,31 @@ versions:
     recommended: true
     pk: 35454
     sig: 821
-    signing_cycles: 9122279
-    verification_cycles: 2705693
-    signing_us: 2480.3
-    verification_us: 728.1
-    bench_env: 2026-10-13-c7i.4xlarge
+    signing_cycles: 8380105
+    verification_cycles: 2684239
+    signing_us: 2166.9
+    verification_us: 695.7
+    bench_env: 2026-10-15-c8i.4xlarge
   - name: V-(127 306 105 3)
     level: 5
     recommended: true
     pk: 173660
     sig: 392
-    signing_cycles: 3635424
-    verification_cycles: 2005769
-    signing_us: 974.0
-    verification_us: 538.7
-    bench_env: 2026-10-13-c7i.4xlarge
+    signing_cycles: 3547133
+    verification_cycles: 1988596
+    signing_us: 918.3
+    verification_us: 515.7
+    bench_env: 2026-10-15-c8i.4xlarge
   - name: V-(127 1040 110 10)
     level: 5
     recommended: true
     pk: 63541
     sig: 1039
-    signing_cycles: 16448878
-    verification_cycles: 5347886
-    signing_us: 4465.1
-    verification_us: 1436.9
-    bench_env: 2026-10-13-c7i.4xlarge
+    signing_cycles: 14973309
+    verification_cycles: 5280592
+    signing_us: 3871.7
+    verification_us: 1366.3
+    bench_env: 2026-10-15-c8i.4xlarge
   - name: I-(7 740 100 10)
     level: 1
     pk: 20641

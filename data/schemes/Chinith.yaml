@@ -14,21 +14,21 @@ versions:
     ngcc_level: 128
     pk: 32
     sig: 6724
-    signing_cycles: 16748986
-    verification_cycles: 15357350
-    signing_us: 4568.1
-    verification_us: 4177.0
-    bench_env: 2026-10-13-c7i.4xlarge
+    signing_cycles: 16350268
+    verification_cycles: 15001641
+    signing_us: 4240.1
+    verification_us: 3883.8
+    bench_env: 2026-10-15-c8i.4xlarge
     notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
   - name: sm4th_d3_128f_tight
     ngcc_level: 128
     pk: 32
     sig: 11864
-    signing_cycles: 18667087
-    verification_cycles: 16900128
-    signing_us: 5090.1
-    verification_us: 4594.8
-    bench_env: 2026-10-13-c7i.4xlarge
+    signing_cycles: 18728369
+    verification_cycles: 16891658
+    signing_us: 4860.5
+    verification_us: 4380.2
+    bench_env: 2026-10-15-c8i.4xlarge
     notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
   - name: sm4th_d3_128s_loose
     ngcc_level: 128
@@ -44,31 +44,31 @@ versions:
     ngcc_level: 128
     pk: 32
     sig: 9176
-    signing_cycles: 134008291
-    verification_cycles: 120511157
-    signing_us: 36581.0
-    verification_us: 32744.5
-    bench_env: 2026-10-13-c7i.4xlarge
+    signing_cycles: 131429377
+    verification_cycles: 117749159
+    signing_us: 34177.5
+    verification_us: 30591.1
+    bench_env: 2026-10-15-c8i.4xlarge
     notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
   - name: sm4th_em_d2_128f_loose
     ngcc_level: 128
     pk: 32
     sig: 4932
-    signing_cycles: 15708475
-    verification_cycles: 14960069
-    signing_us: 4287.8
-    verification_us: 4068.3
-    bench_env: 2026-10-13-c7i.4xlarge
+    signing_cycles: 14969146
+    verification_cycles: 14258929
+    signing_us: 3874.9
+    verification_us: 3688.6
+    bench_env: 2026-10-15-c8i.4xlarge
     notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
   - name: sm4th_em_d2_128f_tight
     ngcc_level: 128
     pk: 32
     sig: 9450
-    signing_cycles: 15219357
-    verification_cycles: 14619310
-    signing_us: 4176.5
-    verification_us: 3984.6
-    bench_env: 2026-10-13-c7i.4xlarge
+    signing_cycles: 15314030
+    verification_cycles: 14728305
+    signing_us: 4059.2
+    verification_us: 3822.7
+    bench_env: 2026-10-15-c8i.4xlarge
     notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
   - name: sm4th_em_d2_128s_loose
     ngcc_level: 128
@@ -114,11 +114,11 @@ versions:
     ngcc_level: 256
     pk: 64
     sig: 25028
-    signing_cycles: 40836071
-    verification_cycles: 39882622
-    signing_us: 11490.6
-    verification_us: 10891.1
-    bench_env: 2026-10-13-c7i.4xlarge
+    signing_cycles: 40510759
+    verification_cycles: 39538300
+    signing_us: 10697.1
+    verification_us: 10254.8
+    bench_env: 2026-10-15-c8i.4xlarge
     notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
   - name: ublockith_em_d3_256s
     ngcc_level: 256
@@ -134,11 +134,11 @@ versions:
     ngcc_level: 512
     pk: 128
     sig: 106788
-    signing_cycles: 184208297
-    verification_cycles: 173350988
-    signing_us: 51638.4
-    verification_us: 47477.2
-    bench_env: 2026-10-13-c7i.4xlarge
+    signing_cycles: 185275328
+    verification_cycles: 173920233
+    signing_us: 48847.3
+    verification_us: 45282.2
+    bench_env: 2026-10-15-c8i.4xlarge
     notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
   - name: vistrutith_d3_512s
     ngcc_level: 512

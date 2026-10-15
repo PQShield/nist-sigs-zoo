@@ -34,13 +34,13 @@ parametersets:
   ngcc_level: 384
   pk: 12255
   ct: 24335
-  keygen_cycles: 2471246
-  encaps_cycles: 3745385
-  decaps_cycles: 5736072
-  keygen_us: 658.1
-  encaps_us: 994.6
-  decaps_us: 1528.0
-  bench_env: 2026-10-13-c7i.4xlarge
+  keygen_cycles: 2515513
+  encaps_cycles: 3832690
+  decaps_cycles: 5881817
+  keygen_us: 652.3
+  encaps_us: 991.8
+  decaps_us: 1523.9
+  bench_env: 2026-10-15-c8i.4xlarge
   notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 - name: TriQ-KEM-512
   ngcc_level: 512

@@ -22,25 +22,25 @@ parametersets:
   ngcc_level: 256
   pk: 1573
   ct: 3097
-  keygen_cycles: 2801823
-  encaps_cycles: 4076175
-  decaps_cycles: 19178583
-  keygen_us: 750.1
-  encaps_us: 1086.6
-  decaps_us: 5093.7
-  bench_env: 2026-10-13-c7i.4xlarge
+  keygen_cycles: 2799327
+  encaps_cycles: 4071747
+  decaps_cycles: 18517021
+  keygen_us: 727.0
+  encaps_us: 1054.0
+  decaps_us: 4787.4
+  bench_env: 2026-10-15-c8i.4xlarge
   notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 - name: bag_piglet_384
   ngcc_level: 384
   pk: 2778
   ct: 5475
-  keygen_cycles: 9924945
-  encaps_cycles: 11445839
-  decaps_cycles: 46725041
-  keygen_us: 2630.5
-  encaps_us: 3035.7
-  decaps_us: 12392.9
-  bench_env: 2026-10-13-c7i.4xlarge
+  keygen_cycles: 9625451
+  encaps_cycles: 11151142
+  decaps_cycles: 45198271
+  keygen_us: 2490.6
+  encaps_us: 2884.1
+  decaps_us: 11676.8
+  bench_env: 2026-10-15-c8i.4xlarge
   notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 - name: bag_piglet_512
   ngcc_level: 512

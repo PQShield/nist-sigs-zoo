@@ -15,22 +15,22 @@ versions:
     ngcc_level: 128
     pk: 1048
     sig: 1504
-    signing_cycles: 1422490
-    verification_cycles: 389498
-    signing_us: 377.7
-    verification_us: 104.1
-    bench_env: 2026-10-13-c7i.4xlarge
+    signing_cycles: 1434743
+    verification_cycles: 393607
+    signing_us: 370.7
+    verification_us: 102.1
+    bench_env: 2026-10-15-c8i.4xlarge
     notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
     broken: Equivalent signing keys can be recovered from a large but practical number of public signatures, enabling forgeries (<a href="https://groups.google.com/a/list.nist.gov/g/pqc-forum/c/84_EKMOtk_M/m/ZNMqLQ07BAAJ">Feussner</a>).
   - name: BiT-256
     ngcc_level: 256
     pk: 2144
     sig: 3456
-    signing_cycles: 1913091
-    verification_cycles: 1211192
-    signing_us: 562.0
-    verification_us: 327.1
-    bench_env: 2026-10-13-c7i.4xlarge
+    signing_cycles: 1937357
+    verification_cycles: 1226715
+    signing_us: 505.9
+    verification_us: 316.2
+    bench_env: 2026-10-15-c8i.4xlarge
     notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
   - name: BiT-512
     ngcc_level: 512

@@ -15,11 +15,11 @@ versions:
     ngcc_level: 128
     pk: 50
     sig: 8012
-    signing_cycles: 10847208
-    verification_cycles: 14000074
-    signing_us: 3023.8
-    verification_us: 3877.2
-    bench_env: 2026-10-13-c7i.4xlarge
+    signing_cycles: 10600094
+    verification_cycles: 13879881
+    signing_us: 2821.1
+    verification_us: 3661.7
+    bench_env: 2026-10-15-c8i.4xlarge
     notes: Optimised x86 implementation.
   - name: GreatWall192s
     ngcc_level: 128
@@ -35,11 +35,11 @@ versions:
     ngcc_level: 256
     pk: 66
     sig: 14260
-    signing_cycles: 20131637
-    verification_cycles: 23551568
-    signing_us: 5615.1
-    verification_us: 6547.4
-    bench_env: 2026-10-13-c7i.4xlarge
+    signing_cycles: 19427351
+    verification_cycles: 23361165
+    signing_us: 5190.2
+    verification_us: 6213.2
+    bench_env: 2026-10-15-c8i.4xlarge
     notes: Optimised x86 implementation.
   - name: GreatWall256s
     ngcc_level: 256
@@ -55,22 +55,22 @@ versions:
     ngcc_level: 512
     pk: 132
     sig: 57812
-    signing_cycles: 318195001
-    verification_cycles: 328113471
-    signing_us: 90856.2
-    verification_us: 93630.1
-    bench_env: 2026-10-13-c7i.4xlarge
+    signing_cycles: 313770595
+    verification_cycles: 328120693
+    signing_us: 81367.0
+    verification_us: 85039.9
+    bench_env: 2026-10-15-c8i.4xlarge
     notes: Optimised x86 implementation; our build applies a small patch to the submitted code.
     broken: Hashing with SHAKE256 limits forgery resistance to about 2^256 work after one signing query, below the 512-bit target (<a href="https://list.niccs.org.cn/archives/list/pkcforum@list.niccs.org.cn/message/UCS5CCGZNZYKBBJZAE6PKT275GPRPGGP/">Feussner</a>).
   - name: GreatWall512s
     ngcc_level: 512
     pk: 132
     sig: 50012
-    signing_cycles: 1263566742
-    verification_cycles: 2026073328
-    signing_us: 343768.1
-    verification_us: 537294.8
-    bench_env: 2026-10-13-c7i.4xlarge
+    signing_cycles: 1234136530
+    verification_cycles: 2021109369
+    signing_us: 327471.6
+    verification_us: 523859.4
+    bench_env: 2026-10-15-c8i.4xlarge
     notes: Optimised x86 implementation; our build applies a small patch to the submitted code.
     broken: Hashing with SHAKE256 limits forgery resistance to about 2^256 work after one signing query, below the 512-bit target (<a href="https://list.niccs.org.cn/archives/list/pkcforum@list.niccs.org.cn/message/UCS5CCGZNZYKBBJZAE6PKT275GPRPGGP/">Feussner</a>).
   findings_url: https://ngcc.dev/reports/sign-13.html

@@ -14,11 +14,11 @@ versions:
     ngcc_level: 128
     pk: 48
     sig: 13332
-    signing_cycles: 949317846
-    verification_cycles: 14369020
-    signing_us: 273435.2
-    verification_us: 4132.2
-    bench_env: 2026-10-13-c7i.4xlarge
+    signing_cycles: 903439116
+    verification_cycles: 14481036
+    signing_us: 233435.3
+    verification_us: 3739.7
+    bench_env: 2026-10-15-c8i.4xlarge
     notes: Optimised x86 implementation; our build applies a small patch to the submitted code.
   - name: Phoenix-SHAKE-192f
     ngcc_level: 128
@@ -44,51 +44,51 @@ versions:
     ngcc_level: 256
     pk: 64
     sig: 44906
-    signing_cycles: 89925875
-    verification_cycles: 11461432
-    signing_us: 26464.4
-    verification_us: 3393.7
-    bench_env: 2026-10-13-c7i.4xlarge
+    signing_cycles: 88590025
+    verification_cycles: 11699935
+    signing_us: 22894.9
+    verification_us: 3022.5
+    bench_env: 2026-10-15-c8i.4xlarge
     notes: Optimised x86 implementation; our build applies a small patch to the submitted code.
   - name: Phoenix-SHAKE-384s
     ngcc_level: 384
     pk: 96
     sig: 54726
-    signing_cycles: 4756670814
-    verification_cycles: 44094331
-    signing_us: 1287418.4
-    verification_us: 11945.3
-    bench_env: 2026-10-13-c7i.4xlarge
+    signing_cycles: 2792511648
+    verification_cycles: 46086373
+    signing_us: 721651.5
+    verification_us: 11910.6
+    bench_env: 2026-10-15-c8i.4xlarge
     notes: Optimised x86 implementation; our build applies a small patch to the submitted code.
   - name: Phoenix-SHAKE-384f
     ngcc_level: 384
     pk: 96
     sig: 88442
-    signing_cycles: 1025113374
-    verification_cycles: 27973656
-    signing_us: 299324.2
-    verification_us: 8159.0
-    bench_env: 2026-10-13-c7i.4xlarge
+    signing_cycles: 598133711
+    verification_cycles: 29023874
+    signing_us: 154609.3
+    verification_us: 7502.7
+    bench_env: 2026-10-15-c8i.4xlarge
     notes: Optimised x86 implementation; our build applies a small patch to the submitted code.
   - name: Phoenix-SHAKE-512s
     ngcc_level: 512
     pk: 128
     sig: 98476
-    signing_cycles: 9807540519
-    verification_cycles: 30528365
-    signing_us: 2654403.8
-    verification_us: 8254.1
-    bench_env: 2026-10-13-c7i.4xlarge
+    signing_cycles: 6295639304
+    verification_cycles: 30940800
+    signing_us: 1628456.1
+    verification_us: 8005.0
+    bench_env: 2026-10-15-c8i.4xlarge
     notes: Optimised x86 implementation; our build applies a small patch to the submitted code.
   - name: Phoenix-SHAKE-512f
     ngcc_level: 512
     pk: 128
     sig: 138454
-    signing_cycles: 2210799337
-    verification_cycles: 96526332
-    signing_us: 645347.5
-    verification_us: 28172.4
-    bench_env: 2026-10-13-c7i.4xlarge
+    signing_cycles: 1525182569
+    verification_cycles: 97818278
+    signing_us: 394090.7
+    verification_us: 25274.7
+    bench_env: 2026-10-15-c8i.4xlarge
     notes: Optimised x86 implementation; our build applies a small patch to the submitted code.
   - name: Phoenix-SM3-192s
     ngcc_level: 128
@@ -116,22 +116,22 @@ versions:
     ngcc_level: 256
     pk: 64
     sig: 24618
-    signing_cycles: 10501118550
-    verification_cycles: 67682607
-    signing_us: 2841833.5
-    verification_us: 18329.3
-    bench_env: 2026-10-13-c7i.4xlarge
+    signing_cycles: 10595844237
+    verification_cycles: 69912441
+    signing_us: 2740482.9
+    verification_us: 18078.1
+    bench_env: 2026-10-15-c8i.4xlarge
     notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it; our build does not reproduce the submitted test vectors (cause unknown).
     info: Our build does not reproduce the submitted test vectors.
   - name: Phoenix-SM3-256f
     ngcc_level: 256
     pk: 64
     sig: 44906
-    signing_cycles: 1121355009
-    verification_cycles: 30125821
-    signing_us: 327359.0
-    verification_us: 8815.3
-    bench_env: 2026-10-13-c7i.4xlarge
+    signing_cycles: 1155344585
+    verification_cycles: 31097086
+    signing_us: 298827.2
+    verification_us: 8043.3
+    bench_env: 2026-10-15-c8i.4xlarge
     notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it; our build does not reproduce the submitted test vectors (cause unknown).
     info: Our build does not reproduce the submitted test vectors.
   - name: Phoenix-SM3-384s

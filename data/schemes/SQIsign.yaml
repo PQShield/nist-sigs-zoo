@@ -16,31 +16,31 @@ versions:
     recommended: true
     pk: 169
     sig: 406
-    signing_cycles: 747859076
-    verification_cycles: 77192543
-    signing_us: 204918.1
-    verification_us: 21007.1
-    bench_env: 2026-10-13-c7i.4xlarge
+    signing_cycles: 783262942
+    verification_cycles: 77829514
+    signing_us: 203047.9
+    verification_us: 20181.2
+    bench_env: 2026-10-15-c8i.4xlarge
   - name: III
     level: 3
     recommended: true
     pk: 129
     sig: 306
-    signing_cycles: 313219226
-    verification_cycles: 31539565
-    signing_us: 85032.3
-    verification_us: 8602.0
-    bench_env: 2026-10-13-c7i.4xlarge
+    signing_cycles: 335020427
+    verification_cycles: 31710110
+    signing_us: 86780.2
+    verification_us: 8222.0
+    bench_env: 2026-10-15-c8i.4xlarge
   - name: I
     level: 1
     recommended: true
     pk: 83
     sig: 200
-    signing_cycles: 98879739
-    verification_cycles: 12145617
-    signing_us: 27004.6
-    verification_us: 3318.5
-    bench_env: 2026-10-13-c7i.4xlarge
+    signing_cycles: 99780931
+    verification_cycles: 12186577
+    signing_us: 25871.0
+    verification_us: 3159.3
+    bench_env: 2026-10-15-c8i.4xlarge
   - name: alt p306.3
     level: 1
     pk: 79

@@ -65,10 +65,10 @@ versions:
     ngcc_level: 512
     pk: 268
     sig: 812
-    signing_cycles: 2945291760
-    verification_cycles: 542895021
-    signing_us: 803108.5
-    verification_us: 149116.2
-    bench_env: 2026-10-13-c7i.4xlarge
+    signing_cycles: 2917122314
+    verification_cycles: 543224070
+    signing_us: 757424.7
+    verification_us: 141932.5
+    bench_env: 2026-10-15-c8i.4xlarge
     notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
   findings_url: https://ngcc.dev/reports/sign-25.html

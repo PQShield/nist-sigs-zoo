@@ -35,13 +35,13 @@ parametersets:
   ngcc_level: 512
   pk: 12644449
   ct: 49297
-  keygen_cycles: 4745766136
-  encaps_cycles: 593990578
-  decaps_cycles: 3170057579
-  keygen_us: 1278031.5
-  encaps_us: 157595.0
-  decaps_us: 843566.4
-  bench_env: 2026-10-13-c7i.4xlarge
+  keygen_cycles: 4778109972
+  encaps_cycles: 600347585
+  decaps_cycles: 3214235815
+  keygen_us: 1264115.7
+  encaps_us: 155435.3
+  decaps_us: 840093.2
+  bench_env: 2026-10-15-c8i.4xlarge
   notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
   broken: Key generation has at most 2^256 possible seeds, below the 512-bit target (<a href="https://ngcc.dev/reports/kem-17.html#kem-17-2-hep-qc-7-has-at-most-256-bits-of-key-generation-support">Saarinen</a>).
 findings_url: https://ngcc.dev/reports/kem-17.html

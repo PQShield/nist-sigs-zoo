@@ -25,22 +25,22 @@ versions:
     ngcc_level: 256
     pk: 2848
     sig: 4656
-    signing_cycles: 6342614
-    verification_cycles: 3478117
-    signing_us: 1705.4
-    verification_us: 929.9
-    bench_env: 2026-10-13-c7i.4xlarge
+    signing_cycles: 6371022
+    verification_cycles: 3517761
+    signing_us: 1699.5
+    verification_us: 938.7
+    bench_env: 2026-10-15-c8i.4xlarge
     notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it; our build does not reproduce the submitted test vectors (cause unknown); our build applies a small patch to the submitted code.
     info: Our build does not reproduce the submitted test vectors.
   - name: lwrdsa512
     ngcc_level: 512
     pk: 6688
     sig: 10081
-    signing_cycles: 16757646
-    verification_cycles: 9902377
-    signing_us: 4568.9
-    verification_us: 2677.3
-    bench_env: 2026-10-13-c7i.4xlarge
+    signing_cycles: 16696272
+    verification_cycles: 9924799
+    signing_us: 4333.9
+    verification_us: 2570.8
+    bench_env: 2026-10-15-c8i.4xlarge
     notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it; our build does not reproduce the submitted test vectors (cause unknown); our build applies a small patch to the submitted code.
     info: Our build does not reproduce the submitted test vectors.
   findings_url: https://ngcc.dev/reports/sign-15.html

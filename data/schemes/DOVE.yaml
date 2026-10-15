@@ -14,11 +14,11 @@ versions:
     ngcc_level: 128
     pk: 191646
     sig: 136
-    signing_cycles: 816119
-    verification_cycles: 1354448
-    signing_us: 216.3
-    verification_us: 364.6
-    bench_env: 2026-10-13-c7i.4xlarge
+    signing_cycles: 820135
+    verification_cycles: 1347232
+    signing_us: 211.3
+    verification_us: 346.6
+    bench_env: 2026-10-15-c8i.4xlarge
     notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
   - name: dove_classic_256
     ngcc_level: 256
@@ -44,11 +44,11 @@ versions:
     ngcc_level: 128
     pk: 43576
     sig: 136
-    signing_cycles: 9687574
-    verification_cycles: 8769245
-    signing_us: 2635.8
-    verification_us: 2388.0
-    bench_env: 2026-10-13-c7i.4xlarge
+    signing_cycles: 9846160
+    verification_cycles: 8869918
+    signing_us: 2551.3
+    verification_us: 2298.1
+    bench_env: 2026-10-15-c8i.4xlarge
     notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
   - name: dove_pkc_skc_256
     ngcc_level: 256

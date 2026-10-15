@@ -3,7 +3,7 @@ license: CC-BY-4.0
 attribution: Thom Wiggers / PQShield
 environments:
 - id: 2026-10-15-c8i.4xlarge
-  date: '2026-10-15T09:45:42Z'
+  date: '2026-10-15T10:28:32Z'
   instance_type: c8i.4xlarge
   cpu:
     model: Intel(R) Xeon(R) 6975P-C

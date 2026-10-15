@@ -14,32 +14,32 @@ versions:
     ngcc_level: 128
     pk: 928
     sig: 2015
-    signing_cycles: 1552576
-    verification_cycles: 490839
-    signing_us: 411.7
-    verification_us: 130.6
-    bench_env: 2026-10-13-c7i.4xlarge
+    signing_cycles: 1568391
+    verification_cycles: 499769
+    signing_us: 403.3
+    verification_us: 129.4
+    bench_env: 2026-10-15-c8i.4xlarge
     notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
   - name: Aigis-Sig+-II
     ngcc_level: 256
     pk: 1824
     sig: 4533
-    signing_cycles: 3548937
-    verification_cycles: 1729533
-    signing_us: 945.2
-    verification_us: 463.2
-    bench_env: 2026-10-13-c7i.4xlarge
+    signing_cycles: 3590950
+    verification_cycles: 1761886
+    signing_us: 928.8
+    verification_us: 458.6
+    bench_env: 2026-10-15-c8i.4xlarge
     notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
     broken: The specified message digest is too short for this set, so a generic collision moves a signature to another message with less work than the claimed level (<a href="https://list.niccs.org.cn/archives/list/pkcforum@list.niccs.org.cn/message/PT5IXZ64ERV2IJY355ZM7ZFTMSJZGRB2/">Sun</a>).
   - name: Aigis-Sig+-III
     ngcc_level: 512
     pk: 4672
     sig: 9134
-    signing_cycles: 11486194
-    verification_cycles: 6151965
-    signing_us: 3213.8
-    verification_us: 1726.9
-    bench_env: 2026-10-13-c7i.4xlarge
+    signing_cycles: 11648840
+    verification_cycles: 6284319
+    signing_us: 3018.6
+    verification_us: 1628.6
+    bench_env: 2026-10-15-c8i.4xlarge
     notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
     broken: The specified message digest is too short for this set, so a generic collision moves a signature to another message with less work than the claimed level (<a href="https://list.niccs.org.cn/archives/list/pkcforum@list.niccs.org.cn/message/PT5IXZ64ERV2IJY355ZM7ZFTMSJZGRB2/">Sun</a>).
   findings_url: https://ngcc.dev/reports/sign-01.html

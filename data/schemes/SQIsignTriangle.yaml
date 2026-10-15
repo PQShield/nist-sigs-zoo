@@ -15,22 +15,22 @@ versions:
     recommended: true
     pk: 81
     sig: 255
-    signing_cycles: 227993441
-    verification_cycles: 46678005
-    signing_us: 61964.7
-    verification_us: 12621.8
-    bench_env: 2026-10-13-c7i.4xlarge
+    signing_cycles: 219350579
+    verification_cycles: 43807021
+    signing_us: 56691.7
+    verification_us: 11325.5
+    bench_env: 2026-10-15-c8i.4xlarge
     notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
   - name: SQIsignTriangle_lvl5
     ngcc_level: 256
     recommended: true
     pk: 129
     sig: 408
-    signing_cycles: 818813709
-    verification_cycles: 195072235
-    signing_us: 221738.3
-    verification_us: 52821.7
-    bench_env: 2026-10-13-c7i.4xlarge
+    signing_cycles: 833540912
+    verification_cycles: 222904219
+    signing_us: 215495.0
+    verification_us: 57602.6
+    bench_env: 2026-10-15-c8i.4xlarge
     notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
   - name: SQIsignTriangle_lvl6
     ngcc_level: 512

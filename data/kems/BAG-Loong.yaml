@@ -48,13 +48,13 @@ parametersets:
   ngcc_level: 512
   pk: 19043
   ct: 21660
-  keygen_cycles: 598108819
-  encaps_cycles: 425429493
-  decaps_cycles: 793550723
-  keygen_us: 159094.0
-  encaps_us: 113379.3
-  decaps_us: 211720.8
-  bench_env: 2026-10-13-c7i.4xlarge
+  keygen_cycles: 609760014
+  encaps_cycles: 409926759
+  decaps_cycles: 779752845
+  keygen_us: 158451.3
+  encaps_us: 106784.9
+  decaps_us: 203251.3
+  bench_env: 2026-10-15-c8i.4xlarge
   notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
   broken: Merging error supports lowers the cost of rank-decoding key recovery below this set's claimed level (<a href="https://list.niccs.org.cn/archives/list/pkcforum@list.niccs.org.cn/message/632RW5CKKAJXJ3GBZ7ZL6RE7CLCVYFGQ/">Xiong and Wang</a>).
 findings_url: https://ngcc.dev/reports/kem-03.html

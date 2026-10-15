@@ -34,13 +34,13 @@ parametersets:
   ngcc_level: 512
   pk: 6562
   ct: 13060
-  keygen_cycles: 3644387
-  encaps_cycles: 5808506
-  decaps_cycles: 32822412
-  keygen_us: 966.8
-  encaps_us: 1541.8
-  decaps_us: 8702.7
-  bench_env: 2026-10-13-c7i.4xlarge
+  keygen_cycles: 3601997
+  encaps_cycles: 5720367
+  decaps_cycles: 31977574
+  keygen_us: 931.4
+  encaps_us: 1480.4
+  decaps_us: 8258.9
+  bench_env: 2026-10-15-c8i.4xlarge
   notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 findings_url: https://ngcc.dev/reports/kem-07.html
 implementation: The submitted decapsulation ignores padding bits, so altered copies of a challenge ciphertext decapsulate to the same key, breaking IND-CCA security (<a href="https://ngcc.dev/reports/kem-07.html#kem-07-2-ignored-padding-bits-make-ciphertexts-malleable-without-changing-the-key">Saarinen</a>).

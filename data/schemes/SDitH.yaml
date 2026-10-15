@@ -203,108 +203,108 @@ versions:
     level: 5
     pk: 234
     sig: 33370
-    signing_cycles: 95089663
-    verification_cycles: 90885500
-    signing_us: 26120.6
-    verification_us: 24949.8
-    bench_env: 2026-10-13-c7i.4xlarge
+    signing_cycles: 94080013
+    verification_cycles: 89678999
+    signing_us: 24640.4
+    verification_us: 23655.3
+    bench_env: 2026-10-15-c8i.4xlarge
   - name: gf256-L5-hyp
     level: 5
     pk: 234
     sig: 33370
-    signing_cycles: 58304023
-    verification_cycles: 54265429
-    signing_us: 15853.0
-    verification_us: 14744.6
-    bench_env: 2026-10-13-c7i.4xlarge
+    signing_cycles: 58234961
+    verification_cycles: 53824244
+    signing_us: 15061.0
+    verification_us: 13933.9
+    bench_env: 2026-10-15-c8i.4xlarge
   - name: gf251-L3-hyp
     level: 3
     pk: 183
     sig: 19161
-    signing_cycles: 51761183
-    verification_cycles: 48997763
-    signing_us: 14298.8
-    verification_us: 13503.9
-    bench_env: 2026-10-13-c7i.4xlarge
+    signing_cycles: 50447068
+    verification_cycles: 48200861
+    signing_us: 13359.7
+    verification_us: 12954.2
+    bench_env: 2026-10-15-c8i.4xlarge
   - name: gf256-L3-hyp
     level: 3
     pk: 183
     sig: 19161
-    signing_cycles: 29680028
-    verification_cycles: 27441391
-    signing_us: 8083.1
-    verification_us: 7491.3
-    bench_env: 2026-10-13-c7i.4xlarge
+    signing_cycles: 29376972
+    verification_cycles: 26989149
+    signing_us: 7625.6
+    verification_us: 6993.5
+    bench_env: 2026-10-15-c8i.4xlarge
   - name: gf256-L5-thr
     level: 5
     pk: 234
     sig: 43943
-    signing_cycles: 191765050
-    verification_cycles: 42707739
-    signing_us: 51972.8
-    verification_us: 11591.4
-    bench_env: 2026-10-13-c7i.4xlarge
+    signing_cycles: 193774319
+    verification_cycles: 43024162
+    signing_us: 50085.3
+    verification_us: 11123.5
+    bench_env: 2026-10-15-c8i.4xlarge
   - name: gf251-L5-thr
     level: 5
     pk: 234
     sig: 43943
-    signing_cycles: 28970824
-    verification_cycles: 3487960
-    signing_us: 7873.5
-    verification_us: 928.8
-    bench_env: 2026-10-13-c7i.4xlarge
+    signing_cycles: 28888965
+    verification_cycles: 3526943
+    signing_us: 7469.8
+    verification_us: 912.1
+    bench_env: 2026-10-15-c8i.4xlarge
   - name: gf251-L1-hyp
     level: 1
     pk: 120
     sig: 8241
-    signing_cycles: 23716802
-    verification_cycles: 22777174
-    signing_us: 6499.3
-    verification_us: 6263.8
-    bench_env: 2026-10-13-c7i.4xlarge
+    signing_cycles: 23165273
+    verification_cycles: 21941660
+    signing_us: 6247.3
+    verification_us: 5955.7
+    bench_env: 2026-10-15-c8i.4xlarge
   - name: gf256-L3-thr
     level: 3
     pk: 183
     sig: 24918
-    signing_cycles: 101011087
-    verification_cycles: 18928274
-    signing_us: 27381.3
-    verification_us: 5140.3
-    bench_env: 2026-10-13-c7i.4xlarge
+    signing_cycles: 101568086
+    verification_cycles: 19067620
+    signing_us: 26251.8
+    verification_us: 4931.5
+    bench_env: 2026-10-15-c8i.4xlarge
   - name: gf256-L1-hyp
     level: 1
     pk: 120
     sig: 8241
-    signing_cycles: 12544766
-    verification_cycles: 11730538
-    signing_us: 3398.4
-    verification_us: 3190.1
-    bench_env: 2026-10-13-c7i.4xlarge
+    signing_cycles: 12456480
+    verification_cycles: 11584396
+    signing_us: 3221.6
+    verification_us: 2995.5
+    bench_env: 2026-10-15-c8i.4xlarge
   - name: gf251-L3-thr
     level: 3
     pk: 183
     sig: 24918
-    signing_cycles: 13351260
-    verification_cycles: 1645140
-    signing_us: 3619.0
-    verification_us: 439.5
-    bench_env: 2026-10-13-c7i.4xlarge
+    signing_cycles: 13275443
+    verification_cycles: 1677470
+    signing_us: 3431.9
+    verification_us: 435.1
+    bench_env: 2026-10-15-c8i.4xlarge
   - name: gf256-L1-thr
     level: 1
     pk: 120
     sig: 10117
-    signing_cycles: 38875636
-    verification_cycles: 5838414
-    signing_us: 10561.2
-    verification_us: 1565.9
-    bench_env: 2026-10-13-c7i.4xlarge
+    signing_cycles: 39040214
+    verification_cycles: 5867094
+    signing_us: 10094.0
+    verification_us: 1519.2
+    bench_env: 2026-10-15-c8i.4xlarge
   - name: gf251-L1-thr
     level: 1
     pk: 120
     sig: 10117
-    signing_cycles: 5581740
-    verification_cycles: 680060
-    signing_us: 1511.6
-    verification_us: 181.4
-    bench_env: 2026-10-13-c7i.4xlarge
+    signing_cycles: 5600369
+    verification_cycles: 695480
+    signing_us: 1492.9
+    verification_us: 185.1
+    bench_env: 2026-10-15-c8i.4xlarge
   info: few bits security loss in original parameters

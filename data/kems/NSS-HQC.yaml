@@ -10,51 +10,51 @@ parametersets:
   ngcc_level: 128
   pk: 3713
   ct: 5185
-  keygen_cycles: 35372710
-  encaps_cycles: 64323475
-  decaps_cycles: 120037698
-  keygen_us: 9378.4
-  encaps_us: 17054.1
-  decaps_us: 31936.2
-  bench_env: 2026-10-13-c7i.4xlarge
+  keygen_cycles: 34732212
+  encaps_cycles: 63168828
+  decaps_cycles: 117641917
+  keygen_us: 9089.8
+  encaps_us: 16524.6
+  decaps_us: 30810.4
+  bench_env: 2026-10-15-c8i.4xlarge
   notes: Reference implementation.
 - name: HQC-256
   ngcc_level: 256
   pk: 6844
   ct: 9084
-  keygen_cycles: 105042983
-  encaps_cycles: 190992666
-  decaps_cycles: 326473757
-  keygen_us: 27848.0
-  encaps_us: 50629.9
-  decaps_us: 86566.5
-  bench_env: 2026-10-13-c7i.4xlarge
+  keygen_cycles: 103004495
+  encaps_cycles: 185940988
+  decaps_cycles: 320196408
+  keygen_us: 26911.4
+  encaps_us: 48579.2
+  decaps_us: 83677.8
+  bench_env: 2026-10-15-c8i.4xlarge
   notes: Reference implementation.
   broken: Decoding the ephemeral syndrome costs about 2^227, below the 256-bit target (<a href="https://ngcc.dev/reports/kem-26.html#kem-26-3-ephemeral-syndrome-decoding-misses-the-256-384-and-512-bit-targets">Saarinen</a>).
 - name: HQC-384
   ngcc_level: 384
   pk: 15371
   ct: 18571
-  keygen_cycles: 354261524
-  encaps_cycles: 640912454
-  decaps_cycles: 1041748626
-  keygen_us: 93958.5
-  encaps_us: 169932.1
-  decaps_us: 276380.1
-  bench_env: 2026-10-13-c7i.4xlarge
+  keygen_cycles: 347565451
+  encaps_cycles: 626433646
+  decaps_cycles: 1021823007
+  keygen_us: 90279.7
+  encaps_us: 163228.8
+  decaps_us: 265806.4
+  bench_env: 2026-10-15-c8i.4xlarge
   notes: Reference implementation.
   broken: Ephemeral syndrome decoding (<a href="https://ngcc.dev/reports/kem-26.html#kem-26-3-ephemeral-syndrome-decoding-misses-the-256-384-and-512-bit-targets">Saarinen</a>), and a 256-bit decryption sub-seed both give attacks below this set's target (<a href="https://list.niccs.org.cn/archives/list/pkcforum@list.niccs.org.cn/message/SZSEV56NMNPV7244JS57WKI27Z3MDZLP/">Xiong and Wang</a>).
 - name: HQC-512
   ngcc_level: 512
   pk: 27302
   ct: 31462
-  keygen_cycles: 839011232
-  encaps_cycles: 1529017282
-  decaps_cycles: 2431284098
-  keygen_us: 222693.8
-  encaps_us: 405700.2
-  decaps_us: 644691.8
-  bench_env: 2026-10-13-c7i.4xlarge
+  keygen_cycles: 820361060
+  encaps_cycles: 1499762139
+  decaps_cycles: 2383541384
+  keygen_us: 212770.7
+  encaps_us: 389144.8
+  decaps_us: 618075.3
+  bench_env: 2026-10-15-c8i.4xlarge
   notes: Reference implementation.
   broken: Ephemeral syndrome decoding (<a href="https://ngcc.dev/reports/kem-26.html#kem-26-3-ephemeral-syndrome-decoding-misses-the-256-384-and-512-bit-targets">Saarinen</a>), and a 256-bit decryption sub-seed both give attacks below this set's target (<a href="https://list.niccs.org.cn/archives/list/pkcforum@list.niccs.org.cn/message/SZSEV56NMNPV7244JS57WKI27Z3MDZLP/">Xiong and Wang</a>).
 findings_url: https://ngcc.dev/reports/kem-26.html

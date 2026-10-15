@@ -1,0 +1,71 @@
+# pq-sigs benchmark results
+# date:         2026-10-15T10:38:40Z
+# host:         ip-172-31-6-188
+# commit:       4e30eeea86598f74867ef504b599f7f55085e218
+# instance_type: c8i.4xlarge
+# os:           Ubuntu 26.04.1 LTS
+# kernel:       7.0.0-1014-aws
+# cpu:          Intel(R) Xeon(R) 6975P-C
+# cores:        16 (threads/core: 2)
+# max_freq_mhz: unknown (cur: unknown MHz)
+# governor:     unknown
+# turbo:        unknown
+# flags:        fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ss ht syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon rep_good nopl xtopology nonstop_tsc cpuid aperfmperf tsc_known_freq pni pclmulqdq monitor ssse3 fma cx16 pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand hypervisor lahf_lm abm 3dnowprefetch cpuid_fault ssbd ibrs ibpb stibp ibrs_enhanced fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid avx512f avx512dq rdseed adx smap avx512ifma clflushopt clwb avx512cd sha_ni avx512bw avx512vl xsaveopt xsavec xgetbv1 xsaves avx_vnni avx512_bf16 wbnoinvd ida arat avx512vbmi umip pku ospke waitpkg avx512_vbmi2 gfni vaes vpclmulqdq avx512_vnni avx512_bitalg tme avx512_vpopcntdq rdpid bus_lock_detect cldemote movdiri movdir64b md_clear serialize amx_bf16 avx512_fp16 amx_tile amx_int8 flush_l1d arch_capabilities
+#
+# compiler:     cc (Ubuntu 15.2.0-16ubuntu1) 15.2.0
+# openssl:      OpenSSL 3.5.5 27 Jan 2026 (Library: OpenSSL 3.5.5 27 Jan 2026)
+# sources:
+#   schemes/faest/ref: https://github.com/faest-sign/faest-arch-opt@1d8330979cb467c54edac43ffe695da249fa3417
+#   schemes/fndsa/ref: https://github.com/pornin/c-fn-dsa@33026d4d2734049a23f065f77eea11c35de58d76
+#   schemes/hawk/ref: https://github.com/hawk-sign/dev@1b9fef52559273fe7b40fe3e22968eaedd3a4c2a
+#   schemes/mayo/ref: https://github.com/PQCMayo/MAYO-C@74de637a7c4a7f9fafa888183bc05f5cf920cd2d
+#   schemes/mldsa/ref: https://github.com/pq-crystals/dilithium.git@6e00625c5b29f516c6de973fe2ee2fbb150973f9
+#   schemes/mqom/ref: https://github.com/mqom/mqom-v3@d9c64e386b186ee186684a0389fc32009bd67cd1
+#   schemes/qruov/ref: https://github.com/qruov/round3.git@3d84d0f6afae80c88deefab03b1dd6633a147f96
+#   schemes/sdith/ref: https://github.com/sdith/sdith@fff41ae5b12ba3c6b90d8f97b2ede57aa277a92f
+#   schemes/sdith2/ref: https://github.com/sdith/sdith@ce7adf06476674d4ff990f378f83f9981cd6745b
+#   schemes/slhdsa/ref: https://github.com/pq-code-package/slhdsa-c@2ee6f6853af95d5833a567cc4dcfd7f08d66bfd4
+#   schemes/snova/ref: https://github.com/PQCLAB-SNOVA/SNOVA.git@9b29c1e332cbd85757c8d6362a57b9a8c8298a38
+#   schemes/sqisign/ref: https://github.com/SQISign/the-sqisign@6d017708db403bf83977fa70770fc4f7f9e9ff21
+#   schemes/uov/ref: https://github.com/pqov/pqov.git@fac2ec1fe6d8ea508eab4b98eb5341e1eed930a4
+#   schemes/ngcc: https://www.niccs.org.cn/niccs/Proposal/Public-Key%20Cryptographic%20Algorithms/Round%201%20candidates/
+# filter:       NGCC-TSUOV_512 NGCC-ublockith_em_d3_256f NGCC-VDOO-128 NGCC-Origami-128 NGCC-Rhyme-SHAKE-384 NGCC-SQISign2Dsquare-Level5-sec NGCC-Sigurd512 NGCC-yuanyang-2048 NGCC-Phoenix-SHAKE-384s NGCC-vistrutith_d3_512f SQIsign-V NGCC-GreatWall256f NGCC-CEDRUSC-160f NGCC-Phoenix-SHAKE-384f NGCC-CS-512 NGCC-Aigis-Sig+-I NGCC-Aigis-Sig+-II NGCC-Aigis-Sig+-III NGCC-sm4th_d3_128s_tight NGCC-SQIsignTriangle_lvl5 NGCC-Rhyme-SM3-256 NGCC-Facto-DSA-256 NGCC-Phoenix-SHAKE-512f NGCC-GreatWall512f SQIsign-I SQIsign-III NGCC-lwrdsa512 NGCC-GreatWall512s NGCC-sm4th_d3_128f_tight NGCC-dove_pkc_skc_128 NGCC-CEDRUSC-256f NGCC-TSUOV_128 NGCC-CEDRUSALPHA-160f NGCC-CEDRUSALPHA-256f
+#
+# cyclecounter: rdpmc CPU_CYCLES (real core cycles, user-space)
+scheme                       iters    keygen (cyc)  keygen (us)      sign (cyc)   sign (us)    verify (cyc)  verify (us)
+------                       -----    ------------  -----------      ----------   ---------    ------------  ----------
+SQIsign-I                       50        34036118      8830.3        99780931     25871.0        12186577      3159.3
+SQIsign-III                     50       117551831     30445.8       335020427     86780.2        31710110      8222.0
+SQIsign-V                       50       226108667     58611.0       783262942    203047.9        77829514     20181.2
+NGCC-Aigis-Sig+-I             1000          593231       153.4         1568391       403.3          499769       129.4
+NGCC-Aigis-Sig+-II            1000         1909666       496.0         3590950       928.8         1761886       458.6
+NGCC-Aigis-Sig+-III           1000         6517906      1688.4        11648840      3018.6         6284319      1628.6
+NGCC-CEDRUSC-160f               87        15639820      4048.8       552802194    143259.4        16883127      4374.2
+NGCC-CEDRUSC-256f               23        49997015     12950.0      1342206177    347674.7        23164992      5992.4
+NGCC-CEDRUSALPHA-160f           50        17423465      4510.4       618539655    160247.8        19229550      4977.1
+NGCC-CEDRUSALPHA-256f           20        56523581     14664.3      1459239181    378130.0        26093292      6758.6
+NGCC-sm4th_d3_128f_tight      1000           17746         5.6        18728369      4860.5        16891658      4380.2
+NGCC-sm4th_d3_128s_tight       191           18521         5.9       131429377     34177.5       117749159     30591.1
+NGCC-ublockith_em_d3_256f      743           22091         6.7        40510759     10697.1        39538300     10254.8
+NGCC-vistrutith_d3_512f        152           17788         5.6       185275328     48847.3       173920233     45282.2
+NGCC-CS-512                   1000         2935447       760.8        43050676     11162.9         3683637       954.9
+NGCC-dove_pkc_skc_128         1000        15897556      4116.1         9846160      2551.3         8869918      2298.1
+NGCC-Facto-DSA-256            1000        31989258      8311.7         3984712      1035.0        10545460      2734.4
+NGCC-GreatWall256f            1000         8927551      2316.5        19427351      5190.2        23361165      6213.2
+NGCC-GreatWall512f              53        63602742     16514.6       313770595     81367.0       328120693     85039.9
+NGCC-GreatWall512s              10        63739642     16538.9      1234136530    327471.6      2021109369    523859.4
+NGCC-lwrdsa512                1000         9663544      2503.4        16696272      4333.9         9924799      2570.8
+NGCC-Origami-128              1000         2755947       714.0        30844370      7977.2        27728363      7171.0
+NGCC-Phoenix-SHAKE-384s         10       196586709     50797.6      2792511648    721651.5        46086373     11910.6
+NGCC-Phoenix-SHAKE-384f         42        20037128      5181.1       598133711    154609.3        29023874      7502.7
+NGCC-Phoenix-SHAKE-512f         16        65799914     17006.3      1525182569    394090.7        97818278     25274.7
+NGCC-Rhyme-SM3-256              14      1503558517    388900.8         8251144      2136.4          715518       186.5
+NGCC-Rhyme-SHAKE-384            10      2462072670    636461.3         8502558      2197.7          829569       215.1
+NGCC-Sigurd512                  11       610106761    157753.5      3207872795    829534.6       990214491    285676.7
+NGCC-SQISign2Dsquare-Level5-sec      14       568396332    147655.7      2917122314    757424.7       543224070    141932.5
+NGCC-SQIsignTriangle_lvl5       35       337881791     87339.0       833540912    215495.0       222904219     57602.6
+NGCC-TSUOV_128                1000        10861303      2809.2        12066448      3120.4        11567976      2992.2
+NGCC-TSUOV_512                  38       881131432    227781.0       834953143    215864.1       878564815    227124.4
+NGCC-VDOO-128                   49      1108893043    286686.6       196048681     50681.5         2424724       627.8
+NGCC-yuanyang-2048             558        80573932     21043.7        20640508      5346.0         1079534       278.3
+

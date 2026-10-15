@@ -14,164 +14,164 @@ versions:
     level: 1
     pk: 52
     sig: 2492
-    signing_cycles: 9716772
-    verification_cycles: 6695993
-    signing_us: 2635.2
-    verification_us: 1803.5
-    bench_env: 2026-10-13-c7i.4xlarge
+    signing_cycles: 8460046
+    verification_cycles: 6355328
+    signing_us: 2261.2
+    verification_us: 1696.7
+    bench_env: 2026-10-15-c8i.4xlarge
   - name: L1-gf2-shorter-ot
     level: 1
     pk: 52
     sig: 2492
-    signing_cycles: 13510385
-    verification_cycles: 13025495
-    signing_us: 3701.3
-    verification_us: 3558.5
-    bench_env: 2026-10-13-c7i.4xlarge
+    signing_cycles: 13753266
+    verification_cycles: 13067815
+    signing_us: 3669.6
+    verification_us: 3480.4
+    bench_env: 2026-10-15-c8i.4xlarge
   - name: L1-gf16-short-ct
     level: 1
     pk: 64
     sig: 2932
-    signing_cycles: 3023807
-    verification_cycles: 3465368
-    signing_us: 809.9
-    verification_us: 935.3
-    bench_env: 2026-10-13-c7i.4xlarge
+    signing_cycles: 2994085
+    verification_cycles: 3323177
+    signing_us: 799.3
+    verification_us: 887.7
+    bench_env: 2026-10-15-c8i.4xlarge
   - name: L1-gf16-short-ot
     level: 1
     pk: 64
     sig: 2932
-    signing_cycles: 3386068
-    verification_cycles: 3375077
-    signing_us: 915.1
-    verification_us: 907.1
-    bench_env: 2026-10-13-c7i.4xlarge
+    signing_cycles: 3339491
+    verification_cycles: 3298379
+    signing_us: 896.2
+    verification_us: 883.7
+    bench_env: 2026-10-15-c8i.4xlarge
   - name: L1-gf16-fast-ct
     level: 1
     pk: 64
     sig: 3316
-    signing_cycles: 1020828
-    verification_cycles: 1098028
-    signing_us: 275.8
-    verification_us: 297.1
-    bench_env: 2026-10-13-c7i.4xlarge
+    signing_cycles: 1011925
+    verification_cycles: 1089098
+    signing_us: 263.3
+    verification_us: 280.4
+    bench_env: 2026-10-15-c8i.4xlarge
   - name: L1-gf16-fast-ot
     level: 1
     pk: 64
     sig: 3316
-    signing_cycles: 1148508
-    verification_cycles: 1099308
-    signing_us: 311.4
-    verification_us: 297.6
-    bench_env: 2026-10-13-c7i.4xlarge
+    signing_cycles: 1141933
+    verification_cycles: 1077895
+    signing_us: 305.9
+    verification_us: 288.5
+    bench_env: 2026-10-15-c8i.4xlarge
   - name: L3-gf2-shorter-ct
     level: 3
     pk: 78
     sig: 5932
-    signing_cycles: 27750967
-    verification_cycles: 26222898
-    signing_us: 7615.0
-    verification_us: 7189.3
-    bench_env: 2026-10-13-c7i.4xlarge
+    signing_cycles: 29696621
+    verification_cycles: 26086650
+    signing_us: 7864.2
+    verification_us: 6892.1
+    bench_env: 2026-10-15-c8i.4xlarge
   - name: L3-gf2-shorter-ot
     level: 3
     pk: 78
     sig: 5890
-    signing_cycles: 37138286
-    verification_cycles: 33388772
-    signing_us: 10217.4
-    verification_us: 9100.1
-    bench_env: 2026-10-13-c7i.4xlarge
+    signing_cycles: 38583850
+    verification_cycles: 34406217
+    signing_us: 10190.6
+    verification_us: 9002.7
+    bench_env: 2026-10-15-c8i.4xlarge
   - name: L3-gf16-short-ct
     level: 3
     pk: 96
     sig: 6556
-    signing_cycles: 14102675
-    verification_cycles: 15265900
-    signing_us: 3824.1
-    verification_us: 4107.1
-    bench_env: 2026-10-13-c7i.4xlarge
+    signing_cycles: 14872134
+    verification_cycles: 15308601
+    signing_us: 3876.0
+    verification_us: 3975.5
+    bench_env: 2026-10-15-c8i.4xlarge
   - name: L3-gf16-short-ot
     level: 3
     pk: 96
     sig: 6556
-    signing_cycles: 20429665
-    verification_cycles: 18450953
-    signing_us: 5588.0
-    verification_us: 5035.8
-    bench_env: 2026-10-13-c7i.4xlarge
+    signing_cycles: 21128176
+    verification_cycles: 18830891
+    signing_us: 5517.7
+    verification_us: 4904.9
+    bench_env: 2026-10-15-c8i.4xlarge
   - name: L3-gf16-fast-ct
     level: 3
     pk: 96
     sig: 7564
-    signing_cycles: 4273842
-    verification_cycles: 4525412
-    signing_us: 1149.8
-    verification_us: 1211.3
-    bench_env: 2026-10-13-c7i.4xlarge
+    signing_cycles: 4305027
+    verification_cycles: 4482270
+    signing_us: 1115.6
+    verification_us: 1159.5
+    bench_env: 2026-10-15-c8i.4xlarge
   - name: L3-gf16-fast-ot
     level: 3
     pk: 96
     sig: 7660
-    signing_cycles: 4977843
-    verification_cycles: 4827578
-    signing_us: 1346.6
-    verification_us: 1288.2
-    bench_env: 2026-10-13-c7i.4xlarge
+    signing_cycles: 5023300
+    verification_cycles: 4863439
+    signing_us: 1303.8
+    verification_us: 1259.6
+    bench_env: 2026-10-15-c8i.4xlarge
   - name: L5-gf2-shorter-ct
     level: 5
     pk: 104
     sig: 10836
-    signing_cycles: 43442171
-    verification_cycles: 46209360
-    signing_us: 11890.0
-    verification_us: 12591.4
-    bench_env: 2026-10-13-c7i.4xlarge
+    signing_cycles: 47361477
+    verification_cycles: 48283540
+    signing_us: 12391.5
+    verification_us: 12601.6
+    bench_env: 2026-10-15-c8i.4xlarge
   - name: L5-gf2-shorter-ot
     level: 5
     pk: 104
     sig: 10804
-    signing_cycles: 50937101
-    verification_cycles: 49388648
-    signing_us: 13886.0
-    verification_us: 13500.4
-    bench_env: 2026-10-13-c7i.4xlarge
+    signing_cycles: 56180821
+    verification_cycles: 52143799
+    signing_us: 14718.9
+    verification_us: 13639.5
+    bench_env: 2026-10-15-c8i.4xlarge
   - name: L5-gf16-short-ct
     level: 5
     pk: 128
     sig: 12100
-    signing_cycles: 17388949
-    verification_cycles: 20860009
-    signing_us: 4723.0
-    verification_us: 5659.2
-    bench_env: 2026-10-13-c7i.4xlarge
+    signing_cycles: 19245737
+    verification_cycles: 20976396
+    signing_us: 5123.8
+    verification_us: 5576.4
+    bench_env: 2026-10-15-c8i.4xlarge
   - name: L5-gf16-short-ot
     level: 5
     pk: 128
     sig: 11716
-    signing_cycles: 23430675
-    verification_cycles: 22709662
-    signing_us: 6391.6
-    verification_us: 6184.0
-    bench_env: 2026-10-13-c7i.4xlarge
+    signing_cycles: 24595796
+    verification_cycles: 23253360
+    signing_us: 6552.8
+    verification_us: 6121.9
+    bench_env: 2026-10-15-c8i.4xlarge
   - name: L5-gf16-fast-ct
     level: 5
     pk: 128
     sig: 13540
-    signing_cycles: 7159877
-    verification_cycles: 7857451
-    signing_us: 1949.5
-    verification_us: 2117.6
-    bench_env: 2026-10-13-c7i.4xlarge
+    signing_cycles: 7328733
+    verification_cycles: 7561633
+    signing_us: 1907.8
+    verification_us: 1960.3
+    bench_env: 2026-10-15-c8i.4xlarge
   - name: L5-gf16-fast-ot
     level: 5
     pk: 128
     sig: 13380
-    signing_cycles: 9034424
-    verification_cycles: 7779937
-    signing_us: 2429.6
-    verification_us: 2098.4
-    bench_env: 2026-10-13-c7i.4xlarge
+    signing_cycles: 9278301
+    verification_cycles: 7827178
+    signing_us: 2453.9
+    verification_us: 2033.3
+    bench_env: 2026-10-15-c8i.4xlarge
 - version: v2.1
   date: '2025-09-22'
   status: On-ramp
