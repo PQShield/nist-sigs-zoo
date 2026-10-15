@@ -5,11 +5,13 @@ Usage: merge_results.py OUT PART [PART ...]
 
 A split run times disjoint groups of schemes on separate instances of the same type
 (scripts/aws-bench.sh with filters, one invocation per group). The merged file keeps the
-first part's header, records every part's file, host, date and CPU in "# part:" lines,
+first part's header, records every part's file, host, date, commit and instance type in
+"# part:" lines (update_scheme_data.py reads each row's provenance from its part file),
 moves each part's "# note:" lines (which describe that part, not the merged file) into its
 "# part:" line, drops the parts' "# filter:" lines,
 and lists each scheme once, in order of first appearance. A scheme timed by more than one
-part keeps its first non-DNF row. Parts on different CPU models are refused.
+part keeps its first non-DNF row. Parts on different CPU models or instance types are
+refused.
 """
 
 import re
@@ -57,18 +59,25 @@ def main() -> None:
     first_header: list[str] | None = None
     first_columns: list[str] = []
     part_lines: list[str] = []
-    cpu = None
+    cpu = itype = None
     for path in parts:
         header, columns, rows, meta, notes = read_part(path)
         if cpu is None:
-            cpu = meta.get("cpu")
+            cpu, itype = meta.get("cpu"), meta.get("instance_type")
         elif meta.get("cpu") != cpu:
             sys.exit(f"{path}: cpu {meta.get('cpu')!r} differs from {cpu!r}")
+        elif meta.get("instance_type") != itype:
+            sys.exit(
+                f"{path}: instance type {meta.get('instance_type')!r} differs from {itype!r}"
+            )
         if first_header is None:
             first_header, first_columns = header, columns
+        prov = "".join(
+            f", {k} {meta[k]}" for k in ("commit", "instance_type") if k in meta
+        )
         about = "".join(f"; note: {n}" for n in notes)
         part_lines.append(
-            f"# part:         {path.name} (host {meta.get('host', '?')}, {meta.get('date', '?')}, {len(rows)} rows{about})"
+            f"# part:         {path.name} (host {meta.get('host', '?')}, {meta.get('date', '?')}, {len(rows)} rows{prov}{about})"
         )
         for row in rows:
             # Names may contain single spaces ("RSA-2048 (PSS)"); columns are padded.

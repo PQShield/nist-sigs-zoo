@@ -38,6 +38,14 @@ KERNEL=$(uname -r)
 OS=$(. /etc/os-release 2>/dev/null && echo "$PRETTY_NAME" || uname -s)
 HOSTNAME=$(hostname)
 DATE=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+# Provenance for fingerprints.tsv (bench-common/fingerprint.py): the commit this tree
+# was built from ("-dirty" with uncommitted tracked changes) and the EC2 instance type
+# (set by scripts/aws-bench.sh; "local" otherwise).
+COMMIT=$(git -C "$SCRIPT_DIR" rev-parse HEAD 2>/dev/null || echo unknown)
+if [ "$COMMIT" != unknown ] && [ -n "$(git -C "$SCRIPT_DIR" status --porcelain --untracked-files=no 2>/dev/null)" ]; then
+    COMMIT="$COMMIT-dirty"
+fi
+INSTANCE_TYPE="${BENCH_INSTANCE_TYPE:-local}"
 
 # --- collect compiler + library versions ---
 
@@ -87,6 +95,8 @@ _khz_to_mhz() { [ "$1" = "unknown" ] && echo "unknown" || echo "$(( $1 / 1000 ))
     echo "# pq-sigs benchmark results"
     echo "# date:         $DATE"
     echo "# host:         $HOSTNAME"
+    echo "# commit:       $COMMIT"
+    echo "# instance_type: $INSTANCE_TYPE"
     echo "# os:           $OS"
     echo "# kernel:       $KERNEL"
     echo "# cpu:          $CPU_MODEL"

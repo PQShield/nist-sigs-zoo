@@ -372,7 +372,8 @@ fi
 
 # --- build + run in the background -----------------------------------------------
 
-REMOTE_ENV=""
+# Recorded as "# instance_type:" in the results header (fingerprints.tsv, staleness).
+REMOTE_ENV="export BENCH_INSTANCE_TYPE=$(printf '%q' "$INSTANCE_TYPE"); "
 for v in BENCH_ITER BENCH_CYCLES BENCH_CPU BENCH_TIMEOUT BENCH_OP_LIMIT; do
     if [ -n "${!v:-}" ]; then REMOTE_ENV+="export $v=$(printf '%q' "${!v}"); "; fi
 done

@@ -88,3 +88,31 @@ def test_refuses_parts_from_different_cpus(tmp_path):
     )
     assert proc.returncode != 0 and "differs" in proc.stderr
     assert not out.exists()
+
+
+def test_part_lines_carry_commit_and_instance_type(tmp_path):
+    prov = "# commit:       abc123\n# instance_type: c8i.4xlarge\n"
+    proc, out = merge(
+        tmp_path,
+        part("h1", "2026-01-01", ROW_A, extra=prov),
+        part("h2", "2026-01-02", ROW_B, extra=prov.replace("abc123", "def456")),
+    )
+    assert proc.returncode == 0, proc.stderr
+    text = out.read_text()
+    assert (
+        "part0.txt (host h1, 2026-01-01, 1 rows, commit abc123, instance_type c8i.4xlarge)"
+        in text
+    )
+    assert (
+        "part1.txt (host h2, 2026-01-02, 1 rows, commit def456, instance_type c8i.4xlarge)"
+        in text
+    )
+
+
+def test_refuses_parts_from_different_instance_types(tmp_path):
+    proc, _ = merge(
+        tmp_path,
+        part("h1", "2026-01-01", ROW_A, extra="# instance_type: c7i.4xlarge\n"),
+        part("h2", "2026-01-02", ROW_B, extra="# instance_type: c8i.4xlarge\n"),
+    )
+    assert proc.returncode != 0 and "instance type" in proc.stderr

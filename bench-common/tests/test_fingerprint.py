@@ -247,19 +247,19 @@ def test_merged_rows_come_from_their_part(repo, tmp_path):
     rd = tmp_path / "results"
     rd.mkdir()
     (rd / "p1.txt").write_text(
-        results([("A-1", 5), ("A-2", 6)], date="d1", commit="c1")
+        results([("A-1", 5), ("A-2", 6)], date="d1", commit="c1c1c1c")
     )
-    (rd / "p2.txt").write_text(results([("A-2", 7)], date="d2", commit="c2"))
-    merged = results([("A-1", 5), ("A-2", 7), ("B-1", 8)], date="d1", commit="c1")
+    (rd / "p2.txt").write_text(results([("A-2", 7)], date="d2", commit="c2c2c2c"))
+    merged = results([("A-1", 5), ("A-2", 7), ("B-1", 8)], date="d1", commit="c1c1c1c")
     merged = merged.replace(
         "#\nscheme", "# part:  p1.txt (host h)\n# part:  p2.txt (host h)\n#\nscheme"
     )
     (rd / "m.txt").write_text(merged)
     prov = F.row_provenance(repo, rd / "m.txt")
     assert {n: (p.file, p.commit) for n, p in prov.items()} == {
-        "A-1": ("p1.txt", "c1"),
-        "A-2": ("p2.txt", "c2"),  # same row as p2, not p1's other value
-        "B-1": ("m.txt", "c1"),  # in no part: the merged header
+        "A-1": ("p1.txt", "c1c1c1c"),
+        "A-2": ("p2.txt", "c2c2c2c"),  # same row as p2, not p1's other value
+        "B-1": ("m.txt", "c1c1c1c"),  # in no part: the merged header
     }
 
 

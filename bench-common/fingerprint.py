@@ -471,7 +471,10 @@ class Provenance:
 
 
 def provenance(repo: Path, meta: dict[str, str], file: str) -> Provenance:
-    commit = meta.get("commit") or commit_before(repo, meta.get("date", ""))
+    # "-dirty": built with uncommitted changes (a local run); the commit is the best guess.
+    commit = (meta.get("commit") or "").removesuffix("-dirty")
+    if not re.fullmatch(r"[0-9a-f]{7,40}", commit):
+        commit = commit_before(repo, meta.get("date", ""))
     cpu = meta.get("cpu", "")
     itype = meta.get("instance_type") or legacy_instance_type(cpu)
     return Provenance(commit, itype, cpu, meta.get("date", ""), file)
