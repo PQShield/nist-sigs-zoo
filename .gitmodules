@@ -104,3 +104,7 @@
 [submodule "bench/schemes/uov_r2/ref"]
 	path = bench/schemes/uov_r2/ref
 	url = https://github.com/pqov/pqov.git
+[submodule "bench/schemes/faest_r2/ref"]
+	path = bench/schemes/faest_r2/ref
+	url = https://github.com/faest-sign/faest-arch-opt
+	ignore = dirty
