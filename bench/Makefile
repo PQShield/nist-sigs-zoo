@@ -144,9 +144,18 @@ FAEST_R2_SOS = $(addprefix schemes/faest_r2/build/, \
     faest_192f.so faest_256s.so faest_256f.so \
     faest_em_128s.so faest_em_128f.so faest_em_192s.so \
     faest_em_192f.so faest_em_256s.so faest_em_256f.so)
+SNOVA_R1_SOS = $(addprefix schemes/snova_r1/build/, \
+    snova_r1_28_17_2.so snova_r1_25_8_3.so snova_r1_24_5_4.so \
+    snova_r1_43_25_2.so snova_r1_49_11_3.so snova_r1_37_8_4.so \
+    snova_r1_61_33_2.so snova_r1_66_15_3.so snova_r1_60_10_4.so)
+SNOVA_R2_SOS = $(addprefix schemes/snova_r2/build/, \
+    snova_r2_37_17_2.so snova_r2_25_8_3.so snova_r2_24_5_4.so \
+    snova_r2_56_25_2.so snova_r2_49_11_3.so snova_r2_37_8_4.so \
+    snova_r2_24_5_5.so snova_r2_75_33_2.so snova_r2_66_15_3.so \
+    snova_r2_60_10_4.so snova_r2_29_6_5.so)
 
-ALL_SOS     = $(MLDSA_SOS) $(SLHDSA_SOS) $(FNDSA_SOS) $(CLASSIC_SOS) $(HAWK_SOS) $(MAYO_SOS) $(FAEST_SOS) $(SDITH_SOS) $(SDITH2_SOS) $(SNOVA_SOS) $(UOV_SOS) $(QRUOV_SOS) $(MQOM_SOS) $(SQISIGN_SOS) $(AIMER_SOS) $(HAETAE_SOS) $(MIRATH_SOS) $(RYDE_SOS) $(PERK_SOS) $(CROSS_SOS) $(LESS_SOS) $(MAYO_R1_SOS) $(MAYO_R2_SOS) $(HAWK_R1_SOS) $(SDITH_R2_SOS) $(MQOM_R1_SOS) $(MQOM_R2_SOS) $(UOV_R1_SOS) $(UOV_R2_SOS) $(FAEST_R1_SOS) $(FAEST_R2_SOS)
-SCHEME_DIRS = mldsa slhdsa fndsa classic hawk mayo faest sdith sdith2 snova uov qruov mqom sqisign aimer haetae mirath ryde perk cross less mayo_r1 mayo_r2 hawk_r1 sdith_r2 mqom_r1 mqom_r2 uov_r1 uov_r2 faest_r1 faest_r2
+ALL_SOS     = $(MLDSA_SOS) $(SLHDSA_SOS) $(FNDSA_SOS) $(CLASSIC_SOS) $(HAWK_SOS) $(MAYO_SOS) $(FAEST_SOS) $(SDITH_SOS) $(SDITH2_SOS) $(SNOVA_SOS) $(UOV_SOS) $(QRUOV_SOS) $(MQOM_SOS) $(SQISIGN_SOS) $(AIMER_SOS) $(HAETAE_SOS) $(MIRATH_SOS) $(RYDE_SOS) $(PERK_SOS) $(CROSS_SOS) $(LESS_SOS) $(MAYO_R1_SOS) $(MAYO_R2_SOS) $(HAWK_R1_SOS) $(SDITH_R2_SOS) $(MQOM_R1_SOS) $(MQOM_R2_SOS) $(UOV_R1_SOS) $(UOV_R2_SOS) $(FAEST_R1_SOS) $(FAEST_R2_SOS) $(SNOVA_R1_SOS) $(SNOVA_R2_SOS)
+SCHEME_DIRS = mldsa slhdsa fndsa classic hawk mayo faest sdith sdith2 snova uov qruov mqom sqisign aimer haetae mirath ryde perk cross less mayo_r1 mayo_r2 hawk_r1 sdith_r2 mqom_r1 mqom_r2 uov_r1 uov_r2 faest_r1 faest_r2 snova_r1 snova_r2
 STAMPS      = $(addprefix schemes/, $(addsuffix /.stamp, $(SCHEME_DIRS)))
 
 # China NGCC round-1 candidates: one generic ICCS-API shim, data-driven from
@@ -193,6 +202,8 @@ schemes/uov_r1/.stamp: schemes/uov_r1/Makefile schemes/uov_r1/shim_template.c sc
 schemes/uov_r2/.stamp: schemes/uov_r2/Makefile schemes/uov_r2/shim_template.c schemes/uov_r2/params.tsv
 schemes/faest_r1/.stamp: schemes/faest_r1/Makefile schemes/faest_r1/shim_template.c schemes/faest_r1/params.tsv schemes/faest_r1/.source
 schemes/faest_r2/.stamp: schemes/faest_r2/Makefile schemes/faest_r2/shim_template.c schemes/faest_r2/params.tsv schemes/faest_r2/gen_faest.py
+schemes/snova_r1/.stamp: schemes/snova_r1/Makefile schemes/snova_r1/shim_template.c schemes/snova_r1/params.tsv schemes/snova_r1/.source
+schemes/snova_r2/.stamp: schemes/snova_r2/Makefile schemes/snova_r2/shim_template.c schemes/snova_r2/params.tsv
 $(NGCC_STAMP): $(NGCC_DIR)/Makefile $(NGCC_DIR)/shim_template.c $(NGCC_DIR)/params.tsv \
     ../bench-common/ngcc/ngcc.mk ../bench-common/ngcc/gen_rules.py \
     $(wildcard $(NGCC_DIR)/patches/*/*) $(wildcard ../bench-common/ngcc/src/.extracted)
@@ -237,6 +248,8 @@ $(UOV_R1_SOS): schemes/uov_r1/.stamp
 $(UOV_R2_SOS): schemes/uov_r2/.stamp
 $(FAEST_R1_SOS): schemes/faest_r1/.stamp
 $(FAEST_R2_SOS): schemes/faest_r2/.stamp
+$(SNOVA_R1_SOS): schemes/snova_r1/.stamp
+$(SNOVA_R2_SOS): schemes/snova_r2/.stamp
 
 # Generate the SO path list included by main.c.
 $(BUILD)/so_paths.h: Makefile $(NGCC_STAMP) | $(BUILD)

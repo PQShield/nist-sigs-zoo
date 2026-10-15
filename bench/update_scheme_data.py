@@ -374,6 +374,28 @@ BENCH_TO_YAML: dict[str, Target | list[Target]] = {
     "FAEST-R2-EM-256s": ("FAEST.yaml", "EM-256s", "v2.0"),
     "FAEST-R2-EM-256f": ("FAEST.yaml", "EM-256f", "v2.0"),
 
+    # SNOVA round 1 (NIST round-1 package, ssk) and round 2 (SNOVA 1318290, ESK), bench/schemes/snova_r1, snova_r2
+    "SNOVA-R1-(60,10,16,4)": ("SNOVA.yaml", "(60, 10, 16, 4)", "Round 1"),
+    "SNOVA-R1-(66,15,16,3)": ("SNOVA.yaml", "(66, 15, 16, 3)", "Round 1"),
+    "SNOVA-R1-(61,33,16,2)": ("SNOVA.yaml", "(61, 33, 16, 2)", "Round 1"),
+    "SNOVA-R1-(37,8,16,4)": ("SNOVA.yaml", "(37, 8, 16, 4)", "Round 1"),
+    "SNOVA-R1-(49,11,16,3)": ("SNOVA.yaml", "(49, 11, 16, 3)", "Round 1"),
+    "SNOVA-R1-(43,25,16,2)": ("SNOVA.yaml", "(43, 25, 16, 2)", "Round 1"),
+    "SNOVA-R1-(24,5,16,4)": ("SNOVA.yaml", "(24, 5, 16, 4)", "Round 1"),
+    "SNOVA-R1-(25,8,16,3)": ("SNOVA.yaml", "(25, 8, 16, 3)", "Round 1"),
+    "SNOVA-R1-(28,17,16,2)": ("SNOVA.yaml", "(28, 17, 16, 2)", "Round 1"),
+    "SNOVA-R2-(60,10,4)": ("SNOVA.yaml", "(60 10 4)", "v2.0"),
+    "SNOVA-R2-(66,15,3)": ("SNOVA.yaml", "(66 15 3)", "v2.0"),
+    "SNOVA-R2-(75,33,2)": ("SNOVA.yaml", "(75 33 2)", "v2.0"),
+    "SNOVA-R2-(29,6,5)": ("SNOVA.yaml", "(29 6 5)", "v2.0"),
+    "SNOVA-R2-(37,8,4)": ("SNOVA.yaml", "(37 8 4)", "v2.0"),
+    "SNOVA-R2-(49,11,3)": ("SNOVA.yaml", "(49 11 3)", "v2.0"),
+    "SNOVA-R2-(56,25,2)": ("SNOVA.yaml", "(56 25 2)", "v2.0"),
+    "SNOVA-R2-(24,5,5)": ("SNOVA.yaml", "(24 5 5)", "v2.0"),
+    "SNOVA-R2-(24,5,4)": ("SNOVA.yaml", "(24 5 4)", "v2.0"),
+    "SNOVA-R2-(25,8,3)": ("SNOVA.yaml", "(25 8 3)", "v2.0"),
+    "SNOVA-R2-(37,17,2)": ("SNOVA.yaml", "(37 17 2)", "v2.0"),
+
     # Classic
     "RSA-2048 (PSS)": ("RSA.yaml", "2048"),
     "RSA-3072 (PSS)": ("RSA.yaml", "3072"),
