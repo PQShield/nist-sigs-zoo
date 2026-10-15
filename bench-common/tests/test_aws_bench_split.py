@@ -684,3 +684,49 @@ def test_no_code_sets_are_never_planned(tmp_path):
 def test_real_data_marks_bit_384_no_code():
     assert "NGCC-BiT-384" in S.no_code_rows(REPO, "sigs")
     assert {"NGCC-ZEN-256-backup", "NGCC-BW_KEM_C384"} <= S.no_code_rows(REPO, "kems")
+
+
+def test_no_code_is_per_version(tmp_path):
+    """A set that has no code in the newest version never hides the row that benchmarks
+    the same set name in an older version (rows name their version, see the importer)."""
+    (tmp_path / "data/schemes").mkdir(parents=True)
+    (tmp_path / "bench").mkdir()
+    (tmp_path / "bench/update_scheme_data.py").write_text(
+        "BENCH_TO_YAML = {\n"
+        '    "Foo-1": ("Foo.yaml", "1"),\n'
+        '    "Foo-R1-1": ("Foo.yaml", "1", "Round 1"),\n'
+        '    "Foo-R2-2": [("Foo.yaml", "2", "Round 2@2025-02-05")],\n'
+        '    "Foo-R2b-2": ("Foo.yaml", "2", "Round 2@2025-03-26"),\n'
+        "}\n"
+    )
+    (tmp_path / "data/schemes/Foo.yaml").write_text(
+        "name: Foo\nversions:\n"
+        "- version: Round 3\n  date: '2026-08-31'\n  parametersets:\n"
+        "  - name: '1'\n    pk: 1\n    no_code: No implementation\n"
+        "- version: Round 2\n  date: '2025-03-26'\n  parametersets:\n"
+        "  - name: '2'\n    pk: 1\n    no_code: No implementation\n"
+        "- version: Round 2\n  date: '2025-02-05'\n  parametersets:\n"
+        "  - name: '2'\n    pk: 1\n"
+        "- version: Round 1\n  date: '2023-06-01'\n  parametersets:\n"
+        "  - name: '1'\n    pk: 1\n"
+    )
+    assert S.yaml_sets((tmp_path / "data/schemes/Foo.yaml").read_text()) == [
+        ("Round 3", "2026-08-31", "1", True),
+        ("Round 2", "2025-03-26", "2", True),
+        ("Round 2", "2025-02-05", "2", False),
+        ("Round 1", "2023-06-01", "1", False),
+    ]
+    assert S.no_code_rows(tmp_path, "sigs") == {"Foo-1", "Foo-R2b-2"}
+
+
+def test_bench_to_yaml_normalises_targets(tmp_path):
+    imp = tmp_path / "imp.py"
+    imp.write_text(
+        'BENCH_TO_YAML = {"A": ("A.yaml", "1"), "B": ("B.yaml", "1", "v1"),'
+        ' "C": [("C.yaml", "1", "v1"), ("C.yaml", "1", "v2")]}\n'
+    )
+    assert S.bench_to_yaml(imp) == {
+        "A": [("A.yaml", "1", None)],
+        "B": [("B.yaml", "1", "v1")],
+        "C": [("C.yaml", "1", "v1"), ("C.yaml", "1", "v2")],
+    }

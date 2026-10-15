@@ -169,33 +169,55 @@ DATA = {
     "kems": ("data/kems", "bench-kem/update_scheme_data.py"),
 }
 _PS_NAME = re.compile(r"^(\s*)- name: (.+?)\s*$")
+_VERSION = re.compile(r"^- version: (.+?)\s*$")
+_DATE = re.compile(r"^  date: (.+?)\s*$")
+
+
+def _scalar(text: str) -> str:
+    return text.strip().strip("'\"")
+
+
+def yaml_sets(text: str) -> list[tuple[str, str, str, bool]]:
+    """(version label, version date, parameter-set name, has `no_code`) of every
+    parameter set in one data YAML file, in file order (versions newest first).
+
+    A line scan (this script has no YAML dependency): `- version:` items start at column
+    0 with their `date:` at two spaces; a `- name:` item owns the following lines indented
+    two more spaces, as the importers and ngcc_data.py write them.
+    """
+    out: list[list] = []
+    label, date = "", ""
+    cur, key_indent = None, None
+    for line in text.splitlines():
+        if m := _VERSION.match(line):
+            label, date, cur = _scalar(m.group(1)), "", None
+            continue
+        if cur is None and (m := _DATE.match(line)):
+            date = _scalar(m.group(1))
+            continue
+        if m := _PS_NAME.match(line):
+            cur = [label, date, _scalar(m.group(2)), False]
+            key_indent = " " * (len(m.group(1)) + 2)
+            out.append(cur)
+            continue
+        if cur is None:
+            continue
+        if line.startswith(key_indent + "no_code:"):
+            cur[3] = True
+        elif line.strip() and not line.startswith(key_indent):
+            cur = None
+    return [tuple(x) for x in out]
 
 
 def yaml_no_code(text: str) -> set[str]:
-    """Names of the parameter sets in one data YAML file that carry a `no_code` field.
-
-    A line scan (this script has no YAML dependency): a `- name:` item owns the following
-    lines indented two more spaces, as the importers and ngcc_data.py write them.
-    """
-    out: set[str] = set()
-    name, key_indent = None, None
-    for line in text.splitlines():
-        m = _PS_NAME.match(line)
-        if m:
-            name, key_indent = m.group(2).strip("'\""), " " * (len(m.group(1)) + 2)
-            continue
-        if name is None:
-            continue
-        if line.startswith(key_indent + "no_code:"):
-            out.add(name)
-        elif line.strip() and not line.startswith(key_indent):
-            name = None
-    return out
+    """Names of the parameter sets in one data YAML file that carry a `no_code` field."""
+    return {ps for _, _, ps, no_code in yaml_sets(text) if no_code}
 
 
-def bench_to_yaml(importer: Path) -> dict[str, tuple[str, str]]:
-    """The importer's literal BENCH_TO_YAML dict, read with ast (the importer is not run);
-    {} without an importer."""
+def bench_to_yaml(importer: Path) -> dict[str, list[tuple[str, str, str | None]]]:
+    """The importer's literal BENCH_TO_YAML dict, read with ast (the importer is not run),
+    each value as a list of (YAML file, parameter-set name, version selector or None)
+    targets (see the importer); {} without an importer."""
     if not importer.exists():
         return {}
     for node in ast.parse(importer.read_text(encoding="utf-8")).body:
@@ -205,20 +227,61 @@ def bench_to_yaml(importer: Path) -> dict[str, tuple[str, str]]:
             else (node.targets[0] if isinstance(node, ast.Assign) else None)
         )
         if isinstance(target, ast.Name) and target.id == "BENCH_TO_YAML":
-            return ast.literal_eval(node.value)
+            raw = ast.literal_eval(node.value)
+            return {
+                name: [
+                    (t[0], t[1], t[2] if len(t) > 2 else None)
+                    for t in (v if isinstance(v, list) else [v])
+                ]
+                for name, v in raw.items()
+            }
     return {}
 
 
+def _selects(selector: str | None, label: str, date: str) -> bool:
+    want_label, _, want_date = (selector or "").partition("@")
+    return want_label == label and (not want_date or want_date == date)
+
+
 def no_code_rows(repo: Path, suite: str) -> set[str]:
-    """Bench row names whose parameter set is marked `no_code` in the suite's YAML data."""
+    """Bench row names whose parameter set is marked `no_code` in the suite's YAML data.
+
+    A row lands on the version its target names, or on the first version that has the
+    set (the importer's rule), so a no_code set in one version never hides a row that
+    benchmarks the same set name in another version."""
     data_dir, importer = DATA[suite]
-    by_set = {(f, ps): name for name, (f, ps) in bench_to_yaml(repo / importer).items()}
+    mapping = bench_to_yaml(repo / importer)
     out: set[str] = set()
     for path in sorted((repo / data_dir).glob("*.yaml")):
         text = path.read_text(encoding="utf-8")
-        ngcc = "china-ngcc" in text
-        for ps in yaml_no_code(text):
-            out.add(f"NGCC-{ps}" if ngcc else by_set.get((path.name, ps), ps))
+        sets = yaml_sets(text)
+        if "china-ngcc" in text:
+            out.update(f"NGCC-{ps}" for _, _, ps, no_code in sets if no_code)
+            continue
+        hit: set[int] = set()  # indices into sets that some row lands on
+        for name, tgts in mapping.items():
+            for f, ps, version in tgts:
+                if f != path.name:
+                    continue
+                i = next(
+                    (
+                        i
+                        for i, (label, date, name_, _) in enumerate(sets)
+                        if name_ == ps
+                        and (version is None or _selects(version, label, date))
+                    ),
+                    None,
+                )
+                if i is None:
+                    continue
+                hit.add(i)
+                if sets[i][3]:
+                    out.add(name)
+        # A no_code set no row maps to: its own name (as before), so a row named like it
+        # is never planned either.
+        out.update(
+            ps for i, (_, _, ps, no_code) in enumerate(sets) if no_code and i not in hit
+        )
     return out
 
 

@@ -229,3 +229,147 @@ def test_env_ids_and_file(sig, tmp_path):
     assert [e["id"] for e in envs] == ["2026-10-16-c8i.4xlarge"]
     assert envs[0]["cpu"]["cores"] == 16 and envs[0]["sources"] == meta["_sources"]
     assert path.read_text().startswith("# Licensed under CC BY 4.0")
+
+
+# --- version-aware targets -------------------------------------------------------
+
+
+def timed_row(name, sign):
+    return {
+        "name": name,
+        "dnf": None,
+        "signing_cycles": sign,
+        "verification_cycles": 2,
+        "signing_us": 0.5,
+        "verification_us": 0.1,
+    }
+
+
+def two_rounds():
+    return {
+        "versions": [
+            {
+                "version": "Round 2",
+                "date": "2025-03-26",
+                "parametersets": [{"name": "one", "signing_cycles": 9}],
+            },
+            {
+                "version": "Round 2",
+                "date": "2025-02-05",
+                "perf_source": "submission document",
+                "parametersets": [
+                    {"name": "one", "signing_cycles": 7},
+                    {"name": "two", "signing_cycles": 8},
+                ],
+            },
+            {
+                "version": "Round 1",
+                "date": "2023-06-01",
+                "perf_source": "submission document",
+                "parametersets": [{"name": "one", "signing_cycles": 5}],
+            },
+        ]
+    }
+
+
+def test_targets_normalise_all_value_forms(sig):
+    assert sig.targets(("A.yaml", "1")) == [("A.yaml", "1", None)]
+    assert sig.targets(("A.yaml", "1", "v1")) == [("A.yaml", "1", "v1")]
+    assert sig.targets([("A.yaml", "1", "v2"), ("A.yaml", "1", "v1")]) == [
+        ("A.yaml", "1", "v2"),
+        ("A.yaml", "1", "v1"),
+    ]
+
+
+def test_row_without_version_lands_on_first_version(sig):
+    doc = two_rounds()
+    changed, _ = sig.apply_row(doc, "one", timed_row("X-one", 100))
+    assert changed and doc["versions"][0]["parametersets"][0]["signing_cycles"] == 100
+    assert doc["versions"][2]["parametersets"][0]["signing_cycles"] == 5
+
+
+def test_row_with_version_lands_on_exactly_that_version(sig):
+    doc = two_rounds()
+    changed, _ = sig.apply_row(doc, "one", timed_row("X-R1-one", 100), "env", "Round 1")
+    assert changed
+    assert [v["parametersets"][0]["signing_cycles"] for v in doc["versions"]] == [
+        9,
+        7,
+        100,
+    ]
+    # Every timed set of Round 1 is now ours, so its label follows.
+    assert doc["versions"][2]["perf_source"] == "our benchmark"
+
+
+def test_version_date_disambiguates_a_repeated_label(sig):
+    doc = two_rounds()
+    with pytest.raises(ValueError, match="matches 2 versions"):
+        sig.apply_row(doc, "one", timed_row("X-R2-one", 1), None, "Round 2")
+    sig.apply_row(doc, "one", timed_row("X-R2-one", 100), "env", "Round 2@2025-02-05")
+    r2 = doc["versions"][1]
+    assert r2["parametersets"][0]["signing_cycles"] == 100
+    assert doc["versions"][0]["parametersets"][0]["signing_cycles"] == 9
+    # "two" still has submission numbers: the label stays until all timed sets are ours.
+    assert r2["perf_source"] == "submission document"
+    sig.apply_row(doc, "two", timed_row("X-R2-two", 200), "env", "Round 2@2025-02-05")
+    assert r2["perf_source"] == "our benchmark"
+
+
+def test_unknown_version_or_set_in_version(sig):
+    with pytest.raises(ValueError, match="matches 0 versions"):
+        sig.apply_row(two_rounds(), "one", timed_row("X", 1), None, "Round 9")
+    assert sig.apply_row(two_rounds(), "two", timed_row("X", 1), None, "Round 1") == (
+        False,
+        None,
+    )
+
+
+def test_mapped_sets_are_per_version(sig, monkeypatch):
+    monkeypatch.setattr(
+        sig,
+        "BENCH_TO_YAML",
+        {
+            "X-one": ("X.yaml", "one"),
+            "X-R1-one": ("X.yaml", "one", "Round 1"),
+            "X-R2-both": [("X.yaml", "two", "Round 2@2025-02-05"), ("Y.yaml", "two")],
+        },
+    )
+    assert sig.mapped_sets(two_rounds(), "X.yaml") == {
+        (0, "one"),
+        (1, "two"),
+        (2, "one"),
+    }
+
+
+def test_every_real_target_resolves(sig):
+    assert sig.target_errors() == []
+
+
+def test_bench_row_names_are_unique_across_scheme_dirs():
+    seen: dict[str, str] = {}
+    dupes = []
+    for tsv in sorted((REPO / "bench" / "schemes").glob("*/*params*.tsv")):
+        lines = [
+            ln for ln in tsv.read_text().splitlines() if ln and not ln.startswith("#")
+        ]
+        cols = lines[0].split("\t")
+        for ln in lines[1:]:
+            name = dict(zip(cols, ln.split("\t"), strict=False))["name"]
+            if name in seen:
+                dupes.append(f"{name}: {seen[name]} and {tsv}")
+            seen[name] = str(tsv)
+    assert dupes == []
+
+
+def test_older_round_rows_target_their_own_version(sig):
+    """Rows of bench/schemes/<x>_r1, <x>_r2 must name their version: without one they
+    would land on the newest version of the set."""
+    for tsv in sorted((REPO / "bench" / "schemes").glob("*_r[12]/*params*.tsv")):
+        lines = [
+            ln for ln in tsv.read_text().splitlines() if ln and not ln.startswith("#")
+        ]
+        cols = lines[0].split("\t")
+        for ln in lines[1:]:
+            name = dict(zip(cols, ln.split("\t"), strict=False))["name"]
+            assert name in sig.BENCH_TO_YAML, f"{tsv}: {name} has no mapping"
+            assert all(v for _, _, v in sig.targets(sig.BENCH_TO_YAML[name])), name

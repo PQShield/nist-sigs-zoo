@@ -27,9 +27,19 @@ REPO_ROOT = Path(__file__).parent.parent
 SCHEMES_DIR = REPO_ROOT / "data" / "schemes"
 BENCH_ENV_FILE = REPO_ROOT / "data" / "benchmark_env.yaml"
 
-# Map bench output name → (yaml_filename, parameterset_name_in_yaml)
+# Map bench output name → target(s) in data/schemes/:
+#   (yaml_filename, parameterset_name)           the FIRST version that has this set
+#                                               (the newest one: versions are newest first)
+#   (yaml_filename, parameterset_name, version)  exactly that version; `version` is its
+#                                               `version:` label, or "label@YYYY-MM-DD"
+#                                               when the label alone is not unique
+#   [target, ...]                               several versions built from identical code
 # Only entries where the bench measurement corresponds to the YAML parameterset.
-BENCH_TO_YAML: dict[str, tuple[str, str]] = {
+# Older NIST on-ramp rounds of the schemes still in the competition are benchmarked
+# from their own round's code (bench/schemes/<x>_r1, <x>_r2): their rows are named
+# <scheme>-R1-… / <scheme>-R2-… and target their version explicitly.
+Target = tuple[str, str] | tuple[str, str, str]
+BENCH_TO_YAML: dict[str, Target | list[Target]] = {
     # ML-DSA (FIPS 204)
     "ML-DSA-44": ("ML-DSA.yaml", "ML-DSA-44"),
     "ML-DSA-65": ("ML-DSA.yaml", "ML-DSA-65"),
@@ -372,24 +382,66 @@ def parse_results_file(path: Path) -> tuple[dict, list[dict]]:
 SIG_TIMING = ngcc_data.TIMING["signature"]
 
 
+def targets(value) -> list[tuple[str, str, str | None]]:
+    """A BENCH_TO_YAML value as a list of (yaml_filename, parameterset_name, version)
+    targets; version is None for "the first version that has the set"."""
+    vals = value if isinstance(value, list) else [value]
+    return [(t[0], t[1], t[2] if len(t) > 2 else None) for t in vals]
+
+
+def select_version(yaml_data, selector: str):
+    """The one version whose `version` label (and, after "@", `date`) matches selector.
+
+    Raises ValueError unless exactly one version matches: a mapping that names a version
+    must never silently land on another one.
+    """
+    label, _, date = selector.partition("@")
+    found = [
+        v
+        for v in yaml_data.get("versions") or []
+        if str(v.get("version", "")) == label
+        and (not date or str(v.get("date")) == date)
+    ]
+    if len(found) != 1:
+        raise ValueError(f"version {selector!r} matches {len(found)} versions")
+    return found[0]
+
+
+def find_parameterset(yaml_data, ps_name: str, version: str | None = None):
+    """(version, parameterset) for a target, or (None, None) if the set is not there.
+
+    Without a version selector: the first version containing ps_name."""
+    versions = (
+        [select_version(yaml_data, version)]
+        if version is not None
+        else yaml_data.get("versions") or []
+    )
+    return next(
+        (
+            (v, p)
+            for v in versions
+            for p in v.get("parametersets") or []
+            if str(p.get("name", "")) == ps_name
+        ),
+        (None, None),
+    )
+
+
 def apply_row(
-    yaml_data, ps_name: str, row: dict, env: str | None = None
+    yaml_data,
+    ps_name: str,
+    row: dict,
+    env: str | None = None,
+    version: str | None = None,
 ) -> tuple[bool, str | None]:
-    """Apply one results row to the first version containing ps_name.
+    """Apply one results row to ps_name in `version` (a select_version selector) or,
+    without one, in the first version containing ps_name.
 
     Returns (changed, message); message is None if ps_name was not found.
     A DNF row on an NGCC parameter set removes its timings and notes why; on any
     other scheme it only warns, so a crash never overwrites measured timings.
     """
-    version, ps = next(
-        (
-            (v, p)
-            for v in yaml_data.get("versions", [])
-            for p in v.get("parametersets", [])
-            if str(p.get("name", "")) == ps_name
-        ),
-        (None, None),
-    )
+    version_doc, ps = find_parameterset(yaml_data, ps_name, version)
     if ps is None:
         return False, None
     ngcc = row["name"].startswith(ngcc_data.PREFIX)
@@ -404,11 +456,51 @@ def apply_row(
         bench_env.set_env(ps, env, SIG_TIMING)
     if ngcc:
         ngcc_data.clear_dnf(ps)
-    ngcc_data.set_perf_source(version, SIG_TIMING)
+    ngcc_data.set_perf_source(version_doc, SIG_TIMING)
     return True, (
         f"sign={row['signing_cycles']:>12,} ({row['signing_us']} µs)  "
         f"verify={row['verification_cycles']:>12,} ({row['verification_us']} µs)"
     )
+
+
+def target_errors() -> list[str]:
+    """Every BENCH_TO_YAML target that does not resolve to a parameter set in the data
+    (missing file, ambiguous or unknown version, set not in that version)."""
+    yaml = YAML(typ="safe")
+    docs: dict[str, object] = {}
+    errors = []
+    for name, value in sorted(BENCH_TO_YAML.items()):
+        for f, ps_name, version in targets(value):
+            if f not in docs:
+                path = SCHEMES_DIR / f
+                docs[f] = yaml.load(path.read_text()) if path.exists() else None
+            if docs[f] is None:
+                errors.append(f"{name}: {f} does not exist")
+                continue
+            try:
+                _, ps = find_parameterset(docs[f], ps_name, version)
+            except ValueError as e:
+                errors.append(f"{name}: {f}: {e}")
+                continue
+            if ps is None:
+                where = f" in version {version!r}" if version else ""
+                errors.append(f"{name}: {f} has no parameter set {ps_name!r}{where}")
+    return errors
+
+
+def mapped_sets(yaml_data, yaml_filename: str) -> set[tuple[int, str]]:
+    """(version index, parameterset name) of every set in one YAML file that some
+    BENCH_TO_YAML target lands on."""
+    versions = yaml_data.get("versions") or []
+    out: set[tuple[int, str]] = set()
+    for value in BENCH_TO_YAML.values():
+        for f, ps_name, version in targets(value):
+            if f != yaml_filename:
+                continue
+            v, ps = find_parameterset(yaml_data, ps_name, version)
+            if ps is not None:
+                out.add((next(i for i, x in enumerate(versions) if x is v), ps_name))
+    return out
 
 
 NO_PROGRAMME = "no programme"
@@ -456,6 +548,10 @@ def main() -> None:
         results_file = files[-1]
         print(f"Using {results_file.name}")
 
+    errors = target_errors()
+    if errors:
+        sys.exit("BENCH_TO_YAML targets that do not resolve:\n  " + "\n  ".join(errors))
+
     meta, rows = parse_results_file(results_file)
     print(f"Parsed {len(rows)} benchmark rows")
     env = bench_env.env_id(meta)
@@ -469,14 +565,14 @@ def main() -> None:
     not_mapped = []
 
     # Group updates by yaml file to minimise file reads/writes
-    file_updates: dict[str, list[tuple[str, dict]]] = {}
+    file_updates: dict[str, list[tuple[str, str | None, dict]]] = {}
     for row in rows:
         name = row["name"]
         if name not in BENCH_TO_YAML:
             not_mapped.append(name)
             continue
-        yaml_file, ps_name = BENCH_TO_YAML[name]
-        file_updates.setdefault(yaml_file, []).append((ps_name, row))
+        for yaml_file, ps_name, version in targets(BENCH_TO_YAML[name]):
+            file_updates.setdefault(yaml_file, []).append((ps_name, version, row))
 
     for yaml_filename, updates in sorted(file_updates.items()):
         yaml_path = SCHEMES_DIR / yaml_filename
@@ -489,13 +585,14 @@ def main() -> None:
             data = yaml.load(f)
 
         changed = False
-        for ps_name, row in updates:
-            ps_changed, msg = apply_row(data, ps_name, row, env)
+        for ps_name, version, row in updates:
+            where = f"{ps_name} [{version}]" if version else ps_name
+            ps_changed, msg = apply_row(data, ps_name, row, env, version)
             if msg is None:
-                print(f"  NOT FOUND: {yaml_filename}  '{ps_name}'")
+                print(f"  NOT FOUND: {yaml_filename}  '{where}'")
                 skipped += 1
                 continue
-            print(f"  {yaml_filename}  {ps_name}: {msg}")
+            print(f"  {yaml_filename}  {where}: {msg}")
             if ps_changed:
                 updated += 1
                 changed = True
@@ -514,15 +611,14 @@ def main() -> None:
 
     # Report what was NOT updated
     run_bench_names = {row["name"] for row in rows}
-    yaml_to_bench: dict[tuple[str, str], str] = {
-        (v[0], v[1]): k for k, v in BENCH_TO_YAML.items()
-    }
 
     # Bench-mapped parametersets absent from this run's results
     not_in_run: dict[str, list[str]] = {}
-    for bench_name, (yaml_file, ps_name) in sorted(BENCH_TO_YAML.items()):
+    for bench_name, value in sorted(BENCH_TO_YAML.items()):
         if bench_name not in run_bench_names:
-            not_in_run.setdefault(yaml_file, []).append(ps_name)
+            for yaml_file, ps_name, version in targets(value):
+                label = f"{ps_name} [{version}]" if version else ps_name
+                not_in_run.setdefault(yaml_file, []).append(label)
 
     # Parametersets in YAML files with no bench mapping, grouped by their version's
     # programme memberships (e.g. "nist-onramp round-2"); "no programme" last.
@@ -530,14 +626,14 @@ def main() -> None:
     for yaml_path in sorted(SCHEMES_DIR.glob("*.yaml")):
         with open(yaml_path) as f:
             data = yaml.load(f)
-        for version in data.get("versions") or []:
+        mapped = mapped_sets(data, yaml_path.name)
+        for i, version in enumerate(data.get("versions") or []):
             group = membership_label(version.get("programmes"))
             for ps in version.get("parametersets") or []:
-                key = (yaml_path.name, str(ps.get("name", "")))
-                if key not in yaml_to_bench:
+                if (i, str(ps.get("name", ""))) not in mapped:
                     no_bench.setdefault(group, {}).setdefault(
                         yaml_path.name, []
-                    ).append(str(ps.get("name", "")))
+                    ).append(f"{ps.get('name', '')} [{version.get('version')}]")
 
     if not_in_run:
         total = sum(len(v) for v in not_in_run.values())
