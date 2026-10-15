@@ -1,0 +1,23 @@
+# CROSS v2.2 shim parameters. Columns: file, name, pk, sk, sig, iters, category, variant, target
+# category/variant/target become -DCATEGORY_<c>=1 -D<variant>=1 -D<target>=1 (target SPEED
+# additionally gets -DNO_TREES=1, as upstream's CMake does). Sizes checked against
+# CRYPTO_{PUBLICKEY,SECRETKEY,}BYTES of upstream v2.2 (b2a8425).
+file	name	pk	sk	sig	iters	category	variant	target
+cross_rsdp_1_fast	CROSS-RSDP-1-fast	77	32	18432	0	1	RSDP	SPEED
+cross_rsdp_1_balanced	CROSS-RSDP-1-balanced	77	32	13152	0	1	RSDP	BALANCED
+cross_rsdp_1_small	CROSS-RSDP-1-small	77	32	12432	0	1	RSDP	SIG_SIZE
+cross_rsdpg_1_fast	CROSS-RSDPG-1-fast	54	32	11980	0	1	RSDPG	SPEED
+cross_rsdpg_1_balanced	CROSS-RSDPG-1-balanced	54	32	9120	0	1	RSDPG	BALANCED
+cross_rsdpg_1_small	CROSS-RSDPG-1-small	54	32	8960	0	1	RSDPG	SIG_SIZE
+cross_rsdp_3_fast	CROSS-RSDP-3-fast	115	48	41406	0	3	RSDP	SPEED
+cross_rsdp_3_balanced	CROSS-RSDP-3-balanced	115	48	29853	0	3	RSDP	BALANCED
+cross_rsdp_3_small	CROSS-RSDP-3-small	115	48	28391	0	3	RSDP	SIG_SIZE
+cross_rsdpg_3_fast	CROSS-RSDPG-3-fast	83	48	26772	0	3	RSDPG	SPEED
+cross_rsdpg_3_balanced	CROSS-RSDPG-3-balanced	83	48	22464	0	3	RSDPG	BALANCED
+cross_rsdpg_3_small	CROSS-RSDPG-3-small	83	48	20452	0	3	RSDPG	SIG_SIZE
+cross_rsdp_5_fast	CROSS-RSDP-5-fast	153	64	74590	0	5	RSDP	SPEED
+cross_rsdp_5_balanced	CROSS-RSDP-5-balanced	153	64	53527	0	5	RSDP	BALANCED
+cross_rsdp_5_small	CROSS-RSDP-5-small	153	64	50818	0	5	RSDP	SIG_SIZE
+cross_rsdpg_5_fast	CROSS-RSDPG-5-fast	106	64	48102	0	5	RSDPG	SPEED
+cross_rsdpg_5_balanced	CROSS-RSDPG-5-balanced	106	64	40100	0	5	RSDPG	BALANCED
+cross_rsdpg_5_small	CROSS-RSDPG-5-small	106	64	36454	0	5	RSDPG	SIG_SIZE

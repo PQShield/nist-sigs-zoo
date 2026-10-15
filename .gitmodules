@@ -75,3 +75,7 @@
 [submodule "bench/schemes/aimer/ref"]
 	path = bench/schemes/aimer/ref
 	url = https://github.com/samsungsds-opensource/AIMer
+[submodule "bench/schemes/cross/ref"]
+	path = bench/schemes/cross/ref
+	url = https://github.com/CROSS-signature/CROSS-implementation
+	ignore = dirty
