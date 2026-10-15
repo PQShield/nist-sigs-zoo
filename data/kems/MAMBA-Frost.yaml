@@ -11,26 +11,26 @@ parametersets:
   recommended: true
   pk: 5152
   ct: 5192
-  keygen_cycles: 1384504
-  encaps_cycles: 1971826
-  decaps_cycles: 2347621
-  keygen_us: 366.4
-  encaps_us: 526.1
-  decaps_us: 625.0
-  bench_env: 2026-10-13-c7i.4xlarge
+  keygen_cycles: 1424923
+  encaps_cycles: 2010151
+  decaps_cycles: 2389562
+  keygen_us: 378.4
+  encaps_us: 535.4
+  decaps_us: 636.0
+  bench_env: 2026-10-15-c8i.4xlarge
   notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 - name: MAMBA-Frost-256
   ngcc_level: 256
   recommended: true
   pk: 16776
   ct: 15552
-  keygen_cycles: 5850744
-  encaps_cycles: 7301395
-  decaps_cycles: 8155323
-  keygen_us: 1553.1
-  encaps_us: 1936.9
-  decaps_us: 2173.9
-  bench_env: 2026-10-13-c7i.4xlarge
+  keygen_cycles: 6039899
+  encaps_cycles: 7487571
+  decaps_cycles: 8295353
+  keygen_us: 1619.9
+  encaps_us: 2004.7
+  decaps_us: 2235.0
+  bench_env: 2026-10-15-c8i.4xlarge
   notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 - name: MAMBA-Frost-384
   ngcc_level: 384

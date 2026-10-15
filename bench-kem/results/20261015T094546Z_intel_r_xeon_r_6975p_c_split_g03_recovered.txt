@@ -1,0 +1,41 @@
+# pq-kems benchmark results
+# date:         2026-10-15T09:45:46Z
+# host:         ip-172-31-44-16
+# commit:       67699d7da50c4d783a0c43bc466b52b356feff90
+# instance_type: c8i.4xlarge
+# os:           Ubuntu 26.04.1 LTS
+# kernel:       7.0.0-1014-aws
+# cpu:          Intel(R) Xeon(R) 6975P-C
+# cores:        16 (threads/core: 2)
+# max_freq_mhz: unknown (cur: unknown MHz)
+# governor:     unknown
+# turbo:        unknown
+# flags:        fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ss ht syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon rep_good nopl xtopology nonstop_tsc cpuid aperfmperf tsc_known_freq pni pclmulqdq monitor ssse3 fma cx16 pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand hypervisor lahf_lm abm 3dnowprefetch cpuid_fault ssbd ibrs ibpb stibp ibrs_enhanced fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid avx512f avx512dq rdseed adx smap avx512ifma clflushopt clwb avx512cd sha_ni avx512bw avx512vl xsaveopt xsavec xgetbv1 xsaves avx_vnni avx512_bf16 wbnoinvd ida arat avx512vbmi umip pku ospke waitpkg avx512_vbmi2 gfni vaes vpclmulqdq avx512_vnni avx512_bitalg tme avx512_vpopcntdq rdpid bus_lock_detect cldemote movdiri movdir64b md_clear serialize amx_bf16 avx512_fp16 amx_tile amx_int8 flush_l1d arch_capabilities
+#
+# compiler:     cc (Ubuntu 15.2.0-16ubuntu1) 15.2.0
+# openssl:      OpenSSL 3.5.5 27 Jan 2026 (Library: OpenSSL 3.5.5 27 Jan 2026)
+# sources:
+#   schemes/bat/ref: https://github.com/pornin/BAT@8280af7c9d4d5cdd9a70914f72a5f0ad774c7b8d
+#   schemes/frodo/ref: https://github.com/Microsoft/PQCrypto-LWEKE@7a4e7219d06305e16aef734213001cd8fefbcc14
+#   schemes/hqc/ref: https://gitlab.com/pqc-hqc/hqc.git@161cd4fdf6b4a5198cf40b3a1243f9f27f13e03d
+#   schemes/mike/ref: https://github.com/tensor-mike/mike_c.git@6057473e460165cc8721c05dc3fbbb73a009d147
+#   schemes/mlkem/ref: https://github.com/pq-code-package/mlkem-native.git@2d1cc90f71bd59617062844e874ac6e70868e1f8
+#   schemes/ntru/ref: https://github.com/jschanck/ntru@6d96ed3746000b6497392a425712fe483988fc80
+#   schemes/ntruplus/ref: https://github.com/ntruplus/ntruplus.git@f4507621e2111af52bb87b1950249baac683a37d
+#   schemes/saber/ref: https://github.com/KULeuven-COSIC/SABER@f7f39e4db2f3e22a21e1dd635e0601caae2b4510
+#   schemes/smaugt/ref: https://github.com/hmchoe0528/SMAUG-T_public.git@2c039df23134a2de3c7aa86a4904c9a4734f9def
+#   schemes/mceliece: https://lib.mceliece.org/libmceliece-20260622.tar.gz
+#   schemes/ngcc: https://www.niccs.org.cn/niccs/Proposal/Public-Key%20Cryptographic%20Algorithms/Round%201%20candidates/
+#   schemes/ntruprime: https://libntruprime.cr.yp.to/libntruprime-20241021.tar.gz
+# filter:       NGCC-Loong512 NGCC-Loong384 NGCC-HEP-QC-7 NGCC-HQC-512 NGCC-BIKE_MLThre-128 NGCC-HEP-QC-1 NGCC-QCTM128 NGCC-BAG-Loong-256 NGCC-MAMBA-Frost-512 NGCC-BAG-Loong-128 NGCC-MAMBA-Frost-CC-512 NGCC-bag_piglet_512 NGCC-BAG-Loong-512 NGCC-HEP-QC-5 NGCC-BAG-Loong-384 NGCC-CMultiURAG-512 NGCC-Scloudplus-384 NGCC-Scloudplus-512 NGCC-Mito-1-512 NGCC-Mito-1-E-256 NGCC-bag_piglet_384 TiMER NGCC-CTL-3329-2048 NGCC-Mito-2-E-256 NGCC-Mito-2-E-512 NGCC-NGCC-2 NGCC-Mito-1-E-512 NGCC-Mito-2-E-128 NGCC-Mito-1-256 NGCC-lwekem512 NGCC-UVW-KEM-128 NGCC-HARE-512-kr NGCC-DTRU-Prime NGCC-Mito-1-128 NGCC-Loong256 NGCC-MAMBA-Frost-384 NGCC-MAMBA-Frost-CC-384 NGCC-TRIKE-9 NGCC-NGCC-1 NGCC-TRIKE-7 NGCC-Mito-1-E-128 NGCC-BRQC-512 NGCC-TRIKE-5 NGCC-CTL-769-1024 NGCC-TRIKE-2 NGCC-Scloudplus-256 NGCC-QUBE-512 NGCC-TriQ-KEM-512 NGCC-CMultiURAG-256 FrodoKEM-1344-SHAKE NGCC-bag_piglet_256 NGCC-QUBE-384 NGCC-HARE-384-kr BAT-769-1024
+#
+# cyclecounter: rdpmc CPU_CYCLES (real core cycles, user-space)
+# note:         recovered from the streamed log of split-run group 3 (failed: instance is 'terminated' (spot interruption?); no results fetched); rows after the last one are missing
+scheme                       iters    keygen (cyc)  keygen (us)    encaps (cyc)  encaps (us)    decaps (cyc)  decaps (us)      ok
+------                       -----    ------------  -----------    ------------  -----------    ------------  -----------      --
+FrodoKEM-1344-SHAKE           1000         7771607      2011.1         8039690      2080.9         7948320      2057.0     yes
+BAT-769-1024                   200        91013167     23526.0           22549         7.2          143351        37.9     yes
+TiMER                         1000           26077         8.4           21545         6.9           34263         9.9     yes
+NGCC-BAG-Loong-128             376        58840604     15205.2        58517094     15121.7       104653528     27044.1     yes
+NGCC-BAG-Loong-256             148       157942139     40822.5       133897080     34608.3       258719733     66944.7     yes
+NGCC-BAG-Loong-384              67       349425974     90337.8       271696128     70215.9       525245502    135822.7     yes

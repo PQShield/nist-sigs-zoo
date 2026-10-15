@@ -34,13 +34,13 @@ parametersets:
   ngcc_level: 512
   pk: 1198
   ct: 1746
-  keygen_cycles: 6444101719
-  encaps_cycles: 2634059491
-  decaps_cycles: 4182063022
-  keygen_us: 1713595.3
-  encaps_us: 698496.4
-  decaps_us: 1111117.8
-  bench_env: 2026-10-13-c7i.4xlarge
+  keygen_cycles: 6358863346
+  encaps_cycles: 2641001106
+  decaps_cycles: 4188767266
+  keygen_us: 1659133.6
+  encaps_us: 687527.9
+  decaps_us: 1092555.0
+  bench_env: 2026-10-15-c8i.4xlarge
   notes: Optimised x86 implementation. Measured sizes differ from the specification, which gives pk 1201 B, sk 1500 B (Table 7.1, compressed columns (PDF p. 57)).
 findings_url: https://ngcc.dev/reports/kem-31.html
 implementation: Non-canonical field encodings in the submitted code let altered ciphertexts decapsulate to the same key, breaking IND-CCA security (<a href="https://ngcc.dev/reports/kem-31.html#kem-31-2-non-canonical-field-encodings-make-ciphertexts-malleable-without-changing-the-key">Saarinen</a>).

@@ -10,13 +10,13 @@ parametersets:
   ngcc_level: 128
   pk: 6096
   ct: 6160
-  keygen_cycles: 3436133
-  encaps_cycles: 3557434
-  decaps_cycles: 3292598
-  keygen_us: 911.9
-  encaps_us: 943.9
-  decaps_us: 873.9
-  bench_env: 2026-10-13-c7i.4xlarge
+  keygen_cycles: 3614889
+  encaps_cycles: 3755074
+  decaps_cycles: 3473094
+  keygen_us: 935.8
+  encaps_us: 971.2
+  decaps_us: 899.5
+  bench_env: 2026-10-15-c8i.4xlarge
   notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 - name: Scloudplus-256
   ngcc_level: 256

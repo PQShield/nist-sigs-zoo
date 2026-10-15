@@ -10,13 +10,13 @@ parametersets:
   ngcc_level: 128
   pk: 1472
   ct: 1512
-  keygen_cycles: 6143672
-  encaps_cycles: 6180385
-  decaps_cycles: 6203550
-  keygen_us: 1630.0
-  encaps_us: 1639.7
-  decaps_us: 1645.9
-  bench_env: 2026-10-13-c7i.4xlarge
+  keygen_cycles: 6218267
+  encaps_cycles: 6264323
+  decaps_cycles: 6282464
+  keygen_us: 1608.6
+  encaps_us: 1620.4
+  decaps_us: 1625.6
+  bench_env: 2026-10-15-c8i.4xlarge
   notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
   broken: Public consistency equations recover shared secrets with practical lattice reduction (<a href="https://list.niccs.org.cn/archives/list/pkcforum@list.niccs.org.cn/message/VBOUFRS2CDGNLPEAR4ZBKZM4U5YHBTZY/">Xie</a>).
 - name: Loong256

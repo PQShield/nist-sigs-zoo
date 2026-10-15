@@ -10,13 +10,13 @@ parametersets:
   ngcc_level: 128
   pk: 3866
   ct: 7332
-  keygen_cycles: 1958697
-  encaps_cycles: 3221572
-  decaps_cycles: 10010674
-  keygen_us: 521.6
-  encaps_us: 855.2
-  decaps_us: 2655.1
-  bench_env: 2026-10-13-c7i.4xlarge
+  keygen_cycles: 1827522
+  encaps_cycles: 3051633
+  decaps_cycles: 9934276
+  keygen_us: 473.6
+  encaps_us: 790.5
+  decaps_us: 2613.2
+  bench_env: 2026-10-15-c8i.4xlarge
   notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 - name: CMultiURAG-256
   ngcc_level: 256

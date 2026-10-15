@@ -11,32 +11,32 @@ parametersets:
   level: 1
   pk: 672
   ct: 736
-  keygen_cycles: 49559
-  encaps_cycles: 47869
-  decaps_cycles: 41265
-  keygen_us: 16.2
-  encaps_us: 15.7
-  decaps_us: 13.7
-  bench_env: 2026-10-13-c7i.4xlarge
+  keygen_cycles: 50759
+  encaps_cycles: 49698
+  decaps_cycles: 42620
+  keygen_us: 14.2
+  encaps_us: 13.9
+  decaps_us: 12.0
+  bench_env: 2026-10-15-c8i.4xlarge
 - name: Saber
   level: 3
   pk: 992
   ct: 1088
-  keygen_cycles: 71056
-  encaps_cycles: 73030
-  decaps_cycles: 66078
-  keygen_us: 22.3
-  encaps_us: 22.8
-  decaps_us: 20.9
-  bench_env: 2026-10-13-c7i.4xlarge
+  keygen_cycles: 73951
+  encaps_cycles: 76018
+  decaps_cycles: 68311
+  keygen_us: 20.1
+  encaps_us: 20.6
+  decaps_us: 18.6
+  bench_env: 2026-10-15-c8i.4xlarge
 - name: FireSaber
   level: 5
   pk: 1312
   ct: 1472
-  keygen_cycles: 100143
-  encaps_cycles: 104649
-  decaps_cycles: 98732
-  keygen_us: 30.2
-  encaps_us: 31.4
-  decaps_us: 30.0
-  bench_env: 2026-10-13-c7i.4xlarge
+  keygen_cycles: 103914
+  encaps_cycles: 108830
+  decaps_cycles: 101336
+  keygen_us: 27.8
+  encaps_us: 29.1
+  decaps_us: 27.2
+  bench_env: 2026-10-15-c8i.4xlarge

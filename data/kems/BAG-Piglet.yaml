@@ -10,13 +10,13 @@ parametersets:
   ngcc_level: 128
   pk: 522
   ct: 1027
-  keygen_cycles: 1212577
-  encaps_cycles: 1427456
-  decaps_cycles: 5631652
-  keygen_us: 320.6
-  encaps_us: 378.3
-  decaps_us: 1494.2
-  bench_env: 2026-10-13-c7i.4xlarge
+  keygen_cycles: 1213385
+  encaps_cycles: 1397767
+  decaps_cycles: 5380933
+  keygen_us: 320.4
+  encaps_us: 373.8
+  decaps_us: 1429.9
+  bench_env: 2026-10-15-c8i.4xlarge
   notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 - name: bag_piglet_256
   ngcc_level: 256

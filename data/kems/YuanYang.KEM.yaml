@@ -10,37 +10,37 @@ parametersets:
   ngcc_level: 128
   pk: 736
   ct: 656
-  keygen_cycles: 451882
-  encaps_cycles: 282632
-  decaps_cycles: 396989
-  keygen_us: 120.3
-  encaps_us: 75.5
-  decaps_us: 105.8
-  bench_env: 2026-10-13-c7i.4xlarge
+  keygen_cycles: 450028
+  encaps_cycles: 286123
+  decaps_cycles: 395005
+  keygen_us: 116.6
+  encaps_us: 74.4
+  decaps_us: 102.4
+  bench_env: 2026-10-15-c8i.4xlarge
   notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 - name: yuanyang-1024
   ngcc_level: 256
   pk: 1568
   ct: 1344
-  keygen_cycles: 1264137
-  encaps_cycles: 473482
-  decaps_cycles: 734619
-  keygen_us: 341.8
-  encaps_us: 125.8
-  decaps_us: 194.8
-  bench_env: 2026-10-13-c7i.4xlarge
+  keygen_cycles: 1291428
+  encaps_cycles: 475523
+  decaps_cycles: 729988
+  keygen_us: 332.4
+  encaps_us: 123.0
+  decaps_us: 188.3
+  bench_env: 2026-10-15-c8i.4xlarge
   notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 - name: yuanyang-2048
   ngcc_level: 512
   pk: 3328
   ct: 2880
-  keygen_cycles: 1883378
-  encaps_cycles: 927098
-  decaps_cycles: 1498072
-  keygen_us: 497.8
-  encaps_us: 245.6
-  decaps_us: 398.2
-  bench_env: 2026-10-13-c7i.4xlarge
+  keygen_cycles: 1871773
+  encaps_cycles: 930793
+  decaps_cycles: 1489441
+  keygen_us: 481.0
+  encaps_us: 239.8
+  decaps_us: 383.7
+  bench_env: 2026-10-15-c8i.4xlarge
   notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
   implementation: A truncated encryption seed in the submitted code allows challenge keys to be distinguished with about 2^440 work, below the 512-bit target (<a href="https://ngcc.dev/reports/kem-40.html#kem-40-5-truncated-encryption-seed-permits-a-2440-challenge-key-distinguisher-at-the-512-bit-level">Saarinen</a>).
 findings_url: https://ngcc.dev/reports/kem-40.html

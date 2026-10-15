@@ -14,21 +14,21 @@ versions:
     ngcc_level: 128
     pk: 112
     sig: 62868
-    signing_cycles: 38969005
-    verification_cycles: 15559830
-    signing_us: 10549.8
-    verification_us: 4234.6
-    bench_env: 2026-10-13-c7i.4xlarge
+    signing_cycles: 37968478
+    verification_cycles: 15620986
+    signing_us: 9814.6
+    verification_us: 4066.0
+    bench_env: 2026-10-15-c8i.4xlarge
     notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
   - name: Sigurd256
     ngcc_level: 256
     pk: 212
     sig: 137412
-    signing_cycles: 350310111
-    verification_cycles: 119962939
-    signing_us: 94851.0
-    verification_us: 32570.3
-    bench_env: 2026-10-13-c7i.4xlarge
+    signing_cycles: 345678565
+    verification_cycles: 119957489
+    signing_us: 89374.3
+    verification_us: 31060.8
+    bench_env: 2026-10-15-c8i.4xlarge
     notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
   - name: Sigurd512
     ngcc_level: 512

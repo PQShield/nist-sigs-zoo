@@ -34,13 +34,13 @@ parametersets:
   ngcc_level: 512
   pk: 18751
   ct: 18815
-  keygen_cycles: 221958132457
-  encaps_cycles: 668874311
-  decaps_cycles: 3277935645
-  keygen_us: 59046886.6
-  encaps_us: 177982.1
-  decaps_us: 871777.2
-  bench_env: 2026-10-13-c7i.4xlarge
+  keygen_cycles: 206463515720
+  encaps_cycles: 664382512
+  decaps_cycles: 3214694900
+  keygen_us: 53757635.6
+  encaps_us: 172633.4
+  decaps_us: 835687.6
+  bench_env: 2026-10-15-c8i.4xlarge
   notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 findings_url: https://ngcc.dev/reports/kem-05.html
 implementation: The default submitted library build generates the same secret key every time, so anyone can reproduce a victim's key (<a href="https://list.niccs.org.cn/archives/list/pkcforum@list.niccs.org.cn/message/AXAPSYKLHJBJHNYCZO57NUKTBTNNCLPV/">Xiong and Wang</a>).

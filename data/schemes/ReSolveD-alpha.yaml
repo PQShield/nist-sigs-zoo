@@ -14,6 +14,11 @@ versions:
     pk: 121
     sig: 5307
     notes: Optimised x86 implementation; uses the ICCS SM3 implementation from the submission package.
+    signing_cycles: 82079008
+    verification_cycles: 63928052
+    signing_us: 21616.7
+    verification_us: 17137.8
+    bench_env: 2026-10-15-c8i.4xlarge
   - name: ReSolveD-alpha-160f
     ngcc_level: 128
     pk: 121
@@ -25,12 +30,22 @@ versions:
     sig: 13973
     notes: Optimised x86 implementation; uses the ICCS SM3 implementation from the submission package.
     broken: Reused tweaks let an attacker recover the signing key from a single signature with work below this set's claimed level (<a href="https://list.niccs.org.cn/archives/list/pkcforum@list.niccs.org.cn/message/PH6Q6UHS7YJAN3RHER7YWUNXOHOZYIFF/">Xiong and Wang</a>).
+    signing_cycles: 222792883
+    verification_cycles: 168116750
+    signing_us: 57880.2
+    verification_us: 44477.2
+    bench_env: 2026-10-15-c8i.4xlarge
   - name: ReSolveD-alpha-256f
     ngcc_level: 256
     pk: 194
     sig: 17932
     notes: Optimised x86 implementation; uses the ICCS SM3 implementation from the submission package.
     broken: Reused tweaks let an attacker recover the signing key from a single signature with work below this set's claimed level (<a href="https://list.niccs.org.cn/archives/list/pkcforum@list.niccs.org.cn/message/PH6Q6UHS7YJAN3RHER7YWUNXOHOZYIFF/">Xiong and Wang</a>).
+    signing_cycles: 38560389
+    verification_cycles: 19329112
+    signing_us: 10026.5
+    verification_us: 5100.8
+    bench_env: 2026-10-15-c8i.4xlarge
   - name: ReSolveD-alpha-384s
     ngcc_level: 384
     pk: 288
@@ -43,6 +58,11 @@ versions:
     sig: 40469
     notes: Optimised x86 implementation; uses the ICCS SM3 implementation from the submission package.
     broken: Reused tweaks let an attacker recover the signing key from a single signature with work below this set's claimed level (<a href="https://list.niccs.org.cn/archives/list/pkcforum@list.niccs.org.cn/message/PH6Q6UHS7YJAN3RHER7YWUNXOHOZYIFF/">Xiong and Wang</a>).
+    signing_cycles: 118993715
+    verification_cycles: 69624187
+    signing_us: 30857.7
+    verification_us: 18106.6
+    bench_env: 2026-10-15-c8i.4xlarge
   - name: ReSolveD-alpha-512s
     ngcc_level: 512
     pk: 385
@@ -55,4 +75,10 @@ versions:
     sig: 72611
     notes: Optimised x86 implementation; uses the ICCS SM3 implementation from the submission package.
     broken: Reused tweaks let an attacker recover the signing key from a single signature with work below this set's claimed level (<a href="https://list.niccs.org.cn/archives/list/pkcforum@list.niccs.org.cn/message/PH6Q6UHS7YJAN3RHER7YWUNXOHOZYIFF/">Xiong and Wang</a>).
+    signing_cycles: 2080137047
+    verification_cycles: 1734775472
+    signing_us: 538406.2
+    verification_us: 448773.2
+    bench_env: 2026-10-15-c8i.4xlarge
   findings_url: https://ngcc.dev/reports/sign-21.html
+  perf_source: our benchmark

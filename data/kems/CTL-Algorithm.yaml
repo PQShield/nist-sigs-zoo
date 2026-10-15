@@ -10,13 +10,13 @@ parametersets:
   ngcc_level: 128
   pk: 521
   ct: 473
-  keygen_cycles: 14067775
-  encaps_cycles: 40700
-  decaps_cycles: 207873
-  keygen_us: 3729.5
-  encaps_us: 11.8
-  decaps_us: 55.8
-  bench_env: 2026-10-13-c7i.4xlarge
+  keygen_cycles: 14012609
+  encaps_cycles: 41160
+  decaps_cycles: 211349
+  keygen_us: 3622.7
+  encaps_us: 11.6
+  decaps_us: 55.3
+  bench_env: 2026-10-15-c8i.4xlarge
   notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 - name: CTL-769-1024
   ngcc_level: 256

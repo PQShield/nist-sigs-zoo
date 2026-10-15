@@ -11,39 +11,39 @@ parametersets:
   recommended: true
   pk: 615
   ct: 512
-  keygen_cycles: 228189
-  encaps_cycles: 154703
-  decaps_cycles: 198060
-  keygen_us: 61.2
-  encaps_us: 41.8
-  decaps_us: 53.2
-  bench_env: 2026-10-13-c7i.4xlarge
+  keygen_cycles: 207301
+  encaps_cycles: 153268
+  decaps_cycles: 193386
+  keygen_us: 56.8
+  encaps_us: 40.4
+  decaps_us: 50.7
+  bench_env: 2026-10-15-c8i.4xlarge
   notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 - name: ZEN_256
   ngcc_level: 256
   recommended: true
   pk: 1229
   ct: 1024
-  keygen_cycles: 377864
-  encaps_cycles: 215224
-  decaps_cycles: 329097
-  keygen_us: 100.6
-  encaps_us: 57.8
-  decaps_us: 87.8
-  bench_env: 2026-10-13-c7i.4xlarge
+  keygen_cycles: 331570
+  encaps_cycles: 205007
+  decaps_cycles: 305427
+  keygen_us: 92.9
+  encaps_us: 53.6
+  decaps_us: 79.4
+  bench_env: 2026-10-15-c8i.4xlarge
   notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 - name: ZEN_512
   ngcc_level: 512
   recommended: true
   pk: 2458
   ct: 2048
-  keygen_cycles: 1023091
-  encaps_cycles: 574210
-  decaps_cycles: 861932
-  keygen_us: 270.4
-  encaps_us: 152.2
-  decaps_us: 228.2
-  bench_env: 2026-10-13-c7i.4xlarge
+  keygen_cycles: 970038
+  encaps_cycles: 547802
+  decaps_cycles: 791191
+  keygen_us: 249.8
+  encaps_us: 141.5
+  decaps_us: 204.0
+  bench_env: 2026-10-15-c8i.4xlarge
   notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 - name: ZEN-256-backup
   ngcc_level: 256

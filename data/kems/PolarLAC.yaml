@@ -11,63 +11,63 @@ parametersets:
   recommended: true
   pk: 530
   ct: 640
-  keygen_cycles: 131779
-  encaps_cycles: 170950
-  decaps_cycles: 196749
-  keygen_us: 35.8
-  encaps_us: 46.1
-  decaps_us: 52.9
-  bench_env: 2026-10-13-c7i.4xlarge
+  keygen_cycles: 133091
+  encaps_cycles: 172755
+  decaps_cycles: 199575
+  keygen_us: 35.2
+  encaps_us: 45.4
+  decaps_us: 52.3
+  bench_env: 2026-10-15-c8i.4xlarge
   notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 - name: POLARLAC-256
   ngcc_level: 256
   recommended: true
   pk: 1060
   ct: 1280
-  keygen_cycles: 221856
-  encaps_cycles: 310467
-  decaps_cycles: 368207
-  keygen_us: 59.5
-  encaps_us: 82.8
-  decaps_us: 98.1
-  bench_env: 2026-10-13-c7i.4xlarge
+  keygen_cycles: 223595
+  encaps_cycles: 314359
+  decaps_cycles: 371478
+  keygen_us: 58.4
+  encaps_us: 81.7
+  decaps_us: 96.4
+  bench_env: 2026-10-15-c8i.4xlarge
   notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 - name: POLARLAC-512
   ngcc_level: 512
   pk: 2116
   ct: 2560
-  keygen_cycles: 847014
-  encaps_cycles: 1133176
-  decaps_cycles: 1315870
-  keygen_us: 224.3
-  encaps_us: 299.8
-  decaps_us: 348.2
-  bench_env: 2026-10-13-c7i.4xlarge
+  keygen_cycles: 848786
+  encaps_cycles: 1140380
+  decaps_cycles: 1323966
+  keygen_us: 218.8
+  encaps_us: 293.6
+  decaps_us: 341.1
+  bench_env: 2026-10-15-c8i.4xlarge
   notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 - name: POLARLAC-512-Star
   ngcc_level: 512
   recommended: true
   pk: 2522
   ct: 2970
-  keygen_cycles: 832922
-  encaps_cycles: 1124929
-  decaps_cycles: 1328519
-  keygen_us: 220.3
-  encaps_us: 297.2
-  decaps_us: 351.0
-  bench_env: 2026-10-13-c7i.4xlarge
+  keygen_cycles: 841531
+  encaps_cycles: 1138872
+  decaps_cycles: 1344328
+  keygen_us: 216.9
+  encaps_us: 293.3
+  decaps_us: 346.2
+  bench_env: 2026-10-15-c8i.4xlarge
   notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 - name: POLARLAC-Light
   ngcc_level: 128
   recommended: true
   pk: 530
   ct: 608
-  keygen_cycles: 119621
-  encaps_cycles: 156100
-  decaps_cycles: 180661
-  keygen_us: 32.6
-  encaps_us: 42.2
-  decaps_us: 48.7
-  bench_env: 2026-10-13-c7i.4xlarge
+  keygen_cycles: 120803
+  encaps_cycles: 157875
+  decaps_cycles: 183442
+  keygen_us: 32.1
+  encaps_us: 41.6
+  decaps_us: 48.2
+  bench_env: 2026-10-15-c8i.4xlarge
   notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 findings_url: https://ngcc.dev/reports/kem-30.html

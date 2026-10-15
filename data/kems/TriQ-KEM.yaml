@@ -10,25 +10,25 @@ parametersets:
   ngcc_level: 128
   pk: 2054
   ct: 4086
-  keygen_cycles: 538849
-  encaps_cycles: 579874
-  decaps_cycles: 740130
-  keygen_us: 143.2
-  encaps_us: 154.2
-  decaps_us: 196.7
-  bench_env: 2026-10-13-c7i.4xlarge
+  keygen_cycles: 547970
+  encaps_cycles: 590948
+  decaps_cycles: 755547
+  keygen_us: 141.6
+  encaps_us: 152.6
+  decaps_us: 194.8
+  bench_env: 2026-10-15-c8i.4xlarge
   notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 - name: TriQ-KEM-256
   ngcc_level: 256
   pk: 6328
   ct: 12472
-  keygen_cycles: 1179574
-  encaps_cycles: 1815661
-  decaps_cycles: 2525374
-  keygen_us: 316.3
-  encaps_us: 485.4
-  decaps_us: 672.7
-  bench_env: 2026-10-13-c7i.4xlarge
+  keygen_cycles: 1204110
+  encaps_cycles: 1854521
+  decaps_cycles: 2582792
+  keygen_us: 319.2
+  encaps_us: 494.6
+  decaps_us: 688.6
+  bench_env: 2026-10-15-c8i.4xlarge
   notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 - name: TriQ-KEM-384
   ngcc_level: 384

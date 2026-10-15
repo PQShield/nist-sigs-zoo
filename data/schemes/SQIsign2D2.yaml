@@ -14,42 +14,42 @@ versions:
     ngcc_level: 128
     pk: 80
     sig: 248
-    signing_cycles: 122763962
-    verification_cycles: 24208509
-    signing_us: 33649.4
-    verification_us: 6760.3
-    bench_env: 2026-10-13-c7i.4xlarge
+    signing_cycles: 120478386
+    verification_cycles: 23973594
+    signing_us: 31453.8
+    verification_us: 6344.1
+    bench_env: 2026-10-15-c8i.4xlarge
     notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
     implementation: The submitted reference verifier for this set can take its verdict from stale stack memory, accepting forged or all-zero signatures (<a href="https://ngcc.dev/reports/sign-25.html#sign-25-1-verifier-verdict-is-decided-by-stale-stack-contents">Saarinen</a>).
   - name: SQISign2Dsquare-Level2-sec
     ngcc_level: 128
     pk: 84
     sig: 260
-    signing_cycles: 146646433
-    verification_cycles: 27721457
-    signing_us: 40108.0
-    verification_us: 7690.5
-    bench_env: 2026-10-13-c7i.4xlarge
+    signing_cycles: 144401719
+    verification_cycles: 27602693
+    signing_us: 37724.3
+    verification_us: 7296.7
+    bench_env: 2026-10-15-c8i.4xlarge
     notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
   - name: SQISign2Dsquare-Level3-eff
     ngcc_level: 256
     pk: 128
     sig: 392
-    signing_cycles: 382357083
-    verification_cycles: 76231676
-    signing_us: 104228.9
-    verification_us: 21081.8
-    bench_env: 2026-10-13-c7i.4xlarge
+    signing_cycles: 390998812
+    verification_cycles: 76284451
+    signing_us: 101836.6
+    verification_us: 20086.9
+    bench_env: 2026-10-15-c8i.4xlarge
     notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
   - name: SQISign2Dsquare-Level3-sec
     ngcc_level: 256
     pk: 132
     sig: 404
-    signing_cycles: 459836595
-    verification_cycles: 87317658
-    signing_us: 125433.1
-    verification_us: 24047.9
-    bench_env: 2026-10-13-c7i.4xlarge
+    signing_cycles: 465222188
+    verification_cycles: 87516160
+    signing_us: 121083.2
+    verification_us: 23007.0
+    bench_env: 2026-10-15-c8i.4xlarge
     notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
   - name: SQISign2Dsquare-Level5-eff
     ngcc_level: 512

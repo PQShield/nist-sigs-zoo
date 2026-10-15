@@ -17,96 +17,126 @@ versions:
     level: 1
     pk: 70
     sig: 3721
-    signing_cycles: 9322881
-    verification_cycles: 8262686
-    signing_us: 2548.2
-    verification_us: 2240.0
-    bench_env: 2026-10-13-c7i.4xlarge
+    signing_cycles: 9148400
+    verification_cycles: 8302093
+    signing_us: 2368.7
+    verification_us: 2147.4
+    bench_env: 2026-10-15-c8i.4xlarge
   - name: SDitH3-L1-gf2-fast
     recommended: true
     renamed_from: SDitH2-L1-gf2-fast
     level: 1
     pk: 70
     sig: 4914
-    signing_cycles: 1996905
-    verification_cycles: 1707881
-    signing_us: 538.6
-    verification_us: 458.9
-    bench_env: 2026-10-13-c7i.4xlarge
+    signing_cycles: 1980737
+    verification_cycles: 1715837
+    signing_us: 512.5
+    verification_us: 447.6
+    bench_env: 2026-10-15-c8i.4xlarge
   - name: SDitH3-L3-gf2-short
     recommended: true
     renamed_from: SDitH2-L3-gf2-short
     level: 3
     pk: 98
     sig: 8484
-    signing_cycles: 42401275
-    verification_cycles: 41809417
-    signing_us: 11529.6
-    verification_us: 11351.0
-    bench_env: 2026-10-13-c7i.4xlarge
+    signing_cycles: 41999263
+    verification_cycles: 41460668
+    signing_us: 10857.3
+    verification_us: 10721.6
+    bench_env: 2026-10-15-c8i.4xlarge
   - name: SDitH3-L3-gf2-fast
     recommended: true
     renamed_from: SDitH2-L3-gf2-fast
     level: 3
     pk: 98
     sig: 10852
-    signing_cycles: 9547090
-    verification_cycles: 8961817
-    signing_us: 2589.5
-    verification_us: 2434.7
-    bench_env: 2026-10-13-c7i.4xlarge
+    signing_cycles: 9575545
+    verification_cycles: 9012772
+    signing_us: 2476.7
+    verification_us: 2327.0
+    bench_env: 2026-10-15-c8i.4xlarge
   - name: SDitH3-L5-gf2-short
     recommended: true
     renamed_from: SDitH2-L5-gf2-short
     level: 5
     pk: 132
     sig: 15147
-    signing_cycles: 65942247
-    verification_cycles: 65144856
-    signing_us: 17908.8
-    verification_us: 17691.3
-    bench_env: 2026-10-13-c7i.4xlarge
+    signing_cycles: 65435328
+    verification_cycles: 64558529
+    signing_us: 16930.6
+    verification_us: 16701.0
+    bench_env: 2026-10-15-c8i.4xlarge
   - name: SDitH3-L5-gf2-fast
     recommended: true
     renamed_from: SDitH2-L5-gf2-fast
     level: 5
     pk: 132
     sig: 19144
-    signing_cycles: 14309671
-    verification_cycles: 13481963
-    signing_us: 3899.5
-    verification_us: 3656.6
-    bench_env: 2026-10-13-c7i.4xlarge
+    signing_cycles: 14294987
+    verification_cycles: 13454570
+    signing_us: 3698.9
+    verification_us: 3480.7
+    bench_env: 2026-10-15-c8i.4xlarge
   - name: SDitH3-L1-gf2-short-cipherpow
     level: 1
     pk: 70
     sig: 3721
     notes: Alternative instance with cipher-based grinding (spec v3.0 Table 5).
+    signing_cycles: 8592234
+    verification_cycles: 8305414
+    signing_us: 2222.2
+    verification_us: 2148.4
+    bench_env: 2026-10-15-c8i.4xlarge
   - name: SDitH3-L1-gf2-fast-cipherpow
     level: 1
     pk: 70
     sig: 4643
     notes: Alternative instance with cipher-based grinding (spec v3.0 Table 5).
+    signing_cycles: 1971441
+    verification_cycles: 1659053
+    signing_us: 512.5
+    verification_us: 428.3
+    bench_env: 2026-10-15-c8i.4xlarge
   - name: SDitH3-L3-gf2-short-cipherpow
     level: 3
     pk: 98
     sig: 8484
     notes: Alternative instance with cipher-based grinding (spec v3.0 Table 5).
+    signing_cycles: 41932921
+    verification_cycles: 41392281
+    signing_us: 10843.9
+    verification_us: 10704.5
+    bench_env: 2026-10-15-c8i.4xlarge
   - name: SDitH3-L3-gf2-fast-cipherpow
     level: 3
     pk: 98
     sig: 10452
     notes: Alternative instance with cipher-based grinding (spec v3.0 Table 5).
+    signing_cycles: 9920617
+    verification_cycles: 8852928
+    signing_us: 2559.3
+    verification_us: 2288.7
+    bench_env: 2026-10-15-c8i.4xlarge
   - name: SDitH3-L5-gf2-short-cipherpow
     level: 5
     pk: 132
     sig: 15147
     notes: Alternative instance with cipher-based grinding (spec v3.0 Table 5).
+    signing_cycles: 65368834
+    verification_cycles: 64568845
+    signing_us: 16913.7
+    verification_us: 16704.6
+    bench_env: 2026-10-15-c8i.4xlarge
   - name: SDitH3-L5-gf2-fast-cipherpow
     level: 5
     pk: 132
     sig: 19144
     notes: Alternative instance with cipher-based grinding (spec v3.0 Table 5).
+    signing_cycles: 14190077
+    verification_cycles: 13452545
+    signing_us: 3668.8
+    verification_us: 3479.4
+    bench_env: 2026-10-15-c8i.4xlarge
 - version: v2.0
   date: '2025-02-05'
   status: On-ramp

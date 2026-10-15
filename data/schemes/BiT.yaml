@@ -36,11 +36,11 @@ versions:
     ngcc_level: 512
     pk: 5056
     sig: 6695
-    signing_cycles: 8640415
-    verification_cycles: 3499592
-    signing_us: 2426.9
-    verification_us: 950.9
-    bench_env: 2026-10-13-c7i.4xlarge
+    signing_cycles: 8688516
+    verification_cycles: 3528349
+    signing_us: 2248.6
+    verification_us: 913.0
+    bench_env: 2026-10-15-c8i.4xlarge
     notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
     broken: The unsalted 512-bit message digest limits forgery resistance to about 2^256 work, below the 512-bit target (<a href="https://ngcc.dev/reports/sign-02.html#sign-02-1-a-512-bit-unsalted-message-representative-caps-forgery-security-at-256-bits">Saarinen</a>).
   - name: BiT-384

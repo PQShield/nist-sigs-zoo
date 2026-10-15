@@ -14,29 +14,60 @@ versions:
     pk: 80
     sig: 5428
     notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+    signing_cycles: 82222834
+    verification_cycles: 71905754
+    signing_us: 21937.1
+    verification_us: 19162.3
+    bench_env: 2026-10-15-c8i.4xlarge
   - name: sydo_160f
     ngcc_level: 128
     pk: 80
     sig: 6724
     notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+    signing_cycles: 15711208
+    verification_cycles: 15074882
+    signing_us: 4162.0
+    verification_us: 3987.0
+    bench_env: 2026-10-15-c8i.4xlarge
   - name: sydo_256s
     ngcc_level: 256
     pk: 128
     sig: 14444
     notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+    signing_cycles: 176096936
+    verification_cycles: 174892956
+    signing_us: 46984.2
+    verification_us: 46614.9
+    bench_env: 2026-10-15-c8i.4xlarge
   - name: sydo_256f
     ngcc_level: 256
     pk: 128
     sig: 17604
     notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+    signing_cycles: 36493544
+    verification_cycles: 35560244
+    signing_us: 9699.1
+    verification_us: 9442.2
+    bench_env: 2026-10-15-c8i.4xlarge
   - name: sydo_512s
     ngcc_level: 512
     pk: 246
     sig: 56672
     notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+    signing_cycles: 1368866054
+    verification_cycles: 1265664836
+    signing_us: 362431.7
+    verification_us: 334477.2
+    bench_env: 2026-10-15-c8i.4xlarge
   - name: sydo_512f
     ngcc_level: 512
     pk: 246
     sig: 67716
     notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+    signing_cycles: 260877298
+    verification_cycles: 258126267
+    signing_us: 68464.4
+    verification_us: 67881.9
+    bench_env: 2026-10-15-c8i.4xlarge
   findings_url: https://ngcc.dev/reports/sign-28.html
+  perf_source: our benchmark

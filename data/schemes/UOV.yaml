@@ -59,29 +59,29 @@ versions:
     level: 1
     pk: 412160
     sig: 96
-    signing_cycles: 62241
-    verification_cycles: 40382
-    signing_us: 17.9
-    verification_us: 11.9
-    bench_env: 2026-10-13-c7i.4xlarge
+    signing_cycles: 65644
+    verification_cycles: 47783
+    signing_us: 18.9
+    verification_us: 14.1
+    bench_env: 2026-10-15-c8i.4xlarge
   - name: Ip-pkc
     level: 1
     pk: 46591
     sig: 135
-    signing_cycles: 50139
-    verification_cycles: 162035
-    signing_us: 16.4
-    verification_us: 44.2
-    bench_env: 2026-10-13-c7i.4xlarge
+    signing_cycles: 53173
+    verification_cycles: 168920
+    signing_us: 15.4
+    verification_us: 45.9
+    bench_env: 2026-10-15-c8i.4xlarge
   - name: Ip-classic
     level: 1
     pk: 321300
     sig: 135
-    signing_cycles: 51288
-    verification_cycles: 62245
-    signing_us: 14.7
-    verification_us: 17.7
-    bench_env: 2026-10-13-c7i.4xlarge
+    signing_cycles: 52437
+    verification_cycles: 60384
+    signing_us: 15.2
+    verification_us: 17.4
+    bench_env: 2026-10-15-c8i.4xlarge
 - version: v2.0
   date: '2025-02-05'
   status: On-ramp

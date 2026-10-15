@@ -25,11 +25,11 @@ versions:
     ngcc_level: 128
     pk: 50
     sig: 6804
-    signing_cycles: 39191071
-    verification_cycles: 95357660
-    signing_us: 11511.1
-    verification_us: 26834.2
-    bench_env: 2026-10-13-c7i.4xlarge
+    signing_cycles: 38687723
+    verification_cycles: 97539541
+    signing_us: 10940.2
+    verification_us: 26179.5
+    bench_env: 2026-10-15-c8i.4xlarge
     notes: Optimised x86 implementation.
   - name: GreatWall256f
     ngcc_level: 256
@@ -45,11 +45,11 @@ versions:
     ngcc_level: 256
     pk: 66
     sig: 12236
-    signing_cycles: 64151328
-    verification_cycles: 134672766
-    signing_us: 18999.5
-    verification_us: 38220.9
-    bench_env: 2026-10-13-c7i.4xlarge
+    signing_cycles: 62773252
+    verification_cycles: 136875030
+    signing_us: 17824.5
+    verification_us: 37050.9
+    bench_env: 2026-10-15-c8i.4xlarge
     notes: Optimised x86 implementation.
   - name: GreatWall512f
     ngcc_level: 512

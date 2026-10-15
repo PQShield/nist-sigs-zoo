@@ -13,39 +13,46 @@ parametersets:
   level: 1
   pk: 672
   ct: 672
-  keygen_cycles: 25458
-  encaps_cycles: 21427
-  decaps_cycles: 32472
-  keygen_us: 9.1
-  encaps_us: 7.7
-  decaps_us: 10.5
-  bench_env: 2026-10-13-c7i.4xlarge
+  keygen_cycles: 26080
+  encaps_cycles: 21743
+  decaps_cycles: 33201
+  keygen_us: 8.3
+  encaps_us: 7.0
+  decaps_us: 9.6
+  bench_env: 2026-10-15-c8i.4xlarge
 - name: SMAUG-T192
   recommended: true
   level: 3
   pk: 1088
   ct: 992
-  keygen_cycles: 39242
-  encaps_cycles: 38662
-  decaps_cycles: 54341
-  keygen_us: 13.1
-  encaps_us: 12.6
-  decaps_us: 16.8
-  bench_env: 2026-10-13-c7i.4xlarge
+  keygen_cycles: 39894
+  encaps_cycles: 39292
+  decaps_cycles: 54980
+  keygen_us: 11.9
+  encaps_us: 11.5
+  decaps_us: 15.2
+  bench_env: 2026-10-15-c8i.4xlarge
 - name: SMAUG-T256
   recommended: true
   level: 5
   pk: 1440
   ct: 1376
-  keygen_cycles: 49620
-  encaps_cycles: 49709
-  decaps_cycles: 69982
-  keygen_us: 16.1
-  encaps_us: 15.8
-  decaps_us: 21.3
-  bench_env: 2026-10-13-c7i.4xlarge
+  keygen_cycles: 50520
+  encaps_cycles: 49690
+  decaps_cycles: 70878
+  keygen_us: 14.7
+  encaps_us: 14.2
+  decaps_us: 19.3
+  bench_env: 2026-10-15-c8i.4xlarge
 - name: TiMER
   level: 1
   pk: 672
   ct: 608
   notes: Additional parameter set (spec v4.0 Table 3) for lightweight/IoT use; SMAUG-T128 with D2 encoding and p' = 8. The spec recommends limiting the number of encapsulations/decapsulations per key.
+  keygen_cycles: 26077
+  encaps_cycles: 21545
+  decaps_cycles: 34263
+  keygen_us: 8.4
+  encaps_us: 6.9
+  decaps_us: 9.9
+  bench_env: 2026-10-15-c8i.4xlarge

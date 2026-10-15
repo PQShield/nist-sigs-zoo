@@ -10,50 +10,50 @@ parametersets:
   ngcc_level: 128
   pk: 610
   ct: 706
-  keygen_cycles: 73967
-  encaps_cycles: 129490
-  decaps_cycles: 168748
-  keygen_us: 20.6
-  encaps_us: 35.2
-  decaps_us: 45.5
-  bench_env: 2026-10-13-c7i.4xlarge
+  keygen_cycles: 72826
+  encaps_cycles: 127363
+  decaps_cycles: 165056
+  keygen_us: 19.7
+  encaps_us: 33.7
+  decaps_us: 43.3
+  bench_env: 2026-10-15-c8i.4xlarge
   notes: Optimised x86 implementation.
 - name: Lore-L2
   ngcc_level: 256
   pk: 1186
   ct: 1282
-  keygen_cycles: 157598
-  encaps_cycles: 243437
-  decaps_cycles: 390239
-  keygen_us: 42.7
-  encaps_us: 65.3
-  decaps_us: 104.1
-  bench_env: 2026-10-13-c7i.4xlarge
+  keygen_cycles: 155399
+  encaps_cycles: 241183
+  decaps_cycles: 385296
+  keygen_us: 42.1
+  encaps_us: 64.9
+  decaps_us: 103.8
+  bench_env: 2026-10-15-c8i.4xlarge
   notes: Optimised x86 implementation.
 - name: Lore-L3
   ngcc_level: 384
   pk: 1954
   ct: 2114
-  keygen_cycles: 319158
-  encaps_cycles: 441867
-  decaps_cycles: 610139
-  keygen_us: 85.3
-  encaps_us: 117.7
-  decaps_us: 162.1
-  bench_env: 2026-10-13-c7i.4xlarge
+  keygen_cycles: 304330
+  encaps_cycles: 429326
+  decaps_cycles: 587866
+  keygen_us: 83.6
+  encaps_us: 117.6
+  decaps_us: 163.0
+  bench_env: 2026-10-15-c8i.4xlarge
   notes: Optimised x86 implementation.
   broken: This set outputs 256-bit shared secrets from 256-bit key-generation seeds, short of its target (<a href="https://ngcc.dev/reports/kem-19.html#kem-19-2-lore-384-and-512-emit-256-bit-keys-from-256-bit-keygen-seeds">Saarinen</a>).
 - name: Lore-L4
   ngcc_level: 512
   pk: 2914
   ct: 3170
-  keygen_cycles: 550826
-  encaps_cycles: 752171
-  decaps_cycles: 1040848
-  keygen_us: 146.4
-  encaps_us: 199.6
-  decaps_us: 276.5
-  bench_env: 2026-10-13-c7i.4xlarge
+  keygen_cycles: 539471
+  encaps_cycles: 746934
+  decaps_cycles: 1032828
+  keygen_us: 147.9
+  encaps_us: 205.2
+  decaps_us: 284.1
+  bench_env: 2026-10-15-c8i.4xlarge
   notes: Optimised x86 implementation.
   broken: This set outputs 256-bit shared secrets from 256-bit key-generation seeds, short of its target (<a href="https://ngcc.dev/reports/kem-19.html#kem-19-2-lore-384-and-512-emit-256-bit-keys-from-256-bit-keygen-seeds">Saarinen</a>).
 findings_url: https://ngcc.dev/reports/kem-19.html

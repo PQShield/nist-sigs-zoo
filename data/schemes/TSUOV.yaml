@@ -24,11 +24,11 @@ versions:
     ngcc_level: 256
     pk: 2170
     sig: 2412
-    signing_cycles: 73025040
-    verification_cycles: 71557530
-    signing_us: 19354.7
-    verification_us: 18966.5
-    bench_env: 2026-10-13-c7i.4xlarge
+    signing_cycles: 73891555
+    verification_cycles: 71983605
+    signing_us: 19091.7
+    verification_us: 18602.3
+    bench_env: 2026-10-15-c8i.4xlarge
     notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
   - name: TSUOV_512
     ngcc_level: 512
