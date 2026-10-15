@@ -101,9 +101,15 @@ MQOM_SOS    = $(addprefix schemes/mqom/build/, \
     mqom3_cat5_gf2_shorter_ct.so mqom3_cat5_gf2_shorter_ot.so \
     mqom3_cat5_gf16_short_ct.so  mqom3_cat5_gf16_short_ot.so  \
     mqom3_cat5_gf16_fast_ct.so   mqom3_cat5_gf16_fast_ot.so)
+MAYO_R1_SOS = $(addprefix schemes/mayo_r1/build/, \
+    mayo_r1_1.so mayo_r1_2.so mayo_r1_3.so \
+    mayo_r1_5.so)
+MAYO_R2_SOS = $(addprefix schemes/mayo_r2/build/, \
+    mayo_r2_1.so mayo_r2_2.so mayo_r2_3.so \
+    mayo_r2_5.so)
 
-ALL_SOS     = $(MLDSA_SOS) $(SLHDSA_SOS) $(FNDSA_SOS) $(CLASSIC_SOS) $(HAWK_SOS) $(MAYO_SOS) $(FAEST_SOS) $(SDITH_SOS) $(SDITH2_SOS) $(SNOVA_SOS) $(UOV_SOS) $(QRUOV_SOS) $(MQOM_SOS) $(SQISIGN_SOS) $(AIMER_SOS) $(HAETAE_SOS) $(MIRATH_SOS) $(RYDE_SOS) $(PERK_SOS) $(CROSS_SOS) $(LESS_SOS)
-SCHEME_DIRS = mldsa slhdsa fndsa classic hawk mayo faest sdith sdith2 snova uov qruov mqom sqisign aimer haetae mirath ryde perk cross less
+ALL_SOS     = $(MLDSA_SOS) $(SLHDSA_SOS) $(FNDSA_SOS) $(CLASSIC_SOS) $(HAWK_SOS) $(MAYO_SOS) $(FAEST_SOS) $(SDITH_SOS) $(SDITH2_SOS) $(SNOVA_SOS) $(UOV_SOS) $(QRUOV_SOS) $(MQOM_SOS) $(SQISIGN_SOS) $(AIMER_SOS) $(HAETAE_SOS) $(MIRATH_SOS) $(RYDE_SOS) $(PERK_SOS) $(CROSS_SOS) $(LESS_SOS) $(MAYO_R1_SOS) $(MAYO_R2_SOS)
+SCHEME_DIRS = mldsa slhdsa fndsa classic hawk mayo faest sdith sdith2 snova uov qruov mqom sqisign aimer haetae mirath ryde perk cross less mayo_r1 mayo_r2
 STAMPS      = $(addprefix schemes/, $(addsuffix /.stamp, $(SCHEME_DIRS)))
 
 # China NGCC round-1 candidates: one generic ICCS-API shim, data-driven from
@@ -140,6 +146,8 @@ schemes/ryde/.stamp:    schemes/ryde/Makefile    schemes/ryde/shim_template.c   
 schemes/perk/.stamp:    schemes/perk/Makefile    schemes/perk/shim_template.c    schemes/perk/params.tsv   schemes/perk/.source
 schemes/cross/.stamp:   schemes/cross/Makefile   schemes/cross/shim_template.c   schemes/cross/params.tsv
 schemes/less/.stamp:    schemes/less/Makefile    schemes/less/shim_template.c    schemes/less/params.tsv
+schemes/mayo_r1/.stamp: schemes/mayo_r1/Makefile schemes/mayo_r1/shim_template.c schemes/mayo_r1/params.tsv
+schemes/mayo_r2/.stamp: schemes/mayo_r2/Makefile schemes/mayo_r2/shim_template.c schemes/mayo_r2/params.tsv
 $(NGCC_STAMP): $(NGCC_DIR)/Makefile $(NGCC_DIR)/shim_template.c $(NGCC_DIR)/params.tsv \
     ../bench-common/ngcc/ngcc.mk ../bench-common/ngcc/gen_rules.py \
     $(wildcard $(NGCC_DIR)/patches/*/*) $(wildcard ../bench-common/ngcc/src/.extracted)
@@ -174,6 +182,8 @@ $(RYDE_SOS):    schemes/ryde/.stamp
 $(PERK_SOS):    schemes/perk/.stamp
 $(CROSS_SOS):   schemes/cross/.stamp
 $(LESS_SOS):    schemes/less/.stamp
+$(MAYO_R1_SOS): schemes/mayo_r1/.stamp
+$(MAYO_R2_SOS): schemes/mayo_r2/.stamp
 
 # Generate the SO path list included by main.c.
 $(BUILD)/so_paths.h: Makefile $(NGCC_STAMP) | $(BUILD)

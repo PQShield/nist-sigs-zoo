@@ -271,6 +271,16 @@ BENCH_TO_YAML: dict[str, Target | list[Target]] = {
     "SQIsign-I": ("SQIsign.yaml", "I"),
     "SQIsign-III": ("SQIsign.yaml", "III"),
     "SQIsign-V": ("SQIsign.yaml", "V"),
+    # MAYO round 1 (MAYO-C 3c9be9e) and round 2 (tag round2), bench/schemes/mayo_r1, mayo_r2
+    "MAYO-R1-one": ("MAYO.yaml", "one", "Round 1"),
+    "MAYO-R1-two": ("MAYO.yaml", "two", "Round 1"),
+    "MAYO-R1-three": ("MAYO.yaml", "three", "Round 1"),
+    "MAYO-R1-five": ("MAYO.yaml", "five", "Round 1"),
+    "MAYO-R2-one": ("MAYO.yaml", "one", "Round 2@2025-02-05"),
+    "MAYO-R2-two": ("MAYO.yaml", "two", "Round 2@2025-02-05"),
+    "MAYO-R2-three": ("MAYO.yaml", "three", "Round 2@2025-02-05"),
+    "MAYO-R2-five": ("MAYO.yaml", "five", "Round 2@2025-02-05"),
+
     # Classic
     "RSA-2048 (PSS)": ("RSA.yaml", "2048"),
     "RSA-3072 (PSS)": ("RSA.yaml", "3072"),
