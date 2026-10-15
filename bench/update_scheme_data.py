@@ -533,33 +533,16 @@ def record_fingerprints(results_file: Path, rows: list[dict]) -> None:
         print(f"  WARNING: {w}")
 
 
-def main() -> None:
-    if len(sys.argv) == 3 and sys.argv[1] == "--ngcc-sizes":
-        import_ngcc_sizes(Path(sys.argv[2]))
-        return
-    results_dir = REPO_ROOT / "bench" / "results"
-
-    if len(sys.argv) > 1:
-        results_file = Path(sys.argv[1])
-    else:
-        files = sorted(results_dir.glob("*.txt"))
-        if not files:
-            sys.exit("No results files found in bench/results/")
-        results_file = files[-1]
-        print(f"Using {results_file.name}")
-
-    errors = target_errors()
-    if errors:
-        sys.exit("BENCH_TO_YAML targets that do not resolve:\n  " + "\n  ".join(errors))
-
-    meta, rows = parse_results_file(results_file)
-    print(f"Parsed {len(rows)} benchmark rows")
-    env = bench_env.env_id(meta)
-
+def round_trip_yaml() -> YAML:
     yaml = YAML()
     yaml.preserve_quotes = True
     yaml.width = 4096
+    return yaml
 
+
+def import_rows(rows: list[dict], env: str | None) -> tuple[int, int, list[str]]:
+    """Write the rows' timings into SCHEMES_DIR; (updated, skipped, unmapped names)."""
+    yaml = round_trip_yaml()
     updated = 0
     skipped = 0
     not_mapped = []
@@ -602,6 +585,34 @@ def main() -> None:
         if changed:
             with open(yaml_path, "w") as f:
                 yaml.dump(data, f)
+    return updated, skipped, not_mapped
+
+
+def main() -> None:
+    if len(sys.argv) == 3 and sys.argv[1] == "--ngcc-sizes":
+        import_ngcc_sizes(Path(sys.argv[2]))
+        return
+    results_dir = REPO_ROOT / "bench" / "results"
+
+    if len(sys.argv) > 1:
+        results_file = Path(sys.argv[1])
+    else:
+        files = sorted(results_dir.glob("*.txt"))
+        if not files:
+            sys.exit("No results files found in bench/results/")
+        results_file = files[-1]
+        print(f"Using {results_file.name}")
+
+    errors = target_errors()
+    if errors:
+        sys.exit("BENCH_TO_YAML targets that do not resolve:\n  " + "\n  ".join(errors))
+
+    meta, rows = parse_results_file(results_file)
+    print(f"Parsed {len(rows)} benchmark rows")
+    env = bench_env.env_id(meta)
+
+    updated, skipped, not_mapped = import_rows(rows, env)
+    yaml = round_trip_yaml()
 
     print(f"\nUpdated {updated} parametersets, skipped {skipped}")
     if not_mapped:
