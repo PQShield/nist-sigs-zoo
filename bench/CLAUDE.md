@@ -57,8 +57,8 @@ bench/
     ├── mqom/             # mqom/mqom-v3
     ├── sqisign/          # SQISign/the-sqisign (CMake build; SQISIGN_BUILD_TYPE=broadwell by default, x86-64 asm field arithmetic)
     ├── aimer/            # samsungsds-opensource/AIMer v3.0 (ships AIMer.zip, unpacked into build/src; reference implementation only)
-    ├── haetae/           # HAETAE 1.2.0 (official Google Drive zip, URL + sha256 in .source, fetched into build/dl; reference implementation only)
-    ├── mirath/ ryde/ perk/  # official round-2 zips (URL + sha256 in .source, fetched into build/dl); AVX2 Optimized_Implementation
+    ├── haetae/           # HAETAE 1.2.0 (official zip from Google Drive, vendored as HAETAE-1.2.0.zip, MIT; URL + sha256 in .source; reference implementation only)
+    ├── mirath/ ryde/ perk/  # official round-2 zips (URL + sha256 in .source, fetched into build/dl; 30-36 MB each, so not vendored); AVX2 Optimized_Implementation
     ├── cross/            # CROSS-signature/CROSS-implementation v2.2 (Optimized_Implementation, AVX2)
     ├── less/             # less-sig/LESS 9ec6915 = NIST round-2 code (Optimized_Implementation/avx2)
     └── <name>/

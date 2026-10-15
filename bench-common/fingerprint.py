@@ -5,8 +5,8 @@ when something that determines its timing changed since it was last measured, or
 it was measured on other hardware. This module computes, for every row, a short hash of
 those inputs, split into components so a report can say which input changed:
 
-  source   non-NGCC: the scheme dir's submodule commits (gitlinks) and its .source
-           (tarball URL); NGCC: the candidate's archive sha256 in
+  source   non-NGCC: the scheme dir's submodule commits (gitlinks), its .source
+           (tarball URL) and vendored archives (*.zip, hashed as bytes); NGCC: the candidate's archive sha256 in
            bench-common/ngcc/archives.tsv
   params   the row's own params.tsv line (column=value), without the columns that do
            not change a timing: iters, kat, katn
@@ -78,6 +78,7 @@ EXCLUDED_FILES = {".gitignore", ".stamp", "status.tsv", ".source"}
 C_SUFFIXES = {".c", ".h", ".cpp", ".cc", ".cxx", ".hpp", ".hh", ".inc"}
 CXX_SUFFIXES = (".cpp", ".cc", ".cxx")
 HEADER_SUFFIXES = {".h", ".hpp", ".hh", ".inc"}
+ARCHIVE_SUFFIXES = (".zip", ".tar.gz", ".tgz", ".tar.xz")
 LIMIT_MARKER = "per-operation limit"
 FLAG_VARS = re.compile(r"^\s*(CC|CXX|CFLAGS|CXXFLAGS|LDFLAGS|LDLIBS)\s*[:?+]?=")
 LEGACY_EC2_CPUS = {"Intel(R) Xeon(R) Platinum 8488C": "c7i.4xlarge"}
@@ -171,12 +172,15 @@ class Tree:
                     pos = nl + 1 + size + 1
         return self._blobs
 
-    def read(self, path: str) -> str | None:
+    def read_bytes(self, path: str) -> bytes | None:
         e = self.entries.get(path)
         if e is None or e[0] != "blob":
             return None
-        data = self._load()[path] if self.rev else (self.repo / path).read_bytes()
-        return data.decode("utf-8", errors="replace")
+        return self._load()[path] if self.rev else (self.repo / path).read_bytes()
+
+    def read(self, path: str) -> str | None:
+        data = self.read_bytes(path)
+        return None if data is None else data.decode("utf-8", errors="replace")
 
     def under(self, prefix: str) -> list[str]:
         prefix = prefix.rstrip("/") + "/"
@@ -277,6 +281,9 @@ def _files_hash(tree: Tree, paths: list[str], base: str) -> str:
         rel = p[len(base) + 1 :] if p.startswith(base + "/") else p
         if kind == "commit":
             parts.append(f"{rel}@{sha}")
+        elif p.endswith(ARCHIVE_SUFFIXES):
+            digest = hashlib.sha256(tree.read_bytes(p) or b"").hexdigest()
+            parts.append(f"{rel}#{digest}")
         else:
             parts.append(f"{rel}:{normalize(p, tree.read(p) or '')}")
     return _h(*parts)
@@ -313,7 +320,11 @@ def _scheme_files(
     for p in tree.under(scheme_dir):
         rel = p[len(scheme_dir) + 1 :]
         name = rel.rsplit("/", 1)[-1]
-        if tree.entries[p][0] == "commit" or rel == ".source":
+        if (
+            tree.entries[p][0] == "commit"
+            or rel == ".source"
+            or rel.endswith(ARCHIVE_SUFFIXES)
+        ):
             source.append(p)
         elif rel.startswith("patches/"):
             patch.append(p)

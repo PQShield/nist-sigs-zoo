@@ -194,6 +194,17 @@ def test_gitlink_counts_as_source(repo):
     }
 
 
+def test_vendored_archive_counts_as_source(repo):
+    before = fps(repo)
+    zip_path = repo / "bench/schemes/b/up-1.0.zip"
+    zip_path.write_bytes(b"PK\x03\x04\x00\xff\xfe binary")
+    git(repo, "add", str(zip_path))  # fingerprints read tracked files only
+    after = fps(repo)
+    assert changed(before, after) == {"B-1": ["source"]}
+    zip_path.write_bytes(b"PK\x03\x04\x00\xff\xfd binary")  # same text after decoding
+    assert changed(after, fps(repo)) == {"B-1": ["source"]}
+
+
 def test_outside_git_walks_the_tree(tmp_path, repo):
     in_git = fps(repo)
     plain = tmp_path / "plain"
