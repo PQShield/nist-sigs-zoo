@@ -19,7 +19,7 @@ versions:
     signing_us: 588497.4
     verification_us: 143452.2
     bench_env: 2026-10-15-c8i.4xlarge
-    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it; our build applies a small patch to the submitted code.
   - name: SQIsign2D-lvl3
     ngcc_level: 256
     pk: 128
@@ -29,7 +29,7 @@ versions:
     signing_us: 1301048.3
     verification_us: 328661.5
     bench_env: 2026-10-15-c8i.4xlarge
-    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it; our build does not reproduce the submitted test vectors (cause unknown).
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it; our build does not reproduce the submitted test vectors (cause unknown); our build applies a small patch to the submitted code.
     info: Our build does not reproduce the submitted test vectors.
     implementation: The submitted code skips the specified challenge grinding, so a forgery from one valid signature costs about 2^247, below the 256-bit target (<a href="https://list.niccs.org.cn/archives/list/pkcforum@list.niccs.org.cn/message/TUR2W3S22UGBUJXFZYT25VO44PHNFAOJ/">Sun</a>).
   - name: SQIsign2D-lvl4
@@ -41,5 +41,5 @@ versions:
     signing_us: 12606485.8
     verification_us: 2946914.2
     bench_env: 2026-10-15-c8i.4xlarge
-    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it; our build applies a small patch to the submitted code.
   findings_url: https://ngcc.dev/reports/sign-26.html

@@ -1,5 +1,11 @@
 - date: '2026-10-15'
   type: update
+  description: "SQIsign2D-push1/2 and SQIsign2D2 (SQISign2Dsquare): our build now patches the submitted verifiers so that they reject a signature whose final isogeny splitting step fails. The submitted code does not check that step and can then accept an altered signature (reported on ngcc.dev by <a href=\"https://ngcc.dev/reports/sign-26.html\">LK-PQC-Hunter</a> and <a href=\"https://ngcc.dev/reports/sign-25.html\">Saarinen</a>). Valid signatures are not affected."
+  programmes: [china-ngcc]
+  schemes: [SQIsign2D-push1/2, SQIsign2D2]
+
+- date: '2026-10-15'
+  type: update
   description: "LESS: the signature sizes of LESS-252-192, LESS-400-220 and LESS-548-345 are now the maximum sizes of the submitted code (2,609, 6,353 and 10,712 bytes) instead of the specification's Table 4 (2,625, 6,329 and 10,680 bytes)."
   schemes: [LESS]
 

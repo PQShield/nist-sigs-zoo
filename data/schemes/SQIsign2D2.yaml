@@ -19,7 +19,7 @@ versions:
     signing_us: 31453.8
     verification_us: 6344.1
     bench_env: 2026-10-15-c8i.4xlarge
-    notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+    notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it; our build applies a small patch to the submitted code.
     implementation: The submitted reference verifier for this set can take its verdict from stale stack memory, accepting forged or all-zero signatures (<a href="https://ngcc.dev/reports/sign-25.html#sign-25-1-verifier-verdict-is-decided-by-stale-stack-contents">Saarinen</a>).
   - name: SQISign2Dsquare-Level2-sec
     ngcc_level: 128
@@ -30,7 +30,7 @@ versions:
     signing_us: 37724.3
     verification_us: 7296.7
     bench_env: 2026-10-15-c8i.4xlarge
-    notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+    notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it; our build applies a small patch to the submitted code.
   - name: SQISign2Dsquare-Level3-eff
     ngcc_level: 256
     pk: 128
@@ -40,7 +40,7 @@ versions:
     signing_us: 101836.6
     verification_us: 20086.9
     bench_env: 2026-10-15-c8i.4xlarge
-    notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+    notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it; our build applies a small patch to the submitted code.
   - name: SQISign2Dsquare-Level3-sec
     ngcc_level: 256
     pk: 132
@@ -50,7 +50,7 @@ versions:
     signing_us: 121083.2
     verification_us: 23007.0
     bench_env: 2026-10-15-c8i.4xlarge
-    notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+    notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it; our build applies a small patch to the submitted code.
   - name: SQISign2Dsquare-Level5-eff
     ngcc_level: 512
     pk: 256
@@ -60,7 +60,7 @@ versions:
     signing_us: 668987.9
     verification_us: 121507.0
     bench_env: 2026-10-15-c8i.4xlarge
-    notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+    notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it; our build applies a small patch to the submitted code.
   - name: SQISign2Dsquare-Level5-sec
     ngcc_level: 512
     pk: 268
@@ -70,5 +70,5 @@ versions:
     signing_us: 757424.7
     verification_us: 141932.5
     bench_env: 2026-10-15-c8i.4xlarge
-    notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+    notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it; our build applies a small patch to the submitted code.
   findings_url: https://ngcc.dev/reports/sign-25.html
