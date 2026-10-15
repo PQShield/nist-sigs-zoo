@@ -18,9 +18,7 @@ The VM builds local `HEAD`, and the script refuses to run with uncommitted track
 | Purpose | Command (prefix `AWS_PROFILE=bench`) |
 |---|---|
 | Smoke test (junk) | `BENCH_ITER=5 scripts/aws-bench.sh --suite kems mlkem` (still builds the whole suite) |
-| Full non-NGCC suite | `scripts/aws-bench.sh --suite sigs` |
-| NGCC sigs | `scripts/aws-bench.sh --suite sigs --ttl 480 --ngcc-src /tmp/ngcc-src.tar.gz` |
-| NGCC KEMs | same with `--suite kems --ttl 360` |
+| Real runs (only the rows that need one) | `scripts/aws-bench-split --suite sigs\|kems [--ngcc-src /tmp/ngcc-src.tar.gz]`, see "Normal flow" |
 
 NGCC tarball without KATs (~0.2 GB instead of 5 GB):
 ```bash
@@ -29,19 +27,20 @@ tar -C bench-common/ngcc -czf /tmp/ngcc-src.tar.gz --exclude=Test_Vectors \
 ```
 
 - **Smoke-test first** after a harness, script or build change. Then delete those results files (`git status bench*/results`). Never commit or import them.
-- **Real NGCC runs:** leave `BENCH_ITER` unset (it overrides the tuned `iters` in `*/schemes/ngcc/params.tsv`) and use no filter.
+- **Real runs:** leave `BENCH_ITER` unset (it overrides the tuned `iters`, e.g. in `*/schemes/ngcc/params.tsv`).
 - **Sigs and KEMs are separate runs.** Never use `both` with NGCC.
 - **The TTL counts from boot**: upload, cloud-init and build all come out of it. When the TTL runs out, only partial results come back. Leave margin.
 - `BENCH_TIMEOUT` (per-scheme seconds, default 3600) is forwarded to the VM; a scheme that exceeds it becomes a `timeout` DNF.
-- **Instance:** keep one instance type per dataset, so rows stay comparable. Each results header records the CPU model (`# cpu:`), and `data/benchmark_env.yaml` / `data/kem_benchmark_env.yaml` (`cpu.model`) say what the current data was measured on. Re-run single rows on that same type (pass `--instance-type` if it is not the script's default); a different CPU model means re-running the whole suite, so ask Thom. On the first run on a new type, check its header says `# cyclecounter: rdpmc`. A `*.metal*` type avoids noisy neighbours but costs more, so ask first. If the script warns `fell back to rdtsc`, the cycles are reference cycles: tell Thom before importing.
+- **Instance:** one instance type per dataset, so rows stay comparable. Each results header records `# cpu:`, `# commit:` and `# instance_type:`; every imported timing names its run (`bench_env`) in `data/benchmark_env.yaml` / `data/kem_benchmark_env.yaml`, which list one environment per run. A different instance type than the recorded one makes every row stale ("hardware: …"), so the first run on a new type re-runs the whole suite: ask Thom. On the first run on a new type, check its header says `# cyclecounter: rdpmc`. A `*.metal*` type avoids noisy neighbours but costs more, so ask first. If the script warns `fell back to rdtsc`, the cycles are reference cycles: tell Thom before importing.
 
-## Split runs (when Thom wants it fast)
+## Normal flow: run only what changed
 
-A full NGCC suite takes 5+ hours on one instance and spot instances can be interrupted. Thom accepted splitting it over several instances of the same type (2026-10-13); say "same instance type", not "same machine", in the write-up. Use `scripts/aws-bench-split`, not hand-made filter lists.
+Thom (2026-10-15): we don't re-benchmark rows whose results are current. `scripts/aws-bench-split` plans only rows that need a run: no imported result ("new row", "no timing"), measured on another instance type ("hardware: c7i.4xlarge → c8i.4xlarge"), or an input of their timing changed since that run (source, params row, patch, build, harness; see `bench/CLAUDE.md`, "Provenance and staleness"). Use it for every cloud run, also for a few rows, not hand-made filter lists. Spreading rows over several instances of the same type is accepted (2026-10-13); say "same instance type", not "same machine", in the write-up.
 
-1. **Plan (free):** `python3 scripts/aws-bench-split --suite sigs --ngcc-src /tmp/ngcc-src.tar.gz --dry-run [filter...]` (filters restrict the rows, as in `run_bench.sh`). It prints each group with per-row estimates, `--ttl`, warnings, and the exact `aws-bench.sh` commands. Show Thom the plan (group count, longest group, total minutes) and **wait for his go**.
-2. **Run:** the same command without `--dry-run`, prefixed `AWS_PROFILE=bench AWS_REGION=eu-north-1` (the profile sets no region). Run it in the background and read its status table. Logs go to `$TMPDIR/aws-bench-split-<time>/group-NN.log`.
-3. **Merge:** happens at the end, into `<suite>/results/<first-timestamp>_<cpu>_split_merged.txt`. Pass `--rerun-first FILE...` for re-runs that must win over the parts. Report the printed DNF rows and missing rows, and the leftover-resource check, to Thom. Review and import only the merged file.
+1. **Why (free):** `python3 scripts/aws-bench-split --suite sigs --stale-report [filter...]` lists the rows that need a run, NGCC included, with their reasons. Check that they make sense (a harness edit re-stales everything).
+2. **Plan (free):** `python3 scripts/aws-bench-split --suite sigs [--ngcc-src /tmp/ngcc-src.tar.gz] --dry-run [filter...]`. Filters are intersected with the rows that need a run. It prints each group with per-row estimates and reasons, `--ttl`, warnings, and the exact `aws-bench.sh` commands. Without `--ngcc-src` it says how many NGCC rows it leaves out. Show Thom the report and the plan (rows, group count, longest group, total minutes) and **wait for his go**. `--all` plans every row: only when Thom asks.
+3. **Run:** the same command without `--dry-run`, prefixed `AWS_PROFILE=bench AWS_REGION=eu-north-1` (the profile sets no region). Run it in the background and read its status table. Logs go to `$TMPDIR/aws-bench-split-<time>/group-NN.log`.
+4. **Merge:** happens at the end, into `<suite>/results/<first-timestamp>_<cpu>_split_merged.txt`. Pass `--rerun-first FILE...` for re-runs that must win over the parts. Report the printed DNF rows and missing rows, and the leftover-resource check, to Thom. Review and import only the merged file (keep the part files: the importer reads each row's commit from its part).
 
 What it does for you, so don't redo it by hand:
 - **Rows and estimates:** rows come from `<suite>/schemes/*/*params*.tsv` (NGCC only with `--ngcc-src`). Each row's time comes from the newest results file that has it (merged files first), or failing that from its `iters`. Rows of 10+ minutes get their own instance; the rest are packed into groups of `--bin-minutes` (default 16). Each instance also spends about 10 minutes on setup and building. Rows whose names contain one another (`NGCC-Aigis-Enc+-I` / `-II`) are kept in one group, because filters are substring matches.
@@ -66,15 +65,16 @@ grep ' DNF ' <suite>/results/<new>.txt
 Always name the file. With no argument the importer picks the newest file, which may be junk.
 ```bash
 uv run bench/update_scheme_data.py --ngcc-sizes bench/results/ngcc_sizes.tsv   # NGCC, if sizes changed
-uv run bench/update_scheme_data.py bench/results/<file>.txt          # + data/benchmark_env.yaml
-uv run bench-kem/update_scheme_data.py bench-kem/results/<file>.txt  # + data/kem_benchmark_env.yaml
+uv run bench/update_scheme_data.py bench/results/<file>.txt          # + benchmark_env.yaml, fingerprints.tsv
+uv run bench-kem/update_scheme_data.py bench-kem/results/<file>.txt  # + kem_benchmark_env.yaml, fingerprints.tsv
 ```
+The importer sets each timed row's `bench_env`, adds the run's environment (dropping unused ones) and records each row's fingerprint in `<suite>/results/fingerprints.tsv` at the commit the run built. Read its WARNINGs (a commit not in the repo, a row not in params.tsv there).
 The importer never imports timings from a DNF row. On NGCC sets it clears the old timings and adds the note "Benchmark did not finish (…)". On other schemes it warns and keeps the old timings. Read its "not in this run" list.
 
 Then:
 1. Add an `update` entry to `data/history.yaml`.
 2. Run `npm run test && npm run check` and `uv run --with pytest --with 'ruamel.yaml>=0.18' pytest -q bench-common/tests`.
-3. On a feature branch, stage the results file, YAML, env yaml and history by name.
+3. On a feature branch, stage the results files (merged and parts), YAML, env yaml, fingerprints.tsv and history by name.
 
 ## After every run, especially an interrupted one
 

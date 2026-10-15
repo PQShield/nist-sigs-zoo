@@ -264,8 +264,10 @@ generates one `<file>_shim.c` per row of `params.tsv`, not committed — `.gitig
 
 `update_scheme_data.py` (KEM analogue of `bench/update_scheme_data.py`) parses a
 `results/*.txt` run and writes `keygen/encaps/decaps` cycles + µs into the matching
-`data/kems/*.yaml` parameter sets (flat schema, mapped via `BENCH_TO_YAML`), and writes
-`data/kem_benchmark_env.yaml`. Run after a benchmark:
+`data/kems/*.yaml` parameter sets (flat schema, mapped via `BENCH_TO_YAML`) with `bench_env`,
+adds the run's environment to `data/kem_benchmark_env.yaml` and records each row's fingerprint
+in `results/fingerprints.tsv` (see `../bench/CLAUDE.md`, "Provenance and staleness"). Run after a
+benchmark:
 
 ```bash
 ./run_bench.sh                       # writes results/<ts>_<cpu>.txt

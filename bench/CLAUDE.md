@@ -162,6 +162,32 @@ on stderr. The run always continues with the next scheme.
   segfault, divide by zero, hang, fail the warm-up check or succeed, and tests the
   importers' parsers. Host-safe: no real scheme code runs.
 
+## Provenance and staleness (`../bench-common/fingerprint.py`)
+
+`run_bench.sh` writes `# commit:` (the built HEAD, `-dirty` with uncommitted tracked changes)
+and `# instance_type:` (`BENCH_INSTANCE_TYPE`, set by `scripts/aws-bench.sh`; else `local`) into
+each results header; `merge_results.py` copies both into every `# part:` line. On import,
+`update_scheme_data.py` fingerprints each timed row (and NGCC DNF rows) at the commit its run
+(its part, for merged files) built and writes `results/fingerprints.tsv`: name, fingerprint and
+its components, result, commit, instance type, CPU, date, results file. It also sets the row's
+`bench_env` and adds the run to `data/benchmark_env.yaml` (`../bench-common/bench_env.py`).
+
+A fingerprint hashes what determines a row's timing, per component: `source` (submodule
+commits / `.source`; NGCC: the archive sha256 in `archives.tsv`), `params` (the row's
+params.tsv line without `iters`/`kat`/`katn`), `patch` (NGCC: the `patches/<id>/` files its
+srcs name, headers in patch dirs its incs name), `build` (the scheme dir's other tracked files;
+NGCC: shim template, Makefile, `NGCC_CFLAGS`, `NGCC_CXXFLAGS` for C++ rows) and `harness`
+(`harness_common.h` up to its per-operation-limit section, the suite Makefile's `CC`/`CFLAGS`,
+`HARNESS_EPOCH`). Comments and whitespace do not count (Python: its AST). Excluded on purpose:
+`harness.h`, `main.c`, `isolate.h`, the limits and DNF plumbing, `gen_rules.py`. If a change to
+an excluded file changes what is timed, bump `HARNESS_EPOCH`. No candidate code is read.
+
+`scripts/aws-bench-split` plans a row only if it needs a run: not in fingerprints.tsv, measured
+on another instance type than the planned one, or a component changed (`--stale-report`;
+`--all` overrides). `python3 bench-common/fingerprint.py sigs [rev]` prints the fingerprints.
+The 2026-10-15 backfill (rows without `# commit:`) used the newest ancestor of HEAD committed
+before the run's `# date:` and c7i.4xlarge for the Xeon Platinum 8488C (module doc).
+
 ## Shim pattern
 
 The shim adapts upstream API conventions to the bench contract. Common issues:

@@ -142,7 +142,18 @@ versions:
         notes: null
         dnf: timeout           # written by the importers when the benchmark did not finish (no timings
                                # then): timeout / operation-over-600s show as "timeout", others as "DNF"
+        bench_env: 2026-10-13-c7i.4xlarge  # importer-written: the benchmark environment of the timings
 ```
+
+`bench_env` names an entry of `data/benchmark_env.yaml` (KEMs: `data/kem_benchmark_env.yaml`).
+Those files hold `license`, `attribution` and a list `environments:` (one per imported run:
+`id` = `<run date>-<EC2 instance type>`, `date`, `instance_type`, `cpu`, `os`, `compiler`, …,
+`sources`), loaded as `benchmarkEnv` / `kemBenchmarkEnv` (`BenchmarkEnvFile`). The importers add
+the run's environment and drop unused ones; the compare pages show every environment
+(`BenchmarkEnvInfo`), a scheme page names a timing's run in its cell tooltip, and
+`benchEnv.test.ts` checks that ids and parameter sets agree. Normally there is one environment per
+suite; several appear while a re-run on new hardware is half imported. Never hand-edit timings,
+`bench_env` or the env files.
 
 Security flags (`broken`/`warning`/`info`) can be set at version level (applies to all
 parametersets) or overridden per-parameterset.
@@ -220,8 +231,8 @@ parametersets:
 ```
 
 Benchmark fields are optional and produced by `bench-kem/update_scheme_data.py` from a
-`bench-kem/results/*.txt` run; that script also writes `data/kem_benchmark_env.yaml`
-(loaded as `kemBenchmarkEnv`, shown via `BenchmarkEnvInfo` on the page). The table shows
+`bench-kem/results/*.txt` run; that script also adds the run to `data/kem_benchmark_env.yaml`
+and sets `bench_env` (as for signatures; loaded as `kemBenchmarkEnv`, shown via `BenchmarkEnvInfo`). The table shows
 keygen/encaps/decaps µs; when only cycles are present the time is extrapolated (wavy
 underline) at `CPUSPEED` (2.5 GHz).
 
@@ -252,9 +263,9 @@ ICCS placeholder-hash use and KAT status from `<suite>/schemes/ngcc/status.tsv`;
 other than `PASS` also sets the parameter set's `info` flag (a visible "note" badge).
 `src/lib/__tests__/ngccCandidates.test.ts` validates the claims and their agreement with the
 generated files. ngcc.dev data is cross-check only; findings links/flags are added only with
-Thom's sign-off. NGCC timings come only from our own AWS runs (the CPU of the current data is in
-`data/benchmark_env.yaml` / `data/kem_benchmark_env.yaml`), imported with the suites'
-`update_scheme_data.py`.
+Thom's sign-off. NGCC timings come only from our own AWS runs (each parameter set's `bench_env`
+names its run in `data/benchmark_env.yaml` / `data/kem_benchmark_env.yaml`), imported with the
+suites' `update_scheme_data.py`.
 
 ## Architecture
 
@@ -514,6 +525,12 @@ Options: `--suite sigs|kems|both`, `--instance-type` (default `c8i.4xlarge`),
 sets `NGCC_BUILD=1` on the VM; without it NGCC instances are skipped.
 
 - **Split runs** (one suite over several instances of one type): `scripts/aws-bench-split --dry-run` first; see the `running-cloud-benchmarks` skill.
+- **Only what changed:** `scripts/aws-bench-split` plans only rows whose timing inputs
+  (pinned source, params row, patches, build files, harness timing code: per-row fingerprints,
+  `bench-common/fingerprint.py`) or hardware (EC2 instance type) differ from their last imported
+  run, recorded by the importers in `<suite>/results/fingerprints.tsv`; `--stale-report` says
+  why, `--all` re-runs everything (only when Thom asks). Results headers carry `# commit:` and
+  `# instance_type:` for this.
 - **Builds the local `HEAD`**, cloned from the public GitHub repo. The script refuses
   to run with uncommitted changes. Commits not yet on origin are sent as a git bundle.
   Only top-level submodules are initialised, over anonymous HTTPS.
