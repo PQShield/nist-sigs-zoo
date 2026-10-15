@@ -30,11 +30,12 @@ call. Filters are substring matches, so a row name contained in another one (e.g
 NGCC-Aigis-Enc+-I in -II) also runs the longer rows; the plan warns about these.
 
 Time-limit exemptions: rows named in scripts/aws-bench-exemptions.txt (--exempt-file;
-exact row names, one per line) are the ones Thom decided may exceed the harness limits
+`NAME<TAB>minutes` per line) are the ones Thom decided may exceed the harness limits
 (BENCH_OP_LIMIT 600 s per sign/verify, BENCH_TIMEOUT 3600 s per scheme). Each gets an
 instance of its own, launched with BENCH_OP_LIMIT=0 and BENCH_TIMEOUT=0 (the TTL is the
-bound), and a TTL from its estimate plus a bigger margin. Other groups keep the defaults.
-Adding a row to that file needs Thom's decision.
+bound). Its estimate is the file's minutes (the whole instance run, boot and build
+included) unless results have the row, and its TTL that estimate plus the usual margin.
+Other groups keep the defaults. Adding a row to that file needs Thom's decision.
 
 Launch: groups start in the background, --stagger seconds apart, at most
 --max-instances at a time (the account's spot quota is 16). A group refused with
@@ -84,10 +85,6 @@ DEFAULT_EXEMPT_FILE = REPO / "scripts" / "aws-bench-exemptions.txt"
 # Env of an exempt group: no per-operation limit and no per-scheme timeout; the
 # instance's TTL then bounds the run.
 EXEMPT_ENV = {"BENCH_OP_LIMIT": "0", "BENCH_TIMEOUT": "0"}
-# Unmeasured exempt row: keygen ~12 min + one signature ~18 min per iteration (the
-# SLH-DSA *-24 sets on an i7-8550U); (iters + 1) iterations with the warm-up check.
-EXEMPT_ITER_S = 1800
-EXEMPT_EXTRA_MARGIN_MIN = 30  # unmeasured on EC2: more TTL slack than other groups
 RETRYABLE = ("MaxSpotInstanceCountExceeded", "InsufficientInstanceCapacity")
 LAUNCHED = "launched; waiting for it to run"
 ENV_PREFIXES = ("AWS_PROFILE", "AWS_REGION", "AWS_DEFAULT_REGION", "BENCH_")
@@ -114,7 +111,7 @@ class Row:
     iters: int  # iters this run will use (BENCH_ITER, else params.tsv, else 1000)
     params_iters: int  # params.tsv value (0 = harness default 1000)
     est_s: float = 0.0
-    source: str = ""  # "results", "iters" or "exempt"
+    source: str = ""  # "results", "iters" or "exempt" (aws-bench-exemptions.txt)
     exempt: bool = False  # exempt from the time limits (see read_exemptions)
 
 
@@ -209,13 +206,21 @@ def measured_us(results_dir: Path) -> dict[str, float]:
     return out
 
 
-def read_exemptions(path: Path) -> set[str]:
-    """Exact row names from an exemption file (blank lines and # comments skipped)."""
-    return {
-        ln.strip()
-        for ln in path.read_text().splitlines()
-        if ln.strip() and not ln.lstrip().startswith("#")
-    }
+def read_exemptions(path: Path) -> dict[str, float]:
+    """Row name -> estimated minutes, from an exemption file's `NAME<TAB>minutes` lines
+    (blank lines and # comments skipped)."""
+    out: dict[str, float] = {}
+    for ln in path.read_text().splitlines():
+        if not ln.strip() or ln.lstrip().startswith("#"):
+            continue
+        name, _, minutes = ln.partition("\t")
+        try:
+            out[name.strip()] = float(minutes)
+        except ValueError:
+            raise SystemExit(
+                f"{path}: {ln.strip()!r}: expected NAME<TAB>minutes (estimate)"
+            ) from None
+    return out
 
 
 def estimate_rows(
@@ -223,8 +228,9 @@ def estimate_rows(
     measured: dict[str, float],
     bench_iter: int | None,
     timeout_s: float,
-    exempt: frozenset[str] | set[str] = frozenset(),
+    exempt: dict[str, float] | None = None,
 ) -> list[Row]:
+    exempt = exempt or {}
     rows = []
     for name, it in registry:
         p = int(it) if it.isdigit() else 0
@@ -234,7 +240,7 @@ def estimate_rows(
             row.est_s = ROW_OVERHEAD_S + (n + 1) * measured[name] / 1e6
             row.source = "results"
         elif row.exempt:
-            row.est_s = ROW_OVERHEAD_S + (n + 1) * EXEMPT_ITER_S
+            row.est_s = exempt[name] * 60  # the whole run, boot and build included
             row.source = "exempt"
         else:
             tuned = p if p > 0 else 1000
@@ -342,8 +348,7 @@ def ttl_minutes(est_s: float, margin: int = TTL_MARGIN_MIN) -> int:
 
 
 def group_ttl(g: Group) -> int:
-    margin = TTL_MARGIN_MIN + (EXEMPT_EXTRA_MARGIN_MIN if g.exempt else 0)
-    return ttl_minutes(g.est_s, margin)
+    return ttl_minutes(g.est_s)
 
 
 def default_instance_type(script: Path = AWS_BENCH) -> str:
@@ -792,7 +797,7 @@ def parse_args(argv: list[str] | None) -> argparse.Namespace:
         "--exempt-file",
         type=Path,
         default=DEFAULT_EXEMPT_FILE,
-        help="rows exempt from the time limits, one exact name per line "
+        help="rows exempt from the time limits, NAME<TAB>minutes per line "
         "(default: scripts/aws-bench-exemptions.txt; adding rows needs Thom's decision)",
     )
     ap.add_argument("--ngcc-src", metavar="TARBALL")
