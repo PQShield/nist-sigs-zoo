@@ -165,6 +165,19 @@ BENCH_TO_YAML: dict[str, tuple[str, str]] = {
     "HAETAE-2": ("HAETAE.yaml", "HAETAE-2"),
     "HAETAE-3": ("HAETAE.yaml", "HAETAE-3"),
     "HAETAE-5": ("HAETAE.yaml", "HAETAE-5"),
+    # Mirath v2.1.0, RYDE v2.1.0, PERK v2.2.0 (round 2; optimised AVX2 implementations)
+    "Mirath-1a-Short": ("Mirath.yaml", "1a-Short"),
+    "Mirath-1a-Fast": ("Mirath.yaml", "1a-Fast"),
+    "Mirath-1b-Short": ("Mirath.yaml", "1b-Short"),
+    "Mirath-1b-Fast": ("Mirath.yaml", "1b-Fast"),
+    "Mirath-3a-Short": ("Mirath.yaml", "3a-Short"),
+    "Mirath-3a-Fast": ("Mirath.yaml", "3a-Fast"),
+    "Mirath-3b-Short": ("Mirath.yaml", "3b-Short"),
+    "Mirath-3b-Fast": ("Mirath.yaml", "3b-Fast"),
+    "Mirath-5a-Short": ("Mirath.yaml", "5a-Short"),
+    "Mirath-5a-Fast": ("Mirath.yaml", "5a-Fast"),
+    "Mirath-5b-Short": ("Mirath.yaml", "5b-Short"),
+    "Mirath-5b-Fast": ("Mirath.yaml", "5b-Fast"),
     # SDitH v3.0.0 (round 3) gf2 sets; bench output name matches the shim's @NAME@
     "SDitH3-L1-gf2-short": ("SDitH.yaml", "SDitH3-L1-gf2-short"),
     "SDitH2-L1-gf2-short": (
