@@ -178,6 +178,19 @@ def test_harness_and_flags(repo):
     assert changed(before, fps(repo)) == {"NGCC-Z": ["build"]}  # the C++ row only
 
 
+def test_global_flags_file_is_harness(repo):
+    before = fps(repo)
+    write(repo, "bench-common/flags.mk", "# global flags\nBENCH_CFLAGS := -O3\n")
+    git(repo, "add", "bench-common/flags.mk")
+    with_flags = fps(repo)
+    assert all(changed(before, with_flags)[n] == ["harness"] for n in with_flags)
+    write(repo, "bench-common/flags.mk", "# reworded\nBENCH_CFLAGS :=   -O3\n")
+    assert fps(repo) == with_flags
+    write(repo, "bench-common/flags.mk", "BENCH_CFLAGS := -O2\n")
+    after = fps(repo)
+    assert all(changed(with_flags, after)[n] == ["harness"] for n in after)
+
+
 def test_gitlink_counts_as_source(repo):
     sha = git(repo, "rev-parse", "HEAD")
     git(

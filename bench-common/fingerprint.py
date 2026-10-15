@@ -19,7 +19,9 @@ those inputs, split into components so a report can say which input changed:
            when the row's srcs name a C++ file)
   harness  bench-common/harness_common.h up to its "per-operation limit" section (the
            cycle counter, stats and BENCH_TIME_OP), the CC/CFLAGS lines of the suite
-           Makefile, and HARNESS_EPOCH below
+           Makefile, bench-common/flags.mk (the compiler flags of every scheme, NGCC
+           included; hashed only where it exists, so older commits keep their
+           fingerprints) and HARNESS_EPOCH below
 
 Deliberately left out: isolate.h, main.c, loader.c, the time limits and DNF plumbing,
 <suite>/harness.h (its timed loop only calls BENCH_TIME_OP once per operation),
@@ -80,6 +82,7 @@ CXX_SUFFIXES = (".cpp", ".cc", ".cxx")
 HEADER_SUFFIXES = {".h", ".hpp", ".hh", ".inc"}
 ARCHIVE_SUFFIXES = (".zip", ".tar.gz", ".tgz", ".tar.xz")
 LIMIT_MARKER = "per-operation limit"
+FLAGS_MK = "bench-common/flags.mk"
 FLAG_VARS = re.compile(r"^\s*(CC|CXX|CFLAGS|CXXFLAGS|LDFLAGS|LDLIBS)\s*[:?+]?=")
 LEGACY_EC2_CPUS = {"Intel(R) Xeon(R) Platinum 8488C": "c7i.4xlarge"}
 LOCAL = "local"
@@ -121,6 +124,7 @@ def tree_paths(suite_dir: str) -> list[str]:
         f"{suite_dir}/schemes",
         f"{suite_dir}/Makefile",
         "bench-common/harness_common.h",
+        FLAGS_MK,
         "bench-common/ngcc/ngcc.mk",
         "bench-common/ngcc/archives.tsv",
     ]
@@ -300,11 +304,15 @@ def harness_hash(tree: Tree, suite_dir: str) -> str:
         for ln in re.sub(r"\\\n", " ", mk).splitlines()
         if FLAG_VARS.match(ln) and not ln.lstrip().startswith("#")
     ]
-    return _h(
+    parts = [
         f"epoch={HARNESS_EPOCH}",
         normalize("harness_common.h", common),
         _collapse("\n".join(flags)),
-    )
+    ]
+    global_flags = tree.read(FLAGS_MK)
+    if global_flags is not None:
+        parts.append(normalize(FLAGS_MK, global_flags))
+    return _h(*parts)
 
 
 def _row_params(row: ParamsRow) -> str:
