@@ -126,9 +126,17 @@ MQOM_R2_SOS = $(addprefix schemes/mqom_r2/build/, \
     mqom2_cat3_gf256_short_r5.so mqom2_cat5_gf2_fast_r3.so mqom2_cat5_gf2_fast_r5.so \
     mqom2_cat5_gf2_short_r3.so mqom2_cat5_gf2_short_r5.so mqom2_cat5_gf256_fast_r3.so \
     mqom2_cat5_gf256_fast_r5.so mqom2_cat5_gf256_short_r3.so mqom2_cat5_gf256_short_r5.so)
+UOV_R1_SOS = $(addprefix schemes/uov_r1/build/, \
+    uov_r1_Ip_pkc.so uov_r1_Ip_classic.so uov_r1_Is_pkc.so \
+    uov_r1_Is_classic.so uov_r1_III_pkc.so uov_r1_III_classic.so \
+    uov_r1_V_pkc.so uov_r1_V_classic.so)
+UOV_R2_SOS = $(addprefix schemes/uov_r2/build/, \
+    uov_r2_Ip_pkc.so uov_r2_Ip_classic.so uov_r2_Is_pkc.so \
+    uov_r2_Is_classic.so uov_r2_III_pkc.so uov_r2_III_classic.so \
+    uov_r2_V_pkc.so uov_r2_V_classic.so)
 
-ALL_SOS     = $(MLDSA_SOS) $(SLHDSA_SOS) $(FNDSA_SOS) $(CLASSIC_SOS) $(HAWK_SOS) $(MAYO_SOS) $(FAEST_SOS) $(SDITH_SOS) $(SDITH2_SOS) $(SNOVA_SOS) $(UOV_SOS) $(QRUOV_SOS) $(MQOM_SOS) $(SQISIGN_SOS) $(AIMER_SOS) $(HAETAE_SOS) $(MIRATH_SOS) $(RYDE_SOS) $(PERK_SOS) $(CROSS_SOS) $(LESS_SOS) $(MAYO_R1_SOS) $(MAYO_R2_SOS) $(HAWK_R1_SOS) $(SDITH_R2_SOS) $(MQOM_R1_SOS) $(MQOM_R2_SOS)
-SCHEME_DIRS = mldsa slhdsa fndsa classic hawk mayo faest sdith sdith2 snova uov qruov mqom sqisign aimer haetae mirath ryde perk cross less mayo_r1 mayo_r2 hawk_r1 sdith_r2 mqom_r1 mqom_r2
+ALL_SOS     = $(MLDSA_SOS) $(SLHDSA_SOS) $(FNDSA_SOS) $(CLASSIC_SOS) $(HAWK_SOS) $(MAYO_SOS) $(FAEST_SOS) $(SDITH_SOS) $(SDITH2_SOS) $(SNOVA_SOS) $(UOV_SOS) $(QRUOV_SOS) $(MQOM_SOS) $(SQISIGN_SOS) $(AIMER_SOS) $(HAETAE_SOS) $(MIRATH_SOS) $(RYDE_SOS) $(PERK_SOS) $(CROSS_SOS) $(LESS_SOS) $(MAYO_R1_SOS) $(MAYO_R2_SOS) $(HAWK_R1_SOS) $(SDITH_R2_SOS) $(MQOM_R1_SOS) $(MQOM_R2_SOS) $(UOV_R1_SOS) $(UOV_R2_SOS)
+SCHEME_DIRS = mldsa slhdsa fndsa classic hawk mayo faest sdith sdith2 snova uov qruov mqom sqisign aimer haetae mirath ryde perk cross less mayo_r1 mayo_r2 hawk_r1 sdith_r2 mqom_r1 mqom_r2 uov_r1 uov_r2
 STAMPS      = $(addprefix schemes/, $(addsuffix /.stamp, $(SCHEME_DIRS)))
 
 # China NGCC round-1 candidates: one generic ICCS-API shim, data-driven from
@@ -171,6 +179,8 @@ schemes/hawk_r1/.stamp: schemes/hawk_r1/Makefile schemes/hawk_r1/shim_template.c
 schemes/sdith_r2/.stamp: schemes/sdith_r2/Makefile schemes/sdith_r2/shim_template.c schemes/sdith_r2/params.tsv schemes/sdith_r2/.source
 schemes/mqom_r1/.stamp: schemes/mqom_r1/Makefile schemes/mqom_r1/shim_template.c schemes/mqom_r1/params.tsv schemes/mqom_r1/.source
 schemes/mqom_r2/.stamp: schemes/mqom_r2/Makefile schemes/mqom_r2/shim_template.c schemes/mqom_r2/params.tsv
+schemes/uov_r1/.stamp: schemes/uov_r1/Makefile schemes/uov_r1/shim_template.c schemes/uov_r1/params.tsv
+schemes/uov_r2/.stamp: schemes/uov_r2/Makefile schemes/uov_r2/shim_template.c schemes/uov_r2/params.tsv
 $(NGCC_STAMP): $(NGCC_DIR)/Makefile $(NGCC_DIR)/shim_template.c $(NGCC_DIR)/params.tsv \
     ../bench-common/ngcc/ngcc.mk ../bench-common/ngcc/gen_rules.py \
     $(wildcard $(NGCC_DIR)/patches/*/*) $(wildcard ../bench-common/ngcc/src/.extracted)
@@ -211,6 +221,8 @@ $(HAWK_R1_SOS): schemes/hawk_r1/.stamp
 $(SDITH_R2_SOS): schemes/sdith_r2/.stamp
 $(MQOM_R1_SOS): schemes/mqom_r1/.stamp
 $(MQOM_R2_SOS): schemes/mqom_r2/.stamp
+$(UOV_R1_SOS): schemes/uov_r1/.stamp
+$(UOV_R2_SOS): schemes/uov_r2/.stamp
 
 # Generate the SO path list included by main.c.
 $(BUILD)/so_paths.h: Makefile $(NGCC_STAMP) | $(BUILD)

@@ -330,6 +330,24 @@ BENCH_TO_YAML: dict[str, Target | list[Target]] = {
     "MQOM-R2-L5-gf256-fast-3r": ("MQOM.yaml", "L5-gf256-fast-3r", "v2.0"),
     "MQOM-R2-L5-gf256-fast-5r": ("MQOM.yaml", "L5-gf256-fast-5r", "v2.0"),
 
+    # UOV round 1 (pqov 95aa926) and round 2 (pqov 26e4171), bench/schemes/uov_r1, uov_r2
+    "UOV-R1-Ip-pkc": ("UOV.yaml", "Ip-pkc", "v1.0"),
+    "UOV-R1-Ip-classic": ("UOV.yaml", "Ip-classic", "v1.0"),
+    "UOV-R1-Is-pkc": ("UOV.yaml", "Is-pkc", "v1.0"),
+    "UOV-R1-Is-classic": ("UOV.yaml", "Is-classic", "v1.0"),
+    "UOV-R1-III-pkc": ("UOV.yaml", "III-pkc", "v1.0"),
+    "UOV-R1-III-classic": ("UOV.yaml", "III-classic", "v1.0"),
+    "UOV-R1-V-pkc": ("UOV.yaml", "V-pkc", "v1.0"),
+    "UOV-R1-V-classic": ("UOV.yaml", "V-classic", "v1.0"),
+    "UOV-R2-Ip-pkc": ("UOV.yaml", "Ip-pkc", "v2.0"),
+    "UOV-R2-Ip-classic": ("UOV.yaml", "Ip-classic", "v2.0"),
+    "UOV-R2-Is-pkc": ("UOV.yaml", "Is-pkc", "v2.0"),
+    "UOV-R2-Is-classic": ("UOV.yaml", "Is-classic", "v2.0"),
+    "UOV-R2-III-pkc": ("UOV.yaml", "III-pkc", "v2.0"),
+    "UOV-R2-III-classic": ("UOV.yaml", "III-classic", "v2.0"),
+    "UOV-R2-V-pkc": ("UOV.yaml", "V-pkc", "v2.0"),
+    "UOV-R2-V-classic": ("UOV.yaml", "V-classic", "v2.0"),
+
     # Classic
     "RSA-2048 (PSS)": ("RSA.yaml", "2048"),
     "RSA-3072 (PSS)": ("RSA.yaml", "3072"),
