@@ -50,6 +50,11 @@
   description: "Key-recovery attack on SNOVA's biased vinegar sampling (Beullens &amp; Hess, IBM Research, <a href=\"https://groups.google.com/a/list.nist.gov/d/msgid/pqc-forum/000001dd4a73%247e3c04e0%247ab40ea0%24%40beullens.com\">pqc-forum OFFICIAL COMMENT</a>, paper to appear on ePrint): the round-3 signer draws vinegar variables by reducing uniform byte strings modulo q^g, which is never uniform when q is odd, so every signature yields noisy linear equations in the secret transformation T. Key recovery becomes a q-ary LPN problem with a known full-support error distribution, solved with BKW reduction plus Fourier hypothesis testing. This affects only the <strong>six odd-characteristic alternative parameter sets</strong> of Table 6 in the round-3 spec &mdash; (27 4 19 4 6), (27 5 13 4 4), (39 5 11 4 6), (38 5 19 4 6), (40 5 19 5 6) and (47 6 19 4 6) &mdash; all of which fall far below their claimed 170&ndash;331 bits (2^90&ndash;2^130 operations from ~6&ndash;11k signatures). Four were broken end to end against the unmodified reference implementation: 9M, 16.5M, 9M and 180M signatures recovered in 22s, 34s, 22s and 16min respectively (<a href=\"https://github.com/WardBeullens/SNOVA_LPN_Attack\">proof of concept</a>). <strong>The recommended parameter sets shown here (SNOVA_{I,III,V}_{K,B,S}) use q = 16 and are unaffected</strong>, since 16^g divides 256^b exactly; no flags are changed for them. The fix is simple: sample the vinegar variables uniformly, e.g. by rejection sampling as QR-UOV does. The first version of the attack was found independently by an AI system (gpt-5.6-sol); the authors verified it, improved it and wrote it up."
   schemes: [SNOVA]
 
+- date: '2026-09-04'
+  type: update
+  description: "HAETAE implementation 1.2.0 and the KS draft specifications 260825 (25 August 2026) and 260904 (4 September 2026), linked from the <a href=\"https://kpqc.cryptolab.co.kr/haetae\">HAETAE page</a>, revise the hyperball sampler: its discrete Gaussian CDT grows from 64 entries at 16-bit precision to 166 entries at 83-bit precision, so each sample candidate uses 203 instead of 136 random bits. The change follows a question by Jipeng Zhang (National University of Singapore) about the precision of the discrete Gaussian sampler, credited in specification 260904. Sizes are unchanged. We benchmark the 1.2.0 reference implementation (the release has no optimised code), fetched from the official download and pinned by its SHA-256; it reproduces the shipped KATs."
+  schemes: [HAETAE]
+
 - date: '2026-08-31'
   type: update
   description: "QR-UOV Round 3 submission (<a href=\"https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/qruov_specifications.pdf\">specification</a>, <a href=\"https://github.com/qruov/round3\">github.com/qruov/round3</a>): the parameter set list is cut from twelve to six, all with q = 127 &mdash; the q = 31 and q = 7 sets are dropped &mdash; and three new small-public-key sets with &#8467; = 10 are added (I-(127 540 60 10), III-(127 820 90 10), V-(127 1040 110 10)), e.g. an 11,041-byte public key at Level I for a 541-byte signature. The secret key is now the 32-byte seed alone at every level, and signing rejects oil systems of rank below m &minus; 2. A new AVX2 implementation (Amagasa, Ueno &amp; Homma, <a href=\"https://doi.org/10.46586/tches.v2026.i2.325-346\">TCHES 2026(2)</a>) replaces the Round 2 avx2/avx512 code. Benchmarks here switch to that AVX2 implementation with the AES-based public-seed PRG (upstream's default), so the speedup over Round 2 combines the new implementation with the SHAKE&rarr;AES PRG change."
@@ -192,6 +197,11 @@
   type: update
   description: Website rewritten with SvelteKit, Tailwind CSS v4, and a new round selector, filter panel, and scatter plot.
 
+- date: '2026-02-04'
+  type: update
+  description: "HAETAE KS draft specification 260204 with implementation 1.1.2 (<a href=\"https://github.com/CryptoLabInc/HAETAE\">CryptoLabInc/HAETAE</a>), prepared for Korean standardisation, renames the parameter sets HAETAE-120/180/260 to HAETAE-2/3/5 after their NIST levels. Sizes are those of v3.0."
+  schemes: [HAETAE]
+
 - date: '2025-12-18'
   type: attack
   description: "Sun, Chen, Liu, Wang &amp; Niu (<a href=\"https://eprint.iacr.org/2025/2272\">ePrint 2025/2272</a>) give resultant-based algebraic attacks on AIM2: 2^188.76 primitive calls for AIM2-III with &omega; = 2 (2^195.05 with &omega; = 2.373), against 192 claimed bits, and 2^295.97 for AIM2-V via subfield reduction, about 2^100 below the designers&rsquo; Gr&ouml;bner-basis estimate but above 256 bits. They propose AIM2-patch, which adds a linear layer after the key. The AIMer team&rsquo;s January 2026 specification counts these attacks at more than an exhaustive search of AES at the same level. No flag change."
@@ -208,10 +218,25 @@
   description: "AIMer v2.1 (<a href=\"https://aimer-signature.org/docs/AIMer-specification-v2.1.pdf\">specification</a>, <a href=\"https://groups.google.com/g/kpqc-bulletin/c/QicD0wIDrAU\">announcement</a>): implementation-only changes (PQClean compatibility, a memory-optimised C implementation, ARM SHAKE optimisation, and constant-time patches recommended by D. J. Bernstein). Sizes are unchanged from v2.0."
   schemes: [AIMer]
 
+- date: '2024-07-04'
+  type: update
+  description: "HAETAE v3.0 (<a href=\"https://hmchoe0528.github.io/assets/manuscripts/HAETAE_spec_24.07.04_v3.0.pdf\">specification</a>) corrects the secret-key sizes, which were missing 32 bytes (HAETAE-120 1,376&rarr;1,408 bytes), lowers B&prime; by 0.01 to satisfy Lemma 5, and replaces the 512-point FFT in key generation by a 256-point FFT (40&ndash;60% fewer key-generation cycles in AVX2). This is the version KpqC selected in January 2025."
+  schemes: [HAETAE]
+
 - date: '2024-02-23'
   type: update
   description: "AIMer v2.0 (<a href=\"https://aimer-signature.org/docs/AIMer-specification-v2.0.pdf\">specification</a>), the KpqC round-2 submission, replaces AIM with AIM2 (<a href=\"https://eprint.iacr.org/2023/1474\">Kim, Ha, Son &amp; Lee, ePrint 2023/1474</a>) to counter the 2023 attacks on AIM: inverse Mersenne S-boxes in the first round and a distinct constant added before each S-box. It also halves the salt, adds message pre-hashing and cuts the twelve parameter sets to six (AIMer-128f/s, -192f/s, -256f/s). Signatures at the same level are similar in size to v1.0 (e.g. 4,160 bytes for AIMer-128s against 4,176 bytes for L1_PARAM3)."
   schemes: [AIMer]
+
+- date: '2024-02-23'
+  type: update
+  description: "HAETAE v2.1 (<a href=\"https://hmchoe0528.github.io/assets/manuscripts/HAETAE_spec_24.02.23_v2.1.pdf\">specification</a>) adds an HVZK argument for compressed HAETAE, a precise security bound with refined MLWE estimates, and a list of reported attacks and fixes. Parameters and sizes are unchanged."
+  schemes: [HAETAE]
+
+- date: '2023-11-29'
+  type: update
+  description: "HAETAE v2.0 (<a href=\"https://hmchoe0528.github.io/assets/manuscripts/HAETAE_spec_23.11.29_v2.0.pdf\">specification</a>), the KpqC round-2 submission, fixes the implementation errors behind the buffer-overflow (Saarinen) and rANS bit-flipping (HuFu team) forgeries of v1.0 and an uninitialised sum in the hyperball sampler, and changes the HAETAE-120/180 parameters to account for verification-key compression: signatures grow from 1,463/2,337/2,908 to 1,474/2,349/2,948 bytes. It adds AVX2 and Cortex-M4 implementations."
+  schemes: [HAETAE]
 
 - date: '2023-09-18'
   type: attack

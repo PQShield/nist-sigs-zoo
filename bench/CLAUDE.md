@@ -57,6 +57,7 @@ bench/
     ├── mqom/             # mqom/mqom-v3
     ├── sqisign/          # SQISign/the-sqisign (CMake build; SQISIGN_BUILD_TYPE=broadwell by default, x86-64 asm field arithmetic)
     ├── aimer/            # samsungsds-opensource/AIMer v3.0 (ships AIMer.zip, unpacked into build/src; reference implementation only)
+    ├── haetae/           # HAETAE 1.2.0 (official Google Drive zip, URL + sha256 in .source, fetched into build/dl; reference implementation only)
     └── <name>/
         ├── params.tsv       # one row per parameter set; columns substituted into template
         ├── shim_template.c  # C template with @COLNAME@ tokens

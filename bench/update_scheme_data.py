@@ -151,6 +151,10 @@ BENCH_TO_YAML: dict[str, tuple[str, str]] = {
     "AIMer-192s": ("AIMer.yaml", "AIMer-192s"),
     "AIMer-256f": ("AIMer.yaml", "AIMer-256f"),
     "AIMer-256s": ("AIMer.yaml", "AIMer-256s"),
+    # HAETAE 1.2.0 (KS draft; reference implementation) — names match the YAML
+    "HAETAE-2": ("HAETAE.yaml", "HAETAE-2"),
+    "HAETAE-3": ("HAETAE.yaml", "HAETAE-3"),
+    "HAETAE-5": ("HAETAE.yaml", "HAETAE-5"),
     # SDitH v3.0.0 (round 3) gf2 sets; bench output name matches the shim's @NAME@
     "SDitH3-L1-gf2-short": ("SDitH.yaml", "SDitH3-L1-gf2-short"),
     "SDitH2-L1-gf2-short": (
