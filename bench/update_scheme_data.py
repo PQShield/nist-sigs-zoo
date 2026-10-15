@@ -280,7 +280,6 @@ BENCH_TO_YAML: dict[str, Target | list[Target]] = {
     "MAYO-R2-two": ("MAYO.yaml", "two", "Round 2@2025-02-05"),
     "MAYO-R2-three": ("MAYO.yaml", "three", "Round 2@2025-02-05"),
     "MAYO-R2-five": ("MAYO.yaml", "five", "Round 2@2025-02-05"),
-
     # HAWK round 1 (hawk-sign/dev ac3a98c = NIST round-1 package), bench/schemes/hawk_r1
     "HAWK-R1-512": ("HAWK.yaml", "512", "v1.0"),
     "HAWK-R1-1024": ("HAWK.yaml", "1024", "v1.0"),
@@ -291,7 +290,6 @@ BENCH_TO_YAML: dict[str, Target | list[Target]] = {
     "SDitH-R2-L3-gf2-fast": ("SDitH.yaml", "SDitH2-L3-gf2-fast", "v2.0"),
     "SDitH-R2-L5-gf2-short": ("SDitH.yaml", "SDitH2-L5-gf2-short", "v2.0"),
     "SDitH-R2-L5-gf2-fast": ("SDitH.yaml", "SDitH2-L5-gf2-fast", "v2.0"),
-
     # MQOM round 1 (NIST round-1 package) and round 2 (mqom-v2 v2.0.0), bench/schemes/mqom_r1, mqom_r2
     "MQOM-R1-L1-gf31-short": ("MQOM.yaml", "L1-gf31-short", "v1.0"),
     "MQOM-R1-L1-gf31-fast": ("MQOM.yaml", "L1-gf31-fast", "v1.0"),
@@ -329,7 +327,6 @@ BENCH_TO_YAML: dict[str, Target | list[Target]] = {
     "MQOM-R2-L5-gf256-short-5r": ("MQOM.yaml", "L5-gf256-short-5r", "v2.0"),
     "MQOM-R2-L5-gf256-fast-3r": ("MQOM.yaml", "L5-gf256-fast-3r", "v2.0"),
     "MQOM-R2-L5-gf256-fast-5r": ("MQOM.yaml", "L5-gf256-fast-5r", "v2.0"),
-
     # UOV round 1 (pqov 95aa926) and round 2 (pqov 26e4171), bench/schemes/uov_r1, uov_r2
     "UOV-R1-Ip-pkc": ("UOV.yaml", "Ip-pkc", "v1.0"),
     "UOV-R1-Ip-classic": ("UOV.yaml", "Ip-classic", "v1.0"),
@@ -347,7 +344,6 @@ BENCH_TO_YAML: dict[str, Target | list[Target]] = {
     "UOV-R2-III-classic": ("UOV.yaml", "III-classic", "v2.0"),
     "UOV-R2-V-pkc": ("UOV.yaml", "V-pkc", "v2.0"),
     "UOV-R2-V-classic": ("UOV.yaml", "V-classic", "v2.0"),
-
     # FAEST round 1 (NIST round-1 package) and round 2 (faest-arch-opt v2.0.0), bench/schemes/faest_r1, faest_r2
     "FAEST-R1-128s": ("FAEST.yaml", "128s", "v1.0"),
     "FAEST-R1-128f": ("FAEST.yaml", "128f", "v1.0"),
@@ -373,7 +369,6 @@ BENCH_TO_YAML: dict[str, Target | list[Target]] = {
     "FAEST-R2-256f": ("FAEST.yaml", "256f", "v2.0"),
     "FAEST-R2-EM-256s": ("FAEST.yaml", "EM-256s", "v2.0"),
     "FAEST-R2-EM-256f": ("FAEST.yaml", "EM-256f", "v2.0"),
-
     # SNOVA round 1 (NIST round-1 package, ssk) and round 2 (SNOVA 1318290, ESK), bench/schemes/snova_r1, snova_r2
     "SNOVA-R1-(60,10,16,4)": ("SNOVA.yaml", "(60, 10, 16, 4)", "Round 1"),
     "SNOVA-R1-(66,15,16,3)": ("SNOVA.yaml", "(66, 15, 16, 3)", "Round 1"),
@@ -395,7 +390,6 @@ BENCH_TO_YAML: dict[str, Target | list[Target]] = {
     "SNOVA-R2-(24,5,4)": ("SNOVA.yaml", "(24 5 4)", "v2.0"),
     "SNOVA-R2-(25,8,3)": ("SNOVA.yaml", "(25 8 3)", "v2.0"),
     "SNOVA-R2-(37,17,2)": ("SNOVA.yaml", "(37 17 2)", "v2.0"),
-
     # SQIsign round 1 (tag nist-v1) and round 2 (tag nist-v2), bench/schemes/sqisign_r1, sqisign_r2
     "SQIsign-R1-I": ("SQIsign.yaml", "I", "v1.0"),
     "SQIsign-R1-III": ("SQIsign.yaml", "III", "v1.0"),
@@ -403,7 +397,6 @@ BENCH_TO_YAML: dict[str, Target | list[Target]] = {
     "SQIsign-R2-I": ("SQIsign.yaml", "I", "v2.0"),
     "SQIsign-R2-III": ("SQIsign.yaml", "III", "v2.0"),
     "SQIsign-R2-V": ("SQIsign.yaml", "V", "v2.0"),
-
     # QR-UOV round 1 (NIST round-1 package) and round 2 (qruov/round2 bc2c961), bench/schemes/qruov_r1, qruov_r2
     "QR-UOV-R1-I-(127,156,54,3)": ("QR-UOV.yaml", "I-(127, 156, 54, 3)", "Round 1"),
     "QR-UOV-R1-I-(31,165,60,3)": ("QR-UOV.yaml", "I-(31, 165, 60, 3)", "Round 1"),
@@ -411,8 +404,16 @@ BENCH_TO_YAML: dict[str, Target | list[Target]] = {
     "QR-UOV-R1-I-(7,740,100,10)": ("QR-UOV.yaml", "I-(7, 740, 100, 10)", "Round 1"),
     "QR-UOV-R1-III-(127,228,78,3)": ("QR-UOV.yaml", "III-(127, 228, 78, 3)", "Round 1"),
     "QR-UOV-R1-III-(31,246,87,3)": ("QR-UOV.yaml", "III-(31, 246, 87, 3)", "Round 1"),
-    "QR-UOV-R1-III-(31,890,100,10)": ("QR-UOV.yaml", "III-(31, 890, 100, 10)", "Round 1"),
-    "QR-UOV-R1-III-(7,1100,140,10)": ("QR-UOV.yaml", "III-(7, 1100, 140, 10)", "Round 1"),
+    "QR-UOV-R1-III-(31,890,100,10)": (
+        "QR-UOV.yaml",
+        "III-(31, 890, 100, 10)",
+        "Round 1",
+    ),
+    "QR-UOV-R1-III-(7,1100,140,10)": (
+        "QR-UOV.yaml",
+        "III-(7, 1100, 140, 10)",
+        "Round 1",
+    ),
     "QR-UOV-R1-V-(127,306,105,3)": ("QR-UOV.yaml", "V-(127, 306, 105, 3)", "Round 1"),
     "QR-UOV-R1-V-(31,324,114,3)": ("QR-UOV.yaml", "V-(31, 324, 114, 3)", "Round 1"),
     "QR-UOV-R1-V-(31,1120,120,10)": ("QR-UOV.yaml", "V-(31, 1120, 120, 10)", "Round 1"),
@@ -429,7 +430,6 @@ BENCH_TO_YAML: dict[str, Target | list[Target]] = {
     "QR-UOV-R2-V-(31,324,114,3)": ("QR-UOV.yaml", "V-(31 324 114 3)", "Round 2"),
     "QR-UOV-R2-V-(31,1120,120,10)": ("QR-UOV.yaml", "V-(31 1120 120 10)", "Round 2"),
     "QR-UOV-R2-V-(7,1490,190,10)": ("QR-UOV.yaml", "V-(7 1490 190 10)", "Round 2"),
-
     # Classic
     "RSA-2048 (PSS)": ("RSA.yaml", "2048"),
     "RSA-3072 (PSS)": ("RSA.yaml", "3072"),
