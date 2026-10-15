@@ -1,0 +1,21 @@
+# RYDE v2.1.0 (specification 23/09/2025), the official submission package from
+# https://pqc-ryde.org/resources.html (zip; sha256 pinned in .source, checked by the
+# Makefile). There is no public upstream git repository. Optimized_Implementation/
+# (one directory per parameter set) built as upstream's README says
+# (cmake -DOPT_IMPL=avx: AVX2 + AES-NI + PCLMUL, XKCP AVX2 Keccak, -D_SHAKE_TIMES4_),
+# with the default Rijndael-based commitments: the variant of the spec's first
+# performance table, whose cycle counts the YAML carries. Sizes match each set's
+# src/parameters.h and data/schemes/RYDE.yaml; our build reproduces the shipped
+# rijndael KATs for all 9 sets.
+# Columns: file, name, pk, sk, sig, iters, dir (Optimized_Implementation/<dir>),
+#          bits (hash_sha3[_x4]_<bits>.c), degree (field/field_<degree>.c)
+file	name	pk	sk	sig	iters	dir	bits	degree
+ryde1s	RYDE-1-Short	69	32	3115	0	ryde1s	256	53
+ryde1f	RYDE-1-Fast	69	32	3597	0	ryde1f	256	53
+ryde1ff	RYDE-1-Faster	69	32	4976	0	ryde1ff	256	53
+ryde3s	RYDE-3-Short	101	48	7064	530	ryde3s	384	61
+ryde3f	RYDE-3-Fast	101	48	8264	0	ryde3f	384	61
+ryde3ff	RYDE-3-Faster	101	48	11672	0	ryde3ff	384	61
+ryde5s	RYDE-5-Short	132	64	12607	350	ryde5s	512	61
+ryde5f	RYDE-5-Fast	132	64	14779	0	ryde5f	512	61
+ryde5ff	RYDE-5-Faster	132	64	20850	0	ryde5ff	512	61

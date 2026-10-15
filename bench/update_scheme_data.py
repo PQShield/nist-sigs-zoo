@@ -178,6 +178,15 @@ BENCH_TO_YAML: dict[str, tuple[str, str]] = {
     "Mirath-5a-Fast": ("Mirath.yaml", "5a-Fast"),
     "Mirath-5b-Short": ("Mirath.yaml", "5b-Short"),
     "Mirath-5b-Fast": ("Mirath.yaml", "5b-Fast"),
+    "RYDE-1-Short": ("RYDE.yaml", "1-Short"),
+    "RYDE-1-Fast": ("RYDE.yaml", "1-Fast"),
+    "RYDE-1-Faster": ("RYDE.yaml", "1-Faster"),
+    "RYDE-3-Short": ("RYDE.yaml", "3-Short"),
+    "RYDE-3-Fast": ("RYDE.yaml", "3-Fast"),
+    "RYDE-3-Faster": ("RYDE.yaml", "3-Faster"),
+    "RYDE-5-Short": ("RYDE.yaml", "5-Short"),
+    "RYDE-5-Fast": ("RYDE.yaml", "5-Fast"),
+    "RYDE-5-Faster": ("RYDE.yaml", "5-Faster"),
     # SDitH v3.0.0 (round 3) gf2 sets; bench output name matches the shim's @NAME@
     "SDitH3-L1-gf2-short": ("SDitH.yaml", "SDitH3-L1-gf2-short"),
     "SDitH2-L1-gf2-short": (

@@ -75,6 +75,8 @@ MIRATH_SOS  = $(addprefix schemes/mirath/build/, \
     mirath_1a_short.so mirath_1a_fast.so mirath_1b_short.so mirath_1b_fast.so \
     mirath_3a_short.so mirath_3a_fast.so mirath_3b_short.so mirath_3b_fast.so \
     mirath_5a_short.so mirath_5a_fast.so mirath_5b_short.so mirath_5b_fast.so)
+RYDE_SOS    = $(addprefix schemes/ryde/build/, \
+    ryde1s.so ryde1f.so ryde1ff.so ryde3s.so ryde3f.so ryde3ff.so ryde5s.so ryde5f.so ryde5ff.so)
 MQOM_SOS    = $(addprefix schemes/mqom/build/, \
     mqom3_cat1_gf2_shorter_ct.so mqom3_cat1_gf2_shorter_ot.so \
     mqom3_cat1_gf16_short_ct.so  mqom3_cat1_gf16_short_ot.so  \
@@ -86,8 +88,8 @@ MQOM_SOS    = $(addprefix schemes/mqom/build/, \
     mqom3_cat5_gf16_short_ct.so  mqom3_cat5_gf16_short_ot.so  \
     mqom3_cat5_gf16_fast_ct.so   mqom3_cat5_gf16_fast_ot.so)
 
-ALL_SOS     = $(MLDSA_SOS) $(SLHDSA_SOS) $(FNDSA_SOS) $(CLASSIC_SOS) $(HAWK_SOS) $(MAYO_SOS) $(FAEST_SOS) $(SDITH_SOS) $(SDITH2_SOS) $(SNOVA_SOS) $(UOV_SOS) $(QRUOV_SOS) $(MQOM_SOS) $(SQISIGN_SOS) $(AIMER_SOS) $(HAETAE_SOS) $(MIRATH_SOS)
-SCHEME_DIRS = mldsa slhdsa fndsa classic hawk mayo faest sdith sdith2 snova uov qruov mqom sqisign aimer haetae mirath
+ALL_SOS     = $(MLDSA_SOS) $(SLHDSA_SOS) $(FNDSA_SOS) $(CLASSIC_SOS) $(HAWK_SOS) $(MAYO_SOS) $(FAEST_SOS) $(SDITH_SOS) $(SDITH2_SOS) $(SNOVA_SOS) $(UOV_SOS) $(QRUOV_SOS) $(MQOM_SOS) $(SQISIGN_SOS) $(AIMER_SOS) $(HAETAE_SOS) $(MIRATH_SOS) $(RYDE_SOS)
+SCHEME_DIRS = mldsa slhdsa fndsa classic hawk mayo faest sdith sdith2 snova uov qruov mqom sqisign aimer haetae mirath ryde
 STAMPS      = $(addprefix schemes/, $(addsuffix /.stamp, $(SCHEME_DIRS)))
 
 # China NGCC round-1 candidates: one generic ICCS-API shim, data-driven from
@@ -120,6 +122,7 @@ schemes/sqisign/.stamp: schemes/sqisign/Makefile schemes/sqisign/shim_template.c
 schemes/aimer/.stamp:   schemes/aimer/Makefile   schemes/aimer/shim_template.c   schemes/aimer/params.tsv
 schemes/haetae/.stamp:  schemes/haetae/Makefile  schemes/haetae/shim_template.c  schemes/haetae/params.tsv schemes/haetae/.source
 schemes/mirath/.stamp:  schemes/mirath/Makefile  schemes/mirath/shim_template.c  schemes/mirath/params.tsv schemes/mirath/.source
+schemes/ryde/.stamp:    schemes/ryde/Makefile    schemes/ryde/shim_template.c    schemes/ryde/params.tsv   schemes/ryde/.source
 $(NGCC_STAMP): $(NGCC_DIR)/Makefile $(NGCC_DIR)/shim_template.c $(NGCC_DIR)/params.tsv \
     ../bench-common/ngcc/ngcc.mk ../bench-common/ngcc/gen_rules.py \
     $(wildcard $(NGCC_DIR)/patches/*/*) $(wildcard ../bench-common/ngcc/src/.extracted)
@@ -150,6 +153,7 @@ $(SQISIGN_SOS): schemes/sqisign/.stamp
 $(AIMER_SOS):   schemes/aimer/.stamp
 $(HAETAE_SOS):  schemes/haetae/.stamp
 $(MIRATH_SOS):  schemes/mirath/.stamp
+$(RYDE_SOS):    schemes/ryde/.stamp
 
 # Generate the SO path list included by main.c.
 $(BUILD)/so_paths.h: Makefile $(NGCC_STAMP) | $(BUILD)
