@@ -46,12 +46,12 @@ parametersets:
   ngcc_level: 512
   pk: 19768
   ct: 39320
-  keygen_cycles: 6669281
-  encaps_cycles: 10281689
-  decaps_cycles: 14219896
-  keygen_us: 1771.3
-  encaps_us: 2729.5
-  decaps_us: 3780.9
-  bench_env: 2026-10-13-c7i.4xlarge
+  keygen_cycles: 6825668
+  encaps_cycles: 10566517
+  decaps_cycles: 14684152
+  keygen_us: 1765.6
+  encaps_us: 2731.8
+  decaps_us: 3796.1
+  bench_env: 2026-10-15-c8i.4xlarge
   notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 findings_url: https://ngcc.dev/reports/kem-37.html

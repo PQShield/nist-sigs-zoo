@@ -10,13 +10,13 @@ parametersets:
   ngcc_level: 128
   pk: 1541
   ct: 1573
-  keygen_cycles: 1488538849
-  encaps_cycles: 14233864
-  decaps_cycles: 84078114
-  keygen_us: 394838.0
-  encaps_us: 3783.3
-  decaps_us: 22289.2
-  bench_env: 2026-10-13-c7i.4xlarge
+  keygen_cycles: 1417035390
+  encaps_cycles: 14053552
+  decaps_cycles: 91582077
+  keygen_us: 365971.3
+  encaps_us: 3632.4
+  decaps_us: 23652.7
+  bench_env: 2026-10-15-c8i.4xlarge
   notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 - name: BIKE_MLThre-256
   ngcc_level: 256

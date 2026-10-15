@@ -66,21 +66,21 @@ versions:
     ngcc_level: 384
     pk: 96
     sig: 76176
-    signing_cycles: 13388837947
-    verification_cycles: 133056621
-    signing_us: 3654758.5
-    verification_us: 36197.4
-    bench_env: 2026-10-13-c7i.4xlarge
+    signing_cycles: 13535769185
+    verification_cycles: 134811926
+    signing_us: 3495482.2
+    verification_us: 34807.3
+    bench_env: 2026-10-15-c8i.4xlarge
     notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
   - name: CEDRUSALPHA-512s
     ngcc_level: 512
     pk: 128
     sig: 98048
-    signing_cycles: 95680029213
-    verification_cycles: 138904607
-    signing_us: 26062397.3
-    verification_us: 37738.6
-    bench_env: 2026-10-13-c7i.4xlarge
+    signing_cycles: 96817375561
+    verification_cycles: 140321489
+    signing_us: 25003460.8
+    verification_us: 36246.4
+    bench_env: 2026-10-15-c8i.4xlarge
     notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
   - name: CEDRUSALPHA-512f
     ngcc_level: 512

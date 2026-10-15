@@ -24,32 +24,32 @@ versions:
     ngcc_level: 256
     pk: 153
     sig: 74248
-    signing_cycles: 104759478
-    verification_cycles: 47252833
-    signing_us: 30601.8
-    verification_us: 13811.3
-    bench_env: 2026-10-13-c7i.4xlarge
+    signing_cycles: 105263699
+    verification_cycles: 47610957
+    signing_us: 27228.5
+    verification_us: 12316.5
+    bench_env: 2026-10-15-c8i.4xlarge
     notes: Reference implementation; uses the ICCS SM3 implementation from the submission package.
   - name: QingLuan-384
     ngcc_level: 384
     pk: 227
     sig: 164940
-    signing_cycles: 257034542
-    verification_cycles: 119405615
-    signing_us: 75286.7
-    verification_us: 35008.1
-    bench_env: 2026-10-13-c7i.4xlarge
+    signing_cycles: 258722341
+    verification_cycles: 120432790
+    signing_us: 67091.5
+    verification_us: 31267.7
+    bench_env: 2026-10-15-c8i.4xlarge
     notes: Reference implementation; uses the ICCS SM3 implementation from the submission package.
     broken: Nested SM3 hashing (<a href="https://list.niccs.org.cn/archives/list/pkcforum@list.niccs.org.cn/message/4GD326C4OBZ6TEJQCSJ3QSCI3QBNTYGV/">Xiong and Wang</a>), and the specified key-generation state each limit security to about 2^256 work, below this set's target (<a href="https://ngcc.dev/reports/sign-20.html#sign-20-5-qing-luans-random-generation-state-caps-the-384-and-512-bit-sets-at-256-bits">Feussner</a>).
   - name: QingLuan-512
     ngcc_level: 512
     pk: 302
     sig: 292816
-    signing_cycles: 619016642
-    verification_cycles: 284740247
-    signing_us: 181242.2
-    verification_us: 83482.0
-    bench_env: 2026-10-13-c7i.4xlarge
+    signing_cycles: 624602164
+    verification_cycles: 288080356
+    signing_us: 161936.0
+    verification_us: 74786.9
+    bench_env: 2026-10-15-c8i.4xlarge
     notes: Reference implementation; uses the ICCS SM3 implementation from the submission package.
     broken: Nested SM3 hashing (<a href="https://list.niccs.org.cn/archives/list/pkcforum@list.niccs.org.cn/message/4GD326C4OBZ6TEJQCSJ3QSCI3QBNTYGV/">Xiong and Wang</a>), and the specified key-generation state each limit security to about 2^256 work, below this set's target (<a href="https://ngcc.dev/reports/sign-20.html#sign-20-5-qing-luans-random-generation-state-caps-the-384-and-512-bit-sets-at-256-bits">Feussner</a>).
   findings_url: https://ngcc.dev/reports/sign-20.html

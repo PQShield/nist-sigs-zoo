@@ -55,11 +55,11 @@ versions:
     ngcc_level: 384
     pk: 96
     sig: 27784
-    signing_cycles: 34934450158
-    verification_cycles: 25670583446
-    signing_us: 9384573.0
-    verification_us: 6897153.9
-    bench_env: 2026-10-13-c7i.4xlarge
+    signing_cycles: 34470804581
+    verification_cycles: 25263549224
+    signing_us: 8908521.2
+    verification_us: 6529804.1
+    bench_env: 2026-10-15-c8i.4xlarge
     notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it; our build applies a small patch to the submitted code.
   - name: Galas-384F
     ngcc_level: 384

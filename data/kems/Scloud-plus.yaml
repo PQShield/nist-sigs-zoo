@@ -22,36 +22,36 @@ parametersets:
   ngcc_level: 256
   pk: 16296
   ct: 17925
-  keygen_cycles: 13124829
-  encaps_cycles: 13658295
-  decaps_cycles: 13021995
-  keygen_us: 3480.2
-  encaps_us: 3622.2
-  decaps_us: 3452.8
-  bench_env: 2026-10-13-c7i.4xlarge
+  keygen_cycles: 13760829
+  encaps_cycles: 14309157
+  decaps_cycles: 13682091
+  keygen_us: 3555.1
+  encaps_us: 3697.3
+  decaps_us: 3535.3
+  bench_env: 2026-10-15-c8i.4xlarge
   notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 - name: Scloudplus-384
   ngcc_level: 384
   pk: 33296
   ct: 33600
-  keygen_cycles: 26264589
-  encaps_cycles: 26982917
-  decaps_cycles: 25671772
-  keygen_us: 6963.2
-  encaps_us: 7154.3
-  decaps_us: 6806.9
-  bench_env: 2026-10-13-c7i.4xlarge
+  keygen_cycles: 27705385
+  encaps_cycles: 28333753
+  decaps_cycles: 27037236
+  keygen_us: 7155.9
+  encaps_us: 7318.4
+  decaps_us: 6983.7
+  bench_env: 2026-10-15-c8i.4xlarge
   notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 - name: Scloudplus-512
   ngcc_level: 512
   pk: 48016
   ct: 48320
-  keygen_cycles: 52933978
-  encaps_cycles: 53914291
-  decaps_cycles: 52026957
-  keygen_us: 14039.1
-  encaps_us: 14299.0
-  decaps_us: 13796.0
-  bench_env: 2026-10-13-c7i.4xlarge
+  keygen_cycles: 56095240
+  encaps_cycles: 56585657
+  decaps_cycles: 54662312
+  keygen_us: 14491.1
+  encaps_us: 14617.5
+  decaps_us: 14118.1
+  bench_env: 2026-10-15-c8i.4xlarge
   notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 findings_url: https://ngcc.dev/reports/kem-35.html

@@ -34,13 +34,13 @@ parametersets:
   ngcc_level: 512
   pk: 3009
   ct: 2353
-  keygen_cycles: 2031588741
-  encaps_cycles: 197096
-  decaps_cycles: 54979944
-  keygen_us: 538608.5
-  encaps_us: 53.2
-  decaps_us: 14592.2
-  bench_env: 2026-10-13-c7i.4xlarge
+  keygen_cycles: 2144580551
+  encaps_cycles: 206748
+  decaps_cycles: 55358361
+  keygen_us: 554076.1
+  encaps_us: 54.2
+  decaps_us: 14329.1
+  bench_env: 2026-10-15-c8i.4xlarge
   notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
   implementation: The submitted code also returns a 384-bit shared secret instead of the specified 512 bits (<a href="https://ngcc.dev/reports/kem-12.html#kem-12-2-ctl-512-returns-only-384-shared-secret-bits">Saarinen</a>).
   broken: The specified private key is a 32-byte seed, so at most 2^256 public keys exist and key search falls below the 512-bit target (<a href="https://ngcc.dev/reports/kem-12.html#kem-12-1-the-specified-ctl-512-public-key-space-has-at-most-256-bits-of-support">Saarinen</a>).

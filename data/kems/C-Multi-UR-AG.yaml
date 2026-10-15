@@ -34,13 +34,13 @@ parametersets:
   ngcc_level: 512
   pk: 28866
   ct: 40926
-  keygen_cycles: 16536354
-  encaps_cycles: 23140194
-  decaps_cycles: 66766092
-  keygen_us: 4390.0
-  encaps_us: 6180.2
-  decaps_us: 17812.5
-  bench_env: 2026-10-13-c7i.4xlarge
+  keygen_cycles: 16381292
+  encaps_cycles: 23017917
+  decaps_cycles: 65669001
+  keygen_us: 4239.2
+  encaps_us: 5990.4
+  decaps_us: 17073.3
+  bench_env: 2026-10-15-c8i.4xlarge
   notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 findings_url: https://ngcc.dev/reports/kem-10.html
 implementation: Malformed ciphertexts crash the submitted reference decapsulation, and ignored padding bits make the 512-bit set's ciphertexts malleable (<a href="https://ngcc.dev/reports/kem-10.html#kem-10-1-malformed-ciphertexts-crash-the-reference-decapsulator">Saarinen</a>).

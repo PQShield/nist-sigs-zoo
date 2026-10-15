@@ -76,6 +76,11 @@ versions:
     pk: 32
     sig: 3856
     notes: NIST SP 800-230 ipd (initial public draft, 2026-04-13) limited-signature parameter set, at most 2^24 signatures per signing key. Not final; may change.
+    signing_cycles: 1462445231568
+    verification_cycles: 316950
+    signing_us: 394682399.8
+    verification_us: 83.4
+    bench_env: 2026-10-15-c8i.4xlarge
   - name: SHAKE-192-24
     level: 3
     pk: 48

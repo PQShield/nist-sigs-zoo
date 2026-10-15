@@ -10,25 +10,25 @@ parametersets:
   ngcc_level: 128
   pk: 389
   ct: 602
-  keygen_cycles: 241439638
-  encaps_cycles: 97092302
-  decaps_cycles: 154559402
-  keygen_us: 64553.7
-  encaps_us: 25749.1
-  decaps_us: 41190.7
-  bench_env: 2026-10-13-c7i.4xlarge
+  keygen_cycles: 243432851
+  encaps_cycles: 97138419
+  decaps_cycles: 154673150
+  keygen_us: 63342.6
+  encaps_us: 25093.4
+  decaps_us: 40135.7
+  bench_env: 2026-10-15-c8i.4xlarge
   notes: Optimised x86 implementation. Measured sizes differ from the specification, which gives pk 405 B, sk 488 B (Table 7.1, compressed columns (PDF p. 57)).
 - name: NGCC-2
   ngcc_level: 256
   pk: 592
   ct: 882
-  keygen_cycles: 743816828
-  encaps_cycles: 277319205
-  decaps_cycles: 445377353
-  keygen_us: 198253.3
-  encaps_us: 73537.8
-  decaps_us: 118633.8
-  bench_env: 2026-10-13-c7i.4xlarge
+  keygen_cycles: 800248792
+  encaps_cycles: 280620753
+  decaps_cycles: 450774111
+  keygen_us: 212481.5
+  encaps_us: 74490.7
+  decaps_us: 120133.1
+  bench_env: 2026-10-15-c8i.4xlarge
   notes: Optimised x86 implementation. Measured sizes differ from the specification, which gives pk 595 B, sk 737 B (Table 7.1, compressed columns (PDF p. 57)).
 - name: NGCC-3
   ngcc_level: 512

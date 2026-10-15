@@ -12,13 +12,13 @@ parametersets:
   recommended: true
   pk: 208013
   ct: 1032
-  keygen_cycles: 1351599795
-  encaps_cycles: 730585
-  decaps_cycles: 2991744851
-  keygen_us: 358385.7
-  encaps_us: 196.6
-  decaps_us: 793619.0
-  bench_env: 2026-10-13-c7i.4xlarge
+  keygen_cycles: 821849948
+  encaps_cycles: 746707
+  decaps_cycles: 1768979375
+  keygen_us: 212443.0
+  encaps_us: 194.6
+  decaps_us: 457389.6
+  bench_env: 2026-10-15-c8i.4xlarge
   notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
   implementation: Unused ciphertext bits in the submitted code let altered ciphertexts decapsulate to the same key (<a href="https://ngcc.dev/reports/kem-38.html#kem-38-4-unused-c1-bits-make-ciphertexts-malleable-without-changing-the-key">Saarinen</a>).
 - name: UVW-KEM-256

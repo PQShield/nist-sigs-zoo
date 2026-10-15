@@ -25,11 +25,11 @@ versions:
     ngcc_level: 256
     pk: 4289250
     sig: 316
-    signing_cycles: 235004277
-    verification_cycles: 2388219
-    signing_us: 62591.9
-    verification_us: 641.0
-    bench_env: 2026-10-13-c7i.4xlarge
+    signing_cycles: 228345552
+    verification_cycles: 2008251
+    signing_us: 59694.4
+    verification_us: 536.6
+    bench_env: 2026-10-15-c8i.4xlarge
     notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
   - name: VDOO-512
     ngcc_level: 512

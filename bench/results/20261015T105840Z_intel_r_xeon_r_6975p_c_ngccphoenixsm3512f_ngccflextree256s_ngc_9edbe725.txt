@@ -1,0 +1,54 @@
+# pq-sigs benchmark results
+# date:         2026-10-15T10:58:40Z
+# host:         ip-172-31-15-149
+# commit:       c4f11967d106c26599b9db9ca34884b9ffe9b6f0
+# instance_type: c8i.4xlarge
+# os:           Ubuntu 26.04.1 LTS
+# kernel:       7.0.0-1014-aws
+# cpu:          Intel(R) Xeon(R) 6975P-C
+# cores:        16 (threads/core: 2)
+# max_freq_mhz: unknown (cur: unknown MHz)
+# governor:     unknown
+# turbo:        unknown
+# flags:        fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ss ht syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon rep_good nopl xtopology nonstop_tsc cpuid aperfmperf tsc_known_freq pni pclmulqdq monitor ssse3 fma cx16 pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand hypervisor lahf_lm abm 3dnowprefetch cpuid_fault ssbd ibrs ibpb stibp ibrs_enhanced fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid avx512f avx512dq rdseed adx smap avx512ifma clflushopt clwb avx512cd sha_ni avx512bw avx512vl xsaveopt xsavec xgetbv1 xsaves avx_vnni avx512_bf16 wbnoinvd ida arat avx512vbmi umip pku ospke waitpkg avx512_vbmi2 gfni vaes vpclmulqdq avx512_vnni avx512_bitalg tme avx512_vpopcntdq rdpid bus_lock_detect cldemote movdiri movdir64b md_clear serialize amx_bf16 avx512_fp16 amx_tile amx_int8 flush_l1d arch_capabilities
+#
+# compiler:     cc (Ubuntu 15.2.0-16ubuntu1) 15.2.0
+# openssl:      OpenSSL 3.5.5 27 Jan 2026 (Library: OpenSSL 3.5.5 27 Jan 2026)
+# sources:
+#   schemes/faest/ref: https://github.com/faest-sign/faest-arch-opt@1d8330979cb467c54edac43ffe695da249fa3417
+#   schemes/fndsa/ref: https://github.com/pornin/c-fn-dsa@33026d4d2734049a23f065f77eea11c35de58d76
+#   schemes/hawk/ref: https://github.com/hawk-sign/dev@1b9fef52559273fe7b40fe3e22968eaedd3a4c2a
+#   schemes/mayo/ref: https://github.com/PQCMayo/MAYO-C@74de637a7c4a7f9fafa888183bc05f5cf920cd2d
+#   schemes/mldsa/ref: https://github.com/pq-crystals/dilithium.git@6e00625c5b29f516c6de973fe2ee2fbb150973f9
+#   schemes/mqom/ref: https://github.com/mqom/mqom-v3@d9c64e386b186ee186684a0389fc32009bd67cd1
+#   schemes/qruov/ref: https://github.com/qruov/round3.git@3d84d0f6afae80c88deefab03b1dd6633a147f96
+#   schemes/sdith/ref: https://github.com/sdith/sdith@fff41ae5b12ba3c6b90d8f97b2ede57aa277a92f
+#   schemes/sdith2/ref: https://github.com/sdith/sdith@ce7adf06476674d4ff990f378f83f9981cd6745b
+#   schemes/slhdsa/ref: https://github.com/pq-code-package/slhdsa-c@2ee6f6853af95d5833a567cc4dcfd7f08d66bfd4
+#   schemes/snova/ref: https://github.com/PQCLAB-SNOVA/SNOVA.git@9b29c1e332cbd85757c8d6362a57b9a8c8298a38
+#   schemes/sqisign/ref: https://github.com/SQISign/the-sqisign@6d017708db403bf83977fa70770fc4f7f9e9ff21
+#   schemes/uov/ref: https://github.com/pqov/pqov.git@fac2ec1fe6d8ea508eab4b98eb5341e1eed930a4
+#   schemes/ngcc: https://www.niccs.org.cn/niccs/Proposal/Public-Key%20Cryptographic%20Algorithms/Round%201%20candidates/
+# filter:       NGCC-Phoenix-SM3-512f NGCC-Flextree-256s NGCC-VDOO-256 NGCC-Phoenix-SM3-384f NGCC-Flextree-160s NGCC-SQIsignTriangle_lvl6 NGCC-Phoenix-SM3-192f NGCC-dove_pkc_skc_512 NGCC-Flextree-256f NGCC-QingLuan-512 NGCC-QingLuan-256 NGCC-dove_classic_512 NGCC-ReSolveD-alpha-512s NGCC-QingLuan-384 NGCC-sm4th_d3_128s_loose NGCC-SQISign2Dsquare-Level5-eff QR-UOV-III-(127,228,78,3)
+#
+# cyclecounter: rdpmc CPU_CYCLES (real core cycles, user-space)
+scheme                       iters    keygen (cyc)  keygen (us)      sign (cyc)   sign (us)    verify (cyc)  verify (us)
+------                       -----    ------------  -----------      ----------   ---------    ------------  ----------
+QR-UOV-III-(127,228,78,3)      500         7957065      2058.8         1453123       373.9          856701       222.5
+NGCC-sm4th_d3_128s_loose       439           19232         6.1       113558087     29455.3       102124049     26461.7
+NGCC-dove_classic_512           24      3738881611    971928.7        55546234     15313.5        83252980     21977.3
+NGCC-dove_pkc_skc_512           23      2010000389    522108.6      1065287615    277710.9       975610457    252742.7
+NGCC-Flextree-160s              10       647692728    167521.5      9001345380   2328398.0        23548022      6089.1
+NGCC-Flextree-256s              10       526352996    136133.4      9960693226   2576305.2        42946389     11108.2
+NGCC-Flextree-256f              90        50397538     13034.7      1047601094    271005.3        27656220      7154.9
+NGCC-Phoenix-SM3-192f          154        30451402      7876.6       596754941    154355.8        16085765      4161.3
+NGCC-Phoenix-SM3-384f           26       128604729     33276.4      3674294321    950307.9        69874973     18077.3
+NGCC-Phoenix-SM3-512f           16       255901849     66177.2      6465916156   1672398.3       138314152     35778.9
+NGCC-QingLuan-256              612         1800526       464.2       105263699     27228.5        47610957     12316.5
+NGCC-QingLuan-384              243         3838802       992.6       258722341     67091.5       120432790     31267.7
+NGCC-QingLuan-512              102         9467415      2450.7       624602164    161936.0       288080356     74786.9
+NGCC-ReSolveD-alpha-512s        13       140820918     36479.4     21410880804   5539053.1     17491137402   4528196.3
+NGCC-SQISign2Dsquare-Level5-eff      15       418940913    109226.6      2574987406    668987.9       464228579    121507.0
+NGCC-SQIsignTriangle_lvl6       10      2382758144    616430.2      6526995066   1688044.5      2448280742    633528.0
+NGCC-VDOO-256                   10     10008506085   2592658.6       228345552     59694.4         2008251       536.6
+

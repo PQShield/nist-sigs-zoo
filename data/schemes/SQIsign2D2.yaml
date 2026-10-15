@@ -55,11 +55,11 @@ versions:
     ngcc_level: 512
     pk: 256
     sig: 776
-    signing_cycles: 2904401882
-    verification_cycles: 462848060
-    signing_us: 791335.9
-    verification_us: 127174.1
-    bench_env: 2026-10-13-c7i.4xlarge
+    signing_cycles: 2574987406
+    verification_cycles: 464228579
+    signing_us: 668987.9
+    verification_us: 121507.0
+    bench_env: 2026-10-15-c8i.4xlarge
     notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
   - name: SQISign2Dsquare-Level5-sec
     ngcc_level: 512

@@ -14,11 +14,11 @@ versions:
     ngcc_level: 128
     pk: 40
     sig: 9580
-    signing_cycles: 9001028816
-    verification_cycles: 23388209
-    signing_us: 2443808.3
-    verification_us: 6327.8
-    bench_env: 2026-10-13-c7i.4xlarge
+    signing_cycles: 9001345380
+    verification_cycles: 23548022
+    signing_us: 2328398.0
+    verification_us: 6089.1
+    bench_env: 2026-10-15-c8i.4xlarge
     notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
   - name: Flextree-160f
     ngcc_level: 128
@@ -34,22 +34,22 @@ versions:
     ngcc_level: 256
     pk: 64
     sig: 25420
-    signing_cycles: 9903737721
-    verification_cycles: 42686388
-    signing_us: 2681738.7
-    verification_us: 11549.6
-    bench_env: 2026-10-13-c7i.4xlarge
+    signing_cycles: 9960693226
+    verification_cycles: 42946389
+    signing_us: 2576305.2
+    verification_us: 11108.2
+    bench_env: 2026-10-15-c8i.4xlarge
     notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
     broken: A signing counter can be ground without changing the hash-selected instance, so forgeries after many signing queries cost roughly 20 to 30 bits less than claimed, below this set's target (<a href="https://ngcc.dev/reports/sign-11.html#sign-11-1-pors-counter-grinding-reduces-every-claimed-security-level">Kudinov</a>).
   - name: Flextree-256f
     ngcc_level: 256
     pk: 64
     sig: 46856
-    signing_cycles: 1041356510
-    verification_cycles: 27563178
-    signing_us: 282137.5
-    verification_us: 7463.1
-    bench_env: 2026-10-13-c7i.4xlarge
+    signing_cycles: 1047601094
+    verification_cycles: 27656220
+    signing_us: 271005.3
+    verification_us: 7154.9
+    bench_env: 2026-10-15-c8i.4xlarge
     notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
     broken: A signing counter can be ground without changing the hash-selected instance, so forgeries after many signing queries cost roughly 20 to 30 bits less than claimed, below this set's target (<a href="https://ngcc.dev/reports/sign-11.html#sign-11-1-pors-counter-grinding-reduces-every-claimed-security-level">Kudinov</a>).
   - name: Flextree-384s

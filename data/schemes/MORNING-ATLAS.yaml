@@ -14,11 +14,11 @@ versions:
     ngcc_level: 128
     pk: 1328
     sig: 2081
-    signing_cycles: 5256159
-    verification_cycles: 2768706
-    signing_us: 1398.3
-    verification_us: 736.6
-    bench_env: 2026-10-13-c7i.4xlarge
+    signing_cycles: 5246028
+    verification_cycles: 2793162
+    signing_us: 1353.2
+    verification_us: 723.4
+    bench_env: 2026-10-15-c8i.4xlarge
     notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it; our build does not reproduce the submitted test vectors (cause unknown); our build applies a small patch to the submitted code.
     info: Our build does not reproduce the submitted test vectors.
   - name: lwrdsa256

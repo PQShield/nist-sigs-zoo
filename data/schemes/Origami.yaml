@@ -34,21 +34,21 @@ versions:
     ngcc_level: 384
     pk: 27940
     sig: 948
-    signing_cycles: 7211853562
-    verification_cycles: 6889484359
-    signing_us: 1912680.9
-    verification_us: 1827482.9
-    bench_env: 2026-10-13-c7i.4xlarge
+    signing_cycles: 7313361798
+    verification_cycles: 6937563217
+    signing_us: 1888792.4
+    verification_us: 1791726.1
+    bench_env: 2026-10-15-c8i.4xlarge
     notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it; our build applies a small patch to the submitted code.
   - name: Origami-512
     ngcc_level: 512
     pk: 35924
     sig: 1220
-    signing_cycles: 13120550442
-    verification_cycles: 12633915182
-    signing_us: 3482777.3
-    verification_us: 3351089.2
-    bench_env: 2026-10-13-c7i.4xlarge
+    signing_cycles: 14135441079
+    verification_cycles: 12751252161
+    signing_us: 3650956.0
+    verification_us: 3293188.6
+    bench_env: 2026-10-15-c8i.4xlarge
     notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it; our build applies a small patch to the submitted code.
   findings_url: https://ngcc.dev/reports/sign-18.html
   broken: A public permutation of the variables lets anyone forge a signature on a chosen message without signing queries (<a href="https://groups.google.com/a/list.nist.gov/g/pqc-forum/c/N1WfpgvlI2s/m/lym34vPOAwAJ">Louiso and Ding</a>; <a href="https://list.niccs.org.cn/archives/list/pkcforum@list.niccs.org.cn/message/HTZTMJ42AUXCWEDA3AURP4ZOEGSGSV4Z/">Pébereau</a>). The larger sets' message digests are also too short for their targets (<a href="https://ngcc.dev/reports/sign-18.html#sign-18-1-a-fixed-512-bit-message-prehash-caps-forgery-security-at-256-bits">Saarinen</a>).

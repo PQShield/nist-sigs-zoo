@@ -44,11 +44,11 @@ versions:
     ngcc_level: 256
     pk: 384064
     sig: 5968
-    signing_cycles: 113388692767
-    verification_cycles: 42084595494
-    signing_us: 30765834.9
-    verification_us: 11426478.1
-    bench_env: 2026-10-13-c7i.4xlarge
+    signing_cycles: 114390167718
+    verification_cycles: 43039266492
+    signing_us: 29556799.6
+    verification_us: 11128221.8
+    bench_env: 2026-10-15-c8i.4xlarge
     notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
   - name: TRINE-512-Balanced
     ngcc_level: 512
@@ -61,11 +61,11 @@ versions:
     ngcc_level: 512
     pk: 3188776
     sig: 23672
-    signing_cycles: 1973489720182
-    verification_cycles: 816485407356
-    signing_us: 533253888.1
-    verification_us: 221380748.9
-    bench_env: 2026-10-13-c7i.4xlarge
+    signing_cycles: 1647583034486
+    verification_cycles: 720729880304
+    signing_us: 426863525.5
+    verification_us: 186939746.8
+    bench_env: 2026-10-15-c8i.4xlarge
     notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it; the test-vector run timed out in our build.
     info: Our build could not check the submitted test vectors in time.
   findings_url: https://ngcc.dev/reports/sign-30.html

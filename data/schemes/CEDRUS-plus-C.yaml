@@ -14,11 +14,11 @@ versions:
     ngcc_level: 128
     pk: 40
     sig: 9460
-    signing_cycles: 9157829165
-    verification_cycles: 22778135
-    signing_us: 2490417.0
-    verification_us: 6206.8
-    bench_env: 2026-10-13-c7i.4xlarge
+    signing_cycles: 9198602971
+    verification_cycles: 22935358
+    signing_us: 2375509.8
+    verification_us: 5924.4
+    bench_env: 2026-10-15-c8i.4xlarge
     notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
   - name: CEDRUSC-160f
     ngcc_level: 128

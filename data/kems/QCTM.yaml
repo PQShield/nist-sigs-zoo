@@ -11,13 +11,13 @@ parametersets:
   ngcc_level: 128
   pk: 167987
   ct: 640
-  keygen_cycles: 7590651644
-  encaps_cycles: 2186190
-  decaps_cycles: 7050399
-  keygen_us: 2057497.8
-  encaps_us: 580.3
-  decaps_us: 1893.8
-  bench_env: 2026-10-13-c7i.4xlarge
+  keygen_cycles: 14819200008
+  encaps_cycles: 2468336
+  decaps_cycles: 4907767
+  keygen_us: 3930745.7
+  encaps_us: 637.5
+  decaps_us: 1321.4
+  bench_env: 2026-10-15-c8i.4xlarge
   notes: Optimised x86 implementation.
 - name: QCTM256
   ngcc_level: 256

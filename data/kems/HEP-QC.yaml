@@ -11,25 +11,25 @@ parametersets:
   ngcc_level: 128
   pk: 285889
   ct: 4433
-  keygen_cycles: 246563486
-  encaps_cycles: 13158903
-  decaps_cycles: 233898174
-  keygen_us: 65729.6
-  encaps_us: 3489.0
-  decaps_us: 62106.5
-  bench_env: 2026-10-13-c7i.4xlarge
+  keygen_cycles: 243515353
+  encaps_cycles: 13430443
+  decaps_cycles: 237511178
+  keygen_us: 63201.5
+  encaps_us: 3477.5
+  decaps_us: 61467.4
+  bench_env: 2026-10-15-c8i.4xlarge
   notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 - name: HEP-QC-5
   ngcc_level: 256
   pk: 1852485
   ct: 14421
-  keygen_cycles: 937202421
-  encaps_cycles: 88509698
-  decaps_cycles: 819362339
-  keygen_us: 250798.0
-  encaps_us: 23505.1
-  decaps_us: 217852.6
-  bench_env: 2026-10-13-c7i.4xlarge
+  keygen_cycles: 917606956
+  encaps_cycles: 89001660
+  decaps_cycles: 831357392
+  keygen_us: 239547.4
+  encaps_us: 23041.5
+  decaps_us: 215394.4
+  bench_env: 2026-10-15-c8i.4xlarge
   notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 - name: HEP-QC-7
   ngcc_level: 512

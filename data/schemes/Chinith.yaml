@@ -34,11 +34,11 @@ versions:
     ngcc_level: 128
     pk: 32
     sig: 5056
-    signing_cycles: 119850893
-    verification_cycles: 106783371
-    signing_us: 32703.2
-    verification_us: 29051.8
-    bench_env: 2026-10-13-c7i.4xlarge
+    signing_cycles: 113558087
+    verification_cycles: 102124049
+    signing_us: 29455.3
+    verification_us: 26461.7
+    bench_env: 2026-10-15-c8i.4xlarge
     notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
   - name: sm4th_d3_128s_tight
     ngcc_level: 128
