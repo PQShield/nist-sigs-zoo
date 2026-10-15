@@ -79,3 +79,7 @@
 	path = bench/schemes/cross/ref
 	url = https://github.com/CROSS-signature/CROSS-implementation
 	ignore = dirty
+[submodule "bench/schemes/less/ref"]
+	path = bench/schemes/less/ref
+	url = https://github.com/less-sig/LESS
+	ignore = dirty

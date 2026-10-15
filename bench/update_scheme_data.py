@@ -193,7 +193,7 @@ BENCH_TO_YAML: dict[str, tuple[str, str]] = {
     "PERK-3-fast": ("PERK.yaml", "3-fast"),
     "PERK-5-short": ("PERK.yaml", "5-short"),
     "PERK-5-fast": ("PERK.yaml", "5-fast"),
-    # CROSS v2.2 (round 2; optimised AVX2 implementations)
+    # CROSS v2.2 and LESS v2.0 (round 2; optimised AVX2 implementations)
     "CROSS-RSDP-1-fast": ("CROSS.yaml", "R-SDP 1 fast"),
     "CROSS-RSDP-1-balanced": ("CROSS.yaml", "R-SDP 1 balanced"),
     "CROSS-RSDP-1-small": ("CROSS.yaml", "R-SDP 1 small"),
@@ -212,6 +212,13 @@ BENCH_TO_YAML: dict[str, tuple[str, str]] = {
     "CROSS-RSDPG-5-fast": ("CROSS.yaml", "R-SDP(G) 5 fast"),
     "CROSS-RSDPG-5-balanced": ("CROSS.yaml", "R-SDP(G) 5 balanced"),
     "CROSS-RSDPG-5-small": ("CROSS.yaml", "R-SDP(G) 5 small"),
+    "LESS-252-192": ("LESS.yaml", "252-192"),
+    "LESS-252-68": ("LESS.yaml", "252-68"),
+    "LESS-252-45": ("LESS.yaml", "252-45"),
+    "LESS-400-220": ("LESS.yaml", "400-220"),
+    "LESS-400-102": ("LESS.yaml", "400-102"),
+    "LESS-548-345": ("LESS.yaml", "548-345"),
+    "LESS-548-137": ("LESS.yaml", "548-137"),
     # SDitH v3.0.0 (round 3) gf2 sets; bench output name matches the shim's @NAME@
     "SDitH3-L1-gf2-short": ("SDitH.yaml", "SDitH3-L1-gf2-short"),
     "SDitH2-L1-gf2-short": (

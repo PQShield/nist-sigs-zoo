@@ -85,6 +85,9 @@ CROSS_SOS   = $(addprefix schemes/cross/build/, \
     cross_rsdpg_3_fast.so cross_rsdpg_3_balanced.so cross_rsdpg_3_small.so \
     cross_rsdp_5_fast.so cross_rsdp_5_balanced.so cross_rsdp_5_small.so \
     cross_rsdpg_5_fast.so cross_rsdpg_5_balanced.so cross_rsdpg_5_small.so)
+LESS_SOS    = $(addprefix schemes/less/build/, \
+    less_252_192.so less_252_68.so less_252_45.so less_400_220.so less_400_102.so \
+    less_548_345.so less_548_137.so)
 MQOM_SOS    = $(addprefix schemes/mqom/build/, \
     mqom3_cat1_gf2_shorter_ct.so mqom3_cat1_gf2_shorter_ot.so \
     mqom3_cat1_gf16_short_ct.so  mqom3_cat1_gf16_short_ot.so  \
@@ -96,8 +99,8 @@ MQOM_SOS    = $(addprefix schemes/mqom/build/, \
     mqom3_cat5_gf16_short_ct.so  mqom3_cat5_gf16_short_ot.so  \
     mqom3_cat5_gf16_fast_ct.so   mqom3_cat5_gf16_fast_ot.so)
 
-ALL_SOS     = $(MLDSA_SOS) $(SLHDSA_SOS) $(FNDSA_SOS) $(CLASSIC_SOS) $(HAWK_SOS) $(MAYO_SOS) $(FAEST_SOS) $(SDITH_SOS) $(SDITH2_SOS) $(SNOVA_SOS) $(UOV_SOS) $(QRUOV_SOS) $(MQOM_SOS) $(SQISIGN_SOS) $(AIMER_SOS) $(HAETAE_SOS) $(MIRATH_SOS) $(RYDE_SOS) $(PERK_SOS) $(CROSS_SOS)
-SCHEME_DIRS = mldsa slhdsa fndsa classic hawk mayo faest sdith sdith2 snova uov qruov mqom sqisign aimer haetae mirath ryde perk cross
+ALL_SOS     = $(MLDSA_SOS) $(SLHDSA_SOS) $(FNDSA_SOS) $(CLASSIC_SOS) $(HAWK_SOS) $(MAYO_SOS) $(FAEST_SOS) $(SDITH_SOS) $(SDITH2_SOS) $(SNOVA_SOS) $(UOV_SOS) $(QRUOV_SOS) $(MQOM_SOS) $(SQISIGN_SOS) $(AIMER_SOS) $(HAETAE_SOS) $(MIRATH_SOS) $(RYDE_SOS) $(PERK_SOS) $(CROSS_SOS) $(LESS_SOS)
+SCHEME_DIRS = mldsa slhdsa fndsa classic hawk mayo faest sdith sdith2 snova uov qruov mqom sqisign aimer haetae mirath ryde perk cross less
 STAMPS      = $(addprefix schemes/, $(addsuffix /.stamp, $(SCHEME_DIRS)))
 
 # China NGCC round-1 candidates: one generic ICCS-API shim, data-driven from
@@ -133,6 +136,7 @@ schemes/mirath/.stamp:  schemes/mirath/Makefile  schemes/mirath/shim_template.c 
 schemes/ryde/.stamp:    schemes/ryde/Makefile    schemes/ryde/shim_template.c    schemes/ryde/params.tsv   schemes/ryde/.source
 schemes/perk/.stamp:    schemes/perk/Makefile    schemes/perk/shim_template.c    schemes/perk/params.tsv   schemes/perk/.source
 schemes/cross/.stamp:   schemes/cross/Makefile   schemes/cross/shim_template.c   schemes/cross/params.tsv
+schemes/less/.stamp:    schemes/less/Makefile    schemes/less/shim_template.c    schemes/less/params.tsv
 $(NGCC_STAMP): $(NGCC_DIR)/Makefile $(NGCC_DIR)/shim_template.c $(NGCC_DIR)/params.tsv \
     ../bench-common/ngcc/ngcc.mk ../bench-common/ngcc/gen_rules.py \
     $(wildcard $(NGCC_DIR)/patches/*/*) $(wildcard ../bench-common/ngcc/src/.extracted)
@@ -166,6 +170,7 @@ $(MIRATH_SOS):  schemes/mirath/.stamp
 $(RYDE_SOS):    schemes/ryde/.stamp
 $(PERK_SOS):    schemes/perk/.stamp
 $(CROSS_SOS):   schemes/cross/.stamp
+$(LESS_SOS):    schemes/less/.stamp
 
 # Generate the SO path list included by main.c.
 $(BUILD)/so_paths.h: Makefile $(NGCC_STAMP) | $(BUILD)
