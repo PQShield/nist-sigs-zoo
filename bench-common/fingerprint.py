@@ -42,8 +42,9 @@ only, as `git ls-files` lists them; a plain directory walk outside git, for test
 Provenance: run_bench.sh writes `# commit:` and aws-bench.sh `# instance_type:` into
 each results header. Files from before that have neither; for those (the backfill of
 fingerprints.tsv, 2026-10-15) the commit is the newest ancestor of HEAD committed
-before the run's `# date:` (checked against the three commits the aws-bench logs of
-2026-10-11..13 recorded), and the instance type is c7i.4xlarge for the Xeon Platinum
+before the run's `# date:` (this matches the commits the aws-bench logs of 2026-10-11..13
+recorded, c03458e and 35a714b; for the yuanyang-512/1024 rerun, which started after a
+docs-only commit, fingerprints.tsv has the logged 8debfd3), and the instance type is c7i.4xlarge for the Xeon Platinum
 8488C (the only EC2 type used before c8i became the default) and `local` otherwise
 (a laptop run).
 
