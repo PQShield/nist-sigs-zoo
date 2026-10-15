@@ -44,6 +44,21 @@ describe('data/programmes.yaml', () => {
 });
 
 describe('programme references in scheme data', () => {
+	it('labels a version whose timed sets all come from our runs as our benchmark', () => {
+		const timed = (p: Record<string, unknown>) =>
+			['signing_cycles', 'verification_cycles', 'signing_us', 'verification_us'].some((k) => p[k] != null);
+		const wrong = readdirSync(join(DATA, 'schemes'))
+			.filter((f) => f.endsWith('.yaml'))
+			.flatMap((f) =>
+				load<SchemeYaml>(join(DATA, 'schemes', f)).versions.flatMap((v) => {
+					const sets = (v.parametersets as unknown as Record<string, unknown>[]).filter(timed);
+					const ours = sets.length > 0 && sets.every((p) => p.bench_env);
+					return ours && v.perf_source !== 'our benchmark' ? [`${f} ${v.version}: ${v.perf_source}`] : [];
+				})
+			);
+		expect(wrong).toEqual([]);
+	});
+
 	it('no signature version still uses legacy tags', () => {
 		const dir = join(DATA, 'schemes');
 		const offenders = readdirSync(dir)

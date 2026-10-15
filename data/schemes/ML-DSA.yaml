@@ -8,7 +8,7 @@ versions:
   status: FIPS
   programmes:
     nist-pqc: standardised
-  perf_source: OQS bench
+  perf_source: our benchmark
   parametersets:
   - name: ML-DSA-87
     level: 5

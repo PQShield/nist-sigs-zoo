@@ -6,6 +6,7 @@ versions:
 - version: FIPS 186-5
   date: '2023-02-03'
   status: Classic cryptography
+  perf_source: our benchmark
   parametersets:
   - name: P-256
     level: Pre-Quantum

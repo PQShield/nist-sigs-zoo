@@ -8,7 +8,7 @@ versions:
   status: On-ramp
   programmes:
     nist-onramp: round-3
-  perf_source: "submission document (Table 10: AVX2+VAES implementation, Intel Core Ultra 7 265U)"
+  perf_source: "our benchmark"
   parametersets:
   - name: L1-gf2-shorter-ct
     level: 1

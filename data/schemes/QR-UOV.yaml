@@ -9,6 +9,7 @@ versions:
   programmes:
     nist-onramp: round-3
   # recommended: round-3 spec §1 changelog: "we provide two proposed parameter sets for each security level with (q, l) = (127, 3) and (q, l) = (127, 10) ... The remaining parameter sets from the second-round specification are provided as additional parameters in the appendix" (Appendix B) (https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/qruov_specifications.pdf)
+  perf_source: our benchmark
   parametersets:
   - name: I-(127 156 54 3)
     level: 1

@@ -8,7 +8,7 @@ versions:
   status: FIPS
   programmes:
     nist-pqc: standardised
-  perf_source: submission document
+  perf_source: our benchmark
   # recommended: NIST SP 800-230 ipd (2026-04-13) §2.1 "The following six SLH-DSA parameter sets listed in Table 1 provide a specialized alternative to the parameter sets found in Section 11 of FIPS 205" (https://doi.org/10.6028/NIST.SP.800-230.ipd)
   parametersets:
   - name: SHAKE-192s

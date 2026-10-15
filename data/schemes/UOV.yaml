@@ -8,6 +8,7 @@ versions:
   status: On-ramp
   programmes:
     nist-onramp: round-3
+  perf_source: our benchmark
   parametersets:
   - name: V-pkc
     level: 5

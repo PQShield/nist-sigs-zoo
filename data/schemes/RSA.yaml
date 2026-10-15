@@ -6,7 +6,7 @@ versions:
 - version: initial
   date: '2024-10-01'
   status: Classic cryptography
-  perf_source: OpenSSL bench
+  perf_source: our benchmark
   parametersets:
   - name: '2048'
     level: Pre-Quantum

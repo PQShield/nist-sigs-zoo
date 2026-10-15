@@ -379,3 +379,27 @@ def test_written_files_flag_mismatched_sets(tmp_path):
     }
     assert sets["A2"]["info"] == nd.KAT_INFO["MISMATCH"]
     assert "info" not in sets["A1"]
+
+
+def test_perf_source_is_ours_only_when_every_timed_set_is():
+    timing = nd.TIMING["signature"]
+    ours = {
+        "name": "a",
+        "signing_cycles": 1,
+        "verification_cycles": 1,
+        "bench_env": "e",
+    }
+    theirs = {"name": "b", "signing_us": 2.0}
+    sizes_only = {"name": "c", "pk": 1}
+
+    v = {"perf_source": "submission document", "parametersets": [ours, sizes_only]}
+    nd.set_perf_source(v, timing)
+    assert v["perf_source"] == nd.OUR_BENCHMARK
+
+    v = {"perf_source": "submission document", "parametersets": [ours, theirs]}
+    nd.set_perf_source(v, timing)
+    assert v["perf_source"] == "submission document"
+
+    v = {"parametersets": [sizes_only]}
+    nd.set_perf_source(v, timing)
+    assert "perf_source" not in v

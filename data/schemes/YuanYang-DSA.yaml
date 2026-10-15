@@ -8,6 +8,7 @@ versions:
   status: NGCC round 1
   programmes:
     china-ngcc: round-1
+  perf_source: our benchmark
   parametersets:
   - name: yuanyang-512
     ngcc_level: 128

@@ -305,14 +305,14 @@ def apply_row(
     A DNF row on an NGCC parameter set removes its timings and notes why; on any
     other scheme it only warns, so a crash never overwrites measured timings.
     """
-    ps = next(
+    version, ps = next(
         (
-            p
-            for version in yaml_data.get("versions", [])
-            for p in version.get("parametersets", [])
+            (v, p)
+            for v in yaml_data.get("versions", [])
+            for p in v.get("parametersets", [])
             if str(p.get("name", "")) == ps_name
         ),
-        None,
+        (None, None),
     )
     if ps is None:
         return False, None
@@ -328,6 +328,7 @@ def apply_row(
         bench_env.set_env(ps, env, SIG_TIMING)
     if ngcc:
         ngcc_data.clear_dnf(ps)
+    ngcc_data.set_perf_source(version, SIG_TIMING)
     return True, (
         f"sign={row['signing_cycles']:>12,} ({row['signing_us']} µs)  "
         f"verify={row['verification_cycles']:>12,} ({row['verification_us']} µs)"

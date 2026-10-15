@@ -310,6 +310,24 @@ def _is_ngcc(old, kind: str) -> bool:
     )
 
 
+OUR_BENCHMARK = "our benchmark"
+
+
+def set_perf_source(version, timing_fields) -> None:
+    """Label a signature version's timings as ours once every timed set comes from our runs.
+
+    Timings imported from results files carry `bench_env`; a version whose timed sets all
+    do must not keep an older source (a submission document, OQS, OpenSSL) as its label.
+    """
+    timed = [
+        p
+        for p in version.get("parametersets", [])
+        if any(p.get(f) is not None for f in timing_fields)
+    ]
+    if timed and all(p.get("bench_env") for p in timed):
+        version["perf_source"] = OUR_BENCHMARK
+
+
 def scheme_doc(
     cand: dict, kind: str, sizes: dict, status: dict, old=None, untimed=frozenset()
 ) -> CommentedMap:
@@ -331,6 +349,9 @@ def scheme_doc(
         version["date"] = ROUND1_DATE
         version["status"] = STATUS
         version["programmes"] = programmes
+        set_perf_source(probe := {"parametersets": sets}, TIMING[kind])
+        if "perf_source" in probe:
+            version["perf_source"] = probe["perf_source"]
         version["parametersets"] = sets
         doc["versions"] = [version]
     else:

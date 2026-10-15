@@ -8,7 +8,7 @@ versions:
   status: On-ramp
   programmes:
     nist-onramp: round-3
-  perf_source: "sizes verified against kat_r3 KAT vectors (github.com/sdith/sdith tag v3.0.0)"
+  perf_source: "our benchmark"
   # recommended: spec v3.0 §2.2 "While our main instances rely on hash-based grinding, we also provide alternative instances based on the cipher-based grinding technique proposed by [Riv26]" (Table 4 main, Table 5 alternative) (https://github.com/sdith/sdith/blob/v3.0.0/docs/sdith-v3.0.pdf)
   parametersets:
   - name: SDitH3-L1-gf2-short
@@ -167,7 +167,7 @@ versions:
   status: On-ramp
   programmes:
     nist-onramp: round-1
-  perf_source: submission document
+  perf_source: our benchmark
   parametersets:
   - name: gf251-L5-hyp
     level: 5

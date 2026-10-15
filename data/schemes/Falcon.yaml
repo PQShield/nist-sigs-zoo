@@ -8,7 +8,7 @@ versions:
   status: To be standardized
   programmes:
     nist-pqc: selected
-  perf_source: OQS bench
+  perf_source: our benchmark
   parametersets:
   - name: '1024'
     level: 5

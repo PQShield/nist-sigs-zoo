@@ -8,7 +8,7 @@ versions:
   status: On-ramp
   programmes:
     nist-onramp: round-3
-  perf_source: faest-arch-opt (AVX2+AES-NI optimized implementation)
+  perf_source: our benchmark
   # recommended: spec v3.0 §1 "This document also specifies alternative variants for security categories 1, 3 and 5, called FAEST-EM" (https://faest.info/faest-spec-v3.0.pdf)
   parametersets:
   - name: 128s

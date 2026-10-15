@@ -8,7 +8,7 @@ versions:
   status: On-ramp
   programmes:
     nist-onramp: round-3
-  perf_source: submission document (Table 3.1, Intel Xeon E3-1225 v3 Haswell, optimized C + AES-NI)
+  perf_source: our benchmark
   # recommended: round-3 spec §2.1.7 Table 2.1 "Our selection of parameter sets" (MAYO1/2/3/5); §2.1.7.2 Table 2.2 "Additional parameter sets ... to showcase the possible trade-offs ... The main parameter sets MAYO1, MAYO2, MAYO3, and MAYO5 are shown in boldface" (https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/mayo_specification.pdf)
   parametersets:
   - name: five

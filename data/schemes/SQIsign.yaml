@@ -8,7 +8,7 @@ versions:
   status: On-ramp
   programmes:
     nist-onramp: round-3
-  perf_source: submission document
+  perf_source: our benchmark
   # recommended: round-3 spec Appendix P Table 20 "List of alternate prime suggestions. Primes in bold refer to our selected primes" (p324.3, p500.27, p664.17 = I, III, V); the other primes are "parameter sets of interest" for further cryptanalysis (https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/sqisign_specification.pdf)
   parametersets:
   - name: V
