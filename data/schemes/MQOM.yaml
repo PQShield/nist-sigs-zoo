@@ -18,6 +18,7 @@ versions:
     verification_cycles: 6695993
     signing_us: 2635.2
     verification_us: 1803.5
+    bench_env: 2026-10-13-c7i.4xlarge
   - name: L1-gf2-shorter-ot
     level: 1
     pk: 52
@@ -26,6 +27,7 @@ versions:
     verification_cycles: 13025495
     signing_us: 3701.3
     verification_us: 3558.5
+    bench_env: 2026-10-13-c7i.4xlarge
   - name: L1-gf16-short-ct
     level: 1
     pk: 64
@@ -34,6 +36,7 @@ versions:
     verification_cycles: 3465368
     signing_us: 809.9
     verification_us: 935.3
+    bench_env: 2026-10-13-c7i.4xlarge
   - name: L1-gf16-short-ot
     level: 1
     pk: 64
@@ -42,6 +45,7 @@ versions:
     verification_cycles: 3375077
     signing_us: 915.1
     verification_us: 907.1
+    bench_env: 2026-10-13-c7i.4xlarge
   - name: L1-gf16-fast-ct
     level: 1
     pk: 64
@@ -50,6 +54,7 @@ versions:
     verification_cycles: 1098028
     signing_us: 275.8
     verification_us: 297.1
+    bench_env: 2026-10-13-c7i.4xlarge
   - name: L1-gf16-fast-ot
     level: 1
     pk: 64
@@ -58,6 +63,7 @@ versions:
     verification_cycles: 1099308
     signing_us: 311.4
     verification_us: 297.6
+    bench_env: 2026-10-13-c7i.4xlarge
   - name: L3-gf2-shorter-ct
     level: 3
     pk: 78
@@ -66,6 +72,7 @@ versions:
     verification_cycles: 26222898
     signing_us: 7615.0
     verification_us: 7189.3
+    bench_env: 2026-10-13-c7i.4xlarge
   - name: L3-gf2-shorter-ot
     level: 3
     pk: 78
@@ -74,6 +81,7 @@ versions:
     verification_cycles: 33388772
     signing_us: 10217.4
     verification_us: 9100.1
+    bench_env: 2026-10-13-c7i.4xlarge
   - name: L3-gf16-short-ct
     level: 3
     pk: 96
@@ -82,6 +90,7 @@ versions:
     verification_cycles: 15265900
     signing_us: 3824.1
     verification_us: 4107.1
+    bench_env: 2026-10-13-c7i.4xlarge
   - name: L3-gf16-short-ot
     level: 3
     pk: 96
@@ -90,6 +99,7 @@ versions:
     verification_cycles: 18450953
     signing_us: 5588.0
     verification_us: 5035.8
+    bench_env: 2026-10-13-c7i.4xlarge
   - name: L3-gf16-fast-ct
     level: 3
     pk: 96
@@ -98,6 +108,7 @@ versions:
     verification_cycles: 4525412
     signing_us: 1149.8
     verification_us: 1211.3
+    bench_env: 2026-10-13-c7i.4xlarge
   - name: L3-gf16-fast-ot
     level: 3
     pk: 96
@@ -106,6 +117,7 @@ versions:
     verification_cycles: 4827578
     signing_us: 1346.6
     verification_us: 1288.2
+    bench_env: 2026-10-13-c7i.4xlarge
   - name: L5-gf2-shorter-ct
     level: 5
     pk: 104
@@ -114,6 +126,7 @@ versions:
     verification_cycles: 46209360
     signing_us: 11890.0
     verification_us: 12591.4
+    bench_env: 2026-10-13-c7i.4xlarge
   - name: L5-gf2-shorter-ot
     level: 5
     pk: 104
@@ -122,6 +135,7 @@ versions:
     verification_cycles: 49388648
     signing_us: 13886.0
     verification_us: 13500.4
+    bench_env: 2026-10-13-c7i.4xlarge
   - name: L5-gf16-short-ct
     level: 5
     pk: 128
@@ -130,6 +144,7 @@ versions:
     verification_cycles: 20860009
     signing_us: 4723.0
     verification_us: 5659.2
+    bench_env: 2026-10-13-c7i.4xlarge
   - name: L5-gf16-short-ot
     level: 5
     pk: 128
@@ -138,6 +153,7 @@ versions:
     verification_cycles: 22709662
     signing_us: 6391.6
     verification_us: 6184.0
+    bench_env: 2026-10-13-c7i.4xlarge
   - name: L5-gf16-fast-ct
     level: 5
     pk: 128
@@ -146,6 +162,7 @@ versions:
     verification_cycles: 7857451
     signing_us: 1949.5
     verification_us: 2117.6
+    bench_env: 2026-10-13-c7i.4xlarge
   - name: L5-gf16-fast-ot
     level: 5
     pk: 128
@@ -154,6 +171,7 @@ versions:
     verification_cycles: 7779937
     signing_us: 2429.6
     verification_us: 2098.4
+    bench_env: 2026-10-13-c7i.4xlarge
 - version: v2.1
   date: '2025-09-22'
   status: On-ramp

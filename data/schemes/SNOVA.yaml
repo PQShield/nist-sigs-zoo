@@ -21,6 +21,7 @@ versions:
     verification_cycles: 231228
     signing_us: 165.5
     verification_us: 62.4
+    bench_env: 2026-10-13-c7i.4xlarge
   - name: SNOVA_I_B
     level: 1
     recommended: true
@@ -30,6 +31,7 @@ versions:
     verification_cycles: 211571
     signing_us: 175.9
     verification_us: 56.9
+    bench_env: 2026-10-13-c7i.4xlarge
   - name: SNOVA_I_S
     level: 1
     recommended: true
@@ -39,6 +41,7 @@ versions:
     verification_cycles: 188183
     signing_us: 130.2
     verification_us: 50.7
+    bench_env: 2026-10-13-c7i.4xlarge
   - name: SNOVA_III_K
     level: 3
     recommended: true
@@ -48,6 +51,7 @@ versions:
     verification_cycles: 487910
     signing_us: 362.3
     verification_us: 131.2
+    bench_env: 2026-10-13-c7i.4xlarge
   - name: SNOVA_III_B
     level: 3
     recommended: true
@@ -57,6 +61,7 @@ versions:
     verification_cycles: 489146
     signing_us: 392.5
     verification_us: 130.4
+    bench_env: 2026-10-13-c7i.4xlarge
   - name: SNOVA_III_S
     level: 3
     recommended: true
@@ -66,6 +71,7 @@ versions:
     verification_cycles: 502382
     signing_us: 466.9
     verification_us: 135.6
+    bench_env: 2026-10-13-c7i.4xlarge
   - name: SNOVA_V_K
     level: 5
     recommended: true
@@ -75,6 +81,7 @@ versions:
     verification_cycles: 1031659
     signing_us: 1002.6
     verification_us: 279.2
+    bench_env: 2026-10-13-c7i.4xlarge
   - name: SNOVA_V_B
     level: 5
     recommended: true
@@ -84,6 +91,7 @@ versions:
     verification_cycles: 799077
     signing_us: 978.8
     verification_us: 216.7
+    bench_env: 2026-10-13-c7i.4xlarge
   - name: SNOVA_V_S
     level: 5
     recommended: true
@@ -93,6 +101,7 @@ versions:
     verification_cycles: 789326
     signing_us: 1049.2
     verification_us: 216.9
+    bench_env: 2026-10-13-c7i.4xlarge
   - name: SNOVA (27 3 16 4 7 5 84)
     level: 1
     pk: 376

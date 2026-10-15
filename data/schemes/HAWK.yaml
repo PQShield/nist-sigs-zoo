@@ -20,6 +20,7 @@ versions:
     verification_cycles: 186485
     signing_us: 52.1
     verification_us: 51.7
+    bench_env: 2026-10-13-c7i.4xlarge
     notes: "Attack reduces key-recovery cost from 2^288 to 2^182 gates, below the Level 5 threshold"
   - name: '512'
     level: 1
@@ -29,6 +30,7 @@ versions:
     verification_cycles: 90025
     signing_us: 21.8
     verification_us: 24.8
+    bench_env: 2026-10-13-c7i.4xlarge
     notes: "Attack reduces key-recovery cost from 2^150 to 2^108 gates, below the Level 1 threshold (128 bits)"
 - version: v1.0
   date: '2023-06-01'

@@ -18,6 +18,7 @@ versions:
     verification_cycles: 1036848
     signing_us: 401.6
     verification_us: 277.1
+    bench_env: 2026-10-13-c7i.4xlarge
     notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
   - name: OPSsig-256
     ngcc_level: 256
@@ -27,6 +28,7 @@ versions:
     verification_cycles: 1406615
     signing_us: 612.0
     verification_us: 377.5
+    bench_env: 2026-10-13-c7i.4xlarge
     notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
   - name: OPSsig-512
     ngcc_level: 512
@@ -36,5 +38,6 @@ versions:
     verification_cycles: 3127058
     signing_us: 1367.6
     verification_us: 831.3
+    bench_env: 2026-10-13-c7i.4xlarge
     notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
   findings_url: https://ngcc.dev/reports/sign-17.html

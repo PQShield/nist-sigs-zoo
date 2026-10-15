@@ -18,6 +18,7 @@ versions:
     verification_cycles: 2082307
     signing_us: 51662.6
     verification_us: 555.6
+    bench_env: 2026-10-13-c7i.4xlarge
     notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
   - name: VDOO-256
     ngcc_level: 256
@@ -27,6 +28,7 @@ versions:
     verification_cycles: 2388219
     signing_us: 62591.9
     verification_us: 641.0
+    bench_env: 2026-10-13-c7i.4xlarge
     notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
   - name: VDOO-512
     ngcc_level: 512
@@ -36,6 +38,7 @@ versions:
     verification_cycles: 11965981
     signing_us: 381783.9
     verification_us: 3194.7
+    bench_env: 2026-10-13-c7i.4xlarge
     notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
   findings_url: https://ngcc.dev/reports/sign-33.html
   implementation: The submitted code generates reproducible signing keys and predictable signing randomness (<a href="https://ngcc.dev/reports/sign-33.html#sign-33-1-publicly-reproducible-signing-keys">Saarinen</a>), and its restricted coefficients allow public-key-only forgery at VDOO-128 (<a href="https://groups.google.com/a/list.nist.gov/g/pqc-forum/c/mYN9Br_C8dg/m/BDmmwIE6BAAJ">Feussner</a>).

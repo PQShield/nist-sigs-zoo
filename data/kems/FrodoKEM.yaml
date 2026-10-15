@@ -18,6 +18,7 @@ parametersets:
   keygen_us: 263.0
   encaps_us: 313.5
   decaps_us: 312.1
+  bench_env: 2026-10-13-c7i.4xlarge
 - name: FrodoKEM-640-SHAKE
   level: 1
   pk: 9616
@@ -28,6 +29,7 @@ parametersets:
   keygen_us: 673.6
   encaps_us: 720.0
   decaps_us: 718.6
+  bench_env: 2026-10-13-c7i.4xlarge
 - name: FrodoKEM-976-AES
   level: 3
   pk: 15632
@@ -38,6 +40,7 @@ parametersets:
   keygen_us: 532.0
   encaps_us: 588.2
   decaps_us: 574.2
+  bench_env: 2026-10-13-c7i.4xlarge
 - name: FrodoKEM-976-SHAKE
   level: 3
   pk: 15632
@@ -48,6 +51,7 @@ parametersets:
   keygen_us: 1398.9
   encaps_us: 1445.4
   decaps_us: 1435.4
+  bench_env: 2026-10-13-c7i.4xlarge
 - name: FrodoKEM-1344-AES
   level: 5
   pk: 21520
@@ -58,6 +62,7 @@ parametersets:
   keygen_us: 949.2
   encaps_us: 1023.6
   decaps_us: 1017.4
+  bench_env: 2026-10-13-c7i.4xlarge
 - name: FrodoKEM-1344-SHAKE
   level: 5
   pk: 21520
@@ -68,3 +73,4 @@ parametersets:
   keygen_us: 2392.2
   encaps_us: 2478.3
   decaps_us: 2449.1
+  bench_env: 2026-10-13-c7i.4xlarge

@@ -4,6 +4,7 @@
 	import { kemCompareData } from '$lib/compareData';
 	import { KEMS } from '$lib/primitives';
 	import { base } from '$app/paths';
+	import { envCpuModels } from '$lib/benchEnv';
 	import { kemBenchmarkEnv } from '$lib/kemSchemeData';
 </script>
 
@@ -29,13 +30,13 @@
 {/snippet}
 
 {#snippet note()}
-	{#if kemBenchmarkEnv}
+	{#if envCpuModels(kemBenchmarkEnv)}
 		<div
 			class="rounded border border-pqs-apricot/40 bg-pqs-apricot/10 px-4 py-3 text-xs text-pqs-midnight dark:border-pqs-apricot/30 dark:bg-pqs-apricot/5 dark:text-pqs-smoke"
 		>
 			<strong class="font-heading font-semibold text-pqs-apricot">Performance note:</strong>
 			Keygen / encapsulation / decapsulation timings are from our own benchmarks on a
-			{kemBenchmarkEnv.cpu.model} (ML-KEM and HQC use AVX2; ECDH uses OpenSSL); see the environment details below. Schemes
+			{envCpuModels(kemBenchmarkEnv)} (ML-KEM and HQC use AVX2; ECDH uses OpenSSL); see the environment details below. Schemes
 			not yet in our harness show sizes only.
 		</div>
 	{/if}

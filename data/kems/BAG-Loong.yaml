@@ -16,6 +16,7 @@ parametersets:
   keygen_us: 15375.0
   encaps_us: 15554.1
   decaps_us: 27765.8
+  bench_env: 2026-10-13-c7i.4xlarge
   notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 - name: BAG-Loong-256
   ngcc_level: 256
@@ -27,6 +28,7 @@ parametersets:
   keygen_us: 41639.9
   encaps_us: 36894.5
   decaps_us: 70174.0
+  bench_env: 2026-10-13-c7i.4xlarge
   notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
   broken: Merging error supports lowers the cost of rank-decoding key recovery below this set's claimed level (<a href="https://list.niccs.org.cn/archives/list/pkcforum@list.niccs.org.cn/message/632RW5CKKAJXJ3GBZ7ZL6RE7CLCVYFGQ/">Xiong and Wang</a>).
 - name: BAG-Loong-384
@@ -39,6 +41,7 @@ parametersets:
   keygen_us: 93922.5
   encaps_us: 73863.1
   decaps_us: 141863.9
+  bench_env: 2026-10-13-c7i.4xlarge
   notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
   broken: Merging error supports lowers the cost of rank-decoding key recovery below this set's claimed level (<a href="https://list.niccs.org.cn/archives/list/pkcforum@list.niccs.org.cn/message/632RW5CKKAJXJ3GBZ7ZL6RE7CLCVYFGQ/">Xiong and Wang</a>).
 - name: BAG-Loong-512
@@ -51,6 +54,7 @@ parametersets:
   keygen_us: 159094.0
   encaps_us: 113379.3
   decaps_us: 211720.8
+  bench_env: 2026-10-13-c7i.4xlarge
   notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
   broken: Merging error supports lowers the cost of rank-decoding key recovery below this set's claimed level (<a href="https://list.niccs.org.cn/archives/list/pkcforum@list.niccs.org.cn/message/632RW5CKKAJXJ3GBZ7ZL6RE7CLCVYFGQ/">Xiong and Wang</a>).
 findings_url: https://ngcc.dev/reports/kem-03.html

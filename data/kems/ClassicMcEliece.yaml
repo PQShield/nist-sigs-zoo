@@ -19,6 +19,7 @@ parametersets:
   keygen_us: 12453.8
   encaps_us: 11.0
   decaps_us: 37.2
+  bench_env: 2026-10-13-c7i.4xlarge
 - name: mceliece460896
   level: 3
   pk: 524160
@@ -29,6 +30,7 @@ parametersets:
   keygen_us: 50496.9
   encaps_us: 28.5
   decaps_us: 82.8
+  bench_env: 2026-10-13-c7i.4xlarge
 - name: mceliece6688128
   level: 5
   pk: 1044992
@@ -39,6 +41,7 @@ parametersets:
   keygen_us: 102492.2
   encaps_us: 87.4
   decaps_us: 115.2
+  bench_env: 2026-10-13-c7i.4xlarge
 - name: mceliece6960119
   level: 5
   pk: 1047319
@@ -49,6 +52,7 @@ parametersets:
   keygen_us: 89557.4
   encaps_us: 104.4
   decaps_us: 110.6
+  bench_env: 2026-10-13-c7i.4xlarge
 - name: mceliece8192128
   level: 5
   pk: 1357824
@@ -59,3 +63,4 @@ parametersets:
   keygen_us: 99465.0
   encaps_us: 147.9
   decaps_us: 122.7
+  bench_env: 2026-10-13-c7i.4xlarge

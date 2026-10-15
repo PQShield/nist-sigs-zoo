@@ -18,7 +18,7 @@
 		type CompareRow
 	} from '$lib/compare';
 	import { roundFromParam, roundParam, roundStore, type Round } from '$lib/roundStore';
-	import type { BenchmarkEnv, CompareFilter } from '$lib/types';
+	import type { BenchmarkEnvFile, CompareFilter } from '$lib/types';
 	import BenchmarkEnvInfo from './BenchmarkEnvInfo.svelte';
 	import ChartModeToggle from './ChartModeToggle.svelte';
 	import CompareChart from './CompareChart.svelte';
@@ -38,7 +38,7 @@
 		hero?: Snippet;
 		/** Shown between the chart and the table. */
 		note?: Snippet;
-		env?: BenchmarkEnv | null;
+		env?: BenchmarkEnvFile | null;
 	}
 	let { config, load, rounds = false, advanced = false, hero, note, env = null }: Props = $props();
 
@@ -233,8 +233,8 @@
 				/>
 			</section>
 
-			{#if env}
-				<BenchmarkEnvInfo {env} />
+			{#if env && env.environments.length > 0}
+				<BenchmarkEnvInfo file={env} />
 			{/if}
 		</div>
 	</div>

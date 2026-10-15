@@ -17,6 +17,7 @@ versions:
     verification_cycles: 11345183
     signing_us: 3225.2
     verification_us: 3058.4
+    bench_env: 2026-10-13-c7i.4xlarge
     notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
   - name: TSUOV_256
     ngcc_level: 256
@@ -26,6 +27,7 @@ versions:
     verification_cycles: 71557530
     signing_us: 19354.7
     verification_us: 18966.5
+    bench_env: 2026-10-13-c7i.4xlarge
     notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
   - name: TSUOV_512
     ngcc_level: 512
@@ -35,6 +37,7 @@ versions:
     verification_cycles: 900535074
     signing_us: 220262.7
     verification_us: 238679.5
+    bench_env: 2026-10-13-c7i.4xlarge
     notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
     broken: The 512-bit message prehash limits forgery resistance to about 2^256 work, below the 512-bit target (<a href="https://ngcc.dev/reports/sign-31.html#sign-31-1-a-512-bit-prehash-caps-forgery-security-at-256-bits">Saarinen</a>).
   findings_url: https://ngcc.dev/reports/sign-31.html

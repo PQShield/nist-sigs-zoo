@@ -16,6 +16,7 @@ parametersets:
   keygen_us: 185.4
   encaps_us: 318.4
   decaps_us: 1234.3
+  bench_env: 2026-10-13-c7i.4xlarge
   notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 - name: BRA-256
   ngcc_level: 256
@@ -27,6 +28,7 @@ parametersets:
   keygen_us: 327.2
   encaps_us: 558.8
   decaps_us: 2073.3
+  bench_env: 2026-10-13-c7i.4xlarge
   notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 - name: BRA-512
   ngcc_level: 512
@@ -38,6 +40,7 @@ parametersets:
   keygen_us: 514.2
   encaps_us: 893.6
   decaps_us: 3691.2
+  bench_env: 2026-10-13-c7i.4xlarge
   notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 findings_url: https://ngcc.dev/reports/kem-06.html
 implementation: The submitted decapsulation ignores padding bits, so altered copies of a challenge ciphertext decapsulate to the same key, breaking IND-CCA security (<a href="https://ngcc.dev/reports/kem-06.html#kem-06-4-ignored-padding-bits-make-ciphertexts-malleable-without-changing-the-key">Saarinen</a>).

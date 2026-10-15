@@ -16,6 +16,7 @@ parametersets:
   keygen_cycles: 1977977
   encaps_cycles: 16040429
   decaps_cycles: 14062371
+  bench_env: 2026-10-13-c7i.4xlarge
 - name: MIKE-fast-III
   level: 3
   pk: 122
@@ -27,6 +28,7 @@ parametersets:
   keygen_cycles: 6462391
   encaps_cycles: 51952765
   decaps_cycles: 45597283
+  bench_env: 2026-10-13-c7i.4xlarge
 - name: MIKE-fast-V
   level: 5
   pk: 160
@@ -38,6 +40,7 @@ parametersets:
   keygen_cycles: 13425595
   encaps_cycles: 102652382
   decaps_cycles: 89253025
+  bench_env: 2026-10-13-c7i.4xlarge
 - name: MIKE-rigorous-I
   level: 1
   pk: 96
@@ -49,6 +52,7 @@ parametersets:
   keygen_cycles: 4389250
   encaps_cycles: 35975441
   decaps_cycles: 31591555
+  bench_env: 2026-10-13-c7i.4xlarge
 - name: MIKE-rigorous-III
   level: 3
   pk: 144
@@ -60,6 +64,7 @@ parametersets:
   keygen_cycles: 13897404
   encaps_cycles: 108687334
   decaps_cycles: 94794784
+  bench_env: 2026-10-13-c7i.4xlarge
 - name: MIKE-rigorous-V
   level: 5
   pk: 192
@@ -71,3 +76,4 @@ parametersets:
   keygen_cycles: 31976583
   encaps_cycles: 243285833
   decaps_cycles: 211428578
+  bench_env: 2026-10-13-c7i.4xlarge

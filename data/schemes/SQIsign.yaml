@@ -20,6 +20,7 @@ versions:
     verification_cycles: 77192543
     signing_us: 204918.1
     verification_us: 21007.1
+    bench_env: 2026-10-13-c7i.4xlarge
   - name: III
     level: 3
     recommended: true
@@ -29,6 +30,7 @@ versions:
     verification_cycles: 31539565
     signing_us: 85032.3
     verification_us: 8602.0
+    bench_env: 2026-10-13-c7i.4xlarge
   - name: I
     level: 1
     recommended: true
@@ -38,6 +40,7 @@ versions:
     verification_cycles: 12145617
     signing_us: 27004.6
     verification_us: 3318.5
+    bench_env: 2026-10-13-c7i.4xlarge
   - name: alt p306.3
     level: 1
     pk: 79

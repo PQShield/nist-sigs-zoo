@@ -20,6 +20,7 @@ versions:
     verification_cycles: 3082816
     signing_us: 1024927.2
     verification_us: 842.2
+    bench_env: 2026-10-13-c7i.4xlarge
   - name: SHAKE-256s
     recommended: true
     level: 5
@@ -29,6 +30,7 @@ versions:
     verification_cycles: 4529123
     signing_us: 931951.6
     verification_us: 1224.6
+    bench_env: 2026-10-13-c7i.4xlarge
   - name: SHAKE-128s
     recommended: true
     level: 1
@@ -38,6 +40,7 @@ versions:
     verification_cycles: 2113297
     signing_us: 567823.0
     verification_us: 564.8
+    bench_env: 2026-10-13-c7i.4xlarge
   - name: SHAKE-256f
     recommended: true
     level: 5
@@ -47,6 +50,7 @@ versions:
     verification_cycles: 9116753
     signing_us: 95199.8
     verification_us: 2463.0
+    bench_env: 2026-10-13-c7i.4xlarge
   - name: SHAKE-192f
     recommended: true
     level: 3
@@ -56,6 +60,7 @@ versions:
     verification_cycles: 8932905
     signing_us: 47386.1
     verification_us: 2512.4
+    bench_env: 2026-10-13-c7i.4xlarge
   - name: SHAKE-128f
     recommended: true
     level: 1
@@ -65,6 +70,7 @@ versions:
     verification_cycles: 6104697
     signing_us: 27850.9
     verification_us: 1657.9
+    bench_env: 2026-10-13-c7i.4xlarge
   - name: SHAKE-128-24
     level: 1
     pk: 32

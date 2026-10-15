@@ -17,6 +17,7 @@ versions:
     verification_cycles: 534196
     signing_us: 326.6
     verification_us: 141.8
+    bench_env: 2026-10-13-c7i.4xlarge
     notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
   - name: Octarine-256
     ngcc_level: 256
@@ -26,6 +27,7 @@ versions:
     verification_cycles: 1023823
     signing_us: 665.4
     verification_us: 270.7
+    bench_env: 2026-10-13-c7i.4xlarge
     notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
   - name: Octarine-512
     ngcc_level: 512
@@ -35,5 +37,6 @@ versions:
     verification_cycles: 2473141
     signing_us: 2361.3
     verification_us: 658.9
+    bench_env: 2026-10-13-c7i.4xlarge
     notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
   findings_url: https://ngcc.dev/reports/sign-16.html

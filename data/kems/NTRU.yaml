@@ -17,6 +17,7 @@ parametersets:
   keygen_us: 42.2
   encaps_us: 12.7
   decaps_us: 10.3
+  bench_env: 2026-10-13-c7i.4xlarge
 - name: ntruhps2048677
   level: 3
   pk: 930
@@ -27,6 +28,7 @@ parametersets:
   keygen_us: 65.4
   encaps_us: 16.4
   decaps_us: 13.8
+  bench_env: 2026-10-13-c7i.4xlarge
 - name: ntruhps4096821
   level: 5
   pk: 1230
@@ -37,6 +39,7 @@ parametersets:
   keygen_us: 90.0
   encaps_us: 18.8
   decaps_us: 17.7
+  bench_env: 2026-10-13-c7i.4xlarge
 - name: ntruhrss701
   level: 1
   pk: 1138
@@ -47,3 +50,4 @@ parametersets:
   keygen_us: 59.4
   encaps_us: 10.3
   decaps_us: 14.4
+  bench_env: 2026-10-13-c7i.4xlarge

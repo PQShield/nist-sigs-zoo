@@ -1,3 +1,4 @@
+import { envLabel, envOf } from './benchEnv';
 import { httpUrl, programmeChips, securityBadges, type Badge, type BadgeKind, type Chip } from './badges';
 import { CPU_GHZ_LABEL, CYCLES_PER_US } from './constants';
 import { processYamlSchemes } from './data';
@@ -9,6 +10,7 @@ import { schemeSlug } from './slugs';
 import { levelText, versionOptions, type VersionOption } from './versionCompare';
 import { dnfCell } from './timing';
 import type {
+	BenchmarkEnv,
 	HistoryEntry,
 	KemParameterSet,
 	KemSchemeYaml,
@@ -94,9 +96,18 @@ function findingsLink(url: string | null | undefined): { url: string; host: stri
 const num = (n: number): TableCell => ({ text: fmt(n), kind: 'value' });
 
 /** Measured µs, else estimated from measured cycles, else "timeout"/"DNF" when the benchmark did
- * not finish, else "not yet benchmarked". */
-export function timeCell(us: number | null, cycles: number, dnf: string | null = null): TableCell {
-	if (us != null) return { text: fmtTime(us), kind: 'value' };
+ * not finish, else "not yet benchmarked". A measured value names its benchmark environment. */
+export function timeCell(
+	us: number | null,
+	cycles: number,
+	dnf: string | null = null,
+	env: BenchmarkEnv | null = null
+): TableCell {
+	if (us != null) {
+		return env
+			? { text: fmtTime(us), kind: 'value', title: `Measured on ${envLabel(env)}` }
+			: { text: fmtTime(us), kind: 'value' };
+	}
 	if (cycles > 0) {
 		return {
 			text: fmtTime(cycles / CYCLES_PER_US),
@@ -108,7 +119,7 @@ export function timeCell(us: number | null, cycles: number, dnf: string | null =
 	return { text: '—', kind: 'missing', title: 'Not yet benchmarked' };
 }
 
-export function signatureTable(rows: ParameterSet[]): ParamSetTableModel {
+export function signatureTable(rows: ParameterSet[], envs: BenchmarkEnv[] = []): ParamSetTableModel {
 	const tagged = rows.some((r) => !r.recommended);
 	return {
 		headers: ['pk (B)', 'sig (B)', 'pk+sig (B)', 'Sign', 'Verify'],
@@ -122,14 +133,14 @@ export function signatureTable(rows: ParameterSet[]): ParamSetTableModel {
 				num(r.pk),
 				num(r.sig),
 				num(r.pkPlusSig),
-				timeCell(r.signingUs, r.signingCycles, r.dnf),
-				timeCell(r.verificationUs, r.verificationCycles, r.dnf)
+				timeCell(r.signingUs, r.signingCycles, r.dnf, envOf(envs, r.benchEnv)),
+				timeCell(r.verificationUs, r.verificationCycles, r.dnf, envOf(envs, r.benchEnv))
 			]
 		}))
 	};
 }
 
-export function kemTable(rows: KemParameterSet[]): ParamSetTableModel {
+export function kemTable(rows: KemParameterSet[], envs: BenchmarkEnv[] = []): ParamSetTableModel {
 	const tagged = rows.some((r) => !r.recommended);
 	return {
 		headers: ['pk (B)', 'ct (B)', 'pk+ct (B)', 'Keygen', 'Encaps', 'Decaps'],
@@ -143,9 +154,9 @@ export function kemTable(rows: KemParameterSet[]): ParamSetTableModel {
 				num(r.pk),
 				num(r.ct),
 				num(r.pkPlusCt),
-				timeCell(r.keygenUs, r.keygenCycles, r.dnf),
-				timeCell(r.encapsUs, r.encapsCycles, r.dnf),
-				timeCell(r.decapsUs, r.decapsCycles, r.dnf)
+				timeCell(r.keygenUs, r.keygenCycles, r.dnf, envOf(envs, r.benchEnv)),
+				timeCell(r.encapsUs, r.encapsCycles, r.dnf, envOf(envs, r.benchEnv)),
+				timeCell(r.decapsUs, r.decapsCycles, r.dnf, envOf(envs, r.benchEnv))
 			]
 		}))
 	};
@@ -181,7 +192,12 @@ export function flagSummary(notes: FlagNote[], total: number): string {
 	return parts.length > 0 ? parts.join(' · ') : 'None on current sets';
 }
 
-export function signaturePage(yaml: SchemeYaml, history: HistoryEntry[], registry: ProgrammeYaml[]): SignaturePage {
+export function signaturePage(
+	yaml: SchemeYaml,
+	history: HistoryEntry[],
+	registry: ProgrammeYaml[],
+	envs: BenchmarkEnv[] = []
+): SignaturePage {
 	if (yaml.versions.length === 0) throw new Error(`scheme "${yaml.name}" has no versions`);
 	const versions = [...yaml.versions].sort((a, b) => b.date.localeCompare(a.date));
 	const latest = versions[0];
@@ -203,7 +219,7 @@ export function signaturePage(yaml: SchemeYaml, history: HistoryEntry[], registr
 		),
 		flagSummary: flagSummary(notes, parameterSets.length),
 		findings: findingsLink(latest.findings_url),
-		table: signatureTable(parameterSets),
+		table: signatureTable(parameterSets, envs),
 		flagNotes: notes,
 		events: schemeEvents(history, yaml.name, versions),
 		latest: options[0],
@@ -212,7 +228,12 @@ export function signaturePage(yaml: SchemeYaml, history: HistoryEntry[], registr
 	};
 }
 
-export function kemPage(yaml: KemSchemeYaml, history: HistoryEntry[], registry: ProgrammeYaml[]): KemPage {
+export function kemPage(
+	yaml: KemSchemeYaml,
+	history: HistoryEntry[],
+	registry: ProgrammeYaml[],
+	envs: BenchmarkEnv[] = []
+): KemPage {
 	const { schemes, parameterSets } = processKemSchemes([yaml]);
 	const notes = flagNotes(parameterSets);
 	return {
@@ -227,7 +248,7 @@ export function kemPage(yaml: KemSchemeYaml, history: HistoryEntry[], registry: 
 		chips: programmeChips({ status: yaml.status, programmes: schemes[0]?.programmes ?? [] }, registry),
 		flagSummary: flagSummary(notes, parameterSets.length),
 		findings: findingsLink(yaml.findings_url),
-		table: kemTable(parameterSets),
+		table: kemTable(parameterSets, envs),
 		flagNotes: notes,
 		events: schemeEvents(history, yaml.name, []),
 		status: yaml.status

@@ -39,6 +39,8 @@ export interface ParameterSet {
 	notes: string | null;
 	/** Why the benchmark did not finish (`timeout`, `operation-over-600s`, `SIGSEGV`, …); null otherwise. */
 	dnf: string | null;
+	/** Id of the BenchmarkEnv our timings come from (`bench_env`); absent for other sources. */
+	benchEnv?: string | null;
 	version: string;
 	perfSource: string | null;
 	programmes: ProgrammeMembership[];
@@ -70,6 +72,8 @@ export interface ParameterSetYaml {
 	notes?: string;
 	/** One-word reason the benchmark did not finish (written by the importers); no timings then. */
 	dnf?: string;
+	/** Id of the BenchmarkEnv the timings were measured in (written by the importers). */
+	bench_env?: string;
 }
 
 export interface VersionYaml {
@@ -122,6 +126,8 @@ export interface KemParameterSetYaml {
 	notes?: string;
 	/** One-word reason the benchmark did not finish (written by the importers); no timings then. */
 	dnf?: string;
+	/** Id of the BenchmarkEnv the timings were measured in (written by the importers). */
+	bench_env?: string;
 }
 
 export interface KemSchemeYaml {
@@ -181,6 +187,8 @@ export interface KemParameterSet {
 	notes: string | null;
 	/** Why the benchmark did not finish (`timeout`, `operation-over-600s`, `SIGSEGV`, …); null otherwise. */
 	dnf: string | null;
+	/** Id of the BenchmarkEnv our timings come from (`bench_env`); absent for other sources. */
+	benchEnv?: string | null;
 	programmes: ProgrammeMembership[];
 	ngccLevel: NgccLevel | null;
 	recommended: boolean;
@@ -227,10 +235,13 @@ export interface KemFilterState extends CompareFilter {
 	maxDecapsUs: number;
 }
 
+/** One benchmark run's environment (data/benchmark_env.yaml, data/kem_benchmark_env.yaml). */
 export interface BenchmarkEnv {
-	license: string;
-	attribution: string;
+	/** `<run date>-<EC2 instance type>`; parameter sets name it in `bench_env`. */
+	id: string;
 	date: string;
+	/** EC2 instance type, or `local` for a run outside EC2. */
+	instance_type?: string;
 	cpu: {
 		model: string;
 		cores: number;
@@ -244,7 +255,14 @@ export interface BenchmarkEnv {
 	compiler: string;
 	openssl: string;
 	notes: string;
-	sources: Record<string, string>;
+	sources?: Record<string, string>;
+}
+
+/** A benchmark environment file: every environment some parameter set's timings come from. */
+export interface BenchmarkEnvFile {
+	license: string;
+	attribution: string;
+	environments: BenchmarkEnv[];
 }
 
 export type HistoryType = 'update' | 'attack' | 'standardization' | 'milestone';

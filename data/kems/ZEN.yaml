@@ -17,6 +17,7 @@ parametersets:
   keygen_us: 61.2
   encaps_us: 41.8
   decaps_us: 53.2
+  bench_env: 2026-10-13-c7i.4xlarge
   notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 - name: ZEN_256
   ngcc_level: 256
@@ -29,6 +30,7 @@ parametersets:
   keygen_us: 100.6
   encaps_us: 57.8
   decaps_us: 87.8
+  bench_env: 2026-10-13-c7i.4xlarge
   notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 - name: ZEN_512
   ngcc_level: 512
@@ -41,6 +43,7 @@ parametersets:
   keygen_us: 270.4
   encaps_us: 152.2
   decaps_us: 228.2
+  bench_env: 2026-10-13-c7i.4xlarge
   notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 - name: ZEN-256-backup
   ngcc_level: 256

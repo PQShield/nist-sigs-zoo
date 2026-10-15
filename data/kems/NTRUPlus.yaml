@@ -17,6 +17,7 @@ parametersets:
   keygen_us: 8.3
   encaps_us: 10.2
   decaps_us: 7.0
+  bench_env: 2026-10-13-c7i.4xlarge
 - name: NTRU+864
   level: 3
   pk: 1296
@@ -27,6 +28,7 @@ parametersets:
   keygen_us: 8.9
   encaps_us: 11.5
   decaps_us: 8.2
+  bench_env: 2026-10-13-c7i.4xlarge
 - name: NTRU+1152
   level: 5
   pk: 1728
@@ -37,3 +39,4 @@ parametersets:
   keygen_us: 13.0
   encaps_us: 14.8
   decaps_us: 10.1
+  bench_env: 2026-10-13-c7i.4xlarge

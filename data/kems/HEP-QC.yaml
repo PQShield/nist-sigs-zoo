@@ -17,6 +17,7 @@ parametersets:
   keygen_us: 65729.6
   encaps_us: 3489.0
   decaps_us: 62106.5
+  bench_env: 2026-10-13-c7i.4xlarge
   notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 - name: HEP-QC-5
   ngcc_level: 256
@@ -28,6 +29,7 @@ parametersets:
   keygen_us: 250798.0
   encaps_us: 23505.1
   decaps_us: 217852.6
+  bench_env: 2026-10-13-c7i.4xlarge
   notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 - name: HEP-QC-7
   ngcc_level: 512
@@ -39,6 +41,7 @@ parametersets:
   keygen_us: 1278031.5
   encaps_us: 157595.0
   decaps_us: 843566.4
+  bench_env: 2026-10-13-c7i.4xlarge
   notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
   broken: Key generation has at most 2^256 possible seeds, below the 512-bit target (<a href="https://ngcc.dev/reports/kem-17.html#kem-17-2-hep-qc-7-has-at-most-256-bits-of-key-generation-support">Saarinen</a>).
 findings_url: https://ngcc.dev/reports/kem-17.html

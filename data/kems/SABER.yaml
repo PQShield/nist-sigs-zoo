@@ -17,6 +17,7 @@ parametersets:
   keygen_us: 16.2
   encaps_us: 15.7
   decaps_us: 13.7
+  bench_env: 2026-10-13-c7i.4xlarge
 - name: Saber
   level: 3
   pk: 992
@@ -27,6 +28,7 @@ parametersets:
   keygen_us: 22.3
   encaps_us: 22.8
   decaps_us: 20.9
+  bench_env: 2026-10-13-c7i.4xlarge
 - name: FireSaber
   level: 5
   pk: 1312
@@ -37,3 +39,4 @@ parametersets:
   keygen_us: 30.2
   encaps_us: 31.4
   decaps_us: 30.0
+  bench_env: 2026-10-13-c7i.4xlarge

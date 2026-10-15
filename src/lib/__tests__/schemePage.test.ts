@@ -259,4 +259,23 @@ describe('hostOf / timeCell', () => {
 		expect(timeCell(null, 0, 'SIGSEGV').text).toBe('DNF');
 		expect(timeCell(2, 0, 'SIGSEGV').kind).toBe('value');
 	});
+	it('names the benchmark environment of a measured value', () => {
+		const env = {
+			id: '2026-10-13-c7i.4xlarge',
+			date: '2026-10-13T10:23:10Z',
+			instance_type: 'c7i.4xlarge',
+			cpu: { model: 'Intel X', cores: 16, threads_per_core: 2, max_freq_mhz: 0, governor: '', turbo: '' },
+			os: '',
+			kernel: '',
+			compiler: '',
+			openssl: '',
+			notes: ''
+		};
+		expect(timeCell(2, 0, null, env)).toEqual({
+			text: timeCell(2, 0).text,
+			kind: 'value',
+			title: 'Measured on Intel X (EC2 c7i.4xlarge), 2026-10-13'
+		});
+		expect(timeCell(2, 0).title).toBeUndefined();
+	});
 });

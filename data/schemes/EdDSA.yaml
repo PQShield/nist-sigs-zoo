@@ -16,6 +16,7 @@ versions:
     verification_cycles: 333303
     signing_us: 33.6
     verification_us: 89.5
+    bench_env: 2026-10-13-c7i.4xlarge
   - name: Ed448
     level: Pre-Quantum
     pk: 57
@@ -24,4 +25,5 @@ versions:
     verification_cycles: 654055
     signing_us: 139.0
     verification_us: 176.7
+    bench_env: 2026-10-13-c7i.4xlarge
   broken: classical

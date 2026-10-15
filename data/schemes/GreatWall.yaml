@@ -18,6 +18,7 @@ versions:
     verification_cycles: 14000074
     signing_us: 3023.8
     verification_us: 3877.2
+    bench_env: 2026-10-13-c7i.4xlarge
     notes: Optimised x86 implementation.
   - name: GreatWall192s
     ngcc_level: 128
@@ -27,6 +28,7 @@ versions:
     verification_cycles: 95357660
     signing_us: 11511.1
     verification_us: 26834.2
+    bench_env: 2026-10-13-c7i.4xlarge
     notes: Optimised x86 implementation.
   - name: GreatWall256f
     ngcc_level: 256
@@ -36,6 +38,7 @@ versions:
     verification_cycles: 23551568
     signing_us: 5615.1
     verification_us: 6547.4
+    bench_env: 2026-10-13-c7i.4xlarge
     notes: Optimised x86 implementation.
   - name: GreatWall256s
     ngcc_level: 256
@@ -45,6 +48,7 @@ versions:
     verification_cycles: 134672766
     signing_us: 18999.5
     verification_us: 38220.9
+    bench_env: 2026-10-13-c7i.4xlarge
     notes: Optimised x86 implementation.
   - name: GreatWall512f
     ngcc_level: 512
@@ -54,6 +58,7 @@ versions:
     verification_cycles: 328113471
     signing_us: 90856.2
     verification_us: 93630.1
+    bench_env: 2026-10-13-c7i.4xlarge
     notes: Optimised x86 implementation; our build applies a small patch to the submitted code.
     broken: Hashing with SHAKE256 limits forgery resistance to about 2^256 work after one signing query, below the 512-bit target (<a href="https://list.niccs.org.cn/archives/list/pkcforum@list.niccs.org.cn/message/UCS5CCGZNZYKBBJZAE6PKT275GPRPGGP/">Feussner</a>).
   - name: GreatWall512s
@@ -64,6 +69,7 @@ versions:
     verification_cycles: 2026073328
     signing_us: 343768.1
     verification_us: 537294.8
+    bench_env: 2026-10-13-c7i.4xlarge
     notes: Optimised x86 implementation; our build applies a small patch to the submitted code.
     broken: Hashing with SHAKE256 limits forgery resistance to about 2^256 work after one signing query, below the 512-bit target (<a href="https://list.niccs.org.cn/archives/list/pkcforum@list.niccs.org.cn/message/UCS5CCGZNZYKBBJZAE6PKT275GPRPGGP/">Feussner</a>).
   findings_url: https://ngcc.dev/reports/sign-13.html

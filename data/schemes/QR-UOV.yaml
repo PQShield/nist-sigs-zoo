@@ -19,6 +19,7 @@ versions:
     verification_cycles: 299695
     signing_us: 146.6
     verification_us: 81.5
+    bench_env: 2026-10-13-c7i.4xlarge
   - name: I-(127 540 60 10)
     level: 1
     recommended: true
@@ -28,6 +29,7 @@ versions:
     verification_cycles: 864423
     signing_us: 732.7
     verification_us: 234.3
+    bench_env: 2026-10-13-c7i.4xlarge
   - name: III-(127 228 78 3)
     level: 3
     recommended: true
@@ -37,6 +39,7 @@ versions:
     verification_cycles: 867014
     signing_us: 395.4
     verification_us: 234.9
+    bench_env: 2026-10-13-c7i.4xlarge
   - name: III-(127 820 90 10)
     level: 3
     recommended: true
@@ -46,6 +49,7 @@ versions:
     verification_cycles: 2705693
     signing_us: 2480.3
     verification_us: 728.1
+    bench_env: 2026-10-13-c7i.4xlarge
   - name: V-(127 306 105 3)
     level: 5
     recommended: true
@@ -55,6 +59,7 @@ versions:
     verification_cycles: 2005769
     signing_us: 974.0
     verification_us: 538.7
+    bench_env: 2026-10-13-c7i.4xlarge
   - name: V-(127 1040 110 10)
     level: 5
     recommended: true
@@ -64,6 +69,7 @@ versions:
     verification_cycles: 5347886
     signing_us: 4465.1
     verification_us: 1436.9
+    bench_env: 2026-10-13-c7i.4xlarge
   - name: I-(7 740 100 10)
     level: 1
     pk: 20641

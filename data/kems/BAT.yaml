@@ -15,6 +15,7 @@ parametersets:
   keygen_us: 5171.7
   encaps_us: 5.1
   decaps_us: 22.4
+  bench_env: 2026-10-13-c7i.4xlarge
 - name: BAT-769-1024
   level: 5
   pk: 1230
@@ -25,3 +26,4 @@ parametersets:
   keygen_us: 28629.0
   encaps_us: 8.8
   decaps_us: 44.8
+  bench_env: 2026-10-13-c7i.4xlarge

@@ -16,6 +16,7 @@ parametersets:
   keygen_us: 77.4
   encaps_us: 347.9
   decaps_us: 568.5
+  bench_env: 2026-10-13-c7i.4xlarge
   notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 - name: HARE-256-kr
   ngcc_level: 256
@@ -27,6 +28,7 @@ parametersets:
   keygen_us: 231.4
   encaps_us: 935.5
   decaps_us: 1625.0
+  bench_env: 2026-10-13-c7i.4xlarge
   notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 - name: HARE-384-kr
   ngcc_level: 384
@@ -38,6 +40,7 @@ parametersets:
   keygen_us: 587.6
   encaps_us: 2136.8
   decaps_us: 3591.0
+  bench_env: 2026-10-13-c7i.4xlarge
   notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 - name: HARE-512-kr
   ngcc_level: 512
@@ -49,5 +52,6 @@ parametersets:
   keygen_us: 1519.9
   encaps_us: 4272.5
   decaps_us: 7123.0
+  bench_env: 2026-10-13-c7i.4xlarge
   notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 findings_url: https://ngcc.dev/reports/kem-16.html

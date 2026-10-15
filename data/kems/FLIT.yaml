@@ -16,6 +16,7 @@ parametersets:
   keygen_us: 19.0
   encaps_us: 22.5
   decaps_us: 18.5
+  bench_env: 2026-10-13-c7i.4xlarge
   notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 - name: FLIT256
   ngcc_level: 256
@@ -27,6 +28,7 @@ parametersets:
   keygen_us: 44.0
   encaps_us: 39.0
   decaps_us: 34.0
+  bench_env: 2026-10-13-c7i.4xlarge
   notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 - name: FLIT512
   ngcc_level: 512
@@ -38,6 +40,7 @@ parametersets:
   keygen_us: 195.8
   encaps_us: 159.9
   decaps_us: 136.4
+  bench_env: 2026-10-13-c7i.4xlarge
   notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 findings_url: https://ngcc.dev/reports/kem-15.html
 implementation: The optimised equality check accepts invalid ciphertexts (<a href="https://list.niccs.org.cn/archives/list/pkcforum@list.niccs.org.cn/message/KP5VT25RVLVRBBJ7XFPTNMBSZV6PIPEN/">Xiong and Wang</a>), and the additional FIPS202 builds never seed their generator, so their keys are predictable (<a href="https://ngcc.dev/reports/kem-15.html#kem-15-3-the-fips202-variants-generate-predictable-keys-because-their-rng-is-never-seeded">Saarinen</a>).

@@ -17,6 +17,7 @@ versions:
     verification_cycles: 736269440
     signing_us: 788782.2
     verification_us: 197691.2
+    bench_env: 2026-10-13-c7i.4xlarge
     notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
   - name: SQIsign2D-lvl3
     ngcc_level: 256
@@ -26,6 +27,7 @@ versions:
     verification_cycles: 1665345004
     signing_us: 1761120.3
     verification_us: 443803.8
+    bench_env: 2026-10-13-c7i.4xlarge
     notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it; our build does not reproduce the submitted test vectors (cause unknown).
     info: Our build does not reproduce the submitted test vectors.
     implementation: The submitted code skips the specified challenge grinding, so a forgery from one valid signature costs about 2^247, below the 256-bit target (<a href="https://list.niccs.org.cn/archives/list/pkcforum@list.niccs.org.cn/message/TUR2W3S22UGBUJXFZYT25VO44PHNFAOJ/">Sun</a>).
@@ -37,5 +39,6 @@ versions:
     verification_cycles: 14825662303
     signing_us: 15601402.5
     verification_us: 3933826.5
+    bench_env: 2026-10-13-c7i.4xlarge
     notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
   findings_url: https://ngcc.dev/reports/sign-26.html

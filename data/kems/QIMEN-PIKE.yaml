@@ -16,6 +16,7 @@ parametersets:
   keygen_us: 64553.7
   encaps_us: 25749.1
   decaps_us: 41190.7
+  bench_env: 2026-10-13-c7i.4xlarge
   notes: Optimised x86 implementation. Measured sizes differ from the specification, which gives pk 405 B, sk 488 B (Table 7.1, compressed columns (PDF p. 57)).
 - name: NGCC-2
   ngcc_level: 256
@@ -27,6 +28,7 @@ parametersets:
   keygen_us: 198253.3
   encaps_us: 73537.8
   decaps_us: 118633.8
+  bench_env: 2026-10-13-c7i.4xlarge
   notes: Optimised x86 implementation. Measured sizes differ from the specification, which gives pk 595 B, sk 737 B (Table 7.1, compressed columns (PDF p. 57)).
 - name: NGCC-3
   ngcc_level: 512
@@ -38,6 +40,7 @@ parametersets:
   keygen_us: 1713595.3
   encaps_us: 698496.4
   decaps_us: 1111117.8
+  bench_env: 2026-10-13-c7i.4xlarge
   notes: Optimised x86 implementation. Measured sizes differ from the specification, which gives pk 1201 B, sk 1500 B (Table 7.1, compressed columns (PDF p. 57)).
 findings_url: https://ngcc.dev/reports/kem-31.html
 implementation: Non-canonical field encodings in the submitted code let altered ciphertexts decapsulate to the same key, breaking IND-CCA security (<a href="https://ngcc.dev/reports/kem-31.html#kem-31-2-non-canonical-field-encodings-make-ciphertexts-malleable-without-changing-the-key">Saarinen</a>).

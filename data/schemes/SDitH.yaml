@@ -21,6 +21,7 @@ versions:
     verification_cycles: 8262686
     signing_us: 2548.2
     verification_us: 2240.0
+    bench_env: 2026-10-13-c7i.4xlarge
   - name: SDitH3-L1-gf2-fast
     recommended: true
     renamed_from: SDitH2-L1-gf2-fast
@@ -31,6 +32,7 @@ versions:
     verification_cycles: 1707881
     signing_us: 538.6
     verification_us: 458.9
+    bench_env: 2026-10-13-c7i.4xlarge
   - name: SDitH3-L3-gf2-short
     recommended: true
     renamed_from: SDitH2-L3-gf2-short
@@ -41,6 +43,7 @@ versions:
     verification_cycles: 41809417
     signing_us: 11529.6
     verification_us: 11351.0
+    bench_env: 2026-10-13-c7i.4xlarge
   - name: SDitH3-L3-gf2-fast
     recommended: true
     renamed_from: SDitH2-L3-gf2-fast
@@ -51,6 +54,7 @@ versions:
     verification_cycles: 8961817
     signing_us: 2589.5
     verification_us: 2434.7
+    bench_env: 2026-10-13-c7i.4xlarge
   - name: SDitH3-L5-gf2-short
     recommended: true
     renamed_from: SDitH2-L5-gf2-short
@@ -61,6 +65,7 @@ versions:
     verification_cycles: 65144856
     signing_us: 17908.8
     verification_us: 17691.3
+    bench_env: 2026-10-13-c7i.4xlarge
   - name: SDitH3-L5-gf2-fast
     recommended: true
     renamed_from: SDitH2-L5-gf2-fast
@@ -71,6 +76,7 @@ versions:
     verification_cycles: 13481963
     signing_us: 3899.5
     verification_us: 3656.6
+    bench_env: 2026-10-13-c7i.4xlarge
   - name: SDitH3-L1-gf2-short-cipherpow
     level: 1
     pk: 70
@@ -171,6 +177,7 @@ versions:
     verification_cycles: 90885500
     signing_us: 26120.6
     verification_us: 24949.8
+    bench_env: 2026-10-13-c7i.4xlarge
   - name: gf256-L5-hyp
     level: 5
     pk: 234
@@ -179,6 +186,7 @@ versions:
     verification_cycles: 54265429
     signing_us: 15853.0
     verification_us: 14744.6
+    bench_env: 2026-10-13-c7i.4xlarge
   - name: gf251-L3-hyp
     level: 3
     pk: 183
@@ -187,6 +195,7 @@ versions:
     verification_cycles: 48997763
     signing_us: 14298.8
     verification_us: 13503.9
+    bench_env: 2026-10-13-c7i.4xlarge
   - name: gf256-L3-hyp
     level: 3
     pk: 183
@@ -195,6 +204,7 @@ versions:
     verification_cycles: 27441391
     signing_us: 8083.1
     verification_us: 7491.3
+    bench_env: 2026-10-13-c7i.4xlarge
   - name: gf256-L5-thr
     level: 5
     pk: 234
@@ -203,6 +213,7 @@ versions:
     verification_cycles: 42707739
     signing_us: 51972.8
     verification_us: 11591.4
+    bench_env: 2026-10-13-c7i.4xlarge
   - name: gf251-L5-thr
     level: 5
     pk: 234
@@ -211,6 +222,7 @@ versions:
     verification_cycles: 3487960
     signing_us: 7873.5
     verification_us: 928.8
+    bench_env: 2026-10-13-c7i.4xlarge
   - name: gf251-L1-hyp
     level: 1
     pk: 120
@@ -219,6 +231,7 @@ versions:
     verification_cycles: 22777174
     signing_us: 6499.3
     verification_us: 6263.8
+    bench_env: 2026-10-13-c7i.4xlarge
   - name: gf256-L3-thr
     level: 3
     pk: 183
@@ -227,6 +240,7 @@ versions:
     verification_cycles: 18928274
     signing_us: 27381.3
     verification_us: 5140.3
+    bench_env: 2026-10-13-c7i.4xlarge
   - name: gf256-L1-hyp
     level: 1
     pk: 120
@@ -235,6 +249,7 @@ versions:
     verification_cycles: 11730538
     signing_us: 3398.4
     verification_us: 3190.1
+    bench_env: 2026-10-13-c7i.4xlarge
   - name: gf251-L3-thr
     level: 3
     pk: 183
@@ -243,6 +258,7 @@ versions:
     verification_cycles: 1645140
     signing_us: 3619.0
     verification_us: 439.5
+    bench_env: 2026-10-13-c7i.4xlarge
   - name: gf256-L1-thr
     level: 1
     pk: 120
@@ -251,6 +267,7 @@ versions:
     verification_cycles: 5838414
     signing_us: 10561.2
     verification_us: 1565.9
+    bench_env: 2026-10-13-c7i.4xlarge
   - name: gf251-L1-thr
     level: 1
     pk: 120
@@ -259,4 +276,5 @@ versions:
     verification_cycles: 680060
     signing_us: 1511.6
     verification_us: 181.4
+    bench_env: 2026-10-13-c7i.4xlarge
   info: few bits security loss in original parameters

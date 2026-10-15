@@ -4,6 +4,7 @@
 	import { signatureCompareData } from '$lib/compareData';
 	import { SIGNATURES } from '$lib/primitives';
 	import { roundStore } from '$lib/roundStore';
+	import { envCpuModels } from '$lib/benchEnv';
 	import { benchmarkEnv } from '$lib/schemeData';
 	import { lastDataChange } from '$lib/dataDates';
 </script>
@@ -47,7 +48,7 @@
 	>
 		<strong class="font-heading font-semibold text-pqs-apricot">Performance note:</strong>
 		{#if $roundStore === 'latest' || $roundStore === 'round-3'}
-			Cycle counts are from our own benchmarks on a {benchmarkEnv?.cpu.model ?? 'reference machine'} — see the environment
+			Cycle counts are from our own benchmarks on a {envCpuModels(benchmarkEnv) ?? 'reference machine'} — see the environment
 			details below.
 		{:else}
 			Timings are taken from the scheme submissions and may not reflect optimised implementations. Comparisons across

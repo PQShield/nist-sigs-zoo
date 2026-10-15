@@ -16,6 +16,7 @@ parametersets:
   keygen_us: 72.9
   encaps_us: 92.7
   decaps_us: 101.3
+  bench_env: 2026-10-13-c7i.4xlarge
   notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 - name: Cheetah256
   ngcc_level: 256
@@ -27,6 +28,7 @@ parametersets:
   keygen_us: 189.7
   encaps_us: 213.5
   decaps_us: 231.2
+  bench_env: 2026-10-13-c7i.4xlarge
   notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 - name: Cheetah384
   ngcc_level: 384
@@ -38,6 +40,7 @@ parametersets:
   keygen_us: 606.8
   encaps_us: 638.2
   decaps_us: 684.5
+  bench_env: 2026-10-13-c7i.4xlarge
   notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 - name: Cheetah512
   ngcc_level: 512
@@ -49,6 +52,7 @@ parametersets:
   keygen_us: 981.3
   encaps_us: 1017.1
   decaps_us: 1080.0
+  bench_env: 2026-10-13-c7i.4xlarge
   notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 findings_url: https://ngcc.dev/reports/kem-09.html
 implementation: A faulty rejection mask in the submitted decapsulation returns most bits of the true shared secret for modified ciphertexts (<a href="https://ngcc.dev/reports/kem-09.html#kem-09-1-partial-rejection-mask-leaks-the-candidate-shared-secret">Saarinen</a>).

@@ -1,8 +1,8 @@
 import { error } from '@sveltejs/kit';
 import { allHistory } from '$lib/historyData';
-import { allKemData } from '$lib/kemSchemeData';
+import { allKemData, kemBenchmarkEnv } from '$lib/kemSchemeData';
 import { allProgrammes } from '$lib/programmeData';
-import { allSchemeData } from '$lib/schemeData';
+import { allSchemeData, benchmarkEnv } from '$lib/schemeData';
 import { schemeIndex } from '$lib/schemeIndex';
 import { kemPage, signaturePage, type SchemePageData } from '$lib/schemePage';
 import type { EntryGenerator, PageLoad } from './$types';
@@ -18,8 +18,8 @@ export const load: PageLoad = ({ params }): { page: SchemePageData } => {
 	if (!ref) error(404, `No scheme page "${params.slug}"`);
 	if (ref.primitive === 'signature') {
 		const scheme = allSchemeData.find((s) => s.name === ref.name)!;
-		return { page: signaturePage(scheme, allHistory, allProgrammes) };
+		return { page: signaturePage(scheme, allHistory, allProgrammes, benchmarkEnv?.environments ?? []) };
 	}
 	const kem = allKemData.find((k) => k.name === ref.name)!;
-	return { page: kemPage(kem, allHistory, allProgrammes) };
+	return { page: kemPage(kem, allHistory, allProgrammes, kemBenchmarkEnv?.environments ?? []) };
 };

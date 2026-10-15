@@ -242,3 +242,17 @@ test.describe('Benchmarks that did not finish', () => {
 		await expect(tableCells.first()).toHaveText(/^timeout/);
 	});
 });
+
+test.describe('Benchmark environments', () => {
+	test('measured timings on a scheme page name the run they come from', async ({ page }) => {
+		await page.goto('/schemes/ml-kem/');
+		const row = page.locator('tr', { has: page.locator('th', { hasText: /^\s*ML-KEM-768/ }) });
+		await expect(row.getByTitle(/^Measured on .+ \(EC2 [a-z0-9.]+\), \d{4}-\d{2}-\d{2}$/)).toHaveCount(3);
+	});
+
+	test('the signatures page lists the environment with its machine', async ({ page }) => {
+		await page.goto('/signatures/');
+		const panel = page.locator('section', { has: page.getByRole('heading', { name: /^Benchmark environment/ }) });
+		await expect(panel.getByText(/^EC2 [a-z0-9]+\.[a-z0-9]+$/).first()).toBeVisible();
+	});
+});

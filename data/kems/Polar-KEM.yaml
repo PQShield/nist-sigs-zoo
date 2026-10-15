@@ -16,6 +16,7 @@ parametersets:
   keygen_us: 48.3
   encaps_us: 146.7
   decaps_us: 179.1
+  bench_env: 2026-10-13-c7i.4xlarge
   notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 - name: PolarKEM-256
   ngcc_level: 256
@@ -27,6 +28,7 @@ parametersets:
   keygen_us: 93.4
   encaps_us: 182.7
   decaps_us: 248.8
+  bench_env: 2026-10-13-c7i.4xlarge
   notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 - name: PolarKEM-512
   ngcc_level: 512
@@ -38,6 +40,7 @@ parametersets:
   keygen_us: 183.6
   encaps_us: 358.7
   decaps_us: 495.9
+  bench_env: 2026-10-13-c7i.4xlarge
   notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 findings_url: https://ngcc.dev/reports/kem-29.html
 implementation: The submitted code includes functions that derive the shared secret from public data alone (<a href="https://ngcc.dev/reports/kem-29.html#kem-29-1-the-submission-ships-a-complete-public-key-only-break">Saarinen</a>).

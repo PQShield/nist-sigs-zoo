@@ -267,6 +267,7 @@ export function processYamlSchemes(
 				assumption: yaml.assumption,
 				notes: ps.notes ?? null,
 				dnf: ps.dnf ?? null,
+				benchEnv: ps.bench_env ?? null,
 				version: latest.version,
 				perfSource: latest.perf_source ?? null,
 				programmes,

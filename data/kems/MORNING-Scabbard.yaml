@@ -16,6 +16,7 @@ parametersets:
   keygen_us: 165.6
   encaps_us: 168.4
   decaps_us: 164.1
+  bench_env: 2026-10-13-c7i.4xlarge
   notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 - name: scabbard256
   ngcc_level: 256
@@ -27,6 +28,7 @@ parametersets:
   keygen_us: 299.0
   encaps_us: 312.7
   decaps_us: 311.0
+  bench_env: 2026-10-13-c7i.4xlarge
   notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 - name: scabbard512
   ngcc_level: 512
@@ -38,5 +40,6 @@ parametersets:
   keygen_us: 830.9
   encaps_us: 881.3
   decaps_us: 857.9
+  bench_env: 2026-10-13-c7i.4xlarge
   notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 findings_url: https://ngcc.dev/reports/kem-24.html

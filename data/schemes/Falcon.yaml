@@ -18,6 +18,7 @@ versions:
     verification_cycles: 114071
     signing_us: 320.9
     verification_us: 33.2
+    bench_env: 2026-10-13-c7i.4xlarge
   - name: '512'
     level: 1
     pk: 897
@@ -26,3 +27,4 @@ versions:
     verification_cycles: 61163
     signing_us: 163.9
     verification_us: 19.2
+    bench_env: 2026-10-13-c7i.4xlarge

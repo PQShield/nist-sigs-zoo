@@ -18,6 +18,7 @@ versions:
     verification_cycles: 46678005
     signing_us: 61964.7
     verification_us: 12621.8
+    bench_env: 2026-10-13-c7i.4xlarge
     notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
   - name: SQIsignTriangle_lvl5
     ngcc_level: 256
@@ -28,6 +29,7 @@ versions:
     verification_cycles: 195072235
     signing_us: 221738.3
     verification_us: 52821.7
+    bench_env: 2026-10-13-c7i.4xlarge
     notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
   - name: SQIsignTriangle_lvl6
     ngcc_level: 512
@@ -38,6 +40,7 @@ versions:
     verification_cycles: 1222493151
     signing_us: 1492659.0
     verification_us: 325230.4
+    bench_env: 2026-10-13-c7i.4xlarge
     notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
   findings_url: https://ngcc.dev/reports/sign-27.html
   broken: Rescaling a signature's response gives practical forgeries on fresh messages after one signing query, at every parameter set (<a href="https://list.niccs.org.cn/archives/list/pkcforum@list.niccs.org.cn/message/DYDMQ7SEI5DPVVP6IL27J63YODLVUPE3/">Feussner</a>).

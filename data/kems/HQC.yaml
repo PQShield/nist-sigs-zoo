@@ -17,6 +17,7 @@ parametersets:
   keygen_us: 21.3
   encaps_us: 40.6
   decaps_us: 90.7
+  bench_env: 2026-10-13-c7i.4xlarge
 - name: HQC-192
   level: 3
   pk: 4514
@@ -27,6 +28,7 @@ parametersets:
   keygen_us: 52.2
   encaps_us: 102.2
   decaps_us: 206.3
+  bench_env: 2026-10-13-c7i.4xlarge
 - name: HQC-256
   level: 5
   pk: 7237
@@ -37,3 +39,4 @@ parametersets:
   keygen_us: 103.5
   encaps_us: 209.6
   decaps_us: 406.8
+  bench_env: 2026-10-13-c7i.4xlarge

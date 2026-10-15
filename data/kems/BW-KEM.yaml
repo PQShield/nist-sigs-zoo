@@ -17,6 +17,7 @@ parametersets:
   keygen_us: 74.5
   encaps_us: 87.9
   decaps_us: 105.2
+  bench_env: 2026-10-13-c7i.4xlarge
   notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 - name: BW_KEM_C256
   ngcc_level: 256
@@ -29,6 +30,7 @@ parametersets:
   keygen_us: 187.4
   encaps_us: 200.9
   decaps_us: 233.5
+  bench_env: 2026-10-13-c7i.4xlarge
   notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 - name: BW_KEM_C384
   ngcc_level: 384
@@ -47,5 +49,6 @@ parametersets:
   keygen_us: 648.8
   encaps_us: 673.9
   decaps_us: 778.8
+  bench_env: 2026-10-13-c7i.4xlarge
   notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 findings_url: https://ngcc.dev/reports/kem-08.html

@@ -16,6 +16,7 @@ parametersets:
   keygen_us: 394838.0
   encaps_us: 3783.3
   decaps_us: 22289.2
+  bench_env: 2026-10-13-c7i.4xlarge
   notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 - name: BIKE_MLThre-256
   ngcc_level: 256
@@ -27,6 +28,7 @@ parametersets:
   keygen_us: 4216679.0
   encaps_us: 24428.8
   decaps_us: 119056.9
+  bench_env: 2026-10-13-c7i.4xlarge
   notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 - name: BIKE_MLThre-512
   ngcc_level: 512
@@ -38,6 +40,7 @@ parametersets:
   keygen_us: 59046886.6
   encaps_us: 177982.1
   decaps_us: 871777.2
+  bench_env: 2026-10-13-c7i.4xlarge
   notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 findings_url: https://ngcc.dev/reports/kem-05.html
 implementation: The default submitted library build generates the same secret key every time, so anyone can reproduce a victim's key (<a href="https://list.niccs.org.cn/archives/list/pkcforum@list.niccs.org.cn/message/AXAPSYKLHJBJHNYCZO57NUKTBTNNCLPV/">Xiong and Wang</a>).

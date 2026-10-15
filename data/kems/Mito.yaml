@@ -16,6 +16,7 @@ parametersets:
   keygen_us: 2525.9
   encaps_us: 4160.9
   decaps_us: 5865.2
+  bench_env: 2026-10-13-c7i.4xlarge
   notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 - name: Mito-1-256
   ngcc_level: 256
@@ -27,6 +28,7 @@ parametersets:
   keygen_us: 7480.4
   encaps_us: 12439.4
   decaps_us: 17599.2
+  bench_env: 2026-10-13-c7i.4xlarge
   notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 - name: Mito-1-512
   ngcc_level: 512
@@ -38,6 +40,7 @@ parametersets:
   keygen_us: 45351.0
   encaps_us: 75553.3
   decaps_us: 106393.5
+  bench_env: 2026-10-13-c7i.4xlarge
   notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 - name: Mito-1-E-128
   ngcc_level: 128
@@ -49,6 +52,7 @@ parametersets:
   keygen_us: 2337.9
   encaps_us: 3857.1
   decaps_us: 5442.5
+  bench_env: 2026-10-13-c7i.4xlarge
   notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 - name: Mito-1-E-256
   ngcc_level: 256
@@ -60,6 +64,7 @@ parametersets:
   keygen_us: 7747.1
   encaps_us: 12877.5
   decaps_us: 18187.2
+  bench_env: 2026-10-13-c7i.4xlarge
   notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 - name: Mito-1-E-512
   ngcc_level: 512
@@ -71,6 +76,7 @@ parametersets:
   keygen_us: 43447.9
   encaps_us: 72356.1
   decaps_us: 101873.3
+  bench_env: 2026-10-13-c7i.4xlarge
   notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 - name: Mito-2-E-128
   ngcc_level: 128
@@ -82,6 +88,7 @@ parametersets:
   keygen_us: 3440.4
   encaps_us: 4937.2
   decaps_us: 6564.6
+  bench_env: 2026-10-13-c7i.4xlarge
   notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 - name: Mito-2-E-256
   ngcc_level: 256
@@ -93,6 +100,7 @@ parametersets:
   keygen_us: 10795.2
   encaps_us: 15583.1
   decaps_us: 20646.7
+  bench_env: 2026-10-13-c7i.4xlarge
   notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 - name: Mito-2-E-512
   ngcc_level: 512
@@ -104,5 +112,6 @@ parametersets:
   keygen_us: 66931.4
   encaps_us: 96752.4
   decaps_us: 127355.4
+  bench_env: 2026-10-13-c7i.4xlarge
   notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 findings_url: https://ngcc.dev/reports/kem-23.html

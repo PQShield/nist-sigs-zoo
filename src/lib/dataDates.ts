@@ -7,6 +7,6 @@ import { allSchemeData, benchmarkEnv } from './schemeData';
 export const lastDataChange: string = latestDate([
 	...allHistory.map((e) => e.date),
 	...allSchemeData.flatMap((s) => s.versions.map((v) => v.date)),
-	benchmarkEnv?.date,
-	kemBenchmarkEnv?.date
+	...(benchmarkEnv?.environments ?? []).map((e) => e.date),
+	...(kemBenchmarkEnv?.environments ?? []).map((e) => e.date)
 ]);

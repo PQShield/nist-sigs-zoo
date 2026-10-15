@@ -16,6 +16,7 @@ parametersets:
   keygen_us: 35.8
   encaps_us: 67.9
   decaps_us: 34.6
+  bench_env: 2026-10-13-c7i.4xlarge
 - name: X448
   level: Pre-Quantum
   pk: 56
@@ -27,6 +28,7 @@ parametersets:
   keygen_us: 146.4
   encaps_us: 328.8
   decaps_us: 183.6
+  bench_env: 2026-10-13-c7i.4xlarge
 - name: P-256
   level: Pre-Quantum
   pk: 65
@@ -38,6 +40,7 @@ parametersets:
   keygen_us: 17.1
   encaps_us: 79.6
   decaps_us: 65.5
+  bench_env: 2026-10-13-c7i.4xlarge
 - name: P-384
   level: Pre-Quantum
   pk: 97
@@ -49,3 +52,4 @@ parametersets:
   keygen_us: 136.3
   encaps_us: 472.4
   decaps_us: 326.4
+  bench_env: 2026-10-13-c7i.4xlarge

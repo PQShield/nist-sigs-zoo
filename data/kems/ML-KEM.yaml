@@ -16,6 +16,7 @@ parametersets:
   keygen_us: 7.7
   encaps_us: 8.6
   decaps_us: 10.1
+  bench_env: 2026-10-13-c7i.4xlarge
 - name: ML-KEM-768
   level: 3
   pk: 1184
@@ -26,6 +27,7 @@ parametersets:
   keygen_us: 11.5
   encaps_us: 12.4
   decaps_us: 14.6
+  bench_env: 2026-10-13-c7i.4xlarge
 - name: ML-KEM-1024
   level: 5
   pk: 1568
@@ -36,3 +38,4 @@ parametersets:
   keygen_us: 16.4
   encaps_us: 17.6
   decaps_us: 20.8
+  bench_env: 2026-10-13-c7i.4xlarge

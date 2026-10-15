@@ -16,6 +16,7 @@ parametersets:
   keygen_us: 25500.5
   encaps_us: 2371.9
   decaps_us: 11768.7
+  bench_env: 2026-10-13-c7i.4xlarge
   notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 - name: TRIKE-5
   ngcc_level: 256
@@ -27,6 +28,7 @@ parametersets:
   keygen_us: 183294.5
   encaps_us: 17188.3
   decaps_us: 45707.5
+  bench_env: 2026-10-13-c7i.4xlarge
   notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 - name: TRIKE-7
   ngcc_level: 384
@@ -38,6 +40,7 @@ parametersets:
   keygen_us: 594482.8
   encaps_us: 50318.7
   decaps_us: 134580.9
+  bench_env: 2026-10-13-c7i.4xlarge
   notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 - name: TRIKE-9
   ngcc_level: 512
@@ -49,5 +52,6 @@ parametersets:
   keygen_us: 753915.6
   encaps_us: 51254.6
   decaps_us: 264787.5
+  bench_env: 2026-10-13-c7i.4xlarge
   notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 findings_url: https://ngcc.dev/reports/kem-36.html

@@ -17,6 +17,7 @@ parametersets:
   keygen_us: 42.0
   encaps_us: 45.6
   decaps_us: 45.7
+  bench_env: 2026-10-13-c7i.4xlarge
   notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 - name: DKEM-256
   ngcc_level: 256
@@ -28,6 +29,7 @@ parametersets:
   keygen_us: 127.1
   encaps_us: 129.9
   decaps_us: 130.2
+  bench_env: 2026-10-13-c7i.4xlarge
   notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 - name: DKEM-512
   ngcc_level: 512
@@ -39,5 +41,6 @@ parametersets:
   keygen_us: 515.2
   encaps_us: 525.3
   decaps_us: 528.7
+  bench_env: 2026-10-13-c7i.4xlarge
   notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 findings_url: https://ngcc.dev/reports/kem-13.html

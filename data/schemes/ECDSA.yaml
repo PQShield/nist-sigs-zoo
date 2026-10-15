@@ -15,6 +15,7 @@ versions:
     verification_cycles: 237188
     signing_us: 22.3
     verification_us: 63.6
+    bench_env: 2026-10-13-c7i.4xlarge
   - name: P-384
     level: Pre-Quantum
     pk: 97
@@ -23,6 +24,7 @@ versions:
     verification_cycles: 1375272
     signing_us: 162.5
     verification_us: 370.7
+    bench_env: 2026-10-13-c7i.4xlarge
   - name: P-521
     level: Pre-Quantum
     pk: 133
@@ -31,4 +33,5 @@ versions:
     verification_cycles: 1473649
     signing_us: 207.5
     verification_us: 397.0
+    bench_env: 2026-10-13-c7i.4xlarge
   broken: classical

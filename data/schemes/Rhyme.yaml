@@ -17,6 +17,7 @@ versions:
     verification_cycles: 399899
     signing_us: 1128.2
     verification_us: 109.6
+    bench_env: 2026-10-13-c7i.4xlarge
     notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
     implementation: In the SM3 build, messages longer than the hash input limit all map to the same value, so one such signature verifies for any other long message (<a href="https://ngcc.dev/reports/sign-22.html#sign-22-6-long-messages-share-an-all-zero-representative-in-rhyme-sm3">Saarinen</a>).
   - name: Rhyme-SM3-256
@@ -27,6 +28,7 @@ versions:
     verification_cycles: 952985
     signing_us: 2716.3
     verification_us: 256.1
+    bench_env: 2026-10-13-c7i.4xlarge
     notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
     implementation: In the SM3 build, messages longer than the hash input limit all map to the same value, so one such signature verifies for any other long message (<a href="https://ngcc.dev/reports/sign-22.html#sign-22-6-long-messages-share-an-all-zero-representative-in-rhyme-sm3">Saarinen</a>).
   - name: Rhyme-SM3-384
@@ -37,6 +39,7 @@ versions:
     verification_cycles: 1329908
     signing_us: 4228.9
     verification_us: 359.7
+    bench_env: 2026-10-13-c7i.4xlarge
     notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
     implementation: In the SM3 build long messages all map to the same value, and the key seed and message digest limit attacks to about 2^256 work, below this set's target (<a href="https://ngcc.dev/reports/sign-22.html#sign-22-6-long-messages-share-an-all-zero-representative-in-rhyme-sm3">Saarinen</a>).
   - name: Rhyme-SM3-512
@@ -47,6 +50,7 @@ versions:
     verification_cycles: 1691418
     signing_us: 4578.6
     verification_us: 457.3
+    bench_env: 2026-10-13-c7i.4xlarge
     notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
     implementation: In the SM3 build long messages all map to the same value, and the key seed and message digest limit attacks to about 2^256 work, below this set's target (<a href="https://ngcc.dev/reports/sign-22.html#sign-22-6-long-messages-share-an-all-zero-representative-in-rhyme-sm3">Saarinen</a>).
   - name: Rhyme-SHAKE-128
@@ -57,6 +61,7 @@ versions:
     verification_cycles: 190864
     signing_us: 572.9
     verification_us: 51.6
+    bench_env: 2026-10-13-c7i.4xlarge
     notes: Reference implementation; our build applies a small patch to the submitted code.
   - name: Rhyme-SHAKE-256
     ngcc_level: 256
@@ -66,6 +71,7 @@ versions:
     verification_cycles: 501215
     signing_us: 1635.6
     verification_us: 137.1
+    bench_env: 2026-10-13-c7i.4xlarge
     notes: Reference implementation; our build applies a small patch to the submitted code.
   - name: Rhyme-SHAKE-384
     ngcc_level: 384
@@ -75,6 +81,7 @@ versions:
     verification_cycles: 1088908
     signing_us: 2176.5
     verification_us: 291.2
+    bench_env: 2026-10-13-c7i.4xlarge
     notes: Reference implementation; our build applies a small patch to the submitted code.
     implementation: The submitted code expands the key pair from a 256-bit seed and its message digest limits forgery to about 2^256 work, below this set's target (<a href="https://ngcc.dev/reports/sign-22.html#sign-22-2-the-implementation-expands-the-complete-key-pair-from-a-256-bit-root">Saarinen</a>).
   - name: Rhyme-SHAKE-512
@@ -85,6 +92,7 @@ versions:
     verification_cycles: 1350442
     signing_us: 2539.3
     verification_us: 358.4
+    bench_env: 2026-10-13-c7i.4xlarge
     notes: Reference implementation; our build applies a small patch to the submitted code.
     implementation: The submitted code expands the key pair from a 256-bit seed and its message digest limits forgery to about 2^256 work, below this set's target (<a href="https://ngcc.dev/reports/sign-22.html#sign-22-2-the-implementation-expands-the-complete-key-pair-from-a-256-bit-root">Saarinen</a>).
   findings_url: https://ngcc.dev/reports/sign-22.html

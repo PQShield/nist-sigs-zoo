@@ -49,6 +49,8 @@
 								>
 							{:else if cell.kind === 'missing'}
 								<span class="text-pqs-bluegray" title={cell.title}>—<span class="sr-only"> {cell.title}</span></span>
+							{:else if cell.title}
+								<span title={cell.title}>{cell.text}</span>
 							{:else}
 								{cell.text}
 							{/if}

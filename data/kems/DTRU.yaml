@@ -17,6 +17,7 @@ parametersets:
   keygen_us: 108.8
   encaps_us: 59.2
   decaps_us: 116.6
+  bench_env: 2026-10-13-c7i.4xlarge
   notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 - name: DTRU-Light
   ngcc_level: 128
@@ -28,6 +29,7 @@ parametersets:
   keygen_us: 45.2
   encaps_us: 35.5
   decaps_us: 69.7
+  bench_env: 2026-10-13-c7i.4xlarge
   notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 - name: DTRU-1024
   ngcc_level: 256
@@ -40,6 +42,7 @@ parametersets:
   keygen_us: 120.0
   encaps_us: 80.2
   decaps_us: 157.2
+  bench_env: 2026-10-13-c7i.4xlarge
   notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 - name: DTRU-Prime
   ngcc_level: 256
@@ -51,6 +54,7 @@ parametersets:
   keygen_us: 37418.7
   encaps_us: 125.1
   decaps_us: 253.2
+  bench_env: 2026-10-13-c7i.4xlarge
   notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 - name: DTRU-1536
   ngcc_level: 384
@@ -63,6 +67,7 @@ parametersets:
   keygen_us: 160.1
   encaps_us: 131.9
   decaps_us: 254.7
+  bench_env: 2026-10-13-c7i.4xlarge
   notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 - name: DTRU-2048
   ngcc_level: 512
@@ -75,6 +80,7 @@ parametersets:
   keygen_us: 292.2
   encaps_us: 187.3
   decaps_us: 364.0
+  bench_env: 2026-10-13-c7i.4xlarge
   notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 findings_url: https://ngcc.dev/reports/kem-14.html
 implementation: A caller-supplied ciphertext length overflows a stack buffer in the submitted decapsulation (<a href="https://ngcc.dev/reports/kem-14.html#kem-14-1-caller-declared-ciphertext-length-overflows-a-decapsulation-stack-buffer">Saarinen</a>).

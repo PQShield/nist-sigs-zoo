@@ -16,6 +16,7 @@ parametersets:
   keygen_us: 146.3
   encaps_us: 156.6
   decaps_us: 157.4
+  bench_env: 2026-10-13-c7i.4xlarge
   notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 - name: WeaverKEM-256
   ngcc_level: 256
@@ -27,6 +28,7 @@ parametersets:
   keygen_us: 209.0
   encaps_us: 224.8
   decaps_us: 225.1
+  bench_env: 2026-10-13-c7i.4xlarge
   notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 - name: WeaverKEM-512
   ngcc_level: 512
@@ -38,5 +40,6 @@ parametersets:
   keygen_us: 764.4
   encaps_us: 866.5
   decaps_us: 892.8
+  bench_env: 2026-10-13-c7i.4xlarge
   notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 findings_url: https://ngcc.dev/reports/kem-39.html

@@ -17,6 +17,7 @@ versions:
     verification_cycles: 1496751
     signing_us: 769.4
     verification_us: 412.9
+    bench_env: 2026-10-13-c7i.4xlarge
     notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
   - name: COMPASS-SIG-256
     ngcc_level: 256
@@ -26,6 +27,7 @@ versions:
     verification_cycles: 5555030
     signing_us: 2158.0
     verification_us: 1548.6
+    bench_env: 2026-10-13-c7i.4xlarge
     notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
   - name: COMPASS-SIG-384
     ngcc_level: 384
@@ -35,6 +37,7 @@ versions:
     verification_cycles: 3890158
     signing_us: 1827.9
     verification_us: 1075.6
+    bench_env: 2026-10-13-c7i.4xlarge
     notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
     implementation: The submitted code expands the whole key pair from a 256-bit seed and compresses messages too far, so key search or forgery costs about 2^256, below this set's target (<a href="https://ngcc.dev/reports/sign-06.html#sign-06-2-the-implementation-expands-the-entire-key-pair-from-a-256-bit-root">Saarinen</a>).
   - name: COMPASS-SIG-512
@@ -45,6 +48,7 @@ versions:
     verification_cycles: 6061074
     signing_us: 2626.0
     verification_us: 1692.1
+    bench_env: 2026-10-13-c7i.4xlarge
     notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
     implementation: The submitted code expands the whole key pair from a 256-bit seed and compresses messages too far, so key search or forgery costs about 2^256, below this set's target (<a href="https://ngcc.dev/reports/sign-06.html#sign-06-2-the-implementation-expands-the-entire-key-pair-from-a-256-bit-root">Saarinen</a>).
   findings_url: https://ngcc.dev/reports/sign-06.html
