@@ -75,47 +75,47 @@ versions:
     level: 1
     pk: 20641
     sig: 331
-    notes: "Additional parameter set (q, v, m, l) from spec Appendix B (Tables 16-17), carried over from the round-2 specification; sizes from the specification, not benchmarked."
+    notes: "Additional parameter set (q, v, m, l) from spec Appendix B (Tables 16-17), carried over from the round-2 specification; built from the official code like the main sets."
   - name: I-(31 165 60 3)
     level: 1
     pk: 23641
     sig: 157
-    notes: "Additional parameter set (q, v, m, l) from spec Appendix B (Tables 16-17), carried over from the round-2 specification; sizes from the specification, not benchmarked."
+    notes: "Additional parameter set (q, v, m, l) from spec Appendix B (Tables 16-17), carried over from the round-2 specification; built from the official code like the main sets."
   - name: I-(31 600 70 10)
     level: 1
     pk: 12266
     sig: 435
-    notes: "Additional parameter set (q, v, m, l) from spec Appendix B (Tables 16-17), carried over from the round-2 specification; sizes from the specification, not benchmarked."
+    notes: "Additional parameter set (q, v, m, l) from spec Appendix B (Tables 16-17), carried over from the round-2 specification; built from the official code like the main sets."
   - name: III-(7 1100 140 10)
     level: 3
     pk: 55141
     sig: 489
-    notes: "Additional parameter set (q, v, m, l) from spec Appendix B (Tables 16-17), carried over from the round-2 specification; sizes from the specification, not benchmarked."
+    notes: "Additional parameter set (q, v, m, l) from spec Appendix B (Tables 16-17), carried over from the round-2 specification; built from the official code like the main sets."
   - name: III-(31 246 87 3)
     level: 3
     pk: 70976
     sig: 233
-    notes: "Additional parameter set (q, v, m, l) from spec Appendix B (Tables 16-17), carried over from the round-2 specification; sizes from the specification, not benchmarked."
+    notes: "Additional parameter set (q, v, m, l) from spec Appendix B (Tables 16-17), carried over from the round-2 specification; built from the official code like the main sets."
   - name: III-(31 890 100 10)
     level: 3
     pk: 34391
     sig: 643
-    notes: "Additional parameter set (q, v, m, l) from spec Appendix B (Tables 16-17), carried over from the round-2 specification; sizes from the specification, not benchmarked."
+    notes: "Additional parameter set (q, v, m, l) from spec Appendix B (Tables 16-17), carried over from the round-2 specification; built from the official code like the main sets."
   - name: V-(7 1490 190 10)
     level: 5
     pk: 135391
     sig: 662
-    notes: "Additional parameter set (q, v, m, l) from spec Appendix B (Tables 16-17), carried over from the round-2 specification; sizes from the specification, not benchmarked."
+    notes: "Additional parameter set (q, v, m, l) from spec Appendix B (Tables 16-17), carried over from the round-2 specification; built from the official code like the main sets."
   - name: V-(31 324 114 3)
     level: 5
     pk: 158405
     sig: 306
-    notes: "Additional parameter set (q, v, m, l) from spec Appendix B (Tables 16-17), carried over from the round-2 specification; sizes from the specification, not benchmarked."
+    notes: "Additional parameter set (q, v, m, l) from spec Appendix B (Tables 16-17), carried over from the round-2 specification; built from the official code like the main sets."
   - name: V-(31 1120 120 10)
     level: 5
     pk: 58516
     sig: 807
-    notes: "Additional parameter set (q, v, m, l) from spec Appendix B (Tables 16-17), carried over from the round-2 specification; sizes from the specification, not benchmarked."
+    notes: "Additional parameter set (q, v, m, l) from spec Appendix B (Tables 16-17), carried over from the round-2 specification; built from the official code like the main sets."
 - version: Round 2
   date: '2025-02-05'
   status: On-ramp

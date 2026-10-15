@@ -47,11 +47,20 @@ SRCS := $(REFDIR)/src/sign.c $(REFDIR)/src/qruov_common.c $(REFDIR)/src/qrop.c \
         $(REFDIR)/src/$(IMPL)/x86aesni.c
 
 # The Round 3 specification proposes six parameter sets, all with q = 127
-# (spec Tables 1 and 4).  Upstream's build system still accepts the Round 2
-# q = 31 / q = 7 sets, but they are no longer part of the submission.
+# (spec Tables 1 and 4).  Its Appendix B (Tables 16-17) keeps the Round 2 q = 31 / q = 7
+# sets as additional parameter sets; upstream still builds them, so we do too.
 PARAMS := qruov1q127L3v156m54  qruov1q127L10v540m60  \
           qruov3q127L3v228m78  qruov3q127L10v820m90  \
-          qruov5q127L3v306m105 qruov5q127L10v1040m110
+          qruov5q127L3v306m105 qruov5q127L10v1040m110 \
+          qruov1q7L10v740m100 \
+          qruov1q31L3v165m60 \
+          qruov1q31L10v600m70 \
+          qruov3q7L10v1100m140 \
+          qruov3q31L3v246m87 \
+          qruov3q31L10v890m100 \
+          qruov5q7L10v1490m190 \
+          qruov5q31L3v324m114 \
+          qruov5q31L10v1120m120
 
 # Parameter selection is a single -D; Round 3 has no generated config headers.
 pf_qruov1q127L3v156m54    := -DQRUOV_PARAM_1q127L3
@@ -60,6 +69,18 @@ pf_qruov3q127L3v228m78    := -DQRUOV_PARAM_3q127L3
 pf_qruov3q127L10v820m90   := -DQRUOV_PARAM_3q127L10
 pf_qruov5q127L3v306m105   := -DQRUOV_PARAM_5q127L3
 pf_qruov5q127L10v1040m110 := -DQRUOV_PARAM_5q127L10
+
+# Appendix B sets of the Round 3 specification (q = 7 / 31, carried over from Round 2):
+# upstream's avx2 code still supports them.
+pf_qruov1q7L10v740m100 := -DQRUOV_PARAM_1q7L10
+pf_qruov1q31L3v165m60 := -DQRUOV_PARAM_1q31L3
+pf_qruov1q31L10v600m70 := -DQRUOV_PARAM_1q31L10
+pf_qruov3q7L10v1100m140 := -DQRUOV_PARAM_3q7L10
+pf_qruov3q31L3v246m87 := -DQRUOV_PARAM_3q31L3
+pf_qruov3q31L10v890m100 := -DQRUOV_PARAM_3q31L10
+pf_qruov5q7L10v1490m190 := -DQRUOV_PARAM_5q7L10
+pf_qruov5q31L3v324m114 := -DQRUOV_PARAM_5q31L3
+pf_qruov5q31L10v1120m120 := -DQRUOV_PARAM_5q31L10
 
 SOS        := $(addprefix $(BUILD)/, $(addsuffix .so, $(PARAMS)))
 SHIM_FILES := $(addsuffix _shim.c, $(PARAMS))

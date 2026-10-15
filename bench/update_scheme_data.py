@@ -125,6 +125,16 @@ BENCH_TO_YAML: dict[str, tuple[str, str]] = {
     "QR-UOV-III-(127,820,90,10)": ("QR-UOV.yaml", "III-(127 820 90 10)"),
     "QR-UOV-V-(127,306,105,3)": ("QR-UOV.yaml", "V-(127 306 105 3)"),
     "QR-UOV-V-(127,1040,110,10)": ("QR-UOV.yaml", "V-(127 1040 110 10)"),
+    # Round 3 Appendix B sets (q = 7 / 31), still built by upstream
+    "QR-UOV-I-(7,740,100,10)": ("QR-UOV.yaml", "I-(7 740 100 10)"),
+    "QR-UOV-I-(31,165,60,3)": ("QR-UOV.yaml", "I-(31 165 60 3)"),
+    "QR-UOV-I-(31,600,70,10)": ("QR-UOV.yaml", "I-(31 600 70 10)"),
+    "QR-UOV-III-(7,1100,140,10)": ("QR-UOV.yaml", "III-(7 1100 140 10)"),
+    "QR-UOV-III-(31,246,87,3)": ("QR-UOV.yaml", "III-(31 246 87 3)"),
+    "QR-UOV-III-(31,890,100,10)": ("QR-UOV.yaml", "III-(31 890 100 10)"),
+    "QR-UOV-V-(7,1490,190,10)": ("QR-UOV.yaml", "V-(7 1490 190 10)"),
+    "QR-UOV-V-(31,324,114,3)": ("QR-UOV.yaml", "V-(31 324 114 3)"),
+    "QR-UOV-V-(31,1120,120,10)": ("QR-UOV.yaml", "V-(31 1120 120 10)"),
     # MQOM v3.0 (round 3) — bench MQOM3- prefix dropped in YAML
     "MQOM3-L1-gf2-shorter-ct": ("MQOM.yaml", "L1-gf2-shorter-ct"),
     "MQOM3-L1-gf2-shorter-ot": ("MQOM.yaml", "L1-gf2-shorter-ot"),
