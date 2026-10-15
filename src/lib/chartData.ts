@@ -1,5 +1,5 @@
 import { fmtTime } from './format';
-import { displayUs, dnfCell, kemTimes, sigTimes } from './timing';
+import { displayUs, dnfCell, kemTimes, noCodeCell, sigTimes } from './timing';
 import type { AxisField, KemAxisField, KemParameterSet, ParameterSet } from './types';
 
 /** Chart value of a signature row on an axis; null when the row has no value there. */
@@ -52,25 +52,34 @@ export function partitionPlottable<T, F>(
 
 /** Why rows are missing from the chart: `notBenchmarked` have no timings yet, `didNotFinish`
  * have none because their benchmark did not finish (timeout or error). */
-export function omittedNote(notBenchmarked: number, didNotFinish = 0): string {
-	const n = notBenchmarked + didNotFinish;
+export function omittedNote(notBenchmarked: number, didNotFinish = 0, noCode = 0): string {
+	const n = notBenchmarked + didNotFinish + noCode;
 	const head = n === 1 ? '1 parameter set is not shown' : `${n} parameter sets are not shown`;
-	if (didNotFinish === 0) return `${head}: not yet benchmarked.`;
-	if (notBenchmarked === 0) return `${head}: did not finish.`;
-	return `${head}: ${didNotFinish} did not finish, ${notBenchmarked} not yet benchmarked.`;
+	const parts: [number, string][] = [
+		[noCode, 'no code'],
+		[didNotFinish, 'did not finish'],
+		[notBenchmarked, 'not yet benchmarked']
+	];
+	const present = parts.filter(([k]) => k > 0);
+	if (present.length === 1) return `${head}: ${present[0][1]}.`;
+	return `${head}: ${present.map(([k, why]) => `${k} ${why}`).join(', ')}.`;
 }
 
 /** Tooltip entries for operation times: formatted like the tables, marked when extrapolated from
- * cycles; "timeout" / "DNF (reason)" when the benchmark did not finish. */
+ * cycles; "no code (reason)" without an implementation; "timeout" / "DNF (reason)" when the
+ * benchmark did not finish. */
 export function timeTooltip(
 	ops: { label: string; us: number | null; cycles: number }[],
-	dnf: string | null = null
+	dnf: string | null = null,
+	noCode: string | null = null
 ): Record<string, string> {
 	const out: Record<string, string> = {};
 	for (const { label, us, cycles } of ops) {
 		const t = displayUs(us, cycles);
 		if (t == null) {
-			if (dnf) {
+			if (noCode) {
+				out[`${label} time`] = `${noCodeCell(noCode).text} (${noCode})`;
+			} else if (dnf) {
 				const { text } = dnfCell(dnf);
 				out[`${label} time`] = dnf === text ? text : `${text} (${dnf.replace(/-/g, ' ')})`;
 			}

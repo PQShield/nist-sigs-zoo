@@ -36,6 +36,14 @@ describe('processKemSchemes', () => {
 		expect(processKemSchemes([slow]).parameterSets.map((p) => p.dnf)).toEqual([null, 'SIGSEGV']);
 	});
 
+	it('carries the no-code reason, null when absent', () => {
+		const spec: KemSchemeYaml = {
+			...mlkem,
+			parametersets: [mlkem.parametersets[0], { ...mlkem.parametersets[1], no_code: 'No implementation' }]
+		};
+		expect(processKemSchemes([spec]).parameterSets.map((p) => p.noCode)).toEqual([null, 'No implementation']);
+	});
+
 	it('flattens parameter sets and computes pk+ct', () => {
 		const { schemes, parameterSets } = processKemSchemes([mlkem]);
 		expect(schemes).toHaveLength(1);

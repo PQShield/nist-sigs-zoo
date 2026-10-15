@@ -42,6 +42,15 @@ describe('processYamlSchemes', () => {
 		expect(parameterSets.map((p) => p.dnf)).toEqual([null, 'timeout']);
 	});
 
+	it('carries the no-code reason, null when absent', () => {
+		const none = { name: 'Spec', level: 2 as const, pk: 1, sig: 2, no_code: 'No implementation' };
+		const data = [
+			scheme({ versions: [{ version: 'v1', date: '2024-01-01', status: 'On-ramp', parametersets: [BASE_PS, none] }] })
+		];
+		const { parameterSets } = processYamlSchemes(data);
+		expect(parameterSets.map((p) => p.noCode)).toEqual([null, 'No implementation']);
+	});
+
 	it('uses signing_cycles directly when present', () => {
 		const data = [
 			scheme({ versions: [{ version: 'v1', date: '2024-01-01', status: 'On-ramp', parametersets: [BASE_PS] }] })

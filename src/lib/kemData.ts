@@ -78,6 +78,7 @@ export function processKemSchemes(schemeData: KemSchemeYaml[]): {
 				assumption: yaml.assumption,
 				notes: ps.notes ?? null,
 				dnf: ps.dnf ?? null,
+				noCode: ps.no_code ?? null,
 				benchEnv: ps.bench_env ?? null,
 				programmes,
 				ngccLevel: ps.ngcc_level ?? null,

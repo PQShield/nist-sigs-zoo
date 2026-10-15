@@ -8,7 +8,7 @@
 	import { allProgrammes } from '$lib/programmeData';
 	import { CPU_GHZ_LABEL } from '$lib/constants';
 	import { fmt, fmtCycles, fmtTime } from '$lib/format';
-	import { displayUs, dnfCell } from '$lib/timing';
+	import { displayUs, dnfCell, noCodeCell } from '$lib/timing';
 	import BadgeIcon from './BadgeIcon.svelte';
 	import ProgrammeChips from './ProgrammeChips.svelte';
 	import TableLegend from './TableLegend.svelte';
@@ -75,10 +75,15 @@
 	}
 </script>
 
-{#snippet timeCell(us: number | null, cyc: number, dnf: string | null)}
+{#snippet timeCell(us: number | null, cyc: number, dnf: string | null, noCode: string | null)}
 	{@const shown = displayUs(us, cyc)}
 	<td class="px-2 py-1.5 text-right whitespace-nowrap tabular-nums">
-		{#if shown == null && dnf}
+		{#if shown == null && noCode}
+			{@const d = noCodeCell(noCode)}
+			<span class="text-xs text-pqs-steel dark:text-pqs-bluegray" title={d.title}
+				>{d.text}<span class="sr-only"> ({d.title})</span></span
+			>
+		{:else if shown == null && dnf}
 			{@const d = dnfCell(dnf)}
 			<span class="text-xs text-pqs-steel dark:text-pqs-bluegray" title={d.title}
 				>{d.text}<span class="sr-only"> ({d.title})</span></span
@@ -170,7 +175,7 @@
 						{#each config.table.columns as col (col.key)}
 							{#if col.time}
 								{@const [us, cycles] = col.time(row)}
-								{@render timeCell(us, cycles, row.dnf)}
+								{@render timeCell(us, cycles, row.dnf, row.noCode)}
 							{:else if col.size}
 								<td class="px-2 py-1.5 text-right tabular-nums">{fmt(col.size(row))}</td>
 							{/if}

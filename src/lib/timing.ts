@@ -52,3 +52,9 @@ export function dnfCell(reason: string): { text: 'timeout' | 'DNF'; title: strin
 		title: `Benchmark did not finish (${reason.replace(/-/g, ' ')})`
 	};
 }
+
+/** How the timing cells of a parameter set without any implementation (`no_code`) read: "no code",
+ * with the reason as the title. Takes precedence over "DNF" and "not yet benchmarked". */
+export function noCodeCell(reason: string): { text: 'no code'; title: string } {
+	return { text: 'no code', title: reason };
+}

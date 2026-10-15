@@ -160,6 +160,37 @@ describe('security levels in data', () => {
 	});
 });
 
+describe('parameter sets without code', () => {
+	const TIMING = /_(cycles|us)$/;
+	type Ps = Record<string, unknown> & { name: string; no_code?: unknown };
+	function check(file: string, sets: Ps[]): string[] {
+		return sets.flatMap((ps) => {
+			if (ps.no_code === undefined) return [];
+			if (typeof ps.no_code !== 'string' || ps.no_code.trim() === '')
+				return [`${file} ${ps.name}: no_code needs a reason`];
+			const e: string[] = [];
+			if (Object.keys(ps).some((k) => TIMING.test(k))) e.push(`${file} ${ps.name}: no_code set with timings`);
+			if (ps.dnf !== undefined) e.push(`${file} ${ps.name}: no_code set with dnf`);
+			return e;
+		});
+	}
+	it('carry a reason and never timings or a DNF (signatures and KEMs)', () => {
+		const sigs = join(DATA, 'schemes');
+		const kems = join(DATA, 'kems');
+		const errors = [
+			...readdirSync(sigs)
+				.filter((f) => f.endsWith('.yaml'))
+				.flatMap((f) =>
+					load<SchemeYaml>(join(sigs, f)).versions.flatMap((v) => check(f, v.parametersets as unknown as Ps[]))
+				),
+			...readdirSync(kems)
+				.filter((f) => f.endsWith('.yaml'))
+				.flatMap((f) => check(f, load<KemSchemeYaml>(join(kems, f)).parametersets as unknown as Ps[]))
+		];
+		expect(errors).toEqual([]);
+	});
+});
+
 describe('scheme pages', () => {
 	const readDir = <T>(dir: string): T[] =>
 		readdirSync(join(DATA, dir))

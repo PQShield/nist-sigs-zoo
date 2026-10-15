@@ -43,7 +43,7 @@
 								<span class="underline decoration-pqs-scarlet decoration-wavy" title={cell.title}
 									>{cell.text}<span class="sr-only"> ({cell.title})</span></span
 								>
-							{:else if cell.kind === 'dnf'}
+							{:else if cell.kind === 'dnf' || cell.kind === 'nocode'}
 								<span class="text-xs text-pqs-steel dark:text-pqs-bluegray" title={cell.title}
 									>{cell.text}<span class="sr-only"> ({cell.title})</span></span
 								>

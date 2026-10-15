@@ -259,6 +259,14 @@ describe('hostOf / timeCell', () => {
 		expect(timeCell(null, 0, 'SIGSEGV').text).toBe('DNF');
 		expect(timeCell(2, 0, 'SIGSEGV').kind).toBe('value');
 	});
+
+	it('marks cells of a set without code as "no code", before any DNF, but keeps measured values', () => {
+		const why = 'No implementation in the submission package';
+		expect(timeCell(null, 0, null, null, why)).toEqual({ text: 'no code', kind: 'nocode', title: why });
+		expect(timeCell(null, 0, 'timeout', null, why).kind).toBe('nocode');
+		expect(timeCell(null, 5000, null, null, why).kind).toBe('estimated');
+		expect(timeCell(2, 0, null, null, why).kind).toBe('value');
+	});
 	it('names the benchmark environment of a measured value', () => {
 		const env = {
 			id: '2026-10-13-c7i.4xlarge',

@@ -8,7 +8,7 @@ import { schemeProgrammes } from './programmes';
 import { schemeEvents, type SchemeEvent } from './schemeHistory';
 import { schemeSlug } from './slugs';
 import { levelText, versionOptions, type VersionOption } from './versionCompare';
-import { dnfCell } from './timing';
+import { dnfCell, noCodeCell } from './timing';
 import type {
 	BenchmarkEnv,
 	HistoryEntry,
@@ -22,7 +22,7 @@ import type {
 
 export interface TableCell {
 	text: string;
-	kind: 'value' | 'estimated' | 'missing' | 'dnf';
+	kind: 'value' | 'estimated' | 'missing' | 'dnf' | 'nocode';
 	title?: string;
 }
 
@@ -95,13 +95,15 @@ function findingsLink(url: string | null | undefined): { url: string; host: stri
 
 const num = (n: number): TableCell => ({ text: fmt(n), kind: 'value' });
 
-/** Measured µs, else estimated from measured cycles, else "timeout"/"DNF" when the benchmark did
- * not finish, else "not yet benchmarked". A measured value names its benchmark environment. */
+/** Measured µs, else estimated from measured cycles, else "no code" when there is no implementation,
+ * else "timeout"/"DNF" when the benchmark did not finish, else "not yet benchmarked". A measured
+ * value names its benchmark environment. */
 export function timeCell(
 	us: number | null,
 	cycles: number,
 	dnf: string | null = null,
-	env: BenchmarkEnv | null = null
+	env: BenchmarkEnv | null = null,
+	noCode: string | null = null
 ): TableCell {
 	if (us != null) {
 		return env
@@ -115,6 +117,7 @@ export function timeCell(
 			title: `Estimated from ${fmtCycles(cycles)} cycles @ ${CPU_GHZ_LABEL}`
 		};
 	}
+	if (noCode) return { ...noCodeCell(noCode), kind: 'nocode' };
 	if (dnf) return { ...dnfCell(dnf), kind: 'dnf' };
 	return { text: '—', kind: 'missing', title: 'Not yet benchmarked' };
 }
@@ -133,8 +136,8 @@ export function signatureTable(rows: ParameterSet[], envs: BenchmarkEnv[] = []):
 				num(r.pk),
 				num(r.sig),
 				num(r.pkPlusSig),
-				timeCell(r.signingUs, r.signingCycles, r.dnf, envOf(envs, r.benchEnv)),
-				timeCell(r.verificationUs, r.verificationCycles, r.dnf, envOf(envs, r.benchEnv))
+				timeCell(r.signingUs, r.signingCycles, r.dnf, envOf(envs, r.benchEnv), r.noCode),
+				timeCell(r.verificationUs, r.verificationCycles, r.dnf, envOf(envs, r.benchEnv), r.noCode)
 			]
 		}))
 	};
@@ -154,9 +157,9 @@ export function kemTable(rows: KemParameterSet[], envs: BenchmarkEnv[] = []): Pa
 				num(r.pk),
 				num(r.ct),
 				num(r.pkPlusCt),
-				timeCell(r.keygenUs, r.keygenCycles, r.dnf, envOf(envs, r.benchEnv)),
-				timeCell(r.encapsUs, r.encapsCycles, r.dnf, envOf(envs, r.benchEnv)),
-				timeCell(r.decapsUs, r.decapsCycles, r.dnf, envOf(envs, r.benchEnv))
+				timeCell(r.keygenUs, r.keygenCycles, r.dnf, envOf(envs, r.benchEnv), r.noCode),
+				timeCell(r.encapsUs, r.encapsCycles, r.dnf, envOf(envs, r.benchEnv), r.noCode),
+				timeCell(r.decapsUs, r.decapsCycles, r.dnf, envOf(envs, r.benchEnv), r.noCode)
 			]
 		}))
 	};

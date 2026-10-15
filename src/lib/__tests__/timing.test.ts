@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { displayUs, dnfCell, kemTimes, sigTimes, timeRange } from '$lib/timing';
+import { displayUs, dnfCell, kemTimes, noCodeCell, sigTimes, timeRange } from '$lib/timing';
 import { CYCLES_PER_US } from '$lib/constants';
 
 describe('displayUs', () => {
@@ -46,5 +46,14 @@ describe('dnfCell', () => {
 		expect(dnfCell('SIGSEGV')).toEqual({ text: 'DNF', title: 'Benchmark did not finish (SIGSEGV)' });
 		expect(dnfCell('tampered-signature-accepted').text).toBe('DNF');
 		expect(dnfCell('timeout-ish').text).toBe('DNF');
+	});
+});
+
+describe('noCodeCell', () => {
+	it('reads "no code" with the reason as its title', () => {
+		expect(noCodeCell('No implementation in the submission package')).toEqual({
+			text: 'no code',
+			title: 'No implementation in the submission package'
+		});
 	});
 });

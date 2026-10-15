@@ -91,6 +91,10 @@ describe('omittedNote', () => {
 		expect(omittedNote(0, 1)).toBe('1 parameter set is not shown: did not finish.');
 		expect(omittedNote(0, 2)).toBe('2 parameter sets are not shown: did not finish.');
 		expect(omittedNote(3, 1)).toBe('4 parameter sets are not shown: 1 did not finish, 3 not yet benchmarked.');
+		expect(omittedNote(0, 0, 1)).toBe('1 parameter set is not shown: no code.');
+		expect(omittedNote(2, 1, 3)).toBe(
+			'6 parameter sets are not shown: 3 no code, 1 did not finish, 2 not yet benchmarked.'
+		);
 	});
 });
 
@@ -114,5 +118,16 @@ describe('timeTooltip', () => {
 		expect(timeTooltip(ops, 'timeout')).toEqual({ 'Signing time': 'timeout', 'Verification time': '3.0 µs' });
 		expect(timeTooltip(ops, 'operation-over-600s')['Signing time']).toBe('timeout (operation over 600s)');
 		expect(timeTooltip(ops, 'SIGSEGV')['Signing time']).toBe('DNF (SIGSEGV)');
+	});
+
+	it('says "no code" with the reason when there is no implementation', () => {
+		const ops = [
+			{ label: 'Signing', us: null, cycles: 0 },
+			{ label: 'Verification', us: null, cycles: 0 }
+		];
+		expect(timeTooltip(ops, 'timeout', 'No implementation')).toEqual({
+			'Signing time': 'no code (No implementation)',
+			'Verification time': 'no code (No implementation)'
+		});
 	});
 });

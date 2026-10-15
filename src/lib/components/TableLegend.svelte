@@ -18,5 +18,6 @@
 	>
 	<span>— not yet benchmarked</span>
 	<span>timeout / DNF benchmark did not finish (too slow / failed)</span>
+	<span>no code: no implementation to benchmark</span>
 	<span>Select an icon for details</span>
 </div>

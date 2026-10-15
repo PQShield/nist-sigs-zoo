@@ -25,6 +25,8 @@ export interface CompareRow extends FilterableRow {
 	notes: string | null;
 	/** Why the benchmark did not finish; its timing cells say so instead of "—". */
 	dnf: string | null;
+	/** Why there is no code to benchmark; its timing cells say "no code" instead of "—". */
+	noCode: string | null;
 	version?: string;
 }
 
@@ -146,7 +148,8 @@ export function chartTooltip<R extends CompareRow, A extends string>(
 		...cycles,
 		...timeTooltip(
 			spec.ops.map((op) => ({ label: op.label, us: op.us(d), cycles: op.cycles(d) })),
-			d.dnf
+			d.dnf,
+			d.noCode
 		),
 		...(notes ? { Notes: notes } : {}),
 		'Scheme page': 'click the point'

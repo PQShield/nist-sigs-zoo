@@ -63,6 +63,7 @@
 	let legend = $state<LegendGroup[]>([]);
 	let omitted = $state(0);
 	let omittedDnf = $state(0);
+	let omittedNoCode = $state(0);
 
 	// Time axes (displayed µs) are the fields the advanced page doesn't offer.
 	const isTime = (f: A) => !config.chart.axisOptions.includes(f);
@@ -93,7 +94,8 @@
 		const fields = Object.keys(chart.axisTitles) as A[];
 		const { plotted: data, omitted: missing } = partitionPlottable(rows, chart.value, xField, yField);
 		omitted = missing.length;
-		omittedDnf = missing.filter((r) => r.dnf).length;
+		omittedNoCode = missing.filter((r) => r.noCode).length;
+		omittedDnf = missing.filter((r) => r.dnf && !r.noCode).length;
 		const isDark = document.documentElement.classList.contains('dark');
 
 		const values = data.map((d) => ({
@@ -244,7 +246,7 @@
 			{#if renderError}
 				<p class="mt-1 text-xs text-pqs-scarlet" role="alert">Chart failed to render.</p>
 			{/if}
-			<OmittedNote count={omitted} dnf={omittedDnf} />
+			<OmittedNote count={omitted} dnf={omittedDnf} noCode={omittedNoCode} />
 			<div class="mt-1 flex items-center justify-between">
 				<p class="text-xs text-pqs-steel dark:text-pqs-bluegray">
 					Scroll to zoom · drag to pan<span class="sm:hidden"> · tap a point for details</span>

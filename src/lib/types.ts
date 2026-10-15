@@ -39,6 +39,8 @@ export interface ParameterSet {
 	notes: string | null;
 	/** Why the benchmark did not finish (`timeout`, `operation-over-600s`, `SIGSEGV`, …); null otherwise. */
 	dnf: string | null;
+	/** Why there is no code to benchmark (`no_code`); null otherwise. */
+	noCode: string | null;
 	/** Id of the BenchmarkEnv our timings come from (`bench_env`); absent for other sources. */
 	benchEnv?: string | null;
 	version: string;
@@ -72,6 +74,8 @@ export interface ParameterSetYaml {
 	notes?: string;
 	/** One-word reason the benchmark did not finish (written by the importers); no timings then. */
 	dnf?: string;
+	/** Why the set has no implementation to benchmark (sizes from the specification only). */
+	no_code?: string;
 	/** Id of the BenchmarkEnv the timings were measured in (written by the importers). */
 	bench_env?: string;
 }
@@ -126,6 +130,8 @@ export interface KemParameterSetYaml {
 	notes?: string;
 	/** One-word reason the benchmark did not finish (written by the importers); no timings then. */
 	dnf?: string;
+	/** Why the set has no implementation to benchmark (sizes from the specification only). */
+	no_code?: string;
 	/** Id of the BenchmarkEnv the timings were measured in (written by the importers). */
 	bench_env?: string;
 }
@@ -187,6 +193,8 @@ export interface KemParameterSet {
 	notes: string | null;
 	/** Why the benchmark did not finish (`timeout`, `operation-over-600s`, `SIGSEGV`, …); null otherwise. */
 	dnf: string | null;
+	/** Why there is no code to benchmark (`no_code`); null otherwise. */
+	noCode: string | null;
 	/** Id of the BenchmarkEnv our timings come from (`bench_env`); absent for other sources. */
 	benchEnv?: string | null;
 	programmes: ProgrammeMembership[];
