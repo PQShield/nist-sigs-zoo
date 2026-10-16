@@ -89,11 +89,11 @@ versions:
     ngcc_level: 512
     pk: 385
     sig: 72611
-    signing_cycles: 2080137047
-    verification_cycles: 1734775472
-    signing_us: 538406.2
-    verification_us: 448773.2
-    bench_env: 2026-10-15-c8i.4xlarge
+    signing_cycles: 2962516539
+    verification_cycles: 2615789957
+    signing_us: 765934.4
+    verification_us: 676135.4
+    bench_env: 2026-10-16-c8i.4xlarge
     notes: Optimised x86 implementation; uses the ICCS SM3 implementation from the submission package.
     broken: Reused tweaks let an attacker recover the signing key from a single signature with work below this set's claimed level (<a href="https://list.niccs.org.cn/archives/list/pkcforum@list.niccs.org.cn/message/PH6Q6UHS7YJAN3RHER7YWUNXOHOZYIFF/">Xiong and Wang</a>).
   findings_url: https://ngcc.dev/reports/sign-21.html

@@ -35,11 +35,11 @@ versions:
     ngcc_level: 256
     pk: 66
     sig: 14260
-    signing_cycles: 19427351
-    verification_cycles: 23361165
-    signing_us: 5190.2
-    verification_us: 6213.2
-    bench_env: 2026-10-15-c8i.4xlarge
+    signing_cycles: 19323289
+    verification_cycles: 23029892
+    signing_us: 5170.8
+    verification_us: 6119.7
+    bench_env: 2026-10-16-c8i.4xlarge
     notes: Optimised x86 implementation.
   - name: GreatWall256s
     ngcc_level: 256

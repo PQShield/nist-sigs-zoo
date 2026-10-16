@@ -17,11 +17,11 @@ versions:
     recommended: true
     pk: 376
     sig: 528
-    signing_cycles: 643860
-    verification_cycles: 229733
-    signing_us: 173.0
-    verification_us: 63.1
-    bench_env: 2026-10-15-c8i.4xlarge
+    signing_cycles: 639628
+    verification_cycles: 230506
+    signing_us: 174.6
+    verification_us: 63.6
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: SNOVA_I_B
     level: 1
     recommended: true
@@ -97,11 +97,11 @@ versions:
     recommended: true
     pk: 2716
     sig: 591
-    signing_cycles: 4119070
-    verification_cycles: 764019
-    signing_us: 1142.3
-    verification_us: 215.0
-    bench_env: 2026-10-15-c8i.4xlarge
+    signing_cycles: 4070559
+    verification_cycles: 757883
+    signing_us: 1093.1
+    verification_us: 206.0
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: SNOVA (27 3 16 4 7 5 84)
     level: 1
     pk: 376
@@ -387,9 +387,12 @@ versions:
     level: 5
     pk: 71890
     sig: 232
-    signing_cycles: 1426465
-    verification_cycles: 1309034
+    signing_cycles: 1422973
+    verification_cycles: 1346294
     broken: "Wedge product attack (<a href=\"https://eprint.iacr.org/2026/237\">Bros et al.</a>, ePrint 2026/237) reduces classical security to ~180 bits, below NIST Level V threshold (256 bits)"
+    signing_us: 393.3
+    verification_us: 380.8
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: (29 6 5)
     level: 5
     pk: 2716
@@ -469,6 +472,7 @@ versions:
     signing_us: 66.2
     verification_us: 39.7
     bench_env: 2026-10-16-c8i.4xlarge
+  perf_source: our benchmark
 - version: Round 1
   date: '2023-05-25'
   status: On-ramp

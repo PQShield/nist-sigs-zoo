@@ -162,11 +162,11 @@ versions:
     ngcc_level: 512
     pk: 128
     sig: 98476
-    signing_cycles: 26028420618
-    verification_cycles: 44409680
-    signing_us: 6735513.8
-    verification_us: 11483.3
-    bench_env: 2026-10-15-c8i.4xlarge
+    signing_cycles: 25145285143
+    verification_cycles: 44545027
+    signing_us: 6502233.8
+    verification_us: 11511.5
+    bench_env: 2026-10-16-c8i.4xlarge
     notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it; our build does not reproduce the submitted test vectors (cause unknown).
     info: Our build does not reproduce the submitted test vectors.
     implementation: The submitted SM3 code compresses messages to 256 bits, so a second preimage after one signing query costs about 2^256, below this set's target (<a href="https://ngcc.dev/reports/sign-19.html#sign-19-4-a-256-bit-sm3-prehash-caps-message-retargeting-security">Saarinen</a>).

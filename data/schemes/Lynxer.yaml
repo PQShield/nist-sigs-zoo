@@ -45,11 +45,11 @@ versions:
     ngcc_level: 256
     pk: 64
     sig: 15097
-    signing_cycles: 22935413
-    verification_cycles: 21608766
-    signing_us: 6033.0
-    verification_us: 5686.7
-    bench_env: 2026-10-15-c8i.4xlarge
+    signing_cycles: 22679654
+    verification_cycles: 21369994
+    signing_us: 6049.0
+    verification_us: 5627.5
+    bench_env: 2026-10-16-c8i.4xlarge
     notes: Optimised x86 implementation; uses the ICCS SM3 implementation from the submission package.
     broken: A degenerate witness lets anyone forge signatures from the public key at about the cost of honest signing (<a href="https://list.niccs.org.cn/archives/list/pkcforum@list.niccs.org.cn/message/JMTZL5V7ROPXSFJQWRHIOKLORGI5AJSN/">Feussner</a>). One signature also allows key recovery below the target (<a href="https://list.niccs.org.cn/archives/list/pkcforum@list.niccs.org.cn/message/UG3RQWO5YK7WWMXM5KRTAE457PKIAI62/">Xiong and Wang</a>).
   - name: Lynxer-384s

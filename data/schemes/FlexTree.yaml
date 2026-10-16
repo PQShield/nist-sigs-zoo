@@ -89,11 +89,11 @@ versions:
     ngcc_level: 512
     pk: 128
     sig: 117296
-    signing_cycles: 27099548821
-    verification_cycles: 173330228
-    signing_us: 7008100.8
-    verification_us: 44785.6
-    bench_env: 2026-10-15-c8i.4xlarge
+    signing_cycles: 27017727077
+    verification_cycles: 173030667
+    signing_us: 6977934.7
+    verification_us: 44682.9
+    bench_env: 2026-10-16-c8i.4xlarge
     notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
     broken: A signing counter can be ground without changing the hash-selected instance, so forgeries after many signing queries cost roughly 20 to 30 bits less than claimed, below this set's target (<a href="https://ngcc.dev/reports/sign-11.html#sign-11-1-pors-counter-grinding-reduces-every-claimed-security-level">Kudinov</a>).
   findings_url: https://ngcc.dev/reports/sign-11.html

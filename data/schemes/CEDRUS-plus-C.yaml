@@ -24,11 +24,11 @@ versions:
     ngcc_level: 128
     pk: 40
     sig: 19812
-    signing_cycles: 552802194
-    verification_cycles: 16883127
-    signing_us: 143259.4
-    verification_us: 4374.2
-    bench_env: 2026-10-15-c8i.4xlarge
+    signing_cycles: 548628210
+    verification_cycles: 16741866
+    signing_us: 141754.4
+    verification_us: 4328.1
+    bench_env: 2026-10-16-c8i.4xlarge
     notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
   - name: CEDRUSC-256s
     ngcc_level: 256
@@ -44,11 +44,11 @@ versions:
     ngcc_level: 256
     pk: 64
     sig: 43548
-    signing_cycles: 1342206177
-    verification_cycles: 23164992
-    signing_us: 347674.7
-    verification_us: 5992.4
-    bench_env: 2026-10-15-c8i.4xlarge
+    signing_cycles: 1334534709
+    verification_cycles: 23031038
+    signing_us: 344866.1
+    verification_us: 5954.3
+    bench_env: 2026-10-16-c8i.4xlarge
     notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
   - name: CEDRUSC-384s
     ngcc_level: 384
@@ -84,11 +84,11 @@ versions:
     ngcc_level: 512
     pk: 128
     sig: 121520
-    signing_cycles: 26971998857
-    verification_cycles: 171659899
-    signing_us: 6975959.9
-    verification_us: 44355.9
-    bench_env: 2026-10-15-c8i.4xlarge
+    signing_cycles: 26845143026
+    verification_cycles: 171452722
+    signing_us: 6936764.1
+    verification_us: 44306.5
+    bench_env: 2026-10-16-c8i.4xlarge
     notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
   findings_url: https://ngcc.dev/reports/sign-03.html
   implementation: The submitted code mishandles hypertree indices so that few-time keys repeat across signatures, enabling forgery after adaptive signing queries at every parameter set (<a href="https://ngcc.dev/reports/sign-03.html#sign-03-1-hypertree-index-collapse-causes-repeated-few-time-keys">Saarinen</a>).

@@ -14,11 +14,11 @@ versions:
     ngcc_level: 128
     pk: 96
     sig: 218
-    signing_cycles: 2275124421
-    verification_cycles: 553525592
-    signing_us: 588497.4
-    verification_us: 143452.2
-    bench_env: 2026-10-15-c8i.4xlarge
+    signing_cycles: 1208438173
+    verification_cycles: 243870095
+    signing_us: 312830.1
+    verification_us: 63205.4
+    bench_env: 2026-10-16-c8i.4xlarge
     notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it; our build applies a small patch to the submitted code.
   - name: SQIsign2D-lvl3
     ngcc_level: 256

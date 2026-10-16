@@ -86,18 +86,18 @@ versions:
     pk: 48
     sig: 7752
     notes: NIST SP 800-230 ipd (initial public draft, 2026-04-13) limited-signature parameter set, at most 2^24 signatures per signing key. Not final; may change.
-    signing_cycles: 2105448097080
-    verification_cycles: 546154
-    signing_us: 558680723.2
-    verification_us: 143.9
-    bench_env: 2026-10-15-c8i.4xlarge
+    signing_cycles: 2133481241507
+    verification_cycles: 582572
+    signing_us: 552274361.5
+    verification_us: 157.0
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: SHAKE-256-24
     level: 5
     pk: 64
     sig: 14944
     notes: NIST SP 800-230 ipd (initial public draft, 2026-04-13) limited-signature parameter set, at most 2^24 signatures per signing key. Not final; may change.
-    signing_cycles: 2550238784640
-    verification_cycles: 676217
-    signing_us: 676520942.0
-    verification_us: 177.3
-    bench_env: 2026-10-15-c8i.4xlarge
+    signing_cycles: 2630291940468
+    verification_cycles: 679939
+    signing_us: 695029244.8
+    verification_us: 175.5
+    bench_env: 2026-10-16-c8i.4xlarge

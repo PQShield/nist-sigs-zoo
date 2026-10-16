@@ -16,11 +16,11 @@ versions:
     recommended: true
     pk: 169
     sig: 406
-    signing_cycles: 783262942
-    verification_cycles: 77829514
-    signing_us: 203047.9
-    verification_us: 20181.2
-    bench_env: 2026-10-15-c8i.4xlarge
+    signing_cycles: 805279144
+    verification_cycles: 77580434
+    signing_us: 208058.7
+    verification_us: 20051.6
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: III
     level: 3
     recommended: true
