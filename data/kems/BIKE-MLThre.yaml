@@ -10,37 +10,37 @@ parametersets:
   ngcc_level: 128
   pk: 1541
   ct: 1573
-  keygen_cycles: 1417035390
-  encaps_cycles: 14053552
-  decaps_cycles: 91582077
-  keygen_us: 365971.3
-  encaps_us: 3632.4
-  decaps_us: 23652.7
-  bench_env: 2026-10-15-c8i.4xlarge
+  keygen_cycles: 1399053310
+  encaps_cycles: 13967892
+  decaps_cycles: 90923846
+  keygen_us: 361320.9
+  encaps_us: 3604.5
+  decaps_us: 23485.7
+  bench_env: 2026-10-16-c8i.4xlarge
   notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 - name: BIKE_MLThre-256
   ngcc_level: 256
   pk: 5122
   ct: 5154
-  keygen_cycles: 15487656333
-  encaps_cycles: 90758455
-  decaps_cycles: 451426620
-  keygen_us: 4001922.8
-  encaps_us: 23442.9
-  decaps_us: 116651.5
-  bench_env: 2026-10-15-c8i.4xlarge
+  keygen_cycles: 16105607744
+  encaps_cycles: 87463452
+  decaps_cycles: 449442348
+  keygen_us: 4161378.1
+  encaps_us: 22598.6
+  decaps_us: 116138.5
+  bench_env: 2026-10-16-c8i.4xlarge
   notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 - name: BIKE_MLThre-512
   ngcc_level: 512
   pk: 18751
   ct: 18815
-  keygen_cycles: 206463515720
-  encaps_cycles: 664382512
-  decaps_cycles: 3214694900
-  keygen_us: 53757635.6
-  encaps_us: 172633.4
-  decaps_us: 835687.6
-  bench_env: 2026-10-15-c8i.4xlarge
+  keygen_cycles: 206460812059
+  encaps_cycles: 676914516
+  decaps_cycles: 3210449024
+  keygen_us: 53324473.6
+  encaps_us: 174808.4
+  decaps_us: 829127.3
+  bench_env: 2026-10-16-c8i.4xlarge
   notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 findings_url: https://ngcc.dev/reports/kem-05.html
 implementation: The default submitted library build generates the same secret key every time, so anyone can reproduce a victim's key (<a href="https://list.niccs.org.cn/archives/list/pkcforum@list.niccs.org.cn/message/AXAPSYKLHJBJHNYCZO57NUKTBTNNCLPV/">Xiong and Wang</a>).

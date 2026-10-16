@@ -14,31 +14,31 @@ versions:
     ngcc_level: 128
     pk: 40
     sig: 4607
-    signing_cycles: 75604097
-    verification_cycles: 62752569
-    signing_us: 19923.2
-    verification_us: 16797.3
-    bench_env: 2026-10-15-c8i.4xlarge
+    signing_cycles: 75293532
+    verification_cycles: 63392002
+    signing_us: 19808.7
+    verification_us: 16942.8
+    bench_env: 2026-10-16-c8i.4xlarge
     notes: Optimised x86 implementation; uses the ICCS SM3 implementation from the submission package.
   - name: Lynxer-160f
     ngcc_level: 128
     pk: 40
     sig: 5801
-    signing_cycles: 9670292
-    verification_cycles: 8847604
-    signing_us: 2591.9
-    verification_us: 2383.7
-    bench_env: 2026-10-15-c8i.4xlarge
+    signing_cycles: 9858128
+    verification_cycles: 8900741
+    signing_us: 2639.0
+    verification_us: 2377.6
+    bench_env: 2026-10-16-c8i.4xlarge
     notes: Optimised x86 implementation; uses the ICCS SM3 implementation from the submission package.
   - name: Lynxer-256s
     ngcc_level: 256
     pk: 64
     sig: 12191
-    signing_cycles: 201702888
-    verification_cycles: 169605553
-    signing_us: 53651.9
-    verification_us: 45244.2
-    bench_env: 2026-10-15-c8i.4xlarge
+    signing_cycles: 203793696
+    verification_cycles: 167963888
+    signing_us: 54801.3
+    verification_us: 45339.8
+    bench_env: 2026-10-16-c8i.4xlarge
     notes: Optimised x86 implementation; uses the ICCS SM3 implementation from the submission package.
     broken: A degenerate witness lets anyone forge signatures from the public key at about the cost of honest signing (<a href="https://list.niccs.org.cn/archives/list/pkcforum@list.niccs.org.cn/message/JMTZL5V7ROPXSFJQWRHIOKLORGI5AJSN/">Feussner</a>). One signature also allows key recovery below the target (<a href="https://list.niccs.org.cn/archives/list/pkcforum@list.niccs.org.cn/message/UG3RQWO5YK7WWMXM5KRTAE457PKIAI62/">Xiong and Wang</a>).
   - name: Lynxer-256f
@@ -56,44 +56,44 @@ versions:
     ngcc_level: 384
     pk: 96
     sig: 27495
-    signing_cycles: 736115984
-    verification_cycles: 550577059
-    signing_us: 197294.9
-    verification_us: 149691.4
-    bench_env: 2026-10-15-c8i.4xlarge
+    signing_cycles: 829807716
+    verification_cycles: 544798739
+    signing_us: 218225.0
+    verification_us: 143924.8
+    bench_env: 2026-10-16-c8i.4xlarge
     notes: Optimised x86 implementation; uses the ICCS SM3 implementation from the submission package.
     broken: A degenerate witness lets anyone forge signatures from the public key at about the cost of honest signing (<a href="https://list.niccs.org.cn/archives/list/pkcforum@list.niccs.org.cn/message/JMTZL5V7ROPXSFJQWRHIOKLORGI5AJSN/">Feussner</a>). One signature also allows key recovery below the target (<a href="https://list.niccs.org.cn/archives/list/pkcforum@list.niccs.org.cn/message/UG3RQWO5YK7WWMXM5KRTAE457PKIAI62/">Xiong and Wang</a>).
   - name: Lynxer-384f
     ngcc_level: 384
     pk: 96
     sig: 34109
-    signing_cycles: 79098628
-    verification_cycles: 70719466
-    signing_us: 20869.4
-    verification_us: 18664.6
-    bench_env: 2026-10-15-c8i.4xlarge
+    signing_cycles: 78056455
+    verification_cycles: 70713429
+    signing_us: 20752.5
+    verification_us: 18615.7
+    bench_env: 2026-10-16-c8i.4xlarge
     notes: Optimised x86 implementation; uses the ICCS SM3 implementation from the submission package.
     broken: A degenerate witness lets anyone forge signatures from the public key at about the cost of honest signing (<a href="https://list.niccs.org.cn/archives/list/pkcforum@list.niccs.org.cn/message/JMTZL5V7ROPXSFJQWRHIOKLORGI5AJSN/">Feussner</a>). One signature also allows key recovery below the target (<a href="https://list.niccs.org.cn/archives/list/pkcforum@list.niccs.org.cn/message/UG3RQWO5YK7WWMXM5KRTAE457PKIAI62/">Xiong and Wang</a>).
   - name: Lynxer-512s
     ngcc_level: 512
     pk: 128
     sig: 48879
-    signing_cycles: 18241204979
-    verification_cycles: 14445144302
-    signing_us: 4728850.9
-    verification_us: 3746337.9
-    bench_env: 2026-10-15-c8i.4xlarge
+    signing_cycles: 23012488477
+    verification_cycles: 20473163806
+    signing_us: 5953573.8
+    verification_us: 5296562.1
+    bench_env: 2026-10-16-c8i.4xlarge
     notes: Optimised x86 implementation; uses the ICCS SM3 implementation from the submission package.
     broken: A degenerate witness lets anyone forge signatures from the public key at about the cost of honest signing (<a href="https://list.niccs.org.cn/archives/list/pkcforum@list.niccs.org.cn/message/JMTZL5V7ROPXSFJQWRHIOKLORGI5AJSN/">Feussner</a>). One signature also allows key recovery below the target (<a href="https://list.niccs.org.cn/archives/list/pkcforum@list.niccs.org.cn/message/UG3RQWO5YK7WWMXM5KRTAE457PKIAI62/">Xiong and Wang</a>).
   - name: Lynxer-512f
     ngcc_level: 512
     pk: 128
     sig: 61091
-    signing_cycles: 1682324944
-    verification_cycles: 1440396225
-    signing_us: 435604.5
-    verification_us: 373124.1
-    bench_env: 2026-10-15-c8i.4xlarge
+    signing_cycles: 2270043194
+    verification_cycles: 2028759760
+    signing_us: 589269.3
+    verification_us: 525896.3
+    bench_env: 2026-10-16-c8i.4xlarge
     notes: Optimised x86 implementation; uses the ICCS SM3 implementation from the submission package.
     broken: A degenerate witness lets anyone forge signatures from the public key at about the cost of honest signing (<a href="https://list.niccs.org.cn/archives/list/pkcforum@list.niccs.org.cn/message/JMTZL5V7ROPXSFJQWRHIOKLORGI5AJSN/">Feussner</a>). One signature also allows key recovery below the target (<a href="https://list.niccs.org.cn/archives/list/pkcforum@list.niccs.org.cn/message/UG3RQWO5YK7WWMXM5KRTAE457PKIAI62/">Xiong and Wang</a>).
   findings_url: https://ngcc.dev/reports/sign-14.html

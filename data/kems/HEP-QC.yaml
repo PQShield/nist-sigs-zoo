@@ -11,37 +11,37 @@ parametersets:
   ngcc_level: 128
   pk: 285889
   ct: 4433
-  keygen_cycles: 243515353
-  encaps_cycles: 13430443
-  decaps_cycles: 237511178
-  keygen_us: 63201.5
-  encaps_us: 3477.5
-  decaps_us: 61467.4
-  bench_env: 2026-10-15-c8i.4xlarge
+  keygen_cycles: 242724165
+  encaps_cycles: 13458404
+  decaps_cycles: 236871163
+  keygen_us: 63064.6
+  encaps_us: 3550.0
+  decaps_us: 61334.7
+  bench_env: 2026-10-16-c8i.4xlarge
   notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 - name: HEP-QC-5
   ngcc_level: 256
   pk: 1852485
   ct: 14421
-  keygen_cycles: 917606956
-  encaps_cycles: 89001660
-  decaps_cycles: 831357392
-  keygen_us: 239547.4
-  encaps_us: 23041.5
-  decaps_us: 215394.4
-  bench_env: 2026-10-15-c8i.4xlarge
+  keygen_cycles: 902751783
+  encaps_cycles: 89055078
+  decaps_cycles: 827648323
+  keygen_us: 235785.6
+  encaps_us: 23068.7
+  decaps_us: 214486.3
+  bench_env: 2026-10-16-c8i.4xlarge
   notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 - name: HEP-QC-7
   ngcc_level: 512
   pk: 12644449
   ct: 49297
-  keygen_cycles: 4778109972
-  encaps_cycles: 600347585
-  decaps_cycles: 3214235815
-  keygen_us: 1264115.7
-  encaps_us: 155435.3
-  decaps_us: 840093.2
-  bench_env: 2026-10-15-c8i.4xlarge
+  keygen_cycles: 4771785543
+  encaps_cycles: 600050719
+  decaps_cycles: 3205058033
+  keygen_us: 1256612.4
+  encaps_us: 155200.1
+  decaps_us: 831154.6
+  bench_env: 2026-10-16-c8i.4xlarge
   notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
   broken: Key generation has at most 2^256 possible seeds, below the 512-bit target (<a href="https://ngcc.dev/reports/kem-17.html#kem-17-2-hep-qc-7-has-at-most-256-bits-of-key-generation-support">Saarinen</a>).
 findings_url: https://ngcc.dev/reports/kem-17.html

@@ -10,36 +10,36 @@ parametersets:
   ngcc_level: 128
   pk: 944
   ct: 928
-  keygen_cycles: 174967
-  encaps_cycles: 174277
-  decaps_cycles: 174611
+  keygen_cycles: 174742
+  encaps_cycles: 173713
+  decaps_cycles: 174014
   keygen_us: 45.9
-  encaps_us: 45.8
-  decaps_us: 45.9
-  bench_env: 2026-10-15-c8i.4xlarge
+  encaps_us: 45.6
+  decaps_us: 45.7
+  bench_env: 2026-10-16-c8i.4xlarge
   notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 - name: Mithril-256
   ngcc_level: 256
   pk: 1648
   ct: 1680
-  keygen_cycles: 297499
-  encaps_cycles: 299623
-  decaps_cycles: 305766
-  keygen_us: 77.4
-  encaps_us: 77.9
-  decaps_us: 79.5
-  bench_env: 2026-10-15-c8i.4xlarge
+  keygen_cycles: 296206
+  encaps_cycles: 298479
+  decaps_cycles: 304770
+  keygen_us: 77.1
+  encaps_us: 77.7
+  decaps_us: 79.3
+  bench_env: 2026-10-16-c8i.4xlarge
   notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 - name: Mithril-512
   ngcc_level: 512
   pk: 3056
   ct: 3504
-  keygen_cycles: 621655
-  encaps_cycles: 637219
-  decaps_cycles: 673727
-  keygen_us: 160.5
-  encaps_us: 164.5
-  decaps_us: 173.9
-  bench_env: 2026-10-15-c8i.4xlarge
+  keygen_cycles: 617350
+  encaps_cycles: 633886
+  decaps_cycles: 670900
+  keygen_us: 159.4
+  encaps_us: 163.7
+  decaps_us: 173.1
+  bench_env: 2026-10-16-c8i.4xlarge
   notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 findings_url: https://ngcc.dev/reports/kem-22.html

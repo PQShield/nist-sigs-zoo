@@ -13,54 +13,54 @@ parametersets:
   level: 1
   pk: 261120
   ct: 96
-  keygen_cycles: 47960385
-  encaps_cycles: 28208
-  decaps_cycles: 112991
-  keygen_us: 12703.7
-  encaps_us: 9.4
-  decaps_us: 31.0
-  bench_env: 2026-10-15-c8i.4xlarge
+  keygen_cycles: 39942086
+  encaps_cycles: 24595
+  decaps_cycles: 98220
+  keygen_us: 10563.7
+  encaps_us: 8.8
+  decaps_us: 27.1
+  bench_env: 2026-10-16-c8i.4xlarge
 - name: mceliece460896
   level: 3
   pk: 524160
   ct: 156
-  keygen_cycles: 153413525
-  encaps_cycles: 81566
-  decaps_cycles: 255005
-  keygen_us: 40728.4
-  encaps_us: 22.5
-  decaps_us: 67.4
-  bench_env: 2026-10-15-c8i.4xlarge
+  keygen_cycles: 120591754
+  encaps_cycles: 55517
+  decaps_cycles: 225807
+  keygen_us: 31894.5
+  encaps_us: 15.7
+  decaps_us: 59.4
+  bench_env: 2026-10-16-c8i.4xlarge
 - name: mceliece6688128
   level: 5
   pk: 1044992
   ct: 208
-  keygen_cycles: 273037828
-  encaps_cycles: 280250
-  decaps_cycles: 353133
-  keygen_us: 72384.2
-  encaps_us: 73.9
-  decaps_us: 92.8
-  bench_env: 2026-10-15-c8i.4xlarge
+  keygen_cycles: 288102317
+  encaps_cycles: 132509
+  decaps_cycles: 302830
+  keygen_us: 76382.8
+  encaps_us: 35.6
+  decaps_us: 79.9
+  bench_env: 2026-10-16-c8i.4xlarge
 - name: mceliece6960119
   level: 5
   pk: 1047319
   ct: 194
-  keygen_cycles: 240327131
-  encaps_cycles: 283740
-  decaps_cycles: 349486
-  keygen_us: 63764.3
-  encaps_us: 75.4
-  decaps_us: 92.1
-  bench_env: 2026-10-15-c8i.4xlarge
+  keygen_cycles: 179481799
+  encaps_cycles: 136151
+  decaps_cycles: 293279
+  keygen_us: 47614.1
+  encaps_us: 37.6
+  decaps_us: 77.4
+  bench_env: 2026-10-16-c8i.4xlarge
 - name: mceliece8192128
   level: 5
   pk: 1357824
   ct: 208
-  keygen_cycles: 296459977
-  encaps_cycles: 384131
-  decaps_cycles: 377112
-  keygen_us: 78795.5
-  encaps_us: 101.7
-  decaps_us: 99.2
-  bench_env: 2026-10-15-c8i.4xlarge
+  keygen_cycles: 273995073
+  encaps_cycles: 196109
+  decaps_cycles: 300212
+  keygen_us: 72600.4
+  encaps_us: 52.5
+  decaps_us: 80.1
+  bench_env: 2026-10-16-c8i.4xlarge

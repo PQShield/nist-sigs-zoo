@@ -14,26 +14,26 @@ versions:
     level: 5
     pk: 2592
     sig: 4627
-    signing_cycles: 363699
-    verification_cycles: 202096
-    signing_us: 95.0
-    verification_us: 52.9
-    bench_env: 2026-10-15-c8i.4xlarge
+    signing_cycles: 353299
+    verification_cycles: 197904
+    signing_us: 92.3
+    verification_us: 51.9
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: ML-DSA-65
     level: 3
     pk: 1952
     sig: 3309
-    signing_cycles: 284191
-    verification_cycles: 128055
-    signing_us: 74.7
-    verification_us: 34.0
-    bench_env: 2026-10-15-c8i.4xlarge
+    signing_cycles: 284187
+    verification_cycles: 126127
+    signing_us: 74.5
+    verification_us: 33.5
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: ML-DSA-44
     level: 2
     pk: 1312
     sig: 2420
-    signing_cycles: 170127
-    verification_cycles: 78663
-    signing_us: 45.3
-    verification_us: 21.3
-    bench_env: 2026-10-15-c8i.4xlarge
+    signing_cycles: 169933
+    verification_cycles: 76760
+    signing_us: 45.2
+    verification_us: 20.8
+    bench_env: 2026-10-16-c8i.4xlarge

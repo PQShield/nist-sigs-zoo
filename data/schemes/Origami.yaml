@@ -24,21 +24,21 @@ versions:
     ngcc_level: 256
     pk: 14968
     sig: 516
-    signing_cycles: 1575985606
-    verification_cycles: 1484470801
-    signing_us: 407162.6
-    verification_us: 383447.4
-    bench_env: 2026-10-15-c8i.4xlarge
+    signing_cycles: 1501117307
+    verification_cycles: 1450911779
+    signing_us: 388390.2
+    verification_us: 375508.5
+    bench_env: 2026-10-16-c8i.4xlarge
     notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it; our build applies a small patch to the submitted code.
   - name: Origami-384
     ngcc_level: 384
     pk: 27940
     sig: 948
-    signing_cycles: 7313361798
-    verification_cycles: 6937563217
-    signing_us: 1888792.4
-    verification_us: 1791726.1
-    bench_env: 2026-10-15-c8i.4xlarge
+    signing_cycles: 7161005015
+    verification_cycles: 6901655927
+    signing_us: 1849685.6
+    verification_us: 1782597.3
+    bench_env: 2026-10-16-c8i.4xlarge
     notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it; our build applies a small patch to the submitted code.
   - name: Origami-512
     ngcc_level: 512

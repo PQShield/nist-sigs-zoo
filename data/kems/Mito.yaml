@@ -10,108 +10,108 @@ parametersets:
   ngcc_level: 128
   pk: 3908
   ct: 5796
-  keygen_cycles: 9504951
-  encaps_cycles: 15698006
-  decaps_cycles: 22153567
-  keygen_us: 2456.5
-  encaps_us: 4054.3
-  decaps_us: 5722.8
-  bench_env: 2026-10-15-c8i.4xlarge
+  keygen_cycles: 9487543
+  encaps_cycles: 15672249
+  decaps_cycles: 22122291
+  keygen_us: 2452.4
+  encaps_us: 4048.5
+  decaps_us: 5716.1
+  bench_env: 2026-10-16-c8i.4xlarge
   notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 - name: Mito-1-256
   ngcc_level: 256
   pk: 8522
   ct: 12714
-  keygen_cycles: 28708434
-  encaps_cycles: 47743356
-  decaps_cycles: 67562776
-  keygen_us: 7416.1
-  encaps_us: 12331.0
-  decaps_us: 17448.9
-  bench_env: 2026-10-15-c8i.4xlarge
+  keygen_cycles: 28695829
+  encaps_cycles: 47712280
+  decaps_cycles: 67483996
+  keygen_us: 7414.7
+  encaps_us: 12327.3
+  decaps_us: 17430.9
+  bench_env: 2026-10-16-c8i.4xlarge
   notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 - name: Mito-1-512
   ngcc_level: 512
   pk: 26630
   ct: 39878
-  keygen_cycles: 175365044
-  encaps_cycles: 292404807
-  decaps_cycles: 411527044
-  keygen_us: 45288.2
-  encaps_us: 75514.4
-  decaps_us: 106291.5
-  bench_env: 2026-10-15-c8i.4xlarge
+  keygen_cycles: 175381236
+  encaps_cycles: 292285829
+  decaps_cycles: 411436656
+  keygen_us: 45294.4
+  encaps_us: 75483.4
+  decaps_us: 106252.8
+  bench_env: 2026-10-16-c8i.4xlarge
   notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 - name: Mito-1-E-128
   ngcc_level: 128
   pk: 3720
   ct: 5512
-  keygen_cycles: 8821470
-  encaps_cycles: 14553438
-  decaps_cycles: 20539665
-  keygen_us: 2279.1
-  encaps_us: 3760.7
-  decaps_us: 5305.8
-  bench_env: 2026-10-15-c8i.4xlarge
+  keygen_cycles: 8808209
+  encaps_cycles: 14540684
+  decaps_cycles: 20510093
+  keygen_us: 2275.5
+  encaps_us: 3757.8
+  decaps_us: 5299.3
+  bench_env: 2026-10-16-c8i.4xlarge
   notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 - name: Mito-1-E-256
   ngcc_level: 256
   pk: 8130
   ct: 12130
-  keygen_cycles: 29217149
-  encaps_cycles: 48570798
-  decaps_cycles: 68606907
-  keygen_us: 7547.6
-  encaps_us: 12544.1
-  decaps_us: 17716.5
-  bench_env: 2026-10-15-c8i.4xlarge
+  keygen_cycles: 29193209
+  encaps_cycles: 48525127
+  decaps_cycles: 68546140
+  keygen_us: 7541.8
+  encaps_us: 12533.5
+  decaps_us: 17702.3
+  bench_env: 2026-10-16-c8i.4xlarge
   notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 - name: Mito-1-E-512
   ngcc_level: 512
   pk: 25674
   ct: 38442
-  keygen_cycles: 166977605
-  encaps_cycles: 278138987
-  decaps_cycles: 391547451
-  keygen_us: 43120.4
-  encaps_us: 71831.4
-  decaps_us: 101115.4
-  bench_env: 2026-10-15-c8i.4xlarge
+  keygen_cycles: 166909920
+  encaps_cycles: 278038023
+  decaps_cycles: 391300690
+  keygen_us: 43100.2
+  encaps_us: 71810.8
+  decaps_us: 101057.1
+  bench_env: 2026-10-16-c8i.4xlarge
   notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 - name: Mito-2-E-128
   ngcc_level: 128
   pk: 5192
   ct: 6440
-  keygen_cycles: 13127819
-  encaps_cycles: 18842599
-  decaps_cycles: 25047903
-  keygen_us: 3392.3
-  encaps_us: 4867.1
-  decaps_us: 6470.8
-  bench_env: 2026-10-15-c8i.4xlarge
+  keygen_cycles: 13110943
+  encaps_cycles: 18815162
+  decaps_cycles: 25013262
+  keygen_us: 3387.9
+  encaps_us: 4860.2
+  decaps_us: 6461.1
+  bench_env: 2026-10-16-c8i.4xlarge
   notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 - name: Mito-2-E-256
   ngcc_level: 256
   pk: 10828
   ct: 13484
-  keygen_cycles: 41050432
-  encaps_cycles: 59267731
-  decaps_cycles: 78519713
-  keygen_us: 10603.0
-  encaps_us: 15306.1
-  decaps_us: 20276.1
-  bench_env: 2026-10-15-c8i.4xlarge
+  keygen_cycles: 41045761
+  encaps_cycles: 59248637
+  decaps_cycles: 78470752
+  keygen_us: 10601.3
+  encaps_us: 15301.7
+  decaps_us: 20263.5
+  bench_env: 2026-10-16-c8i.4xlarge
   notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 - name: Mito-2-E-512
   ngcc_level: 512
   pk: 32712
   ct: 40840
-  keygen_cycles: 252428060
-  encaps_cycles: 364889765
-  decaps_cycles: 480256783
-  keygen_us: 65196.5
-  encaps_us: 94227.4
-  decaps_us: 124022.8
-  bench_env: 2026-10-15-c8i.4xlarge
+  keygen_cycles: 252391544
+  encaps_cycles: 364851347
+  decaps_cycles: 480044972
+  keygen_us: 65170.6
+  encaps_us: 94226.3
+  decaps_us: 123949.9
+  bench_env: 2026-10-16-c8i.4xlarge
   notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 findings_url: https://ngcc.dev/reports/kem-23.html

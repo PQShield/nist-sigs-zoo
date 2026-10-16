@@ -10,48 +10,48 @@ parametersets:
   ngcc_level: 128
   pk: 522
   ct: 1027
-  keygen_cycles: 1213385
-  encaps_cycles: 1397767
-  decaps_cycles: 5380933
-  keygen_us: 320.4
-  encaps_us: 373.8
-  decaps_us: 1429.9
-  bench_env: 2026-10-15-c8i.4xlarge
+  keygen_cycles: 1171197
+  encaps_cycles: 1335074
+  decaps_cycles: 5176318
+  keygen_us: 301.7
+  encaps_us: 344.9
+  decaps_us: 1339.4
+  bench_env: 2026-10-16-c8i.4xlarge
   notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 - name: bag_piglet_256
   ngcc_level: 256
   pk: 1573
   ct: 3097
-  keygen_cycles: 2799327
-  encaps_cycles: 4071747
-  decaps_cycles: 18517021
-  keygen_us: 727.0
-  encaps_us: 1054.0
-  decaps_us: 4787.4
-  bench_env: 2026-10-15-c8i.4xlarge
+  keygen_cycles: 2700859
+  encaps_cycles: 3855220
+  decaps_cycles: 18043937
+  keygen_us: 733.3
+  encaps_us: 1048.5
+  decaps_us: 4759.9
+  bench_env: 2026-10-16-c8i.4xlarge
   notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 - name: bag_piglet_384
   ngcc_level: 384
   pk: 2778
   ct: 5475
-  keygen_cycles: 9625451
-  encaps_cycles: 11151142
-  decaps_cycles: 45198271
-  keygen_us: 2490.6
-  encaps_us: 2884.1
-  decaps_us: 11676.8
-  bench_env: 2026-10-15-c8i.4xlarge
+  keygen_cycles: 9568557
+  encaps_cycles: 11043222
+  decaps_cycles: 44073374
+  keygen_us: 2473.1
+  encaps_us: 2855.3
+  decaps_us: 11397.0
+  bench_env: 2026-10-16-c8i.4xlarge
   notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 - name: bag_piglet_512
   ngcc_level: 512
   pk: 4158
   ct: 8204
-  keygen_cycles: 60256068
-  encaps_cycles: 51533647
-  decaps_cycles: 182517732
-  keygen_us: 15572.3
-  encaps_us: 13316.3
-  decaps_us: 47162.6
-  bench_env: 2026-10-15-c8i.4xlarge
+  keygen_cycles: 59806410
+  encaps_cycles: 51010439
+  decaps_cycles: 180609834
+  keygen_us: 15455.5
+  encaps_us: 13181.0
+  decaps_us: 46665.5
+  bench_env: 2026-10-16-c8i.4xlarge
   notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 findings_url: https://ngcc.dev/reports/kem-04.html

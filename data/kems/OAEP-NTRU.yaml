@@ -10,37 +10,37 @@ parametersets:
   ngcc_level: 128
   pk: 1053
   ct: 1085
-  keygen_cycles: 74128
-  encaps_cycles: 93500
-  decaps_cycles: 57580
+  keygen_cycles: 74043
+  encaps_cycles: 93448
+  decaps_cycles: 57506
   keygen_us: 20.1
-  encaps_us: 25.0
+  encaps_us: 25.1
   decaps_us: 15.8
-  bench_env: 2026-10-15-c8i.4xlarge
+  bench_env: 2026-10-16-c8i.4xlarge
   notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 - name: OAEP-NTRU-1296
   ngcc_level: 256
   pk: 2430
   ct: 2494
-  keygen_cycles: 205882
-  encaps_cycles: 316235
-  decaps_cycles: 178239
-  keygen_us: 53.9
-  encaps_us: 82.2
-  decaps_us: 46.8
-  bench_env: 2026-10-15-c8i.4xlarge
+  keygen_cycles: 205450
+  encaps_cycles: 315845
+  decaps_cycles: 177858
+  keygen_us: 53.8
+  encaps_us: 82.1
+  decaps_us: 46.7
+  bench_env: 2026-10-16-c8i.4xlarge
   notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 - name: OAEP-NTRU-2592
   ngcc_level: 512
   pk: 4860
   ct: 4988
-  keygen_cycles: 472763
-  encaps_cycles: 921908
-  decaps_cycles: 641801
-  keygen_us: 122.4
-  encaps_us: 237.6
-  decaps_us: 165.7
-  bench_env: 2026-10-15-c8i.4xlarge
+  keygen_cycles: 470724
+  encaps_cycles: 917300
+  decaps_cycles: 640379
+  keygen_us: 121.8
+  encaps_us: 236.4
+  decaps_us: 165.3
+  bench_env: 2026-10-16-c8i.4xlarge
   notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 findings_url: https://ngcc.dev/reports/kem-28.html
 implementation: Specification and code accept non-canonical ciphertext encodings, so a re-encoded challenge ciphertext decapsulates to the same key, defeating IND-CCA security (<a href="https://github.com/ngcc-dev/ngcc-harness/pull/17">Meijers</a>).

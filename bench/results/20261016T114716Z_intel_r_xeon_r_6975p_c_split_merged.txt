@@ -1,0 +1,566 @@
+# pq-sigs benchmark results
+# date:         2026-10-16T11:47:16Z
+# host:         ip-172-31-28-151
+# commit:       124dc8b40d0bb1f9efcab461ea75e100aebc0564
+# instance_type: c8i.4xlarge
+# os:           Ubuntu 26.04.1 LTS
+# kernel:       7.0.0-1014-aws
+# cpu:          Intel(R) Xeon(R) 6975P-C
+# cores:        16 (threads/core: 2)
+# max_freq_mhz: unknown (cur: unknown MHz)
+# governor:     unknown
+# turbo:        unknown
+# flags:        fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ss ht syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon rep_good nopl xtopology nonstop_tsc cpuid aperfmperf tsc_known_freq pni pclmulqdq monitor ssse3 fma cx16 pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand hypervisor lahf_lm abm 3dnowprefetch cpuid_fault ssbd ibrs ibpb stibp ibrs_enhanced fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid avx512f avx512dq rdseed adx smap avx512ifma clflushopt clwb avx512cd sha_ni avx512bw avx512vl xsaveopt xsavec xgetbv1 xsaves avx_vnni avx512_bf16 wbnoinvd ida arat avx512vbmi umip pku ospke waitpkg avx512_vbmi2 gfni vaes vpclmulqdq avx512_vnni avx512_bitalg tme avx512_vpopcntdq rdpid bus_lock_detect cldemote movdiri movdir64b md_clear serialize amx_bf16 avx512_fp16 amx_tile amx_int8 flush_l1d arch_capabilities
+#
+# compiler:     cc (Ubuntu 15.2.0-16ubuntu1) 15.2.0
+# openssl:      OpenSSL 3.5.5 27 Jan 2026 (Library: OpenSSL 3.5.5 27 Jan 2026)
+# sources:
+#   schemes/aimer/ref: https://github.com/samsungsds-opensource/AIMer@734cc76fa4695ca8c8eaa070508db8ff62205e68
+#   schemes/cross/ref: https://github.com/CROSS-signature/CROSS-implementation@b2a84251c83840e016aaaabc5ca82fafc91ee5ef
+#   schemes/faest/ref: https://github.com/faest-sign/faest-arch-opt@1d8330979cb467c54edac43ffe695da249fa3417
+#   schemes/faest_r2/ref: https://github.com/faest-sign/faest-arch-opt@7fe7d54f382396ae338051a4bde901f2417272ea
+#   schemes/fndsa/ref: https://github.com/pornin/c-fn-dsa@33026d4d2734049a23f065f77eea11c35de58d76
+#   schemes/hawk/ref: https://github.com/hawk-sign/dev@1b9fef52559273fe7b40fe3e22968eaedd3a4c2a
+#   schemes/hawk_r1/ref: https://github.com/hawk-sign/dev@ac3a98c3107ea030cc18fb2afef7f5655c588138
+#   schemes/less/ref: https://github.com/less-sig/LESS@9ec6915af5e2bf4898db73a540d178817e6013b3
+#   schemes/mayo/ref: https://github.com/PQCMayo/MAYO-C@74de637a7c4a7f9fafa888183bc05f5cf920cd2d
+#   schemes/mayo_r1/ref: https://github.com/PQCMayo/MAYO-C.git@3c9be9ea140b9c0352ed4bd7bb121493b5ff92f3
+#   schemes/mayo_r2/ref: https://github.com/PQCMayo/MAYO-C.git@11ff0f04eb58f955d14d11b8739b8093720678ae
+#   schemes/mldsa/ref: https://github.com/pq-crystals/dilithium.git@6e00625c5b29f516c6de973fe2ee2fbb150973f9
+#   schemes/mqom/ref: https://github.com/mqom/mqom-v3@d9c64e386b186ee186684a0389fc32009bd67cd1
+#   schemes/mqom_r2/ref: https://github.com/mqom/mqom-v2@377f5cea4d5fbe0ec357bb08953623a29de00072
+#   schemes/qruov/ref: https://github.com/qruov/round3.git@3d84d0f6afae80c88deefab03b1dd6633a147f96
+#   schemes/qruov_r2/ref: https://github.com/qruov/round2.git@bc2c9616c5f8b2b9ba4688733d7b1488f900b336
+#   schemes/sdith/ref: https://github.com/sdith/sdith@fff41ae5b12ba3c6b90d8f97b2ede57aa277a92f
+#   schemes/sdith2/ref: https://github.com/sdith/sdith@ce7adf06476674d4ff990f378f83f9981cd6745b
+#   schemes/slhdsa/ref: https://github.com/pq-code-package/slhdsa-c@2ee6f6853af95d5833a567cc4dcfd7f08d66bfd4
+#   schemes/snova/ref: https://github.com/PQCLAB-SNOVA/SNOVA.git@9b29c1e332cbd85757c8d6362a57b9a8c8298a38
+#   schemes/snova_r2/ref: https://github.com/PQCLAB-SNOVA/SNOVA.git@13182903755ade177e02d1fea77f0bd2e1e1a280
+#   schemes/sqisign/ref: https://github.com/SQISign/the-sqisign@6d017708db403bf83977fa70770fc4f7f9e9ff21
+#   schemes/sqisign_r1/ref: https://github.com/SQISign/the-sqisign@28ff420dd012b64fdca87729ba172ef8683172b1
+#   schemes/sqisign_r2/ref: https://github.com/SQISign/the-sqisign@91e9e464fe5400192d13e1f9240cbf180200a103
+#   schemes/uov/ref: https://github.com/pqov/pqov.git@fac2ec1fe6d8ea508eab4b98eb5341e1eed930a4
+#   schemes/uov_r1/ref: https://github.com/pqov/pqov.git@95aa9264d371213586bc6e29718a1636b02eef74
+#   schemes/uov_r2/ref: https://github.com/pqov/pqov.git@26e4171495978597237aae644b4f408929d783f2
+#   schemes/faest_r1: https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/round-1/submission-pkg/FAEST-submission.zip
+#   schemes/haetae: https://drive.usercontent.google.com/download?id=1pW6YS1wZ1gm8Neb8pY5EyYTkkdRIDmJ6&export=download
+#   schemes/mirath: https://pqc-mirath.org/assets/downloads/mirath_v2.1.0.zip
+#   schemes/mqom_r1: https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/round-1/submission-pkg/mqom-submission.zip
+#   schemes/ngcc: https://www.niccs.org.cn/niccs/Proposal/Public-Key%20Cryptographic%20Algorithms/Round%201%20candidates/
+#   schemes/perk: https://pqc-perk.org/assets/downloads/perk-v2.2.0.zip
+#   schemes/qruov_r1: https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/round-1/submission-pkg/QR-UOV-submission.zip
+#   schemes/ryde: https://pqc-ryde.org/assets/downloads/ryde_v2.1.0.zip
+#   schemes/sdith_r2: https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/round-2/submission-pkg/sdith-submission-round2.zip
+#   schemes/snova_r1: https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/round-1/submission-pkg/SNOVAnoKATs-submission.zip
+#
+# merged:       37 parts of a split run on separate instances of the same type
+# part:         20261016T114716Z_intel_r_xeon_r_6975p_c_ngcctrine512balanced.txt (host ip-172-31-28-151, 2026-10-16T11:47:16Z, 1 rows, commit 124dc8b40d0bb1f9efcab461ea75e100aebc0564, instance_type c8i.4xlarge)
+# part:         20261016T114725Z_intel_r_xeon_r_6975p_c_slhdsashake12824.txt (host ip-172-31-27-129, 2026-10-16T11:47:25Z, 1 rows, commit 124dc8b40d0bb1f9efcab461ea75e100aebc0564, instance_type c8i.4xlarge)
+# part:         20261016T114901Z_intel_r_xeon_r_6975p_c_qruovr1iii3189010010_qruovr1iii71100140_fb57c60c.txt (host ip-172-31-12-203, 2026-10-16T11:49:01Z, 12 rows, commit 124dc8b40d0bb1f9efcab461ea75e100aebc0564, instance_type c8i.4xlarge)
+# part:         20261016T114912Z_intel_r_xeon_r_6975p_c_ngccphoenixsm3256s_ngccsqisigntriangle__0c827bd7.txt (host ip-172-31-6-129, 2026-10-16T11:49:12Z, 17 rows, commit 124dc8b40d0bb1f9efcab461ea75e100aebc0564, instance_type c8i.4xlarge)
+# part:         20261016T115638Z_intel_r_xeon_r_6975p_c_ngcctrine512shortsig.txt (host ip-172-31-0-221, 2026-10-16T11:56:38Z, 1 rows, commit 124dc8b40d0bb1f9efcab461ea75e100aebc0564, instance_type c8i.4xlarge)
+# part:         20261016T115641Z_intel_r_xeon_r_6975p_c_sqisignr1i_sqisignr1iii.txt (host ip-172-31-11-15, 2026-10-16T11:56:40Z, 2 rows, commit 124dc8b40d0bb1f9efcab461ea75e100aebc0564, instance_type c8i.4xlarge)
+# part:         20261016T115643Z_intel_r_xeon_r_6975p_c_ngccuvw256.txt (host ip-172-31-3-221, 2026-10-16T11:56:42Z, 1 rows, commit 124dc8b40d0bb1f9efcab461ea75e100aebc0564, instance_type c8i.4xlarge)
+# part:         20261016T115749Z_intel_r_xeon_r_6975p_c_crossrsdpg5small_faestr1128f_faestr1em1_87563f6e.txt (host ip-172-31-29-52, 2026-10-16T11:57:48Z, 24 rows, commit 124dc8b40d0bb1f9efcab461ea75e100aebc0564, instance_type c8i.4xlarge)
+# part:         20261016T115749Z_intel_r_xeon_r_6975p_c_mirath5bshort_perk3short_perk5fast_perk_24b3bb2c.txt (host ip-172-31-23-217, 2026-10-16T11:57:49Z, 12 rows, commit 124dc8b40d0bb1f9efcab461ea75e100aebc0564, instance_type c8i.4xlarge)
+# part:         20261016T115840Z_intel_r_xeon_r_6975p_c_ngcctrine256balanced.txt (host ip-172-31-1-24, 2026-10-16T11:58:40Z, 1 rows, commit 124dc8b40d0bb1f9efcab461ea75e100aebc0564, instance_type c8i.4xlarge)
+# part:         20261016T115848Z_intel_r_xeon_r_6975p_c_sqisignr1v.txt (host ip-172-31-27-90, 2026-10-16T11:58:48Z, 1 rows, commit 124dc8b40d0bb1f9efcab461ea75e100aebc0564, instance_type c8i.4xlarge)
+# part:         20261016T120058Z_intel_r_xeon_r_6975p_c_ngccgalas512s_ngcccedrusalpha512f_ngcccompasssig256.txt (host ip-172-31-10-243, 2026-10-16T12:00:57Z, 3 rows, commit 124dc8b40d0bb1f9efcab461ea75e100aebc0564, instance_type c8i.4xlarge)
+# part:         20261016T120310Z_intel_r_xeon_r_6975p_c_sdithr2l5gf2fast_sdithr2l5gf2short_snov_c78b1132.txt (host ip-172-31-10-215, 2026-10-16T12:03:10Z, 12 rows, commit 124dc8b40d0bb1f9efcab461ea75e100aebc0564, instance_type c8i.4xlarge)
+# part:         20261016T120743Z_intel_r_xeon_r_6975p_c_ngccflextree512s_ngccsqisign2dlvl4_sdithhypercubel5gf256.txt (host ip-172-31-30-81, 2026-10-16T12:07:43Z, 3 rows, commit 124dc8b40d0bb1f9efcab461ea75e100aebc0564, instance_type c8i.4xlarge)
+# part:         20261016T120806Z_intel_r_xeon_r_6975p_c_faestr1em128s_faestr1em192f_faestr1em19_9f0fc2ea.txt (host ip-172-31-15-55, 2026-10-16T12:08:05Z, 11 rows, commit 124dc8b40d0bb1f9efcab461ea75e100aebc0564, instance_type c8i.4xlarge)
+# part:         20261016T120817Z_intel_r_xeon_r_6975p_c_mirath3afast_mirath3bfast_mirath5afast__cf38afdc.txt (host ip-172-31-22-27, 2026-10-16T12:08:16Z, 24 rows, commit 124dc8b40d0bb1f9efcab461ea75e100aebc0564, instance_type c8i.4xlarge)
+# part:         20261016T120849Z_intel_r_xeon_r_6975p_c_ngcctrine128shortsig_ngccphoenixsm3384s_2b2bac68.txt (host ip-172-31-15-127, 2026-10-16T12:08:48Z, 11 rows, commit 124dc8b40d0bb1f9efcab461ea75e100aebc0564, instance_type c8i.4xlarge)
+# part:         20261016T120907Z_intel_r_xeon_r_6975p_c_ngccsm4th_d3_128s_tight_ngccfactodsa256_24246c16.txt (host ip-172-31-15-190, 2026-10-16T12:09:06Z, 51 rows, commit 124dc8b40d0bb1f9efcab461ea75e100aebc0564, instance_type c8i.4xlarge)
+# part:         20261016T121335Z_intel_r_xeon_r_6975p_c_uovr1iiipkc_uovr1ipclassic_uovr1ippkc_u_fa40b27a.txt (host ip-172-31-0-174, 2026-10-16T12:13:35Z, 12 rows, commit 124dc8b40d0bb1f9efcab461ea75e100aebc0564, instance_type c8i.4xlarge)
+# part:         20261016T121441Z_intel_r_xeon_r_6975p_c_qruovr2v1273061053_qruovr2v31112012010__358fa56f.txt (host ip-172-31-13-174, 2026-10-16T12:14:41Z, 12 rows, commit 124dc8b40d0bb1f9efcab461ea75e100aebc0564, instance_type c8i.4xlarge)
+# part:         20261016T121729Z_intel_r_xeon_r_6975p_c_ngccvdoo512_ngcccedrusalpha512s_ngccres_4558f00a.txt (host ip-172-31-10-70, 2026-10-16T12:17:28Z, 4 rows, commit 124dc8b40d0bb1f9efcab461ea75e100aebc0564, instance_type c8i.4xlarge)
+# part:         20261016T121746Z_intel_r_xeon_r_6975p_c_split_g26_recovered.txt (host ip-172-31-43-191, 2026-10-16T12:17:46Z, 1 rows, commit 124dc8b40d0bb1f9efcab461ea75e100aebc0564, instance_type c8i.4xlarge; note: recovered from the streamed log of split-run group 26 (failed: instance is 'terminated' (spot interruption?); no results fetched); rows after the last one are missing)
+# part:         20261016T122049Z_intel_r_xeon_r_6975p_c_ngcccedrusc512s_ngcclynxer512s_ngcccedr_d46ef14d.txt (host ip-172-31-22-88, 2026-10-16T12:20:48Z, 5 rows, commit 124dc8b40d0bb1f9efcab461ea75e100aebc0564, instance_type c8i.4xlarge)
+# part:         20261016T122105Z_intel_r_xeon_r_6975p_c_ngccgalas512f_ngccgalas384s.txt (host ip-172-31-17-205, 2026-10-16T12:21:04Z, 2 rows, commit 124dc8b40d0bb1f9efcab461ea75e100aebc0564, instance_type c8i.4xlarge)
+# part:         20261016T122134Z_intel_r_xeon_r_6975p_c_ngccresolvedalpha256f_ngccsigurd256_aim_b909e847.txt (host ip-172-31-28-0, 2026-10-16T12:21:34Z, 24 rows, commit 124dc8b40d0bb1f9efcab461ea75e100aebc0564, instance_type c8i.4xlarge)
+# part:         20261016T122149Z_intel_r_xeon_r_6975p_c_faestr2em192s_faestr2em256f_faestr2em25_56a7dd2f.txt (host ip-172-31-0-111, 2026-10-16T12:21:49Z, 11 rows, commit 124dc8b40d0bb1f9efcab461ea75e100aebc0564, instance_type c8i.4xlarge)
+# part:         20261016T122242Z_intel_r_xeon_r_6975p_c_uovr2ippkc_uovr2isclassic_uovr2ispkc_uo_71ed5b4b.txt (host ip-172-31-11-156, 2026-10-16T12:22:41Z, 11 rows, commit 124dc8b40d0bb1f9efcab461ea75e100aebc0564, instance_type c8i.4xlarge)
+# part:         20261016T122254Z_intel_r_xeon_r_6975p_c_ngcccedrusalpha384s_ngcctrine128balance_95a3d0bd.txt (host ip-172-31-0-73, 2026-10-16T12:22:54Z, 4 rows, commit 124dc8b40d0bb1f9efcab461ea75e100aebc0564, instance_type c8i.4xlarge)
+# part:         20261016T122356Z_intel_r_xeon_r_6975p_c_slhdsasha2128s_ngccsydo_512s_ngccflextr_80edba9f.txt (host ip-172-31-11-254, 2026-10-16T12:23:56Z, 22 rows, commit 124dc8b40d0bb1f9efcab461ea75e100aebc0564, instance_type c8i.4xlarge)
+# part:         20261016T122441Z_intel_r_xeon_r_6975p_c_mqomr1l1gf251fast_mqomr1l1gf251short_mq_c75ba707.txt (host ip-172-31-12-150, 2026-10-16T12:24:41Z, 11 rows, commit 124dc8b40d0bb1f9efcab461ea75e100aebc0564, instance_type c8i.4xlarge)
+# part:         20261016T122744Z_intel_r_xeon_r_6975p_c_ngcccedrusc384f_slhdsasha2192s_ngcccedr_2cbb1ea2.txt (host ip-172-31-15-122, 2026-10-16T12:27:44Z, 16 rows, commit 124dc8b40d0bb1f9efcab461ea75e100aebc0564, instance_type c8i.4xlarge)
+# part:         20261016T122810Z_intel_r_xeon_r_6975p_c_mqomr1l5gf31fast_mqomr1l5gf31short_mqom_32685954.txt (host ip-172-31-5-86, 2026-10-16T12:28:10Z, 11 rows, commit 124dc8b40d0bb1f9efcab461ea75e100aebc0564, instance_type c8i.4xlarge)
+# part:         20261016T122820Z_intel_r_xeon_r_6975p_c_mqomr2l3gf2fast3r_mqomr2l3gf2fast5r_mqo_04ba2ac8.txt (host ip-172-31-1-103, 2026-10-16T12:28:20Z, 11 rows, commit 124dc8b40d0bb1f9efcab461ea75e100aebc0564, instance_type c8i.4xlarge)
+# part:         20261016T123308Z_intel_r_xeon_r_6975p_c_ngcclynxer512f_ngccgalas384f_sqisignr2i_049cf643.txt (host ip-172-31-23-115, 2026-10-16T12:33:07Z, 6 rows, commit 124dc8b40d0bb1f9efcab461ea75e100aebc0564, instance_type c8i.4xlarge)
+# part:         20261016T123330Z_intel_r_xeon_r_6975p_c_mqomr2l5gf2short3r_mqomr2l5gf2short5r_m_120ad529.txt (host ip-172-31-7-241, 2026-10-16T12:33:30Z, 11 rows, commit 124dc8b40d0bb1f9efcab461ea75e100aebc0564, instance_type c8i.4xlarge)
+# part:         20261016T123346Z_intel_r_xeon_r_6975p_c_ngcctrine256shortsig_ngcctins128_slhdsashake256s.txt (host ip-172-31-11-6, 2026-10-16T12:33:46Z, 3 rows, commit 124dc8b40d0bb1f9efcab461ea75e100aebc0564, instance_type c8i.4xlarge)
+# part:         20261016T123513Z_intel_r_xeon_r_6975p_c_ngccdarts128_sdith3l3gf2short_sdith3l3g_8c079bf7.txt (host ip-172-31-11-177, 2026-10-16T12:35:13Z, 105 rows, commit 124dc8b40d0bb1f9efcab461ea75e100aebc0564, instance_type c8i.4xlarge)
+# cyclecounter: rdpmc CPU_CYCLES (real core cycles, user-space)
+scheme                       iters    keygen (cyc)  keygen (us)      sign (cyc)   sign (us)    verify (cyc)  verify (us)
+------                       -----    ------------  -----------      ----------   ---------    ------------  ----------
+NGCC-TRINE-512-Balanced          1             DNF         DNF             DNF         DNF             DNF         DNF  operation-over-600s
+SLH-DSA-SHAKE-128-24             1   1158307181409  299453376.9   1483886086695  383640305.2          320473        83.1
+MQOM3-L5-gf16-fast-ct           50          662224       171.2         7211039      1877.2         6812014      1770.1
+QR-UOV-R1-III-(31,890,100,10)      50       459666348    118901.6       430843845    111665.3       332809710     86189.1
+QR-UOV-R1-III-(7,1100,140,10)      50       897311358    246456.0       829957499    230234.3       480259612    134515.2
+QR-UOV-R1-V-(127,306,105,3)      20       261111860     67597.9       188371224     48843.9        75944938     19779.2
+QR-UOV-R1-V-(31,324,114,3)      20       236515958     61307.7       177093686     46152.0        86880760     22642.9
+QR-UOV-R1-V-(31,1120,120,10)      20       986610585    261891.4       909097760    242339.0       633253599    170610.4
+QR-UOV-R1-V-(7,1490,190,10)      20      2834084292    773767.7      2611341604    725187.1      1108242527    316000.2
+QR-UOV-R2-III-(127,228,78,3)     500        46062173     12216.4         6430214      1784.9         4855059      1338.5
+QR-UOV-R2-III-(31,246,87,3)     500        67413130     17874.2        10131585      2785.5         7155999      1900.1
+QR-UOV-R2-III-(31,890,100,10)     500       158310703     42304.9        40924132     10842.4        42531723     11277.3
+QR-UOV-R2-III-(7,1100,140,10)     500       432150938    115148.3       130785624     34404.8       129384273     33878.6
+NGCC-Phoenix-SM3-192f          154        30191877      7796.2       591335801    152707.5        15872706      4099.8
+SLH-DSA-SHAKE-128s              50       289361509     75421.2      2207552792    576409.6         2186413       575.6
+NGCC-sm4th_d3_128s_loose       439           39087        11.2       116775521     30229.6       103656414     26835.9
+NGCC-dove_classic_512           24      3673476843    968108.6        61723635     17389.7        87225724     23208.9
+NGCC-dove_pkc_skc_512           23      1990645544    530398.8      1039715626    272480.9       945758728    245210.5
+NGCC-Flextree-256s              10       523639747    135384.7      9894476374   2561201.9        42711981     11037.0
+NGCC-Galas-160S                 24        20740412      5365.2      2213859722    574004.4      1579023673    408554.0
+NGCC-Galas-160F                 33        20742226      5364.7      1703707287    441116.2      1102646349    285329.1
+NGCC-OPSsig-512               1000         2491218       644.3         3817865       996.8         2705836       701.6
+NGCC-Phoenix-SM3-256s           10       801934113    207261.6     10231680054   2645547.5        69763515     18024.4
+NGCC-Phoenix-SM3-256f           89        60811567     15712.7      1154647226    298492.4        31098484      8036.0
+NGCC-Phoenix-SM3-512f           16       255203058     65938.6      6062221690   1567359.1       138441458     35789.3
+NGCC-QingLuan-256              612         1709961       443.3       103089472     26646.1        46663478     12058.6
+NGCC-QingLuan-384              243         3680287       952.6       255812070     66331.4       118912558     30876.8
+NGCC-QingLuan-512              102         9166045      2369.8       619797087    160795.0       285429017     74192.1
+NGCC-Rhyme-SM3-384              20      3204226617    829325.8        15303550      3959.7         1447286       374.5
+NGCC-SQIsignTriangle_lvl6       10      2289797101    593003.2      7029100401   1820672.8      1363412291    352666.9
+NGCC-VDOO-256                   10     10056805797   2605110.4       232617625     60921.5         3202202       840.2
+NGCC-TRINE-512-ShortSig          1      1887457847    494910.6   1885025677217  488757935.5    760998455321  196956405.2
+SQIsign-R1-I                    10      1385870047    358362.0      2108824728    545523.2        32454224      8380.7
+SQIsign-R1-III                   5     36675852852   9476593.9     67621250399  17472797.9      1238242016    319929.0
+NGCC-UVW-256                     5    534188690598  140230720.8    125059585672  32866022.7      2244508179    588826.9
+HAETAE-2                      1000          740334       191.3         5613556      1451.2          155960        41.1
+HAETAE-3                      1000         1213365       319.8         6832984      1772.6          263339        69.1
+HAETAE-5                      1000         1001866       270.7         8499338      2211.4          317622        82.9
+Mirath-1a-Short               1000           66716        18.6        12506088      3278.2        11054943      2937.0
+Mirath-1a-Fast                1000           67161        19.0         3706608       988.0         2316839       616.4
+Mirath-1b-Short               1000          493379       131.4        16936688      4406.4        14214810      3777.0
+Mirath-1b-Fast                1000          482930       128.0         8471753      2250.7         5184147      1371.9
+CROSS-RSDPG-5-small           1000           83772        24.2         5490924      1440.5         4103599      1082.1
+MAYO-R1-one                   1000          108269        28.8          383242        99.4          166594        43.9
+MAYO-R1-two                   1000          313838        83.8          461015       122.3           92113        25.3
+MAYO-R1-three                 1000          520927       138.3         1780768       473.1          575936       153.4
+MAYO-R1-five                  1000         1157733       313.6         3778428      1033.7         1246986       343.8
+MAYO-R2-one                   1000          188520        49.4          492911       127.6          215036        56.2
+MAYO-R2-two                   1000           92006        24.7          249400        65.1           59446        16.3
+MAYO-R2-three                 1000          403099       104.5         1042338       268.6          469686       121.5
+MAYO-R2-five                  1000          892907       243.4         2163809       593.9         1037097       284.0
+HAWK-R1-512                   1000         5802179      1537.6           54087        15.1           88326        24.2
+HAWK-R1-1024                  1000        27476204      7285.1          112476        30.5          182234        48.9
+FAEST-R1-128f                 1000            1897         1.5         2100127       555.7         2085367       551.4
+FAEST-R1-EM-128f              1000            1753         1.4         2034269       529.5         2019117       525.8
+FAEST-R2-128f                 1000            4846         2.3         1277889       334.8         1122862       290.5
+FAEST-R2-192f                 1000           11255         3.9         5335363      1520.1         4827190      1386.4
+FAEST-R2-EM-128f              1000            4854         2.3          993743       264.4          848958       224.4
+FAEST-R2-EM-192f              1000            9468         3.5         3838040      1087.3         3538055      1004.1
+MQOM3-L1-gf16-fast-ot          200           75635        20.5         1126863       293.9         1065911       274.9
+Mirath-5b-Short                360         1848069       481.4       134893254     34914.7       114855522     29716.5
+PERK-3-short                   430           68249        18.6       125355020     32446.5       114817023     29722.0
+PERK-5-short                   290          102141        27.5       175585304     45504.3       155197071     40207.4
+PERK-5-fast                    920           99773        26.8        63473716     16441.2        43586325     11269.8
+QR-UOV-R1-I-(127,156,54,3)     100        16121220      4181.6        13045900      3387.8         9654954      2512.0
+QR-UOV-R1-I-(31,165,60,3)      100        21600085      5604.6        17266290      4484.7        11493088      2991.0
+QR-UOV-R1-I-(31,600,70,10)     100       114937639     29730.3       111896580     28958.7       105570901     27329.1
+QR-UOV-R1-I-(7,740,100,10)     100       213950944     55340.8       200943895     52034.1       141785976     36738.1
+QR-UOV-R1-III-(127,228,78,3)      50        64493003     16712.8        51003495     13225.8        31091124      8082.3
+QR-UOV-R1-III-(31,246,87,3)      50        87201217     22586.4        66990482     17394.1        38442662     10003.0
+NGCC-TSUOV_256                 468        65420404     16897.5        71351393     18430.9        69628972     17984.1
+NGCC-TRINE-256-Balanced          5        50123699     13052.3    284693911611  73618612.2    170439421333  44082010.6
+SQIsign-R1-V                     3    151211404419  39112548.4    276058252873  71505105.2      3928016770   1017092.2
+NGCC-CEDRUSALPHA-512f           10      1734605721    447954.6     22778151099   5882381.2       158718077     40993.4
+NGCC-COMPASS-SIG-256          1000         5477304      1452.7         7189843      1907.2         5346230      1419.3
+NGCC-Galas-512S                 10       230602519     59567.4     81686948375  21113856.3     56798234079  14685332.4
+SNOVA (33 5 16 4 5 6 100)     1000          399791       106.9         1073358       290.0          332723        90.1
+SDitH-R2-L5-gf2-short           50         7272352      1908.6       250616564     65255.0       238621628     62078.3
+SDitH-R2-L5-gf2-fast            50         7182695      1882.9        40664405     10611.5        37731215      9836.3
+UOV-R1-III-classic              50        11660534      3099.1          209757        57.4          202120        56.5
+SNOVA-R1-(43,25,16,2)          300        22188575      5775.8        26533863      6914.3         6398990      1666.7
+SNOVA-R1-(49,11,16,3)          300        15757546      4093.3        42958163     11167.2        11372391      2952.2
+SNOVA-R1-(37,8,16,4)           300         8425358      2192.4        52638447     13689.9        16959483      4403.9
+SNOVA-R1-(61,33,16,2)          300        74376934     19351.8        78959634     20541.0        16235076      4226.3
+SNOVA-R1-(66,15,16,3)          300        53764976     14027.9       119981986     31295.7        28857166      7540.5
+SNOVA-R1-(60,10,16,4)          300        33339084      8734.7       155597464     40533.3        51352773     13388.2
+SQIsign-R2-V                    50       217412124     56994.9       504299252    132174.2        35812175      9335.7
+NGCC-dove_pkc_skc_256          301       140034751     36675.4        91737779     24036.9        84926275     22187.8
+SDitH-Hypercube-L5-GF256        50        22928488      6035.8        41740530     10801.0        36875550      9551.2
+NGCC-Flextree-512s              10      7625798362   1968965.6     92155566286  23815072.6       128753208     33246.9
+NGCC-SQIsign2D-lvl4              5     34691709503   8958944.9     28326480732   7318525.5      6707250132   1734020.8
+FAEST-R1-EM-128s               100            3296         1.9        19702295      5100.2        19662954      5090.6
+FAEST-R1-EM-192s                50            5424         2.4        47462574     12308.9        47659874     12352.6
+FAEST-R1-EM-192f               500            3335         1.9         4746783      1228.8         4739320      1226.8
+FAEST-R1-EM-256s                50            8386         3.2        71223906     18474.5        70911956     18400.8
+FAEST-R1-EM-256f               500            7462         2.9         8213628      2128.8         8059796      2089.4
+FAEST-R2-128s                  200            7825         3.0         9854351      2922.8         8849925      2644.8
+FAEST-R2-192s                  100           13153         4.4        36660854     10590.4        32245938      9416.9
+FAEST-R2-256s                   50           14876         4.8        55164588     16480.2        54957864     16413.4
+FAEST-R2-256f                  500           14468         4.7         7960938      2300.1         7481836      2166.9
+FAEST-R2-EM-128s               200            7002         2.8         7134657      2157.2         6435149      1946.5
+NGCC-CEDRUSC-160s               10       630506377    162974.1      9147358965   2365839.2        22786520      5889.4
+Mirath-3a-Fast                1000          162967        43.0        21180864      5508.5        16106139      4277.6
+Mirath-3b-Fast                1000         1123462       293.3        48611607     12626.7        39170746     10237.9
+Mirath-5a-Fast                1000          285802        74.3        32215497      8343.8        22857471      6024.9
+RYDE-1-Short                  1000           38776        11.1        69208588     18055.4        66497483     17214.4
+PERK-1-short                  1000           38119        10.9        15244223      3974.8        12933605      3358.3
+PERK-1-fast                   1000           32168         9.3         4872758      1260.9         3609164       934.5
+PERK-3-fast                   1000           86532        23.6        32091530      8444.2        22146358      5843.5
+SNOVA-R1-(28,17,16,2)         1000         4267138      1107.2         6339272      1647.1         1901078       495.9
+SNOVA-R1-(25,8,16,3)          1000         2300938       598.5         9334766      2418.4         2563469       666.5
+SNOVA-R1-(24,5,16,4)          1000         1398140       374.3        12726069      3361.9         4468769      1181.6
+SNOVA-R2-(37,17,2)            1000          764903       211.3          240078        66.2          142390        39.7
+SNOVA-R2-(25,8,3)             1000          270670        75.8          342452        94.0          176837        49.6
+SNOVA-R2-(24,5,4)             1000          261593        71.8          391374       105.4          235701        63.5
+SNOVA-R2-(56,25,2)            1000         3538333       964.0          585950       162.3          538142       148.0
+SNOVA-R2-(49,11,3)            1000         1611438       439.5          975841       268.5          658615       180.5
+SNOVA-R2-(37,8,4)             1000         1144619       313.8         1030106       284.2          714116       196.5
+SNOVA-R2-(24,5,5)             1000          469733       130.3         1064632       294.2          687615       188.6
+SNOVA-R2-(66,15,3)            1000         5168604      1399.5         2203957       617.3         1716042       479.9
+SNOVA-R2-(60,10,4)            1000         4014400      1089.6         2874666       797.7         2076933       578.2
+SNOVA-R2-(29,6,5)             1000          847312       234.0         1631359       449.9         1095042       301.1
+QR-UOV-R2-I-(127,156,54,3)    1000        12243730      3252.8         2217398       592.8         1829729       487.6
+QR-UOV-R2-I-(31,165,60,3)     1000        17266804      4588.9         3543389      1008.2         2598793       724.8
+QR-UOV-R2-I-(31,600,70,10)    1000        45129325     11978.1        14793272      3974.1        15813591      4202.1
+QR-UOV-R2-I-(7,740,100,10)    1000       142919337     37940.2        47110907     12510.6        47479099     12603.4
+SDitH-Threshold-L5-GF256        50         5721843      1480.1        32918293      8504.7         9918259      2564.0
+QR-UOV-III-(31,890,100,10)     500        25430284      6570.2        10739696      2776.1         2842160       736.3
+AIMer-192s                     350         1033468       266.4       112444493     29079.1       112686201     29119.4
+AIMer-256s                     170         2632100       683.0       230405989     59578.2       220795756     57058.3
+FAEST-R1-128s                  100            3820         2.0        20068957      5202.4        20136615      5220.5
+FAEST-R1-192s                   50            7145         2.8        50667607     13154.8        50901394     13216.0
+FAEST-R1-192f                  500            4298         2.1         5146028      1332.1         5092326      1318.9
+FAEST-R1-256s                   50            8224         3.1        72638168     18866.1        72624542     18863.7
+FAEST-R1-256f                  500            7282         2.8         8308215      2155.1         8249236      2139.2
+NGCC-Phoenix-SM3-384s           10      1259247888    325236.8     17225388943   4448921.0       110328240     28495.7
+NGCC-TRINE-128-ShortSig         10        18771494      4853.7     14815508384   3828347.9      6016023912   1554773.8
+SLH-DSA-SHAKE-256f              50        17854368      4621.2       364303908     94575.1         9580418      2485.8
+FN-DSA-1024                   1000        34182476      8832.4         1073331       280.1          111359        31.3
+RSA-2048 (PSS)                 200       118920119     30925.1         1873189       493.5           75514        22.1
+RSA-3072 (PSS)                  50       483199885    125065.5         4465521      1192.5          148315        42.8
+HAWK-1024                     1000        31447298      8120.3          112320        29.9          181659        47.7
+FAEST-256f                     500            3560         1.9         8779567      2572.0         7250106      2125.2
+SDitH3-L5-gf2-short             50          174964        45.9        55144220     14276.1        54544439     14118.8
+SDitH3-L5-gf2-short-cipherpow      50          175781        46.2        55057037     14252.7        54478466     14103.3
+SNOVA (27 4 19 4 6 5 96)      1000         3841980       999.1        17852780      4628.7         7094971      1842.9
+SNOVA (27 5 13 4 4 5 80)      1000         4933500      1275.1        13419038      3467.4         4811504      1244.2
+SNOVA (50 17 16 2 2 17 68)    1000        12816907      3374.6         8354573      2224.9          571274       158.0
+QR-UOV-III-(127,820,90,10)     500        22845750      5901.5         8361785      2161.1         2757223       713.4
+QR-UOV-I-(31,165,60,3)        1000         2444110       633.5          753140       194.2          318749        82.9
+NGCC-CEDRUSALPHA-160f           50        17305457      4468.7       613933320    158538.7        19118149      4938.2
+NGCC-CEDRUSALPHA-256f           20        56409561     14562.8      1454623031    375644.4        25966912      6707.5
+NGCC-sm4th_d3_128f_loose      1000           15720         5.1        16353425      4229.3        15003843      3881.6
+NGCC-sm4th_d3_128f_tight      1000           16896         5.3        18654646      4833.0        16964700      4392.1
+NGCC-sm4th_d3_128s_tight       191           17473         5.5       129829026     33670.0       118592177     30767.5
+NGCC-sm4th_em_d2_128f_loose    1000           13195         4.4        14995834      3876.7        14252221      3684.4
+NGCC-sm4th_em_d2_128f_tight    1000           14627         4.9        15303537      4054.7        14710087      3812.8
+NGCC-COMPASS-SIG-512          1000         6256509      1654.9         8614673      2288.5         5784751      1533.0
+NGCC-DARTS256                 1000          936342       244.3        19613790      5065.3          792658       204.3
+NGCC-DARTS512                 1000         1777330       461.4        20107320      5194.8         1570057       404.0
+NGCC-dove_classic_128         1000        28831343      7447.8          823989       212.3         1347993       346.8
+NGCC-dove_pkc_skc_128         1000        15698299      4055.2         9588318      2477.9         8595188      2221.7
+NGCC-Facto-DSA-256            1000        32052319      8319.1         3979012      1028.9        10569522      2734.0
+NGCC-GreatWall192f            1000         5571022      1435.9        10626988      2818.0        13827074      3641.8
+NGCC-GreatWall512f              53        50634549     13084.1       312533880     80797.6       325693483     84180.5
+NGCC-GreatWall512s              10        56454601     14607.1      1227389604    324392.8      2020338265    522231.2
+NGCC-Lynxer-160s               248         1044274       269.1        75293532     19808.7        63392002     16942.8
+NGCC-Lynxer-160f              1000         1037042       267.5         9858128      2639.0         8900741      2377.6
+NGCC-Lynxer-384s                21         7120298      1928.2       829807716    218225.0       544798739    143924.8
+NGCC-Lynxer-384f               194         7127784      1968.8        78056455     20752.5        70713429     18615.7
+NGCC-lwrdsa512                1000         9422877      2435.5        16286603      4208.8         9647244      2492.7
+NGCC-Phoenix-SHAKE-192s         23        82912279     21413.8       892443219    230523.7        15488969      4002.5
+NGCC-Phoenix-SHAKE-256f        210         4335743      1120.1        88695945     22906.2        12073533      3122.1
+NGCC-Phoenix-SHAKE-384s         10       188857955     48774.7      2641833874    682221.2        45863062     11845.8
+NGCC-Phoenix-SHAKE-384f         42        19233959      4969.0       579504462    149677.3        28984030      7484.2
+NGCC-Phoenix-SHAKE-512f         16        64478713     16652.7      1486141797    383807.5        98032045     25322.3
+NGCC-ReSolveD-alpha-160s       238         5382452      1430.6        83681919     21957.3        64121062     17175.0
+NGCC-ReSolveD-alpha-160f      1000         5375751      1424.6        16754182      4419.1         8644507      2327.5
+NGCC-ReSolveD-alpha-384s        18        31553528      8259.2       912153073    237936.7       552397451    143441.5
+NGCC-ReSolveD-alpha-384f       140        31480264      8241.6       119430425     31292.9        69593188     18068.9
+NGCC-Rhyme-SM3-256              14      1107603351    286224.0         7121656      1843.1          745938       192.9
+NGCC-Rhyme-SHAKE-128            66       380969819     98421.9         2138156       556.4          186494        49.2
+NGCC-Rhyme-SHAKE-384            10      2471336841    638391.3         6160233      1602.3          931765       240.1
+NGCC-Sigurd128                 585        21064857      5540.1        37688349      9771.5        14837835      3960.8
+NGCC-sydo_160f                1000           53750        15.0        15633386      4136.4        15001702      3965.9
+NGCC-TSUOV_128                1000        10519482      2718.3        11883671      3070.4        11244684      2905.5
+NGCC-yuanyang-512             1000        12992938      3383.5         4970753      1288.3          205297        53.7
+NGCC-yuanyang-1024            1000        19693217      5143.4         9261917      2430.6          453850       119.5
+UOV-R1-Ip-pkc                  100         2026863       541.9           67579        21.5          155050        44.6
+UOV-R1-Ip-classic              100         2046126       545.7           67427        21.4           52560        17.5
+UOV-R1-Is-pkc                  100         3175813       858.0           69153        20.3          180775        50.2
+UOV-R1-Is-classic              100         3208839       860.1           69427        19.9           43259        13.3
+UOV-R1-III-pkc                  50        11563970      3085.8          200588        60.1          572397       157.4
+UOV-R1-V-pkc                    50        30123628      7974.4          453759       121.5         1390667       366.8
+UOV-R1-V-classic                50        30529331      8085.2          452384       121.3          385081       104.1
+UOV-R2-Ip-classic              100         1367661       363.4           53121        16.3           63060        20.2
+UOV-R2-III-pkc                  50         7644273      2042.7          155694        44.2          595024       161.0
+UOV-R2-III-classic              50         7801696      2084.5          155566        44.9          186873        55.8
+NGCC-dove_classic_256          320       284504385     73767.4         5121771      1418.7         6766875      1787.7
+NGCC-Octarine-128             1000          546741       141.3         1232509       317.1          535633       138.4
+MQOM3-L1-gf16-short-ot         200           59129        16.4         3261922       852.1         3285935       857.2
+RYDE-3-Short                   530           64630        17.6       203180774     52533.4       191930842     49612.3
+RYDE-5-Short                   350           72601        19.7       328845312     84975.7       314886641     81380.8
+SDitH-R2-L1-gf2-short           50         1403115       366.8        28673725      7402.8        26511801      6847.4
+SDitH-R2-L1-gf2-fast            50         1406312       361.7         9375475      2419.5         7969798      2060.1
+SDitH-R2-L3-gf2-short           50         4652490      1209.2       176781977     45654.3       167924670     43378.3
+SDitH-R2-L3-gf2-fast            50         4622625      1200.2        27358717      7074.8        24969631      6450.1
+QR-UOV-R2-V-(127,306,105,3)     200       158791165     41020.6        15297202      3952.4        10224569      2644.2
+QR-UOV-R2-V-(31,324,114,3)     200       209814531     54203.0        21856655      5646.7        16111625      4165.7
+QR-UOV-R2-V-(31,1120,120,10)     200       301230583     77821.1        81571599     21076.2        82308056     21263.8
+QR-UOV-R2-V-(7,1490,190,10)     200      1230782123    317982.7       308706542     79762.2       296441553     76607.9
+NGCC-CEDRUSALPHA-160s           10       565193886    145943.5      8371117166   2161842.6        20683064      5341.1
+FAEST-192s                     100            4218         2.1        39472257     11449.5        33799390      9892.4
+NGCC-CEDRUSALPHA-512s            5      8380258461   2164092.1     96583260808  24941886.2       139943480     36136.9
+NGCC-ReSolveD-alpha-512s        13       140363298     36419.6     29104318803   7519849.3     26475885764   6843972.0
+NGCC-VDOO-512                   10     50833178473  13183216.2      1247735700    327668.7         6743967      1775.4
+QR-UOV-I-(7,740,100,10)       1000        18693177      4831.1         8319338      2151.4         2410250       625.2
+SQIsign-I                       50        32562610      8411.8        95436887     24646.5        12186701      3151.0
+SQIsign-III                     50       102302424     26448.3       338058280     87296.7        31714667      8196.0
+NGCC-CEDRUSC-384s               10      3560018401    919179.0     51076479700  13188507.0        58362596     15068.0
+NGCC-CEDRUSC-512s                5      7623323167   1968452.1     92560100478  23900256.3       126190168     32589.3
+NGCC-Lynxer-512s                17        12220672      3160.1     23012488477   5953573.8     20473163806   5296562.1
+NGCC-Galas-384S                 10       125706818     32476.7     34487157145   8915573.8     25078269879   6485304.3
+NGCC-Galas-512F                 10       230624256     59559.1     64247090590  16593114.8     39447224003  10187723.2
+AIMer-128f                    1000          323428        85.2         4549207      1176.7         4142333      1072.2
+AIMer-128s                    1000          327558        85.2        35296344      9137.3        35155686      9097.7
+AIMer-192f                    1000         1028506       264.9        14722966      3807.7        13655257      3530.3
+AIMer-256f                    1000         2811418       730.9        30878023      7997.7        27227724      7065.3
+CROSS-RSDP-1-fast             1000           54843        15.2         1260784       331.2          802952       211.1
+CROSS-RSDP-1-balanced         1000           54193        15.2         2109194       556.4         1495568       394.2
+CROSS-RSDP-1-small            1000           54709        15.4         4156295      1098.6         3098860       820.5
+CROSS-RSDPG-1-fast            1000           26925         7.9          680903       175.7          456843       118.3
+CROSS-RSDPG-1-balanced        1000           26968         7.9         1248713       321.5          898987       231.9
+CROSS-RSDPG-1-small           1000           27350         8.2         2454788       642.5         1812086       475.1
+CROSS-RSDP-3-fast             1000          119341        33.0         2825494       742.5         1849828       487.7
+CROSS-RSDP-3-balanced         1000          119990        33.1         4530793      1198.7         3284332       871.2
+CROSS-RSDP-3-small            1000          120409        33.7         6790143      1776.3         5017482      1313.1
+CROSS-RSDPG-3-fast            1000           52231        14.5         1677069       438.0         1130952       294.8
+CROSS-RSDPG-3-balanced        1000           52458        14.5         2044772       534.1         1467032       382.5
+CROSS-RSDPG-3-small           1000           51918        14.8         3819446      1010.4         2923876       771.5
+CROSS-RSDP-5-fast             1000          174887        47.1         5136629      1363.1         3290947       874.3
+CROSS-RSDP-5-balanced         1000          178566        48.4         8016153      2113.7         5658595      1484.3
+CROSS-RSDP-5-small            1000          181130        49.3        13051439      3459.9         9254355      2447.1
+CROSS-RSDPG-5-fast            1000           83250        23.0         2827258       749.6         1804130       480.5
+CROSS-RSDPG-5-balanced        1000           83363        23.0         3124093       828.1         2217293       589.2
+NGCC-ReSolveD-alpha-256f      1000        14057808      3737.2        38004750     10004.3        19225212      5088.1
+NGCC-Sigurd256                 121       113874281     29581.7       343937665     89533.4       123001413     32156.3
+NGCC-SQISign2Dsquare-Level3-eff     118        63259923     16797.0       380115133     99894.6        76105741     20579.1
+LESS-252-192                   180          899819       232.8       238272742     61562.0       226071563     58404.8
+LESS-252-68                    480         2268773       587.0        85372697     22054.5        83094989     21477.3
+LESS-252-45                    730         5017886      1297.2        55930047     14449.3        55821996     14422.1
+LESS-400-220                    70         2609149       676.8       669332390    172864.6       644076341    166404.2
+LESS-400-102                   140         6773339      1751.0       313539994     80991.7       304744009     78712.2
+LESS-548-345                    20         6066248      1612.1      2183652184    579510.9      2104269264    558397.5
+LESS-548-137                    50        15996215      4248.1       870266817    230760.6       862328543    228855.8
+FAEST-R2-EM-192s               100           11161         3.9        28351238      8412.2        27641720      8213.2
+FAEST-R2-EM-256s                50           16530         5.3        44059186     13183.5        43397048     13046.2
+FAEST-R2-EM-256f               500           16765         5.3         6720011      1921.0         6254432      1805.6
+NGCC-Flextree-160s              10       643049199    166117.3      8940696885   2308940.1        23365916      6033.7
+QR-UOV-V-(31,1120,120,10)      200        42506672     10987.8        18844146      4870.6         5278907      1364.8
+UOV-R2-Ip-pkc                  100         1344585       356.6           54001        16.6          156084        44.7
+UOV-R2-Is-pkc                  100         2700687       719.2           70690        22.3          179856        49.7
+UOV-R2-Is-classic              100         2725840       727.0           70878        22.3           42866        13.7
+UOV-R2-V-pkc                    50        17078962      4572.5          362912        98.2         1403237       367.9
+UOV-R2-V-classic                50        17743250      4749.4          356876        97.8          384897       103.9
+NGCC-CEDRUSC-256s               10      1035446182    267432.5     13724297706   3544737.0        37924393      9796.9
+NGCC-CEDRUSALPHA-384f           10       691846660    178684.4     13507473941   3488488.6       134490278     34732.9
+NGCC-Flextree-384f              10       708407309    182982.9     13406940721   3462923.1       137375539     35485.1
+NGCC-Origami-384                10       338024851     87341.2      7161005015   1849685.6      6901655927   1782597.3
+NGCC-Rhyme-SHAKE-256            51      1431725818    369938.5         3314005       854.2          716473       188.9
+NGCC-CEDRUSALPHA-384s           10      4454706855   1150916.5     48144037185  12437896.0        74351802     19215.9
+NGCC-Flextree-256f              90        50173168     12961.9      1041997142    269356.9        27628890      7138.1
+NGCC-Flextree-384s              10      3555033610    918517.5     47848254599  12361934.6        59195917     15292.7
+NGCC-TRINE-128-Balanced         10         9574726      2484.3     30315365954   7835807.2     20422334390   5280475.8
+SLH-DSA-SHA2-128s               50       198675457     51396.2      1510522080    390922.7         1496368       389.3
+SNOVA (39 5 11 4 6 7 120)     1000        13201601      3415.3        44642518     11549.6        18170045      4701.4
+SNOVA (38 5 19 4 6 7 120)     1000        12575254      3254.4        43231732     11182.4        17619206      4558.0
+NGCC-Facto-DSA-512              29      2374872045    616339.5       196722402     50869.4       147361380     38183.4
+NGCC-Flextree-160f             135        15708525      4064.3       592300042    153262.7        16887651      4368.7
+NGCC-GreatWall192s             563         4660608      1441.5        39443124     11215.1        96937421     26068.5
+NGCC-GreatWall256s             384         9065601      2348.7        61778046     17822.9       132296693     36002.4
+NGCC-Lynxer-256s               196         3274098       848.5       203793696     54801.3       167963888     45339.8
+NGCC-Origami-256                23        95505091     24706.2      1501117307    388390.2      1450911779    375508.5
+NGCC-Phoenix-SHAKE-192f        320        10858715      2809.0       216988576     56145.8         6069597      1570.6
+NGCC-Phoenix-SHAKE-256s         17       301831354     78118.2      3946908613   1022338.8        26571472      6866.1
+NGCC-Phoenix-SHAKE-512s         10       670433303    173418.4      6217027184   1609229.2        30953106      8005.5
+NGCC-ReSolveD-alpha-256s       189        14104486      3655.0       228958395     59904.6       166206902     44386.2
+NGCC-Rhyme-SM3-128             184       366196080     95140.9         3604114       933.2          459591       119.6
+NGCC-Rhyme-SHAKE-512            18      2911504754    754037.7         6560521      1699.3         1256324       323.8
+NGCC-SQISign2Dsquare-Level3-sec     133        79925028     21079.2       459510517    119657.4        87282932     22988.2
+NGCC-SQIsignTriangle_lvl2       40        92521804     23988.1       212059579     54855.0        45491086     11764.3
+NGCC-sydo_160s                 470           63522        17.4        80403077     21387.2        71357663     18983.2
+NGCC-sydo_256s                 205          100232        26.9       174853273     47076.7       173463646     46586.6
+NGCC-sydo_256f                1000           86193        23.3        36285049      9638.3        35285998      9359.5
+NGCC-sydo_512s                  31          388367       100.9      1354564913    360765.7      1264358551    336799.7
+NGCC-sydo_512f                 147          386843       100.5       261901312     69117.4       259215493     68532.0
+QR-UOV-I-(31,600,70,10)       1000         6998703      1810.7         3462180       896.4          975132       251.2
+MQOM-R1-L1-gf31-short          200          593277       153.4        27585236      7133.9        26047880      6734.1
+MQOM-R1-L1-gf31-fast           200          590951       152.8        14397931      3724.5        13082220      3383.0
+MQOM-R1-L1-gf251-short         200          468417       121.5        17799900      4601.8        17072508      4414.3
+MQOM-R1-L1-gf251-fast          200          464273       120.1         8716646      2255.0         7955314      2056.3
+MQOM-R1-L3-gf31-short          100         2402899       623.2        84647850     21899.3        80344019     20783.4
+MQOM-R1-L3-gf31-fast           100         2390797       620.2        57995939     15011.1        54108418     13996.7
+MQOM-R1-L3-gf251-short         100         1967788       511.7        51390560     13291.2        49112582     12701.5
+MQOM-R1-L3-gf251-fast          100         1930377       502.2        28211955      7293.9        26306771      6801.1
+MQOM-R1-L5-gf251-short          50         4835000      1250.4       122071742     31581.2       117175852     30326.5
+MQOM-R1-L5-gf251-fast           50         4807967      1244.4        82415663     21323.3        77961846     20163.7
+SLH-DSA-SHA2-192s               50       293242776     75788.5      2701843305    698418.1         2252565       580.2
+SLH-DSA-SHA2-256s               50       190113056     49135.1      2352163028    607989.7         3235387       840.8
+SNOVA (40 5 19 5 6 6 150)     1000        23424430      6056.5        88260504     22823.5        33318740      8620.8
+SNOVA (47 6 19 4 6 9 144)     1000        28966828      7491.8        87901693     22737.8        32928423      8525.5
+RYDE-1-Fast                   1000           36442        10.3        14512095      3748.2        12293905      3178.3
+RYDE-1-Faster                 1000           36411        10.3         3810986       986.8         3101648       803.3
+RYDE-3-Fast                   1000           59859        16.4        38570420      9976.0        34926310      9028.9
+RYDE-3-Faster                 1000           58918        16.1         9241727      2391.1         8438047      2182.1
+RYDE-5-Fast                   1000           72732        19.7        59971410     15515.5        55572068     14368.9
+RYDE-5-Faster                 1000           66840        18.1        15699472      4058.6        14288971      3694.2
+NGCC-CEDRUSC-384f               10       716058993    185069.1     13385314752   3459600.3       137551140     35550.8
+NGCC-CEDRUSALPHA-256s           10       854838521    220939.7     12997886367   3359251.7        31553351      8154.9
+NGCC-Galas-256F                 10        53645497     13870.4      6953290296   1798079.1      4460060109   1153326.9
+NGCC-Phoenix-SM3-192s           10      1127985154    291506.5     11693602589   3021969.6        40240329     10404.0
+NGCC-QingLuan-128             1000          266521        69.4        15904813      4110.6         7141698      1847.1
+NGCC-SQIsign2D-lvl3             10      2719807064    703086.1      2761053073    714251.2       617390953    159984.1
+SNOVA (76 25 16 2 2 25 100)    1000        64835700     16815.7        37431915      9733.0         1942368       528.2
+MQOM-R1-L5-gf31-short           50         6025864      1564.5       195964795     50807.5       188304276     48837.7
+MQOM-R1-L5-gf31-fast            50         5996663      1555.9       170713874     44272.6       162927826     42265.2
+MQOM-R2-L1-gf2-fast-3r         200         3411340       884.0        17292000      4478.6        12006075      3110.0
+MQOM-R2-L1-gf2-fast-5r         200         3408485       882.9        17207537      4459.2        12005865      3109.1
+MQOM-R2-L1-gf2-short-3r        200         3404159       881.2        28895923      7484.2        25597154      6630.2
+MQOM-R2-L1-gf2-short-5r        200         3406000       881.9        28926084      7491.7        25536085      6614.5
+MQOM-R2-L1-gf256-fast-3r       200          671284       173.3         6399878      1654.8         5662444      1467.1
+MQOM-R2-L1-gf256-fast-5r       200          673437       173.9         5175841      1341.3         4395674      1137.4
+MQOM-R2-L1-gf256-short-3r      200          669596       173.0        27709930      7175.1        27232528      7049.8
+MQOM-R2-L1-gf256-short-5r      200          671763       173.6        21565509      5583.8        20518352      5312.6
+MQOM-R2-L3-gf2-fast-3r         100        18263454      4730.0        72499309     18793.8        55014354     14256.2
+MQOM-R2-L3-gf2-fast-5r         100        18270033      4731.0        72567818     18810.9        54921678     14232.5
+MQOM-R2-L3-gf2-short-3r        100        18324301      4745.3       126314370     32688.9       108787453     28147.2
+MQOM-R2-L3-gf2-short-5r        100        18321151      4744.2       123755801     32029.4       107937063     27928.4
+MQOM-R2-L3-gf256-fast-3r       100         3802563       983.3        27678147      7148.7        26303051      6794.5
+MQOM-R2-L3-gf256-fast-5r       100         3805241       984.1        22551450      5826.5        20912117      5401.9
+MQOM-R2-L3-gf256-short-3r      100         3808317       985.7       124982810     32309.7       117219308     30285.3
+MQOM-R2-L3-gf256-short-5r      100         3804418       984.3        94226929     24344.3        88625076     22900.2
+MQOM-R2-L5-gf2-fast-3r          50        31403625      8147.4       155346793     40482.3       119259965     31055.5
+MQOM-R2-L5-gf2-fast-5r          50        31343007      8131.4       158819623     41386.4       119306372     31091.2
+NGCC-Phoenix-SM3-384f           26       128455717     33170.6      3667500900    947165.8        69600133     17974.7
+SLH-DSA-SHAKE-192s              50       422340848    110356.1      3888175247   1019649.3         3195560       842.4
+SNOVA (104 33 16 2 2 33 132)    1000       212677820     55171.8       129431575     33842.0         5609186      1541.9
+SQIsign-R2-I                    50        44559732     11544.6       102897375     26742.0         5215265      1354.6
+SQIsign-R2-III                  50       133551302     34561.6       313776578     81286.9        18682310      4831.3
+NGCC-Galas-384F                 10       125746203     32523.3     25433708874   6596825.9     16078126984   4172254.4
+NGCC-Lynxer-512f               145        12065456      3125.9      2270043194    589269.3      2028759760    525896.3
+Mirath-3a-Short                440          166081        43.6       121196014     31367.5       118770356     30822.4
+Mirath-3b-Short                550         1126343       290.1        94189770     24396.9        83570650     21727.2
+Mirath-5a-Short                440          289224        75.4       111815505     28940.4       102304832     26596.2
+Mirath-5b-Fast                 760         1859532       481.4        70062578     18104.7        54410691     14172.2
+MQOM-R2-L5-gf2-short-3r         50        31356014      8136.5       222006946     57793.0       193965389     50421.7
+MQOM-R2-L5-gf2-short-5r         50        31338690      8133.5       221942742     57783.3       193141992     50220.6
+MQOM-R2-L5-gf256-fast-3r        50         6489935      1673.9        40835931     10560.8        37713340      9749.5
+MQOM-R2-L5-gf256-fast-5r        50         6514118      1685.8        33274882      8602.1        30053532      7769.0
+MQOM-R2-L5-gf256-short-3r       50         6508000      1683.8       168605609     43571.5       165568546     42776.7
+MQOM-R2-L5-gf256-short-5r       50         6500650      1682.5       124795422     32267.3       122296032     31597.1
+NGCC-TSUOV_512                  38       879086832    227078.4       833965666    215444.0       882512948    227927.5
+SLH-DSA-SHAKE-256s              50       284654020     73700.1      3535384695    922565.3         4788314      1248.7
+NGCC-Tins128                    10             DNF         DNF             DNF         DNF             DNF         DNF  valid-signature-rejected
+NGCC-TRINE-256-ShortSig          5       116287546     30164.9    116727156550  30182253.8     48608191267  12577409.0
+ML-DSA-44                     1000           72866        20.1          169933        45.2           76760        20.8
+ML-DSA-65                     1000          125026        33.5          284187        74.5          126127        33.5
+ML-DSA-87                     1000          198219        52.3          353299        92.3          197904        51.9
+SLH-DSA-SHA2-128f               50         3106314       803.9        72538944     18766.5         4344561      1123.5
+SLH-DSA-SHAKE-128f              50         4409387      1141.9       102623288     26550.7         6088374      1576.9
+SLH-DSA-SHA2-192f               50         4573726      1182.3       119939650     31029.7         6446716      1671.4
+SLH-DSA-SHAKE-192f              50         6449734      1672.9       168407028     43564.6         8948359      2316.7
+SLH-DSA-SHA2-256f               50        11861488      3070.0       242661871     62797.3         6464956      1679.0
+FN-DSA-512                    1000         9179320      2382.2          530613       140.1           56813        17.3
+ECDSA-P256 (SHA-256)          1000           58675        16.3           83599        22.7          241811        63.2
+ECDSA-P384 (SHA-384)          1000          430637       111.7          569348       147.2         1274504       328.7
+ECDSA-P521 (SHA-512)          1000          424756       110.3          751622       194.3         1408256       365.0
+Ed25519                       1000          126578        33.7          126618        33.6          340940        88.6
+Ed448                         1000          549604       142.2          559976       144.7          651940       168.5
+HAWK-512                      1000         4202080      1089.6           53785        14.8           87911        23.6
+MAYO-one                      1000           66241        18.1          183608        48.2           74246        20.1
+MAYO-two                      1000           55702        15.4          108944        29.1           43188        12.2
+MAYO-three                    1000          165182        43.4          376218        97.6          155752        41.0
+MAYO-five                     1000          364895        97.2          837196       223.2          346061        92.2
+FAEST-128s                     200            3342         1.8         9935877      2938.3         8588869      2574.4
+FAEST-128f                    1000            1095         1.2         1536280       399.7         1126973       290.2
+FAEST-EM-128s                  200            2753         1.7         7040799      2112.1         5998158      1833.8
+FAEST-EM-128f                 1000            1082         1.2         1287604       335.2          861578       222.1
+FAEST-192f                    1000            2936         1.7         6526161      1796.6         5399291      1503.2
+FAEST-EM-192s                  100            4200         2.1        26780915      8018.6        25337549      7621.6
+FAEST-EM-192f                 1000            2330         1.6         4172766      1144.0         3342230       929.9
+FAEST-256s                      50            4652         2.2        53480492     16043.2        52257555     15691.2
+FAEST-EM-256s                   50            4461         2.1        41079597     12484.1        42683373     12846.8
+FAEST-EM-256f                  500            3665         1.9         7330894      2090.6         5754405      1671.0
+SDitH-Hypercube-L1-GF256        50        11168724      2893.3         8655324      2241.7         7842448      2031.9
+SDitH-Hypercube-L1-P251         50         7613561      1972.0        17824072      4616.5        17333570      4487.8
+SDitH-Hypercube-L3-GF256        50        13219900      3425.5        20709096      5368.1        18498026      4793.2
+SDitH-Hypercube-L3-P251         50         9208796      2385.0        41154232     10652.9        38778344     10039.7
+SDitH-Hypercube-L5-P251         50        15926998      4125.6        75494217     19544.4        71416391     18491.5
+SDitH-Threshold-L1-GF256        50         2665075       690.3         6598979      1709.4         1771195       459.6
+SDitH-Threshold-L1-P251         50         1557410       404.5         4319089      1118.5          675450       174.6
+SDitH-Threshold-L3-GF256        50         3346001       865.7        16902878      4374.6         5154419      1334.4
+SDitH-Threshold-L3-P251         50         2020428       524.7        10140576      2626.2         1636449       423.3
+SDitH-Threshold-L5-P251         50         3527984       913.1        20834542      5393.5         3529081       913.2
+SDitH3-L1-gf2-short             50           75035        20.3         8163916      2119.6         7419121      1917.5
+SDitH3-L1-gf2-fast              50           74909        20.2         1745964       454.8         1539775       399.7
+SDitH3-L3-gf2-short             50          116426        30.9        34571329      8958.9        34214323      8862.2
+SDitH3-L3-gf2-fast              50          112660        29.9         8039044      2083.6         7551713      1954.4
+SDitH3-L5-gf2-fast              50          172209        45.2        12533513      3248.5        11856406      3071.1
+SDitH3-L1-gf2-short-cipherpow      50           75175        20.3         7624108      1973.5         7415872      1921.2
+SDitH3-L1-gf2-fast-cipherpow      50           74913        20.2         1717494       447.0         1484387       382.3
+SDitH3-L3-gf2-short-cipherpow      50          117705        31.3        34648595      8979.0        34065409      8827.1
+SDitH3-L3-gf2-fast-cipherpow      50          112238        29.8         8409828      2173.1         7398572      1914.5
+SDitH3-L5-gf2-fast-cipherpow      50          173067        45.4        12503094      3240.7        11858327      3073.1
+SNOVA_I_B                     1000          312893        83.4          668332       177.9          210056        56.4
+SNOVA_I_S                     1000          235068        63.0          472380       125.5          159912        44.3
+SNOVA_III_K                   1000          671972       178.4         1372466       367.0          481296       129.0
+SNOVA_III_B                   1000          591346       156.8         1481303       396.6          483308       129.6
+SNOVA_III_S                   1000          708210       187.6         1747857       467.0          497406       134.6
+SNOVA_V_K                     1000         4297954      1117.0         3761226      1007.5          933428       257.9
+SNOVA_V_B                     1000         5689711      1481.5         3818412      1025.5          770860       210.9
+SNOVA (27 3 16 4 7 5 84)      1000          151898        40.1          644815       166.7          215164        56.5
+SNOVA (27 4 16 4 5 5 80)      1000          306447        81.8          623432       166.3          200101        53.8
+SNOVA (27 4 16 5 5 4 100)     1000         1427914       374.6         1266985       338.9          267216        71.4
+UOV-Ip-pkc                     100         1594321       411.5           50921        14.2          166511        43.8
+UOV-Ip-classic                 100         1621819       419.1           50913        14.2           60823        16.7
+UOV-Is-pkc                     100         2186757       567.5           63570        17.5          183912        48.3
+UOV-Is-classic                 100         2213309       575.2           63133        17.3           44157        12.5
+UOV-III-pkc                     50         7939849      2067.0          149710        39.7          651821       173.6
+UOV-III-classic                 50         8117447      2119.9          150594        40.1          213201        58.1
+UOV-V-pkc                       50        19177915      5012.7          415856       114.0         1563937       408.9
+UOV-V-classic                   50        19750173      5165.7          426103       113.8          484844       130.2
+QR-UOV-I-(127,156,54,3)       1000         2185527       566.3          539012       139.4          297593        77.5
+QR-UOV-I-(127,540,60,10)      1000         5799806      1501.7         2566026       665.3          826999       217.4
+QR-UOV-III-(127,228,78,3)      500         7938483      2055.8         1449729       376.4          847262       218.7
+QR-UOV-V-(127,306,105,3)       200        22244014      5757.7         3422694       885.8         2017823       523.4
+QR-UOV-V-(127,1040,110,10)     200        40113186     10381.9        14745589      3818.1         5133917      1329.5
+MQOM3-L1-gf2-shorter-ct        200          142646        37.8         9382214      2462.3         4718275      1231.6
+MQOM3-L1-gf2-shorter-ot        200          145932        39.0        13248631      3469.4        12816327      3354.5
+MQOM3-L1-gf16-short-ct         200           58542        16.2         2421357       634.3         2338137       612.2
+MQOM3-L1-gf16-fast-ct          200           74792        20.3          911025       236.5          879869       226.7
+MQOM3-L3-gf2-shorter-ct        100         1235711       320.6        27759815      7238.8        23207259      6038.4
+MQOM3-L3-gf2-shorter-ot        100         1258595       329.7        37118639      9696.6        33407873      8717.1
+MQOM3-L3-gf16-short-ct         100          337909        87.8        14286472      3720.0        13255509      3446.3
+MQOM3-L3-gf16-short-ot         100          338565        88.3        20038509      5246.7        18641625      4856.3
+MQOM3-L3-gf16-fast-ct          100          397082       103.0         4261531      1103.7         4145915      1071.6
+MQOM3-L3-gf16-fast-ot          100          395182       102.6         4973116      1287.8         4890536      1266.4
+MQOM3-L5-gf2-shorter-ct         50         2413248       637.9        41442368     10857.2        38781939     10116.3
+MQOM3-L5-gf2-shorter-ot         50         2426474       641.5        49870683     13085.6        49209525     12867.4
+MQOM3-L5-gf16-short-ct          50          615073       159.7        17696962      4627.7        16799231      4366.0
+MQOM3-L5-gf16-short-ot          50          616804       159.7        23224280      6075.6        22466400      5867.2
+MQOM3-L5-gf16-fast-ot           50          677222       175.0         9127920      2371.8         7724346      2007.3
+NGCC-BiT-128                  1000          407055       105.5         1237763       324.8          366013        95.0
+NGCC-BiT-256                  1000         1150028       296.1         2263923       582.7         1198012       308.5
+NGCC-BiT-512                  1000         3568615       922.7         8594940      2229.2         3494201       903.8
+NGCC-COMPASS-SIG-128          1000         1482177       391.0         2498066       663.5         1442321       382.0
+NGCC-COMPASS-SIG-384          1000         4042738      1067.9         5939051      1563.9         3656748       968.4
+NGCC-CS-128                   1000          542306       140.1         2766798       722.0          597233       154.4
+NGCC-CS-256                   1000          883471       227.6        11646413      3013.1         1118486       289.0
+NGCC-DARTS128                 1000          761623       196.3        11600870      3002.8          307380        79.9
+NGCC-Facto-DSA-128            1000         4061013      1049.0         1094239       283.1          951951       245.3
+NGCC-lwrdsa128                1000         2585794       670.0         4848821      1251.8         2645533       685.5
+NGCC-lwrdsa256                1000         3239630       838.7         5862118      1516.5         3299924       854.2
+NGCC-Octarine-256             1000          989092       254.7         2497062       647.0         1021604       263.1
+NGCC-Octarine-512             1000         2357840       611.9         6609574      1720.2         2468197       640.2
+NGCC-OPSsig-128               1000          999399       257.5         1431543       371.9         1021498       263.2
+NGCC-OPSsig-256               1000         1268989       326.6         1822978       484.6         1351973       347.9
+NGCC-SHUTTLE-128              1000          892682       233.3          749608       193.5          298258        77.7
+NGCC-SHUTTLE-256              1000         1262224       325.9         1153036       303.0          430203       114.7
+NGCC-SHUTTLE-512              1000         2281509       591.8         2466374       645.4          766914       197.9

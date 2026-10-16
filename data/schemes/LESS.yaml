@@ -8,53 +8,74 @@ versions:
   status: On-ramp
   programmes:
     nist-onramp: round-2
-  perf_source: submission document
+  perf_source: our benchmark
   parametersets:
   - name: 252-192
     level: 1
     pk: 13940
     sig: 2609
-    signing_cycles: 127500000
-    verification_cycles: 122700000
+    signing_cycles: 238272742
+    verification_cycles: 226071563
     notes: Signature size is the implementation's maximum (CRYPTO_BYTES); specification Table 4 gives 2625 bytes.
+    signing_us: 61562.0
+    verification_us: 58404.8
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: 252-68
     level: 1
     pk: 41788
     sig: 1825
-    signing_cycles: 45900000
-    verification_cycles: 44800000
+    signing_cycles: 85372697
+    verification_cycles: 83094989
+    signing_us: 22054.5
+    verification_us: 21477.3
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: 252-45
     level: 1
     pk: 97484
     sig: 1329
-    signing_cycles: 30600000
-    verification_cycles: 30000000
+    signing_cycles: 55930047
+    verification_cycles: 55821996
+    signing_us: 14449.3
+    verification_us: 14422.1
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: 400-220
     level: 3
     pk: 35074
     sig: 6353
-    signing_cycles: 401500000
-    verification_cycles: 392700000
+    signing_cycles: 669332390
+    verification_cycles: 644076341
     notes: Signature size is the implementation's maximum (CRYPTO_BYTES); specification Table 4 gives 6329 bytes.
+    signing_us: 172864.6
+    verification_us: 166404.2
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: 400-102
     level: 3
     pk: 105174
     sig: 4131
-    signing_cycles: 184000000
-    verification_cycles: 181300000
+    signing_cycles: 313539994
+    verification_cycles: 304744009
+    signing_us: 80991.7
+    verification_us: 78712.2
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: 548-345
     level: 5
     pk: 65793
     sig: 10712
-    signing_cycles: 1424200000
-    verification_cycles: 1396000000
+    signing_cycles: 2183652184
+    verification_cycles: 2104269264
     notes: Signature size is the implementation's maximum (CRYPTO_BYTES); specification Table 4 gives 10680 bytes.
+    signing_us: 579510.9
+    verification_us: 558397.5
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: 548-137
     level: 5
     pk: 197315
     sig: 7436
-    signing_cycles: 560000000
-    verification_cycles: 564600000
+    signing_cycles: 870266817
+    verification_cycles: 862328543
+    signing_us: 230760.6
+    verification_us: 228855.8
+    bench_env: 2026-10-16-c8i.4xlarge
 - version: Round 1
   date: '2023-06-01'
   status: On-ramp

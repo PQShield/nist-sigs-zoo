@@ -10,37 +10,37 @@ parametersets:
   ngcc_level: 128
   pk: 1954
   ct: 3844
-  keygen_cycles: 703234
-  encaps_cycles: 1340634
-  decaps_cycles: 5103137
-  keygen_us: 181.4
-  encaps_us: 346.9
-  decaps_us: 1320.6
-  bench_env: 2026-10-15-c8i.4xlarge
+  keygen_cycles: 672869
+  encaps_cycles: 1291503
+  decaps_cycles: 3731961
+  keygen_us: 173.6
+  encaps_us: 332.4
+  decaps_us: 965.8
+  bench_env: 2026-10-16-c8i.4xlarge
   notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 - name: BRQC-256
   ngcc_level: 256
   pk: 3345
   ct: 6626
-  keygen_cycles: 1981710
-  encaps_cycles: 3196277
-  decaps_cycles: 15242599
-  keygen_us: 515.6
-  encaps_us: 828.1
-  decaps_us: 3941.6
-  bench_env: 2026-10-15-c8i.4xlarge
+  keygen_cycles: 1890725
+  encaps_cycles: 3017564
+  decaps_cycles: 12645872
+  keygen_us: 492.0
+  encaps_us: 782.0
+  decaps_us: 3267.9
+  bench_env: 2026-10-16-c8i.4xlarge
   notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 - name: BRQC-512
   ngcc_level: 512
   pk: 6562
   ct: 13060
-  keygen_cycles: 3601997
-  encaps_cycles: 5720367
-  decaps_cycles: 31977574
-  keygen_us: 931.4
-  encaps_us: 1480.4
-  decaps_us: 8258.9
-  bench_env: 2026-10-15-c8i.4xlarge
+  keygen_cycles: 3527672
+  encaps_cycles: 5627407
+  decaps_cycles: 29580724
+  keygen_us: 912.5
+  encaps_us: 1457.2
+  decaps_us: 7642.2
+  bench_env: 2026-10-16-c8i.4xlarge
   notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 findings_url: https://ngcc.dev/reports/kem-07.html
 implementation: The submitted decapsulation ignores padding bits, so altered copies of a challenge ciphertext decapsulate to the same key, breaking IND-CCA security (<a href="https://ngcc.dev/reports/kem-07.html#kem-07-2-ignored-padding-bits-make-ciphertexts-malleable-without-changing-the-key">Saarinen</a>).

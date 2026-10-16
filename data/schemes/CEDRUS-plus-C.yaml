@@ -14,11 +14,11 @@ versions:
     ngcc_level: 128
     pk: 40
     sig: 9460
-    signing_cycles: 9198602971
-    verification_cycles: 22935358
-    signing_us: 2375509.8
-    verification_us: 5924.4
-    bench_env: 2026-10-15-c8i.4xlarge
+    signing_cycles: 9147358965
+    verification_cycles: 22786520
+    signing_us: 2365839.2
+    verification_us: 5889.4
+    bench_env: 2026-10-16-c8i.4xlarge
     notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
   - name: CEDRUSC-160f
     ngcc_level: 128
@@ -34,11 +34,11 @@ versions:
     ngcc_level: 256
     pk: 64
     sig: 24104
-    signing_cycles: 13752645248
-    verification_cycles: 38196212
-    signing_us: 3557014.7
-    verification_us: 9873.8
-    bench_env: 2026-10-15-c8i.4xlarge
+    signing_cycles: 13724297706
+    verification_cycles: 37924393
+    signing_us: 3544737.0
+    verification_us: 9796.9
+    bench_env: 2026-10-16-c8i.4xlarge
     notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
   - name: CEDRUSC-256f
     ngcc_level: 256
@@ -54,31 +54,31 @@ versions:
     ngcc_level: 384
     pk: 96
     sig: 61572
-    signing_cycles: 49939457891
-    verification_cycles: 58603296
-    signing_us: 12900920.9
-    verification_us: 15138.8
-    bench_env: 2026-10-15-c8i.4xlarge
+    signing_cycles: 51076479700
+    verification_cycles: 58362596
+    signing_us: 13188507.0
+    verification_us: 15068.0
+    bench_env: 2026-10-16-c8i.4xlarge
     notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
   - name: CEDRUSC-384f
     ngcc_level: 384
     pk: 96
     sig: 75988
-    signing_cycles: 13383304201
-    verification_cycles: 138262458
-    signing_us: 3465881.3
-    verification_us: 35751.3
-    bench_env: 2026-10-15-c8i.4xlarge
+    signing_cycles: 13385314752
+    verification_cycles: 137551140
+    signing_us: 3459600.3
+    verification_us: 35550.8
+    bench_env: 2026-10-16-c8i.4xlarge
     notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
   - name: CEDRUSC-512s
     ngcc_level: 512
     pk: 128
     sig: 98212
-    signing_cycles: 93203856837
-    verification_cycles: 126602758
-    signing_us: 24087446.9
-    verification_us: 32699.8
-    bench_env: 2026-10-15-c8i.4xlarge
+    signing_cycles: 92560100478
+    verification_cycles: 126190168
+    signing_us: 23900256.3
+    verification_us: 32589.3
+    bench_env: 2026-10-16-c8i.4xlarge
     notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
   - name: CEDRUSC-512f
     ngcc_level: 512

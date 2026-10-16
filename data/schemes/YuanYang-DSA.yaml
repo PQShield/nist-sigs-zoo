@@ -14,21 +14,21 @@ versions:
     ngcc_level: 128
     pk: 738
     sig: 561
-    signing_cycles: 5366198
-    verification_cycles: 239782
-    signing_us: 1394.5
-    verification_us: 62.8
-    bench_env: 2026-10-15-c8i.4xlarge
+    signing_cycles: 4970753
+    verification_cycles: 205297
+    signing_us: 1288.3
+    verification_us: 53.7
+    bench_env: 2026-10-16-c8i.4xlarge
     notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it; our build applies a small patch to the submitted code.
   - name: yuanyang-1024
     ngcc_level: 256
     pk: 1570
     sig: 1150
-    signing_cycles: 10166173
-    verification_cycles: 530668
-    signing_us: 2779.0
-    verification_us: 141.5
-    bench_env: 2026-10-15-c8i.4xlarge
+    signing_cycles: 9261917
+    verification_cycles: 453850
+    signing_us: 2430.6
+    verification_us: 119.5
+    bench_env: 2026-10-16-c8i.4xlarge
     notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it; our build applies a small patch to the submitted code.
   - name: yuanyang-2048
     ngcc_level: 512

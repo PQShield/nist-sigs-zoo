@@ -14,164 +14,164 @@ versions:
     level: 1
     pk: 52
     sig: 2492
-    signing_cycles: 8460046
-    verification_cycles: 6355328
-    signing_us: 2261.2
-    verification_us: 1696.7
-    bench_env: 2026-10-15-c8i.4xlarge
+    signing_cycles: 9382214
+    verification_cycles: 4718275
+    signing_us: 2462.3
+    verification_us: 1231.6
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: L1-gf2-shorter-ot
     level: 1
     pk: 52
     sig: 2492
-    signing_cycles: 13753266
-    verification_cycles: 13067815
-    signing_us: 3669.6
-    verification_us: 3480.4
-    bench_env: 2026-10-15-c8i.4xlarge
+    signing_cycles: 13248631
+    verification_cycles: 12816327
+    signing_us: 3469.4
+    verification_us: 3354.5
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: L1-gf16-short-ct
     level: 1
     pk: 64
     sig: 2932
-    signing_cycles: 2994085
-    verification_cycles: 3323177
-    signing_us: 799.3
-    verification_us: 887.7
-    bench_env: 2026-10-15-c8i.4xlarge
+    signing_cycles: 2421357
+    verification_cycles: 2338137
+    signing_us: 634.3
+    verification_us: 612.2
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: L1-gf16-short-ot
     level: 1
     pk: 64
     sig: 2932
-    signing_cycles: 3339491
-    verification_cycles: 3298379
-    signing_us: 896.2
-    verification_us: 883.7
-    bench_env: 2026-10-15-c8i.4xlarge
+    signing_cycles: 3261922
+    verification_cycles: 3285935
+    signing_us: 852.1
+    verification_us: 857.2
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: L1-gf16-fast-ct
     level: 1
     pk: 64
     sig: 3316
-    signing_cycles: 1011925
-    verification_cycles: 1089098
-    signing_us: 263.3
-    verification_us: 280.4
-    bench_env: 2026-10-15-c8i.4xlarge
+    signing_cycles: 911025
+    verification_cycles: 879869
+    signing_us: 236.5
+    verification_us: 226.7
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: L1-gf16-fast-ot
     level: 1
     pk: 64
     sig: 3316
-    signing_cycles: 1141933
-    verification_cycles: 1077895
-    signing_us: 305.9
-    verification_us: 288.5
-    bench_env: 2026-10-15-c8i.4xlarge
+    signing_cycles: 1126863
+    verification_cycles: 1065911
+    signing_us: 293.9
+    verification_us: 274.9
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: L3-gf2-shorter-ct
     level: 3
     pk: 78
     sig: 5932
-    signing_cycles: 29696621
-    verification_cycles: 26086650
-    signing_us: 7864.2
-    verification_us: 6892.1
-    bench_env: 2026-10-15-c8i.4xlarge
+    signing_cycles: 27759815
+    verification_cycles: 23207259
+    signing_us: 7238.8
+    verification_us: 6038.4
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: L3-gf2-shorter-ot
     level: 3
     pk: 78
     sig: 5890
-    signing_cycles: 38583850
-    verification_cycles: 34406217
-    signing_us: 10190.6
-    verification_us: 9002.7
-    bench_env: 2026-10-15-c8i.4xlarge
+    signing_cycles: 37118639
+    verification_cycles: 33407873
+    signing_us: 9696.6
+    verification_us: 8717.1
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: L3-gf16-short-ct
     level: 3
     pk: 96
     sig: 6556
-    signing_cycles: 14872134
-    verification_cycles: 15308601
-    signing_us: 3876.0
-    verification_us: 3975.5
-    bench_env: 2026-10-15-c8i.4xlarge
+    signing_cycles: 14286472
+    verification_cycles: 13255509
+    signing_us: 3720.0
+    verification_us: 3446.3
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: L3-gf16-short-ot
     level: 3
     pk: 96
     sig: 6556
-    signing_cycles: 21128176
-    verification_cycles: 18830891
-    signing_us: 5517.7
-    verification_us: 4904.9
-    bench_env: 2026-10-15-c8i.4xlarge
+    signing_cycles: 20038509
+    verification_cycles: 18641625
+    signing_us: 5246.7
+    verification_us: 4856.3
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: L3-gf16-fast-ct
     level: 3
     pk: 96
     sig: 7564
-    signing_cycles: 4305027
-    verification_cycles: 4482270
-    signing_us: 1115.6
-    verification_us: 1159.5
-    bench_env: 2026-10-15-c8i.4xlarge
+    signing_cycles: 4261531
+    verification_cycles: 4145915
+    signing_us: 1103.7
+    verification_us: 1071.6
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: L3-gf16-fast-ot
     level: 3
     pk: 96
     sig: 7660
-    signing_cycles: 5023300
-    verification_cycles: 4863439
-    signing_us: 1303.8
-    verification_us: 1259.6
-    bench_env: 2026-10-15-c8i.4xlarge
+    signing_cycles: 4973116
+    verification_cycles: 4890536
+    signing_us: 1287.8
+    verification_us: 1266.4
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: L5-gf2-shorter-ct
     level: 5
     pk: 104
     sig: 10836
-    signing_cycles: 47361477
-    verification_cycles: 48283540
-    signing_us: 12391.5
-    verification_us: 12601.6
-    bench_env: 2026-10-15-c8i.4xlarge
+    signing_cycles: 41442368
+    verification_cycles: 38781939
+    signing_us: 10857.2
+    verification_us: 10116.3
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: L5-gf2-shorter-ot
     level: 5
     pk: 104
     sig: 10804
-    signing_cycles: 56180821
-    verification_cycles: 52143799
-    signing_us: 14718.9
-    verification_us: 13639.5
-    bench_env: 2026-10-15-c8i.4xlarge
+    signing_cycles: 49870683
+    verification_cycles: 49209525
+    signing_us: 13085.6
+    verification_us: 12867.4
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: L5-gf16-short-ct
     level: 5
     pk: 128
     sig: 12100
-    signing_cycles: 19245737
-    verification_cycles: 20976396
-    signing_us: 5123.8
-    verification_us: 5576.4
-    bench_env: 2026-10-15-c8i.4xlarge
+    signing_cycles: 17696962
+    verification_cycles: 16799231
+    signing_us: 4627.7
+    verification_us: 4366.0
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: L5-gf16-short-ot
     level: 5
     pk: 128
     sig: 11716
-    signing_cycles: 24595796
-    verification_cycles: 23253360
-    signing_us: 6552.8
-    verification_us: 6121.9
-    bench_env: 2026-10-15-c8i.4xlarge
+    signing_cycles: 23224280
+    verification_cycles: 22466400
+    signing_us: 6075.6
+    verification_us: 5867.2
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: L5-gf16-fast-ct
     level: 5
     pk: 128
     sig: 13540
-    signing_cycles: 7328733
-    verification_cycles: 7561633
-    signing_us: 1907.8
-    verification_us: 1960.3
-    bench_env: 2026-10-15-c8i.4xlarge
+    signing_cycles: 7211039
+    verification_cycles: 6812014
+    signing_us: 1877.2
+    verification_us: 1770.1
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: L5-gf16-fast-ot
     level: 5
     pk: 128
     sig: 13380
-    signing_cycles: 9278301
-    verification_cycles: 7827178
-    signing_us: 2453.9
-    verification_us: 2033.3
-    bench_env: 2026-10-15-c8i.4xlarge
+    signing_cycles: 9127920
+    verification_cycles: 7724346
+    signing_us: 2371.8
+    verification_us: 2007.3
+    bench_env: 2026-10-16-c8i.4xlarge
 - version: v2.1
   date: '2025-09-22'
   status: On-ramp
@@ -471,229 +471,337 @@ versions:
   status: On-ramp
   programmes:
     nist-onramp: round-2
-  perf_source: submission document
+  perf_source: our benchmark
   warning: "Passive full-key-recovery attack via saltless GGM root expansion (Delgado, <a href=\"https://eprint.iacr.org/2026/1542\">ePrint 2026/1542</a>): the v2.x spec (Algorithm 10) derives correlated roots with a fixed zero-salt PRG call, so repeated master seeds across signatures/keys/salts leak linear equations in the MQ witness, enabling full key recovery. Requires signature/query volumes at NIST's outer Q=2^64 permitted bound (~39% success) or substantial precomputation (tens of GiB&ndash;PiB of tables) to push higher; affects all of Categories I/III/V, confirmed against every official tag v2.0.0&ndash;v2.1.1. Fix (salt-bound, domain-separated root expansion) is straightforward."
   parametersets:
   - name: L1-gf2-short-3r
     level: 1
     pk: 52
     sig: 2868
-    signing_cycles: 26520000
-    verification_cycles: 25110000
+    signing_cycles: 28895923
+    verification_cycles: 25597154
+    signing_us: 7484.2
+    verification_us: 6630.2
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: L1-gf256-short-3r
     level: 1
     pk: 80
     sig: 3540
-    signing_cycles: 21930000
-    verification_cycles: 20600000
+    signing_cycles: 27709930
+    verification_cycles: 27232528
+    signing_us: 7175.1
+    verification_us: 7049.8
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: L1-gf2-fast-3r
     level: 1
     pk: 52
     sig: 3212
-    signing_cycles: 14120000
-    verification_cycles: 11690000
+    signing_cycles: 17292000
+    verification_cycles: 12006075
+    signing_us: 4478.6
+    verification_us: 3110.0
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: L1-gf256-fast-3r
     level: 1
     pk: 80
     sig: 4164
-    signing_cycles: 7010000
-    verification_cycles: 5070000
+    signing_cycles: 6399878
+    verification_cycles: 5662444
+    signing_us: 1654.8
+    verification_us: 1467.1
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: L3-gf2-short-3r
     level: 3
     pk: 78
     sig: 6388
-    signing_cycles: 114900000
-    verification_cycles: 103600000
+    signing_cycles: 126314370
+    verification_cycles: 108787453
+    signing_us: 32688.9
+    verification_us: 28147.2
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: L3-gf256-short-3r
     level: 3
     pk: 120
     sig: 7900
-    signing_cycles: 83850000
-    verification_cycles: 74410000
+    signing_cycles: 124982810
+    verification_cycles: 117219308
+    signing_us: 32309.7
+    verification_us: 30285.3
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: L3-gf2-fast-3r
     level: 3
     pk: 78
     sig: 7576
-    signing_cycles: 57370000
-    verification_cycles: 51190000
+    signing_cycles: 72499309
+    verification_cycles: 55014354
+    signing_us: 18793.8
+    verification_us: 14256.2
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: L3-gf256-fast-3r
     level: 3
     pk: 120
     sig: 9844
-    signing_cycles: 34180000
-    verification_cycles: 24110000
+    signing_cycles: 27678147
+    verification_cycles: 26303051
+    signing_us: 7148.7
+    verification_us: 6794.5
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: L5-gf2-short-3r
     level: 5
     pk: 104
     sig: 11764
-    signing_cycles: 278920000
-    verification_cycles: 266510000
+    signing_cycles: 222006946
+    verification_cycles: 193965389
+    signing_us: 57793.0
+    verification_us: 50421.7
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: L5-gf256-short-3r
     level: 5
     pk: 160
     sig: 14564
-    signing_cycles: 135010000
-    verification_cycles: 121590000
+    signing_cycles: 168605609
+    verification_cycles: 165568546
+    signing_us: 43571.5
+    verification_us: 42776.7
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: L5-gf2-fast-3r
     level: 5
     pk: 104
     sig: 13412
-    signing_cycles: 145510000
-    verification_cycles: 129970000
+    signing_cycles: 155346793
+    verification_cycles: 119259965
+    signing_us: 40482.3
+    verification_us: 31055.5
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: L5-gf256-fast-3r
     level: 5
     pk: 160
     sig: 17444
-    signing_cycles: 54690000
-    verification_cycles: 36220000
+    signing_cycles: 40835931
+    verification_cycles: 37713340
+    signing_us: 10560.8
+    verification_us: 9749.5
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: L1-gf2-short-5r
     level: 1
     pk: 52
     sig: 2820
-    signing_cycles: 31840000
-    verification_cycles: 30080000
+    signing_cycles: 28926084
+    verification_cycles: 25536085
+    signing_us: 7491.7
+    verification_us: 6614.5
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: L1-gf256-short-5r
     level: 1
     pk: 80
     sig: 3156
-    signing_cycles: 17650000
-    verification_cycles: 16450000
+    signing_cycles: 21565509
+    verification_cycles: 20518352
+    signing_us: 5583.8
+    verification_us: 5312.6
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: L1-gf2-fast-5r
     level: 1
     pk: 52
     sig: 3144
-    signing_cycles: 14530000
-    verification_cycles: 11930000
+    signing_cycles: 17207537
+    verification_cycles: 12005865
+    signing_us: 4459.2
+    verification_us: 3109.1
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: L1-gf256-fast-5r
     level: 1
     pk: 80
     sig: 3620
-    signing_cycles: 6150000
-    verification_cycles: 4280000
+    signing_cycles: 5175841
+    verification_cycles: 4395674
+    signing_us: 1341.3
+    verification_us: 1137.4
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: L3-gf2-short-5r
     level: 3
     pk: 78
     sig: 6280
-    signing_cycles: 108120000
-    verification_cycles: 99360000
+    signing_cycles: 123755801
+    verification_cycles: 107937063
+    signing_us: 32029.4
+    verification_us: 27928.4
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: L3-gf256-short-5r
     level: 3
     pk: 120
     sig: 7036
-    signing_cycles: 66710000
-    verification_cycles: 57490000
+    signing_cycles: 94226929
+    verification_cycles: 88625076
+    signing_us: 24344.3
+    verification_us: 22900.2
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: L3-gf2-fast-5r
     level: 3
     pk: 78
     sig: 7414
-    signing_cycles: 56850000
-    verification_cycles: 50390000
+    signing_cycles: 72567818
+    verification_cycles: 54921678
+    signing_us: 18810.9
+    verification_us: 14232.5
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: L3-gf256-fast-5r
     level: 3
     pk: 120
     sig: 8548
-    signing_cycles: 27470000
-    verification_cycles: 18710000
+    signing_cycles: 22551450
+    verification_cycles: 20912117
+    signing_us: 5826.5
+    verification_us: 5401.9
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: L5-gf2-short-5r
     level: 5
     pk: 104
     sig: 11564
-    signing_cycles: 306940000
-    verification_cycles: 289070000
+    signing_cycles: 221942742
+    verification_cycles: 193141992
+    signing_us: 57783.3
+    verification_us: 50220.6
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: L5-gf256-short-5r
     level: 5
     pk: 160
     sig: 12964
-    signing_cycles: 124980000
-    verification_cycles: 109730000
+    signing_cycles: 124795422
+    verification_cycles: 122296032
+    signing_us: 32267.3
+    verification_us: 31597.1
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: L5-gf2-fast-5r
     level: 5
     pk: 104
     sig: 13124
-    signing_cycles: 150650000
-    verification_cycles: 135980000
+    signing_cycles: 158819623
+    verification_cycles: 119306372
+    signing_us: 41386.4
+    verification_us: 31091.2
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: L5-gf256-fast-5r
     level: 5
     pk: 160
     sig: 15140
-    signing_cycles: 52640000
-    verification_cycles: 33690000
+    signing_cycles: 33274882
+    verification_cycles: 30053532
+    signing_us: 8602.1
+    verification_us: 7769.0
+    bench_env: 2026-10-16-c8i.4xlarge
 - version: v1.0
   date: '2023-05-31'
   status: On-ramp
   programmes:
     nist-onramp: round-1
-  perf_source: submission document
+  perf_source: our benchmark
   parametersets:
   - name: L1-gf31-short
     level: 1
     pk: 47
     sig: 6352
-    signing_cycles: 44400000
-    verification_cycles: 41720000
+    signing_cycles: 27585236
+    verification_cycles: 26047880
+    signing_us: 7133.9
+    verification_us: 6734.1
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: L1-gf251-short
     level: 1
     pk: 59
     sig: 6578
-    signing_cycles: 28500000
-    verification_cycles: 27300000
+    signing_cycles: 17799900
+    verification_cycles: 17072508
+    signing_us: 4601.8
+    verification_us: 4414.3
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: L1-gf31-fast
     level: 1
     pk: 47
     sig: 7657
-    signing_cycles: 17700000
-    verification_cycles: 15500000
+    signing_cycles: 14397931
+    verification_cycles: 13082220
+    signing_us: 3724.5
+    verification_us: 3383.0
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: L1-gf251-fast
     level: 1
     pk: 59
     sig: 7850
-    signing_cycles: 11500000
-    verification_cycles: 10200000
+    signing_cycles: 8716646
+    verification_cycles: 7955314
+    signing_us: 2255.0
+    verification_us: 2056.3
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: L3-gf31-short
     level: 3
     pk: 73
     sig: 13846
-    signing_cycles: 108000000
-    verification_cycles: 102000000
+    signing_cycles: 84647850
+    verification_cycles: 80344019
+    signing_us: 21899.3
+    verification_us: 20783.4
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: L3-gf251-short
     level: 3
     pk: 92
     sig: 14266
-    signing_cycles: 69500000
-    verification_cycles: 65600000
+    signing_cycles: 51390560
+    verification_cycles: 49112582
+    signing_us: 13291.2
+    verification_us: 12701.5
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: L3-gf31-fast
     level: 3
     pk: 73
     sig: 16669
-    signing_cycles: 56300000
-    verification_cycles: 51300000
+    signing_cycles: 57995939
+    verification_cycles: 54108418
+    signing_us: 15011.1
+    verification_us: 13996.7
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: L3-gf251-fast
     level: 3
     pk: 92
     sig: 17252
-    signing_cycles: 32900000
-    verification_cycles: 29600000
+    signing_cycles: 28211955
+    verification_cycles: 26306771
+    signing_us: 7293.9
+    verification_us: 6801.1
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: L5-gf31-short
     level: 5
     pk: 99
     sig: 24158
-    signing_cycles: 224000000
-    verification_cycles: 214000000
+    signing_cycles: 195964795
+    verification_cycles: 188304276
+    signing_us: 50807.5
+    verification_us: 48837.7
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: L5-gf251-short
     level: 5
     pk: 125
     sig: 24942
-    signing_cycles: 148000000
-    verification_cycles: 142000000
+    signing_cycles: 122071742
+    verification_cycles: 117175852
+    signing_us: 31581.2
+    verification_us: 30326.5
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: L5-gf31-fast
     level: 5
     pk: 99
     sig: 29036
-    signing_cycles: 156000000
-    verification_cycles: 146000000
+    signing_cycles: 170713874
+    verification_cycles: 162927826
+    signing_us: 44272.6
+    verification_us: 42265.2
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: L5-gf251-fast
     level: 5
     pk: 125
     sig: 30092
-    signing_cycles: 81600000
-    verification_cycles: 75600000
+    signing_cycles: 82415663
+    verification_cycles: 77961846
+    signing_us: 21323.3
+    verification_us: 20163.7
+    bench_env: 2026-10-16-c8i.4xlarge

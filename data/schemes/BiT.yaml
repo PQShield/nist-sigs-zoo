@@ -15,32 +15,32 @@ versions:
     ngcc_level: 128
     pk: 1048
     sig: 1504
-    signing_cycles: 1434743
-    verification_cycles: 393607
-    signing_us: 370.7
-    verification_us: 102.1
-    bench_env: 2026-10-15-c8i.4xlarge
+    signing_cycles: 1237763
+    verification_cycles: 366013
+    signing_us: 324.8
+    verification_us: 95.0
+    bench_env: 2026-10-16-c8i.4xlarge
     notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
     broken: Equivalent signing keys can be recovered from a large but practical number of public signatures, enabling forgeries (<a href="https://groups.google.com/a/list.nist.gov/g/pqc-forum/c/84_EKMOtk_M/m/ZNMqLQ07BAAJ">Feussner</a>).
   - name: BiT-256
     ngcc_level: 256
     pk: 2144
     sig: 3456
-    signing_cycles: 1937357
-    verification_cycles: 1226715
-    signing_us: 505.9
-    verification_us: 316.2
-    bench_env: 2026-10-15-c8i.4xlarge
+    signing_cycles: 2263923
+    verification_cycles: 1198012
+    signing_us: 582.7
+    verification_us: 308.5
+    bench_env: 2026-10-16-c8i.4xlarge
     notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
   - name: BiT-512
     ngcc_level: 512
     pk: 5056
     sig: 6695
-    signing_cycles: 8688516
-    verification_cycles: 3528349
-    signing_us: 2248.6
-    verification_us: 913.0
-    bench_env: 2026-10-15-c8i.4xlarge
+    signing_cycles: 8594940
+    verification_cycles: 3494201
+    signing_us: 2229.2
+    verification_us: 903.8
+    bench_env: 2026-10-16-c8i.4xlarge
     notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
     broken: The unsalted 512-bit message digest limits forgery resistance to about 2^256 work, below the 512-bit target (<a href="https://ngcc.dev/reports/sign-02.html#sign-02-1-a-512-bit-unsalted-message-representative-caps-forgery-security-at-256-bits">Saarinen</a>).
   - name: BiT-384

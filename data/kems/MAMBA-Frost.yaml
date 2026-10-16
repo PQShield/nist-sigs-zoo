@@ -11,76 +11,76 @@ parametersets:
   recommended: true
   pk: 5152
   ct: 5192
-  keygen_cycles: 1424923
-  encaps_cycles: 2010151
-  decaps_cycles: 2389562
-  keygen_us: 378.4
-  encaps_us: 535.4
-  decaps_us: 636.0
-  bench_env: 2026-10-15-c8i.4xlarge
+  keygen_cycles: 1386157
+  encaps_cycles: 1934468
+  decaps_cycles: 2285204
+  keygen_us: 366.9
+  encaps_us: 513.1
+  decaps_us: 605.0
+  bench_env: 2026-10-16-c8i.4xlarge
   notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 - name: MAMBA-Frost-256
   ngcc_level: 256
   recommended: true
   pk: 16776
   ct: 15552
-  keygen_cycles: 6039899
-  encaps_cycles: 7487571
-  decaps_cycles: 8295353
-  keygen_us: 1619.9
-  encaps_us: 2004.7
-  decaps_us: 2235.0
-  bench_env: 2026-10-15-c8i.4xlarge
+  keygen_cycles: 5962497
+  encaps_cycles: 7606670
+  decaps_cycles: 8043320
+  keygen_us: 1567.1
+  encaps_us: 2006.2
+  decaps_us: 2109.7
+  bench_env: 2026-10-16-c8i.4xlarge
   notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 - name: MAMBA-Frost-384
   ngcc_level: 384
   recommended: true
   pk: 25096
   ct: 37736
-  keygen_cycles: 10583898
-  encaps_cycles: 17735539
-  decaps_cycles: 19477615
-  keygen_us: 2846.3
-  encaps_us: 4846.3
-  decaps_us: 5279.4
-  bench_env: 2026-10-15-c8i.4xlarge
+  keygen_cycles: 10609260
+  encaps_cycles: 17368531
+  decaps_cycles: 19192034
+  keygen_us: 2745.2
+  encaps_us: 4566.2
+  decaps_us: 4966.2
+  bench_env: 2026-10-16-c8i.4xlarge
   notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 - name: MAMBA-Frost-512
   ngcc_level: 512
   recommended: true
   pk: 36432
   ct: 72944
-  keygen_cycles: 19072148
-  encaps_cycles: 36021674
-  decaps_cycles: 40008086
-  keygen_us: 4928.0
-  encaps_us: 9490.9
-  decaps_us: 10518.5
-  bench_env: 2026-10-15-c8i.4xlarge
+  keygen_cycles: 18996129
+  encaps_cycles: 35295593
+  decaps_cycles: 38848305
+  keygen_us: 4909.2
+  encaps_us: 9294.2
+  decaps_us: 10212.9
+  bench_env: 2026-10-16-c8i.4xlarge
   notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 - name: MAMBA-Frost-CC-384
   ngcc_level: 384
   pk: 37628
   ct: 25204
-  keygen_cycles: 14522413
-  encaps_cycles: 15035369
-  decaps_cycles: 16126299
-  keygen_us: 3752.3
-  encaps_us: 3884.1
-  decaps_us: 4165.4
-  bench_env: 2026-10-15-c8i.4xlarge
+  keygen_cycles: 14409421
+  encaps_cycles: 14959791
+  decaps_cycles: 15686304
+  keygen_us: 3794.0
+  encaps_us: 3958.8
+  decaps_us: 4128.4
+  bench_env: 2026-10-16-c8i.4xlarge
   notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 - name: MAMBA-Frost-CC-512
   ngcc_level: 512
   pk: 72832
   ct: 36544
-  keygen_cycles: 31629934
-  encaps_cycles: 26615319
-  decaps_cycles: 27884975
-  keygen_us: 8354.2
-  encaps_us: 6883.1
-  decaps_us: 7211.4
-  bench_env: 2026-10-15-c8i.4xlarge
+  keygen_cycles: 31268989
+  encaps_cycles: 25769188
+  decaps_cycles: 26739526
+  keygen_us: 8210.7
+  encaps_us: 6667.2
+  decaps_us: 6917.2
+  bench_env: 2026-10-16-c8i.4xlarge
   notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 findings_url: https://ngcc.dev/reports/kem-20.html
 implementation: In the reference code an allocation failure during key generation still reports success, leaving keys whose shared secrets can be recovered from the public key (<a href="https://list.niccs.org.cn/archives/list/pkcforum@list.niccs.org.cn/message/XYDLYDGUCEQ6QPUCAL3T3RWJBIIGPDU4/">Yamin Liu</a>).

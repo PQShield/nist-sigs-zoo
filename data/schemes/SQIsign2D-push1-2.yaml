@@ -24,11 +24,11 @@ versions:
     ngcc_level: 256
     pk: 128
     sig: 293
-    signing_cycles: 5029927940
-    verification_cycles: 1256665188
-    signing_us: 1301048.3
-    verification_us: 328661.5
-    bench_env: 2026-10-15-c8i.4xlarge
+    signing_cycles: 2761053073
+    verification_cycles: 617390953
+    signing_us: 714251.2
+    verification_us: 159984.1
+    bench_env: 2026-10-16-c8i.4xlarge
     notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it; our build does not reproduce the submitted test vectors (cause unknown); our build applies a small patch to the submitted code.
     info: Our build does not reproduce the submitted test vectors.
     implementation: The submitted code skips the specified challenge grinding, so a forgery from one valid signature costs about 2^247, below the 256-bit target (<a href="https://list.niccs.org.cn/archives/list/pkcforum@list.niccs.org.cn/message/TUR2W3S22UGBUJXFZYT25VO44PHNFAOJ/">Sun</a>).
@@ -36,10 +36,10 @@ versions:
     ngcc_level: 512
     pk: 262
     sig: 593
-    signing_cycles: 48725833982
-    verification_cycles: 11385440409
-    signing_us: 12606485.8
-    verification_us: 2946914.2
-    bench_env: 2026-10-15-c8i.4xlarge
+    signing_cycles: 28326480732
+    verification_cycles: 6707250132
+    signing_us: 7318525.5
+    verification_us: 1734020.8
+    bench_env: 2026-10-16-c8i.4xlarge
     notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it; our build applies a small patch to the submitted code.
   findings_url: https://ngcc.dev/reports/sign-26.html

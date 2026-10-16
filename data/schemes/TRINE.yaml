@@ -14,58 +14,58 @@ versions:
     ngcc_level: 128
     pk: 16004
     sig: 3156
-    signing_cycles: 31574420983
-    verification_cycles: 20371934119
-    signing_us: 8159517.8
-    verification_us: 5266214.5
-    bench_env: 2026-10-15-c8i.4xlarge
+    signing_cycles: 30315365954
+    verification_cycles: 20422334390
+    signing_us: 7835807.2
+    verification_us: 5280475.8
+    bench_env: 2026-10-16-c8i.4xlarge
     notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
   - name: TRINE-128-ShortSig
     ngcc_level: 128
     pk: 63920
     sig: 1652
-    signing_cycles: 13255888490
-    verification_cycles: 5552555515
-    signing_us: 3517965.4
-    verification_us: 1472804.1
-    bench_env: 2026-10-15-c8i.4xlarge
+    signing_cycles: 14815508384
+    verification_cycles: 6016023912
+    signing_us: 3828347.9
+    verification_us: 1554773.8
+    bench_env: 2026-10-16-c8i.4xlarge
     notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
   - name: TRINE-256-Balanced
     ngcc_level: 256
     pk: 96064
     sig: 11712
-    signing_cycles: 294482730771
-    verification_cycles: 190733202610
-    signing_us: 76137398.7
-    verification_us: 49326635.6
-    bench_env: 2026-10-15-c8i.4xlarge
+    signing_cycles: 284693911611
+    verification_cycles: 170439421333
+    signing_us: 73618612.2
+    verification_us: 44082010.6
+    bench_env: 2026-10-16-c8i.4xlarge
     notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
   - name: TRINE-256-ShortSig
     ngcc_level: 256
     pk: 384064
     sig: 5968
-    signing_cycles: 114390167718
-    verification_cycles: 43039266492
-    signing_us: 29556799.6
-    verification_us: 11128221.8
-    bench_env: 2026-10-15-c8i.4xlarge
+    signing_cycles: 116727156550
+    verification_cycles: 48608191267
+    signing_us: 30182253.8
+    verification_us: 12577409.0
+    bench_env: 2026-10-16-c8i.4xlarge
     notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
   - name: TRINE-512-Balanced
     ngcc_level: 512
     pk: 797290
     sig: 46565
-    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it; the test-vector run timed out in our build. Benchmark did not finish (timeout).
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it; the test-vector run timed out in our build. Benchmark did not finish (operation over 600s).
     info: Our build could not check the submitted test vectors in time.
-    dnf: timeout
+    dnf: operation-over-600s
   - name: TRINE-512-ShortSig
     ngcc_level: 512
     pk: 3188776
     sig: 23672
-    signing_cycles: 1647583034486
-    verification_cycles: 720729880304
-    signing_us: 426863525.5
-    verification_us: 186939746.8
-    bench_env: 2026-10-15-c8i.4xlarge
+    signing_cycles: 1885025677217
+    verification_cycles: 760998455321
+    signing_us: 488757935.5
+    verification_us: 196956405.2
+    bench_env: 2026-10-16-c8i.4xlarge
     notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it; the test-vector run timed out in our build.
     info: Our build could not check the submitted test vectors in time.
   findings_url: https://ngcc.dev/reports/sign-30.html

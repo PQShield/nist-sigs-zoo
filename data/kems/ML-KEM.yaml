@@ -10,32 +10,32 @@ parametersets:
   level: 1
   pk: 800
   ct: 768
-  keygen_cycles: 21809
-  encaps_cycles: 25117
-  decaps_cycles: 30390
-  keygen_us: 6.7
-  encaps_us: 7.5
-  decaps_us: 8.9
-  bench_env: 2026-10-15-c8i.4xlarge
+  keygen_cycles: 20274
+  encaps_cycles: 22887
+  decaps_cycles: 28133
+  keygen_us: 6.3
+  encaps_us: 7.0
+  decaps_us: 8.3
+  bench_env: 2026-10-16-c8i.4xlarge
 - name: ML-KEM-768
   level: 3
   pk: 1184
   ct: 1088
-  keygen_cycles: 34829
-  encaps_cycles: 37978
-  decaps_cycles: 46328
-  keygen_us: 10.0
-  encaps_us: 10.8
-  decaps_us: 13.0
-  bench_env: 2026-10-15-c8i.4xlarge
+  keygen_cycles: 32466
+  encaps_cycles: 35061
+  decaps_cycles: 43061
+  keygen_us: 9.4
+  encaps_us: 10.1
+  decaps_us: 12.2
+  bench_env: 2026-10-16-c8i.4xlarge
 - name: ML-KEM-1024
   level: 5
   pk: 1568
   ct: 1568
-  keygen_cycles: 48677
-  encaps_cycles: 53466
-  decaps_cycles: 64182
-  keygen_us: 13.6
-  encaps_us: 14.8
-  decaps_us: 17.6
-  bench_env: 2026-10-15-c8i.4xlarge
+  keygen_cycles: 46441
+  encaps_cycles: 50454
+  decaps_cycles: 60888
+  keygen_us: 13.0
+  encaps_us: 14.1
+  decaps_us: 16.7
+  bench_env: 2026-10-16-c8i.4xlarge

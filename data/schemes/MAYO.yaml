@@ -16,41 +16,41 @@ versions:
     recommended: true
     pk: 5554
     sig: 964
-    signing_cycles: 827312
-    verification_cycles: 349685
-    signing_us: 221.0
-    verification_us: 93.5
-    bench_env: 2026-10-15-c8i.4xlarge
+    signing_cycles: 837196
+    verification_cycles: 346061
+    signing_us: 223.2
+    verification_us: 92.2
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: three
     level: 3
     recommended: true
     pk: 2986
     sig: 681
-    signing_cycles: 361529
-    verification_cycles: 156220
-    signing_us: 96.9
-    verification_us: 42.2
-    bench_env: 2026-10-15-c8i.4xlarge
+    signing_cycles: 376218
+    verification_cycles: 155752
+    signing_us: 97.6
+    verification_us: 41.0
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: two
     level: 1
     recommended: true
     pk: 2928
     sig: 239
-    signing_cycles: 102462
-    verification_cycles: 41211
-    signing_us: 28.2
-    verification_us: 12.0
-    bench_env: 2026-10-15-c8i.4xlarge
+    signing_cycles: 108944
+    verification_cycles: 43188
+    signing_us: 29.1
+    verification_us: 12.2
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: one
     level: 1
     recommended: true
     pk: 1456
     sig: 464
-    signing_cycles: 171468
-    verification_cycles: 73806
-    signing_us: 46.3
-    verification_us: 20.6
-    bench_env: 2026-10-15-c8i.4xlarge
+    signing_cycles: 183608
+    verification_cycles: 74246
+    signing_us: 48.2
+    verification_us: 20.1
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: alt (85 76 9 9 16)
     level: 1
     pk: 1726
@@ -275,62 +275,86 @@ versions:
   status: On-ramp
   programmes:
     nist-onramp: round-2
-  perf_source: submission document
+  perf_source: our benchmark
   parametersets:
   - name: five
     level: 5
     pk: 5554
     sig: 964
-    signing_cycles: 2387350
-    verification_cycles: 853920
+    signing_cycles: 2163809
+    verification_cycles: 1037097
+    signing_us: 593.9
+    verification_us: 284.0
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: three
     level: 3
     pk: 2986
     sig: 681
-    signing_cycles: 1017216
-    verification_cycles: 347972
+    signing_cycles: 1042338
+    verification_cycles: 469686
+    signing_us: 268.6
+    verification_us: 121.5
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: two
     level: 1
     pk: 4912
     sig: 186
-    signing_cycles: 286028
-    verification_cycles: 56374
+    signing_cycles: 249400
+    verification_cycles: 59446
     broken: "Wedge attack (<a href=\"https://eprint.iacr.org/2025/1143\">Ran</a>, ePrint 2025/1143) reduces classical security to ~113 bits, below NIST Level I threshold (128 bits)"
+    signing_us: 65.1
+    verification_us: 16.3
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: one
     level: 1
     pk: 1420
     sig: 454
-    signing_cycles: 471028
-    verification_cycles: 153266
+    signing_cycles: 492911
+    verification_cycles: 215036
     warning: "Improved MQ attack (<a href=\"https://eprint.iacr.org/2026/1054\">Asanuma et al.</a>, ePrint 2026/1054) reduces classical security estimate from 2^156 to 2^145 — still above NIST Level I threshold (128 bits)"
+    signing_us: 127.6
+    verification_us: 56.2
+    bench_env: 2026-10-16-c8i.4xlarge
 - version: Round 1
   date: '2023-06-01'
   status: On-ramp
   programmes:
     nist-onramp: round-1
-  perf_source: submission document
+  perf_source: our benchmark
   parametersets:
   - name: five
     level: 5
     pk: 5008
     sig: 838
-    signing_cycles: 4149954
-    verification_cycles: 1186132
+    signing_cycles: 3778428
+    verification_cycles: 1246986
+    signing_us: 1033.7
+    verification_us: 343.8
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: three
     level: 3
     pk: 2656
     sig: 577
-    signing_cycles: 1663666
-    verification_cycles: 610010
+    signing_cycles: 1780768
+    verification_cycles: 575936
+    signing_us: 473.1
+    verification_us: 153.4
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: two
     level: 1
     pk: 5488
     sig: 180
-    signing_cycles: 563900
-    verification_cycles: 91512
+    signing_cycles: 461015
+    verification_cycles: 92113
+    signing_us: 122.3
+    verification_us: 25.3
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: one
     level: 1
     pk: 1168
     sig: 321
-    signing_cycles: 460978
-    verification_cycles: 175158
+    signing_cycles: 383242
+    verification_cycles: 166594
+    signing_us: 99.4
+    verification_us: 43.9
+    bench_env: 2026-10-16-c8i.4xlarge

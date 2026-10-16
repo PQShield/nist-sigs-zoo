@@ -16,71 +16,71 @@ versions:
     level: 3
     pk: 48
     sig: 16224
-    signing_cycles: 3741107318
-    verification_cycles: 3112385
-    signing_us: 993365.0
-    verification_us: 826.0
-    bench_env: 2026-10-15-c8i.4xlarge
+    signing_cycles: 3888175247
+    verification_cycles: 3195560
+    signing_us: 1019649.3
+    verification_us: 842.4
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: SHAKE-256s
     recommended: true
     level: 5
     pk: 64
     sig: 29792
-    signing_cycles: 3406432020
-    verification_cycles: 4557943
-    signing_us: 900893.1
-    verification_us: 1206.5
-    bench_env: 2026-10-15-c8i.4xlarge
+    signing_cycles: 3535384695
+    verification_cycles: 4788314
+    signing_us: 922565.3
+    verification_us: 1248.7
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: SHAKE-128s
     recommended: true
     level: 1
     pk: 32
     sig: 7856
-    signing_cycles: 2092625880
-    verification_cycles: 2098024
-    signing_us: 541379.2
-    verification_us: 541.3
-    bench_env: 2026-10-15-c8i.4xlarge
+    signing_cycles: 2207552792
+    verification_cycles: 2186413
+    signing_us: 576409.6
+    verification_us: 575.6
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: SHAKE-256f
     recommended: true
     level: 5
     pk: 64
     sig: 49856
-    signing_cycles: 349669206
-    verification_cycles: 9218082
-    signing_us: 92251.0
-    verification_us: 2428.0
-    bench_env: 2026-10-15-c8i.4xlarge
+    signing_cycles: 364303908
+    verification_cycles: 9580418
+    signing_us: 94575.1
+    verification_us: 2485.8
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: SHAKE-192f
     recommended: true
     level: 3
     pk: 48
     sig: 35664
-    signing_cycles: 166171561
-    verification_cycles: 8856925
-    signing_us: 44113.7
-    verification_us: 2352.1
-    bench_env: 2026-10-15-c8i.4xlarge
+    signing_cycles: 168407028
+    verification_cycles: 8948359
+    signing_us: 43564.6
+    verification_us: 2316.7
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: SHAKE-128f
     recommended: true
     level: 1
     pk: 32
     sig: 17088
-    signing_cycles: 100953382
-    verification_cycles: 6049257
-    signing_us: 26778.3
-    verification_us: 1603.5
-    bench_env: 2026-10-15-c8i.4xlarge
+    signing_cycles: 102623288
+    verification_cycles: 6088374
+    signing_us: 26550.7
+    verification_us: 1576.9
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: SHAKE-128-24
     level: 1
     pk: 32
     sig: 3856
     notes: NIST SP 800-230 ipd (initial public draft, 2026-04-13) limited-signature parameter set, at most 2^24 signatures per signing key. Not final; may change.
-    signing_cycles: 1462445231568
-    verification_cycles: 316950
-    signing_us: 394682399.8
-    verification_us: 83.4
-    bench_env: 2026-10-15-c8i.4xlarge
+    signing_cycles: 1483886086695
+    verification_cycles: 320473
+    signing_us: 383640305.2
+    verification_us: 83.1
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: SHAKE-192-24
     level: 3
     pk: 48

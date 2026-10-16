@@ -10,37 +10,37 @@ parametersets:
   ngcc_level: 128
   pk: 3866
   ct: 7332
-  keygen_cycles: 1827522
-  encaps_cycles: 3051633
-  decaps_cycles: 9934276
-  keygen_us: 473.6
-  encaps_us: 790.5
-  decaps_us: 2613.2
-  bench_env: 2026-10-15-c8i.4xlarge
+  keygen_cycles: 1723030
+  encaps_cycles: 2882486
+  decaps_cycles: 7193988
+  keygen_us: 446.3
+  encaps_us: 746.7
+  decaps_us: 1860.5
+  bench_env: 2026-10-16-c8i.4xlarge
   notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 - name: CMultiURAG-256
   ngcc_level: 256
   pk: 10780
   ct: 15304
-  keygen_cycles: 3909941
-  encaps_cycles: 6171976
-  decaps_cycles: 18276821
-  keygen_us: 1010.7
-  encaps_us: 1595.4
-  decaps_us: 4722.0
-  bench_env: 2026-10-15-c8i.4xlarge
+  keygen_cycles: 3680210
+  encaps_cycles: 5875547
+  decaps_cycles: 14483501
+  keygen_us: 951.8
+  encaps_us: 1520.1
+  decaps_us: 3743.0
+  bench_env: 2026-10-16-c8i.4xlarge
   notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 - name: CMultiURAG-512
   ngcc_level: 512
   pk: 28866
   ct: 40926
-  keygen_cycles: 16381292
-  encaps_cycles: 23017917
-  decaps_cycles: 65669001
-  keygen_us: 4239.2
-  encaps_us: 5990.4
-  decaps_us: 17073.3
-  bench_env: 2026-10-15-c8i.4xlarge
+  keygen_cycles: 16041361
+  encaps_cycles: 22510949
+  decaps_cycles: 61876622
+  keygen_us: 4151.2
+  encaps_us: 5859.6
+  decaps_us: 16092.3
+  bench_env: 2026-10-16-c8i.4xlarge
   notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 findings_url: https://ngcc.dev/reports/kem-10.html
 implementation: Malformed ciphertexts crash the submitted reference decapsulation, and ignored padding bits make the 512-bit set's ciphertexts malleable (<a href="https://ngcc.dev/reports/kem-10.html#kem-10-1-malformed-ciphertexts-crash-the-reference-decapsulator">Saarinen</a>).

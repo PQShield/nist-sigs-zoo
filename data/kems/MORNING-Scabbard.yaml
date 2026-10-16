@@ -10,36 +10,36 @@ parametersets:
   ngcc_level: 128
   pk: 736
   ct: 760
-  keygen_cycles: 635114
-  encaps_cycles: 647626
-  decaps_cycles: 633504
-  keygen_us: 168.9
-  encaps_us: 172.8
-  decaps_us: 168.6
-  bench_env: 2026-10-15-c8i.4xlarge
+  keygen_cycles: 632311
+  encaps_cycles: 636145
+  decaps_cycles: 618274
+  keygen_us: 167.4
+  encaps_us: 168.4
+  decaps_us: 163.7
+  bench_env: 2026-10-16-c8i.4xlarge
   notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 - name: scabbard256
   ngcc_level: 256
   pk: 1616
   ct: 1648
-  keygen_cycles: 1144955
-  encaps_cycles: 1199102
-  decaps_cycles: 1194447
-  keygen_us: 312.2
-  encaps_us: 328.9
-  decaps_us: 326.1
-  bench_env: 2026-10-15-c8i.4xlarge
+  keygen_cycles: 1116492
+  encaps_cycles: 1167965
+  decaps_cycles: 1199272
+  keygen_us: 291.9
+  encaps_us: 306.2
+  decaps_us: 316.6
+  bench_env: 2026-10-16-c8i.4xlarge
   notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 - name: scabbard512
   ngcc_level: 512
   pk: 2880
   ct: 3072
-  keygen_cycles: 3179271
-  encaps_cycles: 3380477
-  decaps_cycles: 3290331
-  keygen_us: 869.9
-  encaps_us: 926.3
-  decaps_us: 900.7
-  bench_env: 2026-10-15-c8i.4xlarge
+  keygen_cycles: 3153853
+  encaps_cycles: 3382504
+  decaps_cycles: 3276613
+  keygen_us: 837.8
+  encaps_us: 891.1
+  decaps_us: 867.1
+  bench_env: 2026-10-16-c8i.4xlarge
   notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 findings_url: https://ngcc.dev/reports/kem-24.html

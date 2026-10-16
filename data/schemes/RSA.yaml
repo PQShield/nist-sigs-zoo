@@ -12,20 +12,20 @@ versions:
     level: Pre-Quantum
     pk: 272
     sig: 256
-    signing_cycles: 1873153
-    verification_cycles: 75550
-    signing_us: 494.0
-    verification_us: 22.0
-    bench_env: 2026-10-15-c8i.4xlarge
+    signing_cycles: 1873189
+    verification_cycles: 75514
+    signing_us: 493.5
+    verification_us: 22.1
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: '3072'
     level: Pre-Quantum
     pk: 422
     sig: 384
-    signing_cycles: 4475990
-    verification_cycles: 148608
-    signing_us: 1200.2
-    verification_us: 42.9
-    bench_env: 2026-10-15-c8i.4xlarge
+    signing_cycles: 4465521
+    verification_cycles: 148315
+    signing_us: 1192.5
+    verification_us: 42.8
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: '4096'
     level: Pre-Quantum
     pk: 550

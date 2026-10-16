@@ -11,65 +11,65 @@ parametersets:
   level: 2
   pk: 994
   ct: 897
-  keygen_cycles: 612233
-  encaps_cycles: 49132
-  decaps_cycles: 51368
-  keygen_us: 162.9
-  encaps_us: 14.0
-  decaps_us: 14.7
-  bench_env: 2026-10-15-c8i.4xlarge
+  keygen_cycles: 501576
+  encaps_cycles: 50114
+  decaps_cycles: 57668
+  keygen_us: 134.3
+  encaps_us: 14.3
+  decaps_us: 16.3
+  bench_env: 2026-10-16-c8i.4xlarge
 - name: sntrup761
   level: 2
   pk: 1158
   ct: 1039
-  keygen_cycles: 787577
-  encaps_cycles: 53836
-  decaps_cycles: 53533
-  keygen_us: 209.5
-  encaps_us: 15.3
-  decaps_us: 15.2
-  bench_env: 2026-10-15-c8i.4xlarge
+  keygen_cycles: 654664
+  encaps_cycles: 55619
+  decaps_cycles: 61128
+  keygen_us: 174.3
+  encaps_us: 15.8
+  decaps_us: 17.3
+  bench_env: 2026-10-16-c8i.4xlarge
 - name: sntrup857
   level: 3
   pk: 1322
   ct: 1184
-  keygen_cycles: 985699
-  encaps_cycles: 63966
-  decaps_cycles: 71086
-  keygen_us: 260.9
-  encaps_us: 18.0
-  decaps_us: 19.9
-  bench_env: 2026-10-15-c8i.4xlarge
+  keygen_cycles: 792511
+  encaps_cycles: 65952
+  decaps_cycles: 77220
+  keygen_us: 217.1
+  encaps_us: 19.0
+  decaps_us: 22.1
+  bench_env: 2026-10-16-c8i.4xlarge
 - name: sntrup953
   level: 4
   pk: 1505
   ct: 1349
-  keygen_cycles: 1178770
-  encaps_cycles: 69900
-  decaps_cycles: 74899
-  keygen_us: 313.3
-  encaps_us: 19.6
-  decaps_us: 20.9
-  bench_env: 2026-10-15-c8i.4xlarge
+  keygen_cycles: 989404
+  encaps_cycles: 71726
+  decaps_cycles: 82010
+  keygen_us: 262.2
+  encaps_us: 20.0
+  decaps_us: 22.8
+  bench_env: 2026-10-16-c8i.4xlarge
 - name: sntrup1013
   level: 4
   pk: 1623
   ct: 1455
-  keygen_cycles: 1434208
-  encaps_cycles: 74118
-  decaps_cycles: 77525
-  keygen_us: 372.3
-  encaps_us: 21.6
-  decaps_us: 21.1
-  bench_env: 2026-10-15-c8i.4xlarge
+  keygen_cycles: 1171620
+  encaps_cycles: 74394
+  decaps_cycles: 84605
+  keygen_us: 310.9
+  encaps_us: 20.7
+  decaps_us: 23.4
+  bench_env: 2026-10-16-c8i.4xlarge
 - name: sntrup1277
   level: 5
   pk: 2067
   ct: 1847
-  keygen_cycles: 2114563
-  encaps_cycles: 96670
-  decaps_cycles: 105260
-  keygen_us: 546.8
+  keygen_cycles: 1678078
+  encaps_cycles: 96848
+  decaps_cycles: 99596
+  keygen_us: 445.7
   encaps_us: 27.6
-  decaps_us: 29.5
-  bench_env: 2026-10-15-c8i.4xlarge
+  decaps_us: 27.4
+  bench_env: 2026-10-16-c8i.4xlarge

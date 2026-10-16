@@ -10,36 +10,36 @@ parametersets:
   ngcc_level: 128
   pk: 880
   ct: 912
-  keygen_cycles: 3262177
-  encaps_cycles: 3247954
-  decaps_cycles: 3243352
-  keygen_us: 844.7
-  encaps_us: 841.0
-  decaps_us: 840.0
-  bench_env: 2026-10-15-c8i.4xlarge
+  keygen_cycles: 3141144
+  encaps_cycles: 3141402
+  decaps_cycles: 3131424
+  keygen_us: 812.8
+  encaps_us: 812.9
+  decaps_us: 810.6
+  bench_env: 2026-10-16-c8i.4xlarge
   notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 - name: lwekem256
   ngcc_level: 256
   pk: 1760
   ct: 1728
-  keygen_cycles: 6488854
-  encaps_cycles: 6488152
-  decaps_cycles: 6477607
-  keygen_us: 1679.1
-  encaps_us: 1678.7
-  decaps_us: 1675.4
-  bench_env: 2026-10-15-c8i.4xlarge
+  keygen_cycles: 6268607
+  encaps_cycles: 6248310
+  decaps_cycles: 6237797
+  keygen_us: 1621.1
+  encaps_us: 1616.0
+  decaps_us: 1613.1
+  bench_env: 2026-10-16-c8i.4xlarge
   notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 - name: lwekem512
   ngcc_level: 512
   pk: 3392
   ct: 3552
-  keygen_cycles: 21095409
-  encaps_cycles: 21065957
-  decaps_cycles: 21087371
-  keygen_us: 5448.2
-  encaps_us: 5440.8
-  decaps_us: 5446.8
-  bench_env: 2026-10-15-c8i.4xlarge
+  keygen_cycles: 20843329
+  encaps_cycles: 20797815
+  decaps_cycles: 20825381
+  keygen_us: 5384.5
+  encaps_us: 5373.1
+  decaps_us: 5380.3
+  bench_env: 2026-10-16-c8i.4xlarge
   notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 findings_url: https://ngcc.dev/reports/kem-34.html

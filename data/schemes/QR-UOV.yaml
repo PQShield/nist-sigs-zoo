@@ -16,76 +16,91 @@ versions:
     recommended: true
     pk: 24256
     sig: 200
-    signing_cycles: 544405
-    verification_cycles: 295990
-    signing_us: 140.7
-    verification_us: 77.0
-    bench_env: 2026-10-15-c8i.4xlarge
+    signing_cycles: 539012
+    verification_cycles: 297593
+    signing_us: 139.4
+    verification_us: 77.5
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: I-(127 540 60 10)
     level: 1
     recommended: true
     pk: 11041
     sig: 541
-    signing_cycles: 2561561
-    verification_cycles: 847424
-    signing_us: 664.6
-    verification_us: 218.6
-    bench_env: 2026-10-15-c8i.4xlarge
+    signing_cycles: 2566026
+    verification_cycles: 826999
+    signing_us: 665.3
+    verification_us: 217.4
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: III-(127 228 78 3)
     level: 3
     recommended: true
     pk: 71884
     sig: 292
-    signing_cycles: 1453123
-    verification_cycles: 856701
-    signing_us: 373.9
-    verification_us: 222.5
-    bench_env: 2026-10-15-c8i.4xlarge
+    signing_cycles: 1449729
+    verification_cycles: 847262
+    signing_us: 376.4
+    verification_us: 218.7
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: III-(127 820 90 10)
     level: 3
     recommended: true
     pk: 35454
     sig: 821
-    signing_cycles: 8380105
-    verification_cycles: 2684239
-    signing_us: 2166.9
-    verification_us: 695.7
-    bench_env: 2026-10-15-c8i.4xlarge
+    signing_cycles: 8361785
+    verification_cycles: 2757223
+    signing_us: 2161.1
+    verification_us: 713.4
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: V-(127 306 105 3)
     level: 5
     recommended: true
     pk: 173660
     sig: 392
-    signing_cycles: 3547133
-    verification_cycles: 1988596
-    signing_us: 918.3
-    verification_us: 515.7
-    bench_env: 2026-10-15-c8i.4xlarge
+    signing_cycles: 3422694
+    verification_cycles: 2017823
+    signing_us: 885.8
+    verification_us: 523.4
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: V-(127 1040 110 10)
     level: 5
     recommended: true
     pk: 63541
     sig: 1039
-    signing_cycles: 14973309
-    verification_cycles: 5280592
-    signing_us: 3871.7
-    verification_us: 1366.3
-    bench_env: 2026-10-15-c8i.4xlarge
+    signing_cycles: 14745589
+    verification_cycles: 5133917
+    signing_us: 3818.1
+    verification_us: 1329.5
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: I-(7 740 100 10)
     level: 1
     pk: 20641
     sig: 331
     notes: "Additional parameter set (q, v, m, l) from spec Appendix B (Tables 16-17), carried over from the round-2 specification; built from the official code like the main sets."
+    signing_cycles: 8319338
+    verification_cycles: 2410250
+    signing_us: 2151.4
+    verification_us: 625.2
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: I-(31 165 60 3)
     level: 1
     pk: 23641
     sig: 157
     notes: "Additional parameter set (q, v, m, l) from spec Appendix B (Tables 16-17), carried over from the round-2 specification; built from the official code like the main sets."
+    signing_cycles: 753140
+    verification_cycles: 318749
+    signing_us: 194.2
+    verification_us: 82.9
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: I-(31 600 70 10)
     level: 1
     pk: 12266
     sig: 435
     notes: "Additional parameter set (q, v, m, l) from spec Appendix B (Tables 16-17), carried over from the round-2 specification; built from the official code like the main sets."
+    signing_cycles: 3462180
+    verification_cycles: 975132
+    signing_us: 896.4
+    verification_us: 251.2
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: III-(7 1100 140 10)
     level: 3
     pk: 55141
@@ -101,6 +116,11 @@ versions:
     pk: 34391
     sig: 643
     notes: "Additional parameter set (q, v, m, l) from spec Appendix B (Tables 16-17), carried over from the round-2 specification; built from the official code like the main sets."
+    signing_cycles: 10739696
+    verification_cycles: 2842160
+    signing_us: 2776.1
+    verification_us: 736.3
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: V-(7 1490 190 10)
     level: 5
     pk: 135391
@@ -116,192 +136,245 @@ versions:
     pk: 58516
     sig: 807
     notes: "Additional parameter set (q, v, m, l) from spec Appendix B (Tables 16-17), carried over from the round-2 specification; built from the official code like the main sets."
+    signing_cycles: 18844146
+    verification_cycles: 5278907
+    signing_us: 4870.6
+    verification_us: 1364.8
+    bench_env: 2026-10-16-c8i.4xlarge
 - version: Round 2
   date: '2025-02-05'
   status: On-ramp
   programmes:
     nist-onramp: round-2
-  perf_source: submission document
+  perf_source: our benchmark
   parametersets:
   - name: I-(127 156 54 3)
     level: 1
     pk: 24256
     sig: 200
-    signing_cycles: 4419431
-    verification_cycles: 3839363
-    signing_us: 1172.3
-    verification_us: 1019.4
+    signing_cycles: 2217398
+    verification_cycles: 1829729
+    signing_us: 592.8
+    verification_us: 487.6
+    bench_env: 2026-10-16-c8i.4xlarge
     notes: Public-key size of the submitted implementation (CRYPTO_PUBLICKEYBYTES); the specification gives 24255 bytes.
   - name: I-(31 165 60 3)
     level: 1
     pk: 23641
     sig: 157
-    signing_cycles: 6302939
-    verification_cycles: 5521774
-    signing_us: 1672.8
-    verification_us: 1464.8
+    signing_cycles: 3543389
+    verification_cycles: 2598793
+    signing_us: 1008.2
+    verification_us: 724.8
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: I-(31 600 70 10)
     level: 1
     pk: 12266
     sig: 435
-    signing_cycles: 23962174
-    verification_cycles: 25174400
-    signing_us: 6355.4
-    verification_us: 6678.1
+    signing_cycles: 14793272
+    verification_cycles: 15813591
+    signing_us: 3974.1
+    verification_us: 4202.1
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: I-(7 740 100 10)
     level: 1
     pk: 20641
     sig: 331
-    signing_cycles: 69460247
-    verification_cycles: 69682170
-    signing_us: 18429.7
-    verification_us: 18487.1
+    signing_cycles: 47110907
+    verification_cycles: 47479099
+    signing_us: 12510.6
+    verification_us: 12603.4
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: III-(127 228 78 3)
     level: 3
     pk: 71892
     sig: 292
-    signing_cycles: 15244564
-    verification_cycles: 13414704
-    signing_us: 4043.5
-    verification_us: 3556.4
+    signing_cycles: 6430214
+    verification_cycles: 4855059
+    signing_us: 1784.9
+    verification_us: 1338.5
+    bench_env: 2026-10-16-c8i.4xlarge
     notes: Public-key size of the submitted implementation (CRYPTO_PUBLICKEYBYTES); the specification gives 71891 bytes.
   - name: III-(31 246 87 3)
     level: 3
     pk: 70984
     sig: 233
-    signing_cycles: 21029265
-    verification_cycles: 18588326
-    signing_us: 5576.1
-    verification_us: 4929.6
+    signing_cycles: 10131585
+    verification_cycles: 7155999
+    signing_us: 2785.5
+    verification_us: 1900.1
+    bench_env: 2026-10-16-c8i.4xlarge
     notes: Public-key and signature sizes of the submitted implementation (CRYPTO_PUBLICKEYBYTES, CRYPTO_BYTES); the specification gives 70983 and 232 bytes.
   - name: III-(31 890 100 10)
     level: 3
     pk: 34399
     sig: 643
-    signing_cycles: 76840293
-    verification_cycles: 78019677
-    signing_us: 20383.6
-    verification_us: 20701.1
+    signing_cycles: 40924132
+    verification_cycles: 42531723
+    signing_us: 10842.4
+    verification_us: 11277.3
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: III-(7 1100 140 10)
     level: 3
     pk: 55149
     sig: 489
-    signing_cycles: 217950266
-    verification_cycles: 215029388
-    signing_us: 57847.2
-    verification_us: 57066.7
+    signing_cycles: 130785624
+    verification_cycles: 129384273
+    signing_us: 34404.8
+    verification_us: 33878.6
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: V-(127 306 105 3)
     level: 5
     pk: 173676
     sig: 392
-    signing_cycles: 34372587
-    verification_cycles: 29716230
-    signing_us: 9118.4
-    verification_us: 7881.1
+    signing_cycles: 15297202
+    verification_cycles: 10224569
+    signing_us: 3952.4
+    verification_us: 2644.2
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: V-(31 1120 120 10)
     level: 5
     pk: 58532
     sig: 807
-    signing_cycles: 144789992
-    verification_cycles: 144989092
-    signing_us: 38408.8
-    verification_us: 38468.6
+    signing_cycles: 81571599
+    verification_cycles: 82308056
+    signing_us: 21076.2
+    verification_us: 21263.8
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: V-(31 324 114 3)
     level: 5
     pk: 158421
     sig: 306
-    signing_cycles: 47425558
-    verification_cycles: 41814577
-    signing_us: 12577.2
-    verification_us: 11088.0
+    signing_cycles: 21856655
+    verification_cycles: 16111625
+    signing_us: 5646.7
+    verification_us: 4165.7
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: V-(7 1490 190 10)
     level: 5
     pk: 135407
     sig: 662
-    signing_cycles: 533772005
-    verification_cycles: 522884365
-    signing_us: 142656.1
-    verification_us: 138960.3
+    signing_cycles: 308706542
+    verification_cycles: 296441553
+    signing_us: 79762.2
+    verification_us: 76607.9
+    bench_env: 2026-10-16-c8i.4xlarge
 - version: Round 1
   date: '2023-06-01'
   status: On-ramp
   programmes:
     nist-onramp: round-1
-  perf_source: submission document
+  perf_source: our benchmark
   parametersets:
   - name: V-(127, 306, 105, 3)
     level: 5
     pk: 173708
     sig: 392
-    signing_cycles: 4254736000
-    verification_cycles: 1169402000
+    signing_cycles: 188371224
+    verification_cycles: 75944938
+    signing_us: 48843.9
+    verification_us: 19779.2
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: III-(127, 228, 78, 3)
     level: 3
     pk: 71916
     sig: 292
-    signing_cycles: 1555131000
-    verification_cycles: 524886000
+    signing_cycles: 51003495
+    verification_cycles: 31091124
     notes: Public-key size of the submitted implementation (CRYPTO_PUBLICKEYBYTES); the specification gives 71915 bytes.
+    signing_us: 13225.8
+    verification_us: 8082.3
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: V-(31, 1120, 120, 10)
     level: 5
     pk: 58564
     sig: 807
-    signing_cycles: 1074835000
-    verification_cycles: 433574000
+    signing_cycles: 909097760
+    verification_cycles: 633253599
+    signing_us: 242339.0
+    verification_us: 170610.4
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: III-(31, 890, 100, 10)
     level: 3
     pk: 34423
     sig: 643
-    signing_cycles: 573433000
-    verification_cycles: 232156000
+    signing_cycles: 430843845
+    verification_cycles: 332809710
+    signing_us: 111665.3
+    verification_us: 86189.1
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: I-(127, 156, 54, 3)
     level: 1
     pk: 24272
     sig: 200
-    signing_cycles: 361728000
-    verification_cycles: 144955000
+    signing_cycles: 13045900
+    verification_cycles: 9654954
     notes: Public-key size of the submitted implementation (CRYPTO_PUBLICKEYBYTES); the specification gives 24271 bytes.
+    signing_us: 3387.8
+    verification_us: 2512.0
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: V-(31, 324, 114, 3)
     level: 5
     pk: 158453
     sig: 306
-    signing_cycles: 337483000
-    verification_cycles: 119098000
+    signing_cycles: 177093686
+    verification_cycles: 86880760
+    signing_us: 46152.0
+    verification_us: 22642.9
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: V-(7, 1490, 190, 10)
     level: 5
     pk: 135439
     sig: 662
-    signing_cycles: 221341000
-    verification_cycles: 10865000
+    signing_cycles: 2611341604
+    verification_cycles: 1108242527
+    signing_us: 725187.1
+    verification_us: 316000.2
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: III-(31, 246, 87, 3)
     level: 3
     pk: 71008
     sig: 233
-    signing_cycles: 153006000
-    verification_cycles: 5349000
+    signing_cycles: 66990482
+    verification_cycles: 38442662
     notes: Public-key and signature sizes of the submitted implementation (CRYPTO_PUBLICKEYBYTES, CRYPTO_BYTES); the specification gives 71007 and 232 bytes.
+    signing_us: 17394.1
+    verification_us: 10003.0
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: I-(31, 600, 70, 10)
     level: 1
     pk: 12282
     sig: 435
-    signing_cycles: 135849000
-    verification_cycles: 68947000
+    signing_cycles: 111896580
+    verification_cycles: 105570901
+    signing_us: 28958.7
+    verification_us: 27329.1
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: III-(7, 1100, 140, 10)
     level: 3
     pk: 55173
     sig: 508
-    signing_cycles: 98376000
-    verification_cycles: 47636000
+    signing_cycles: 829957499
+    verification_cycles: 480259612
     notes: Signature size of the submitted implementation, which builds this set with v = 1150 (CRYPTO_BYTES); the specification gives 489 bytes (v = 1100).
+    signing_us: 230234.3
+    verification_us: 134515.2
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: I-(31, 165, 60, 3)
     level: 1
     pk: 23657
     sig: 157
-    signing_cycles: 25217000
-    verification_cycles: 15973000
+    signing_cycles: 17266290
+    verification_cycles: 11493088
+    signing_us: 4484.7
+    verification_us: 2991.0
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: I-(7, 740, 100, 10)
     level: 1
     pk: 20657
     sig: 331
-    signing_cycles: 24823000
-    verification_cycles: 13539000
+    signing_cycles: 200943895
+    verification_cycles: 141785976
+    signing_us: 52034.1
+    verification_us: 36738.1
+    bench_env: 2026-10-16-c8i.4xlarge

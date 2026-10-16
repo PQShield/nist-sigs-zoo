@@ -14,30 +14,30 @@ versions:
     ngcc_level: 128
     pk: 1344
     sig: 2564
-    signing_cycles: 1241444
-    verification_cycles: 538708
-    signing_us: 319.4
-    verification_us: 139.2
-    bench_env: 2026-10-15-c8i.4xlarge
+    signing_cycles: 1232509
+    verification_cycles: 535633
+    signing_us: 317.1
+    verification_us: 138.4
+    bench_env: 2026-10-16-c8i.4xlarge
     notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
   - name: Octarine-256
     ngcc_level: 256
     pk: 2368
     sig: 5449
-    signing_cycles: 2515010
-    verification_cycles: 1028653
-    signing_us: 649.9
-    verification_us: 264.9
-    bench_env: 2026-10-15-c8i.4xlarge
+    signing_cycles: 2497062
+    verification_cycles: 1021604
+    signing_us: 647.0
+    verification_us: 263.1
+    bench_env: 2026-10-16-c8i.4xlarge
     notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
   - name: Octarine-512
     ngcc_level: 512
     pk: 5184
     sig: 14713
-    signing_cycles: 8956507
-    verification_cycles: 2505218
-    signing_us: 2315.6
-    verification_us: 649.7
-    bench_env: 2026-10-15-c8i.4xlarge
+    signing_cycles: 6609574
+    verification_cycles: 2468197
+    signing_us: 1720.2
+    verification_us: 640.2
+    bench_env: 2026-10-16-c8i.4xlarge
     notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
   findings_url: https://ngcc.dev/reports/sign-16.html

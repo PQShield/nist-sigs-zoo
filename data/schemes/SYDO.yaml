@@ -14,60 +14,60 @@ versions:
     ngcc_level: 128
     pk: 80
     sig: 5428
-    signing_cycles: 82222834
-    verification_cycles: 71905754
-    signing_us: 21937.1
-    verification_us: 19162.3
-    bench_env: 2026-10-15-c8i.4xlarge
+    signing_cycles: 80403077
+    verification_cycles: 71357663
+    signing_us: 21387.2
+    verification_us: 18983.2
+    bench_env: 2026-10-16-c8i.4xlarge
     notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
   - name: sydo_160f
     ngcc_level: 128
     pk: 80
     sig: 6724
-    signing_cycles: 15711208
-    verification_cycles: 15074882
-    signing_us: 4162.0
-    verification_us: 3987.0
-    bench_env: 2026-10-15-c8i.4xlarge
+    signing_cycles: 15633386
+    verification_cycles: 15001702
+    signing_us: 4136.4
+    verification_us: 3965.9
+    bench_env: 2026-10-16-c8i.4xlarge
     notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
   - name: sydo_256s
     ngcc_level: 256
     pk: 128
     sig: 14444
-    signing_cycles: 176096936
-    verification_cycles: 174892956
-    signing_us: 46984.2
-    verification_us: 46614.9
-    bench_env: 2026-10-15-c8i.4xlarge
+    signing_cycles: 174853273
+    verification_cycles: 173463646
+    signing_us: 47076.7
+    verification_us: 46586.6
+    bench_env: 2026-10-16-c8i.4xlarge
     notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
   - name: sydo_256f
     ngcc_level: 256
     pk: 128
     sig: 17604
-    signing_cycles: 36493544
-    verification_cycles: 35560244
-    signing_us: 9699.1
-    verification_us: 9442.2
-    bench_env: 2026-10-15-c8i.4xlarge
+    signing_cycles: 36285049
+    verification_cycles: 35285998
+    signing_us: 9638.3
+    verification_us: 9359.5
+    bench_env: 2026-10-16-c8i.4xlarge
     notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
   - name: sydo_512s
     ngcc_level: 512
     pk: 246
     sig: 56672
-    signing_cycles: 1368866054
-    verification_cycles: 1265664836
-    signing_us: 362431.7
-    verification_us: 334477.2
-    bench_env: 2026-10-15-c8i.4xlarge
+    signing_cycles: 1354564913
+    verification_cycles: 1264358551
+    signing_us: 360765.7
+    verification_us: 336799.7
+    bench_env: 2026-10-16-c8i.4xlarge
     notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
   - name: sydo_512f
     ngcc_level: 512
     pk: 246
     sig: 67716
-    signing_cycles: 260877298
-    verification_cycles: 258126267
-    signing_us: 68464.4
-    verification_us: 67881.9
-    bench_env: 2026-10-15-c8i.4xlarge
+    signing_cycles: 261901312
+    verification_cycles: 259215493
+    signing_us: 69117.4
+    verification_us: 68532.0
+    bench_env: 2026-10-16-c8i.4xlarge
     notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
   findings_url: https://ngcc.dev/reports/sign-28.html

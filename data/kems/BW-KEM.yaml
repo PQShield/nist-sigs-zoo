@@ -11,26 +11,26 @@ parametersets:
   recommended: true
   pk: 784
   ct: 768
-  keygen_cycles: 272996
-  encaps_cycles: 317376
-  decaps_cycles: 379253
-  keygen_us: 71.0
-  encaps_us: 82.4
-  decaps_us: 98.3
-  bench_env: 2026-10-15-c8i.4xlarge
+  keygen_cycles: 264906
+  encaps_cycles: 307654
+  decaps_cycles: 368896
+  keygen_us: 69.0
+  encaps_us: 79.9
+  decaps_us: 95.7
+  bench_env: 2026-10-16-c8i.4xlarge
   notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 - name: BW_KEM_C256
   ngcc_level: 256
   recommended: true
   pk: 1568
   ct: 1440
-  keygen_cycles: 686594
-  encaps_cycles: 734353
-  decaps_cycles: 851690
-  keygen_us: 177.1
-  encaps_us: 189.4
-  decaps_us: 220.0
-  bench_env: 2026-10-15-c8i.4xlarge
+  keygen_cycles: 668029
+  encaps_cycles: 720444
+  decaps_cycles: 826155
+  keygen_us: 172.4
+  encaps_us: 185.8
+  decaps_us: 213.1
+  bench_env: 2026-10-16-c8i.4xlarge
   notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 - name: BW_KEM_C384
   ngcc_level: 384
@@ -44,12 +44,12 @@ parametersets:
   recommended: true
   pk: 3136
   ct: 2944
-  keygen_cycles: 2361729
-  encaps_cycles: 2437637
-  decaps_cycles: 2811300
-  keygen_us: 612.6
-  encaps_us: 632.2
-  decaps_us: 728.6
-  bench_env: 2026-10-15-c8i.4xlarge
+  keygen_cycles: 2324275
+  encaps_cycles: 2402770
+  decaps_cycles: 2769707
+  keygen_us: 603.4
+  encaps_us: 623.3
+  decaps_us: 717.4
+  bench_env: 2026-10-16-c8i.4xlarge
   notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 findings_url: https://ngcc.dev/reports/kem-08.html

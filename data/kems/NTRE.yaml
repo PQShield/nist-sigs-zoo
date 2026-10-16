@@ -11,37 +11,37 @@ parametersets:
   ngcc_level: 128
   pk: 972
   ct: 972
-  keygen_cycles: 97791
-  encaps_cycles: 99530
-  decaps_cycles: 85345
-  keygen_us: 26.1
-  encaps_us: 26.6
-  decaps_us: 23.0
-  bench_env: 2026-10-15-c8i.4xlarge
+  keygen_cycles: 97120
+  encaps_cycles: 98977
+  decaps_cycles: 84807
+  keygen_us: 26.0
+  encaps_us: 26.5
+  decaps_us: 22.9
+  bench_env: 2026-10-16-c8i.4xlarge
   notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 - name: NTRE-256
   ngcc_level: 256
   pk: 1944
   ct: 1944
-  keygen_cycles: 146477
-  encaps_cycles: 153545
-  decaps_cycles: 122544
-  keygen_us: 38.6
+  keygen_cycles: 145770
+  encaps_cycles: 153263
+  decaps_cycles: 122147
+  keygen_us: 38.5
   encaps_us: 40.4
-  decaps_us: 32.5
-  bench_env: 2026-10-15-c8i.4xlarge
+  decaps_us: 32.4
+  bench_env: 2026-10-16-c8i.4xlarge
   notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 - name: NTRE-512
   ngcc_level: 512
   pk: 3456
   ct: 3456
-  keygen_cycles: 243939
-  encaps_cycles: 319625
-  decaps_cycles: 265435
-  keygen_us: 63.6
-  encaps_us: 83.0
-  decaps_us: 69.1
-  bench_env: 2026-10-15-c8i.4xlarge
+  keygen_cycles: 242879
+  encaps_cycles: 318625
+  decaps_cycles: 264690
+  keygen_us: 63.4
+  encaps_us: 82.8
+  decaps_us: 69.0
+  bench_env: 2026-10-16-c8i.4xlarge
   notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
   implementation: The submitted code uses a 256-bit secret seed, so offline key search costs at most 2^256, below the 512-bit target (<a href="https://ngcc.dev/reports/kem-27.html#kem-27-1-ntre-512s-256-bit-secret-seed-caps-offline-key-recovery-work">Saarinen</a>).
 findings_url: https://ngcc.dev/reports/kem-27.html

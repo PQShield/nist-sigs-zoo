@@ -10,49 +10,49 @@ parametersets:
   ngcc_level: 128
   pk: 832
   ct: 864
-  keygen_cycles: 272957
-  encaps_cycles: 344559
-  decaps_cycles: 374111
-  keygen_us: 71.1
-  encaps_us: 89.4
-  decaps_us: 97.0
-  bench_env: 2026-10-15-c8i.4xlarge
+  keygen_cycles: 266557
+  encaps_cycles: 336537
+  decaps_cycles: 369552
+  keygen_us: 69.4
+  encaps_us: 87.4
+  decaps_us: 95.9
+  bench_env: 2026-10-16-c8i.4xlarge
   notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 - name: Cheetah256
   ngcc_level: 256
   pk: 1648
   ct: 1728
-  keygen_cycles: 720087
-  encaps_cycles: 805404
-  decaps_cycles: 870966
-  keygen_us: 185.8
-  encaps_us: 207.6
-  decaps_us: 224.5
-  bench_env: 2026-10-15-c8i.4xlarge
+  keygen_cycles: 699848
+  encaps_cycles: 782515
+  decaps_cycles: 850709
+  keygen_us: 180.6
+  encaps_us: 201.8
+  decaps_us: 219.3
+  bench_env: 2026-10-16-c8i.4xlarge
   notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 - name: Cheetah384
   ngcc_level: 384
   pk: 2704
   ct: 2832
-  keygen_cycles: 2276047
-  encaps_cycles: 2393833
-  decaps_cycles: 2563793
-  keygen_us: 590.7
-  encaps_us: 621.1
-  decaps_us: 665.0
-  bench_env: 2026-10-15-c8i.4xlarge
+  keygen_cycles: 2251069
+  encaps_cycles: 2379012
+  decaps_cycles: 2547104
+  keygen_us: 584.4
+  encaps_us: 617.2
+  decaps_us: 660.6
+  bench_env: 2026-10-16-c8i.4xlarge
   notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 - name: Cheetah512
   ngcc_level: 512
   pk: 3600
   ct: 4032
-  keygen_cycles: 3701984
-  encaps_cycles: 3834672
-  decaps_cycles: 4072770
-  keygen_us: 958.0
-  encaps_us: 992.2
-  decaps_us: 1053.7
-  bench_env: 2026-10-15-c8i.4xlarge
+  keygen_cycles: 3658076
+  encaps_cycles: 3779172
+  decaps_cycles: 4009562
+  keygen_us: 946.0
+  encaps_us: 977.1
+  decaps_us: 1036.3
+  bench_env: 2026-10-16-c8i.4xlarge
   notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 findings_url: https://ngcc.dev/reports/kem-09.html
 implementation: A faulty rejection mask in the submitted decapsulation returns most bits of the true shared secret for modified ciphertexts (<a href="https://ngcc.dev/reports/kem-09.html#kem-09-1-partial-rejection-mask-leaks-the-candidate-shared-secret">Saarinen</a>).

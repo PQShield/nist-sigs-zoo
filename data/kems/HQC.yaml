@@ -11,32 +11,32 @@ parametersets:
   level: 1
   pk: 2241
   ct: 4433
-  keygen_cycles: 69454
-  encaps_cycles: 136043
-  decaps_cycles: 306947
-  keygen_us: 18.9
-  encaps_us: 36.0
-  decaps_us: 79.8
-  bench_env: 2026-10-15-c8i.4xlarge
+  keygen_cycles: 69083
+  encaps_cycles: 136458
+  decaps_cycles: 305958
+  keygen_us: 18.8
+  encaps_us: 36.1
+  decaps_us: 79.6
+  bench_env: 2026-10-16-c8i.4xlarge
 - name: HQC-192
   level: 3
   pk: 4514
   ct: 8978
-  keygen_cycles: 162078
-  encaps_cycles: 315979
-  decaps_cycles: 628538
-  keygen_us: 44.6
-  encaps_us: 84.3
-  decaps_us: 166.9
-  bench_env: 2026-10-15-c8i.4xlarge
+  keygen_cycles: 161653
+  encaps_cycles: 314864
+  decaps_cycles: 626871
+  keygen_us: 43.8
+  encaps_us: 84.0
+  decaps_us: 166.2
+  bench_env: 2026-10-16-c8i.4xlarge
 - name: HQC-256
   level: 5
   pk: 7237
   ct: 14421
-  keygen_cycles: 323029
-  encaps_cycles: 632857
-  decaps_cycles: 1221329
-  keygen_us: 86.2
-  encaps_us: 167.7
-  decaps_us: 322.7
-  bench_env: 2026-10-15-c8i.4xlarge
+  keygen_cycles: 321470
+  encaps_cycles: 630564
+  decaps_cycles: 1214996
+  keygen_us: 86.1
+  encaps_us: 168.0
+  decaps_us: 324.0
+  bench_env: 2026-10-16-c8i.4xlarge

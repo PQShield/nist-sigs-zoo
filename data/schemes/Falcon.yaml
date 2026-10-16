@@ -14,17 +14,17 @@ versions:
     level: 5
     pk: 1793
     sig: 1280
-    signing_cycles: 1171645
-    verification_cycles: 111120
-    signing_us: 306.3
+    signing_cycles: 1073331
+    verification_cycles: 111359
+    signing_us: 280.1
     verification_us: 31.3
-    bench_env: 2026-10-15-c8i.4xlarge
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: '512'
     level: 1
     pk: 897
     sig: 666
-    signing_cycles: 583666
-    verification_cycles: 57038
-    signing_us: 153.6
-    verification_us: 17.4
-    bench_env: 2026-10-15-c8i.4xlarge
+    signing_cycles: 530613
+    verification_cycles: 56813
+    signing_us: 140.1
+    verification_us: 17.3
+    bench_env: 2026-10-16-c8i.4xlarge

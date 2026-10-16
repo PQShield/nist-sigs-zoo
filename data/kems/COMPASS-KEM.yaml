@@ -10,50 +10,50 @@ parametersets:
   ngcc_level: 128
   pk: 672
   ct: 768
-  keygen_cycles: 1771766
-  encaps_cycles: 1800746
-  decaps_cycles: 1834395
-  keygen_us: 458.3
-  encaps_us: 466.6
-  decaps_us: 475.4
-  bench_env: 2026-10-15-c8i.4xlarge
+  keygen_cycles: 1717094
+  encaps_cycles: 1746469
+  decaps_cycles: 1779778
+  keygen_us: 443.3
+  encaps_us: 451.6
+  decaps_us: 460.5
+  bench_env: 2026-10-16-c8i.4xlarge
   notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 - name: COMPASS-KEM-256
   ngcc_level: 256
   pk: 1312
   ct: 1472
-  keygen_cycles: 6874392
-  encaps_cycles: 6921082
-  decaps_cycles: 6959600
-  keygen_us: 1778.3
-  encaps_us: 1790.3
-  decaps_us: 1800.2
-  bench_env: 2026-10-15-c8i.4xlarge
+  keygen_cycles: 6646708
+  encaps_cycles: 6701759
+  decaps_cycles: 6753346
+  keygen_us: 1718.4
+  encaps_us: 1732.4
+  decaps_us: 1745.9
+  bench_env: 2026-10-16-c8i.4xlarge
   notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 - name: COMPASS-KEM-384
   ngcc_level: 384
   pk: 2144
   ct: 2432
-  keygen_cycles: 3920748
-  encaps_cycles: 3925068
-  decaps_cycles: 3951970
-  keygen_us: 1014.5
-  encaps_us: 1015.7
-  decaps_us: 1022.5
-  bench_env: 2026-10-15-c8i.4xlarge
+  keygen_cycles: 3795499
+  encaps_cycles: 3795278
+  decaps_cycles: 3817648
+  keygen_us: 981.4
+  encaps_us: 981.3
+  decaps_us: 987.1
+  bench_env: 2026-10-16-c8i.4xlarge
   notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
   implementation: The submitted code derives keys from a 256-bit root, so key search costs about 2^256, below this set's target (<a href="https://ngcc.dev/reports/kem-11.html#kem-11-1-compass-kem-384-and-512-use-a-256-bit-key-generation-root">Saarinen</a>).
 - name: COMPASS-KEM-512
   ngcc_level: 512
   pk: 2848
   ct: 3264
-  keygen_cycles: 6919979
-  encaps_cycles: 6933668
-  decaps_cycles: 6953481
-  keygen_us: 1790.1
-  encaps_us: 1793.5
-  decaps_us: 1798.7
-  bench_env: 2026-10-15-c8i.4xlarge
+  keygen_cycles: 6696747
+  encaps_cycles: 6699981
+  decaps_cycles: 6727520
+  keygen_us: 1731.3
+  encaps_us: 1732.1
+  decaps_us: 1739.4
+  bench_env: 2026-10-16-c8i.4xlarge
   notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
   implementation: The submitted code derives keys from a 256-bit root, so key search costs about 2^256, below this set's target (<a href="https://ngcc.dev/reports/kem-11.html#kem-11-1-compass-kem-384-and-512-use-a-256-bit-key-generation-root">Saarinen</a>).
 findings_url: https://ngcc.dev/reports/kem-11.html

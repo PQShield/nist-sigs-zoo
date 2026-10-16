@@ -15,21 +15,21 @@ versions:
     ngcc_level: 128
     pk: 50
     sig: 8012
-    signing_cycles: 10600094
-    verification_cycles: 13879881
-    signing_us: 2821.1
-    verification_us: 3661.7
-    bench_env: 2026-10-15-c8i.4xlarge
+    signing_cycles: 10626988
+    verification_cycles: 13827074
+    signing_us: 2818.0
+    verification_us: 3641.8
+    bench_env: 2026-10-16-c8i.4xlarge
     notes: Optimised x86 implementation.
   - name: GreatWall192s
     ngcc_level: 128
     pk: 50
     sig: 6804
-    signing_cycles: 38687723
-    verification_cycles: 97539541
-    signing_us: 10940.2
-    verification_us: 26179.5
-    bench_env: 2026-10-15-c8i.4xlarge
+    signing_cycles: 39443124
+    verification_cycles: 96937421
+    signing_us: 11215.1
+    verification_us: 26068.5
+    bench_env: 2026-10-16-c8i.4xlarge
     notes: Optimised x86 implementation.
   - name: GreatWall256f
     ngcc_level: 256
@@ -45,32 +45,32 @@ versions:
     ngcc_level: 256
     pk: 66
     sig: 12236
-    signing_cycles: 62773252
-    verification_cycles: 136875030
-    signing_us: 17824.5
-    verification_us: 37050.9
-    bench_env: 2026-10-15-c8i.4xlarge
+    signing_cycles: 61778046
+    verification_cycles: 132296693
+    signing_us: 17822.9
+    verification_us: 36002.4
+    bench_env: 2026-10-16-c8i.4xlarge
     notes: Optimised x86 implementation.
   - name: GreatWall512f
     ngcc_level: 512
     pk: 132
     sig: 57812
-    signing_cycles: 313770595
-    verification_cycles: 328120693
-    signing_us: 81367.0
-    verification_us: 85039.9
-    bench_env: 2026-10-15-c8i.4xlarge
+    signing_cycles: 312533880
+    verification_cycles: 325693483
+    signing_us: 80797.6
+    verification_us: 84180.5
+    bench_env: 2026-10-16-c8i.4xlarge
     notes: Optimised x86 implementation; our build applies a small patch to the submitted code.
     broken: Hashing with SHAKE256 limits forgery resistance to about 2^256 work after one signing query, below the 512-bit target (<a href="https://list.niccs.org.cn/archives/list/pkcforum@list.niccs.org.cn/message/UCS5CCGZNZYKBBJZAE6PKT275GPRPGGP/">Feussner</a>).
   - name: GreatWall512s
     ngcc_level: 512
     pk: 132
     sig: 50012
-    signing_cycles: 1234136530
-    verification_cycles: 2021109369
-    signing_us: 327471.6
-    verification_us: 523859.4
-    bench_env: 2026-10-15-c8i.4xlarge
+    signing_cycles: 1227389604
+    verification_cycles: 2020338265
+    signing_us: 324392.8
+    verification_us: 522231.2
+    bench_env: 2026-10-16-c8i.4xlarge
     notes: Optimised x86 implementation; our build applies a small patch to the submitted code.
     broken: Hashing with SHAKE256 limits forgery resistance to about 2^256 work after one signing query, below the 512-bit target (<a href="https://list.niccs.org.cn/archives/list/pkcforum@list.niccs.org.cn/message/UCS5CCGZNZYKBBJZAE6PKT275GPRPGGP/">Feussner</a>).
   findings_url: https://ngcc.dev/reports/sign-13.html

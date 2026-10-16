@@ -11,32 +11,32 @@ parametersets:
   level: 1
   pk: 1152
   ct: 1152
-  keygen_cycles: 23094
-  encaps_cycles: 30062
-  decaps_cycles: 20550
-  keygen_us: 7.5
-  encaps_us: 9.3
+  keygen_cycles: 22755
+  encaps_cycles: 29762
+  decaps_cycles: 20668
+  keygen_us: 7.4
+  encaps_us: 9.2
   decaps_us: 6.3
-  bench_env: 2026-10-15-c8i.4xlarge
+  bench_env: 2026-10-16-c8i.4xlarge
 - name: NTRU+864
   level: 3
   pk: 1296
   ct: 1296
-  keygen_cycles: 25532
-  encaps_cycles: 35054
-  decaps_cycles: 25208
+  keygen_cycles: 25266
+  encaps_cycles: 34889
+  decaps_cycles: 25160
   keygen_us: 8.1
-  encaps_us: 10.6
+  encaps_us: 10.5
   decaps_us: 7.5
-  bench_env: 2026-10-15-c8i.4xlarge
+  bench_env: 2026-10-16-c8i.4xlarge
 - name: NTRU+1152
   level: 5
   pk: 1728
   ct: 1728
-  keygen_cycles: 39030
-  encaps_cycles: 45156
-  decaps_cycles: 31896
-  keygen_us: 11.9
-  encaps_us: 13.3
+  keygen_cycles: 34414
+  encaps_cycles: 44751
+  decaps_cycles: 31751
+  keygen_us: 11.8
+  encaps_us: 13.2
   decaps_us: 9.2
-  bench_env: 2026-10-15-c8i.4xlarge
+  bench_env: 2026-10-16-c8i.4xlarge

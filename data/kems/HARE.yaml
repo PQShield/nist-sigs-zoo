@@ -10,48 +10,48 @@ parametersets:
   ngcc_level: 128
   pk: 2629
   ct: 4688
-  keygen_cycles: 290521
-  encaps_cycles: 1326539
-  decaps_cycles: 2140114
-  keygen_us: 75.6
-  encaps_us: 341.7
-  decaps_us: 556.1
-  bench_env: 2026-10-15-c8i.4xlarge
+  keygen_cycles: 315597
+  encaps_cycles: 1376998
+  decaps_cycles: 2219036
+  keygen_us: 82.0
+  encaps_us: 354.3
+  decaps_us: 576.0
+  bench_env: 2026-10-16-c8i.4xlarge
   notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 - name: HARE-256-kr
   ngcc_level: 256
   pk: 6580
   ct: 11790
-  keygen_cycles: 876401
-  encaps_cycles: 3596258
-  decaps_cycles: 6204865
-  keygen_us: 233.2
-  encaps_us: 930.7
-  decaps_us: 1606.6
-  bench_env: 2026-10-15-c8i.4xlarge
+  keygen_cycles: 942576
+  encaps_cycles: 3737324
+  decaps_cycles: 6426177
+  keygen_us: 249.7
+  encaps_us: 966.2
+  decaps_us: 1662.9
+  bench_env: 2026-10-16-c8i.4xlarge
   notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 - name: HARE-384-kr
   ngcc_level: 384
   pk: 13157
   ct: 23693
-  keygen_cycles: 2348297
-  encaps_cycles: 8333714
-  decaps_cycles: 13817248
-  keygen_us: 603.1
-  encaps_us: 2153.3
-  decaps_us: 3569.1
-  bench_env: 2026-10-15-c8i.4xlarge
+  keygen_cycles: 2555081
+  encaps_cycles: 8899272
+  decaps_cycles: 14503155
+  keygen_us: 656.2
+  encaps_us: 2299.7
+  decaps_us: 3747.4
+  bench_env: 2026-10-16-c8i.4xlarge
   notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 - name: HARE-512-kr
   ngcc_level: 512
   pk: 21812
   ct: 39294
-  keygen_cycles: 5709977
-  encaps_cycles: 16124939
-  decaps_cycles: 26793735
-  keygen_us: 1471.8
-  encaps_us: 4165.5
-  decaps_us: 6920.7
-  bench_env: 2026-10-15-c8i.4xlarge
+  keygen_cycles: 6528950
+  encaps_cycles: 17779905
+  decaps_cycles: 29268120
+  keygen_us: 1683.2
+  encaps_us: 4592.9
+  decaps_us: 7560.7
+  bench_env: 2026-10-16-c8i.4xlarge
   notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 findings_url: https://ngcc.dev/reports/kem-16.html

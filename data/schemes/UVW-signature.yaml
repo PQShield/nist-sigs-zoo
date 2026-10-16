@@ -27,11 +27,11 @@ versions:
     recommended: true
     pk: 23040012
     sig: 2444
-    signing_cycles: 105992471828
-    verification_cycles: 2311475749
-    signing_us: 27831926.9
-    verification_us: 605247.5
-    bench_env: 2026-10-15-c8i.4xlarge
+    signing_cycles: 125059585672
+    verification_cycles: 2244508179
+    signing_us: 32866022.7
+    verification_us: 588826.9
+    bench_env: 2026-10-16-c8i.4xlarge
     notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it; our build applies a small patch to the submitted code.
   - name: UVW-512
     ngcc_level: 512

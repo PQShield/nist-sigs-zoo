@@ -12,13 +12,13 @@ parametersets:
   recommended: true
   pk: 208013
   ct: 1032
-  keygen_cycles: 821849948
-  encaps_cycles: 746707
-  decaps_cycles: 1768979375
-  keygen_us: 212443.0
-  encaps_us: 194.6
-  decaps_us: 457389.6
-  bench_env: 2026-10-15-c8i.4xlarge
+  keygen_cycles: 761148597
+  encaps_cycles: 741296
+  decaps_cycles: 1656684394
+  keygen_us: 196841.4
+  encaps_us: 192.0
+  decaps_us: 428075.4
+  bench_env: 2026-10-16-c8i.4xlarge
   notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
   implementation: Unused ciphertext bits in the submitted code let altered ciphertexts decapsulate to the same key (<a href="https://ngcc.dev/reports/kem-38.html#kem-38-4-unused-c1-bits-make-ciphertexts-malleable-without-changing-the-key">Saarinen</a>).
 - name: UVW-KEM-256
@@ -26,26 +26,26 @@ parametersets:
   recommended: true
   pk: 911645
   ct: 2199
-  keygen_cycles: 6316541603
-  encaps_cycles: 2296943
-  decaps_cycles: 11976833439
-  keygen_us: 1644620.5
-  encaps_us: 604.3
-  decaps_us: 3116281.3
-  bench_env: 2026-10-15-c8i.4xlarge
+  keygen_cycles: 5830472326
+  encaps_cycles: 2276636
+  decaps_cycles: 11434982964
+  keygen_us: 1518611.4
+  encaps_us: 588.3
+  decaps_us: 2972888.0
+  bench_env: 2026-10-16-c8i.4xlarge
   notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 - name: UVW-KEM-512
   ngcc_level: 512
   recommended: true
   pk: 4001850
   ct: 4820
-  keygen_cycles: 49598591302
-  encaps_cycles: 18504286
-  decaps_cycles: 82145022455
-  keygen_us: 12914389.8
-  encaps_us: 4862.0
-  decaps_us: 21385592.2
-  bench_env: 2026-10-15-c8i.4xlarge
+  keygen_cycles: 45922175008
+  encaps_cycles: 17947380
+  decaps_cycles: 75358985788
+  keygen_us: 11979217.2
+  encaps_us: 4705.5
+  decaps_us: 19605616.8
+  bench_env: 2026-10-16-c8i.4xlarge
   notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
   implementation: Unused ciphertext bits let altered ciphertexts decapsulate to the same key, and the encryption pair derives from only 256 bits, below the target (<a href="https://ngcc.dev/reports/kem-38.html#kem-38-4-unused-c1-bits-make-ciphertexts-malleable-without-changing-the-key">Saarinen</a>).
 findings_url: https://ngcc.dev/reports/kem-38.html

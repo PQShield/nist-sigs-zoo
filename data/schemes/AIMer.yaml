@@ -15,31 +15,62 @@ versions:
     pk: 32
     sig: 6944
     notes: Reference implementation; the v3.0 release has no optimised implementation.
+    signing_cycles: 4549207
+    verification_cycles: 4142333
+    signing_us: 1176.7
+    verification_us: 1072.2
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: AIMer-128s
     level: 1
     pk: 32
     sig: 4704
     notes: Reference implementation; the v3.0 release has no optimised implementation.
+    signing_cycles: 35296344
+    verification_cycles: 35155686
+    signing_us: 9137.3
+    verification_us: 9097.7
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: AIMer-192f
     level: 3
     pk: 48
     sig: 15408
     notes: Reference implementation; the v3.0 release has no optimised implementation.
+    signing_cycles: 14722966
+    verification_cycles: 13655257
+    signing_us: 3807.7
+    verification_us: 3530.3
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: AIMer-192s
     level: 3
     pk: 48
     sig: 10320
     notes: Reference implementation; the v3.0 release has no optimised implementation.
+    signing_cycles: 112444493
+    verification_cycles: 112686201
+    signing_us: 29079.1
+    verification_us: 29119.4
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: AIMer-256f
     level: 5
     pk: 64
     sig: 31360
     notes: Reference implementation; the v3.0 release has no optimised implementation.
+    signing_cycles: 30878023
+    verification_cycles: 27227724
+    signing_us: 7997.7
+    verification_us: 7065.3
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: AIMer-256s
     level: 5
     pk: 64
     sig: 20224
     notes: Reference implementation; the v3.0 release has no optimised implementation.
+    signing_cycles: 230405989
+    verification_cycles: 220795756
+    signing_us: 59578.2
+    verification_us: 57058.3
+    bench_env: 2026-10-16-c8i.4xlarge
+  perf_source: our benchmark
 - version: v2.1
   date: '2024-07-12'
   status: KpqC selected

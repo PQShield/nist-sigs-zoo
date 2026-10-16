@@ -14,135 +14,135 @@ versions:
     ngcc_level: 128
     pk: 48
     sig: 13332
-    signing_cycles: 903439116
-    verification_cycles: 14481036
-    signing_us: 233435.3
-    verification_us: 3739.7
-    bench_env: 2026-10-15-c8i.4xlarge
+    signing_cycles: 892443219
+    verification_cycles: 15488969
+    signing_us: 230523.7
+    verification_us: 4002.5
+    bench_env: 2026-10-16-c8i.4xlarge
     notes: Optimised x86 implementation; our build applies a small patch to the submitted code.
   - name: Phoenix-SHAKE-192f
     ngcc_level: 128
     pk: 48
     sig: 30766
-    signing_cycles: 220037475
-    verification_cycles: 5901688
-    signing_us: 56837.9
-    verification_us: 1525.1
-    bench_env: 2026-10-15-c8i.4xlarge
+    signing_cycles: 216988576
+    verification_cycles: 6069597
+    signing_us: 56145.8
+    verification_us: 1570.6
+    bench_env: 2026-10-16-c8i.4xlarge
     notes: Reference implementation.
   - name: Phoenix-SHAKE-256s
     ngcc_level: 256
     pk: 64
     sig: 24618
-    signing_cycles: 3917033658
-    verification_cycles: 26541394
-    signing_us: 1020369.4
-    verification_us: 6906.3
-    bench_env: 2026-10-15-c8i.4xlarge
+    signing_cycles: 3946908613
+    verification_cycles: 26571472
+    signing_us: 1022338.8
+    verification_us: 6866.1
+    bench_env: 2026-10-16-c8i.4xlarge
     notes: Reference implementation.
   - name: Phoenix-SHAKE-256f
     ngcc_level: 256
     pk: 64
     sig: 44906
-    signing_cycles: 88590025
-    verification_cycles: 11699935
-    signing_us: 22894.9
-    verification_us: 3022.5
-    bench_env: 2026-10-15-c8i.4xlarge
+    signing_cycles: 88695945
+    verification_cycles: 12073533
+    signing_us: 22906.2
+    verification_us: 3122.1
+    bench_env: 2026-10-16-c8i.4xlarge
     notes: Optimised x86 implementation; our build applies a small patch to the submitted code.
   - name: Phoenix-SHAKE-384s
     ngcc_level: 384
     pk: 96
     sig: 54726
-    signing_cycles: 2792511648
-    verification_cycles: 46086373
-    signing_us: 721651.5
-    verification_us: 11910.6
-    bench_env: 2026-10-15-c8i.4xlarge
+    signing_cycles: 2641833874
+    verification_cycles: 45863062
+    signing_us: 682221.2
+    verification_us: 11845.8
+    bench_env: 2026-10-16-c8i.4xlarge
     notes: Optimised x86 implementation; our build applies a small patch to the submitted code.
   - name: Phoenix-SHAKE-384f
     ngcc_level: 384
     pk: 96
     sig: 88442
-    signing_cycles: 598133711
-    verification_cycles: 29023874
-    signing_us: 154609.3
-    verification_us: 7502.7
-    bench_env: 2026-10-15-c8i.4xlarge
+    signing_cycles: 579504462
+    verification_cycles: 28984030
+    signing_us: 149677.3
+    verification_us: 7484.2
+    bench_env: 2026-10-16-c8i.4xlarge
     notes: Optimised x86 implementation; our build applies a small patch to the submitted code.
   - name: Phoenix-SHAKE-512s
     ngcc_level: 512
     pk: 128
     sig: 98476
-    signing_cycles: 6295639304
-    verification_cycles: 30940800
-    signing_us: 1628456.1
-    verification_us: 8005.0
-    bench_env: 2026-10-15-c8i.4xlarge
+    signing_cycles: 6217027184
+    verification_cycles: 30953106
+    signing_us: 1609229.2
+    verification_us: 8005.5
+    bench_env: 2026-10-16-c8i.4xlarge
     notes: Optimised x86 implementation; our build applies a small patch to the submitted code.
   - name: Phoenix-SHAKE-512f
     ngcc_level: 512
     pk: 128
     sig: 138454
-    signing_cycles: 1525182569
-    verification_cycles: 97818278
-    signing_us: 394090.7
-    verification_us: 25274.7
-    bench_env: 2026-10-15-c8i.4xlarge
+    signing_cycles: 1486141797
+    verification_cycles: 98032045
+    signing_us: 383807.5
+    verification_us: 25322.3
+    bench_env: 2026-10-16-c8i.4xlarge
     notes: Optimised x86 implementation; our build applies a small patch to the submitted code.
   - name: Phoenix-SM3-192s
     ngcc_level: 128
     pk: 48
     sig: 13332
-    signing_cycles: 11619558659
-    verification_cycles: 40716507
-    signing_us: 3001814.2
-    verification_us: 10516.7
-    bench_env: 2026-10-15-c8i.4xlarge
+    signing_cycles: 11693602589
+    verification_cycles: 40240329
+    signing_us: 3021969.6
+    verification_us: 10404.0
+    bench_env: 2026-10-16-c8i.4xlarge
     notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it; our build does not reproduce the submitted test vectors (cause unknown).
     info: Our build does not reproduce the submitted test vectors.
   - name: Phoenix-SM3-192f
     ngcc_level: 128
     pk: 48
     sig: 30766
-    signing_cycles: 596754941
-    verification_cycles: 16085765
-    signing_us: 154355.8
-    verification_us: 4161.3
-    bench_env: 2026-10-15-c8i.4xlarge
+    signing_cycles: 591335801
+    verification_cycles: 15872706
+    signing_us: 152707.5
+    verification_us: 4099.8
+    bench_env: 2026-10-16-c8i.4xlarge
     notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it; our build does not reproduce the submitted test vectors (cause unknown).
     info: Our build does not reproduce the submitted test vectors.
   - name: Phoenix-SM3-256s
     ngcc_level: 256
     pk: 64
     sig: 24618
-    signing_cycles: 10595844237
-    verification_cycles: 69912441
-    signing_us: 2740482.9
-    verification_us: 18078.1
-    bench_env: 2026-10-15-c8i.4xlarge
+    signing_cycles: 10231680054
+    verification_cycles: 69763515
+    signing_us: 2645547.5
+    verification_us: 18024.4
+    bench_env: 2026-10-16-c8i.4xlarge
     notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it; our build does not reproduce the submitted test vectors (cause unknown).
     info: Our build does not reproduce the submitted test vectors.
   - name: Phoenix-SM3-256f
     ngcc_level: 256
     pk: 64
     sig: 44906
-    signing_cycles: 1155344585
-    verification_cycles: 31097086
-    signing_us: 298827.2
-    verification_us: 8043.3
-    bench_env: 2026-10-15-c8i.4xlarge
+    signing_cycles: 1154647226
+    verification_cycles: 31098484
+    signing_us: 298492.4
+    verification_us: 8036.0
+    bench_env: 2026-10-16-c8i.4xlarge
     notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it; our build does not reproduce the submitted test vectors (cause unknown).
     info: Our build does not reproduce the submitted test vectors.
   - name: Phoenix-SM3-384s
     ngcc_level: 384
     pk: 96
     sig: 54726
-    signing_cycles: 17167974421
-    verification_cycles: 110703438
-    signing_us: 4439514.6
-    verification_us: 28605.1
-    bench_env: 2026-10-15-c8i.4xlarge
+    signing_cycles: 17225388943
+    verification_cycles: 110328240
+    signing_us: 4448921.0
+    verification_us: 28495.7
+    bench_env: 2026-10-16-c8i.4xlarge
     notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it; our build does not reproduce the submitted test vectors (cause unknown).
     info: Our build does not reproduce the submitted test vectors.
     implementation: The submitted SM3 code compresses messages to 256 bits, so a second preimage after one signing query costs about 2^256, below this set's target (<a href="https://ngcc.dev/reports/sign-19.html#sign-19-4-a-256-bit-sm3-prehash-caps-message-retargeting-security">Saarinen</a>).
@@ -150,11 +150,11 @@ versions:
     ngcc_level: 384
     pk: 96
     sig: 88442
-    signing_cycles: 3674294321
-    verification_cycles: 69874973
-    signing_us: 950307.9
-    verification_us: 18077.3
-    bench_env: 2026-10-15-c8i.4xlarge
+    signing_cycles: 3667500900
+    verification_cycles: 69600133
+    signing_us: 947165.8
+    verification_us: 17974.7
+    bench_env: 2026-10-16-c8i.4xlarge
     notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it; our build does not reproduce the submitted test vectors (cause unknown).
     info: Our build does not reproduce the submitted test vectors.
     implementation: The submitted SM3 code compresses messages to 256 bits, so a second preimage after one signing query costs about 2^256, below this set's target (<a href="https://ngcc.dev/reports/sign-19.html#sign-19-4-a-256-bit-sm3-prehash-caps-message-retargeting-security">Saarinen</a>).
@@ -174,11 +174,11 @@ versions:
     ngcc_level: 512
     pk: 128
     sig: 138454
-    signing_cycles: 6465916156
-    verification_cycles: 138314152
-    signing_us: 1672398.3
-    verification_us: 35778.9
-    bench_env: 2026-10-15-c8i.4xlarge
+    signing_cycles: 6062221690
+    verification_cycles: 138441458
+    signing_us: 1567359.1
+    verification_us: 35789.3
+    bench_env: 2026-10-16-c8i.4xlarge
     notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it; our build does not reproduce the submitted test vectors (cause unknown).
     info: Our build does not reproduce the submitted test vectors.
     implementation: The submitted SM3 code compresses messages to 256 bits, so a second preimage after one signing query costs about 2^256, below this set's target (<a href="https://ngcc.dev/reports/sign-19.html#sign-19-4-a-256-bit-sm3-prehash-caps-message-retargeting-security">Saarinen</a>).
