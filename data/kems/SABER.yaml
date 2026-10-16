@@ -1,37 +1,42 @@
 name: SABER
 website: https://github.com/KULeuven-COSIC/SABER
 category: Lattices
-assumption: Module Learning With Rounding (MLWR)
+assumption: MLWR
 status: Round-3 finalist
+programmes:
+  nist-pqc: round-3
 info: NIST round-3 finalist, not selected for standardisation (ML-KEM was chosen instead). AVX2 reference implementation from github.com/KULeuven-COSIC/SABER.
 parametersets:
 - name: LightSaber
   level: 1
   pk: 672
   ct: 736
-  keygen_cycles: 49559
-  encaps_cycles: 47869
-  decaps_cycles: 41265
-  keygen_us: 16.2
-  encaps_us: 15.7
-  decaps_us: 13.7
+  keygen_cycles: 49463
+  encaps_cycles: 48605
+  decaps_cycles: 41629
+  keygen_us: 13.8
+  encaps_us: 13.6
+  decaps_us: 11.8
+  bench_env: 2026-10-16-c8i.4xlarge
 - name: Saber
   level: 3
   pk: 992
   ct: 1088
-  keygen_cycles: 71056
-  encaps_cycles: 73030
-  decaps_cycles: 66078
-  keygen_us: 22.3
-  encaps_us: 22.8
-  decaps_us: 20.9
+  keygen_cycles: 72847
+  encaps_cycles: 75121
+  decaps_cycles: 67274
+  keygen_us: 19.8
+  encaps_us: 20.4
+  decaps_us: 18.4
+  bench_env: 2026-10-16-c8i.4xlarge
 - name: FireSaber
   level: 5
   pk: 1312
   ct: 1472
-  keygen_cycles: 100143
-  encaps_cycles: 104649
-  decaps_cycles: 98732
-  keygen_us: 30.2
-  encaps_us: 31.4
-  decaps_us: 30.0
+  keygen_cycles: 102303
+  encaps_cycles: 107521
+  decaps_cycles: 100470
+  keygen_us: 27.4
+  encaps_us: 28.7
+  decaps_us: 26.9
+  bench_env: 2026-10-16-c8i.4xlarge

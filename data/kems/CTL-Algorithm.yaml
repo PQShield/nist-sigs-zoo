@@ -1,0 +1,47 @@
+name: CTL Algorithm
+website: https://www.niccs.org.cn/niccs/Round1Additional/pc/content/content_2101560844426498048.html
+category: Lattices
+assumption: NTRU/RLWR
+status: NGCC round 1
+programmes:
+  china-ngcc: round-1
+parametersets:
+- name: CTL-257-512
+  ngcc_level: 128
+  pk: 521
+  ct: 473
+  keygen_cycles: 13964354
+  encaps_cycles: 41307
+  decaps_cycles: 210398
+  keygen_us: 3607.6
+  encaps_us: 11.6
+  decaps_us: 55.0
+  bench_env: 2026-10-16-c8i.4xlarge
+  notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+- name: CTL-769-1024
+  ngcc_level: 256
+  pk: 1230
+  ct: 1006
+  keygen_cycles: 60222074
+  encaps_cycles: 61801
+  decaps_cycles: 391742
+  keygen_us: 15556.7
+  encaps_us: 16.9
+  decaps_us: 101.6
+  bench_env: 2026-10-16-c8i.4xlarge
+  notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+- name: CTL-3329-2048
+  ngcc_level: 512
+  pk: 3009
+  ct: 2353
+  keygen_cycles: 1900508581
+  encaps_cycles: 203820
+  decaps_cycles: 55252775
+  keygen_us: 490982.2
+  encaps_us: 53.7
+  decaps_us: 14306.4
+  bench_env: 2026-10-16-c8i.4xlarge
+  notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+  implementation: The submitted code also returns a 384-bit shared secret instead of the specified 512 bits (<a href="https://ngcc.dev/reports/kem-12.html#kem-12-2-ctl-512-returns-only-384-shared-secret-bits">Saarinen</a>).
+  broken: The specified private key is a 32-byte seed, so at most 2^256 public keys exist and key search falls below the 512-bit target (<a href="https://ngcc.dev/reports/kem-12.html#kem-12-1-the-specified-ctl-512-public-key-space-has-at-most-256-bits-of-support">Saarinen</a>).
+findings_url: https://ngcc.dev/reports/kem-12.html

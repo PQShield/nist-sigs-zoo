@@ -1,0 +1,148 @@
+# pq-sigs benchmark results
+# date:         2026-10-13T15:23:05Z
+# host:         ip-172-31-12-245
+# os:           Ubuntu 26.04.1 LTS
+# kernel:       7.0.0-1014-aws
+# cpu:          Intel(R) Xeon(R) Platinum 8488C
+# cores:        16 (threads/core: 2)
+# max_freq_mhz: unknown (cur: unknown MHz)
+# governor:     unknown
+# turbo:        unknown
+# flags:        fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ss ht syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon rep_good nopl xtopology nonstop_tsc cpuid aperfmperf tsc_known_freq pni pclmulqdq monitor ssse3 fma cx16 pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand hypervisor lahf_lm abm 3dnowprefetch cpuid_fault ssbd ibrs ibpb stibp ibrs_enhanced fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid avx512f avx512dq rdseed adx smap avx512ifma clflushopt clwb avx512cd sha_ni avx512bw avx512vl xsaveopt xsavec xgetbv1 xsaves avx_vnni avx512_bf16 wbnoinvd ida arat avx512vbmi umip pku ospke waitpkg avx512_vbmi2 gfni vaes vpclmulqdq avx512_vnni avx512_bitalg tme avx512_vpopcntdq rdpid cldemote movdiri movdir64b md_clear serialize amx_bf16 avx512_fp16 amx_tile amx_int8 flush_l1d arch_capabilities
+#
+# compiler:     cc (Ubuntu 15.2.0-16ubuntu1) 15.2.0
+# openssl:      OpenSSL 3.5.5 27 Jan 2026 (Library: OpenSSL 3.5.5 27 Jan 2026)
+# sources:
+#   schemes/faest/ref: https://github.com/faest-sign/faest-arch-opt@1d8330979cb467c54edac43ffe695da249fa3417
+#   schemes/fndsa/ref: https://github.com/pornin/c-fn-dsa@33026d4d2734049a23f065f77eea11c35de58d76
+#   schemes/hawk/ref: https://github.com/hawk-sign/dev@1b9fef52559273fe7b40fe3e22968eaedd3a4c2a
+#   schemes/mayo/ref: https://github.com/PQCMayo/MAYO-C@74de637a7c4a7f9fafa888183bc05f5cf920cd2d
+#   schemes/mldsa/ref: https://github.com/pq-crystals/dilithium.git@6e00625c5b29f516c6de973fe2ee2fbb150973f9
+#   schemes/mqom/ref: https://github.com/mqom/mqom-v3@d9c64e386b186ee186684a0389fc32009bd67cd1
+#   schemes/qruov/ref: https://github.com/qruov/round3.git@3d84d0f6afae80c88deefab03b1dd6633a147f96
+#   schemes/sdith/ref: https://github.com/sdith/sdith@fff41ae5b12ba3c6b90d8f97b2ede57aa277a92f
+#   schemes/sdith2/ref: https://github.com/sdith/sdith@ce7adf06476674d4ff990f378f83f9981cd6745b
+#   schemes/slhdsa/ref: https://github.com/pq-code-package/slhdsa-c@fac08b7d0a93849de0ee163c63712395e012b38c
+#   schemes/snova/ref: https://github.com/PQCLAB-SNOVA/SNOVA.git@9b29c1e332cbd85757c8d6362a57b9a8c8298a38
+#   schemes/sqisign/ref: https://github.com/SQISign/the-sqisign@6d017708db403bf83977fa70770fc4f7f9e9ff21
+#   schemes/uov/ref: https://github.com/pqov/pqov.git@fac2ec1fe6d8ea508eab4b98eb5341e1eed930a4
+#   schemes/ngcc: https://www.niccs.org.cn/niccs/Proposal/Public-Key%20Cryptographic%20Algorithms/Round%201%20candidates/
+# filter:       NGCC-SQIsign2D-lvl4
+#
+# cyclecounter: rdpmc CPU_CYCLES (real core cycles, user-space)
+scheme                       iters    keygen (cyc)  keygen (us)      sign (cyc)   sign (us)    verify (cyc)  verify (us)
+------                       -----    ------------  -----------      ----------   ---------    ------------  ----------
+lifting the two basis [84517]
+4 xyz doubling [250474]
+gluing comput [16687]
+precomputation for the first codomain [180]
+gluing eval [2805]
+middle steps [1338241]
+last two steps [1082]
+splitting [36163]
+lifting the two basis [84460]
+4 xyz doubling [250787]
+gluing comput [16678]
+precomputation for the first codomain [179]
+gluing eval [2815]
+middle steps [1338002]
+last two steps [1081]
+splitting [36157]
+lifting the two basis [84474]
+4 xyz doubling [250483]
+gluing comput [16700]
+precomputation for the first codomain [172]
+gluing eval [2815]
+middle steps [1337759]
+last two steps [1080]
+splitting [36067]
+lifting the two basis [84444]
+4 xyz doubling [250464]
+gluing comput [16690]
+precomputation for the first codomain [172]
+gluing eval [2809]
+middle steps [1339140]
+last two steps [1116]
+splitting [36176]
+lifting the two basis [84621]
+4 xyz doubling [250471]
+gluing comput [16835]
+precomputation for the first codomain [172]
+gluing eval [2823]
+middle steps [1338004]
+last two steps [1082]
+splitting [36237]
+lifting the two basis [85006]
+4 xyz doubling [250356]
+gluing comput [16704]
+precomputation for the first codomain [173]
+gluing eval [2827]
+middle steps [1337390]
+last two steps [1081]
+splitting [36220]
+lifting the two basis [84562]
+4 xyz doubling [250379]
+gluing comput [16685]
+precomputation for the first codomain [179]
+gluing eval [2806]
+middle steps [1338406]
+last two steps [1085]
+splitting [36195]
+lifting the two basis [84476]
+4 xyz doubling [250592]
+gluing comput [16693]
+precomputation for the first codomain [172]
+gluing eval [2823]
+middle steps [1338288]
+last two steps [1080]
+splitting [36157]
+lifting the two basis [84582]
+4 xyz doubling [249493]
+gluing comput [16700]
+precomputation for the first codomain [173]
+gluing eval [2829]
+middle steps [1332123]
+last two steps [1079]
+splitting [36198]
+lifting the two basis [84561]
+4 xyz doubling [249906]
+gluing comput [16703]
+precomputation for the first codomain [172]
+gluing eval [2819]
+middle steps [1331628]
+last two steps [1078]
+splitting [36185]
+lifting the two basis [84656]
+4 xyz doubling [250171]
+gluing comput [16736]
+precomputation for the first codomain [173]
+gluing eval [2825]
+middle steps [1335456]
+last two steps [1080]
+splitting [36239]
+lifting the two basis [84909]
+4 xyz doubling [249887]
+gluing comput [16706]
+precomputation for the first codomain [172]
+gluing eval [2819]
+middle steps [1334771]
+last two steps [1086]
+splitting [36174]
+lifting the two basis [84586]
+4 xyz doubling [250457]
+gluing comput [16697]
+precomputation for the first codomain [171]
+gluing eval [2811]
+middle steps [1335025]
+last two steps [1080]
+splitting [36208]
+lifting the two basis [84604]
+4 xyz doubling [250171]
+gluing comput [16729]
+precomputation for the first codomain [173]
+gluing eval [2811]
+middle steps [1334665]
+last two steps [1085]
+splitting [36216]
+NGCC-SQIsign2D-lvl4              5     69341925800  18392094.8     58812087439  15601402.5     14825662303   3933826.5
+

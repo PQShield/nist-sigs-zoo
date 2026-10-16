@@ -1,0 +1,71 @@
+# pq-kems benchmark results
+# date:         2026-10-15T10:55:01Z
+# host:         ip-172-31-15-54
+# commit:       c4f11967d106c26599b9db9ca34884b9ffe9b6f0
+# instance_type: c8i.4xlarge
+# os:           Ubuntu 26.04.1 LTS
+# kernel:       7.0.0-1014-aws
+# cpu:          Intel(R) Xeon(R) 6975P-C
+# cores:        16 (threads/core: 2)
+# max_freq_mhz: unknown (cur: unknown MHz)
+# governor:     unknown
+# turbo:        unknown
+# flags:        fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ss ht syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon rep_good nopl xtopology nonstop_tsc cpuid aperfmperf tsc_known_freq pni pclmulqdq monitor ssse3 fma cx16 pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand hypervisor lahf_lm abm 3dnowprefetch cpuid_fault ssbd ibrs ibpb stibp ibrs_enhanced fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid avx512f avx512dq rdseed adx smap avx512ifma clflushopt clwb avx512cd sha_ni avx512bw avx512vl xsaveopt xsavec xgetbv1 xsaves avx_vnni avx512_bf16 wbnoinvd ida arat avx512vbmi umip pku ospke waitpkg avx512_vbmi2 gfni vaes vpclmulqdq avx512_vnni avx512_bitalg tme avx512_vpopcntdq rdpid bus_lock_detect cldemote movdiri movdir64b md_clear serialize amx_bf16 avx512_fp16 amx_tile amx_int8 flush_l1d arch_capabilities
+#
+# compiler:     cc (Ubuntu 15.2.0-16ubuntu1) 15.2.0
+# openssl:      OpenSSL 3.5.5 27 Jan 2026 (Library: OpenSSL 3.5.5 27 Jan 2026)
+# sources:
+#   schemes/bat/ref: https://github.com/pornin/BAT@8280af7c9d4d5cdd9a70914f72a5f0ad774c7b8d
+#   schemes/frodo/ref: https://github.com/Microsoft/PQCrypto-LWEKE@7a4e7219d06305e16aef734213001cd8fefbcc14
+#   schemes/hqc/ref: https://gitlab.com/pqc-hqc/hqc.git@161cd4fdf6b4a5198cf40b3a1243f9f27f13e03d
+#   schemes/mike/ref: https://github.com/tensor-mike/mike_c.git@6057473e460165cc8721c05dc3fbbb73a009d147
+#   schemes/mlkem/ref: https://github.com/pq-code-package/mlkem-native.git@2d1cc90f71bd59617062844e874ac6e70868e1f8
+#   schemes/ntru/ref: https://github.com/jschanck/ntru@6d96ed3746000b6497392a425712fe483988fc80
+#   schemes/ntruplus/ref: https://github.com/ntruplus/ntruplus.git@f4507621e2111af52bb87b1950249baac683a37d
+#   schemes/saber/ref: https://github.com/KULeuven-COSIC/SABER@f7f39e4db2f3e22a21e1dd635e0601caae2b4510
+#   schemes/smaugt/ref: https://github.com/hmchoe0528/SMAUG-T_public.git@2c039df23134a2de3c7aa86a4904c9a4734f9def
+#   schemes/mceliece: https://lib.mceliece.org/libmceliece-20260622.tar.gz
+#   schemes/ngcc: https://www.niccs.org.cn/niccs/Proposal/Public-Key%20Cryptographic%20Algorithms/Round%201%20candidates/
+#   schemes/ntruprime: https://libntruprime.cr.yp.to/libntruprime-20241021.tar.gz
+#
+# merged:       3 parts of a split run on separate instances of the same type
+# part:         20261015T105501Z_intel_r_xeon_r_6975p_c_ngccmito1512_ngccmito1e256_ngccctl33292_71eaf1ab.txt (host ip-172-31-15-54, 2026-10-15T10:55:01Z, 14 rows, commit c4f11967d106c26599b9db9ca34884b9ffe9b6f0, instance_type c8i.4xlarge)
+# part:         20261015T105505Z_intel_r_xeon_r_6975p_c_ngccmambafrostcc384_ngcctrike9_ngccngcc_d3288d56.txt (host ip-172-31-33-219, 2026-10-15T10:55:05Z, 10 rows, commit c4f11967d106c26599b9db9ca34884b9ffe9b6f0, instance_type c8i.4xlarge)
+# part:         20261015T105508Z_intel_r_xeon_r_6975p_c_ngccbike_mlthre128_ngcchepqc1_ngccqctm1_48ee5a9f.txt (host ip-172-31-36-198, 2026-10-15T10:55:07Z, 10 rows, commit c4f11967d106c26599b9db9ca34884b9ffe9b6f0, instance_type c8i.4xlarge)
+# cyclecounter: rdpmc CPU_CYCLES (real core cycles, user-space)
+scheme                       iters    keygen (cyc)  keygen (us)    encaps (cyc)  encaps (us)    decaps (cyc)  decaps (us)      ok
+------                       -----    ------------  -----------    ------------  -----------    ------------  -----------      --
+NGCC-CTL-3329-2048              30      2144580551    554076.1          206748        54.2        55358361     14329.1     yes
+NGCC-MAMBA-Frost-384          1000        10583898      2846.3        17735539      4846.3        19477615      5279.4     yes
+NGCC-Mito-1-128               1000         9504951      2456.5        15698006      4054.3        22153567      5722.8     yes
+NGCC-Mito-1-256                389        28708434      7416.1        47743356     12331.0        67562776     17448.9     yes
+NGCC-Mito-1-512                 80       175365044     45288.2       292404807     75514.4       411527044    106291.5     yes
+NGCC-Mito-1-E-256              471        29217149      7547.6        48570798     12544.1        68606907     17716.5     yes
+NGCC-Mito-1-E-512               69       166977605     43120.4       278138987     71831.4       391547451    101115.4     yes
+NGCC-Mito-2-E-128             1000        13127819      3392.3        18842599      4867.1        25047903      6470.8     yes
+NGCC-Mito-2-E-256              353        41050432     10603.0        59267731     15306.1        78519713     20276.1     yes
+NGCC-Mito-2-E-512               56       252428060     65196.5       364889765     94227.4       480256783    124022.8     yes
+NGCC-NGCC-2                     40       800248792    212481.5       280620753     74490.7       450774111    120133.1     yes
+NGCC-lwekem512                 874        21095409      5448.2        21065957      5440.8        21087371      5446.8     yes
+NGCC-TRIKE-2                   268       105954036     27363.4         9779795      2526.5        44038263     11377.8     yes
+NGCC-UVW-KEM-128                11       821849948    212443.0          746707       194.6      1768979375    457389.6     yes
+NGCC-MAMBA-Frost-CC-384       1000        14522413      3752.3        15035369      3884.1        16126299      4165.4     yes
+NGCC-Mito-1-E-128             1000         8821470      2279.1        14553438      3760.7        20539665      5305.8     yes
+NGCC-NGCC-1                     88       243432851     63342.6        97138419     25093.4       154673150     40135.7     yes
+NGCC-QUBE-384                 1000         6083964      1573.1         6282361      1624.3        11009253      2845.4     yes
+NGCC-QUBE-512                  579        17081520      4413.0        17296143      4468.7        25533220      6597.4     yes
+NGCC-Scloudplus-256           1000        13760829      3555.1        14309157      3697.3        13682091      3535.3     yes
+NGCC-TRIKE-5                    44       771854941    199374.0        72254227     18661.8       186567944     48186.4     yes
+NGCC-TRIKE-7                    14      2495214712    644504.2       211106956     54531.4       534901995    138181.5     yes
+NGCC-TRIKE-9                    10      3171592059    819266.5       214659044     55462.6      1030686647    266282.5     yes
+NGCC-TriQ-KEM-512             1000         6825668      1765.6        10566517      2731.8        14684152      3796.1     yes
+NGCC-bag_piglet_512            271        60256068     15572.3        51533647     13316.3       182517732     47162.6     yes
+NGCC-BIKE_MLThre-128            56      1417035390    365971.3        14053552      3632.4        91582077     23652.7     yes
+NGCC-CMultiURAG-512            740        16381292      4239.2        23017917      5990.4        65669001     17073.3     yes
+NGCC-HEP-QC-1                  180       243515353     63201.5        13430443      3477.5       237511178     61467.4     yes
+NGCC-HEP-QC-5                   42       917606956    239547.4        89001660     23041.5       831357392    215394.4     yes
+NGCC-MAMBA-Frost-512           901        19072148      4928.0        36021674      9490.9        40008086     10518.5     yes
+NGCC-MAMBA-Frost-CC-512        986        31629934      8354.2        26615319      6883.1        27884975      7211.4     yes
+NGCC-QCTM128                    10     14819200008   3930745.7         2468336       637.5         4907767      1321.4     yes
+NGCC-Scloudplus-384            934        27705385      7155.9        28333753      7318.4        27037236      6983.7     yes
+NGCC-Scloudplus-512            436        56095240     14491.1        56585657     14617.5        54662312     14118.1     yes

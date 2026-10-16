@@ -6,204 +6,245 @@ versions:
 - version: v3.0
   date: '2026-09-07'
   status: On-ramp
+  programmes:
+    nist-onramp: round-3
+  perf_source: our benchmark
   parametersets:
   - name: V-pkc
     level: 5
     pk: 446992
     sig: 275
-    signing_cycles: 434343
-    verification_cycles: 1543296
-    signing_us: 120.5
-    verification_us: 411.1
+    signing_cycles: 415856
+    verification_cycles: 1563937
+    signing_us: 114.0
+    verification_us: 408.9
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: V-classic
     level: 5
     pk: 3232320
     sig: 275
-    signing_cycles: 458398
-    verification_cycles: 424454
-    signing_us: 126.8
-    verification_us: 115.5
+    signing_cycles: 426103
+    verification_cycles: 484844
+    signing_us: 113.8
+    verification_us: 130.2
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: III-pkc
     level: 3
     pk: 189232
     sig: 209
-    signing_cycles: 161913
-    verification_cycles: 623334
-    signing_us: 46.7
-    verification_us: 167.4
+    signing_cycles: 149710
+    verification_cycles: 651821
+    signing_us: 39.7
+    verification_us: 173.6
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: III-classic
     level: 3
     pk: 1347912
     sig: 209
-    signing_cycles: 152793
-    verification_cycles: 217496
-    signing_us: 44.3
-    verification_us: 60.4
+    signing_cycles: 150594
+    verification_cycles: 213201
+    signing_us: 40.1
+    verification_us: 58.1
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: Is-pkc
     level: 1
     pk: 66576
     sig: 96
-    signing_cycles: 59603
-    verification_cycles: 176366
-    signing_us: 16.9
-    verification_us: 47.6
+    signing_cycles: 63570
+    verification_cycles: 183912
+    signing_us: 17.5
+    verification_us: 48.3
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: Is-classic
     level: 1
     pk: 412160
     sig: 96
-    signing_cycles: 62981
-    verification_cycles: 40137
-    signing_us: 17.8
-    verification_us: 11.7
+    signing_cycles: 63133
+    verification_cycles: 44157
+    signing_us: 17.3
+    verification_us: 12.5
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: Ip-pkc
     level: 1
     pk: 46591
     sig: 135
-    signing_cycles: 53920
-    verification_cycles: 161816
-    signing_us: 15.4
+    signing_cycles: 50921
+    verification_cycles: 166511
+    signing_us: 14.2
     verification_us: 43.8
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: Ip-classic
     level: 1
     pk: 321300
     sig: 135
-    signing_cycles: 52122
-    verification_cycles: 62315
-    signing_us: 14.9
-    verification_us: 17.6
-  tags:
-  - round-3
+    signing_cycles: 50913
+    verification_cycles: 60823
+    signing_us: 14.2
+    verification_us: 16.7
+    bench_env: 2026-10-16-c8i.4xlarge
 - version: v2.0
   date: '2025-02-05'
   status: On-ramp
-  perf_source: submission document
+  programmes:
+    nist-onramp: round-2
+  perf_source: our benchmark
   parametersets:
   - name: V-pkc
     level: 5
     pk: 446992
     sig: 260
-    signing_cycles: 458761
-    verification_cycles: 1345477
-    broken: "Intersection attack (Furue & Ikematsu, ePrint 2026/298) reduces classical security to ~223 bits, below NIST Level V threshold (best known; improves on Ran's ePrint 2025/1143 ~258 bits)"
-    signing_us: 124.1
-    verification_us: 365.7
+    signing_cycles: 362912
+    verification_cycles: 1403237
+    broken: "Intersection attack (<a href=\"https://eprint.iacr.org/2026/298\">Furue & Ikematsu</a>, ePrint 2026/298) reduces classical security to ~223 bits, below NIST Level V threshold (best known; improves on <a href=\"https://eprint.iacr.org/2025/1143\">Ran</a>'s ePrint 2025/1143 ~258 bits)"
+    signing_us: 98.2
+    verification_us: 367.9
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: V-classic
     level: 5
     pk: 2869440
     sig: 260
-    signing_cycles: 446412
-    verification_cycles: 468459
-    broken: "Intersection attack (Furue & Ikematsu, ePrint 2026/298) reduces classical security to ~223 bits, below NIST Level V threshold (best known; improves on Ran's ePrint 2025/1143 ~258 bits)"
-    signing_us: 120.3
-    verification_us: 126.0
+    signing_cycles: 356876
+    verification_cycles: 384897
+    broken: "Intersection attack (<a href=\"https://eprint.iacr.org/2026/298\">Furue & Ikematsu</a>, ePrint 2026/298) reduces classical security to ~223 bits, below NIST Level V threshold (best known; improves on <a href=\"https://eprint.iacr.org/2025/1143\">Ran</a>'s ePrint 2025/1143 ~258 bits)"
+    signing_us: 97.8
+    verification_us: 103.9
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: III-pkc
     level: 3
     pk: 189232
     sig: 200
-    signing_cycles: 220473
-    verification_cycles: 638806
-    broken: "Intersection attack (Furue & Ikematsu, ePrint 2026/298) reduces classical security to ~182 bits, below NIST Level III threshold (best known; improves on Ran's ePrint 2025/1143 ~207 bits)"
-    signing_us: 59.9
-    verification_us: 173.4
+    signing_cycles: 155694
+    verification_cycles: 595024
+    broken: "Intersection attack (<a href=\"https://eprint.iacr.org/2026/298\">Furue & Ikematsu</a>, ePrint 2026/298) reduces classical security to ~182 bits, below NIST Level III threshold (best known; improves on <a href=\"https://eprint.iacr.org/2025/1143\">Ran</a>'s ePrint 2025/1143 ~207 bits)"
+    signing_us: 44.2
+    verification_us: 161.0
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: III-classic
     level: 3
     pk: 1225440
     sig: 200
-    signing_cycles: 217302
-    verification_cycles: 210664
-    broken: "Intersection attack (Furue & Ikematsu, ePrint 2026/298) reduces classical security to ~182 bits, below NIST Level III threshold (best known; improves on Ran's ePrint 2025/1143 ~207 bits)"
-    signing_us: 58.8
-    verification_us: 57.6
+    signing_cycles: 155566
+    verification_cycles: 186873
+    broken: "Intersection attack (<a href=\"https://eprint.iacr.org/2026/298\">Furue & Ikematsu</a>, ePrint 2026/298) reduces classical security to ~182 bits, below NIST Level III threshold (best known; improves on <a href=\"https://eprint.iacr.org/2025/1143\">Ran</a>'s ePrint 2025/1143 ~207 bits)"
+    signing_us: 44.9
+    verification_us: 55.8
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: Is-pkc
     level: 1
     pk: 66576
     sig: 96
-    signing_cycles: 72982
-    verification_cycles: 170376
-    warning: "Intersection attack (Furue & Ikematsu, ePrint 2026/298) reduces classical security to ~159 bits; above NIST Level I threshold but reduced from claimed 143 bits"
-    signing_us: 20.5
-    verification_us: 46.2
+    signing_cycles: 70690
+    verification_cycles: 179856
+    warning: "Intersection attack (<a href=\"https://eprint.iacr.org/2026/298\">Furue & Ikematsu</a>, ePrint 2026/298) reduces classical security to ~159 bits; above NIST Level I threshold but reduced from claimed 143 bits"
+    signing_us: 22.3
+    verification_us: 49.7
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: Is-classic
     level: 1
     pk: 412160
     sig: 96
-    signing_cycles: 72904
-    verification_cycles: 48410
-    warning: "Intersection attack (Furue & Ikematsu, ePrint 2026/298) reduces classical security to ~159 bits; above NIST Level I threshold but reduced from claimed 143 bits"
-    signing_us: 20.4
-    verification_us: 14.0
+    signing_cycles: 70878
+    verification_cycles: 42866
+    warning: "Intersection attack (<a href=\"https://eprint.iacr.org/2026/298\">Furue & Ikematsu</a>, ePrint 2026/298) reduces classical security to ~159 bits; above NIST Level I threshold but reduced from claimed 143 bits"
+    signing_us: 22.3
+    verification_us: 13.7
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: Ip-pkc
     level: 1
     pk: 43576
     sig: 128
-    signing_cycles: 72062
-    verification_cycles: 153427
-    broken: "Intersection attack (Furue & Ikematsu, ePrint 2026/298) reduces classical security to ~128 bits, below NIST Level I threshold (best known; improves on Ran's ePrint 2025/1143 ~141 bits)"
-    signing_us: 20.2
-    verification_us: 41.6
+    signing_cycles: 54001
+    verification_cycles: 156084
+    broken: "Intersection attack (<a href=\"https://eprint.iacr.org/2026/298\">Furue & Ikematsu</a>, ePrint 2026/298) reduces classical security to ~128 bits, below NIST Level I threshold (best known; improves on <a href=\"https://eprint.iacr.org/2025/1143\">Ran</a>'s ePrint 2025/1143 ~141 bits)"
+    signing_us: 16.6
+    verification_us: 44.7
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: Ip-classic
     level: 1
     pk: 278432
     sig: 128
-    signing_cycles: 71899
-    verification_cycles: 72825
-    broken: "Intersection attack (Furue & Ikematsu, ePrint 2026/298) reduces classical security to ~128 bits, below NIST Level I threshold (best known; improves on Ran's ePrint 2025/1143 ~141 bits)"
-    signing_us: 20.1
-    verification_us: 20.4
-  tags:
-  - round-2
+    signing_cycles: 53121
+    verification_cycles: 63060
+    broken: "Intersection attack (<a href=\"https://eprint.iacr.org/2026/298\">Furue & Ikematsu</a>, ePrint 2026/298) reduces classical security to ~128 bits, below NIST Level I threshold (best known; improves on <a href=\"https://eprint.iacr.org/2025/1143\">Ran</a>'s ePrint 2025/1143 ~141 bits)"
+    signing_us: 16.3
+    verification_us: 20.2
+    bench_env: 2026-10-16-c8i.4xlarge
 - version: v1.0
   date: '2023-05-30'
   status: On-ramp
-  perf_source: submission document
-  tags:
-  - round-1
+  programmes:
+    nist-onramp: round-1
+  perf_source: our benchmark
   parametersets:
   - name: V-pkc
     level: 5
     pk: 446992
     sig: 260
-    signing_cycles: 591812
-    verification_cycles: 2032992
+    signing_cycles: 453759
+    verification_cycles: 1390667
+    signing_us: 121.5
+    verification_us: 366.8
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: V-classic
     level: 5
     pk: 2869440
     sig: 260
-    signing_cycles: 591812
-    verification_cycles: 470886
+    signing_cycles: 452384
+    verification_cycles: 385081
+    signing_us: 121.3
+    verification_us: 104.1
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: III-pkc
     level: 3
     pk: 189232
     sig: 200
-    signing_cycles: 299316
-    verification_cycles: 917402
+    signing_cycles: 200588
+    verification_cycles: 572397
+    signing_us: 60.1
+    verification_us: 157.4
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: III-classic
     level: 3
     pk: 1225440
     sig: 200
-    signing_cycles: 299316
-    verification_cycles: 241588
+    signing_cycles: 209757
+    verification_cycles: 202120
+    signing_us: 57.4
+    verification_us: 56.5
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: Is-pkc
     level: 1
     pk: 66576
     sig: 96
-    signing_cycles: 109314
-    verification_cycles: 276520
+    signing_cycles: 69153
+    verification_cycles: 180775
+    signing_us: 20.3
+    verification_us: 50.2
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: Is-classic
     level: 1
     pk: 412160
     sig: 96
-    signing_cycles: 109314
-    verification_cycles: 58274
+    signing_cycles: 69427
+    verification_cycles: 43259
+    signing_us: 19.9
+    verification_us: 13.3
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: Ip-pkc
     level: 1
     pk: 43576
     sig: 128
-    signing_cycles: 105324
-    verification_cycles: 224006
+    signing_cycles: 67579
+    verification_cycles: 155050
+    signing_us: 21.5
+    verification_us: 44.6
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: Ip-classic
     level: 1
     pk: 278432
     sig: 128
-    signing_cycles: 105324
-    verification_cycles: 90336
+    signing_cycles: 67427
+    verification_cycles: 52560
+    signing_us: 21.4
+    verification_us: 17.5
+    bench_env: 2026-10-16-c8i.4xlarge

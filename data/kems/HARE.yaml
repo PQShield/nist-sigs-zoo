@@ -1,0 +1,57 @@
+name: HARE
+website: https://www.niccs.org.cn/niccs/Round1Additional/pc/content/content_2101560844942397440.html
+category: Code-based
+assumption: QCSD
+status: NGCC round 1
+programmes:
+  china-ngcc: round-1
+parametersets:
+- name: HARE-128-kr
+  ngcc_level: 128
+  pk: 2629
+  ct: 4688
+  keygen_cycles: 315597
+  encaps_cycles: 1376998
+  decaps_cycles: 2219036
+  keygen_us: 82.0
+  encaps_us: 354.3
+  decaps_us: 576.0
+  bench_env: 2026-10-16-c8i.4xlarge
+  notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+- name: HARE-256-kr
+  ngcc_level: 256
+  pk: 6580
+  ct: 11790
+  keygen_cycles: 942576
+  encaps_cycles: 3737324
+  decaps_cycles: 6426177
+  keygen_us: 249.7
+  encaps_us: 966.2
+  decaps_us: 1662.9
+  bench_env: 2026-10-16-c8i.4xlarge
+  notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+- name: HARE-384-kr
+  ngcc_level: 384
+  pk: 13157
+  ct: 23693
+  keygen_cycles: 2555081
+  encaps_cycles: 8899272
+  decaps_cycles: 14503155
+  keygen_us: 656.2
+  encaps_us: 2299.7
+  decaps_us: 3747.4
+  bench_env: 2026-10-16-c8i.4xlarge
+  notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+- name: HARE-512-kr
+  ngcc_level: 512
+  pk: 21812
+  ct: 39294
+  keygen_cycles: 6528950
+  encaps_cycles: 17779905
+  decaps_cycles: 29268120
+  keygen_us: 1683.2
+  encaps_us: 4592.9
+  decaps_us: 7560.7
+  bench_env: 2026-10-16-c8i.4xlarge
+  notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+findings_url: https://ngcc.dev/reports/kem-16.html

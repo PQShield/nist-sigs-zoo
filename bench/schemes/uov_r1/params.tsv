@@ -1,0 +1,9 @@
+file	name	pk	sk	sig	iters
+uov_r1_Ip_pkc	UOV-R1-Ip-pkc	43576	237896	128	100
+uov_r1_Ip_classic	UOV-R1-Ip-classic	278432	237896	128	100
+uov_r1_Is_pkc	UOV-R1-Is-pkc	66576	348704	96	100
+uov_r1_Is_classic	UOV-R1-Is-classic	412160	348704	96	100
+uov_r1_III_pkc	UOV-R1-III-pkc	189232	1044320	200	50
+uov_r1_III_classic	UOV-R1-III-classic	1225440	1044320	200	50
+uov_r1_V_pkc	UOV-R1-V-pkc	446992	2436704	260	50
+uov_r1_V_classic	UOV-R1-V-classic	2869440	2436704	260	50

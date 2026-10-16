@@ -9,9 +9,10 @@ TSV format:
   - First column must be named 'file'; its value becomes <value>_shim.c.
   - In the template, @COLNAME@ (uppercase of the column name) is substituted.
 """
-import sys
-import os
+
 import csv
+import os
+import sys
 
 
 def main():
@@ -24,24 +25,24 @@ def main():
 
     os.makedirs(out_dir, exist_ok=True)
 
-    with open(params_path, newline='') as f:
-        non_comment = [ln for ln in f if not ln.startswith('#')]
-    reader = csv.reader(non_comment, delimiter='\t')
+    with open(params_path, newline="") as f:
+        non_comment = [ln for ln in f if not ln.startswith("#")]
+    reader = csv.reader(non_comment, delimiter="\t")
     headers = [h.strip() for h in next(reader)]
 
     for row in reader:
         row = [v.strip() for v in row]
         if not any(row):
             continue
-        params = dict(zip(headers, row))
+        params = dict(zip(headers, row, strict=False))
         content = template
         for key, val in params.items():
-            content = content.replace(f'@{key.upper()}@', val)
-        out_path = os.path.join(out_dir, params['file'] + '_shim.c')
-        with open(out_path, 'w') as f:
+            content = content.replace(f"@{key.upper()}@", val)
+        out_path = os.path.join(out_dir, params["file"] + "_shim.c")
+        with open(out_path, "w") as f:
             f.write(content)
         print(f"  {out_path}")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

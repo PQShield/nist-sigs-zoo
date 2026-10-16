@@ -1,0 +1,211 @@
+import { describe, it, expect } from 'vitest';
+import { existsSync, readFileSync } from 'node:fs';
+import { join } from 'node:path';
+import yaml from 'js-yaml';
+import type { KemSchemeYaml, SchemeYaml } from '$lib/types';
+import { stripHtml } from '$lib/html';
+
+interface NgccInstance {
+	instance: string;
+	ref: string;
+	ngcc_level?: number;
+	recommended?: boolean;
+	omit?: string;
+	pk?: number;
+	sig?: number;
+	ct?: number;
+	sk?: number;
+	size_ref?: string;
+	implementation?: string;
+	broken?: string;
+}
+interface NgccCandidate {
+	id: string;
+	kind: 'signature' | 'kem';
+	name: string;
+	file: string;
+	website: string;
+	category: string;
+	assumption: string;
+	spec: string;
+	instances: NgccInstance[];
+	findings?: { url: string; implementation?: string; broken?: string; sources?: string[] };
+}
+
+const DATA = join(process.cwd(), 'data');
+const candidates = yaml.load(readFileSync(join(DATA, 'ngcc', 'candidates.yaml'), 'utf8')) as NgccCandidate[];
+const FAMILIES = ['Lattices', 'Code-based', 'Multivariate', 'Symmetric', 'MPCitH', 'Isogenies', 'Other'];
+const LEVELS = [128, 256, 384, 512];
+const ids = (prefix: string, n: number) =>
+	Array.from({ length: n }, (_, i) => `${prefix}-${String(i + 1).padStart(2, '0')}`);
+const yamlPath = (c: NgccCandidate) => join(DATA, c.kind === 'signature' ? 'schemes' : 'kems', `${c.file}.yaml`);
+
+describe('data/ngcc/candidates.yaml', () => {
+	it('lists the 34 signature and 41 KEM round-1 candidates once each, in order', () => {
+		expect(candidates.filter((c) => c.kind === 'signature').map((c) => c.id)).toEqual(ids('sign', 34));
+		expect(candidates.filter((c) => c.kind === 'kem').map((c) => c.id)).toEqual(ids('kem', 41));
+	});
+
+	it('gives every candidate a site family, an assumption, the official page and a spec', () => {
+		const errors = candidates.flatMap((c) => [
+			...(FAMILIES.includes(c.category) ? [] : [`${c.id}: unknown family "${c.category}"`]),
+			...(c.assumption?.trim() ? [] : [`${c.id}: empty assumption`]),
+			...(/^https:\/\/www\.niccs\.org\.cn\//.test(c.website ?? '')
+				? []
+				: [`${c.id}: website must be the official NICCS page`]),
+			...(c.spec?.trim() ? [] : [`${c.id}: empty spec`])
+		]);
+		expect(errors).toEqual([]);
+	});
+
+	it('gives every instance a spec reference and an NGCC target or a reason to leave it out', () => {
+		const errors = candidates.flatMap((c) =>
+			c.instances.flatMap((i) => {
+				const e: string[] = [];
+				if (!i.ref?.trim()) e.push(`${c.id} ${i.instance}: missing ref`);
+				if (i.omit !== undefined) {
+					if (!i.omit.trim()) e.push(`${c.id} ${i.instance}: empty omit reason`);
+					if (i.ngcc_level !== undefined || i.recommended)
+						e.push(`${c.id} ${i.instance}: omitted instances carry no level or recommendation`);
+				} else if (!LEVELS.includes(i.ngcc_level as number)) {
+					e.push(`${c.id} ${i.instance}: ngcc_level must be 128, 256, 384 or 512`);
+				}
+				const sizeKey = c.kind === 'signature' ? 'sig' : 'ct';
+				if ((i.pk !== undefined || i[sizeKey] !== undefined) && !(i.pk && i[sizeKey] && i.size_ref?.trim()))
+					e.push(`${c.id} ${i.instance}: spec sizes need pk, ${sizeKey} and size_ref together`);
+				return e;
+			})
+		);
+		expect(errors).toEqual([]);
+	});
+
+	it('lists at least one instance per candidate and each instance once per kind', () => {
+		for (const kind of ['signature', 'kem'] as const) {
+			const names = candidates.filter((c) => c.kind === kind).flatMap((c) => c.instances.map((i) => i.instance));
+			expect(names.length).toBeGreaterThan(0);
+			expect(names.filter((n, k) => names.indexOf(n) !== k)).toEqual([]);
+		}
+		expect(candidates.filter((c) => !c.instances.some((i) => i.omit === undefined)).map((c) => c.id)).toEqual([]);
+	});
+
+	it('uses safe, unique file names', () => {
+		for (const kind of ['signature', 'kem'] as const) {
+			const files = candidates.filter((c) => c.kind === kind).map((c) => c.file);
+			expect(files.filter((f) => !/^[A-Za-z0-9][A-Za-z0-9._-]*$/.test(f))).toEqual([]);
+			expect(new Set(files).size).toBe(files.length);
+		}
+	});
+
+	it('has a generated YAML file for every candidate', () => {
+		expect(candidates.filter((c) => !existsSync(yamlPath(c))).map((c) => c.file)).toEqual([]);
+	});
+
+	it('agrees with the generated YAML files, which never replace another scheme', () => {
+		const errors = candidates.flatMap((c) => {
+			if (!existsSync(yamlPath(c))) return [];
+			const doc = yaml.load(readFileSync(yamlPath(c), 'utf8'));
+			const sets: { name: string; ngcc_level?: number; recommended?: boolean }[] | undefined =
+				c.kind === 'signature'
+					? (doc as SchemeYaml).versions.find((v) => v.programmes?.['china-ngcc'])?.parametersets
+					: (doc as KemSchemeYaml).programmes?.['china-ngcc']
+						? (doc as KemSchemeYaml).parametersets
+						: undefined;
+			if (!sets) return [`${c.file}.yaml exists but is not an NGCC entry`];
+			const want = c.instances
+				.filter((i) => i.omit === undefined)
+				.map((i) => `${i.instance}:${i.ngcc_level}:${!!i.recommended}`);
+			const got = sets.map((p) => `${p.name}:${p.ngcc_level}:${!!p.recommended}`);
+			return JSON.stringify(got) === JSON.stringify(want)
+				? []
+				: [`${c.file}.yaml parameter sets differ from candidates.yaml`];
+		});
+		expect(errors).toEqual([]);
+	});
+
+	it('flags every built instance whose KAT status is not PASS with a visible note', () => {
+		// The caveat must be a badge (`info`), not only `notes`, which the signature table never shows.
+		const byId = new Map(candidates.map((c) => [c.id, c]));
+		const flagged: string[] = [];
+		const errors = ['bench', 'bench-kem'].flatMap((suite) => {
+			const [header, ...rows] = readFileSync(join(process.cwd(), suite, 'schemes', 'ngcc', 'status.tsv'), 'utf8')
+				.trim()
+				.split('\n')
+				.map((l) => l.split('\t'));
+			const col = (name: string) => header.indexOf(name);
+			return rows.flatMap((r) => {
+				const [id, instance, build, kat] = [r[col('id')], r[col('instance')], r[col('build')], r[col('kat')]];
+				if (build !== 'ok' || kat === 'PASS') return [];
+				const c = byId.get(id);
+				if (!c || !existsSync(yamlPath(c))) return [`${id}: no generated YAML`];
+				const doc = yaml.load(readFileSync(yamlPath(c), 'utf8'));
+				const sets: { name: string; info?: string | false }[] =
+					c.kind === 'signature'
+						? ((doc as SchemeYaml).versions.find((v) => v.programmes?.['china-ngcc'])?.parametersets ?? [])
+						: (doc as KemSchemeYaml).parametersets;
+				const ps = sets.find((p) => String(p.name) === instance);
+				if (!ps) return []; // omitted instance: not on the site
+				flagged.push(instance);
+				return typeof ps.info === 'string' && ps.info.length > 0 ? [] : [`${instance} (${kat}) has no info flag`];
+			});
+		});
+		expect(errors).toEqual([]);
+		expect(flagged.length).toBeGreaterThan(0);
+	});
+
+	it('gives every set whose benchmark did not finish a dnf reason and no timings', () => {
+		const TIMING = /_(cycles|us)$/;
+		const errors = candidates.flatMap((c) => {
+			if (!existsSync(yamlPath(c))) return [];
+			const doc = yaml.load(readFileSync(yamlPath(c), 'utf8'));
+			const sets = (c.kind === 'signature'
+				? ((doc as SchemeYaml).versions.find((v) => v.programmes?.['china-ngcc'])?.parametersets ?? [])
+				: (doc as KemSchemeYaml).parametersets) as unknown as Record<string, unknown>[];
+			return sets.flatMap((p) => {
+				const notes = String(p.notes ?? '');
+				const unfinished = /Benchmark did not finish|Not benchmarked/.test(notes);
+				const e: string[] = [];
+				if (unfinished !== (typeof p.dnf === 'string')) e.push(`${p.name}: dnf and notes disagree`);
+				if (p.dnf && Object.keys(p).some((k) => TIMING.test(k))) e.push(`${p.name}: dnf set with timings`);
+				return e;
+			});
+		});
+		expect(errors).toEqual([]);
+	});
+
+	it('keeps findings short, linked and credited to their authors', () => {
+		// Each summary ends with a parenthesised author credit, e.g. "... (Xiong and Wang).", and
+		// each credited name links to its disclosure: (<a href="https://...">Xiong and Wang</a>).
+		// Lowercase connecting words are allowed: "(@; made practical by @)", "(@, extended by @)".
+		const credited = /\([^()]+\)\.$/;
+		const unlinkedCredit = (text: string) =>
+			(text.replace(/<a href="https:\/\/[^"]+">[^<]+<\/a>/g, '@').match(/\([^()]*\)/g) ?? []).some((g) =>
+				g
+					.slice(1, -1)
+					.split(/; | and |, /)
+					.some((s) => !/^(?:[a-z0-9-]+ )*@$/.test(s) && !/^[a-z0-9 -]+$/.test(s))
+			);
+		const errors = candidates.flatMap((c) => {
+			const f = c.findings;
+			const texts = [f?.implementation, f?.broken, ...c.instances.flatMap((i) => [i.implementation, i.broken])].filter(
+				(t): t is string => !!t
+			);
+			const e: string[] = [];
+			if (!f) return texts.length ? [`${c.id}: instance flags need a findings block`] : [];
+			if (f.url !== `https://ngcc.dev/reports/${c.id}.html`)
+				e.push(`${c.id}: findings url must be its ngcc.dev report`);
+			for (const text of texts) {
+				const plain = stripHtml(text);
+				if (plain.length > 280) e.push(`${c.id}: summary over 280 characters`);
+				if (!credited.test(plain)) e.push(`${c.id}: summary must end with a parenthesised credit`);
+				if (unlinkedCredit(text)) e.push(`${c.id}: link each credited author to their disclosure`);
+				if (/ngcc\.dev\)/.test(text) && !text.endsWith('(reported on ngcc.dev).'))
+					e.push(`${c.id}: credit authors, not the venue`);
+			}
+			for (const u of f.sources ?? [])
+				if (!/^https:\/\/\S+$/.test(u)) e.push(`${c.id}: source is not an https URL: ${u}`);
+			if (texts.length && !f.sources?.length) e.push(`${c.id}: summaries need sources`);
+			return e;
+		});
+		expect(errors).toEqual([]);
+	});
+});

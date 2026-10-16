@@ -1,12 +1,89 @@
+- date: '2026-10-16'
+  type: update
+  description: "Re-benchmarked every scheme on AWS c8i.4xlarge with one compiler flag set for all of them (-O3 -march=native -fno-semantic-interposition -DNDEBUG, with Ubuntu's default stack-protector, FORTIFY_SOURCE, stack-clash and CET hardening turned off, since they are not part of any algorithm). For the nine schemes still in the NIST on-ramp, the round-1 and round-2 versions are now timed from their own round's code, so scheme pages compare versions on one machine."
+
+- date: '2026-10-16'
+  type: update
+  description: "QR-UOV rounds 1 and 2: key and signature sizes now follow the submitted code where it differs from the specification. In both rounds the public keys of I-(127, 156, 54, 3) and III-(127, 228, 78, 3) and the public key and signature of III-(31, 246, 87, 3) are one byte larger (round 2: 24,256, 71,892, and 70,984 and 233 bytes). The round-1 code builds III-(7, 1100, 140, 10) with v = 1150, so its signature is 508 bytes instead of the specification's 489. Each changed set notes the specification's value."
+  schemes: [QR-UOV]
+
+- date: '2026-10-15'
+  type: update
+  description: "SQIsign2D-push1/2 and SQIsign2D2 (SQISign2Dsquare): our build now patches the submitted verifiers so that they reject a signature whose final isogeny splitting step fails. The submitted code does not check that step and can then accept an altered signature (reported on ngcc.dev by <a href=\"https://ngcc.dev/reports/sign-26.html\">LK-PQC-Hunter</a> and <a href=\"https://ngcc.dev/reports/sign-25.html\">Saarinen</a>). Valid signatures are not affected."
+  programmes: [china-ngcc]
+  schemes: [SQIsign2D-push1/2, SQIsign2D2]
+
+- date: '2026-10-15'
+  type: update
+  description: "LESS: the signature sizes of LESS-252-192, LESS-400-220 and LESS-548-345 are now the maximum sizes of the submitted code (2,609, 6,353 and 10,712 bytes) instead of the specification's Table 4 (2,625, 6,329 and 10,680 bytes)."
+  schemes: [LESS]
+
+- date: '2026-10-15'
+  type: update
+  description: "Re-benchmarked every signature and KEM on AWS c8i.4xlarge (Intel Xeon 6975P-C, core cycles via rdpmc), replacing the c7i.4xlarge timings of 2026-10-13. This also times for the first time the C++ optimised builds of Lynxer, ReSolveD-&alpha; and SYDO, the SNOVA, SDitH and SMAUG-T alternative sets, and the SP 800-230 SLH-DSA-SHAKE-*-24 sets, which are exempt from our 10-minute limit: one signature takes 6.6&ndash;11.3 minutes. TRINE-512-Balanced still exceeds the limit."
+
+- date: '2026-10-14'
+  type: update
+  description: "Lynxer, ReSolveD-ɑ and SYDO are now built from their submitted optimised x86 implementations (C++ with AVX2) instead of the reference code. The optimised builds reproduce the submitted test vectors and give the same key and signature sizes. Their earlier timings came from the reference code and are removed until our next benchmark run. Galas stays on its reference code, because its optimised code has no implementation of the NGCC signature interface."
+  programmes: [china-ngcc]
+  schemes: [Lynxer, ReSolveD-ɑ, SYDO]
+
+- date: '2026-10-14'
+  type: update
+  description: "Added alternative and additional parameter sets for which official code exists; the main sets are marked, so the Recommended filter hides the new ones. <strong>SLH-DSA:</strong> the three SHAKE sets of the <a href=\"https://doi.org/10.6028/NIST.SP.800-230.ipd\">NIST SP 800-230 initial public draft</a> (13 April 2026), SHAKE-128-24, SHAKE-192-24 and SHAKE-256-24, limited to 2<sup>24</sup> signatures per key, with 3,856, 7,752 and 14,944-byte signatures (Table 1). The draft is not final. We build them from the experimental SP 800-230 support in <a href=\"https://github.com/pq-code-package/slhdsa-c/pull/51\">slhdsa-c PR #51</a> (not yet merged). The code of the FIPS 205 sets in our benchmark moved to that commit too; compared with before it adds a signature-length check in verification and larger stack buffers, and the algorithms are unchanged. Without a cached hypertree, key generation and each signature rebuild a 2<sup>21</sup>&ndash;2<sup>22</sup>-leaf tree and take minutes. <strong>SDitH:</strong> the six v3.0 instances with cipher-based grinding (<a href=\"https://github.com/sdith/sdith/blob/v3.0.0/docs/sdith-v3.0.pdf\">specification</a> Table 5, *-cipherpow), from the v3.0.0 code we already benchmark; the L1 and L3 fast instances have 4,643 and 10,452-byte signatures, the others match the main instances. <strong>SMAUG-T:</strong> TiMER, the additional level-1 parameter set of the <a href=\"https://hmchoe0528.github.io/assets/manuscripts/SMAUG_T_spec_Oct24_v4.0.pdf\">v4.0 specification</a> (672-byte public key, 608-byte ciphertext), from its AVX2 implementation in the SMAUG-T code we already benchmark. Timings for the new sets follow from our next benchmark run. Mirath-v, Mirath KeyGen2 and RYDE-v are not added because their code has not been published."
+  schemes: [SLH-DSA, SDitH, SMAUG-T]
+
+- date: '2026-10-14'
+  type: update
+  description: "Where a specification lists alternative or additional parameter sets next to its main ones, the main sets are now marked, so the Recommended filter hides the alternatives: SNOVA, MAYO, QR-UOV, SQIsign and FAEST (FAEST-EM is the specification's alternative variant), and the NGCC KEMs DTRU (DTRU-Light and DTRU-Prime are the alternatives to the primary tricyclotomic sets) and MAMBA-Frost (the compact-ciphertext CC variants are additional to the default sets). The round-3 specifications of SNOVA (Table 6), MAYO (Table 2.2), QR-UOV (Appendix B) and SQIsign (Appendix P) also list alternative or additional parameter sets; these are now shown under All parameter sets, with sizes from the specifications. The six odd-characteristic SNOVA alternatives are marked broken by Beullens &amp; Hess's vinegar-bias attack."
+  schemes: [SNOVA, MAYO, QR-UOV, SQIsign, FAEST, DTRU, MAMBA-Frost]
+
+- date: '2026-10-14'
+  type: update
+  description: "ISO/IEC 18033-2:2006/Amd 2:2026, published in June 2026, standardises FrodoKEM and Classic McEliece (the latter without mceliece348864). Both are now shown as ISO standards, and the ISO programme as completed."
+  programmes: [iso]
+  schemes: [FrodoKEM, Classic McEliece]
+
+- date: '2026-10-13'
+  type: update
+  description: "Benchmarked the round-1 candidates of China's NGCC programme on our own harness (AWS c7i.4xlarge, Intel Xeon Platinum 8488C, core cycles via rdpmc): 178 signature and 160 KEM parameter sets. Tins128/256/512 fail our sign/verify checks and are shown as not finished. We do not benchmark parameter sets that need more than 10 minutes for one signature or verification (TRINE-512-Balanced) or hours for key generation (UVW-512). A few submissions needed small fixes to their own code to run reliably; each is noted on the parameter set. The signature run also refreshes the timings of the NIST on-ramp schemes."
+  programmes: [china-ngcc]
+
+- date: '2026-10-08'
+  type: update
+  description: "Added the 34 signature and 41 KEM candidates of round 1 of China's NGCC programme (ICCS). Parameter sets and sizes come from our own builds of the official submission packages through the ICCS API, and claimed security targets from each specification. NGCC security targets (128, 256, 384 and 512 bits) are the programme's own scale and are not NIST levels. Timings follow once our benchmarks have run."
+  programmes: [china-ngcc]
+
+- date: '2026-10-07'
+  type: update
+  description: "Every signature scheme and KEM now has its own page, with its programmes, parameter sets, security flags, a version-by-version comparison of sizes and cycle counts, and its slice of this history. Scheme names in the tables and points in the charts link to it."
+- date: '2026-10-07'
+  type: update
+  description: "Scheme data now records which standardisation programmes each scheme belongs to (NIST PQC, NIST on-ramp, KpqC, ISO), in preparation for tracking China's NGCC programme."
+- date: '2026-09-27'
+  type: attack
+  description: "Public-key-only universal forgery on AIM2-based AIMer (Liu, Peng, Liu, Jia, Wang, Wang &amp; Fan, <a href=\"https://eprint.iacr.org/2026/2235\">ePrint 2026/2235</a>): BN++ checks each inverse Mersenne S-box of AIM2 through the quadratic relation t^(2^e) + &gamma;t = pt&middot;t, which holds for any pt when the S-box output t is zero. Setting all first-layer outputs to zero and pt = ct + b^(2^e*&minus;1), computed from the public key alone, gives a witness that satisfies every checked equation without being an AIM2 preimage; the unmodified prover then signs any message, with probability one, for every honest key of every parameter set. Forgeries were accepted by the unmodified reference verifier for AIMer-128f/192f/256f (about 11.6 ms per AIMer-256f forgery). The paper attacks the January 2026 AIM2 specification; v2.0 and v2.1 use the same relation, so we mark them broken. The AIMer team confirmed the attack, and the AIM3 relation of v3.0 rules out the zero branch. The paper also forges signatures for some Lynxer variants. v1.0 (AIM) is not covered by the paper."
+  schemes: [AIMer]
+
 - date: '2026-09-22'
   type: attack
   description: "Key-recovery attack on SNOVA's biased vinegar sampling (Beullens &amp; Hess, IBM Research, <a href=\"https://groups.google.com/a/list.nist.gov/d/msgid/pqc-forum/000001dd4a73%247e3c04e0%247ab40ea0%24%40beullens.com\">pqc-forum OFFICIAL COMMENT</a>, paper to appear on ePrint): the round-3 signer draws vinegar variables by reducing uniform byte strings modulo q^g, which is never uniform when q is odd, so every signature yields noisy linear equations in the secret transformation T. Key recovery becomes a q-ary LPN problem with a known full-support error distribution, solved with BKW reduction plus Fourier hypothesis testing. This affects only the <strong>six odd-characteristic alternative parameter sets</strong> of Table 6 in the round-3 spec &mdash; (27 4 19 4 6), (27 5 13 4 4), (39 5 11 4 6), (38 5 19 4 6), (40 5 19 5 6) and (47 6 19 4 6) &mdash; all of which fall far below their claimed 170&ndash;331 bits (2^90&ndash;2^130 operations from ~6&ndash;11k signatures). Four were broken end to end against the unmodified reference implementation: 9M, 16.5M, 9M and 180M signatures recovered in 22s, 34s, 22s and 16min respectively (<a href=\"https://github.com/WardBeullens/SNOVA_LPN_Attack\">proof of concept</a>). <strong>The recommended parameter sets shown here (SNOVA_{I,III,V}_{K,B,S}) use q = 16 and are unaffected</strong>, since 16^g divides 256^b exactly; no flags are changed for them. The fix is simple: sample the vinegar variables uniformly, e.g. by rejection sampling as QR-UOV does. The first version of the attack was found independently by an AI system (gpt-5.6-sol); the authors verified it, improved it and wrote it up."
   schemes: [SNOVA]
 
+- date: '2026-09-04'
+  type: update
+  description: "HAETAE implementation 1.2.0 and the KS draft specifications 260825 (25 August 2026) and 260904 (4 September 2026), linked from the <a href=\"https://kpqc.cryptolab.co.kr/haetae\">HAETAE page</a>, revise the hyperball sampler: its discrete Gaussian CDT grows from 64 entries at 16-bit precision to 166 entries at 83-bit precision, so each sample candidate uses 203 instead of 136 random bits. The change follows a question by Jipeng Zhang (National University of Singapore) about the precision of the discrete Gaussian sampler, credited in specification 260904. Sizes are unchanged. We benchmark the 1.2.0 reference implementation (the release has no optimised code), fetched from the official download and pinned by its SHA-256; it reproduces the shipped KATs."
+  schemes: [HAETAE]
+
 - date: '2026-08-31'
   type: update
   description: "QR-UOV Round 3 submission (<a href=\"https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/qruov_specifications.pdf\">specification</a>, <a href=\"https://github.com/qruov/round3\">github.com/qruov/round3</a>): the parameter set list is cut from twelve to six, all with q = 127 &mdash; the q = 31 and q = 7 sets are dropped &mdash; and three new small-public-key sets with &#8467; = 10 are added (I-(127 540 60 10), III-(127 820 90 10), V-(127 1040 110 10)), e.g. an 11,041-byte public key at Level I for a 541-byte signature. The secret key is now the 32-byte seed alone at every level, and signing rejects oil systems of rank below m &minus; 2. A new AVX2 implementation (Amagasa, Ueno &amp; Homma, <a href=\"https://doi.org/10.46586/tches.v2026.i2.325-346\">TCHES 2026(2)</a>) replaces the Round 2 avx2/avx512 code. Benchmarks here switch to that AVX2 implementation with the AES-based public-seed PRG (upstream's default), so the speedup over Round 2 combines the new implementation with the SHAKE&rarr;AES PRG change."
   schemes: [QR-UOV]
+
+- date: '2026-09-20'
+  type: milestone
+  description: "ICCS published the round-1 candidates of China's Next-generation Commercial Cryptographic Algorithms programme (NGCC): 34 signatures, 41 KEMs, 9 key exchanges and 35 hash functions. Submissions had closed on 30 June 2026. <a href=\"https://www.niccs.org.cn/en/\">NICCS</a>."
+  programmes: [china-ngcc]
 
 - date: '2026-09-08'
   type: update
@@ -42,6 +119,11 @@
   type: update
   description: "MAYO published its round-3 spec (<a href=\"https://pqmayo.org/assets/specs/mayo-round3.pdf\">PDF</a>): MAYO2's parameters change to increase its margin against the Wedge attack (Ran, ePrint 2025/1143), shrinking its public key from 4912B to 2928B while growing its signature from 186B to 239B; MAYO1 grows slightly (pk 1420&rarr;1456B, sig 454&rarr;464B) to push the improved-MQ attack (Asanuma et al., ePrint 2026/1054) margin back above the NIST Level I threshold &mdash; both flags are dropped for the round-3 parameter sets. Also adds an explicit linear term to the verification equation to block a newly disclosed claw-finding forgery attack, and fixes a low-rank weakness in the whipping schedule. MAYO3 and MAYO5 sizes are unchanged. The team also widened MAYO2's margin further in response to a new, not-yet-public UOV-like key-recovery attack privately disclosed by Lars Ran and Simon-Philipp Merz shortly before the deadline."
   schemes: [MAYO]
+
+- date: '2026-08-19'
+  type: update
+  description: "AIMer v3.0 (<a href=\"https://aimer-signature.org/docs/AIMer-specification-v3%20(Eng).pdf\">specification</a>, dated 31 July 2026) replaces AIM2 with AIM3, citing the Magic Pot attack: an IV-derived linear layer now precedes the first S-boxes (as proposed by Sun et al. for AIM2-patch) and the inverse Mersenne S-boxes become enhanced Mersenne S-boxes x^(2^e&minus;1) + x^(2^n&minus;2), whose quadratic relation only holds for non-zero inputs; key generation rejects keys with a zero S-box input. Parameter sets keep their names and public keys, but signatures grow by 13&ndash;25% (e.g. AIMer-128s 4,160&rarr;4,704 bytes, AIMer-256f 25,120&rarr;31,360 bytes). The specification no longer contains benchmarks, so no timings are shown for v3.0."
+  schemes: [AIMer]
 
 - date: '2026-08-07'
   type: attack
@@ -122,6 +204,11 @@
   description: Updated 7 schemes to their latest published specifications. PERK redesigned parameter sets (v2.2.0). MQOM adds gf16 variants (v2.1). RYDE and Mirath corrected signature sizes and added faster variants. CROSS, SQIsign, and MAYO updated with revised benchmarks.
   schemes: [CROSS, MAYO, MQOM, Mirath, PERK, RYDE, SQIsign]
 
+- date: '2026-05-08'
+  type: attack
+  description: "Magic Pot (Biryukov, Garc&iacute;a Fern&aacute;ndez &amp; Udovenko, <a href=\"https://eprint.iacr.org/2026/903\">ePrint 2026/903</a>, EUROCRYPT 2026): a new algebraic elimination framework recovers AIM2 keys from a single public key in 2^103.66, 2^147.46 and 2^213.19 encryptions for AIM2-I, -III and -V, below the claimed 128, 192 and 256 bits. If one secret key is reused under several IVs, or keys are related, key recovery becomes practical and was run: 11, 20 and 52 public keys in about 33, 30 and 37 hours. This affects AIMer v2.0 and v2.1; the AIMer team replaced AIM2 by AIM3 in v3.0 in response."
+  schemes: [AIMer]
+
 - date: '2026-05-07'
   type: update
   description: Fixed some typos in scheme data. <a href="https://github.com/PQShield/nist-sigs-zoo/commit/355b685ab03fa8f51b8bd1fec2b17e46ed701ffa">commit</a>
@@ -129,3 +216,54 @@
 - date: '2026-05-07'
   type: update
   description: Website rewritten with SvelteKit, Tailwind CSS v4, and a new round selector, filter panel, and scatter plot.
+
+- date: '2026-02-04'
+  type: update
+  description: "HAETAE KS draft specification 260204 with implementation 1.1.2 (<a href=\"https://github.com/CryptoLabInc/HAETAE\">CryptoLabInc/HAETAE</a>), prepared for Korean standardisation, renames the parameter sets HAETAE-120/180/260 to HAETAE-2/3/5 after their NIST levels. Sizes are those of v3.0."
+  schemes: [HAETAE]
+
+- date: '2025-12-18'
+  type: attack
+  description: "Sun, Chen, Liu, Wang &amp; Niu (<a href=\"https://eprint.iacr.org/2025/2272\">ePrint 2025/2272</a>) give resultant-based algebraic attacks on AIM2: 2^188.76 primitive calls for AIM2-III with &omega; = 2 (2^195.05 with &omega; = 2.373), against 192 claimed bits, and 2^295.97 for AIM2-V via subfield reduction, about 2^100 below the designers&rsquo; Gr&ouml;bner-basis estimate but above 256 bits. They propose AIM2-patch, which adds a linear layer after the key. The AIMer team&rsquo;s January 2026 specification counts these attacks at more than an exhaustive search of AES at the same level. No flag change."
+  schemes: [AIMer]
+
+- date: '2025-01-16'
+  type: milestone
+  description: "KpqC <a href=\"https://groups.google.com/g/kpqc-bulletin/c/FSqdwf4WcXc\">announced its final algorithms</a>: AIMer and HAETAE (signatures), NTRU+ and SMAUG-T (KEMs). AIMer was then at v2.1."
+  schemes: [AIMer, HAETAE, SMAUG-T, NTRU+]
+  programmes: [kpqc]
+
+- date: '2024-07-12'
+  type: update
+  description: "AIMer v2.1 (<a href=\"https://aimer-signature.org/docs/AIMer-specification-v2.1.pdf\">specification</a>, <a href=\"https://groups.google.com/g/kpqc-bulletin/c/QicD0wIDrAU\">announcement</a>): implementation-only changes (PQClean compatibility, a memory-optimised C implementation, ARM SHAKE optimisation, and constant-time patches recommended by D. J. Bernstein). Sizes are unchanged from v2.0."
+  schemes: [AIMer]
+
+- date: '2024-07-04'
+  type: update
+  description: "HAETAE v3.0 (<a href=\"https://hmchoe0528.github.io/assets/manuscripts/HAETAE_spec_24.07.04_v3.0.pdf\">specification</a>) corrects the secret-key sizes, which were missing 32 bytes (HAETAE-120 1,376&rarr;1,408 bytes), lowers B&prime; by 0.01 to satisfy Lemma 5, and replaces the 512-point FFT in key generation by a 256-point FFT (40&ndash;60% fewer key-generation cycles in AVX2). This is the version KpqC selected in January 2025."
+  schemes: [HAETAE]
+
+- date: '2024-02-23'
+  type: update
+  description: "AIMer v2.0 (<a href=\"https://aimer-signature.org/docs/AIMer-specification-v2.0.pdf\">specification</a>), the KpqC round-2 submission, replaces AIM with AIM2 (<a href=\"https://eprint.iacr.org/2023/1474\">Kim, Ha, Son &amp; Lee, ePrint 2023/1474</a>) to counter the 2023 attacks on AIM: inverse Mersenne S-boxes in the first round and a distinct constant added before each S-box. It also halves the salt, adds message pre-hashing and cuts the twelve parameter sets to six (AIMer-128f/s, -192f/s, -256f/s). Signatures at the same level are similar in size to v1.0 (e.g. 4,160 bytes for AIMer-128s against 4,176 bytes for L1_PARAM3)."
+  schemes: [AIMer]
+
+- date: '2024-02-23'
+  type: update
+  description: "HAETAE v2.1 (<a href=\"https://hmchoe0528.github.io/assets/manuscripts/HAETAE_spec_24.02.23_v2.1.pdf\">specification</a>) adds an HVZK argument for compressed HAETAE, a precise security bound with refined MLWE estimates, and a list of reported attacks and fixes. Parameters and sizes are unchanged."
+  schemes: [HAETAE]
+
+- date: '2023-11-29'
+  type: update
+  description: "HAETAE v2.0 (<a href=\"https://hmchoe0528.github.io/assets/manuscripts/HAETAE_spec_23.11.29_v2.0.pdf\">specification</a>), the KpqC round-2 submission, fixes the implementation errors behind the buffer-overflow (Saarinen) and rANS bit-flipping (HuFu team) forgeries of v1.0 and an uninitialised sum in the hyperball sampler, and changes the HAETAE-120/180 parameters to account for verification-key compression: signatures grow from 1,463/2,337/2,908 to 1,474/2,349/2,948 bytes. It adds AVX2 and Cortex-M4 implementations."
+  schemes: [HAETAE]
+
+- date: '2023-09-18'
+  type: attack
+  description: "Zhang, Wang, Yu, Guo &amp; Cui (<a href=\"https://eprint.iacr.org/2023/1397\">ePrint 2023/1397</a>, ASIACRYPT 2023) attack full AIM-III in 2^186.5 encryptions, below its 192-bit target, by exploiting the algebraic structure of its power-function S-boxes."
+  schemes: [AIMer]
+
+- date: '2023-07-20'
+  type: attack
+  description: "Liu, Mahzoun, &Oslash;ygarden &amp; Meier (<a href=\"https://eprint.iacr.org/2023/1133\">ePrint 2023/1133</a>, ToSC 2023(4)) find equivalent representations of full AIM that admit fast exhaustive search, recovering AIM-I/III/V keys in 2^136.2/2^200.7/2^265 bit operations, about 2^115/2^178/2^241 AIM evaluations. AIM therefore misses the NIST levels claimed by AIMer v1.0."
+  schemes: [AIMer]

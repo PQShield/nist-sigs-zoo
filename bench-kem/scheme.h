@@ -11,5 +11,5 @@ typedef struct {
     size_t      sk_bytes;   /* secret / decapsulation key */
     size_t      ct_bytes;   /* ciphertext */
     size_t      ss_bytes;   /* shared secret */
-    int         iters;      /* 0 → use BENCH_ITER; non-zero overrides */
+    int         iters;      /* 0 → use BENCH_ITER; >0 overrides; <0 → listed by --sizes, not timed */
 } bench_scheme_info_t;

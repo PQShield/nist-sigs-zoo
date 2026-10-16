@@ -26,7 +26,9 @@ function createThemeStore() {
 		toggle() {
 			// cycle: system → light → dark → system
 			let current: Theme = 'system';
-			const unsub = subscribe((v) => { current = v; });
+			const unsub = subscribe((v) => {
+				current = v;
+			});
 			unsub();
 			const next: Theme = current === 'system' ? 'light' : current === 'light' ? 'dark' : 'system';
 			this.set(next);
@@ -37,16 +39,20 @@ function createThemeStore() {
 			const mq = matchMedia('(prefers-color-scheme: dark)');
 			mq.addEventListener('change', () => {
 				let current: Theme = 'system';
-				const unsub = subscribe((v) => { current = v; });
+				const unsub = subscribe((v) => {
+					current = v;
+				});
 				unsub();
 				if (current === 'system') apply('system');
 			});
 			// Apply the stored value (FOUC script already handled initial render)
 			let current: Theme = 'system';
-			const unsub = subscribe((v) => { current = v; });
+			const unsub = subscribe((v) => {
+				current = v;
+			});
 			unsub();
 			apply(current);
-		},
+		}
 	};
 }
 

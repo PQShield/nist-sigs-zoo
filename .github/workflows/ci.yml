@@ -7,6 +7,36 @@ on:
     branches: [main]
 
 jobs:
+  lint:
+    name: Lint and format
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - run: npm run lint
+
+      - run: npm run format:check
+
+      # Only GitHub-owned actions are allowed, so install uv with pipx instead of setup-uv.
+      - run: pipx install uv
+
+      # Pinned so a new Ruff release cannot change the formatting CI expects.
+      - run: uvx ruff@0.16.9 check
+
+      - run: uvx ruff@0.16.9 format --check
+
+      # shellcheck is preinstalled on ubuntu-latest. Warnings and errors fail the job; style notes don't.
+      - run: >-
+          shellcheck -S warning scripts/*.sh scripts/ngcc-run scripts/ngcc-container/*.sh
+          bench/run_bench.sh bench-kem/run_bench.sh bench-kem/schemes/*/build_libs.sh
+
   unit:
     name: Unit tests
     runs-on: ubuntu-latest
@@ -23,6 +53,18 @@ jobs:
       - run: npm run check
 
       - run: npm run test
+
+  python:
+    name: Python tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # Only GitHub-owned actions are allowed, so install uv with pipx instead of setup-uv.
+      - run: pipx install uv
+
+      # Toy fixtures only (no NGCC code); builds the harnesses with the preinstalled cc.
+      - run: uv run --with pytest --with 'ruamel.yaml>=0.18' pytest -q bench-common/tests bench-common/ngcc/tests
 
   e2e:
     name: E2E tests

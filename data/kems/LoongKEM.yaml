@@ -1,0 +1,60 @@
+name: LoongKEM
+website: https://www.niccs.org.cn/niccs/Round1Additional/pc/content/content_2101560853666549760.html
+category: Lattices
+assumption: LWE
+status: NGCC round 1
+programmes:
+  china-ngcc: round-1
+parametersets:
+- name: Loong128
+  ngcc_level: 128
+  pk: 1472
+  ct: 1512
+  keygen_cycles: 6270912
+  encaps_cycles: 6319362
+  decaps_cycles: 6336102
+  keygen_us: 1621.3
+  encaps_us: 1634.0
+  decaps_us: 1638.3
+  bench_env: 2026-10-16-c8i.4xlarge
+  notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+  broken: Public consistency equations recover shared secrets with practical lattice reduction (<a href="https://list.niccs.org.cn/archives/list/pkcforum@list.niccs.org.cn/message/VBOUFRS2CDGNLPEAR4ZBKZM4U5YHBTZY/">Xie</a>).
+- name: Loong256
+  ngcc_level: 256
+  pk: 3248
+  ct: 3520
+  keygen_cycles: 15287544
+  encaps_cycles: 15350336
+  decaps_cycles: 15487693
+  keygen_us: 3950.2
+  encaps_us: 3966.2
+  decaps_us: 4001.5
+  bench_env: 2026-10-16-c8i.4xlarge
+  notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+  broken: Public consistency equations recover shared secrets with practical lattice reduction (<a href="https://list.niccs.org.cn/archives/list/pkcforum@list.niccs.org.cn/message/VBOUFRS2CDGNLPEAR4ZBKZM4U5YHBTZY/">Xie</a>).
+- name: Loong384
+  ngcc_level: 384
+  pk: 6444
+  ct: 6680
+  keygen_cycles: 49929805
+  encaps_cycles: 50105811
+  decaps_cycles: 50428568
+  keygen_us: 12902.2
+  encaps_us: 12948.3
+  decaps_us: 13031.5
+  bench_env: 2026-10-16-c8i.4xlarge
+  notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+- name: Loong512
+  ngcc_level: 512
+  pk: 10640
+  ct: 10848
+  keygen_cycles: 81133903
+  encaps_cycles: 80170763
+  decaps_cycles: 80693266
+  keygen_us: 20972.6
+  encaps_us: 20723.7
+  decaps_us: 20859.6
+  bench_env: 2026-10-16-c8i.4xlarge
+  notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+findings_url: https://ngcc.dev/reports/kem-18.html
+implementation: A faulty rejection mask in the submitted decapsulation returns the true shared secret for modified ciphertexts (<a href="https://ngcc.dev/reports/kem-18.html#kem-18-1-partial-rejection-mask-leaks-the-candidate-shared-secret">Saarinen</a>).

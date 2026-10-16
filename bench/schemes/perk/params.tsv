@@ -1,0 +1,16 @@
+# PERK v2.2.0 (specification 20/12/2025), the official submission package from
+# https://pqc-perk.org/resources.html (zip; sha256 pinned in .source, checked by the
+# Makefile). There is no public upstream git repository. Optimized_Implementation/
+# aes_aes/ (AVX2 + AES-NI + PCLMUL; AES for both PRG and commitments): the
+# instantiation of spec Table 9, whose cycle counts the YAML carries. Sizes match each
+# set's api.h/parameters.h and data/schemes/PERK.yaml (sk = 16-byte seed + pk, as in
+# the NIST API); our build reproduces the shipped aes_aes KATs for all 6 sets.
+# PERK-5-short needs more than 8 MB of stack (the harness thread has 256 MB).
+# Columns: file, name, pk, sk, sig, iters, dir (Optimized_Implementation/aes_aes/<dir>)
+file	name	pk	sk	sig	iters	dir
+perk1s	PERK-1-short	104	120	3473	0	perk-1-short
+perk1f	PERK-1-fast	104	120	4312	0	perk-1-fast
+perk3s	PERK-3-short	151	175	8311	430	perk-3-short
+perk3f	PERK-3-fast	151	175	10423	0	perk-3-fast
+perk5s	PERK-5-short	195	227	14830	290	perk-5-short
+perk5f	PERK-5-fast	195	227	18216	920	perk-5-fast

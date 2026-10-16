@@ -6,29 +6,34 @@ versions:
 - version: FIPS 204
   date: '2024-08-13'
   status: FIPS
-  perf_source: OQS bench
+  programmes:
+    nist-pqc: standardised
+  perf_source: our benchmark
   parametersets:
   - name: ML-DSA-87
     level: 5
     pk: 2592
     sig: 4627
-    signing_cycles: 361082
-    verification_cycles: 201096
-    signing_us: 96.7
-    verification_us: 54.1
+    signing_cycles: 353299
+    verification_cycles: 197904
+    signing_us: 92.3
+    verification_us: 51.9
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: ML-DSA-65
     level: 3
     pk: 1952
     sig: 3309
-    signing_cycles: 283230
-    verification_cycles: 127458
-    signing_us: 76.1
-    verification_us: 34.7
+    signing_cycles: 284187
+    verification_cycles: 126127
+    signing_us: 74.5
+    verification_us: 33.5
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: ML-DSA-44
     level: 2
     pk: 1312
     sig: 2420
-    signing_cycles: 171469
-    verification_cycles: 77835
-    signing_us: 46.7
-    verification_us: 21.6
+    signing_cycles: 169933
+    verification_cycles: 76760
+    signing_us: 45.2
+    verification_us: 20.8
+    bench_env: 2026-10-16-c8i.4xlarge

@@ -1,0 +1,66 @@
+# pq-kems benchmark results
+# date:         2026-10-13T15:35:39Z
+# host:         ip-172-31-4-147
+# os:           Ubuntu 26.04.1 LTS
+# kernel:       7.0.0-1014-aws
+# cpu:          Intel(R) Xeon(R) Platinum 8488C
+# cores:        16 (threads/core: 2)
+# max_freq_mhz: unknown (cur: unknown MHz)
+# governor:     unknown
+# turbo:        unknown
+# flags:        fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ss ht syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon rep_good nopl xtopology nonstop_tsc cpuid aperfmperf tsc_known_freq pni pclmulqdq monitor ssse3 fma cx16 pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand hypervisor lahf_lm abm 3dnowprefetch cpuid_fault ssbd ibrs ibpb stibp ibrs_enhanced fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid avx512f avx512dq rdseed adx smap avx512ifma clflushopt clwb avx512cd sha_ni avx512bw avx512vl xsaveopt xsavec xgetbv1 xsaves avx_vnni avx512_bf16 wbnoinvd ida arat avx512vbmi umip pku ospke waitpkg avx512_vbmi2 gfni vaes vpclmulqdq avx512_vnni avx512_bitalg tme avx512_vpopcntdq rdpid cldemote movdiri movdir64b md_clear serialize amx_bf16 avx512_fp16 amx_tile amx_int8 flush_l1d arch_capabilities
+#
+# compiler:     cc (Ubuntu 15.2.0-16ubuntu1) 15.2.0
+# openssl:      OpenSSL 3.5.5 27 Jan 2026 (Library: OpenSSL 3.5.5 27 Jan 2026)
+# sources:
+#   schemes/bat/ref: https://github.com/pornin/BAT@8280af7c9d4d5cdd9a70914f72a5f0ad774c7b8d
+#   schemes/frodo/ref: https://github.com/Microsoft/PQCrypto-LWEKE@7a4e7219d06305e16aef734213001cd8fefbcc14
+#   schemes/hqc/ref: https://gitlab.com/pqc-hqc/hqc.git@161cd4fdf6b4a5198cf40b3a1243f9f27f13e03d
+#   schemes/mike/ref: https://github.com/tensor-mike/mike_c.git@6057473e460165cc8721c05dc3fbbb73a009d147
+#   schemes/mlkem/ref: https://github.com/pq-code-package/mlkem-native.git@2d1cc90f71bd59617062844e874ac6e70868e1f8
+#   schemes/ntru/ref: https://github.com/jschanck/ntru@6d96ed3746000b6497392a425712fe483988fc80
+#   schemes/ntruplus/ref: https://github.com/ntruplus/ntruplus.git@f4507621e2111af52bb87b1950249baac683a37d
+#   schemes/saber/ref: https://github.com/KULeuven-COSIC/SABER@f7f39e4db2f3e22a21e1dd635e0601caae2b4510
+#   schemes/smaugt/ref: https://github.com/hmchoe0528/SMAUG-T_public.git@2c039df23134a2de3c7aa86a4904c9a4734f9def
+#   schemes/mceliece: https://lib.mceliece.org/libmceliece-20260622.tar.gz
+#   schemes/ngcc: https://www.niccs.org.cn/niccs/Proposal/Public-Key%20Cryptographic%20Algorithms/Round%201%20candidates/
+#   schemes/ntruprime: https://libntruprime.cr.yp.to/libntruprime-20241021.tar.gz
+# filter:       NGCC-MAMBA-Frost-512 NGCC-Loong512 NGCC-Loong384 NGCC-HQC-512 NGCC-HQC-384 NGCC-HQC-256 NGCC-HQC-128 NGCC-HEP-QC-5 NGCC-HEP-QC-1 NGCC-DTRU-Prime NGCC-CTL-769-1024 NGCC-CTL-3329-2048 NGCC-CMultiURAG-512 NGCC-BIKE_MLThre-128 NGCC-BAG-Loong-512 NGCC-BAG-Loong-384 NGCC-BAG-Loong-256 NGCC-BAG-Loong-128 NGCC-yuanyang-1024 NGCC-scabbard512 NGCC-scabbard256 NGCC-scabbard128 NGCC-lwekem256 NGCC-lwekem128 NGCC-bag_piglet_384 NGCC-bag_piglet_256 NGCC-bag_piglet_128 NGCC-ZEN_512 NGCC-ZEN_256 NGCC-ZEN_128 NGCC-WeaverKEM-512 NGCC-WeaverKEM-256 NGCC-WeaverKEM-128
+#
+# cyclecounter: rdpmc CPU_CYCLES (real core cycles, user-space)
+scheme                       iters    keygen (cyc)  keygen (us)    encaps (cyc)  encaps (us)    decaps (cyc)  decaps (us)      ok
+------                       -----    ------------  -----------    ------------  -----------    ------------  -----------      --
+NGCC-BAG-Loong-128             376        57993177     15375.0        58661830     15554.1       104718454     27765.8     yes
+NGCC-BAG-Loong-256             148       156981496     41639.9       139131886     36894.5       264578207     70174.0     yes
+NGCC-BAG-Loong-384              67       354015336     93922.5       278371537     73863.1       534305312    141863.9     yes
+NGCC-BAG-Loong-512              43       598108819    159094.0       425429493    113379.3       793550723    211720.8     yes
+NGCC-bag_piglet_128           1000         1212577       320.6         1427456       378.3         5631652      1494.2     yes
+NGCC-bag_piglet_256           1000         2801823       750.1         4076175      1086.6        19178583      5093.7     yes
+NGCC-bag_piglet_384           1000         9924945      2630.5        11445839      3035.7        46725041     12392.9     yes
+NGCC-BIKE_MLThre-128            56      1488538849    394838.0        14233864      3783.3        84078114     22289.2     yes
+NGCC-CMultiURAG-512            740        16536354      4390.0        23140194      6180.2        66766092     17812.5     yes
+NGCC-CTL-769-1024              684        60280128     15979.4           61968        17.4          387977       103.3     yes
+NGCC-CTL-3329-2048              30      2031588741    538608.5          197096        53.2        54979944     14592.2     yes
+NGCC-DTRU-Prime                338       141170367     37418.7          471095       125.1          957531       253.2     yes
+NGCC-HEP-QC-1                  180       246563486     65729.6        13158903      3489.0       233898174     62106.5     yes
+NGCC-HEP-QC-5                   42       937202421    250798.0        88509698     23505.1       819362339    217852.6     yes
+NGCC-Loong384                  653        48888100     12960.0        49061910     13005.9        49442946     13107.3     yes
+NGCC-Loong512                  417        80193999     21262.3        80285586     21284.8        81031459     21485.0     yes
+NGCC-MAMBA-Frost-512           901        18727217      4984.6        34756513      9281.4        38586390     10272.9     yes
+NGCC-scabbard128              1000          624613       165.6          635247       168.4          619207       164.1     yes
+NGCC-scabbard256              1000         1131788       299.0         1183349       312.7         1177067       311.0     yes
+NGCC-scabbard512              1000         3118388       830.9         3309731       881.3         3221073       857.9     yes
+NGCC-HQC-128                   464        35372710      9378.4        64323475     17054.1       120037698     31936.2     yes
+NGCC-HQC-256                   160       105042983     27848.0       190992666     50629.9       326473757     86566.5     yes
+NGCC-HQC-384                    50       354261524     93958.5       640912454    169932.1      1041748626    276380.1     yes
+NGCC-HQC-512                    18       839011232    222693.8      1529017282    405700.2      2431284098    644691.8     yes
+NGCC-lwekem128                1000         3232801       858.3         3218223       854.4         3210432       852.4     yes
+NGCC-lwekem256                1000         6434591      1707.3         6425939      1705.1         6415572      1702.5     yes
+NGCC-WeaverKEM-128            1000          551666       146.3          590698       156.6          593920       157.4     yes
+NGCC-WeaverKEM-256            1000          790060       209.0          850027       224.8          851017       225.1     yes
+NGCC-WeaverKEM-512            1000         2875950       764.4         3263338       866.5         3362308       892.8     yes
+NGCC-yuanyang-1024            1000         1264137       341.8          473482       125.8          734619       194.8     yes
+NGCC-ZEN_128                  1000          228189        61.2          154703        41.8          198060        53.2     yes
+NGCC-ZEN_256                  1000          377864       100.6          215224        57.8          329097        87.8     yes
+NGCC-ZEN_512                  1000         1023091       270.4          574210       152.2          861932       228.2     yes
+

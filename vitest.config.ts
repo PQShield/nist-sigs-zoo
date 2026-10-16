@@ -10,7 +10,7 @@ function yamlPlugin() {
 				const parsed = yaml.load(src);
 				return { code: `export default ${JSON.stringify(parsed)}`, map: null };
 			}
-		},
+		}
 	};
 }
 
@@ -18,11 +18,11 @@ export default defineConfig({
 	plugins: [yamlPlugin()],
 	test: {
 		include: ['src/**/*.test.ts'],
-		environment: 'node',
+		environment: 'node'
 	},
 	resolve: {
 		alias: {
-			'$lib': path.resolve('./src/lib'),
-		},
-	},
+			$lib: path.resolve('./src/lib')
+		}
+	}
 });

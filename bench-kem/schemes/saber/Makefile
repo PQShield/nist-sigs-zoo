@@ -1,3 +1,4 @@
+include ../../../bench-common/flags.mk
 CC     ?= cc
 BUILD   = build
 REF     = ref/AVX_Implementation_KEM
@@ -11,7 +12,7 @@ ifeq ($(OSSL_PREFIX),)
   OSSL_PREFIX := /usr
 endif
 
-CFLAGS  := -O3 -fomit-frame-pointer -fPIC -mavx2 -march=native -Wall -Wextra -I$(OSSL_PREFIX)/include
+CFLAGS  := -mavx2 -Wall -Wextra -I$(OSSL_PREFIX)/include $(BENCH_CFLAGS) -fPIC
 LDFLAGS := -L$(OSSL_PREFIX)/lib -lcrypto -Wl,-rpath,$(OSSL_PREFIX)/lib
 
 # cpucycles.c is linked in only because kem.c/SABER_indcpa.c call cpucycles()

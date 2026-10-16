@@ -6,285 +6,352 @@ versions:
 - version: v3.0.0
   date: '2026-09-01'
   status: On-ramp
-  perf_source: faest-arch-opt (AVX2+AES-NI optimized implementation)
-  tags:
-  - round-3
+  programmes:
+    nist-onramp: round-3
+  perf_source: our benchmark
+  # recommended: spec v3.0 §1 "This document also specifies alternative variants for security categories 1, 3 and 5, called FAEST-EM" (https://faest.info/faest-spec-v3.0.pdf)
   parametersets:
   - name: 128s
+    recommended: true
     level: 1
     pk: 32
     sig: 4066
-    signing_us: 2996.2
-    verification_us: 2623.7
-    signing_cycles: 9873821
-    verification_cycles: 8545508
+    signing_us: 2938.3
+    verification_us: 2574.4
+    signing_cycles: 9935877
+    verification_cycles: 8588869
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: 128f
+    recommended: true
     level: 1
     pk: 32
     sig: 5170
-    signing_us: 423.0
-    verification_us: 309.4
-    signing_cycles: 1581401
-    verification_cycles: 1151705
+    signing_us: 399.7
+    verification_us: 290.2
+    signing_cycles: 1536280
+    verification_cycles: 1126973
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: EM-128s
     level: 1
     pk: 32
     sig: 3466
-    signing_us: 1753.6
-    verification_us: 1523.9
-    signing_cycles: 6592964
-    verification_cycles: 5725426
+    signing_us: 2112.1
+    verification_us: 1833.8
+    signing_cycles: 7040799
+    verification_cycles: 5998158
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: EM-128f
     level: 1
     pk: 32
     sig: 4170
-    signing_us: 351.3
-    verification_us: 235.1
-    signing_cycles: 1319533
-    verification_cycles: 886778
+    signing_us: 335.2
+    verification_us: 222.1
+    signing_cycles: 1287604
+    verification_cycles: 861578
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: 192s
+    recommended: true
     level: 3
     pk: 48
     sig: 9410
-    signing_us: 12060.8
-    verification_us: 9904.6
-    signing_cycles: 41170996
-    verification_cycles: 33113004
+    signing_us: 11449.5
+    verification_us: 9892.4
+    signing_cycles: 39472257
+    verification_cycles: 33799390
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: 192f
+    recommended: true
     level: 3
     pk: 48
     sig: 11738
-    signing_us: 1819.0
-    verification_us: 1405.8
-    signing_cycles: 6788997
-    verification_cycles: 5275677
+    signing_us: 1796.6
+    verification_us: 1503.2
+    signing_cycles: 6526161
+    verification_cycles: 5399291
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: EM-192s
     level: 3
     pk: 48
     sig: 7874
-    signing_us: 8489.0
-    verification_us: 7965.6
-    signing_cycles: 27663082
-    verification_cycles: 25810005
+    signing_us: 8018.6
+    verification_us: 7621.6
+    signing_cycles: 26780915
+    verification_cycles: 25337549
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: EM-192f
     level: 3
     pk: 48
     sig: 9818
-    signing_us: 1187.1
-    verification_us: 891.3
-    signing_cycles: 4445977
-    verification_cycles: 3349014
+    signing_us: 1144.0
+    verification_us: 929.9
+    signing_cycles: 4172766
+    verification_cycles: 3342230
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: 256s
+    recommended: true
     level: 5
     pk: 48
     sig: 16626
-    signing_us: 17195.4
-    verification_us: 16719.2
-    signing_cycles: 56047677
-    verification_cycles: 54251638
+    signing_us: 16043.2
+    verification_us: 15691.2
+    signing_cycles: 53480492
+    verification_cycles: 52257555
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: 256f
+    recommended: true
     level: 5
     pk: 48
     sig: 20856
-    signing_us: 2552.5
-    verification_us: 2023.4
-    signing_cycles: 9548458
-    verification_cycles: 7552867
+    signing_us: 2572.0
+    verification_us: 2125.2
+    signing_cycles: 8779567
+    verification_cycles: 7250106
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: EM-256s
     level: 5
     pk: 64
     sig: 14554
-    signing_us: 11758.9
-    verification_us: 11018.8
-    signing_cycles: 44049097
-    verification_cycles: 41306417
+    signing_us: 12484.1
+    verification_us: 12846.8
+    signing_cycles: 41079597
+    verification_cycles: 42683373
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: EM-256f
     level: 5
     pk: 64
     sig: 18084
-    signing_us: 2161.3
-    verification_us: 1637.7
-    signing_cycles: 8067708
-    verification_cycles: 6138123
+    signing_us: 2090.6
+    verification_us: 1671.0
+    signing_cycles: 7330894
+    verification_cycles: 5754405
+    bench_env: 2026-10-16-c8i.4xlarge
 - version: v2.0
   date: '2025-02-07'
   status: On-ramp
-  perf_source: faest-arch-opt (AVX2+AES-NI optimized implementation)
-  tags:
-  - round-2
+  programmes:
+    nist-onramp: round-2
+  perf_source: our benchmark
   parametersets:
   - name: 128s
     level: 1
     pk: 32
     sig: 4506
-    signing_cycles: 10057387
-    verification_cycles: 8796878
-    signing_us: 3047.9
-    verification_us: 2690.9
+    signing_cycles: 9854351
+    verification_cycles: 8849925
+    signing_us: 2922.8
+    verification_us: 2644.8
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: 128f
     level: 1
     pk: 32
     sig: 5924
-    signing_cycles: 1298427
-    verification_cycles: 1132732
-    signing_us: 347.5
-    verification_us: 303.7
+    signing_cycles: 1277889
+    verification_cycles: 1122862
+    signing_us: 334.8
+    verification_us: 290.5
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: EM-128s
     level: 1
     pk: 32
     sig: 3906
-    signing_cycles: 6842742
-    verification_cycles: 6066340
-    signing_us: 1826.2
-    verification_us: 1618.6
+    signing_cycles: 7134657
+    verification_cycles: 6435149
+    signing_us: 2157.2
+    verification_us: 1946.5
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: EM-128f
     level: 1
     pk: 32
     sig: 5060
-    signing_cycles: 1003191
-    verification_cycles: 850193
-    signing_us: 268.6
-    verification_us: 226.9
+    signing_cycles: 993743
+    verification_cycles: 848958
+    signing_us: 264.4
+    verification_us: 224.4
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: 192s
     level: 3
     pk: 48
     sig: 11260
-    signing_cycles: 38830563
-    verification_cycles: 35018438
-    signing_us: 11476.7
-    verification_us: 10413.0
+    signing_cycles: 36660854
+    verification_cycles: 32245938
+    signing_us: 10590.4
+    verification_us: 9416.9
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: 192f
     level: 3
     pk: 48
     sig: 14948
-    signing_cycles: 5616580
-    verification_cycles: 5195583
-    signing_us: 1500.9
-    verification_us: 1384.5
+    signing_cycles: 5335363
+    verification_cycles: 4827190
+    signing_us: 1520.1
+    verification_us: 1386.4
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: EM-192s
     level: 3
     pk: 48
     sig: 9340
-    signing_cycles: 29674944
-    verification_cycles: 27968422
-    signing_us: 8985.2
-    verification_us: 8542.9
+    signing_cycles: 28351238
+    verification_cycles: 27641720
+    signing_us: 8412.2
+    verification_us: 8213.2
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: EM-192f
     level: 3
     pk: 48
     sig: 12380
-    signing_cycles: 3827495
-    verification_cycles: 3549454
-    signing_us: 1021.9
-    verification_us: 946.8
+    signing_cycles: 3838040
+    verification_cycles: 3538055
+    signing_us: 1087.3
+    verification_us: 1004.1
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: 256s
     level: 5
     pk: 48
     sig: 20696
-    signing_cycles: 57967321
-    verification_cycles: 57811034
-    signing_us: 17664.8
-    verification_us: 17614.1
+    signing_cycles: 55164588
+    verification_cycles: 54957864
+    signing_us: 16480.2
+    verification_us: 16413.4
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: 256f
     level: 5
     pk: 48
     sig: 26548
-    signing_cycles: 7985544
-    verification_cycles: 7763162
-    signing_us: 2134.7
-    verification_us: 2073.5
+    signing_cycles: 7960938
+    verification_cycles: 7481836
+    signing_us: 2300.1
+    verification_us: 2166.9
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: EM-256s
     level: 5
     pk: 64
     sig: 17984
-    signing_cycles: 46862254
-    verification_cycles: 45594027
-    signing_us: 12535.2
-    verification_us: 12201.8
+    signing_cycles: 44059186
+    verification_cycles: 43397048
+    signing_us: 13183.5
+    verification_us: 13046.2
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: EM-256f
     level: 5
     pk: 64
     sig: 23476
-    signing_cycles: 6853704
-    verification_cycles: 6705604
-    signing_us: 1833.6
-    verification_us: 1792.4
+    signing_cycles: 6720011
+    verification_cycles: 6254432
+    signing_us: 1921.0
+    verification_us: 1805.6
+    bench_env: 2026-10-16-c8i.4xlarge
 - version: v1.0
   date: '2023-06-01'
   status: On-ramp
-  perf_source: submission document
-  tags:
-  - round-1
+  programmes:
+    nist-onramp: round-1
+  perf_source: our benchmark
   parametersets:
   - name: 192s
     level: 3
     pk: 64
     sig: 12744
-    signing_us: 19180.0
-    verification_us: 19310.0
+    signing_us: 13154.8
+    verification_us: 13216.0
+    signing_cycles: 50667607
+    verification_cycles: 50901394
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: 192f
     level: 3
     pk: 64
     sig: 16792
-    signing_us: 1960.0
-    verification_us: 1960.0
+    signing_us: 1332.1
+    verification_us: 1318.9
+    signing_cycles: 5146028
+    verification_cycles: 5092326
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: 256s
     level: 5
     pk: 64
     sig: 22100
-    signing_us: 26650.0
-    verification_us: 26760.0
+    signing_us: 18866.1
+    verification_us: 18863.7
+    signing_cycles: 72638168
+    verification_cycles: 72624542
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: 256f
     level: 5
     pk: 64
     sig: 28400
-    signing_us: 3100.0
-    verification_us: 3100.0
+    signing_us: 2155.1
+    verification_us: 2139.2
+    signing_cycles: 8308215
+    verification_cycles: 8249236
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: EM-256s
     level: 5
     pk: 64
     sig: 20956
-    signing_us: 25650.0
-    verification_us: 25870.0
+    signing_us: 18474.5
+    verification_us: 18400.8
+    signing_cycles: 71223906
+    verification_cycles: 70911956
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: EM-256f
     level: 5
     pk: 64
     sig: 26736
-    signing_us: 3040.0
-    verification_us: 3030.0
+    signing_us: 2128.8
+    verification_us: 2089.4
+    signing_cycles: 8213628
+    verification_cycles: 8059796
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: EM-192s
     level: 3
     pk: 48
     sig: 10824
-    signing_us: 18460.0
-    verification_us: 18520.0
+    signing_us: 12308.9
+    verification_us: 12352.6
+    signing_cycles: 47462574
+    verification_cycles: 47659874
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: EM-192f
     level: 3
     pk: 48
     sig: 13912
-    signing_us: 1870.0
-    verification_us: 1870.0
+    signing_us: 1228.8
+    verification_us: 1226.8
+    signing_cycles: 4746783
+    verification_cycles: 4739320
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: 128s
     level: 1
     pk: 32
     sig: 5006
-    signing_us: 8100.0
-    verification_us: 8100.0
+    signing_us: 5202.4
+    verification_us: 5220.5
+    signing_cycles: 20068957
+    verification_cycles: 20136615
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: 128f
     level: 1
     pk: 32
     sig: 6336
-    signing_us: 870.0
-    verification_us: 870.0
+    signing_us: 555.7
+    verification_us: 551.4
+    signing_cycles: 2100127
+    verification_cycles: 2085367
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: EM-128s
     level: 1
     pk: 32
     sig: 4566
-    signing_us: 8090.0
-    verification_us: 8050.0
+    signing_us: 5100.2
+    verification_us: 5090.6
+    signing_cycles: 19702295
+    verification_cycles: 19662954
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: EM-128f
     level: 1
     pk: 32
     sig: 5696
-    signing_us: 850.0
-    verification_us: 860.0
+    signing_us: 529.5
+    verification_us: 525.8
+    signing_cycles: 2034269
+    verification_cycles: 2019117
+    bench_env: 2026-10-16-c8i.4xlarge

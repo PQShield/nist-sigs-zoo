@@ -1,0 +1,154 @@
+name: Chinith
+website: https://www.niccs.org.cn/niccs/Round1Additional/pc/content/content_2101561076774162432.html
+category: Symmetric
+assumption: Block-cipher OWF
+versions:
+- version: Round 1
+  date: '2026-09-20'
+  status: NGCC round 1
+  programmes:
+    china-ngcc: round-1
+  perf_source: our benchmark
+  parametersets:
+  - name: sm4th_d3_128f_loose
+    ngcc_level: 128
+    pk: 32
+    sig: 6724
+    signing_cycles: 16353425
+    verification_cycles: 15003843
+    signing_us: 4229.3
+    verification_us: 3881.6
+    bench_env: 2026-10-16-c8i.4xlarge
+    notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+  - name: sm4th_d3_128f_tight
+    ngcc_level: 128
+    pk: 32
+    sig: 11864
+    signing_cycles: 18654646
+    verification_cycles: 16964700
+    signing_us: 4833.0
+    verification_us: 4392.1
+    bench_env: 2026-10-16-c8i.4xlarge
+    notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+  - name: sm4th_d3_128s_loose
+    ngcc_level: 128
+    pk: 32
+    sig: 5056
+    signing_cycles: 116775521
+    verification_cycles: 103656414
+    signing_us: 30229.6
+    verification_us: 26835.9
+    bench_env: 2026-10-16-c8i.4xlarge
+    notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+  - name: sm4th_d3_128s_tight
+    ngcc_level: 128
+    pk: 32
+    sig: 9176
+    signing_cycles: 129829026
+    verification_cycles: 118592177
+    signing_us: 33670.0
+    verification_us: 30767.5
+    bench_env: 2026-10-16-c8i.4xlarge
+    notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+  - name: sm4th_em_d2_128f_loose
+    ngcc_level: 128
+    pk: 32
+    sig: 4932
+    signing_cycles: 14995834
+    verification_cycles: 14252221
+    signing_us: 3876.7
+    verification_us: 3684.4
+    bench_env: 2026-10-16-c8i.4xlarge
+    notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+  - name: sm4th_em_d2_128f_tight
+    ngcc_level: 128
+    pk: 32
+    sig: 9450
+    signing_cycles: 15303537
+    verification_cycles: 14710087
+    signing_us: 4054.7
+    verification_us: 3812.8
+    bench_env: 2026-10-16-c8i.4xlarge
+    notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+  - name: sm4th_em_d2_128s_loose
+    ngcc_level: 128
+    pk: 32
+    sig: 3818
+    signing_cycles: 110534434
+    verification_cycles: 101047606
+    signing_us: 28650.5
+    verification_us: 26129.5
+    bench_env: 2026-10-16-c8i.4xlarge
+    notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+  - name: sm4th_em_d2_128s_tight
+    ngcc_level: 128
+    pk: 32
+    sig: 7556
+    signing_cycles: 120934328
+    verification_cycles: 113492712
+    signing_us: 31305.1
+    verification_us: 29390.7
+    bench_env: 2026-10-16-c8i.4xlarge
+    notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+  - name: ublockith_d3_256f
+    ngcc_level: 256
+    pk: 64
+    sig: 31556
+    signing_cycles: 44681030
+    verification_cycles: 43854748
+    signing_us: 11813.9
+    verification_us: 11340.4
+    bench_env: 2026-10-16-c8i.4xlarge
+    notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+  - name: ublockith_d3_256s
+    ngcc_level: 256
+    pk: 64
+    sig: 24144
+    signing_cycles: 332050997
+    verification_cycles: 330918123
+    signing_us: 88742.4
+    verification_us: 86122.2
+    bench_env: 2026-10-16-c8i.4xlarge
+    notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+  - name: ublockith_em_d3_256f
+    ngcc_level: 256
+    pk: 64
+    sig: 25028
+    signing_cycles: 40547115
+    verification_cycles: 39547582
+    signing_us: 10729.2
+    verification_us: 10230.9
+    bench_env: 2026-10-16-c8i.4xlarge
+    notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+  - name: ublockith_em_d3_256s
+    ngcc_level: 256
+    pk: 64
+    sig: 19056
+    signing_cycles: 313842340
+    verification_cycles: 302052651
+    signing_us: 83810.0
+    verification_us: 78411.7
+    bench_env: 2026-10-16-c8i.4xlarge
+    notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+  - name: vistrutith_d3_512f
+    ngcc_level: 512
+    pk: 128
+    sig: 106788
+    signing_cycles: 185250464
+    verification_cycles: 175488601
+    signing_us: 49258.0
+    verification_us: 45714.2
+    bench_env: 2026-10-16-c8i.4xlarge
+    notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+  - name: vistrutith_d3_512s
+    ngcc_level: 512
+    pk: 128
+    sig: 83004
+    signing_cycles: 1249201233
+    verification_cycles: 1247907963
+    signing_us: 332560.3
+    verification_us: 323860.5
+    bench_env: 2026-10-16-c8i.4xlarge
+    notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+  findings_url: https://ngcc.dev/reports/sign-05.html
+  implementation: The submitted code leaves a value out of the final Fiat-Shamir challenge, so anyone can forge signatures from the public key alone, at every parameter set (<a href="https://groups.google.com/a/list.nist.gov/g/pqc-forum/c/_WrUbtphjHw/m/fHXYK5hJBAAJ">Feussner</a>).

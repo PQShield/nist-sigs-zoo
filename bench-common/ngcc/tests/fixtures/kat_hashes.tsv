@@ -1,0 +1,27 @@
+# Per-record sha256 of the submitted NGCC KAT files, written by kat_hashes.py; commit it.
+# record=raw: sha256 of the submitted file's bytes. record=0..9: sha256 of the
+# canonical form of that record (defined in kat_compare.py). status.py compares
+# our ngcc_kat replay with these, so the KAT files themselves are not needed.
+suite	id	kat	record	sha256
+kem	kem-99	KAT/KAT_KEM_Toy-KEM-1.txt	raw	0a8d0200d2292b1acef343a92d00929e4015002708fdecc3a3413ea3fab7518d
+kem	kem-99	KAT/KAT_KEM_Toy-KEM-1.txt	0	448987e975936bd02f9e7b685f88ce8eb5dafe09ace38eda3ebfbe43a4006ddc
+kem	kem-99	KAT/KAT_KEM_Toy-KEM-1.txt	1	5a58d23afeb3ea0bfb750118f5b351576975e44db952bf5c867fce90bef900ae
+kem	kem-99	KAT/KAT_KEM_Toy-KEM-1.txt	2	93ecd7c1eddb3b0e2b2c314a5231118f723a550399b8062042898cd2ec3fa010
+kem	kem-99	KAT/KAT_KEM_Toy-KEM-1.txt	3	785119c12aeb60087f5e59f45d41d480d9a233bab49201839fc6215677e43aaf
+kem	kem-99	KAT/KAT_KEM_Toy-KEM-1.txt	4	45ff5835a8bd412c5600e0adc9b1b07d739c05fe9414b669fe172968b1ea7822
+kem	kem-99	KAT/KAT_KEM_Toy-KEM-1.txt	5	a2a4d169ace707ae47dfadc2a2ffe89efc1b60d162761292c8263fc22eaed237
+kem	kem-99	KAT/KAT_KEM_Toy-KEM-1.txt	6	31cef063ec909c449f6653cbe3e559da7f8e7621e7a032bac21e1b162c20a7f0
+kem	kem-99	KAT/KAT_KEM_Toy-KEM-1.txt	7	5708b7b6f45cec7cd281a59b102272515f3a59d2d01d04dc12e55a860cb3358b
+kem	kem-99	KAT/KAT_KEM_Toy-KEM-1.txt	8	a1c4a212532a05c73291261f2312d10abb9daca35c3e63c197c72ca28f827aed
+kem	kem-99	KAT/KAT_KEM_Toy-KEM-1.txt	9	0ed867288d3244f1507575cbd1e6bca27c2faeaf035a32b6874642b9c0898e07
+sig	sign-99	KAT/KAT_SIG_Toy-Sig-1.txt	raw	c355001335b531dd98c7c84f66f92c7d68266d867346b3c8a06ff966a1313200
+sig	sign-99	KAT/KAT_SIG_Toy-Sig-1.txt	0	78a9ccde0a171609db759f3049d3c2f84670e4b355a693a6520e3591e6dbd6a1
+sig	sign-99	KAT/KAT_SIG_Toy-Sig-1.txt	1	30d3d906529d4c035f9b1b11a062fc51f1de65c395cc052b1173981fa608ca3d
+sig	sign-99	KAT/KAT_SIG_Toy-Sig-1.txt	2	5bfe73632d1bd7d50b03c32d41c527dcf0203fd2dffb2591b77f6f0ee93e3456
+sig	sign-99	KAT/KAT_SIG_Toy-Sig-1.txt	3	48c3d551d28a88a535fcedc3b210aba2fccec4a60bbd54e571120d1cc590067a
+sig	sign-99	KAT/KAT_SIG_Toy-Sig-1.txt	4	4d04e2423d40b4d3a38e8439518b07bec5a740b87c19a046d3aaa82f784e77a2
+sig	sign-99	KAT/KAT_SIG_Toy-Sig-1.txt	5	3c1e6e238aef9c67880785782d470482a4ada285618b4b69eed63ec39166e7f7
+sig	sign-99	KAT/KAT_SIG_Toy-Sig-1.txt	6	ce2feae51dd1e90a54f119c841282d8cc70616e1ee0769e448abaacc97488b82
+sig	sign-99	KAT/KAT_SIG_Toy-Sig-1.txt	7	73db394e9b252fcfd8344078676a68f39316d947edbc90e9caac309b763533bc
+sig	sign-99	KAT/KAT_SIG_Toy-Sig-1.txt	8	0f18df2c5ee184191421f037a1f0eab92552723da45f15805c52809d96955002
+sig	sign-99	KAT/KAT_SIG_Toy-Sig-1.txt	9	b7e3c646ef9aafbeefe085e0141a6d2c787fdb3d44898dbb6d30adef473fc37f

@@ -1,17 +1,15 @@
-import { processYamlSchemes } from '$lib/data';
-import { createFilterStore } from '$lib/filterStore';
+import { allProgrammes } from '$lib/programmeData';
+import { programmeSummaries } from '$lib/programmes';
 import { allSchemeData } from '$lib/schemeData';
-import type { PageLoad } from './$types';
+import { allKemData } from '$lib/kemSchemeData';
+import { allHistory as history } from '$lib/historyData';
 
-export const prerender = true;
-
-export const load: PageLoad = async () => {
-	const { schemes, parameterSets, ranges } = processYamlSchemes(allSchemeData, 'round-3', { useLatestVersion: true });
-
-	const categories = [...new Set(schemes.map((s) => s.category))].sort();
-
-	// During prerender url.searchParams is unavailable; URL params applied client-side in onMount
-	createFilterStore(parameterSets, ranges, new URLSearchParams());
-
-	return { schemes, parameterSets, ranges, categories };
-};
+export function load() {
+	const pq = (cat: string) => cat !== 'Pre-Quantum';
+	return {
+		summaries: programmeSummaries(allProgrammes, allSchemeData, allKemData),
+		signatureCount: allSchemeData.filter((s) => pq(s.category)).length,
+		kemCount: allKemData.filter((k) => pq(k.category)).length,
+		latest: [...history].sort((a, b) => b.date.localeCompare(a.date)).slice(0, 3)
+	};
+}

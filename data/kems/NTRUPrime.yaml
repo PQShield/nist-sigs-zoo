@@ -3,65 +3,73 @@ website: https://ntruprime.cr.yp.to/
 category: Lattices
 assumption: NTRU
 status: Round-3 alternate
+programmes:
+  nist-pqc: round-3
 info: Streamlined NTRU Prime, a NIST round-3 alternate candidate that uses a large-Galois-group ring to avoid structure relied on by some attacks. Widely deployed (the sntrup761 hybrid is a default in OpenSSH). AVX2 from libntruprime.cr.yp.to. NTRU LPRime is not shown. Security categories follow the team's conservative Core-SVP estimates.
 parametersets:
 - name: sntrup653
   level: 2
   pk: 994
   ct: 897
-  keygen_cycles: 591930
-  encaps_cycles: 49877
-  decaps_cycles: 50996
-  keygen_us: 175.4
-  encaps_us: 15.6
-  decaps_us: 16.1
+  keygen_cycles: 501576
+  encaps_cycles: 50114
+  decaps_cycles: 57668
+  keygen_us: 134.3
+  encaps_us: 14.3
+  decaps_us: 16.3
+  bench_env: 2026-10-16-c8i.4xlarge
 - name: sntrup761
   level: 2
   pk: 1158
   ct: 1039
-  keygen_cycles: 770028
-  encaps_cycles: 54338
-  decaps_cycles: 52699
-  keygen_us: 233.9
-  encaps_us: 17.7
-  decaps_us: 17.2
+  keygen_cycles: 654664
+  encaps_cycles: 55619
+  decaps_cycles: 61128
+  keygen_us: 174.3
+  encaps_us: 15.8
+  decaps_us: 17.3
+  bench_env: 2026-10-16-c8i.4xlarge
 - name: sntrup857
   level: 3
   pk: 1322
   ct: 1184
-  keygen_cycles: 965437
-  encaps_cycles: 64258
-  decaps_cycles: 70282
-  keygen_us: 301.7
-  encaps_us: 21.0
-  decaps_us: 23.0
+  keygen_cycles: 792511
+  encaps_cycles: 65952
+  decaps_cycles: 77220
+  keygen_us: 217.1
+  encaps_us: 19.0
+  decaps_us: 22.1
+  bench_env: 2026-10-16-c8i.4xlarge
 - name: sntrup953
   level: 4
   pk: 1505
   ct: 1349
-  keygen_cycles: 1160148
-  encaps_cycles: 71592
-  decaps_cycles: 73011
-  keygen_us: 399.6
-  encaps_us: 25.4
-  decaps_us: 26.8
+  keygen_cycles: 989404
+  encaps_cycles: 71726
+  decaps_cycles: 82010
+  keygen_us: 262.2
+  encaps_us: 20.0
+  decaps_us: 22.8
+  bench_env: 2026-10-16-c8i.4xlarge
 - name: sntrup1013
   level: 4
   pk: 1623
   ct: 1455
-  keygen_cycles: 1366389
-  encaps_cycles: 73676
-  decaps_cycles: 74519
-  keygen_us: 475.9
-  encaps_us: 27.2
-  decaps_us: 27.3
+  keygen_cycles: 1171620
+  encaps_cycles: 74394
+  decaps_cycles: 84605
+  keygen_us: 310.9
+  encaps_us: 20.7
+  decaps_us: 23.4
+  bench_env: 2026-10-16-c8i.4xlarge
 - name: sntrup1277
   level: 5
   pk: 2067
   ct: 1847
-  keygen_cycles: 2011959
-  encaps_cycles: 96586
-  decaps_cycles: 99877
-  keygen_us: 695.7
-  encaps_us: 34.3
-  decaps_us: 37.0
+  keygen_cycles: 1678078
+  encaps_cycles: 96848
+  decaps_cycles: 99596
+  keygen_us: 445.7
+  encaps_us: 27.6
+  decaps_us: 27.4
+  bench_env: 2026-10-16-c8i.4xlarge

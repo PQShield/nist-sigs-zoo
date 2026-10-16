@@ -21,6 +21,8 @@ BENCH_ITER=200 ./bench-kem
 
 Output columns: `keygen`, `encaps`, `decaps` in cycles and µs, plus an `ok` column
 (`yes` if every encaps/decaps round-trip agreed on the shared secret, else `FAIL`).
+A scheme that crashes, hangs (`BENCH_TIMEOUT`, default 3600 s) or fails its warm-up
+round trip gets a row of `DNF` with the reason in the `ok` column; see `CLAUDE.md`.
 Cycles are the core's real `CPU_CYCLES` PMC via `rdpmc` when available (no root
 needed; the worker thread is pinned to one core), falling back to `rdtsc` reference
 cycles otherwise — see the `# cyclecounter:` line in each results file. Force the

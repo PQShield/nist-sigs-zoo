@@ -1,0 +1,45 @@
+name: VDOO
+full_name: 'VDOO: Vinegar-Diagonal-Oil-Oil'
+website: https://www.niccs.org.cn/niccs/Round1Additional/pc/content/content_2101561114325766144.html
+category: Multivariate
+assumption: UOV-type MQ
+versions:
+- version: Round 1
+  date: '2026-09-20'
+  status: NGCC round 1
+  programmes:
+    china-ngcc: round-1
+  perf_source: our benchmark
+  parametersets:
+  - name: VDOO-128
+    ngcc_level: 128
+    pk: 330855
+    sig: 85
+    signing_cycles: 197046682
+    verification_cycles: 2422017
+    signing_us: 51189.8
+    verification_us: 628.7
+    bench_env: 2026-10-16-c8i.4xlarge
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+  - name: VDOO-256
+    ngcc_level: 256
+    pk: 4289250
+    sig: 316
+    signing_cycles: 232617625
+    verification_cycles: 3202202
+    signing_us: 60921.5
+    verification_us: 840.2
+    bench_env: 2026-10-16-c8i.4xlarge
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+  - name: VDOO-512
+    ngcc_level: 512
+    pk: 20229300
+    sig: 471
+    signing_cycles: 1247735700
+    verification_cycles: 6743967
+    signing_us: 327668.7
+    verification_us: 1775.4
+    bench_env: 2026-10-16-c8i.4xlarge
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+  findings_url: https://ngcc.dev/reports/sign-33.html
+  implementation: The submitted code generates reproducible signing keys and predictable signing randomness (<a href="https://ngcc.dev/reports/sign-33.html#sign-33-1-publicly-reproducible-signing-keys">Saarinen</a>), and its restricted coefficients allow public-key-only forgery at VDOO-128 (<a href="https://groups.google.com/a/list.nist.gov/g/pqc-forum/c/mYN9Br_C8dg/m/BDmmwIE6BAAJ">Feussner</a>).

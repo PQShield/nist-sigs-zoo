@@ -25,6 +25,9 @@ Dependencies: C compiler (cc), make, git submodules. OpenSSL 3.x for ECDH
 (detected via `brew --prefix openssl`, `pkg-config`, or `/usr` fallback).
 ML-KEM builds with AVX2 (`-march=native`).
 
+Compiler flags: every scheme, NGCC included, builds with the global set in
+`../bench-common/flags.mk` (policy and exceptions: "Compiler flags" in `../bench/CLAUDE.md`).
+
 ## Architecture
 
 ```
@@ -34,6 +37,7 @@ bench-kem/
 ├── harness.h             # KEM bench_run() + columns + round-trip check; shares cycle
 │                         #   counter/stats/timing via ../bench-common/harness_common.h
 ├── main.c                # includes build/so_paths.h + filter logic + large-stack thread
+│                         #   (one forked child per scheme, ../bench-common/isolate.h)
 ├── gen_shims.py          # shim generator: substitutes @COLNAME@ tokens from params.tsv
 ├── Makefile              # builds ./bench-kem; generates build/so_paths.h from ALL_SOS
 ├── run_bench.sh          # wrapper: collects sysinfo, tees output to results/
@@ -90,13 +94,29 @@ int crypto_kem_dec(uint8_t *ss, const uint8_t *ct, const uint8_t *sk);
 - **Stats**: median over `BENCH_ITER` (default 1000) iterations.
   Override at build time `make BENCH_ITER=200` or at run time `BENCH_ITER=200 ./bench-kem`.
 - **Per-scheme override**: set `iters` in `bench_scheme_info_t` to a non-zero value.
-- **Correctness**: every iteration compares the encaps shared secret against the
-  decaps shared secret (outside the timed region). Mismatches are tallied and the
-  `ok` column shows `FAIL`, but the scheme **still reports its timing numbers** — a
-  broken KEM is informative, not fatal. (This is a deliberate divergence from
-  `bench/`, which never checks the verify return value. It matters once schemes with
-  a non-zero decryption-failure rate, e.g. HQC, are added.)
-- Warm-up runs a full keygen → encaps → decaps before the timed loop.
+- **Warm-up check**: a full keygen → encaps → decaps round trip before the timed loop;
+  every call must return 0 and both sides must agree on the shared secret. Otherwise the
+  scheme gets a DNF row (reason `keygen-failed`, `encaps-failed`, `decaps-failed` or
+  `shared-secret-mismatch`) instead of timings.
+- **Correctness in the timed loop**: every iteration compares the encaps shared secret
+  against the decaps shared secret (outside the timed region). Mismatches are tallied and
+  the `ok` column shows `FAIL`, but the scheme **still reports its timing numbers** — an
+  occasional decryption failure (e.g. HQC's non-zero DFR) is informative, not fatal.
+- **Crash isolation**: as in `bench/` (see "Crash isolation and DNF rows" in
+  `../bench/CLAUDE.md`, shared code in `../bench-common/isolate.h`), each scheme runs in
+  its own forked child with a `BENCH_TIMEOUT` (default 3600 s, 0 = none), and the warm-up
+  encaps and decaps each run under `BENCH_OP_LIMIT` (default 600 s, 0 = none; reason
+  `operation-over-600s`; key generation is not limited). A crash, hang or
+  failed warm-up gives a DNF row and the run continues; the reason sits in the `ok`
+  column, so the column count is unchanged:
+
+  ```
+  NGCC-E1                         20             DNF         DNF             DNF         DNF             DNF         DNF  SIGABRT
+  ```
+
+  Exit status 0, or 2 if every scheme that ran was DNF. The importer handles DNF rows
+  like `bench/`'s: NGCC sets lose their timings and get a `Benchmark did not finish
+  (<reason>).` note, other schemes keep their timings with a warning.
 
 ## Shim pattern
 
@@ -247,8 +267,10 @@ generates one `<file>_shim.c` per row of `params.tsv`, not committed — `.gitig
 
 `update_scheme_data.py` (KEM analogue of `bench/update_scheme_data.py`) parses a
 `results/*.txt` run and writes `keygen/encaps/decaps` cycles + µs into the matching
-`data/kems/*.yaml` parameter sets (flat schema, mapped via `BENCH_TO_YAML`), and writes
-`data/kem_benchmark_env.yaml`. Run after a benchmark:
+`data/kems/*.yaml` parameter sets (flat schema, mapped via `BENCH_TO_YAML`) with `bench_env`,
+adds the run's environment to `data/kem_benchmark_env.yaml` and records each row's fingerprint
+in `results/fingerprints.tsv` (see `../bench/CLAUDE.md`, "Provenance and staleness"). Run after a
+benchmark:
 
 ```bash
 ./run_bench.sh                       # writes results/<ts>_<cpu>.txt
@@ -264,3 +286,16 @@ The `/kems/` page renders the timings (table columns) and the environment panel.
   reference cycles (constant TSC rate on modern Intel/AMD), which diverge from real
   cycles under turbo/frequency scaling. `bench/` (signatures) still uses `rdtsc`, so
   its cycle column is not directly comparable to the KEM one (µs still are).
+
+## NGCC candidates (ICCS API)
+
+Same machinery as `bench/` (see `bench/CLAUDE.md`, "NGCC candidates"): `schemes/ngcc/`
+with the ICCS KEM shim, `params.tsv`, `status.tsv`, and `./bench-kem --sizes NGCC >
+results/ngcc_sizes.tsv`. The shim forwards the lengths reported by the last keygen/encaps,
+which is sound because the harness always runs keygen -> encaps -> decaps in order.
+
+## Running NGCC candidates
+
+Build, KAT, `--sizes` and smoke runs of NGCC candidate code must go through
+`scripts/ngcc-run`, never directly on the host. See "Running NGCC candidates" in
+`bench/CLAUDE.md`.

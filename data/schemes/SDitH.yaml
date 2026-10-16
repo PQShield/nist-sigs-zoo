@@ -6,214 +6,311 @@ versions:
 - version: v3.0.0
   date: '2026-09-08'
   status: On-ramp
-  perf_source: "sizes verified against kat_r3 KAT vectors (github.com/sdith/sdith tag v3.0.0)"
-  tags:
-  - round-3
+  programmes:
+    nist-onramp: round-3
+  perf_source: "our benchmark"
+  # recommended: spec v3.0 §2.2 "While our main instances rely on hash-based grinding, we also provide alternative instances based on the cipher-based grinding technique proposed by [Riv26]" (Table 4 main, Table 5 alternative) (https://github.com/sdith/sdith/blob/v3.0.0/docs/sdith-v3.0.pdf)
   parametersets:
-  - name: SDitH2-L1-gf2-short
+  - name: SDitH3-L1-gf2-short
+    recommended: true
+    renamed_from: SDitH2-L1-gf2-short
     level: 1
     pk: 70
     sig: 3721
-    signing_cycles: 9305331
-    verification_cycles: 8295645
-    signing_us: 2464.5
-    verification_us: 2218.9
-  - name: SDitH2-L1-gf2-fast
+    signing_cycles: 8163916
+    verification_cycles: 7419121
+    signing_us: 2119.6
+    verification_us: 1917.5
+    bench_env: 2026-10-16-c8i.4xlarge
+  - name: SDitH3-L1-gf2-fast
+    recommended: true
+    renamed_from: SDitH2-L1-gf2-fast
     level: 1
     pk: 70
     sig: 4914
-    signing_cycles: 1991409
-    verification_cycles: 1706443
-    signing_us: 531.5
-    verification_us: 450.2
-  - name: SDitH2-L3-gf2-short
+    signing_cycles: 1745964
+    verification_cycles: 1539775
+    signing_us: 454.8
+    verification_us: 399.7
+    bench_env: 2026-10-16-c8i.4xlarge
+  - name: SDitH3-L3-gf2-short
+    recommended: true
+    renamed_from: SDitH2-L3-gf2-short
     level: 3
     pk: 98
     sig: 8484
-    signing_cycles: 42438614
-    verification_cycles: 41732848
-    signing_us: 11259.5
-    verification_us: 11069.5
-  - name: SDitH2-L3-gf2-fast
+    signing_cycles: 34571329
+    verification_cycles: 34214323
+    signing_us: 8958.9
+    verification_us: 8862.2
+    bench_env: 2026-10-16-c8i.4xlarge
+  - name: SDitH3-L3-gf2-fast
+    recommended: true
+    renamed_from: SDitH2-L3-gf2-fast
     level: 3
     pk: 98
     sig: 10852
-    signing_cycles: 9557976
-    verification_cycles: 8964371
-    signing_us: 2534.3
-    verification_us: 2378.5
-  - name: SDitH2-L5-gf2-short
+    signing_cycles: 8039044
+    verification_cycles: 7551713
+    signing_us: 2083.6
+    verification_us: 1954.4
+    bench_env: 2026-10-16-c8i.4xlarge
+  - name: SDitH3-L5-gf2-short
+    recommended: true
+    renamed_from: SDitH2-L5-gf2-short
     level: 5
     pk: 132
     sig: 15147
-    signing_cycles: 65854817
-    verification_cycles: 65061426
-    signing_us: 17475.1
-    verification_us: 17265.4
-  - name: SDitH2-L5-gf2-fast
+    signing_cycles: 55144220
+    verification_cycles: 54544439
+    signing_us: 14276.1
+    verification_us: 14118.8
+    bench_env: 2026-10-16-c8i.4xlarge
+  - name: SDitH3-L5-gf2-fast
+    recommended: true
+    renamed_from: SDitH2-L5-gf2-fast
     level: 5
     pk: 132
     sig: 19144
-    signing_cycles: 14344463
-    verification_cycles: 13487371
-    signing_us: 3807.0
-    verification_us: 3580.4
+    signing_cycles: 12533513
+    verification_cycles: 11856406
+    signing_us: 3248.5
+    verification_us: 3071.1
+    bench_env: 2026-10-16-c8i.4xlarge
+  - name: SDitH3-L1-gf2-short-cipherpow
+    level: 1
+    pk: 70
+    sig: 3721
+    notes: Alternative instance with cipher-based grinding (spec v3.0 Table 5).
+    signing_cycles: 7624108
+    verification_cycles: 7415872
+    signing_us: 1973.5
+    verification_us: 1921.2
+    bench_env: 2026-10-16-c8i.4xlarge
+  - name: SDitH3-L1-gf2-fast-cipherpow
+    level: 1
+    pk: 70
+    sig: 4643
+    notes: Alternative instance with cipher-based grinding (spec v3.0 Table 5).
+    signing_cycles: 1717494
+    verification_cycles: 1484387
+    signing_us: 447.0
+    verification_us: 382.3
+    bench_env: 2026-10-16-c8i.4xlarge
+  - name: SDitH3-L3-gf2-short-cipherpow
+    level: 3
+    pk: 98
+    sig: 8484
+    notes: Alternative instance with cipher-based grinding (spec v3.0 Table 5).
+    signing_cycles: 34648595
+    verification_cycles: 34065409
+    signing_us: 8979.0
+    verification_us: 8827.1
+    bench_env: 2026-10-16-c8i.4xlarge
+  - name: SDitH3-L3-gf2-fast-cipherpow
+    level: 3
+    pk: 98
+    sig: 10452
+    notes: Alternative instance with cipher-based grinding (spec v3.0 Table 5).
+    signing_cycles: 8409828
+    verification_cycles: 7398572
+    signing_us: 2173.1
+    verification_us: 1914.5
+    bench_env: 2026-10-16-c8i.4xlarge
+  - name: SDitH3-L5-gf2-short-cipherpow
+    level: 5
+    pk: 132
+    sig: 15147
+    notes: Alternative instance with cipher-based grinding (spec v3.0 Table 5).
+    signing_cycles: 55057037
+    verification_cycles: 54478466
+    signing_us: 14252.7
+    verification_us: 14103.3
+    bench_env: 2026-10-16-c8i.4xlarge
+  - name: SDitH3-L5-gf2-fast-cipherpow
+    level: 5
+    pk: 132
+    sig: 19144
+    notes: Alternative instance with cipher-based grinding (spec v3.0 Table 5).
+    signing_cycles: 12503094
+    verification_cycles: 11858327
+    signing_us: 3240.7
+    verification_us: 3073.1
+    bench_env: 2026-10-16-c8i.4xlarge
 - version: v2.0
   date: '2025-02-05'
   status: On-ramp
-  perf_source: submission document
+  programmes:
+    nist-onramp: round-2
+  perf_source: our benchmark
   parametersets:
   - name: SDitH2-L1-gf2-short
     level: 1
     pk: 70
     sig: 3705
-    signing_cycles: 30953039
-    verification_cycles: 27872785
-    signing_us: 8256.5
-    verification_us: 7442.0
+    signing_cycles: 28673725
+    verification_cycles: 26511801
+    signing_us: 7402.8
+    verification_us: 6847.4
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: SDitH2-L1-gf2-fast
     level: 1
     pk: 70
     sig: 4484
-    signing_cycles: 9344711
-    verification_cycles: 8405470
-    signing_us: 2488.6
-    verification_us: 2239.5
+    signing_cycles: 9375475
+    verification_cycles: 7969798
+    signing_us: 2419.5
+    verification_us: 2060.1
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: SDitH2-L3-gf2-short
     level: 3
     pk: 98
     sig: 7964
-    signing_cycles: 186802656
-    verification_cycles: 179284535
-    signing_us: 49772.8
-    verification_us: 47814.5
+    signing_cycles: 176781977
+    verification_cycles: 167924670
+    signing_us: 45654.3
+    verification_us: 43378.3
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: SDitH2-L3-gf2-fast
     level: 3
     pk: 98
     sig: 9916
-    signing_cycles: 28957503
-    verification_cycles: 26490763
-    signing_us: 7729.7
-    verification_us: 7066.2
+    signing_cycles: 27358717
+    verification_cycles: 24969631
+    signing_us: 7074.8
+    verification_us: 6450.1
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: SDitH2-L5-gf2-short
     level: 5
     pk: 132
     sig: 14121
-    signing_cycles: 268676346
-    verification_cycles: 256075165
-    signing_us: 71719.6
-    verification_us: 68264.3
+    signing_cycles: 250616564
+    verification_cycles: 238621628
+    signing_us: 65255.0
+    verification_us: 62078.3
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: SDitH2-L5-gf2-fast
     level: 5
     pk: 132
     sig: 17540
-    signing_cycles: 42662763
-    verification_cycles: 39721352
-    signing_us: 11377.0
-    verification_us: 10572.8
-  tags:
-  - round-2
+    signing_cycles: 40664405
+    verification_cycles: 37731215
+    signing_us: 10611.5
+    verification_us: 9836.3
+    bench_env: 2026-10-16-c8i.4xlarge
 - version: v1.0
   date: '2023-05-31'
   status: On-ramp
-  perf_source: submission document
-  tags:
-  - round-1
+  programmes:
+    nist-onramp: round-1
+  perf_source: our benchmark
   parametersets:
   - name: gf251-L5-hyp
     level: 5
     pk: 234
     sig: 33370
-    signing_cycles: 94743511
-    verification_cycles: 90937574
-    signing_us: 25279.6
-    verification_us: 24259.9
+    signing_cycles: 75494217
+    verification_cycles: 71416391
+    signing_us: 19544.4
+    verification_us: 18491.5
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: gf256-L5-hyp
     level: 5
     pk: 234
     sig: 33370
-    signing_cycles: 57792583
-    verification_cycles: 53584460
-    signing_us: 15342.6
-    verification_us: 14235.6
+    signing_cycles: 41740530
+    verification_cycles: 36875550
+    signing_us: 10801.0
+    verification_us: 9551.2
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: gf251-L3-hyp
     level: 3
     pk: 183
     sig: 19161
-    signing_cycles: 51253276
-    verification_cycles: 48882958
-    signing_us: 13659.6
-    verification_us: 13020.5
+    signing_cycles: 41154232
+    verification_cycles: 38778344
+    signing_us: 10652.9
+    verification_us: 10039.7
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: gf256-L3-hyp
     level: 3
     pk: 183
     sig: 19161
-    signing_cycles: 29646882
-    verification_cycles: 27107731
-    signing_us: 7861.9
-    verification_us: 7214.2
+    signing_cycles: 20709096
+    verification_cycles: 18498026
+    signing_us: 5368.1
+    verification_us: 4793.2
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: gf256-L5-thr
     level: 5
     pk: 234
     sig: 43943
-    signing_cycles: 191844298
-    verification_cycles: 42727443
-    signing_us: 50920.0
-    verification_us: 11330.6
+    signing_cycles: 32918293
+    verification_cycles: 9918259
+    signing_us: 8504.7
+    verification_us: 2564.0
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: gf251-L5-thr
     level: 5
     pk: 234
     sig: 43943
-    signing_cycles: 29006113
-    verification_cycles: 3506841
-    signing_us: 7703.4
-    verification_us: 931.2
+    signing_cycles: 20834542
+    verification_cycles: 3529081
+    signing_us: 5393.5
+    verification_us: 913.2
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: gf251-L1-hyp
     level: 1
     pk: 120
     sig: 8241
-    signing_cycles: 23699740
-    verification_cycles: 22711700
-    signing_us: 6300.1
-    verification_us: 6038.7
+    signing_cycles: 17824072
+    verification_cycles: 17333570
+    signing_us: 4616.5
+    verification_us: 4487.8
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: gf256-L3-thr
     level: 3
     pk: 183
     sig: 24918
-    signing_cycles: 101027061
-    verification_cycles: 18909061
-    signing_us: 26786.6
-    verification_us: 5015.6
+    signing_cycles: 16902878
+    verification_cycles: 5154419
+    signing_us: 4374.6
+    verification_us: 1334.4
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: gf256-L1-hyp
     level: 1
     pk: 120
     sig: 8241
-    signing_cycles: 12524014
-    verification_cycles: 11663719
-    signing_us: 3333.7
-    verification_us: 3094.1
+    signing_cycles: 8655324
+    verification_cycles: 7842448
+    signing_us: 2241.7
+    verification_us: 2031.9
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: gf251-L3-thr
     level: 3
     pk: 183
     sig: 24918
-    signing_cycles: 13389283
-    verification_cycles: 1640724
-    signing_us: 3580.2
-    verification_us: 436.6
+    signing_cycles: 10140576
+    verification_cycles: 1636449
+    signing_us: 2626.2
+    verification_us: 423.3
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: gf256-L1-thr
     level: 1
     pk: 120
     sig: 10117
-    signing_cycles: 38853056
-    verification_cycles: 5839370
-    signing_us: 10303.3
-    verification_us: 1548.8
+    signing_cycles: 6598979
+    verification_cycles: 1771195
+    signing_us: 1709.4
+    verification_us: 459.6
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: gf251-L1-thr
     level: 1
     pk: 120
     sig: 10117
-    signing_cycles: 5574421
-    verification_cycles: 679654
-    signing_us: 1485.7
-    verification_us: 180.4
+    signing_cycles: 4319089
+    verification_cycles: 675450
+    signing_us: 1118.5
+    verification_us: 174.6
+    bench_env: 2026-10-16-c8i.4xlarge
   info: few bits security loss in original parameters

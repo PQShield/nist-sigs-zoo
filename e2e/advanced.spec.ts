@@ -2,12 +2,12 @@ import { test, expect } from '@playwright/test';
 
 test.describe('Advanced page', () => {
 	test('loads with correct heading', async ({ page }) => {
-		await page.goto('/advanced/');
+		await page.goto('/signatures/advanced/');
 		await expect(page.locator('h1')).toHaveText('Advanced Graph');
 	});
 
 	test('"← Back" link returns to main page', async ({ page }) => {
-		await page.goto('/advanced/');
+		await page.goto('/signatures/advanced/');
 		// Wait for hydration before clicking so it's an SPA navigation, not a full
 		// reload that can time out under load.
 		await page.waitForLoadState('networkidle');
@@ -15,72 +15,74 @@ test.describe('Advanced page', () => {
 		await expect(back).toBeVisible();
 		await back.click();
 		await expect(page.locator('h1')).toHaveText('Post-Quantum Signature Schemes', {
-			timeout: 15_000,
+			timeout: 15_000
 		});
 	});
 
 	test('two axis select dropdowns present', async ({ page }) => {
-		await page.goto('/advanced/');
+		await page.goto('/signatures/advanced/');
 		const selects = page.locator('select');
 		await expect(selects).toHaveCount(2);
 	});
 
 	test('each axis has log and linear scale buttons', async ({ page }) => {
-		await page.goto('/advanced/');
+		await page.goto('/signatures/advanced/');
 		await expect(page.getByRole('button', { name: 'log' })).toHaveCount(2);
 		await expect(page.getByRole('button', { name: 'linear' })).toHaveCount(2);
 	});
 
 	test('Vega scatter plot renders', async ({ page }) => {
-		await page.goto('/advanced/');
-		await page.waitForFunction(
-			() => [...document.querySelectorAll('svg')].some((s) => s.querySelector('g')),
-			{ timeout: 15_000 }
-		);
-		const vegaSvg = page.locator('svg').filter({ has: page.locator('g') }).first();
+		await page.goto('/signatures/advanced/');
+		await page.waitForFunction(() => [...document.querySelectorAll('svg')].some((s) => s.querySelector('g')), {
+			timeout: 15_000
+		});
+		const vegaSvg = page
+			.locator('svg')
+			.filter({ has: page.locator('g') })
+			.first();
 		await expect(vegaSvg).toBeVisible();
 	});
 
 	test('default plot heading is pk size vs. sig size (log–log)', async ({ page }) => {
-		await page.goto('/advanced/');
+		await page.goto('/signatures/advanced/');
 		await expect(page.locator('section h2')).toContainText('pk size vs. sig size');
 		await expect(page.locator('section h2')).toContainText('log–log');
 	});
 
 	test('changing X axis updates heading', async ({ page }) => {
-		await page.goto('/advanced/');
+		await page.goto('/signatures/advanced/');
 		await page.locator('select').first().selectOption('pkPlusSig');
 		await expect(page.locator('section h2')).toContainText('pk+sig vs. sig size');
 	});
 
 	test('changing Y axis updates heading', async ({ page }) => {
-		await page.goto('/advanced/');
+		await page.goto('/signatures/advanced/');
 		await page.locator('select').nth(1).selectOption('signingCycles');
 		await expect(page.locator('section h2')).toContainText('pk size vs. signing (cycles)');
 	});
 
 	test('toggling X scale to linear updates heading', async ({ page }) => {
-		await page.goto('/advanced/');
+		await page.goto('/signatures/advanced/');
 		await page.getByRole('button', { name: 'linear' }).first().click();
 		await expect(page.locator('section h2')).toContainText('linear–log');
 	});
 
 	test('toggling Y scale to linear updates heading', async ({ page }) => {
-		await page.goto('/advanced/');
+		await page.goto('/signatures/advanced/');
 		await page.getByRole('button', { name: 'linear' }).nth(1).click();
 		await expect(page.locator('section h2')).toContainText('log–linear');
 	});
 
 	test('non-default axis is encoded in URL', async ({ page }) => {
-		await page.goto('/advanced/');
+		await page.goto('/signatures/advanced/');
 		await page.locator('select').first().selectOption('sig');
-		await page.waitForTimeout(400); // debounce
-		expect(new URL(page.url()).searchParams.get('x')).toBe('sig');
+		await expect(page).toHaveURL(/[?&]x=sig(&|$)/);
 	});
 
 	test('default axis values are NOT encoded in URL', async ({ page }) => {
-		await page.goto('/advanced/');
-		await page.waitForTimeout(400);
+		await page.goto('/signatures/advanced/');
+		await expect(page.locator('section h2').first()).toBeVisible();
+		await page.waitForLoadState('networkidle');
 		const params = new URL(page.url()).searchParams;
 		expect(params.has('x')).toBe(false);
 		expect(params.has('y')).toBe(false);
@@ -89,7 +91,7 @@ test.describe('Advanced page', () => {
 	});
 
 	test('URL state is restored on page load', async ({ page }) => {
-		await page.goto('/advanced/?x=pkPlusSig&y=signingCycles&ys=linear');
+		await page.goto('/signatures/advanced/?x=pkPlusSig&y=signingCycles&ys=linear');
 		await expect(page.locator('section h2')).toContainText('pk+sig vs. signing (cycles)');
 		await expect(page.locator('section h2')).toContainText('log–linear');
 		// Select values reflect URL state
@@ -98,7 +100,7 @@ test.describe('Advanced page', () => {
 	});
 
 	test('Y scale linear button is highlighted after toggle', async ({ page }) => {
-		await page.goto('/advanced/');
+		await page.goto('/signatures/advanced/');
 		const yLinear = page.getByRole('button', { name: 'linear' }).nth(1);
 		await yLinear.click();
 		// Active button gets bg-pqs-apricot class
@@ -106,12 +108,12 @@ test.describe('Advanced page', () => {
 	});
 
 	test('scheme table is present', async ({ page }) => {
-		await page.goto('/advanced/');
+		await page.goto('/signatures/advanced/');
 		await expect(page.locator('table')).toBeVisible();
 	});
 
 	test('filter panel is present', async ({ page }) => {
-		await page.goto('/advanced/');
+		await page.goto('/signatures/advanced/');
 		// Filter panel has checkboxes for scheme selection
 		await expect(page.locator('input[type="checkbox"]').first()).toBeVisible();
 	});

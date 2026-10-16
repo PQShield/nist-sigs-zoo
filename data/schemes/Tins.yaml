@@ -1,0 +1,33 @@
+name: Tins
+website: https://www.niccs.org.cn/niccs/Round1Additional/pc/content/content_2101561105320595456.html
+category: MPCitH
+assumption: NSBC
+versions:
+- version: Round 1
+  date: '2026-09-20'
+  status: NGCC round 1
+  programmes:
+    china-ngcc: round-1
+  parametersets:
+  - name: Tins128
+    ngcc_level: 128
+    pk: 55
+    sig: 3896
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it; the submitted code failed its own test-vector run in our build. Benchmark did not finish (valid signature rejected).
+    info: The submitted code failed its own test-vector run in our build.
+    dnf: valid-signature-rejected
+  - name: Tins256
+    ngcc_level: 256
+    pk: 98
+    sig: 13012
+    notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it. Benchmark did not finish (tampered signature accepted).
+    dnf: tampered-signature-accepted
+  - name: Tins512
+    ngcc_level: 512
+    pk: 195
+    sig: 51187
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it; our build applies a small patch to the submitted code. Benchmark did not finish (tampered signature accepted).
+    dnf: tampered-signature-accepted
+  findings_url: https://ngcc.dev/reports/sign-29.html
+  implementation: The submitted verifier overflows a buffer on oversized signatures (<a href="https://list.niccs.org.cn/archives/list/pkcforum@list.niccs.org.cn/message/BZPZIT2TNBMEG7CPGNOUELVXPYUAQTDZ/">LK-PQC-Hunter</a>), and public-salt expansion exposes the witness (<a href="https://ngcc.dev/reports/sign-29.html#sign-29-7-public-salt-ggm-expansion-exposes-the-complete-signing-witness">Saarinen</a>).
+  broken: A single signature reveals the full signing witness through linear algebra, at every parameter set (<a href="https://list.niccs.org.cn/archives/list/pkcforum@list.niccs.org.cn/message/ECMH3PMGM2NWJG4JIBQBCKQ6U5CBUDDA/">Xie</a>).

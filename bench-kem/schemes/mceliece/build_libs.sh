@@ -21,6 +21,9 @@ RB_SHA=fae6fb839096e54ce8abb6dc8ae46ed67b02034474e83cbda088eddd2e584641
 MC_VER=20260622;  MC_URL="https://lib.mceliece.org/libmceliece-${MC_VER}.tar.gz"
 MC_SHA=a30b93fcc51281881a31007c0b82cdfaff532a9d2dba87c7f99760f1f83266b7
 
+# The global compiler flags (bench-common/flags.mk), passed in by the Makefile.
+: "${BENCH_CFLAGS:?run through make: BENCH_CFLAGS comes from bench-common/flags.mk}"
+
 DIR="$(cd "$(dirname "$0")" && pwd)"
 BUILD="$DIR/build"
 DL="$BUILD/dl"; SRC="$BUILD/src"; LOCAL="$BUILD/local"
@@ -45,6 +48,15 @@ fetch "$MC_URL" "$MC_SHA" mc.tar.gz
 rm -rf "$SRC"/librandombytes-* "$SRC"/libmceliece-*
 tar xzf "$DL/rb.tar.gz" -C "$SRC"
 tar xzf "$DL/mc.tar.gz" -C "$SRC"
+
+# Both libraries compile with the compiler lines listed in their compilers/* files
+# (upstream: gcc/clang -Wall -fPIC -fwrapv -O..., ISA flags, -mtune=haswell). Append the
+# global flags to every line so they come last and win. -fwrapv stays: it defines signed
+# overflow, which upstream's code may rely on (every upstream compiler line has it).
+for f in "$SRC/librandombytes-$RB_VER"/compilers/* "$SRC/libmceliece-$MC_VER"/compilers/*; do
+    case "$f" in *.c) continue ;; esac
+    sed -i -E "/^[^#[:space:]]/ s|\$| $BENCH_CFLAGS|" "$f"
+done
 
 # librandombytes: tiny djb lib, install into the local prefix.
 echo "  build librandombytes"

@@ -1,0 +1,46 @@
+name: BRA
+website: https://www.niccs.org.cn/niccs/Round1Additional/pc/content/content_2101560843625385984.html
+category: Code-based
+assumption: Rank Synd. Dec.
+status: NGCC round 1
+programmes:
+  china-ngcc: round-1
+parametersets:
+- name: BRA-128
+  ngcc_level: 128
+  pk: 1078
+  ct: 2092
+  keygen_cycles: 592754
+  encaps_cycles: 1044422
+  decaps_cycles: 3215135
+  keygen_us: 153.0
+  encaps_us: 268.9
+  decaps_us: 832.8
+  bench_env: 2026-10-16-c8i.4xlarge
+  notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+- name: BRA-256
+  ngcc_level: 256
+  pk: 1735
+  ct: 3406
+  keygen_cycles: 982552
+  encaps_cycles: 1724766
+  decaps_cycles: 5359406
+  keygen_us: 253.2
+  encaps_us: 448.7
+  decaps_us: 1385.3
+  bench_env: 2026-10-16-c8i.4xlarge
+  notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+- name: BRA-512
+  ngcc_level: 512
+  pk: 3573
+  ct: 7082
+  keygen_cycles: 1636380
+  encaps_cycles: 2909781
+  decaps_cycles: 9053726
+  keygen_us: 422.0
+  encaps_us: 753.8
+  decaps_us: 2340.6
+  bench_env: 2026-10-16-c8i.4xlarge
+  notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+findings_url: https://ngcc.dev/reports/kem-06.html
+implementation: The submitted decapsulation ignores padding bits, so altered copies of a challenge ciphertext decapsulate to the same key, breaking IND-CCA security (<a href="https://ngcc.dev/reports/kem-06.html#kem-06-4-ignored-padding-bits-make-ciphertexts-malleable-without-changing-the-key">Saarinen</a>).

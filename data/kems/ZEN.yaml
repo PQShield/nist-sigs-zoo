@@ -1,0 +1,60 @@
+name: ZEN
+website: https://www.niccs.org.cn/niccs/Round1Additional/pc/content/content_2101560890563842048.html
+category: Lattices
+assumption: NTRU/RLWE
+status: NGCC round 1
+programmes:
+  china-ngcc: round-1
+parametersets:
+- name: ZEN_128
+  ngcc_level: 128
+  recommended: true
+  pk: 615
+  ct: 512
+  keygen_cycles: 170542
+  encaps_cycles: 130350
+  decaps_cycles: 148799
+  keygen_us: 45.8
+  encaps_us: 34.5
+  decaps_us: 39.2
+  bench_env: 2026-10-16-c8i.4xlarge
+  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+- name: ZEN_256
+  ngcc_level: 256
+  recommended: true
+  pk: 1229
+  ct: 1024
+  keygen_cycles: 240398
+  encaps_cycles: 153169
+  decaps_cycles: 201223
+  keygen_us: 68.3
+  encaps_us: 40.4
+  decaps_us: 52.7
+  bench_env: 2026-10-16-c8i.4xlarge
+  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+- name: ZEN_512
+  ngcc_level: 512
+  recommended: true
+  pk: 2458
+  ct: 2048
+  keygen_cycles: 742924
+  encaps_cycles: 418500
+  decaps_cycles: 537293
+  keygen_us: 191.6
+  encaps_us: 108.4
+  decaps_us: 139.0
+  bench_env: 2026-10-16-c8i.4xlarge
+  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+- name: ZEN-256-backup
+  ngcc_level: 256
+  pk: 1229
+  ct: 1229
+  notes: Sizes from the specification (Table 3 (PDF p. 25)); not measured, the submission package has no implementation of it.
+  no_code: No implementation in the submission package
+- name: ZEN-512-backup
+  ngcc_level: 512
+  pk: 2458
+  ct: 2458
+  notes: Sizes from the specification (Table 3 (PDF p. 25)); not measured, the submission package has no implementation of it.
+  no_code: No implementation in the submission package
+findings_url: https://ngcc.dev/reports/kem-41.html

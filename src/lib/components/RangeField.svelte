@@ -18,6 +18,6 @@
 			const v = Number(raw);
 			if (!isNaN(v)) onchange(v);
 		}}
-		class="w-full rounded border border-pqs-bluegray bg-pqs-smoke px-2 py-1 text-xs tabular-nums text-pqs-midnight focus:border-pqs-apricot focus:outline-none dark:border-pqs-steel dark:bg-pqs-midnight dark:text-pqs-smoke"
+		class="w-full rounded border border-pqs-bluegray bg-pqs-smoke px-2 py-1 text-xs text-pqs-midnight tabular-nums focus:border-pqs-apricot focus:outline-none dark:border-pqs-steel dark:bg-pqs-midnight dark:text-pqs-smoke"
 	/>
 </label>

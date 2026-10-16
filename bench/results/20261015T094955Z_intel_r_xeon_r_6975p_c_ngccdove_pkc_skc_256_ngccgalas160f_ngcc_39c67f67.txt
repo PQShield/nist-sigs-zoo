@@ -1,0 +1,273 @@
+# pq-sigs benchmark results
+# date:         2026-10-15T09:49:54Z
+# host:         ip-172-31-2-26
+# commit:       67699d7da50c4d783a0c43bc466b52b356feff90
+# instance_type: c8i.4xlarge
+# os:           Ubuntu 26.04.1 LTS
+# kernel:       7.0.0-1014-aws
+# cpu:          Intel(R) Xeon(R) 6975P-C
+# cores:        16 (threads/core: 2)
+# max_freq_mhz: unknown (cur: unknown MHz)
+# governor:     unknown
+# turbo:        unknown
+# flags:        fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ss ht syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon rep_good nopl xtopology nonstop_tsc cpuid aperfmperf tsc_known_freq pni pclmulqdq monitor ssse3 fma cx16 pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand hypervisor lahf_lm abm 3dnowprefetch cpuid_fault ssbd ibrs ibpb stibp ibrs_enhanced fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid avx512f avx512dq rdseed adx smap avx512ifma clflushopt clwb avx512cd sha_ni avx512bw avx512vl xsaveopt xsavec xgetbv1 xsaves avx_vnni avx512_bf16 wbnoinvd ida arat avx512vbmi umip pku ospke waitpkg avx512_vbmi2 gfni vaes vpclmulqdq avx512_vnni avx512_bitalg tme avx512_vpopcntdq rdpid bus_lock_detect cldemote movdiri movdir64b md_clear serialize amx_bf16 avx512_fp16 amx_tile amx_int8 flush_l1d arch_capabilities
+#
+# compiler:     cc (Ubuntu 15.2.0-16ubuntu1) 15.2.0
+# openssl:      OpenSSL 3.5.5 27 Jan 2026 (Library: OpenSSL 3.5.5 27 Jan 2026)
+# sources:
+#   schemes/faest/ref: https://github.com/faest-sign/faest-arch-opt@1d8330979cb467c54edac43ffe695da249fa3417
+#   schemes/fndsa/ref: https://github.com/pornin/c-fn-dsa@33026d4d2734049a23f065f77eea11c35de58d76
+#   schemes/hawk/ref: https://github.com/hawk-sign/dev@1b9fef52559273fe7b40fe3e22968eaedd3a4c2a
+#   schemes/mayo/ref: https://github.com/PQCMayo/MAYO-C@74de637a7c4a7f9fafa888183bc05f5cf920cd2d
+#   schemes/mldsa/ref: https://github.com/pq-crystals/dilithium.git@6e00625c5b29f516c6de973fe2ee2fbb150973f9
+#   schemes/mqom/ref: https://github.com/mqom/mqom-v3@d9c64e386b186ee186684a0389fc32009bd67cd1
+#   schemes/qruov/ref: https://github.com/qruov/round3.git@3d84d0f6afae80c88deefab03b1dd6633a147f96
+#   schemes/sdith/ref: https://github.com/sdith/sdith@fff41ae5b12ba3c6b90d8f97b2ede57aa277a92f
+#   schemes/sdith2/ref: https://github.com/sdith/sdith@ce7adf06476674d4ff990f378f83f9981cd6745b
+#   schemes/slhdsa/ref: https://github.com/pq-code-package/slhdsa-c@2ee6f6853af95d5833a567cc4dcfd7f08d66bfd4
+#   schemes/snova/ref: https://github.com/PQCLAB-SNOVA/SNOVA.git@9b29c1e332cbd85757c8d6362a57b9a8c8298a38
+#   schemes/sqisign/ref: https://github.com/SQISign/the-sqisign@6d017708db403bf83977fa70770fc4f7f9e9ff21
+#   schemes/uov/ref: https://github.com/pqov/pqov.git@fac2ec1fe6d8ea508eab4b98eb5341e1eed930a4
+#   schemes/ngcc: https://www.niccs.org.cn/niccs/Proposal/Public-Key%20Cryptographic%20Algorithms/Round%201%20candidates/
+# filter:       NGCC-dove_pkc_skc_256 NGCC-Galas-160F NGCC-CEDRUSALPHA-160s NGCC-dove_classic_256 NGCC-Galas-160S NGCC-TSUOV_256 SLH-DSA-SHA2-128s NGCC-SQISign2Dsquare-Level3-sec NGCC-Flextree-160f NGCC-GreatWall256s NGCC-GreatWall192s NGCC-Phoenix-SHAKE-192f NGCC-Phoenix-SHAKE-256s NGCC-Facto-DSA-512 NGCC-Origami-256 NGCC-SQIsign2D-lvl2 NGCC-Sigurd256 NGCC-sm4th_em_d2_128s_loose NGCC-SQISign2Dsquare-Level2-sec NGCC-Rhyme-SHAKE-512 NGCC-ublockith_em_d3_256s SNOVA (104 33 16 2 2 33 132) SNOVA (27 3 16 4 7 5 84) SNOVA (27 4 16 4 5 5 80) SNOVA (27 4 16 5 5 4 100) SNOVA (27 4 19 4 6 5 96) SNOVA (27 5 13 4 4 5 80) SNOVA (33 5 16 4 5 6 100) SNOVA (38 5 19 4 6 7 120) SNOVA (39 5 11 4 6 7 120) SNOVA (40 5 19 5 6 6 150) SNOVA (47 6 19 4 6 9 144) SNOVA (50 17 16 2 2 17 68) SNOVA (76 25 16 2 2 25 100) NGCC-sm4th_em_d2_128s_tight RSA-4096 (PSS) NGCC-SQISign2Dsquare-Level2-eff NGCC-Rhyme-SHAKE-256 NGCC-Rhyme-SM3-384 NGCC-ublockith_d3_256s NGCC-ublockith_d3_256f NGCC-vistrutith_d3_512s NGCC-SQISign2Dsquare-Level3-eff NGCC-BiT-512
+#
+# cyclecounter: rdpmc CPU_CYCLES (real core cycles, user-space)
+scheme                       iters    keygen (cyc)  keygen (us)      sign (cyc)   sign (us)    verify (cyc)  verify (us)
+------                       -----    ------------  -----------      ----------   ---------    ------------  ----------
+SLH-DSA-SHA2-128s               50       199732567     51673.4      1520342655    393297.9         1519205       393.5
+RSA-4096 (PSS)                  50      1034964859    267571.8         8316819      2185.9          242770        67.9
+SNOVA (27 3 16 4 7 5 84)      1000          148539        39.2          647583       167.2          219006        57.3
+SNOVA (27 4 16 4 5 5 80)      1000          308514        82.3          622732       165.8          201141        54.1
+SNOVA (27 4 19 4 6 5 96)      1000         4011682      1037.1        17055028      4405.2         7250606      1873.8
+SNOVA (27 5 13 4 4 5 80)      1000         5093229      1315.4        13574020      3506.3         4906954      1267.6
+SNOVA (50 17 16 2 2 17 68)    1000        12611991      3273.5         8789029      2274.5          565765       153.1
+SNOVA (27 4 16 5 5 4 100)     1000         1426501       372.2         1279041       341.8          268121        71.7
+SNOVA (33 5 16 4 5 6 100)     1000          400290       106.4         1073478       288.6          333717        89.0
+SNOVA (39 5 11 4 6 7 120)     1000        13606085      3515.1        45165141     11664.2        18559742      4794.5
+SNOVA (38 5 19 4 6 7 120)     1000        12995778      3357.0        43573184     11254.3        18002220      4649.7
+SNOVA (76 25 16 2 2 25 100)    1000        65421545     16923.6        37576627      9734.0         1968406       534.1
+SNOVA (40 5 19 5 6 6 150)     1000        24090662      6224.2        83399276     21549.7        33845723      8746.6
+SNOVA (47 6 19 4 6 9 144)     1000        29692606      7675.4        88113607     22778.1        33622212      8696.3
+SNOVA (104 33 16 2 2 33 132)    1000       209285143     54165.4       123449116     31982.7         5044834      1356.6
+NGCC-BiT-512                  1000         3606148       932.7         8688516      2248.6         3528349       913.0
+NGCC-CEDRUSALPHA-160s           10       566731848    146523.2      8419854257   2176517.8        20798585      5379.4
+NGCC-sm4th_em_d2_128s_loose     315           31222         9.3       109496861     28343.1       101281973     26211.9
+NGCC-sm4th_em_d2_128s_tight     278           32888         9.6       119460436     30964.5       111684098     28942.7
+NGCC-ublockith_d3_256f         693           24278         7.3        44843507     11835.5        43940850     11371.1
+NGCC-ublockith_d3_256s          92           43335        12.4       331302712     88262.2       330522141     86007.2
+NGCC-ublockith_em_d3_256s      106           36987        10.6       312698094     82960.2       300904722     78151.8
+NGCC-vistrutith_d3_512s         24           28169         8.4      1247145453    331705.4      1234501101    320506.5
+NGCC-dove_classic_256          320       292550536     75813.7         5170989      1436.8         6785712      1791.2
+NGCC-dove_pkc_skc_256          301       143429534     37244.0        94482552     24552.4        87444717     22617.2
+NGCC-Facto-DSA-512              29      2381316992    616941.8       194720437     50333.4       147661330     38196.4
+NGCC-Flextree-160f             135        15838583      4091.6       597372916    154363.8        17058793      4408.3
+NGCC-Galas-160S                 24        20784715      5370.9      2238002686    578252.9      1603703240    414506.7
+NGCC-Galas-160F                 33        20816077      5375.8      1719023611    444477.3      1115227152    288311.2
+NGCC-GreatWall192s             563         4598865      1193.3        38687723     10940.2        97539541     26179.5
+NGCC-GreatWall256s             384         8913900      2303.6        62773252     17824.5       136875030     37050.9
+NGCC-Origami-256                23        98150119     25356.1      1575985606    407162.6      1484470801    383447.4
+NGCC-Phoenix-SHAKE-192f        320        11100306      2865.7       220037475     56837.9         5901688      1525.1
+NGCC-Phoenix-SHAKE-256s         17       301444151     78469.8      3917033658   1020369.4        26541394      6906.3
+NGCC-Rhyme-SM3-384              20      5554077894   1439467.2        10524055      2760.4         1346742       349.2
+NGCC-Rhyme-SHAKE-256            51      3162303864    819042.8         4403311      1167.3          759714       198.8
+NGCC-Rhyme-SHAKE-512            18      4455435913   1151647.3         9652575      2493.9         1269237       327.9
+NGCC-Sigurd256                 121       115603696     29891.6       345678565     89374.3       119957489     31060.8
+NGCC-SQISign2Dsquare-Level2-eff     382        20000123      5253.7       120478386     31453.8        23973594      6344.1
+NGCC-SQISign2Dsquare-Level2-sec     347        24560789      6461.4       144401719     37724.3        27602693      7296.7
+NGCC-SQISign2Dsquare-Level3-eff     118        63770797     16645.4       390998812    101836.6        76284451     20086.9
+NGCC-SQISign2Dsquare-Level3-sec     133        77650076     20298.7       465222188    121083.2        87516160     23007.0
+lifting the two basis [2823]
+4 xyz doubling [9139]
+gluing comput [739]
+precomputation for the first codomain [18]
+gluing eval [280]
+middle steps [42410]
+last two steps [111]
+splitting [1277]
+lifting the two basis [2813]
+4 xyz doubling [9128]
+gluing comput [739]
+precomputation for the first codomain [18]
+gluing eval [281]
+middle steps [42408]
+last two steps [115]
+splitting [1265]
+lifting the two basis [2816]
+4 xyz doubling [9131]
+gluing comput [739]
+precomputation for the first codomain [18]
+gluing eval [281]
+middle steps [42388]
+last two steps [121]
+splitting [1256]
+lifting the two basis [2817]
+4 xyz doubling [9130]
+gluing comput [728]
+precomputation for the first codomain [17]
+gluing eval [288]
+middle steps [42395]
+last two steps [111]
+splitting [1272]
+lifting the two basis [2817]
+4 xyz doubling [9142]
+gluing comput [735]
+precomputation for the first codomain [18]
+gluing eval [292]
+middle steps [42449]
+last two steps [112]
+splitting [1273]
+lifting the two basis [2809]
+4 xyz doubling [9131]
+gluing comput [727]
+precomputation for the first codomain [18]
+gluing eval [288]
+middle steps [42444]
+last two steps [112]
+splitting [1277]
+lifting the two basis [2823]
+4 xyz doubling [9176]
+gluing comput [745]
+precomputation for the first codomain [17]
+gluing eval [281]
+middle steps [42702]
+last two steps [112]
+splitting [1268]
+lifting the two basis [2811]
+4 xyz doubling [9177]
+gluing comput [737]
+precomputation for the first codomain [18]
+gluing eval [281]
+middle steps [42674]
+last two steps [117]
+splitting [1268]
+lifting the two basis [2818]
+4 xyz doubling [9085]
+gluing comput [729]
+precomputation for the first codomain [18]
+gluing eval [288]
+middle steps [42170]
+last two steps [111]
+splitting [1265]
+lifting the two basis [2818]
+4 xyz doubling [9200]
+gluing comput [740]
+precomputation for the first codomain [18]
+gluing eval [281]
+middle steps [42213]
+last two steps [111]
+splitting [1274]
+lifting the two basis [2831]
+4 xyz doubling [9220]
+gluing comput [741]
+precomputation for the first codomain [18]
+gluing eval [290]
+middle steps [42985]
+last two steps [112]
+splitting [1272]
+lifting the two basis [2813]
+4 xyz doubling [9239]
+gluing comput [742]
+precomputation for the first codomain [17]
+gluing eval [280]
+middle steps [42956]
+last two steps [122]
+splitting [1264]
+lifting the two basis [2818]
+4 xyz doubling [9145]
+gluing comput [745]
+precomputation for the first codomain [18]
+gluing eval [281]
+middle steps [42432]
+last two steps [112]
+splitting [1270]
+lifting the two basis [2818]
+4 xyz doubling [9126]
+gluing comput [738]
+precomputation for the first codomain [17]
+gluing eval [282]
+middle steps [42431]
+last two steps [111]
+splitting [1274]
+lifting the two basis [2818]
+4 xyz doubling [9181]
+gluing comput [742]
+precomputation for the first codomain [18]
+gluing eval [285]
+middle steps [42656]
+last two steps [112]
+splitting [1270]
+lifting the two basis [2810]
+4 xyz doubling [9172]
+gluing comput [739]
+precomputation for the first codomain [17]
+gluing eval [280]
+middle steps [42709]
+last two steps [114]
+splitting [1266]
+lifting the two basis [2817]
+4 xyz doubling [9198]
+gluing comput [738]
+precomputation for the first codomain [18]
+gluing eval [281]
+middle steps [42739]
+last two steps [116]
+splitting [1267]
+lifting the two basis [2810]
+4 xyz doubling [9189]
+gluing comput [738]
+precomputation for the first codomain [17]
+gluing eval [280]
+middle steps [42705]
+last two steps [112]
+splitting [1263]
+lifting the two basis [2818]
+4 xyz doubling [9170]
+gluing comput [739]
+precomputation for the first codomain [18]
+gluing eval [284]
+middle steps [42677]
+last two steps [112]
+splitting [1273]
+lifting the two basis [2816]
+4 xyz doubling [9193]
+gluing comput [737]
+precomputation for the first codomain [18]
+gluing eval [279]
+middle steps [42661]
+last two steps [112]
+splitting [1267]
+lifting the two basis [2821]
+4 xyz doubling [9176]
+gluing comput [739]
+precomputation for the first codomain [18]
+gluing eval [281]
+middle steps [42686]
+last two steps [112]
+splitting [1265]
+lifting the two basis [2815]
+4 xyz doubling [9177]
+gluing comput [737]
+precomputation for the first codomain [17]
+gluing eval [310]
+middle steps [42669]
+last two steps [112]
+splitting [1278]
+lifting the two basis [2825]
+4 xyz doubling [9178]
+gluing comput [746]
+precomputation for the first codomain [18]
+gluing eval [280]
+middle steps [42705]
+last two steps [113]
+splitting [1272]
+lifting the two basis [2816]
+4 xyz doubling [9166]
+gluing comput [736]
+precomputation for the first codomain [18]
+gluing eval [280]
+middle steps [42704]
+last two steps [112]
+splitting [1264]
+NGCC-SQIsign2D-lvl2             10      2398776097    619915.7      2275124421    588497.4       553525592    143452.2
+NGCC-TSUOV_256                 468        67627804     17473.5        73891555     19091.7        71983605     18602.3
+

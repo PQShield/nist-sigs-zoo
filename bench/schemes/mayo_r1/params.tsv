@@ -1,0 +1,8 @@
+# MAYO round-1 (MAYO-C 3c9be9e) shim parameters. Columns: file, name, pk, sk, sig, iters, variant
+# variant: MAYO_VARIANT value (-D, sizes the stack buffers) and name of the mayo_params_t
+# struct from params.c that this version's API takes at runtime.
+file	name	pk	sk	sig	iters	variant
+mayo_r1_1	MAYO-R1-one	1168	24	321	0	MAYO_1
+mayo_r1_2	MAYO-R1-two	5488	24	180	0	MAYO_2
+mayo_r1_3	MAYO-R1-three	2656	32	577	0	MAYO_3
+mayo_r1_5	MAYO-R1-five	5008	40	838	0	MAYO_5

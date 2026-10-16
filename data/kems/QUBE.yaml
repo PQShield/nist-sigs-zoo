@@ -1,0 +1,58 @@
+name: QUBE
+website: https://www.niccs.org.cn/niccs/Round1Additional/pc/content/content_2101560881000828928.html
+category: Code-based
+assumption: QCSD
+status: NGCC round 1
+programmes:
+  china-ngcc: round-1
+parametersets:
+- name: QUBE-128
+  ngcc_level: 128
+  pk: 3294
+  ct: 3287
+  keygen_cycles: 559902
+  encaps_cycles: 612719
+  decaps_cycles: 1003837
+  keygen_us: 144.6
+  encaps_us: 158.2
+  decaps_us: 258.5
+  bench_env: 2026-10-16-c8i.4xlarge
+  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+- name: QUBE-256
+  ngcc_level: 256
+  pk: 10446
+  ct: 10423
+  keygen_cycles: 2518845
+  encaps_cycles: 2619151
+  decaps_cycles: 4663435
+  keygen_us: 653.0
+  encaps_us: 672.8
+  decaps_us: 1203.4
+  bench_env: 2026-10-16-c8i.4xlarge
+  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+- name: QUBE-384
+  ngcc_level: 384
+  pk: 20738
+  ct: 20633
+  keygen_cycles: 5957993
+  encaps_cycles: 6168586
+  decaps_cycles: 10866394
+  keygen_us: 1541.0
+  encaps_us: 1595.1
+  decaps_us: 2808.1
+  bench_env: 2026-10-16-c8i.4xlarge
+  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+- name: QUBE-512
+  ngcc_level: 512
+  pk: 34028
+  ct: 33846
+  keygen_cycles: 16973179
+  encaps_cycles: 17191093
+  decaps_cycles: 25427672
+  keygen_us: 4384.8
+  encaps_us: 4440.8
+  decaps_us: 6569.7
+  bench_env: 2026-10-16-c8i.4xlarge
+  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+findings_url: https://ngcc.dev/reports/kem-33.html
+implementation: The optimised implementation produces predictable keys and encapsulations (<a href="https://list.niccs.org.cn/archives/list/pkcforum@list.niccs.org.cn/message/RFAWJMFS3YHSQG4HMPKOCVYLX7BZK3YX/">Xiong and Wang</a>).

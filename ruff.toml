@@ -1,0 +1,45 @@
+# Ruff config for the repo's own Python helpers (bench/, bench-kem/, bench-common/, scripts/).
+# Scripts declare `requires-python = ">=3.10"` in their uv script headers.
+required-version = ">=0.16.9"
+target-version = "py310"
+line-length = 88
+# Directories whose modules are imported as top-level names (tests put them on sys.path).
+src = [".", "bench", "bench-kem", "bench-common", "bench-common/ngcc", "scripts"]
+
+# .gitignore is respected (build trees, extracted NGCC sources, .ngcc-out*); these
+# are tracked or submodule paths holding third-party code we must not touch.
+extend-exclude = [
+    "round-1",
+    "data",
+    "static",
+    "node_modules",
+    "bench/schemes/*/ref",
+    "bench-kem/schemes/*/ref",
+    "bench/schemes/*/build",
+    "bench-kem/schemes/*/build",
+    "bench-common/ngcc/src",
+    "bench-common/ngcc/specs",
+    ".ngcc-out*",
+    # Ruff also formats Python blocks inside Markdown; leave prose and plans alone.
+    "*.md",
+]
+
+[lint]
+select = [
+    "E",  # pycodestyle errors
+    "W",  # pycodestyle warnings
+    "F",  # pyflakes
+    "I",  # isort
+    "B",  # flake8-bugbear
+    "UP", # pyupgrade
+]
+ignore = [
+    "E501", # the formatter owns line length; what remains is long strings, URLs and comments
+]
+
+[lint.per-file-ignores]
+# These scripts put a sibling directory on sys.path before importing from it.
+"bench/update_scheme_data.py" = ["E402"]
+"bench-kem/update_scheme_data.py" = ["E402"]
+"bench-common/ngcc/kat_hashes.py" = ["E402"]
+"bench-common/ngcc/unpack_nested.py" = ["E402"]
