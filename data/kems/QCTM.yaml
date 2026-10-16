@@ -35,13 +35,13 @@ parametersets:
   ngcc_level: 512
   pk: 2374727
   ct: 2264
-  keygen_cycles: 272542013752
-  encaps_cycles: 7248224
-  decaps_cycles: 57865063
-  keygen_us: 72097733.5
-  encaps_us: 1896.3
-  decaps_us: 15174.6
-  bench_env: 2026-10-15-c8i.4xlarge
+  keygen_cycles: 829742467975
+  encaps_cycles: 17785688
+  decaps_cycles: 60781877
+  keygen_us: 218755418.0
+  encaps_us: 4613.3
+  decaps_us: 15992.8
+  bench_env: 2026-10-16-c8i.4xlarge
   notes: Optimised x86 implementation.
   implementation: The bundled random generator limits key-generation randomness to 384 bits, below the 512-bit target (<a href="https://ngcc.dev/reports/kem-32.html#kem-32-3-the-bundled-rng-limits-qctm-512-key-generation-randomness-to-384-bits">Saarinen</a>).
 findings_url: https://ngcc.dev/reports/kem-32.html
