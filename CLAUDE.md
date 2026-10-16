@@ -155,6 +155,10 @@ the run's environment and drop unused ones; the compare pages show every environ
 suite; several appear while a re-run on new hardware is half imported. Never hand-edit timings,
 `bench_env` or the env files.
 
+Timings rule: wherever we have our own benchmark of a version's code, every view shows our
+numbers for that version; reported or estimated numbers (`perf_source` other than "our
+benchmark") appear only for versions we have not benchmarked.
+
 A parameter set with sizes but no code at all (e.g. sizes taken from a specification whose
 package or repository has no implementation of it) carries `no_code: <reason>`; its timing
 cells read "no code" (tooltip: the reason) instead of "—", and `scripts/aws-bench-split`
