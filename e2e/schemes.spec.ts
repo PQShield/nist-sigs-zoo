@@ -233,13 +233,14 @@ test.describe('Benchmarks that did not finish', () => {
 	test('TRINE-512-Balanced reads "timeout" on its scheme page and in the signature table', async ({ page }) => {
 		await page.goto('/schemes/trine/');
 		const row = page.locator('tr', { has: page.locator('th', { hasText: /^\s*TRINE-512-Balanced/ }) });
-		const cells = row.getByTitle('Benchmark did not finish (timeout)');
+		// The title names the exact limit hit (run timeout or per-operation limit); the cell reads "timeout" either way.
+		const cells = row.getByTitle(/^Benchmark did not finish \((timeout|operation over \d+s)\)$/);
 		await expect(cells).toHaveCount(2);
 		await expect(cells.first()).toHaveText(/^timeout/);
 
 		await page.goto('/signatures/?s=TRINE&ps=all');
 		const tableRow = page.locator('table tbody tr', { hasText: 'TRINE-512-Balanced' });
-		const tableCells = tableRow.getByTitle('Benchmark did not finish (timeout)');
+		const tableCells = tableRow.getByTitle(/^Benchmark did not finish \((timeout|operation over \d+s)\)$/);
 		await expect(tableCells).toHaveCount(2);
 		await expect(tableCells.first()).toHaveText(/^timeout/);
 	});
