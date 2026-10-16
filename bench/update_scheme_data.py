@@ -58,9 +58,9 @@ BENCH_TO_YAML: dict[str, Target | list[Target]] = {
     # FN-DSA / Falcon
     "FN-DSA-512": ("Falcon.yaml", "512"),
     "FN-DSA-1024": ("Falcon.yaml", "1024"),
-    # HAWK
-    "HAWK-512": ("HAWK.yaml", "512"),
-    "HAWK-1024": ("HAWK.yaml", "1024"),
+    # HAWK (hawk-sign/dev 1b9fef5, the 2025-07 keygen update = round-3 code)
+    "HAWK-512": ("HAWK.yaml", "512", "v1.1 (keygen update)"),
+    "HAWK-1024": ("HAWK.yaml", "1024", "v1.1 (keygen update)"),
     # MAYO
     "MAYO-one": ("MAYO.yaml", "one"),
     "MAYO-two": ("MAYO.yaml", "two"),  # round 3: MAYO-two re-parameterised
@@ -280,9 +280,10 @@ BENCH_TO_YAML: dict[str, Target | list[Target]] = {
     "MAYO-R2-two": ("MAYO.yaml", "two", "Round 2@2025-02-05"),
     "MAYO-R2-three": ("MAYO.yaml", "three", "Round 2@2025-02-05"),
     "MAYO-R2-five": ("MAYO.yaml", "five", "Round 2@2025-02-05"),
-    # HAWK round 1 (hawk-sign/dev ac3a98c = NIST round-1 package), bench/schemes/hawk_r1
-    "HAWK-R1-512": ("HAWK.yaml", "512", "v1.0"),
-    "HAWK-R1-1024": ("HAWK.yaml", "1024", "v1.0"),
+    # HAWK round 1 (hawk-sign/dev ac3a98c = NIST round-1 package; the round-2 package has
+    # the same code and KATs), bench/schemes/hawk_r1
+    "HAWK-R1-512": [("HAWK.yaml", "512", "v1.0"), ("HAWK.yaml", "512", "v1.1")],
+    "HAWK-R1-1024": [("HAWK.yaml", "1024", "v1.0"), ("HAWK.yaml", "1024", "v1.1")],
     # SDitH round 2 (NIST round-2 package, no git tag), bench/schemes/sdith_r2
     "SDitH-R2-L1-gf2-short": ("SDitH.yaml", "SDitH2-L1-gf2-short", "v2.0"),
     "SDitH-R2-L1-gf2-fast": ("SDitH.yaml", "SDitH2-L1-gf2-fast", "v2.0"),

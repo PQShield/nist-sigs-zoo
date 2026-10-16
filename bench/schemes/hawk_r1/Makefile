@@ -2,10 +2,10 @@ include ../../../bench-common/flags.mk
 CC     ?= cc
 CFLAGS := -Wall -Wextra -std=c11 $(BENCH_CFLAGS)
 BUILD  := build
-# HAWK v1.0 (NIST round 1): ref = hawk-sign/dev ac3a98c (2023-05-30, "Initial commit").
+# HAWK v1.0 (NIST round 1) and v1.1 (round 2): ref = hawk-sign/dev ac3a98c (2023-05-30, "Initial commit").
 # build.py of this commit regenerates the NIST round-1 package (hawk-submission.zip)
 # Optimized_Implementation/ and Reference_Implementation/ byte for byte; the round-2
-# package ships the same code. bench/schemes/hawk builds the later 1b9fef5 (new keygen).
+# package ships the same code and KATs. bench/schemes/hawk builds the round-3 1b9fef5 (new keygen).
 AVX2_DIR := ref/Optimized_Implementation/avx2
 
 LIB_SRCS := hawk_kgen.c hawk_sign.c hawk_vrfy.c \

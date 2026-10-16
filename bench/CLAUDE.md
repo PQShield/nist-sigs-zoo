@@ -62,7 +62,7 @@ bench/
     ├── cross/            # CROSS-signature/CROSS-implementation v2.2 (Optimized_Implementation, AVX2)
     ├── less/             # less-sig/LESS 9ec6915 = NIST round-2 code (Optimized_Implementation/avx2)
     ├── <x>_r1/ <x>_r2/   # older NIST on-ramp rounds of the schemes still in the competition
-    │                     #   (see "Older on-ramp rounds"): faest, hawk (r1), mayo, mqom, qruov,
+    │                     #   (see "Older on-ramp rounds"): faest, hawk (r1 = r1+r2), mayo, mqom, qruov,
     │                     #   sdith (r2; sdith/ = r1), snova, sqisign, uov
     └── <name>/
         ├── params.tsv       # one row per parameter set; columns substituted into template
@@ -365,8 +365,9 @@ on-ramp (one with a round-3 version) is benchmarked from that round's own offici
 the round views and the scheme pages' version comparison show real round-to-round changes on
 one machine. Eliminated schemes keep their reported numbers; no versioned row targets them.
 
-- One dir per round, `schemes/<x>_r1/`, `schemes/<x>_r2/` (SDitH round 1 is `sdith/`, HAWK
-  v1.1 is round 2 and 3 and stays on `hawk/`). Each pins exactly the submitted code: an
+- One dir per round, `schemes/<x>_r1/`, `schemes/<x>_r2/` (SDitH round 1 is `sdith/`; HAWK's
+  round-2 package has the round-1 code, so `hawk_r1/` times v1.0 and v1.1, and `hawk/` the
+  round-3 "v1.1 (keygen update)"). Each pins exactly the submitted code: an
   upstream tag/commit whose code equals the NIST round package (checked by diff), else the
   package zip itself via `.source` (URL + sha256, fetched into `build/dl`). The Makefile header
   says which, and why. Same flag policy, same "fastest backend the submitters shipped" rule.
