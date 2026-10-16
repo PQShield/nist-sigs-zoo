@@ -125,12 +125,13 @@ versions:
   parametersets:
   - name: I-(127 156 54 3)
     level: 1
-    pk: 24255
+    pk: 24256
     sig: 200
     signing_cycles: 4419431
     verification_cycles: 3839363
     signing_us: 1172.3
     verification_us: 1019.4
+    notes: Public-key size of the submitted implementation (CRYPTO_PUBLICKEYBYTES); the specification gives 24255 bytes.
   - name: I-(31 165 60 3)
     level: 1
     pk: 23641
@@ -157,20 +158,22 @@ versions:
     verification_us: 18487.1
   - name: III-(127 228 78 3)
     level: 3
-    pk: 71891
+    pk: 71892
     sig: 292
     signing_cycles: 15244564
     verification_cycles: 13414704
     signing_us: 4043.5
     verification_us: 3556.4
+    notes: Public-key size of the submitted implementation (CRYPTO_PUBLICKEYBYTES); the specification gives 71891 bytes.
   - name: III-(31 246 87 3)
     level: 3
-    pk: 70983
-    sig: 232
+    pk: 70984
+    sig: 233
     signing_cycles: 21029265
     verification_cycles: 18588326
     signing_us: 5576.1
     verification_us: 4929.6
+    notes: Public-key and signature sizes of the submitted implementation (CRYPTO_PUBLICKEYBYTES, CRYPTO_BYTES); the specification gives 70983 and 232 bytes.
   - name: III-(31 890 100 10)
     level: 3
     pk: 34399
@@ -234,10 +237,11 @@ versions:
     verification_cycles: 1169402000
   - name: III-(127, 228, 78, 3)
     level: 3
-    pk: 71915
+    pk: 71916
     sig: 292
     signing_cycles: 1555131000
     verification_cycles: 524886000
+    notes: Public-key size of the submitted implementation (CRYPTO_PUBLICKEYBYTES); the specification gives 71915 bytes.
   - name: V-(31, 1120, 120, 10)
     level: 5
     pk: 58564
@@ -252,10 +256,11 @@ versions:
     verification_cycles: 232156000
   - name: I-(127, 156, 54, 3)
     level: 1
-    pk: 24271
+    pk: 24272
     sig: 200
     signing_cycles: 361728000
     verification_cycles: 144955000
+    notes: Public-key size of the submitted implementation (CRYPTO_PUBLICKEYBYTES); the specification gives 24271 bytes.
   - name: V-(31, 324, 114, 3)
     level: 5
     pk: 158453
@@ -270,10 +275,11 @@ versions:
     verification_cycles: 10865000
   - name: III-(31, 246, 87, 3)
     level: 3
-    pk: 71007
-    sig: 232
+    pk: 71008
+    sig: 233
     signing_cycles: 153006000
     verification_cycles: 5349000
+    notes: Public-key and signature sizes of the submitted implementation (CRYPTO_PUBLICKEYBYTES, CRYPTO_BYTES); the specification gives 71007 and 232 bytes.
   - name: I-(31, 600, 70, 10)
     level: 1
     pk: 12282
@@ -283,9 +289,10 @@ versions:
   - name: III-(7, 1100, 140, 10)
     level: 3
     pk: 55173
-    sig: 489
+    sig: 508
     signing_cycles: 98376000
     verification_cycles: 47636000
+    notes: Signature size of the submitted implementation, which builds this set with v = 1150 (CRYPTO_BYTES); the specification gives 489 bytes (v = 1100).
   - name: I-(31, 165, 60, 3)
     level: 1
     pk: 23657

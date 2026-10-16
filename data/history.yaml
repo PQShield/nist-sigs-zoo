@@ -1,3 +1,8 @@
+- date: '2026-10-16'
+  type: update
+  description: "QR-UOV rounds 1 and 2: key and signature sizes now follow the submitted code where it differs from the specification. In both rounds the public keys of I-(127, 156, 54, 3) and III-(127, 228, 78, 3) and the public key and signature of III-(31, 246, 87, 3) are one byte larger (round 2: 24,256, 71,892, and 70,984 and 233 bytes). The round-1 code builds III-(7, 1100, 140, 10) with v = 1150, so its signature is 508 bytes instead of the specification's 489. Each changed set notes the specification's value."
+  schemes: [QR-UOV]
+
 - date: '2026-10-15'
   type: update
   description: "SQIsign2D-push1/2 and SQIsign2D2 (SQISign2Dsquare): our build now patches the submitted verifiers so that they reject a signature whose final isogeny splitting step fails. The submitted code does not check that step and can then accept an altered signature (reported on ngcc.dev by <a href=\"https://ngcc.dev/reports/sign-26.html\">LK-PQC-Hunter</a> and <a href=\"https://ngcc.dev/reports/sign-25.html\">Saarinen</a>). Valid signatures are not affected."
