@@ -174,6 +174,37 @@ def parse_results_file(path: Path) -> tuple[dict, list[dict]]:
     return meta, rows
 
 
+def find_parameterset(yaml_data, ps_name: str):
+    """The flat-schema KEM parameter set named ps_name, or None."""
+    return next(
+        (
+            p
+            for p in yaml_data.get("parametersets") or []
+            if str(p.get("name", "")) == ps_name
+        ),
+        None,
+    )
+
+
+def target_errors(mapping=None, kems_dir: Path | None = None) -> list[str]:
+    """Every target of `mapping` (default BENCH_TO_YAML) that does not resolve to a
+    parameter set in `kems_dir` (default KEMS_DIR): missing file or unknown set."""
+    mapping = BENCH_TO_YAML if mapping is None else mapping
+    kems_dir = KEMS_DIR if kems_dir is None else kems_dir
+    yaml = YAML(typ="safe")
+    docs: dict[str, object] = {}
+    errors = []
+    for name, (f, ps_name) in sorted(mapping.items()):
+        if f not in docs:
+            path = kems_dir / f
+            docs[f] = yaml.load(path.read_text()) if path.exists() else None
+        if docs[f] is None:
+            errors.append(f"{name}: {f} does not exist")
+        elif find_parameterset(docs[f], ps_name) is None:
+            errors.append(f"{name}: {f} has no parameter set {ps_name!r}")
+    return errors
+
+
 def apply_row(
     yaml_data, ps_name: str, row: dict, env: str | None = None
 ) -> tuple[bool, str | None]:
@@ -183,14 +214,7 @@ def apply_row(
     A DNF row on an NGCC parameter set removes its timings and notes why; on any
     other scheme it only warns, so a crash never overwrites measured timings.
     """
-    ps = next(
-        (
-            p
-            for p in yaml_data.get("parametersets", [])
-            if str(p.get("name", "")) == ps_name
-        ),
-        None,
-    )
+    ps = find_parameterset(yaml_data, ps_name)
     if ps is None:
         return False, None
     ngcc = row["name"].startswith(ngcc_data.PREFIX)
@@ -241,6 +265,10 @@ def main() -> None:
             sys.exit("No results files found in bench-kem/results/")
         results_file = files[-1]
         print(f"Using {results_file.name}")
+
+    errors = target_errors()
+    if errors:
+        sys.exit("BENCH_TO_YAML targets that do not resolve:\n  " + "\n  ".join(errors))
 
     meta, rows = parse_results_file(results_file)
     print(f"Parsed {len(rows)} benchmark rows")

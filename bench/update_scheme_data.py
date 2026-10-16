@@ -623,16 +623,19 @@ def apply_row(
     )
 
 
-def target_errors() -> list[str]:
-    """Every BENCH_TO_YAML target that does not resolve to a parameter set in the data
-    (missing file, ambiguous or unknown version, set not in that version)."""
+def target_errors(mapping=None, schemes_dir: Path | None = None) -> list[str]:
+    """Every target of `mapping` (default BENCH_TO_YAML) that does not resolve to a
+    parameter set in `schemes_dir` (default SCHEMES_DIR): missing file, ambiguous or
+    unknown version, set not in that version."""
+    mapping = BENCH_TO_YAML if mapping is None else mapping
+    schemes_dir = SCHEMES_DIR if schemes_dir is None else schemes_dir
     yaml = YAML(typ="safe")
     docs: dict[str, object] = {}
     errors = []
-    for name, value in sorted(BENCH_TO_YAML.items()):
+    for name, value in sorted(mapping.items()):
         for f, ps_name, version in targets(value):
             if f not in docs:
-                path = SCHEMES_DIR / f
+                path = schemes_dir / f
                 docs[f] = yaml.load(path.read_text()) if path.exists() else None
             if docs[f] is None:
                 errors.append(f"{name}: {f} does not exist")
@@ -648,16 +651,21 @@ def target_errors() -> list[str]:
     return errors
 
 
-def mapped_sets(yaml_data, yaml_filename: str) -> set[tuple[int, str]]:
+def mapped_sets(yaml_data, yaml_filename: str, mapping=None) -> set[tuple[int, str]]:
     """(version index, parameterset name) of every set in one YAML file that some
-    BENCH_TO_YAML target lands on."""
+    target of `mapping` (default BENCH_TO_YAML) lands on. Targets that do not resolve
+    (see target_errors) land nowhere."""
+    mapping = BENCH_TO_YAML if mapping is None else mapping
     versions = yaml_data.get("versions") or []
     out: set[tuple[int, str]] = set()
-    for value in BENCH_TO_YAML.values():
+    for value in mapping.values():
         for f, ps_name, version in targets(value):
             if f != yaml_filename:
                 continue
-            v, ps = find_parameterset(yaml_data, ps_name, version)
+            try:
+                v, ps = find_parameterset(yaml_data, ps_name, version)
+            except ValueError:
+                continue
             if ps is not None:
                 out.add((next(i for i, x in enumerate(versions) if x is v), ps_name))
     return out
