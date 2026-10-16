@@ -1,5 +1,9 @@
 - date: '2026-10-16'
   type: update
+  description: "Re-benchmarked every scheme on AWS c8i.4xlarge with one compiler flag set for all of them (-O3 -march=native -fno-semantic-interposition -DNDEBUG, with Ubuntu's default stack-protector, FORTIFY_SOURCE, stack-clash and CET hardening turned off, since they are not part of any algorithm). For the nine schemes still in the NIST on-ramp, the round-1 and round-2 versions are now timed from their own round's code, so scheme pages compare versions on one machine."
+
+- date: '2026-10-16'
+  type: update
   description: "QR-UOV rounds 1 and 2: key and signature sizes now follow the submitted code where it differs from the specification. In both rounds the public keys of I-(127, 156, 54, 3) and III-(127, 228, 78, 3) and the public key and signature of III-(31, 246, 87, 3) are one byte larger (round 2: 24,256, 71,892, and 70,984 and 233 bytes). The round-1 code builds III-(7, 1100, 140, 10) with v = 1150, so its signature is 508 bytes instead of the specification's 489. Each changed set notes the specification's value."
   schemes: [QR-UOV]
 
