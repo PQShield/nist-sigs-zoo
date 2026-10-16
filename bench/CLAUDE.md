@@ -378,9 +378,11 @@ one machine. Eliminated schemes keep their reported numbers; no versioned row ta
   Without a version a row lands on the newest version with that set name. The importer refuses
   targets that do not resolve, and `set_perf_source` relabels a version "our benchmark" once all
   its timed sets have our timings.
-- Recorded quirks (details in each Makefile/shim): FAEST R1 256s/256f retry keygen until a
-  sign/verify round trip passes (the round-1 AVX2 code checks the AES-256 key schedule against
-  w[k-4] instead of w[k-8] and accepts invalid keys), so those rows' keygen times include it;
+- Recorded quirks (details in each Makefile/shim): FAEST R1 256s/256f build a patched copy of
+  the submitted faest.c (`schemes/faest_r1/patches/`, `PATCH (nist-sigs-zoo, fix)` header: the
+  round-1 AVX2 key-validity check reads w[k-4] instead of w[k-8] for AES-256); with it the
+  submitted KATs reproduce. Non-NGCC dirs patch the same way: a copy with the header, never an
+  edit of the fetched sources;
   SNOVA R1 is ssk, R2 ESK (each as its YAML version reports); MQOM R1 signatures are
   variable-length (`params.tsv` has the maximum); QR-UOV R1 III-(7,1100,140,10) is built as
   submitted with v=1150 (sig 508; the spec says v=1100, 489).

@@ -55,12 +55,14 @@ $(UNZIPPED): $(ZIP)
 	python3 -m zipfile -e $(ZIP) $(BUILD)/src
 	touch $@
 
+# FAEST-256s/256f compile patches/faest.c (header: the AES-256 key-validity check in key
+# generation reads the wrong key-schedule word) instead of the submitted faest.c.
+PATCHED  := faest_256s faest_256f
+srcs_for = $(if $(filter $(1),$(PATCHED)),patches/faest.c $(addprefix $(AVX2)/$(1)/,$(filter-out faest.c,$(LIB_SRCS))),$(addprefix $(AVX2)/$(1)/,$(LIB_SRCS)))
+
 # Each variant is compiled from its own directory (its config.h selects the parameters).
-# Upstream's crypto_sign_keypair is renamed so the shim can wrap it (see shim_template.c:
-# key self-test for FAEST-256s/256f, which work around a key-validity bug in this code).
-$(BUILD)/%.so: %_shim.c $(UNZIPPED)
-	$(CC) $(CFLAGS) -Dcrypto_sign_keypair=faest_upstream_keypair -I$(AVX2)/$* -I../.. -shared -o $@ \
-	    $*_shim.c $(addprefix $(AVX2)/$*/, $(LIB_SRCS))
+$(BUILD)/%.so: %_shim.c $(UNZIPPED) patches/faest.c
+	$(CC) $(CFLAGS) -I$(AVX2)/$* -I../.. -shared -o $@ $*_shim.c $(call srcs_for,$*)
 
 clean:
 	rm -rf $(BUILD)/src $(BUILD)/*.so
