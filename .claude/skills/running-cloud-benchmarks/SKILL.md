@@ -70,6 +70,7 @@ uv run bench-kem/update_scheme_data.py bench-kem/results/<file>.txt  # + kem_ben
 ```
 The importer sets each timed row's `bench_env`, adds the run's environment (dropping unused ones) and records each row's fingerprint in `<suite>/results/fingerprints.tsv` at the commit the run built. Read its WARNINGs (a commit not in the repo, a row not in params.tsv there).
 The importer never imports timings from a DNF row. On NGCC sets it clears the old timings and adds the note "Benchmark did not finish (…)". On other schemes it warns and keeps the old timings. Read its "not in this run" list.
+CI (`bench-common/tests/test_benchmark_coverage.py`) fails until every new or mapped row is benchmarked and imported, or its set is marked `dnf:` / `no_code:`.
 
 Then:
 1. Add an `update` entry to `data/history.yaml`.

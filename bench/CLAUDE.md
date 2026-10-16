@@ -173,6 +173,22 @@ on stderr. The run always continues with the next scheme.
   segfault, divide by zero, hang, fail the warm-up check or succeed, and tests the
   importers' parsers. Host-safe: no real scheme code runs.
 
+## Benchmark coverage check (CI)
+
+`../bench-common/tests/test_benchmark_coverage.py` (CI's Python job) fails, one line per
+parameter set (file, version, set, rule), unless: (1) every set a mapping lands on (both
+importers' `BENCH_TO_YAML`, version-aware entries included; NGCC: instances with a
+`params.tsv` row) has all the suite's timing fields plus `bench_env`, or a `dnf:` reason
+(`iters skip` gives `dnf: timeout`); (2) every set of a scheme still in a competition has a
+mapping or `no_code:`; (3) every mapping resolves (the importers also refuse otherwise).
+"Still in a competition" is derived from `../data/programmes.yaml`: the scheme's newest version
+naming a programme lists that programme's final stage (on-ramp round-3, NGCC round-1, KpqC
+selected, NIST PQC standardised, ISO published). Rule 2 covers the newest version and, for the
+on-ramp (`ALL_ROUNDS`, Thom's decision B), every on-ramp-tagged version; eliminated schemes
+are exempt from it, not from rule 1. It reuses the importers' `target_errors()` and
+`mapped_sets()`. A failure means benchmark and import the rows, or mark the set; never weaken
+the rules.
+
 ## Provenance and staleness (`../bench-common/fingerprint.py`)
 
 `run_bench.sh` writes `# commit:` (the built HEAD, `-dirty` with uncommitted tracked changes)
