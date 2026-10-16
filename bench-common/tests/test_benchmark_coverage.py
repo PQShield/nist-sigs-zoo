@@ -9,9 +9,11 @@ NGCC, the params.tsv rows (ngcc_data). One line per offending parameter set:
           A mapping counts for NGCC only if the instance has a params.tsv row.
   rule 2  Every set of a scheme still in a competition has a mapping, unless it carries
           `no_code: <reason>`. "Still in a competition": the scheme's newest version that
-          names a programme lists that programme's final stage in data/programmes.yaml
-          (the last of its `stages`): NIST on-ramp round-3, China NGCC round-1, KpqC
-          selected, NIST PQC standardised, ISO published. It applies to the scheme's
+          names a programme lists one of that programme's current stages: its final
+          stage in data/programmes.yaml (the last of its `stages`) or, for programmes in
+          ACTIVE_FROM, that stage or any later one in `stages` order. Today: NIST on-ramp
+          round-3, China NGCC round-1, KpqC selected, NIST PQC selected or standardised,
+          ISO published. It applies to the scheme's
           newest version and, for ALL_ROUNDS programmes, to every version that names the
           programme. Eliminated schemes (CROSS, LESS, round-1-only on-ramp entrants, NIST
           PQC round-3 KEMs) are exempt; rule 1 still applies to any set they have mapped.
@@ -36,6 +38,11 @@ REPO = Path(__file__).resolve().parents[2]
 # Programmes whose every round we benchmark from that round's own code while the scheme
 # is still in it (Thom, 2026-10-15, decision B; bench/CLAUDE.md "Older on-ramp rounds").
 ALL_ROUNDS = {"nist-onramp"}
+
+# Programmes still "in" from an earlier stage than their last: NIST PQC from `selected`
+# (Falcon/FN-DSA and HQC: selected, standard pending; Thom, 2026-10-16). Every stage from
+# this one onwards in programmes.yaml order counts.
+ACTIVE_FROM = {"nist-pqc": "selected"}
 
 
 def load(suite):
@@ -78,9 +85,14 @@ def real_data() -> Data:
     )
 
 
-def final_stages(programmes: Path) -> dict[str, str]:
-    """Programme id -> its final (current) stage: the last of its `stages`."""
-    return {p["id"]: p["stages"][-1]["id"] for p in SAFE.load(programmes.read_text())}
+def current_stages(programmes: Path) -> dict[str, set[str]]:
+    """Programme id -> the stages a scheme is still in it at: the last of its `stages`,
+    or every stage from its ACTIVE_FROM stage onwards."""
+    out = {}
+    for p in SAFE.load(programmes.read_text()):
+        ids = [s["id"] for s in p["stages"]]
+        out[p["id"]] = set(ids[ids.index(ACTIVE_FROM.get(p["id"], ids[-1])) :])
+    return out
 
 
 def stages(memberships, programme: str) -> set[str]:
@@ -88,12 +100,12 @@ def stages(memberships, programme: str) -> set[str]:
     return set() if not s else {s} if isinstance(s, str) else set(s)
 
 
-def active(memberships: list, final: dict[str, str]) -> set[str]:
+def active(memberships: list, current: dict[str, set[str]]) -> set[str]:
     """Programmes a scheme is still in; memberships newest first (one per version)."""
     out = set()
-    for programme, stage in final.items():
+    for programme, wanted in current.items():
         newest = next((m for m in memberships if programme in (m or {})), None)
-        if newest is not None and stage in stages(newest, programme):
+        if newest is not None and wanted & stages(newest, programme):
             out.add(programme)
     return out
 
@@ -123,14 +135,14 @@ def check_set(file, version, ps, mapped, required, timing) -> list[str]:
 def coverage_errors(d: Data) -> list[str]:
     errors = [f"rule 3: {e}" for e in SIG.target_errors(d.sig_map, d.schemes_dir)]
     errors += [f"rule 3: {e}" for e in KEM.target_errors(d.kem_map, d.kems_dir)]
-    final = final_stages(d.programmes)
+    current = current_stages(d.programmes)
 
     sig_map = benchmarked(d.sig_map, d.ngcc_rows["signature"])
     for path in sorted(d.schemes_dir.glob("*.yaml")):
         doc = SAFE.load(path.read_text())
         versions = doc.get("versions") or []
         mapped = SIG.mapped_sets(doc, path.name, sig_map)
-        programmes = active([v.get("programmes") for v in versions], final)
+        programmes = active([v.get("programmes") for v in versions], current)
         required = {0} if programmes else set()
         for programme in programmes & ALL_ROUNDS:
             required |= {
@@ -153,7 +165,7 @@ def coverage_errors(d: Data) -> list[str]:
     kem_targets = set(kem_map.values())
     for path in sorted(d.kems_dir.glob("*.yaml")):
         doc = SAFE.load(path.read_text())
-        required = bool(active([doc.get("programmes")], final))
+        required = bool(active([doc.get("programmes")], current))
         for ps in doc.get("parametersets") or []:
             errors += check_set(
                 path.name,
@@ -171,13 +183,13 @@ def test_every_set_that_should_have_our_benchmark_has_it():
     assert not errors, "\n".join(errors)
 
 
-def test_final_stages_come_from_programmes_yaml():
-    assert final_stages(REPO / "data" / "programmes.yaml") == {
-        "nist-pqc": "standardised",
-        "nist-onramp": "round-3",
-        "china-ngcc": "round-1",
-        "kpqc": "selected",
-        "iso": "published",
+def test_current_stages_come_from_programmes_yaml():
+    assert current_stages(REPO / "data" / "programmes.yaml") == {
+        "nist-pqc": {"selected", "standardised"},
+        "nist-onramp": {"round-3"},
+        "china-ngcc": {"round-1"},
+        "kpqc": {"selected"},
+        "iso": {"published"},
     }
 
 
@@ -185,6 +197,7 @@ def test_final_stages_come_from_programmes_yaml():
     "file,expected",
     [
         ("ML-DSA.yaml", {"nist-pqc"}),
+        ("Falcon.yaml", {"nist-pqc"}),  # selected, standard pending
         ("MAYO.yaml", {"nist-onramp"}),
         ("BiT.yaml", {"china-ngcc"}),
         ("HAETAE.yaml", {"kpqc"}),  # newest kpqc membership (v3.0) is "selected"
@@ -196,15 +209,15 @@ def test_final_stages_come_from_programmes_yaml():
 )
 def test_which_schemes_are_still_in_a_competition(file, expected):
     doc = SAFE.load((REPO / "data" / "schemes" / file).read_text())
-    final = final_stages(REPO / "data" / "programmes.yaml")
-    assert active([v.get("programmes") for v in doc["versions"]], final) == expected
+    current = current_stages(REPO / "data" / "programmes.yaml")
+    assert active([v.get("programmes") for v in doc["versions"]], current) == expected
 
 
 # --- each rule fires on a copy of a few data files ----------------------------------
 
 FILES = {
-    "schemes": ["ML-DSA.yaml", "MAYO.yaml", "CROSS.yaml", "BiT.yaml"],
-    "kems": ["ML-KEM.yaml", "SABER.yaml"],
+    "schemes": ["ML-DSA.yaml", "Falcon.yaml", "MAYO.yaml", "CROSS.yaml", "BiT.yaml"],
+    "kems": ["ML-KEM.yaml", "HQC.yaml", "SABER.yaml"],
 }
 
 
@@ -300,14 +313,18 @@ def test_rule_2_sets_of_active_schemes_need_a_mapping_or_no_code(data):
         data.schemes_dir / "BiT.yaml",
         lambda d: sig_set(d, "Round 1", "BiT-384").pop("no_code"),
     )
+    edit(data.schemes_dir / "Falcon.yaml", add("initial"))  # selected: still in
     edit(data.schemes_dir / "CROSS.yaml", add("v2.2"))  # eliminated: exempt
+    edit(data.kems_dir / "HQC.yaml", lambda d: d["parametersets"].append(dict(new)))
     edit(data.kems_dir / "ML-KEM.yaml", lambda d: d["parametersets"].append(dict(new)))
     edit(data.kems_dir / "SABER.yaml", lambda d: d["parametersets"].append(dict(new)))
     msg = "rule 2: still in a competition, but no mapping and no no_code"
     assert coverage_errors(data) == [
         f"BiT.yaml: Round 1: BiT-384: {msg}",
+        f"Falcon.yaml: initial: new-set: {msg}",
         f"MAYO.yaml: Round 1: new-set: {msg}",
         f"ML-DSA.yaml: FIPS 204: new-set: {msg}",
+        f"HQC.yaml: -: new-set: {msg}",
         f"ML-KEM.yaml: -: new-set: {msg}",
     ]
 
@@ -318,7 +335,7 @@ def test_rule_2_sets_of_active_schemes_need_a_mapping_or_no_code(data):
                     p["no_code"] = "No implementation"
 
     edit(data.schemes_dir / "MAYO.yaml", no_code)
-    assert len(coverage_errors(data)) == 3
+    assert len(coverage_errors(data)) == 5
 
 
 def test_rule_3_mappings_must_resolve(data):

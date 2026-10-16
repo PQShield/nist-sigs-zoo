@@ -182,8 +182,10 @@ importers' `BENCH_TO_YAML`, version-aware entries included; NGCC: instances with
 (`iters skip` gives `dnf: timeout`); (2) every set of a scheme still in a competition has a
 mapping or `no_code:`; (3) every mapping resolves (the importers also refuse otherwise).
 "Still in a competition" is derived from `../data/programmes.yaml`: the scheme's newest version
-naming a programme lists that programme's final stage (on-ramp round-3, NGCC round-1, KpqC
-selected, NIST PQC standardised, ISO published). Rule 2 covers the newest version and, for the
+naming a programme lists that programme's final stage or, for programmes in the test's
+`ACTIVE_FROM`, that stage or any later one in `stages` order (on-ramp round-3, NGCC round-1,
+KpqC selected, NIST PQC selected or standardised (Thom, 2026-10-16: Falcon/FN-DSA and HQC
+count), ISO published). Rule 2 covers the newest version and, for the
 on-ramp (`ALL_ROUNDS`, Thom's decision B), every on-ramp-tagged version; eliminated schemes
 are exempt from it, not from rule 1. It reuses the importers' `target_errors()` and
 `mapped_sets()`. A failure means benchmark and import the rows, or mark the set; never weaken
