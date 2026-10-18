@@ -12,23 +12,23 @@ OUTDIR = sys.argv[2]
 os.makedirs(OUTDIR, exist_ok=True)
 
 VARIANTS = [
-    ('faest_128s',    128, 4506),
-    ('faest_128f',    128, 5924),
-    ('faest_em_128s', 128, 3906),
-    ('faest_em_128f', 128, 5060),
-    ('faest_192s',    192, 11260),
-    ('faest_192f',    192, 14948),
-    ('faest_em_192s', 192, 9340),
-    ('faest_em_192f', 192, 12380),
-    ('faest_256s',    256, 20696),
-    ('faest_256f',    256, 26548),
-    ('faest_em_256s', 256, 17984),
-    ('faest_em_256f', 256, 23476),
+    ('faest_128s',    128, 4066),
+    ('faest_128f',    128, 5170),
+    ('faest_em_128s', 128, 3466),
+    ('faest_em_128f', 128, 4170),
+    ('faest_192s',    192, 9410),
+    ('faest_192f',    192, 11738),
+    ('faest_em_192s', 192, 7874),
+    ('faest_em_192f', 192, 9818),
+    ('faest_256s',    256, 16626),
+    ('faest_256f',    256, 20856),
+    ('faest_em_256s', 256, 14554),
+    ('faest_em_256f', 256, 18084),
 ]
 
 
 def params_type(name):
-    return 'v2::' + name[:-1] + '_' + name[-1:]
+    return 'v3::' + name[:-1] + '_' + name[-1:]
 
 
 def key_sizes(name, secpar):

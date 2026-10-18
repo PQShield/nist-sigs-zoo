@@ -24,7 +24,7 @@ XKCP_INCS := -I$(XKCP_SRC) \
              -I$(XKCP_SRC)/lib/low/KeccakP-1600-times4/AVX2 \
              -I$(XKCP_SRC)/lib/low/KeccakP-1600-times4/AVX2/SnP
 
-IFLAGS := -I$(REF) -I$(GEN) $(XKCP_INCS)
+IFLAGS := -I$(REF) -I$(GEN) -I$(MESON_BUILD) $(XKCP_INCS)
 
 LIBFAEST   := $(MESON_BUILD)/libfaest.a
 LIBXKCP    := $(MESON_BUILD)/subprojects/xkcp/libxkcp.a

@@ -9,16 +9,22 @@
 #define CRYPTO_SECRETKEYBYTES @SK@
 #define CRYPTO_BYTES @SIG@
 
-extern int @NS_PREFIX@_crypto_sign_keypair(unsigned char *pk, unsigned char *sk);
-extern int @NS_PREFIX@_crypto_sign(unsigned char *sm, unsigned long long *smlen,
+/* Upstream namespaces its API as <prefix>_<build type>_<name>; the build type
+ * (ref, broadwell, ...) comes from the Makefile as SQISIGN_NS_TYPE. */
+#define NS_CAT_(p, t, f) p##_##t##_##f
+#define NS_CAT(p, t, f) NS_CAT_(p, t, f)
+#define NS(f) NS_CAT(@NS_PREFIX@, SQISIGN_NS_TYPE, f)
+
+extern int NS(crypto_sign_keypair)(unsigned char *pk, unsigned char *sk);
+extern int NS(crypto_sign)(unsigned char *sm, unsigned long long *smlen,
                                     const unsigned char *m, unsigned long long mlen,
                                     const unsigned char *sk);
-extern int @NS_PREFIX@_crypto_sign_open(unsigned char *m, unsigned long long *mlen,
+extern int NS(crypto_sign_open)(unsigned char *m, unsigned long long *mlen,
                                          const unsigned char *sm, unsigned long long smlen,
                                          const unsigned char *pk);
 
 int crypto_sign_keypair(unsigned char *pk, unsigned char *sk) {
-    return @NS_PREFIX@_crypto_sign_keypair(pk, sk);
+    return NS(crypto_sign_keypair)(pk, sk);
 }
 
 int crypto_sign_signature(uint8_t *sig, size_t *siglen,
@@ -29,7 +35,7 @@ int crypto_sign_signature(uint8_t *sig, size_t *siglen,
     uint8_t *sm = malloc(sm_size);
     if (!sm) return -1;
     unsigned long long smlen;
-    int ret = @NS_PREFIX@_crypto_sign(sm, &smlen, m, (unsigned long long)mlen, sk);
+    int ret = NS(crypto_sign)(sm, &smlen, m, (unsigned long long)mlen, sk);
     if (ret == 0) {
         memcpy(sig, sm, CRYPTO_BYTES);
         if (siglen) *siglen = CRYPTO_BYTES;
@@ -50,7 +56,7 @@ int crypto_sign_verify(const uint8_t *sig, size_t siglen,
     memcpy(sm, sig, CRYPTO_BYTES);
     if (mlen > 0) memcpy(sm + CRYPTO_BYTES, m, mlen);
     unsigned long long mout_len;
-    int ret = @NS_PREFIX@_crypto_sign_open(mout, &mout_len, sm,
+    int ret = NS(crypto_sign_open)(mout, &mout_len, sm,
                                             (unsigned long long)sm_size, pk);
     free(sm);
     free(mout);

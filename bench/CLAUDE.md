@@ -24,7 +24,7 @@ output to `results/<timestamp>_<cpu>.txt`:
 
 Dependencies: C compiler (cc), make, git submodules initialized.
 - OpenSSL 3.x for classic schemes (detected via `brew --prefix openssl`, `pkg-config`, or `/usr` fallback).
-- CMake ≥ 3.13 + libgmp-dev for SQIsign (`sudo apt-get install cmake libgmp-dev`).
+- CMake ≥ 3.13 for SQIsign (`sudo apt-get install cmake`) — nist-v3 dropped the GMP dependency.
 
 ## Architecture
 
@@ -36,6 +36,8 @@ bench/
 │                         #   with bench-kem/ via ../bench-common/harness_common.h
 ├── main.c                # includes build/so_paths.h + filter logic + main loop
 ├── gen_shims.py          # shim generator: substitutes @COLNAME@ tokens from params.tsv
+├── cpu_features.py       # prints 1 if the host CPU has all named features (/proc/cpuinfo);
+│                         #   scheme Makefiles use it to pick GFNI/AVX-512 backends
 ├── Makefile              # builds ./bench; generates build/so_paths.h from ALL_SOS
 ├── run_bench.sh          # wrapper: collects sysinfo, tees output to results/
 ├── results/              # saved benchmark runs (committed)
@@ -50,9 +52,9 @@ bench/
     ├── sdith/            # sdith/sdith
     ├── snova/            # PQCLAB-SNOVA/SNOVA
     ├── uov/              # pqov/pqov
-    ├── qruov/            # qruov/round2
-    ├── mqom/             # mqom/mqom-v2
-    ├── sqisign/          # SQISign/the-sqisign (CMake build)
+    ├── qruov/            # qruov/round3 (IMPL=avx2, PRG=aes; six q=127 parameter sets)
+    ├── mqom/             # mqom/mqom-v3
+    ├── sqisign/          # SQISign/the-sqisign (CMake build; SQISIGN_BUILD_TYPE=broadwell by default, x86-64 asm field arithmetic)
     └── <name>/
         ├── params.tsv       # one row per parameter set; columns substituted into template
         ├── shim_template.c  # C template with @COLNAME@ tokens
@@ -100,6 +102,10 @@ int crypto_sign_verify(const uint8_t *sig, size_t siglen,
   Override at build time: `make BENCH_ITER=200`.
 - **Per-scheme override**: set `iters` field in `bench_scheme_info_t` to a non-zero value.
 - **bench_run()**: one warm-up, then `n` timed iterations; prints one line with six columns.
+- **Correctness check**: before timing, a fresh signature must verify and a tampered
+  signature / message must be rejected; return codes are also checked in the timed loop.
+  A failing scheme prints `FAIL <name>: <reason>` on stderr and **no results row**, and
+  `./bench` exits 1, so a broken build can't be imported.
 
 ## Shim pattern
 
@@ -119,7 +125,8 @@ The shim adapts upstream API conventions to the bench contract. Common issues:
   Use `malloc` for the temporary sm buffer (size = CRYPTO_BYTES + msglen).
 - **Symbol namespacing**: some upstreams (e.g. SQIsign) `#define` all public names to
   namespaced forms via a namespace header. The compiled `.a` will have e.g.
-  `sqisign_lvl1_ref_crypto_sign_keypair` rather than `crypto_sign_keypair`.
+  `sqisign_p324_3_broadwell_crypto_sign_keypair` rather than `crypto_sign_keypair`
+  (SQIsign: the build-type part is filled in by the Makefile via `-DSQISIGN_NS_TYPE`).
   Check with `nm lib.a | grep crypto_sign`.  Fix: declare the namespaced symbols as
   `extern` in the shim (using a `@NS_PREFIX@` token from params.tsv) and wrap them
   with plain-name functions.
@@ -181,6 +188,24 @@ Generated shim files are not committed — each scheme dir has a `.gitignore` wi
 `./bench [filter...]` runs only schemes whose names match at least one filter.
 Matching is case-insensitive and ignores non-alphanumeric characters, so `mldsa`,
 `ml-dsa`, and `ML_DSA` all match `ML-DSA-44`.
+
+## Optimised builds
+
+Benchmark upstream's **fastest x86-64 build**, as its own build system produces it by
+default. Check this against upstream's Makefile/CMake (e.g. `make -n` in `ref/`), not a
+liboqs META profile: MQOM's portable "default" profile was 3-5x slower (see #58).
+Backends that need ISA extensions are chosen with `cpu_features.py`, e.g.
+
+```make
+HAVE_AVX512 := $(shell python3 ../../cpu_features.py avx512f avx512bw avx512_vnni)
+```
+
+Also pass the matching `-m` flags explicitly so the fast path can be compile-tested on
+another machine (`make HAVE_AVX512=1`). `BENCH_DISABLE_FEATURES="gfni avx512f"`
+forces the fallback. Current choices: MAYO `gfni` (GFNI+AVX-512) else `avx2`; QR-UOV
+`IMPL=avx2` (Round 3 dropped the Round 2 avx512 implementation); UOV `PROJ=gfni`
+else `avx2`; SQIsign `broadwell`; SNOVA, FAEST,
+MQOM, ML-DSA etc. rely on `-march=native`.
 
 ## Notes
 

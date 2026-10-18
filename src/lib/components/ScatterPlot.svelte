@@ -2,6 +2,7 @@
 	import { onMount } from 'svelte';
 	import { getFilterStore } from '$lib/filterStore';
 	import { themeStore } from '$lib/themeStore';
+	import { stripHtml } from '$lib/html';
 	import type { AxisField, NistLevel, ParameterSet, ScaleType } from '$lib/types';
 
 	let {
@@ -85,8 +86,8 @@
 
 		const values = data.map((d) => {
 			const notes = [
-				d.broken && !d.classical ? `⚠ ${d.broken}` : null,
-				d.warning ? `⚠ ${d.warning}` : null
+				d.broken && !d.classical ? `⚠ ${stripHtml(d.broken)}` : null,
+				d.warning ? `⚠ ${stripHtml(d.warning)}` : null
 			]
 				.filter(Boolean)
 				.join(' | ');

@@ -7,7 +7,7 @@
 #include <stdint.h>
 #include <stdlib.h>
 #include <sys/random.h>
-#include "impl/src/sdith_signature.h"
+#include "ref/src/sdith_signature.h"
 #include "../../scheme.h"
 
 int randombytes(unsigned char *x, unsigned long long xlen) {

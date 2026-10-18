@@ -1,8 +1,62 @@
 name: QR-UOV
-website: http://info.isl.ntt.co.jp/crypt/qruov/index.html
+website: https://info.isl.ntt.co.jp/crypt/qruov/
 category: Multivariate
 assumption: UOV
 versions:
+- version: Round 3
+  date: '2026-08-31'
+  status: On-ramp
+  tags:
+  - round-3
+  parametersets:
+  - name: I-(127 156 54 3)
+    level: 1
+    pk: 24256
+    sig: 200
+    signing_cycles: 535278
+    verification_cycles: 299978
+    signing_us: 142.2
+    verification_us: 80.6
+  - name: I-(127 540 60 10)
+    level: 1
+    pk: 11041
+    sig: 541
+    signing_cycles: 2720403
+    verification_cycles: 864884
+    signing_us: 725.7
+    verification_us: 230.8
+  - name: III-(127 228 78 3)
+    level: 3
+    pk: 71884
+    sig: 292
+    signing_cycles: 1463668
+    verification_cycles: 864840
+    signing_us: 393.4
+    verification_us: 232.5
+  - name: III-(127 820 90 10)
+    level: 3
+    pk: 35454
+    sig: 821
+    signing_cycles: 9110474
+    verification_cycles: 2698045
+    signing_us: 2430.5
+    verification_us: 721.9
+  - name: V-(127 306 105 3)
+    level: 5
+    pk: 173660
+    sig: 392
+    signing_cycles: 3619488
+    verification_cycles: 2010990
+    signing_us: 963.9
+    verification_us: 540.9
+  - name: V-(127 1040 110 10)
+    level: 5
+    pk: 63541
+    sig: 1039
+    signing_cycles: 16437168
+    verification_cycles: 5324171
+    signing_us: 4387.2
+    verification_us: 1419.4
 - version: Round 2
   date: '2025-02-05'
   status: On-ramp
@@ -12,101 +66,100 @@ versions:
     level: 1
     pk: 24255
     sig: 200
-    signing_cycles: 5717905
-    verification_cycles: 4846746
-    signing_us: 2553.3
-    verification_us: 2187.5
+    signing_cycles: 4419431
+    verification_cycles: 3839363
+    signing_us: 1172.3
+    verification_us: 1019.4
   - name: I-(31 165 60 3)
     level: 1
     pk: 23641
     sig: 157
-    signing_cycles: 7867493
-    verification_cycles: 6728953
-    signing_us: 2841.1
-    verification_us: 2425.9
+    signing_cycles: 6302939
+    verification_cycles: 5521774
+    signing_us: 1672.8
+    verification_us: 1464.8
   - name: I-(31 600 70 10)
     level: 1
     pk: 12266
     sig: 435
-    signing_cycles: 37157493
-    verification_cycles: 36233585
-    signing_us: 12904.5
-    verification_us: 12531.0
+    signing_cycles: 23962174
+    verification_cycles: 25174400
+    signing_us: 6355.4
+    verification_us: 6678.1
   - name: I-(7 740 100 10)
     level: 1
     pk: 20641
     sig: 331
-    signing_cycles: 100065659
-    verification_cycles: 97224106
-    signing_us: 33840.7
-    verification_us: 32694.7
+    signing_cycles: 69460247
+    verification_cycles: 69682170
+    signing_us: 18429.7
+    verification_us: 18487.1
   - name: III-(127 228 78 3)
     level: 3
     pk: 71891
     sig: 292
-    signing_cycles: 18381600
-    verification_cycles: 15953816
-    signing_us: 6242.6
-    verification_us: 5432.7
+    signing_cycles: 15244564
+    verification_cycles: 13414704
+    signing_us: 4043.5
+    verification_us: 3556.4
   - name: III-(31 246 87 3)
     level: 3
     pk: 70983
     sig: 232
-    signing_cycles: 27014543
-    verification_cycles: 23632841
-    signing_us: 8928.3
-    verification_us: 8034.1
+    signing_cycles: 21029265
+    verification_cycles: 18588326
+    signing_us: 5576.1
+    verification_us: 4929.6
   - name: III-(31 890 100 10)
     level: 3
     pk: 34399
     sig: 643
-    signing_cycles: 122093861
-    verification_cycles: 118493185
-    signing_us: 41153.8
-    verification_us: 39520.2
+    signing_cycles: 76840293
+    verification_cycles: 78019677
+    signing_us: 20383.6
+    verification_us: 20701.1
   - name: III-(7 1100 140 10)
     level: 3
     pk: 55149
     sig: 489
-    signing_cycles: 320380130
-    verification_cycles: 309656718
-    signing_us: 110547.4
-    verification_us: 107348.1
+    signing_cycles: 217950266
+    verification_cycles: 215029388
+    signing_us: 57847.2
+    verification_us: 57066.7
   - name: V-(127 306 105 3)
     level: 5
     pk: 173676
     sig: 392
-    signing_cycles: 45230209
-    verification_cycles: 38944193
-    signing_us: 16907.0
-    verification_us: 14445.1
+    signing_cycles: 34372587
+    verification_cycles: 29716230
+    signing_us: 9118.4
+    verification_us: 7881.1
   - name: V-(31 1120 120 10)
     level: 5
     pk: 58532
     sig: 807
-    signing_cycles: 234302526
-    verification_cycles: 227363246
-    signing_us: 80275.7
-    verification_us: 77394.9
+    signing_cycles: 144789992
+    verification_cycles: 144989092
+    signing_us: 38408.8
+    verification_us: 38468.6
   - name: V-(31 324 114 3)
     level: 5
     pk: 158421
     sig: 306
-    signing_cycles: 60203296
-    verification_cycles: 52408628
-    signing_us: 20394.9
-    verification_us: 18285.4
+    signing_cycles: 47425558
+    verification_cycles: 41814577
+    signing_us: 12577.2
+    verification_us: 11088.0
   - name: V-(7 1490 190 10)
     level: 5
     pk: 135407
     sig: 662
-    signing_cycles: 817182836
-    verification_cycles: 763121640
-    signing_us: 283787.0
-    verification_us: 264328.5
+    signing_cycles: 533772005
+    verification_cycles: 522884365
+    signing_us: 142656.1
+    verification_us: 138960.3
   tags:
   - round-2
-  - round-3  # Round 3 spec not yet available; showing current latest data
 - version: Round 1
   date: '2023-06-01'
   status: On-ramp

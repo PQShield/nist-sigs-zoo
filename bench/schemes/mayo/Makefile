@@ -1,14 +1,24 @@
 CC      ?= cc
-CFLAGS  := -O2 -Wall -Wextra -std=c99
+# Upstream's CMake defaults: -O3 -funroll-loops -march=native.
+CFLAGS  := -O3 -funroll-loops -march=native -mtune=native -Wall -Wextra -std=c99
 BUILD   := build
 REF     := ref
 SRC     := $(REF)/src
 
 INCFLAGS := -I$(REF)/include -I$(SRC) -I$(SRC)/common -I$(SRC)/AVX2 -I$(SRC)/generic
-DEFINES  := -DMAYO_BUILD_TYPE_AVX2 -DMAYO_AVX -DENABLE_AESNI
-
-# AVX2 arithmetic and AES-NI intrinsics require these flags.
-SIMD_FLAGS := -mavx2 -maes -mssse3
+# Upstream's fastest x86 build type is "gfni" (GFNI + AVX-512); fall back to
+# "avx2" when the CPU lacks those. See ref/.cmake/target.cmake.
+HAVE_GFNI_AVX512 := $(shell python3 ../../cpu_features.py gfni avx512f avx512bw avx512dq avx512vl)
+ifneq ($(HAVE_GFNI_AVX512),)
+  MAYO_BUILD_TYPE := gfni
+  DEFINES    := -DMAYO_BUILD_TYPE_GFNI -DMAYO_AVX -DMAYO_GFNI -DENABLE_AESNI
+  SIMD_FLAGS := -mavx2 -maes -mssse3 -mgfni -mavx512f -mavx512bw -mavx512dq -mavx512vl
+else
+  MAYO_BUILD_TYPE := avx2
+  DEFINES    := -DMAYO_BUILD_TYPE_AVX2 -DMAYO_AVX -DENABLE_AESNI
+  SIMD_FLAGS := -mavx2 -maes -mssse3
+endif
+$(info MAYO build type: $(MAYO_BUILD_TYPE))
 
 SOS := $(BUILD)/mayo1.so $(BUILD)/mayo2.so $(BUILD)/mayo3.so $(BUILD)/mayo5.so
 SHIM_FILES := mayo1_shim.c mayo2_shim.c mayo3_shim.c mayo5_shim.c

@@ -1,12 +1,10 @@
 .DEFAULT_GOAL := all
 
 CC  ?= cc
-CXX ?= c++
 BUILD = build
-IMPL  = impl
+IMPL  = ref
 
 CFLAGS   := -O3 -fPIC -DNDEBUG -Wno-unused-parameter -mavx2 -mpclmul -msse2 -maes
-CXXFLAGS := $(CFLAGS) -std=c++11
 
 SHA3_DIR  := $(IMPL)/lib/sha3
 AES_DIR   := $(IMPL)/lib/aes
@@ -30,26 +28,21 @@ SHA3_SOBJ  := $(BUILD)/sha3_keccak_avx2.o
 # AES
 # ---------------------------------------------------------------------------
 AES_CSRCS := $(wildcard $(AES_DIR)/*.c)
-AES_SSRCS := $(AES_DIR)/aes128_ctrle_special_avx2_unix.s
 
 AES_COBJS := $(patsubst $(AES_DIR)/%.c, $(BUILD)/aes_%.o, $(AES_CSRCS))
-AES_SOBJ  := $(BUILD)/aes_avx2.o
 
 # ---------------------------------------------------------------------------
 # vole / main source
 # ---------------------------------------------------------------------------
-VOLE_CSRCS   := $(filter-out %.cpp, $(wildcard $(SRC_DIR)/*.c))
-VOLE_CXXSRCS := $(wildcard $(SRC_DIR)/*.cpp)
+VOLE_CSRCS := $(wildcard $(SRC_DIR)/*.c)
 
-VOLE_COBJS   := $(patsubst $(SRC_DIR)/%.c,   $(BUILD)/vole_%.o, $(VOLE_CSRCS))
-VOLE_CXXOBJS := $(patsubst $(SRC_DIR)/%.cpp, $(BUILD)/vole_%.o, $(VOLE_CXXSRCS))
+VOLE_COBJS := $(patsubst $(SRC_DIR)/%.c, $(BUILD)/vole_%.o, $(VOLE_CSRCS))
 
 # ---------------------------------------------------------------------------
 # Static library
 # ---------------------------------------------------------------------------
 LIB := $(BUILD)/libsdith2.a
-ALL_OBJS := $(SHA3_COBJS) $(SHA3_AVX2OBJ) $(SHA3_SOBJ) $(AES_COBJS) $(AES_SOBJ) \
-            $(VOLE_COBJS) $(VOLE_CXXOBJS)
+ALL_OBJS := $(SHA3_COBJS) $(SHA3_AVX2OBJ) $(SHA3_SOBJ) $(AES_COBJS) $(VOLE_COBJS)
 
 # ---------------------------------------------------------------------------
 # Shim targets
@@ -85,14 +78,8 @@ $(SHA3_SOBJ): $(SHA3_SSRCS) | $(BUILD)
 $(BUILD)/aes_%.o: $(AES_DIR)/%.c | $(BUILD)
 	$(CC) $(CFLAGS) $(IFLAGS) -c $< -o $@
 
-$(AES_SOBJ): $(AES_SSRCS) | $(BUILD)
-	$(CC) -c $< -o $@
-
 $(BUILD)/vole_%.o: $(SRC_DIR)/%.c | $(BUILD)
 	$(CC) $(CFLAGS) $(IFLAGS) -c $< -o $@
-
-$(BUILD)/vole_%.o: $(SRC_DIR)/%.cpp | $(BUILD)
-	$(CXX) $(CXXFLAGS) $(IFLAGS) -c $< -o $@
 
 # ---------------------------------------------------------------------------
 # Static library + shared libs

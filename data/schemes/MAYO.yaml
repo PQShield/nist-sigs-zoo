@@ -3,6 +3,45 @@ website: https://pqmayo.org
 category: Multivariate
 assumption: Multivariate Quadratic
 versions:
+- version: Round 3
+  date: '2026-08-31'
+  status: On-ramp
+  perf_source: submission document (Table 3.1, Intel Xeon E3-1225 v3 Haswell, optimized C + AES-NI)
+  tags:
+  - round-3
+  parametersets:
+  - name: five
+    level: 5
+    pk: 5554
+    sig: 964
+    signing_cycles: 812877
+    verification_cycles: 342838
+    signing_us: 215.4
+    verification_us: 91.4
+  - name: three
+    level: 3
+    pk: 2986
+    sig: 681
+    signing_cycles: 353863
+    verification_cycles: 152572
+    signing_us: 94.4
+    verification_us: 41.3
+  - name: two
+    level: 1
+    pk: 2928
+    sig: 239
+    signing_cycles: 95622
+    verification_cycles: 38545
+    signing_us: 26.4
+    verification_us: 11.3
+  - name: one
+    level: 1
+    pk: 1456
+    sig: 464
+    signing_cycles: 174489
+    verification_cycles: 74959
+    signing_us: 47.2
+    verification_us: 20.9
 - version: Round 2
   date: '2025-03-26'
   status: On-ramp
@@ -12,35 +51,35 @@ versions:
     level: 5
     pk: 5554
     sig: 964
-    signing_cycles: 2972563
-    verification_cycles: 1276019
-    signing_us: 999.4
-    verification_us: 425.8
+    signing_cycles: 2866750
+    verification_cycles: 1244780
+    signing_us: 766.7
+    verification_us: 333.0
   - name: three
     level: 3
     pk: 2986
     sig: 681
-    signing_cycles: 1485370
-    verification_cycles: 652784
-    signing_us: 496.9
-    verification_us: 217.7
+    signing_cycles: 1402602
+    verification_cycles: 640184
+    signing_us: 375.8
+    verification_us: 171.5
   - name: two
     level: 1
     pk: 4912
     sig: 186
-    signing_cycles: 337887
-    verification_cycles: 59957
+    signing_cycles: 338917
+    verification_cycles: 59346
     broken: "Wedge attack (Ran, ePrint 2025/1143) reduces classical security to ~113 bits, below NIST Level I threshold (128 bits)"
-    signing_us: 120.7
-    verification_us: 21.5
+    signing_us: 91.6
+    verification_us: 16.8
   - name: one
     level: 1
     pk: 1420
     sig: 454
-    signing_cycles: 690513
-    verification_cycles: 312615
-    signing_us: 244.0
-    verification_us: 110.9
+    signing_cycles: 668264
+    verification_cycles: 284905
+    signing_us: 179.5
+    verification_us: 77.4
     warning: "Improved MQ attack (Asanuma et al., ePrint 2026/1054) reduces classical security estimate from 2^156 to 2^145 — still above NIST Level I threshold (128 bits)"
 - version: Round 2
   date: '2025-02-05'
@@ -75,7 +114,6 @@ versions:
     warning: "Improved MQ attack (Asanuma et al., ePrint 2026/1054) reduces classical security estimate from 2^156 to 2^145 — still above NIST Level I threshold (128 bits)"
   tags:
   - round-2
-  - round-3  # Round 3 spec not yet available; showing current latest data
 - version: Round 1
   date: '2023-06-01'
   status: On-ramp

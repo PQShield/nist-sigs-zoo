@@ -3,6 +3,37 @@ website: https://sqisign.org/
 category: Isogenies
 assumption: Isogenies
 versions:
+- version: v3.0
+  date: '2026-09-01'
+  status: On-ramp
+  perf_source: submission document
+  tags:
+  - round-3
+  parametersets:
+  - name: V
+    level: 5
+    pk: 169
+    sig: 406
+    signing_cycles: 789867523
+    verification_cycles: 76992104
+    signing_us: 209684.2
+    verification_us: 20415.2
+  - name: III
+    level: 3
+    pk: 129
+    sig: 306
+    signing_cycles: 373523067
+    verification_cycles: 31558355
+    signing_us: 99281.3
+    verification_us: 8369.4
+  - name: I
+    level: 1
+    pk: 83
+    sig: 200
+    signing_cycles: 97816602
+    verification_cycles: 12150906
+    signing_us: 25956.8
+    verification_us: 3224.7
 - version: v2.0.1
   date: '2025-07-07'
   status: On-ramp
@@ -13,26 +44,26 @@ versions:
     level: 5
     pk: 129
     sig: 292
-    signing_cycles: 683622680
-    verification_cycles: 55909970
-    signing_us: 232096.2
-    verification_us: 18838.7
+    signing_cycles: 684554844
+    verification_cycles: 56253004
+    signing_us: 182699.8
+    verification_us: 15008.9
   - name: III
     level: 3
     pk: 97
     sig: 224
-    signing_cycles: 399334535
-    verification_cycles: 28482022
-    signing_us: 135102.5
-    verification_us: 9460.8
+    signing_cycles: 386791130
+    verification_cycles: 28264504
+    signing_us: 103170.2
+    verification_us: 7540.4
   - name: I
     level: 1
     pk: 65
     sig: 148
-    signing_cycles: 149914856
-    verification_cycles: 10597322
-    signing_us: 50152.3
-    verification_us: 3505.2
+    signing_cycles: 151296690
+    verification_cycles: 10425965
+    signing_us: 40390.5
+    verification_us: 2785.9
 - version: v2.0
   date: '2025-02-05'
   status: On-ramp
@@ -59,7 +90,6 @@ versions:
     verification_cycles: 5100000
   tags:
   - round-2
-  - round-3  # Round 3 spec not yet available; showing current latest data
 - version: v1.0
   date: '2023-06-01'
   status: On-ramp

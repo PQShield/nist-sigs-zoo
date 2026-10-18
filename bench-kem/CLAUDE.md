@@ -48,7 +48,8 @@ bench-kem/
     ├── ntruprime/        # libntruprime.cr.yp.to (tarball); build_libs.sh fetches+builds (Streamlined only)
     ├── saber/            # KULeuven-COSIC/SABER (AVX2, per-set source copy); ref/ is a git submodule
     ├── ntruplus/         # ntruplus/ntruplus (AVX2, KpqC final algorithm); ref/ is a git submodule
-    └── smaugt/           # hmchoe0528/SMAUG-T_public (AVX2, KpqC final algorithm); ref/ is a git submodule
+    ├── smaugt/           # hmchoe0528/SMAUG-T_public (AVX2, KpqC final algorithm); ref/ is a git submodule
+    └── mike/             # tensor-mike/mike_c (isogeny NIKE, broadwell asm, wrapped as a KEM); ref/ is a git submodule
 ```
 
 `SO_PATHS[]` in `main.c` is **auto-generated** from `ALL_SOS` in `Makefile` into
@@ -216,6 +217,17 @@ The shim adapts upstream API conventions to the KEM contract. Notes:
   `api.h` `#define`s). The upstream repo also carries a `TiMER` variant (Level-1-only,
   reference implementation only, no AVX2) — omitted here since it has no optimized
   build to benchmark against the others on equal footing.
+- **MIKE** (tensor-mike/mike_c) is a *NIKE*, not a KEM, and is CMake-built: `schemes/mike/Makefile`
+  runs one `cmake` build per prime choice (`fast` / `conservative`, shown on the site as
+  fast / rigorous) with `MIKE_BUILD_TYPE=broadwell` (x86_64 asm GF arithmetic), then links the
+  per-prime static libs (`--start-group`) plus the shim into each `.so`. Upstream symbols are
+  namespaced `mike_<prime>_broadwell_mike_{keypair,exchange}` and return **1 on success**
+  (the shim maps to the KEM 0/-1 convention). The shim does the standard NIKE-to-KEM wrap as
+  for ECDH: encaps = ephemeral keygen (ct = ephemeral pk) + exchange, decaps = one exchange.
+  Encaps therefore costs keygen + exchange, unlike the paper's "shared key" timing. Level 1/3/5
+  = p308_633/p474_593/p628_317 (fast), p374_117/p566_77/p758_41 (rigorous). Operations are
+  slow (ms), so use `BENCH_ITER` for quick runs. The submodule shows as dirty from CRLF
+  line endings only (`ignore = "dirty"` is set).
 
 ## Adding a new scheme
 
