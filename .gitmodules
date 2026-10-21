@@ -122,3 +122,6 @@
 [submodule "bench/schemes/qruov_r2/ref"]
 	path = bench/schemes/qruov_r2/ref
 	url = https://github.com/qruov/round2.git
+[submodule "bench/schemes/fndsa_fx/ref"]
+	path = bench/schemes/fndsa_fx/ref
+	url = https://github.com/pornin/c-fn-dsa-fx32.64

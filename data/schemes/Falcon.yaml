@@ -3,6 +3,26 @@ website: https://falcon-sign.info
 category: Lattices
 assumption: NTRU-SIS
 versions:
+- version: fixed-point
+  date: '2026-10-09'
+  status: To be standardized
+  info: >-
+    Experimental fixed-point implementation by Thomas Pornin
+    (<a href="https://github.com/pornin/c-fn-dsa-fx32.64">c-fn-dsa-fx32.64</a>),
+    "type 1 fixed-point 32.64" in the terminology of
+    <a href="https://eprint.iacr.org/2026/1531">De Almeida Braga, Fouque, Lachguel and Prest</a>.
+    It replaces floating-point arithmetic in signing, as NIST intends for FN-DSA. Keys and
+    signatures are interoperable with the floating-point implementation; seeded signatures
+    differ by design. Public-key and signature sizes are unchanged.
+  parametersets:
+  - name: '1024'
+    level: 5
+    pk: 1793
+    sig: 1280
+  - name: '512'
+    level: 1
+    pk: 897
+    sig: 666
 - version: initial
   date: '2024-10-01'
   status: To be standardized

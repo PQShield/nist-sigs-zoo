@@ -49,6 +49,11 @@
   description: "Benchmarked the round-1 candidates of China's NGCC programme on our own harness (AWS c7i.4xlarge, Intel Xeon Platinum 8488C, core cycles via rdpmc): 178 signature and 160 KEM parameter sets. Tins128/256/512 fail our sign/verify checks and are shown as not finished. We do not benchmark parameter sets that need more than 10 minutes for one signature or verification (TRINE-512-Balanced) or hours for key generation (UVW-512). A few submissions needed small fixes to their own code to run reliably; each is noted on the parameter set. The signature run also refreshes the timings of the NIST on-ramp schemes."
   programmes: [china-ngcc]
 
+- date: '2026-10-09'
+  type: update
+  description: "Falcon/FN-DSA: added a fixed-point version. Thomas Pornin's experimental <a href=\"https://github.com/pornin/c-fn-dsa-fx32.64\">c-fn-dsa-fx32.64</a> replaces floating-point arithmetic with the &ldquo;type 1 fixed-point 32.64&rdquo; representation of <a href=\"https://eprint.iacr.org/2026/1531\">De Almeida Braga, Fouque, Lachguel and Prest</a>, on the low-RAM structure of <a href=\"https://eprint.iacr.org/2026/1915\">c-fn-dsa-alt</a>. Keys and signatures are interoperable with <a href=\"https://github.com/pornin/c-fn-dsa\">c-fn-dsa</a>; public-key and signature sizes are unchanged. We benchmark standard-mode signing without key expansion, built with the same flags as every other scheme; the floating-point version stays benchmarked from c-fn-dsa. The implementation's key-recovery and message-recovery modes are not part of any standard and are not listed."
+  schemes: [Falcon]
+
 - date: '2026-10-08'
   type: update
   description: "Added the 34 signature and 41 KEM candidates of round 1 of China's NGCC programme (ICCS). Parameter sets and sizes come from our own builds of the official submission packages through the ICCS API, and claimed security targets from each specification. NGCC security targets (128, 256, 384 and 512 bits) are the programme's own scale and are not NIST levels. Timings follow once our benchmarks have run."

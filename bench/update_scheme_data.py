@@ -56,8 +56,11 @@ BENCH_TO_YAML: dict[str, Target | list[Target]] = {
     "SLH-DSA-SHAKE-192-24": ("SLH-DSA.yaml", "SHAKE-192-24"),
     "SLH-DSA-SHAKE-256-24": ("SLH-DSA.yaml", "SHAKE-256-24"),
     # FN-DSA / Falcon
-    "FN-DSA-512": ("Falcon.yaml", "512"),
-    "FN-DSA-1024": ("Falcon.yaml", "1024"),
+    "FN-DSA-512": ("Falcon.yaml", "512", "initial"),
+    "FN-DSA-1024": ("Falcon.yaml", "1024", "initial"),
+    # fixed-point 32.64 (pornin/c-fn-dsa-fx32.64), bench/schemes/fndsa_fx
+    "FN-DSA-FX-512": ("Falcon.yaml", "512", "fixed-point"),
+    "FN-DSA-FX-1024": ("Falcon.yaml", "1024", "fixed-point"),
     # HAWK (hawk-sign/dev 1b9fef5, the 2025-07 keygen update = round-3 code)
     "HAWK-512": ("HAWK.yaml", "512", "v1.1 (keygen update)"),
     "HAWK-1024": ("HAWK.yaml", "1024", "v1.1 (keygen update)"),

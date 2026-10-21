@@ -16,6 +16,7 @@ SLHDSA_SOS  = $(addprefix schemes/slhdsa/build/,   \
     slhdsa_shake_128_24.so slhdsa_shake_192_24.so    \
     slhdsa_shake_256_24.so)
 FNDSA_SOS   = $(addprefix schemes/fndsa/build/,    fndsa512.so fndsa1024.so)
+FNDSA_FX_SOS = $(addprefix schemes/fndsa_fx/build/, fndsa_fx512.so fndsa_fx1024.so)
 CLASSIC_SOS = $(addprefix schemes/classic/build/,  \
     rsa2048.so rsa3072.so rsa4096.so                \
     ecdsa_p256.so ecdsa_p384.so ecdsa_p521.so       \
@@ -168,8 +169,8 @@ QRUOV_R2_SOS = $(addprefix schemes/qruov_r2/build/, \
     qruov3q31L10v890m100.so qruov3q7L10v1100m140.so qruov5q127L3v306m105.so \
     qruov5q31L3v324m114.so qruov5q31L10v1120m120.so qruov5q7L10v1490m190.so)
 
-ALL_SOS     = $(MLDSA_SOS) $(SLHDSA_SOS) $(FNDSA_SOS) $(CLASSIC_SOS) $(HAWK_SOS) $(MAYO_SOS) $(FAEST_SOS) $(SDITH_SOS) $(SDITH2_SOS) $(SNOVA_SOS) $(UOV_SOS) $(QRUOV_SOS) $(MQOM_SOS) $(SQISIGN_SOS) $(AIMER_SOS) $(HAETAE_SOS) $(MIRATH_SOS) $(RYDE_SOS) $(PERK_SOS) $(CROSS_SOS) $(LESS_SOS) $(MAYO_R1_SOS) $(MAYO_R2_SOS) $(HAWK_R1_SOS) $(SDITH_R2_SOS) $(MQOM_R1_SOS) $(MQOM_R2_SOS) $(UOV_R1_SOS) $(UOV_R2_SOS) $(FAEST_R1_SOS) $(FAEST_R2_SOS) $(SNOVA_R1_SOS) $(SNOVA_R2_SOS) $(SQISIGN_R1_SOS) $(SQISIGN_R2_SOS) $(QRUOV_R1_SOS) $(QRUOV_R2_SOS)
-SCHEME_DIRS = mldsa slhdsa fndsa classic hawk mayo faest sdith sdith2 snova uov qruov mqom sqisign aimer haetae mirath ryde perk cross less mayo_r1 mayo_r2 hawk_r1 sdith_r2 mqom_r1 mqom_r2 uov_r1 uov_r2 faest_r1 faest_r2 snova_r1 snova_r2 sqisign_r1 sqisign_r2 qruov_r1 qruov_r2
+ALL_SOS     = $(MLDSA_SOS) $(SLHDSA_SOS) $(FNDSA_SOS) $(FNDSA_FX_SOS) $(CLASSIC_SOS) $(HAWK_SOS) $(MAYO_SOS) $(FAEST_SOS) $(SDITH_SOS) $(SDITH2_SOS) $(SNOVA_SOS) $(UOV_SOS) $(QRUOV_SOS) $(MQOM_SOS) $(SQISIGN_SOS) $(AIMER_SOS) $(HAETAE_SOS) $(MIRATH_SOS) $(RYDE_SOS) $(PERK_SOS) $(CROSS_SOS) $(LESS_SOS) $(MAYO_R1_SOS) $(MAYO_R2_SOS) $(HAWK_R1_SOS) $(SDITH_R2_SOS) $(MQOM_R1_SOS) $(MQOM_R2_SOS) $(UOV_R1_SOS) $(UOV_R2_SOS) $(FAEST_R1_SOS) $(FAEST_R2_SOS) $(SNOVA_R1_SOS) $(SNOVA_R2_SOS) $(SQISIGN_R1_SOS) $(SQISIGN_R2_SOS) $(QRUOV_R1_SOS) $(QRUOV_R2_SOS)
+SCHEME_DIRS = mldsa slhdsa fndsa fndsa_fx classic hawk mayo faest sdith sdith2 snova uov qruov mqom sqisign aimer haetae mirath ryde perk cross less mayo_r1 mayo_r2 hawk_r1 sdith_r2 mqom_r1 mqom_r2 uov_r1 uov_r2 faest_r1 faest_r2 snova_r1 snova_r2 sqisign_r1 sqisign_r2 qruov_r1 qruov_r2
 STAMPS      = $(addprefix schemes/, $(addsuffix /.stamp, $(SCHEME_DIRS)))
 
 # China NGCC round-1 candidates: one generic ICCS-API shim, data-driven from
@@ -186,6 +187,7 @@ all: bench
 schemes/mldsa/.stamp:   schemes/mldsa/Makefile   schemes/mldsa/shim_template.c   schemes/mldsa/params.tsv
 schemes/slhdsa/.stamp:  schemes/slhdsa/Makefile  schemes/slhdsa/shim_template.c  schemes/slhdsa/params.tsv
 schemes/fndsa/.stamp:   schemes/fndsa/Makefile   schemes/fndsa/shim_template.c   schemes/fndsa/params.tsv
+schemes/fndsa_fx/.stamp: schemes/fndsa_fx/Makefile schemes/fndsa_fx/shim_template.c schemes/fndsa_fx/params.tsv
 schemes/classic/.stamp: schemes/classic/Makefile $(wildcard schemes/classic/*_template.c schemes/classic/*.tsv)
 schemes/hawk/.stamp:    schemes/hawk/Makefile    schemes/hawk/shim_template.c    schemes/hawk/params.tsv
 schemes/mayo/.stamp:    schemes/mayo/Makefile    schemes/mayo/shim_template.c    schemes/mayo/params.tsv
@@ -238,6 +240,7 @@ $(STAMPS): schemes/%/.stamp:
 $(MLDSA_SOS):   schemes/mldsa/.stamp
 $(SLHDSA_SOS):  schemes/slhdsa/.stamp
 $(FNDSA_SOS):   schemes/fndsa/.stamp
+$(FNDSA_FX_SOS): schemes/fndsa_fx/.stamp
 $(CLASSIC_SOS): schemes/classic/.stamp
 $(HAWK_SOS):    schemes/hawk/.stamp
 $(MAYO_SOS):    schemes/mayo/.stamp

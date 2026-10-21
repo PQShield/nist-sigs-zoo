@@ -47,6 +47,7 @@ bench/
     ├── mldsa/            # pq-crystals/dilithium
     ├── slhdsa/           # pq-code-package/slhdsa-c
     ├── fndsa/            # pornin/c-fn-dsa
+    ├── fndsa_fx/         # pornin/c-fn-dsa-fx32.64 (fixed-point Falcon version)
     ├── hawk/             # hawk-sign/dev
     ├── mayo/             # PQCMayo/MAYO-C
     ├── faest/            # faest-sign/faest-ref
