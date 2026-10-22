@@ -6,6 +6,10 @@ export const CYCLES_PER_US = CPUSPEED / 1_000_000;
 /** Human-readable reference clock, e.g. "2.5 GHz". */
 export const CPU_GHZ_LABEL = `${CPUSPEED / 1_000_000_000} GHz`;
 
+/** Shown wherever wall-clock times (µs) appear. */
+export const TIMING_VARIABILITY_NOTE =
+	'Wall-clock times vary between runs and machines (CPU frequency scaling, other tenants on cloud VMs); cycle counts are the steadier basis for comparison.';
+
 export const NIST_LEVELS = [1, 2, 3, 4, 5] as const;
 
 export const ALL_LEVELS = ['Pre-Quantum', 1, 2, 3, 4, 5] as const;

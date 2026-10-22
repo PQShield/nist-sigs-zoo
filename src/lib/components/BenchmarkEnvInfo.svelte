@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { TIMING_VARIABILITY_NOTE } from '$lib/constants';
 	import type { BenchmarkEnv, BenchmarkEnvFile } from '$lib/types';
 
 	/** Every environment in the file: each one some parameter set's timings come from. */
@@ -26,6 +27,7 @@
 			page.
 		</p>
 	{/if}
+	<p class="mb-3">{TIMING_VARIABILITY_NOTE}</p>
 	{#each file.environments as env (env.id)}
 		<div class="mt-3 first-of-type:mt-0" data-env={env.id}>
 			{#if many}

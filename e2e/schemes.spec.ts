@@ -275,4 +275,15 @@ test.describe('Benchmark environments', () => {
 		const panel = page.locator('section', { has: page.getByRole('heading', { name: /^Benchmark environment/ }) });
 		await expect(panel.getByText(/^EC2 [a-z0-9]+\.[a-z0-9]+$/).first()).toBeVisible();
 	});
+
+	test('the signatures page notes that wall-clock times vary', async ({ page }) => {
+		await page.goto('/signatures/');
+		const panel = page.locator('section', { has: page.getByRole('heading', { name: /^Benchmark environment/ }) });
+		await expect(panel.getByText(/Wall-clock times vary between runs/)).toBeVisible();
+	});
+
+	test('a scheme page notes that wall-clock times vary', async ({ page }) => {
+		await page.goto('/schemes/ml-kem/');
+		await expect(page.getByTestId('timing-note')).toContainText('Wall-clock times vary between runs');
+	});
 });

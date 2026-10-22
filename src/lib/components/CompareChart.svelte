@@ -18,7 +18,7 @@
 	} from '$lib/chartLegend';
 	import { partitionPlottable } from '$lib/chartData';
 	import { chartTooltip, type CompareConfig, type CompareRow } from '$lib/compare';
-	import { CPU_GHZ_LABEL } from '$lib/constants';
+	import { CPU_GHZ_LABEL, TIMING_VARIABILITY_NOTE } from '$lib/constants';
 	import type { CompareFilter, ScaleType } from '$lib/types';
 	import ChartLegend from './ChartLegend.svelte';
 	import OmittedNote from './OmittedNote.svelte';
@@ -68,7 +68,7 @@
 	// Time axes (displayed µs) are the fields the advanced page doesn't offer.
 	const isTime = (f: A) => !config.chart.axisOptions.includes(f);
 	const timeAxes = $derived(isTime(xField) || isTime(yField));
-	const TIME_FOOTNOTE = `Timings in µs. Where only cycle counts exist, time is extrapolated at ${CPU_GHZ_LABEL}.`;
+	const TIME_FOOTNOTE = `Timings in µs. Where only cycle counts exist, time is extrapolated at ${CPU_GHZ_LABEL}. ${TIMING_VARIABILITY_NOTE}`;
 
 	// Serialize renders: concurrent vega-embed calls on the same container can
 	// leave a stale, finalized chart in the DOM when they resolve out of order.

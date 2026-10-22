@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { SITE_NAME } from '$lib/constants';
+	import { SITE_NAME, TIMING_VARIABILITY_NOTE } from '$lib/constants';
 	import { fmtDate } from '$lib/dates';
 	import FlagNotes from '$lib/components/scheme/FlagNotes.svelte';
 	import ParamSetTable from '$lib/components/scheme/ParamSetTable.svelte';
@@ -35,6 +35,9 @@
 				</p>
 			{/if}
 			<ParamSetTable table={page.table} caption="Parameter sets of {page.name}" />
+			<p class="mt-2 text-xs text-pqs-steel dark:text-pqs-bluegray" data-testid="timing-note">
+				{TIMING_VARIABILITY_NOTE}
+			</p>
 		</section>
 
 		<FlagNotes notes={page.flagNotes} />
