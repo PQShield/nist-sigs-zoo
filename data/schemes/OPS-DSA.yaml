@@ -1,0 +1,44 @@
+name: OPS-DSA
+full_name: OPS Digital Signature Algorithm
+website: https://www.niccs.org.cn/niccs/Round1Additional/pc/content/content_2101561086848880640.html
+category: Lattices
+assumption: MLWE/MSIS
+versions:
+- version: Round 1
+  date: '2026-09-20'
+  status: NGCC round 1
+  programmes:
+    china-ngcc: round-1
+  perf_source: our benchmark
+  parametersets:
+  - name: OPSsig-128
+    ngcc_level: 128
+    pk: 2560
+    sig: 4349
+    signing_cycles: 1431543
+    verification_cycles: 1021498
+    signing_us: 371.9
+    verification_us: 263.2
+    bench_env: 2026-10-16-c8i.4xlarge
+    notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+  - name: OPSsig-256
+    ngcc_level: 256
+    pk: 3392
+    sig: 5540
+    signing_cycles: 1822978
+    verification_cycles: 1351973
+    signing_us: 484.6
+    verification_us: 347.9
+    bench_env: 2026-10-16-c8i.4xlarge
+    notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+  - name: OPSsig-512
+    ngcc_level: 512
+    pk: 6720
+    sig: 12021
+    signing_cycles: 3817865
+    verification_cycles: 2705836
+    signing_us: 996.8
+    verification_us: 701.6
+    bench_env: 2026-10-16-c8i.4xlarge
+    notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+  findings_url: https://ngcc.dev/reports/sign-17.html

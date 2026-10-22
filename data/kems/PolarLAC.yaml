@@ -1,0 +1,73 @@
+name: PolarLAC
+website: https://www.niccs.org.cn/niccs/Round1Additional/pc/content/content_2101560872180207616.html
+category: Lattices
+assumption: MLWE
+status: NGCC round 1
+programmes:
+  china-ngcc: round-1
+parametersets:
+- name: POLARLAC-128
+  ngcc_level: 128
+  recommended: true
+  pk: 530
+  ct: 640
+  keygen_cycles: 130569
+  encaps_cycles: 170464
+  decaps_cycles: 196134
+  keygen_us: 34.6
+  encaps_us: 44.8
+  decaps_us: 51.4
+  bench_env: 2026-10-16-c8i.4xlarge
+  notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+- name: POLARLAC-256
+  ngcc_level: 256
+  recommended: true
+  pk: 1060
+  ct: 1280
+  keygen_cycles: 220072
+  encaps_cycles: 309844
+  decaps_cycles: 366587
+  keygen_us: 57.5
+  encaps_us: 80.6
+  decaps_us: 95.1
+  bench_env: 2026-10-16-c8i.4xlarge
+  notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+- name: POLARLAC-512
+  ngcc_level: 512
+  pk: 2116
+  ct: 2560
+  keygen_cycles: 843725
+  encaps_cycles: 1139619
+  decaps_cycles: 1314935
+  keygen_us: 219.3
+  encaps_us: 294.1
+  decaps_us: 340.2
+  bench_env: 2026-10-16-c8i.4xlarge
+  notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+- name: POLARLAC-512-Star
+  ngcc_level: 512
+  recommended: true
+  pk: 2522
+  ct: 2970
+  keygen_cycles: 833900
+  encaps_cycles: 1130408
+  decaps_cycles: 1334109
+  keygen_us: 214.9
+  encaps_us: 290.9
+  decaps_us: 343.4
+  bench_env: 2026-10-16-c8i.4xlarge
+  notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+- name: POLARLAC-Light
+  ngcc_level: 128
+  recommended: true
+  pk: 530
+  ct: 608
+  keygen_cycles: 119178
+  encaps_cycles: 156185
+  decaps_cycles: 180641
+  keygen_us: 31.7
+  encaps_us: 41.2
+  decaps_us: 47.4
+  bench_env: 2026-10-16-c8i.4xlarge
+  notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+findings_url: https://ngcc.dev/reports/kem-30.html

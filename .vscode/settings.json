@@ -1,8 +1,6 @@
 {
-    "ltex.enabled": [
-        
-    ],
-    "files.associations": {
-        "*.css": "tailwindcss"
-    }
+	"ltex.enabled": [],
+	"files.associations": {
+		"*.css": "tailwindcss"
+	}
 }

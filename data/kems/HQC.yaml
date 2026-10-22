@@ -1,37 +1,42 @@
 name: HQC
 website: https://pqc-hqc.org/
 category: Code-based
-assumption: Quasi-Cyclic Syndrome Decoding
+assumption: QCSD
 status: To be standardized
+programmes:
+  nist-pqc: selected
 info: Selected by NIST for standardisation (March 2025). Sizes from the 2025-08-22 specification.
 parametersets:
 - name: HQC-128
   level: 1
   pk: 2241
   ct: 4433
-  keygen_cycles: 65495
-  encaps_cycles: 129008
-  decaps_cycles: 293980
-  keygen_us: 21.3
-  encaps_us: 40.6
-  decaps_us: 90.7
+  keygen_cycles: 69083
+  encaps_cycles: 136458
+  decaps_cycles: 305958
+  keygen_us: 18.8
+  encaps_us: 36.1
+  decaps_us: 79.6
+  bench_env: 2026-10-16-c8i.4xlarge
 - name: HQC-192
   level: 3
   pk: 4514
   ct: 8978
-  keygen_cycles: 147292
-  encaps_cycles: 290781
-  decaps_cycles: 591579
-  keygen_us: 52.2
-  encaps_us: 102.2
-  decaps_us: 206.3
+  keygen_cycles: 161653
+  encaps_cycles: 314864
+  decaps_cycles: 626871
+  keygen_us: 43.8
+  encaps_us: 84.0
+  decaps_us: 166.2
+  bench_env: 2026-10-16-c8i.4xlarge
 - name: HQC-256
   level: 5
   pk: 7237
   ct: 14421
-  keygen_cycles: 294619
-  encaps_cycles: 601503
-  decaps_cycles: 1169195
-  keygen_us: 103.5
-  encaps_us: 209.6
-  decaps_us: 406.8
+  keygen_cycles: 321470
+  encaps_cycles: 630564
+  decaps_cycles: 1214996
+  keygen_us: 86.1
+  encaps_us: 168.0
+  decaps_us: 324.0
+  bench_env: 2026-10-16-c8i.4xlarge

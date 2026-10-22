@@ -1,5 +1,6 @@
+include ../../../bench-common/flags.mk
 CC     ?= cc
-CFLAGS := -O2 -Wall -Wextra -std=c11
+CFLAGS := -Wall -Wextra -std=c11 $(BENCH_CFLAGS)
 BUILD  := build
 AVX2_DIR := ref/Optimized_Implementation/avx2
 

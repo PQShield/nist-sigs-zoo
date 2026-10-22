@@ -5,16 +5,22 @@
 # ///
 """Parse a bench-kem results file and update data/kems/*.yaml with measured cycles.
 
-Also writes data/kem_benchmark_env.yaml describing the benchmark environment.
+Also adds the run's environment to data/kem_benchmark_env.yaml (each parameter set with timings
+names its environment in `bench_env`) and records each row's input fingerprint in
+bench-kem/results/fingerprints.tsv (bench-common/fingerprint.py), from which
+scripts/aws-bench-split decides which rows need re-running.
 
 Usage:
     uv run bench-kem/update_scheme_data.py [results_file]
+    uv run bench-kem/update_scheme_data.py --ngcc-sizes bench-kem/results/ngcc_sizes.tsv
 
 If no results_file is given, uses the most recent file in bench-kem/results/.
 """
+
 import re
 import sys
 from pathlib import Path
+
 from ruamel.yaml import YAML
 
 REPO_ROOT = Path(__file__).parent.parent
@@ -64,6 +70,7 @@ BENCH_TO_YAML: dict[str, tuple[str, str]] = {
     "SMAUG-T128": ("SMAUGT.yaml", "SMAUG-T128"),
     "SMAUG-T192": ("SMAUGT.yaml", "SMAUG-T192"),
     "SMAUG-T256": ("SMAUGT.yaml", "SMAUG-T256"),
+    "TiMER": ("SMAUGT.yaml", "TiMER"),
     "LightSaber": ("SABER.yaml", "LightSaber"),
     "Saber": ("SABER.yaml", "Saber"),
     "FireSaber": ("SABER.yaml", "FireSaber"),
@@ -73,9 +80,55 @@ BENCH_TO_YAML: dict[str, tuple[str, str]] = {
     "ECDH-P384": ("ECDH.yaml", "P-384"),
 }
 
+# China NGCC round-1 instances: bench names are NGCC-<instance>. The mapping comes
+# from data/ngcc/candidates.yaml (see bench-common/ngcc/ngcc_data.py).
+sys.path.insert(0, str(REPO_ROOT / "bench-common" / "ngcc"))
+sys.path.insert(0, str(REPO_ROOT / "bench-common"))
+import bench_env
+import fingerprint
+import ngcc_data
+
+NGCC_CANDIDATES = REPO_ROOT / "data" / "ngcc" / "candidates.yaml"
+NGCC_STATUS = REPO_ROOT / "bench-kem" / "schemes" / "ngcc" / "status.tsv"
+if NGCC_CANDIDATES.exists():
+    BENCH_TO_YAML.update(
+        ngcc_data.bench_to_yaml(ngcc_data.load_candidates(NGCC_CANDIDATES), "kem")
+    )
+
+
+def import_ngcc_sizes(sizes_file: Path) -> None:
+    """Create or refresh the NGCC KEM YAML files from `--sizes NGCC` output."""
+    cands = ngcc_data.load_candidates(NGCC_CANDIDATES)
+    try:
+        written = ngcc_data.write_files(
+            cands,
+            "kem",
+            ngcc_data.load_sizes(sizes_file),
+            ngcc_data.load_status(NGCC_STATUS),
+            KEMS_DIR,
+            ngcc_data.load_untimed(NGCC_STATUS.with_name("params.tsv")),
+            ngcc_data.load_rows(NGCC_STATUS.with_name("params.tsv")),
+        )
+    except ngcc_data.NgccDataError as e:
+        sys.exit(f"NGCC import failed:\n{e}")
+    print(f"Wrote {len(written)} NGCC KEM files in {KEMS_DIR.relative_to(REPO_ROOT)}")
+
+
+# Results rows: "<name> <iters>" + cycles/µs for keygen, encaps, decaps + ok, or a
+# DNF row (crash, timeout, failed warm-up check) whose six timing columns read DNF
+# and whose last column is a one-word reason. Other lines (stderr merged in by
+# run_bench.sh) are skipped.
+_NUM = r"(\d+)\s+(\d+\.\d+)"  # cycles, then µs printed as %.1f
+ROW_RE = re.compile(
+    rf"^(?P<name>\S.*?)\s+(?P<iters>\d+)\s+{_NUM}\s+{_NUM}\s+{_NUM}\s+(?P<ok>\S+)\s*$"
+)
+DNF_RE = re.compile(
+    r"^(?P<name>\S.*?)\s+(?P<iters>\d+|-)(?:\s+DNF){6}\s+(?P<reason>\S+)\s*$"
+)
+
 
 def parse_results_file(path: Path) -> tuple[dict, list[dict]]:
-    """Return (env_meta, rows). Columns: keygen/encaps/decaps cycles + us, ok."""
+    """Return (env_meta, rows). Columns: keygen/encaps/decaps cycles + us, ok; or dnf."""
     meta: dict = {}
     rows: list[dict] = []
     in_data = False
@@ -93,93 +146,116 @@ def parse_results_file(path: Path) -> tuple[dict, list[dict]]:
                         meta[m.group(1)] = m.group(2).strip()
             elif line.startswith("scheme") or line.startswith("------"):
                 in_data = True
-            elif in_data and line.strip():
-                parts = line.split()
-                # Trailing columns: iters kg_cyc kg_us en_cyc en_us de_cyc de_us ok
-                if len(parts) >= 9:
-                    name = " ".join(parts[:-8])
-                    iters, kg_c, kg_u, en_c, en_u, de_c, de_u, ok = parts[-8:]
-                    rows.append({
-                        "name": name,
-                        "iters": int(iters),
+            elif in_data and (m := DNF_RE.match(line)):
+                iters = m["iters"]
+                rows.append(
+                    {
+                        "name": m["name"],
+                        "iters": int(iters) if iters.isdigit() else None,
+                        "dnf": m["reason"],
+                    }
+                )
+            elif in_data and (m := ROW_RE.match(line)):
+                kg_c, kg_u, en_c, en_u, de_c, de_u = m.groups()[2:8]
+                rows.append(
+                    {
+                        "name": m["name"],
+                        "iters": int(m["iters"]),
+                        "dnf": None,
                         "keygen_cycles": int(kg_c),
                         "encaps_cycles": int(en_c),
                         "decaps_cycles": int(de_c),
                         "keygen_us": float(kg_u),
                         "encaps_us": float(en_u),
                         "decaps_us": float(de_u),
-                        "ok": ok,
-                    })
+                        "ok": m["ok"],
+                    }
+                )
     return meta, rows
 
 
-def update_parameterset(yaml_data, ps_name: str, row: dict) -> bool:
-    """Update a flat-schema KEM parameterset's perf fields. Return True if found."""
-    for ps in yaml_data.get("parametersets", []):
-        if str(ps.get("name", "")) == ps_name:
-            ps["keygen_cycles"] = row["keygen_cycles"]
-            ps["encaps_cycles"] = row["encaps_cycles"]
-            ps["decaps_cycles"] = row["decaps_cycles"]
-            ps["keygen_us"] = row["keygen_us"]
-            ps["encaps_us"] = row["encaps_us"]
-            ps["decaps_us"] = row["decaps_us"]
-            return True
-    return False
-
-
-def write_benchmark_env(meta: dict, path: Path) -> None:
-    yaml = YAML()
-    yaml.default_flow_style = False
-    yaml.width = 4096
-    from ruamel.yaml.comments import CommentedMap
-
-    env: CommentedMap = CommentedMap()
-    env.yaml_set_start_comment(
-        "Licensed under CC BY 4.0: https://creativecommons.org/licenses/by/4.0/"
-    )
-    env["license"] = "CC-BY-4.0"
-    env["attribution"] = "Thom Wiggers / PQShield"
-    env["date"] = meta.get("date", "")
-
-    cpu = CommentedMap()
-    cpu["model"] = meta.get("cpu", "")
-    cores_m = re.match(r"(\d+)\s+\(threads/core:\s+(\d+)\)", meta.get("cores", ""))
-    if cores_m:
-        cpu["cores"] = int(cores_m.group(1))
-        cpu["threads_per_core"] = int(cores_m.group(2))
-    freq_m = re.match(r"(\d+)", meta.get("max_freq_mhz", ""))
-    if freq_m:
-        cpu["max_freq_mhz"] = int(freq_m.group(1))
-    cpu["governor"] = meta.get("governor", "")
-    cpu["turbo"] = meta.get("turbo", "")
-    env["cpu"] = cpu
-
-    env["os"] = meta.get("os", "")
-    env["kernel"] = meta.get("kernel", "")
-    env["compiler"] = meta.get("compiler", "")
-    env["openssl"] = meta.get("openssl", "")
-    counter = meta.get("cyclecounter", "rdtsc + lfence (constant TSC rate, not execution cycles)")
-    env["notes"] = (
-        "KEM keygen/encapsulation/decapsulation. "
-        "Median over 1000 iterations (fewer for slow schemes). "
-        f"Cycle counter: {counter}. "
-        "Wall clock: clock_gettime(CLOCK_MONOTONIC). "
-        "Benchmark thread pinned to one core."
+def find_parameterset(yaml_data, ps_name: str):
+    """The flat-schema KEM parameter set named ps_name, or None."""
+    return next(
+        (
+            p
+            for p in yaml_data.get("parametersets") or []
+            if str(p.get("name", "")) == ps_name
+        ),
+        None,
     )
 
-    sources = meta.get("_sources", {})
-    if sources:
-        src_map = CommentedMap()
-        for k, v in sorted(sources.items()):
-            src_map[k] = v
-        env["sources"] = src_map
 
-    with open(path, "w") as f:
-        yaml.dump(env, f)
-    print(f"Wrote {path.relative_to(REPO_ROOT)}")
+def target_errors(mapping=None, kems_dir: Path | None = None) -> list[str]:
+    """Every target of `mapping` (default BENCH_TO_YAML) that does not resolve to a
+    parameter set in `kems_dir` (default KEMS_DIR): missing file or unknown set."""
+    mapping = BENCH_TO_YAML if mapping is None else mapping
+    kems_dir = KEMS_DIR if kems_dir is None else kems_dir
+    yaml = YAML(typ="safe")
+    docs: dict[str, object] = {}
+    errors = []
+    for name, (f, ps_name) in sorted(mapping.items()):
+        if f not in docs:
+            path = kems_dir / f
+            docs[f] = yaml.load(path.read_text()) if path.exists() else None
+        if docs[f] is None:
+            errors.append(f"{name}: {f} does not exist")
+        elif find_parameterset(docs[f], ps_name) is None:
+            errors.append(f"{name}: {f} has no parameter set {ps_name!r}")
+    return errors
+
+
+def apply_row(
+    yaml_data, ps_name: str, row: dict, env: str | None = None
+) -> tuple[bool, str | None]:
+    """Apply one results row to a flat-schema KEM parameter set.
+
+    Returns (changed, message); message is None if ps_name was not found.
+    A DNF row on an NGCC parameter set removes its timings and notes why; on any
+    other scheme it only warns, so a crash never overwrites measured timings.
+    """
+    ps = find_parameterset(yaml_data, ps_name)
+    if ps is None:
+        return False, None
+    ngcc = row["name"].startswith(ngcc_data.PREFIX)
+    if row["dnf"]:
+        if ngcc:
+            ngcc_data.mark_dnf(ps, "kem", row["dnf"])
+            return True, f"DNF ({row['dnf']}): timings removed, noted"
+        return False, f"WARNING: DNF ({row['dnf']}); existing timings kept"
+    for field in ngcc_data.TIMING["kem"]:
+        ps[field] = row[field]
+    if env:
+        bench_env.set_env(ps, env, ngcc_data.TIMING["kem"])
+    if ngcc:
+        ngcc_data.clear_dnf(ps)
+    flag = "" if row["ok"] == "yes" else f"  [{row['ok']}]"
+    return True, (
+        f"keygen={row['keygen_us']}us encaps={row['encaps_us']}us "
+        f"decaps={row['decaps_us']}us{flag}"
+    )
+
+
+def record_fingerprints(results_file: Path, rows: list[dict]) -> None:
+    """Record each timed row (and NGCC DNF rows, which the YAML now shows as DNF) in
+    bench-kem/results/fingerprints.tsv with the fingerprint of the commit its run built.
+    A DNF row of any other scheme is not recorded: its old timings stay, and so does
+    its staleness."""
+    outcomes = {
+        r["name"]: f"dnf:{r['dnf']}" if r["dnf"] else "ok"
+        for r in rows
+        if not r["dnf"] or r["name"].startswith(ngcc_data.PREFIX)
+    }
+    warnings = fingerprint.record(REPO_ROOT, "bench-kem", Path(results_file), outcomes)
+    print(f"Recorded {len(outcomes)} rows in bench-kem/results/fingerprints.tsv")
+    for w in warnings:
+        print(f"  WARNING: {w}")
 
 
 def main() -> None:
+    if len(sys.argv) == 3 and sys.argv[1] == "--ngcc-sizes":
+        import_ngcc_sizes(Path(sys.argv[2]))
+        return
     results_dir = REPO_ROOT / "bench-kem" / "results"
     if len(sys.argv) > 1:
         results_file = Path(sys.argv[1])
@@ -190,8 +266,13 @@ def main() -> None:
         results_file = files[-1]
         print(f"Using {results_file.name}")
 
+    errors = target_errors()
+    if errors:
+        sys.exit("BENCH_TO_YAML targets that do not resolve:\n  " + "\n  ".join(errors))
+
     meta, rows = parse_results_file(results_file)
     print(f"Parsed {len(rows)} benchmark rows")
+    env = bench_env.env_id(meta)
 
     yaml = YAML()
     yaml.preserve_quotes = True
@@ -218,14 +299,16 @@ def main() -> None:
         changed = False
         for row in updates:
             ps_name = row["_ps"]
-            flag = "" if row["ok"] == "yes" else f"  [{row['ok']}]"
-            if update_parameterset(data, ps_name, row):
-                print(f"  {yaml_filename}  {ps_name}: keygen={row['keygen_us']}us "
-                      f"encaps={row['encaps_us']}us decaps={row['decaps_us']}us{flag}")
+            ps_changed, msg = apply_row(data, ps_name, row, env)
+            if msg is None:
+                print(f"  NOT FOUND: {yaml_filename}  '{ps_name}'")
+                skipped += 1
+                continue
+            print(f"  {yaml_filename}  {ps_name}: {msg}")
+            if ps_changed:
                 updated += 1
                 changed = True
             else:
-                print(f"  NOT FOUND: {yaml_filename}  '{ps_name}'")
                 skipped += 1
         if changed:
             with open(yaml_path, "w") as f:
@@ -237,7 +320,12 @@ def main() -> None:
         for n in not_mapped:
             print(f"  {n}")
 
-    write_benchmark_env(meta, BENCH_ENV_FILE)
+    bench_env.update_env_file(
+        BENCH_ENV_FILE,
+        bench_env.make_env(meta, "KEM keygen/encapsulation/decapsulation. "),
+        KEMS_DIR,
+    )
+    record_fingerprints(results_file, rows)
 
 
 if __name__ == "__main__":

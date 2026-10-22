@@ -1,0 +1,52 @@
+# pq-kems benchmark results
+# date:         2026-10-16T11:44:23Z
+# host:         ip-172-31-4-159
+# commit:       124dc8b40d0bb1f9efcab461ea75e100aebc0564
+# instance_type: c8i.4xlarge
+# os:           Ubuntu 26.04.1 LTS
+# kernel:       7.0.0-1014-aws
+# cpu:          Intel(R) Xeon(R) 6975P-C
+# cores:        16 (threads/core: 2)
+# max_freq_mhz: unknown (cur: unknown MHz)
+# governor:     unknown
+# turbo:        unknown
+# flags:        fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ss ht syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon rep_good nopl xtopology nonstop_tsc cpuid aperfmperf tsc_known_freq pni pclmulqdq monitor ssse3 fma cx16 pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand hypervisor lahf_lm abm 3dnowprefetch cpuid_fault ssbd ibrs ibpb stibp ibrs_enhanced fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid avx512f avx512dq rdseed adx smap avx512ifma clflushopt clwb avx512cd sha_ni avx512bw avx512vl xsaveopt xsavec xgetbv1 xsaves avx_vnni avx512_bf16 wbnoinvd ida arat avx512vbmi umip pku ospke waitpkg avx512_vbmi2 gfni vaes vpclmulqdq avx512_vnni avx512_bitalg tme avx512_vpopcntdq rdpid bus_lock_detect cldemote movdiri movdir64b md_clear serialize amx_bf16 avx512_fp16 amx_tile amx_int8 flush_l1d arch_capabilities
+#
+# compiler:     cc (Ubuntu 15.2.0-16ubuntu1) 15.2.0
+# openssl:      OpenSSL 3.5.5 27 Jan 2026 (Library: OpenSSL 3.5.5 27 Jan 2026)
+# sources:
+#   schemes/bat/ref: https://github.com/pornin/BAT@8280af7c9d4d5cdd9a70914f72a5f0ad774c7b8d
+#   schemes/frodo/ref: https://github.com/Microsoft/PQCrypto-LWEKE@7a4e7219d06305e16aef734213001cd8fefbcc14
+#   schemes/hqc/ref: https://gitlab.com/pqc-hqc/hqc.git@161cd4fdf6b4a5198cf40b3a1243f9f27f13e03d
+#   schemes/mike/ref: https://github.com/tensor-mike/mike_c.git@6057473e460165cc8721c05dc3fbbb73a009d147
+#   schemes/mlkem/ref: https://github.com/pq-code-package/mlkem-native.git@2d1cc90f71bd59617062844e874ac6e70868e1f8
+#   schemes/ntru/ref: https://github.com/jschanck/ntru@6d96ed3746000b6497392a425712fe483988fc80
+#   schemes/ntruplus/ref: https://github.com/ntruplus/ntruplus.git@f4507621e2111af52bb87b1950249baac683a37d
+#   schemes/saber/ref: https://github.com/KULeuven-COSIC/SABER@f7f39e4db2f3e22a21e1dd635e0601caae2b4510
+#   schemes/smaugt/ref: https://github.com/hmchoe0528/SMAUG-T_public.git@2c039df23134a2de3c7aa86a4904c9a4734f9def
+#   schemes/mceliece: https://lib.mceliece.org/libmceliece-20260622.tar.gz
+#   schemes/ngcc: https://www.niccs.org.cn/niccs/Proposal/Public-Key%20Cryptographic%20Algorithms/Round%201%20candidates/
+#   schemes/ntruprime: https://libntruprime.cr.yp.to/libntruprime-20241021.tar.gz
+# filter:       MIKE-fast-V NGCC-UVW-KEM-256 NGCC-BIKE_MLThre-256 NGCC-NGCC-3 MIKE-fast-I MIKE-fast-III HQC-128 NGCC-HQC-128 HQC-256 NGCC-HQC-256 NGCC-Loong512 NGCC-HQC-384 NGCC-Loong384 NGCC-HEP-QC-7 NGCC-HEP-QC-1 NGCC-HQC-512 NGCC-Scloudplus-512
+#
+# cyclecounter: rdpmc CPU_CYCLES (real core cycles, user-space)
+scheme                       iters    keygen (cyc)  keygen (us)    encaps (cyc)  encaps (us)    decaps (cyc)  decaps (us)      ok
+------                       -----    ------------  -----------    ------------  -----------    ------------  -----------      --
+HQC-128                       1000           69083        18.8          136458        36.1          305958        79.6     yes
+HQC-256                       1000          321470        86.1          630564       168.0         1214996       324.0     yes
+MIKE-fast-I                   1000         1978817       514.4        16242808      4196.9        14260006      3685.3     yes
+MIKE-fast-III                 1000         6495285      1679.8        52360799     13538.9        45917145     11861.3     yes
+MIKE-fast-V                   1000        13480125      3484.4       102776925     26558.1        89308249     23074.6     yes
+NGCC-BIKE_MLThre-256            10     16105607744   4161378.1        87463452     22598.6       449442348    116138.5     yes
+NGCC-HEP-QC-1                  180       242724165     63064.6        13458404      3550.0       236871163     61334.7     yes
+NGCC-HEP-QC-7                   10      4771785543   1256612.4       600050719    155200.1      3205058033    831154.6     yes
+NGCC-Loong384                  653        49929805     12902.2        50105811     12948.3        50428568     13031.5     yes
+NGCC-Loong512                  417        81133903     20972.6        80170763     20723.7        80693266     20859.6     yes
+NGCC-HQC-128                   464        34719226      8970.0        63142404     16310.0       117519824     30358.5     yes
+NGCC-HQC-256                   160       103092893     26623.8       185770419     47987.3       320592285     82809.0     yes
+NGCC-HQC-384                    50       347342656     89704.1       626719616    161919.2      1022617130    264073.6     yes
+NGCC-HQC-512                    18       820268930    211891.1      1500341211    387478.8      2384426396    615966.9     yes
+NGCC-NGCC-3                     10      6409935307   1661477.8      2637458554    681621.4      4188731402   1084395.7     yes
+NGCC-Scloudplus-512            436        56195130     14620.5        57422794     14843.9        55357853     14410.3     yes
+NGCC-UVW-KEM-256                10      5830472326   1518611.4         2276636       588.3     11434982964   2972888.0     yes
+

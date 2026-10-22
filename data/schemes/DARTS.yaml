@@ -1,0 +1,45 @@
+name: DARTS
+website: https://www.niccs.org.cn/niccs/Round1Additional/pc/content/content_2101561077176815616.html
+category: Lattices
+assumption: MLWE/MSIS
+versions:
+- version: Round 1
+  date: '2026-09-20'
+  status: NGCC round 1
+  programmes:
+    china-ngcc: round-1
+  perf_source: our benchmark
+  parametersets:
+  - name: DARTS128
+    ngcc_level: 128
+    pk: 1120
+    sig: 1449
+    signing_cycles: 11600870
+    verification_cycles: 307380
+    signing_us: 3002.8
+    verification_us: 79.9
+    bench_env: 2026-10-16-c8i.4xlarge
+    notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+    broken: A restart in the signing procedure leaks an equivalent signing key after tens of millions of public signatures, enabling forgery (<a href="https://list.niccs.org.cn/archives/list/pkcforum@list.niccs.org.cn/message/62AUZI56IWGEN34OQTD6Z2U6APFMRYWC/">Shi</a>).
+  - name: DARTS256
+    ngcc_level: 256
+    pk: 2208
+    sig: 2489
+    signing_cycles: 19613790
+    verification_cycles: 792658
+    signing_us: 5065.3
+    verification_us: 204.3
+    bench_env: 2026-10-16-c8i.4xlarge
+    notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+  - name: DARTS512
+    ngcc_level: 512
+    pk: 4672
+    sig: 5851
+    signing_cycles: 20107320
+    verification_cycles: 1570057
+    signing_us: 5194.8
+    verification_us: 404.0
+    bench_env: 2026-10-16-c8i.4xlarge
+    notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+    implementation: The submitted code compresses messages so that forgery costs about 2^256 (<a href="https://ngcc.dev/reports/sign-08.html#sign-08-1-the-implemented-message-representative-caps-forgery-security-at-256-bits">Saarinen</a>), and its AVX2 build draws the signing secret from a 256-bit seed, well below the 512-bit target (<a href="https://list.niccs.org.cn/archives/list/pkcforum@list.niccs.org.cn/message/PHSEM2FMDUS6IKY4N3GQCIZLFJEWMIVK/">LK-PQC-Hunter</a>, extended by <a href="https://ngcc.dev/reports/sign-08.html#sign-08-4-avx2-darts-512-samples-its-signing-secret-from-256-seed-bits">Saarinen</a>).
+  findings_url: https://ngcc.dev/reports/sign-08.html

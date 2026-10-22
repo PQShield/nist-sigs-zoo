@@ -72,3 +72,56 @@
 	path = bench-kem/schemes/mike/ref
 	url = https://github.com/tensor-mike/mike_c.git
   ignore = "dirty"
+[submodule "bench/schemes/aimer/ref"]
+	path = bench/schemes/aimer/ref
+	url = https://github.com/samsungsds-opensource/AIMer
+[submodule "bench/schemes/cross/ref"]
+	path = bench/schemes/cross/ref
+	url = https://github.com/CROSS-signature/CROSS-implementation
+	ignore = dirty
+[submodule "bench/schemes/less/ref"]
+	path = bench/schemes/less/ref
+	url = https://github.com/less-sig/LESS
+	ignore = dirty
+[submodule "bench/schemes/mayo_r1/ref"]
+	path = bench/schemes/mayo_r1/ref
+	url = https://github.com/PQCMayo/MAYO-C.git
+	ignore = dirty
+[submodule "bench/schemes/mayo_r2/ref"]
+	path = bench/schemes/mayo_r2/ref
+	url = https://github.com/PQCMayo/MAYO-C.git
+	ignore = dirty
+[submodule "bench/schemes/hawk_r1/ref"]
+	path = bench/schemes/hawk_r1/ref
+	url = https://github.com/hawk-sign/dev
+	ignore = dirty
+[submodule "bench/schemes/mqom_r2/ref"]
+	path = bench/schemes/mqom_r2/ref
+	url = https://github.com/mqom/mqom-v2
+[submodule "bench/schemes/uov_r1/ref"]
+	path = bench/schemes/uov_r1/ref
+	url = https://github.com/pqov/pqov.git
+[submodule "bench/schemes/uov_r2/ref"]
+	path = bench/schemes/uov_r2/ref
+	url = https://github.com/pqov/pqov.git
+[submodule "bench/schemes/faest_r2/ref"]
+	path = bench/schemes/faest_r2/ref
+	url = https://github.com/faest-sign/faest-arch-opt
+	ignore = dirty
+[submodule "bench/schemes/snova_r2/ref"]
+	path = bench/schemes/snova_r2/ref
+	url = https://github.com/PQCLAB-SNOVA/SNOVA.git
+[submodule "bench/schemes/sqisign_r1/ref"]
+	path = bench/schemes/sqisign_r1/ref
+	url = https://github.com/SQISign/the-sqisign
+	ignore = dirty
+[submodule "bench/schemes/sqisign_r2/ref"]
+	path = bench/schemes/sqisign_r2/ref
+	url = https://github.com/SQISign/the-sqisign
+	ignore = dirty
+[submodule "bench/schemes/qruov_r2/ref"]
+	path = bench/schemes/qruov_r2/ref
+	url = https://github.com/qruov/round2.git
+[submodule "bench/schemes/fndsa_fx/ref"]
+	path = bench/schemes/fndsa_fx/ref
+	url = https://github.com/pornin/c-fn-dsa-fx32.64

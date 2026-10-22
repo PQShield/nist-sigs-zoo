@@ -12,9 +12,10 @@ Skips reference/classical schemes (EdDSA, RSA, Falcon, ML-DSA, SLH-DSA).
 
 import csv
 import re
-import yaml
 from collections import defaultdict
 from pathlib import Path
+
+import yaml
 
 ROOT = Path(__file__).parent.parent
 R1_DATA = ROOT / "round-1" / "data"
@@ -23,48 +24,48 @@ SCHEMES_DIR = ROOT / "data" / "schemes"
 # ── round-1 version strings from spec PDFs ──────────────────────────────────
 R1_VERSION = {
     # schemes that survived to round-2
-    "CROSS":    ("Round 1", "2023-06-02"),
-    "FAEST":    ("v1.0",    "2023-06-01"),
-    "HAWK":     ("v1.0",    "2023-06-01"),
-    "LESS":     ("Round 1", "2023-06-01"),
-    "MAYO":     ("Round 1", "2023-06-01"),
-    "MQOM":     ("v1.0",    "2023-05-31"),
-    "PERK":     ("v1.0",    "2023-05-31"),
-    "QR-UOV":   ("Round 1", "2023-06-01"),
-    "RYDE":     ("Round 1", "2023-06-01"),
-    "SDitH":    ("v1.0",    "2023-05-31"),
-    "SNOVA":    ("Round 1", "2023-05-25"),
-    "SQIsign":  ("v1.0",    "2023-06-01"),
-    "UOV":      ("v1.0",    "2023-05-30"),
+    "CROSS": ("Round 1", "2023-06-02"),
+    "FAEST": ("v1.0", "2023-06-01"),
+    "HAWK": ("v1.0", "2023-06-01"),
+    "LESS": ("Round 1", "2023-06-01"),
+    "MAYO": ("Round 1", "2023-06-01"),
+    "MQOM": ("v1.0", "2023-05-31"),
+    "PERK": ("v1.0", "2023-05-31"),
+    "QR-UOV": ("Round 1", "2023-06-01"),
+    "RYDE": ("Round 1", "2023-06-01"),
+    "SDitH": ("v1.0", "2023-05-31"),
+    "SNOVA": ("Round 1", "2023-05-25"),
+    "SQIsign": ("v1.0", "2023-06-01"),
+    "UOV": ("v1.0", "2023-05-30"),
     # round-1-only (non-broken)
-    "AIMer":         ("v1.0",    "2023-06-01"),
-    "ALTEQ":         ("Round 1", "2023-06-01"),
-    "Ascon-Sign":    ("Round 1", "2023-06-01"),
-    "Biscuit":       ("Round 1", "2023-06-01"),
-    "FuLeeca":       ("Round 1", "2023-05-31"),
-    "HAETAE":        ("Round 1", "2023-05-31"),
-    "HuFu":          ("Round 1", "2023-06-01"),
-    "MEDS":          ("v1.0.1",  "2023-06-30"),
-    "MIRA":          ("Round 1", "2023-06-01"),
-    "MiRitH":        ("Round 1", "2023-06-01"),
-    "PREON":         ("Round 1", "2023-05-31"),
-    "PROV":          ("v1.0",    "2023-06-01"),
-    "Raccoon":       ("Round 1", "2023-06-01"),
+    "AIMer": ("v1.0", "2023-06-01"),
+    "ALTEQ": ("Round 1", "2023-06-01"),
+    "Ascon-Sign": ("Round 1", "2023-06-01"),
+    "Biscuit": ("Round 1", "2023-06-01"),
+    "FuLeeca": ("Round 1", "2023-05-31"),
+    "HAETAE": ("Round 1", "2023-05-31"),
+    "HuFu": ("Round 1", "2023-06-01"),
+    "MEDS": ("v1.0.1", "2023-06-30"),
+    "MIRA": ("Round 1", "2023-06-01"),
+    "MiRitH": ("Round 1", "2023-06-01"),
+    "PREON": ("Round 1", "2023-05-31"),
+    "PROV": ("v1.0", "2023-06-01"),
+    "Raccoon": ("Round 1", "2023-06-01"),
     "SPHINCS-alpha": ("Round 1", "2023-05-31"),
-    "Squirrels":     ("Round 1", "2023-06-02"),
-    "TUOV":          ("v1.0",    "2023-05-30"),
-    "VOX":           ("v1.0",    "2023-06-01"),
-    "Wave":          ("v1",      "2023-06-01"),
+    "Squirrels": ("Round 1", "2023-06-02"),
+    "TUOV": ("v1.0", "2023-05-30"),
+    "VOX": ("v1.0", "2023-06-01"),
+    "Wave": ("v1", "2023-06-01"),
     # broken schemes
-    "3WISE":            ("Round 1", "2023-06-01"),
-    "DME-Sign":         ("Round 1", "2023-06-01"),
-    "EagleSign":        ("Round 1", "2023-06-01"),
-    "EHTv3 / EHTv4":    ("Round 1", "2023-06-01"),
-    "eMLE-Sig 2.0":     ("Round 1", "2023-06-01"),
+    "3WISE": ("Round 1", "2023-06-01"),
+    "DME-Sign": ("Round 1", "2023-06-01"),
+    "EagleSign": ("Round 1", "2023-06-01"),
+    "EHTv3 / EHTv4": ("Round 1", "2023-06-01"),
+    "eMLE-Sig 2.0": ("Round 1", "2023-06-01"),
     "Enhanced pqsigRM": ("Round 1", "2023-06-01"),
-    "HPPC":             ("Round 1", "2023-06-01"),
-    "KAZ-Sign":         ("Round 1", "2023-06-01"),
-    "Xifrat1-Sign.I":   ("Round 1", "2023-06-01"),
+    "HPPC": ("Round 1", "2023-06-01"),
+    "KAZ-Sign": ("Round 1", "2023-06-01"),
+    "Xifrat1-Sign.I": ("Round 1", "2023-06-01"),
 }
 
 # Not additional-signature submissions — skip entirely
@@ -77,7 +78,11 @@ CSV_TO_YAML_NAME = {
 
 
 def sanitize(name: str) -> str:
-    return re.sub(r"_+", "_", name.replace("/", "_").replace(" ", "_").replace("(", "").replace(")", ""))
+    return re.sub(
+        r"_+",
+        "_",
+        name.replace("/", "_").replace(" ", "_").replace("(", "").replace(")", ""),
+    )
 
 
 def parse_num(s: str):

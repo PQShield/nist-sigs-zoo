@@ -1,3 +1,4 @@
+include ../../../bench-common/flags.mk
 CXX   ?= g++
 CC    ?= cc
 BUILD  = build
@@ -6,9 +7,9 @@ REF    = ref
 
 MESON_BUILD := $(BUILD)/meson
 
-CXXFLAGS := -O3 -std=c++23 -fPIC -maes -mavx2 -mpopcnt -march=native -mtune=native \
-            -Wall -Wextra -Wno-unused-parameter
-CFLAGS   := -O3 -fPIC -march=native -mtune=native -Wall
+CXXFLAGS := -std=c++23 -maes -mavx2 -mpopcnt -Wall -Wextra -Wno-unused-parameter \
+            $(BENCH_CXXFLAGS) -fPIC
+CFLAGS   := -Wall $(BENCH_CFLAGS) -fPIC
 
 # XKCP source is downloaded by meson into ref/subprojects/xkcp/
 # config.h lives at the XKCP root; libxkcp.a is in the meson build dir.
@@ -62,11 +63,17 @@ $(GEN_API_SRCS) $(GEN_API_HDRS): gen_faest.py $(REF)/api.cpp.in $(REF)/api.h.in 
 $(LIBFAEST) $(LIBXKCP): $(MESON_BUILD)/.built
 	@true
 
-$(MESON_BUILD)/.built: $(REF)/meson.build | $(MESON_BUILD)
+# Meson puts c_args/cpp_args after its buildtype flags and upstream's global
+# -march=native, so the global flag set (flags.mk) comes last; they also reach the
+# XKCP subproject. -g and -Wno-psabi are upstream's default c_args/cpp_args.
+$(MESON_BUILD)/.built: $(REF)/meson.build Makefile ../../../bench-common/flags.mk | $(MESON_BUILD)
 	meson setup $(CURDIR)/$(MESON_BUILD) $(CURDIR)/$(REF) \
 	    --buildtype=release \
 	    -Doptimization=3 \
 	    -Db_lto=false \
+	    -Db_ndebug=true \
+	    -Dc_args='-g $(BENCH_CFLAGS)' \
+	    -Dcpp_args='-g -Wno-psabi $(BENCH_CXXFLAGS)' \
 	    --wipe
 	meson compile -C $(CURDIR)/$(MESON_BUILD) faest xkcp
 	touch $@

@@ -1,3 +1,4 @@
+include ../../../bench-common/flags.mk
 CC      ?= cc
 BUILD    = build
 SRC_DIR  = ref/src
@@ -33,9 +34,9 @@ else
 endif
 $(info UOV PROJ: $(UOV_PROJ))
 
-BASE_CFLAGS := -O3 -fPIC -DNDEBUG -Wall -Wno-unused-parameter -Wno-sign-compare \
+BASE_CFLAGS := -Wall -Wno-unused-parameter -Wno-sign-compare \
                $(PROJ_CFLAGS) \
-               $(OSSL_CFLAGS)
+               $(OSSL_CFLAGS) $(BENCH_CFLAGS) -fPIC
 
 INC := -I$(SRC_DIR) -I$(SRC_DIR)/ref -I$(SRC_DIR)/amd64 \
        -I$(SRC_DIR)/ssse3 -I$(SRC_DIR)/avx2 $(PROJ_INC) \

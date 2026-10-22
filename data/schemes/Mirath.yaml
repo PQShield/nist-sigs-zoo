@@ -6,83 +6,121 @@ versions:
 - version: v2.1.0
   date: '2025-09-23'
   status: On-ramp
-  perf_source: submission document
+  perf_source: our benchmark
   parametersets:
   - name: 1a-Short
     level: 1
     pk: 73
     sig: 3182
-    signing_cycles: 16200000
-    verification_cycles: 13900000
+    signing_cycles: 12506088
+    verification_cycles: 11054943
+    signing_us: 3278.2
+    verification_us: 2937.0
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: 1a-Fast
     level: 1
     pk: 73
     sig: 3728
-    signing_cycles: 5900000
-    verification_cycles: 3300000
+    signing_cycles: 3706608
+    verification_cycles: 2316839
+    signing_us: 988.0
+    verification_us: 616.4
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: 1b-Short
     level: 1
     pk: 57
     sig: 2990
-    signing_cycles: 23600000
-    verification_cycles: 18300000
+    signing_cycles: 16936688
+    verification_cycles: 14214810
+    signing_us: 4406.4
+    verification_us: 3777.0
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: 1b-Fast
     level: 1
     pk: 57
     sig: 3456
-    signing_cycles: 9800000
-    verification_cycles: 5500000
+    signing_cycles: 8471753
+    verification_cycles: 5184147
+    signing_us: 2250.7
+    verification_us: 1371.9
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: 3a-Short
     level: 3
     pk: 107
     sig: 7456
-    signing_cycles: 133300000
-    verification_cycles: 130400000
+    signing_cycles: 121196014
+    verification_cycles: 118770356
+    signing_us: 31367.5
+    verification_us: 30822.4
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: 3a-Fast
     level: 3
     pk: 107
     sig: 8548
-    signing_cycles: 26900000
-    verification_cycles: 20100000
+    signing_cycles: 21180864
+    verification_cycles: 16106139
+    signing_us: 5508.5
+    verification_us: 4277.6
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: 3b-Short
     level: 3
     pk: 84
     sig: 6825
-    signing_cycles: 112100000
-    verification_cycles: 96200000
+    signing_cycles: 94189770
+    verification_cycles: 83570650
+    signing_us: 24396.9
+    verification_us: 21727.2
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: 3b-Fast
     level: 3
     pk: 84
     sig: 7924
-    signing_cycles: 47200000
-    verification_cycles: 38200000
+    signing_cycles: 48611607
+    verification_cycles: 39170746
+    signing_us: 12626.7
+    verification_us: 10237.9
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: 5a-Short
     level: 5
     pk: 147
     sig: 13091
-    signing_cycles: 132000000
-    verification_cycles: 118600000
+    signing_cycles: 111815505
+    verification_cycles: 102304832
+    signing_us: 28940.4
+    verification_us: 26596.2
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: 5a-Fast
     level: 5
     pk: 147
     sig: 15440
-    signing_cycles: 40100000
-    verification_cycles: 28400000
+    signing_cycles: 32215497
+    verification_cycles: 22857471
+    signing_us: 8343.8
+    verification_us: 6024.9
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: 5b-Short
     level: 5
     pk: 112
     sig: 12229
-    signing_cycles: 155300000
-    verification_cycles: 131600000
+    signing_cycles: 134893254
+    verification_cycles: 114855522
+    signing_us: 34914.7
+    verification_us: 29716.5
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: 5b-Fast
     level: 5
     pk: 112
     sig: 14198
-    signing_cycles: 70100000
-    verification_cycles: 51700000
+    signing_cycles: 70062578
+    verification_cycles: 54410691
+    signing_us: 18104.7
+    verification_us: 14172.2
+    bench_env: 2026-10-16-c8i.4xlarge
 - version: v2.0
   date: '2025-02-05'
   status: On-ramp
+  programmes:
+    nist-onramp: round-2
   perf_source: submission document
   parametersets:
   - name: 1a-Short
@@ -157,5 +195,3 @@ versions:
     sig: 14262
     signing_cycles: 121000000
     verification_cycles: 88000000
-  tags:
-  - round-2

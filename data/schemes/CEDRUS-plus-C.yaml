@@ -1,0 +1,94 @@
+name: CEDRUS+C
+website: https://www.niccs.org.cn/niccs/Round1Additional/pc/content/content_2101561076497338368.html
+category: Symmetric
+assumption: Hash-based
+versions:
+- version: Round 1
+  date: '2026-09-20'
+  status: NGCC round 1
+  programmes:
+    china-ngcc: round-1
+  perf_source: our benchmark
+  parametersets:
+  - name: CEDRUSC-160s
+    ngcc_level: 128
+    pk: 40
+    sig: 9460
+    signing_cycles: 9147358965
+    verification_cycles: 22786520
+    signing_us: 2365839.2
+    verification_us: 5889.4
+    bench_env: 2026-10-16-c8i.4xlarge
+    notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+  - name: CEDRUSC-160f
+    ngcc_level: 128
+    pk: 40
+    sig: 19812
+    signing_cycles: 548628210
+    verification_cycles: 16741866
+    signing_us: 141754.4
+    verification_us: 4328.1
+    bench_env: 2026-10-16-c8i.4xlarge
+    notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+  - name: CEDRUSC-256s
+    ngcc_level: 256
+    pk: 64
+    sig: 24104
+    signing_cycles: 13724297706
+    verification_cycles: 37924393
+    signing_us: 3544737.0
+    verification_us: 9796.9
+    bench_env: 2026-10-16-c8i.4xlarge
+    notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+  - name: CEDRUSC-256f
+    ngcc_level: 256
+    pk: 64
+    sig: 43548
+    signing_cycles: 1334534709
+    verification_cycles: 23031038
+    signing_us: 344866.1
+    verification_us: 5954.3
+    bench_env: 2026-10-16-c8i.4xlarge
+    notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+  - name: CEDRUSC-384s
+    ngcc_level: 384
+    pk: 96
+    sig: 61572
+    signing_cycles: 51076479700
+    verification_cycles: 58362596
+    signing_us: 13188507.0
+    verification_us: 15068.0
+    bench_env: 2026-10-16-c8i.4xlarge
+    notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+  - name: CEDRUSC-384f
+    ngcc_level: 384
+    pk: 96
+    sig: 75988
+    signing_cycles: 13385314752
+    verification_cycles: 137551140
+    signing_us: 3459600.3
+    verification_us: 35550.8
+    bench_env: 2026-10-16-c8i.4xlarge
+    notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+  - name: CEDRUSC-512s
+    ngcc_level: 512
+    pk: 128
+    sig: 98212
+    signing_cycles: 92560100478
+    verification_cycles: 126190168
+    signing_us: 23900256.3
+    verification_us: 32589.3
+    bench_env: 2026-10-16-c8i.4xlarge
+    notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+  - name: CEDRUSC-512f
+    ngcc_level: 512
+    pk: 128
+    sig: 121520
+    signing_cycles: 26845143026
+    verification_cycles: 171452722
+    signing_us: 6936764.1
+    verification_us: 44306.5
+    bench_env: 2026-10-16-c8i.4xlarge
+    notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+  findings_url: https://ngcc.dev/reports/sign-03.html
+  implementation: The submitted code mishandles hypertree indices so that few-time keys repeat across signatures, enabling forgery after adaptive signing queries at every parameter set (<a href="https://ngcc.dev/reports/sign-03.html#sign-03-1-hypertree-index-collapse-causes-repeated-few-time-keys">Saarinen</a>).

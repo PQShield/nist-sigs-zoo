@@ -6,9 +6,9 @@ versions:
 - version: Round 1
   date: '2023-05-31'
   status: On-ramp
+  programmes:
+    nist-onramp: round-1
   perf_source: submission document
-  tags:
-  - round-1
   parametersets:
   - name: 256s SHAKE
     level: 5

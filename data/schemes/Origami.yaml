@@ -1,0 +1,54 @@
+name: Origami
+website: https://www.niccs.org.cn/niccs/Round1Additional/pc/content/content_2101561086978904064.html
+category: Multivariate
+assumption: Multivariate Quadratic
+versions:
+- version: Round 1
+  date: '2026-09-20'
+  status: NGCC round 1
+  programmes:
+    china-ngcc: round-1
+  perf_source: our benchmark
+  parametersets:
+  - name: Origami-128
+    ngcc_level: 128
+    pk: 2996
+    sig: 116
+    signing_cycles: 30021038
+    verification_cycles: 26915563
+    signing_us: 7757.6
+    verification_us: 6953.5
+    bench_env: 2026-10-16-c8i.4xlarge
+    notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it; our build applies a small patch to the submitted code.
+  - name: Origami-256
+    ngcc_level: 256
+    pk: 14968
+    sig: 516
+    signing_cycles: 1501117307
+    verification_cycles: 1450911779
+    signing_us: 388390.2
+    verification_us: 375508.5
+    bench_env: 2026-10-16-c8i.4xlarge
+    notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it; our build applies a small patch to the submitted code.
+  - name: Origami-384
+    ngcc_level: 384
+    pk: 27940
+    sig: 948
+    signing_cycles: 7161005015
+    verification_cycles: 6901655927
+    signing_us: 1849685.6
+    verification_us: 1782597.3
+    bench_env: 2026-10-16-c8i.4xlarge
+    notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it; our build applies a small patch to the submitted code.
+  - name: Origami-512
+    ngcc_level: 512
+    pk: 35924
+    sig: 1220
+    signing_cycles: 13552184582
+    verification_cycles: 12672540840
+    signing_us: 3506126.7
+    verification_us: 3276876.6
+    bench_env: 2026-10-16-c8i.4xlarge
+    notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it; our build applies a small patch to the submitted code.
+  findings_url: https://ngcc.dev/reports/sign-18.html
+  broken: A public permutation of the variables lets anyone forge a signature on a chosen message without signing queries (<a href="https://groups.google.com/a/list.nist.gov/g/pqc-forum/c/N1WfpgvlI2s/m/lym34vPOAwAJ">Louiso and Ding</a>; <a href="https://list.niccs.org.cn/archives/list/pkcforum@list.niccs.org.cn/message/HTZTMJ42AUXCWEDA3AURP4ZOEGSGSV4Z/">Pébereau</a>). The larger sets' message digests are also too short for their targets (<a href="https://ngcc.dev/reports/sign-18.html#sign-18-1-a-fixed-512-bit-message-prehash-caps-forgery-security-at-256-bits">Saarinen</a>).

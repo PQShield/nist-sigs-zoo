@@ -1,0 +1,52 @@
+# pq-kems benchmark results
+# date:         2026-10-13T15:35:33Z
+# host:         ip-172-31-2-66
+# os:           Ubuntu 26.04.1 LTS
+# kernel:       7.0.0-1014-aws
+# cpu:          Intel(R) Xeon(R) Platinum 8488C
+# cores:        16 (threads/core: 2)
+# max_freq_mhz: unknown (cur: unknown MHz)
+# governor:     unknown
+# turbo:        unknown
+# flags:        fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ss ht syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon rep_good nopl xtopology nonstop_tsc cpuid aperfmperf tsc_known_freq pni pclmulqdq monitor ssse3 fma cx16 pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand hypervisor lahf_lm abm 3dnowprefetch cpuid_fault ssbd ibrs ibpb stibp ibrs_enhanced fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid avx512f avx512dq rdseed adx smap avx512ifma clflushopt clwb avx512cd sha_ni avx512bw avx512vl xsaveopt xsavec xgetbv1 xsaves avx_vnni avx512_bf16 wbnoinvd ida arat avx512vbmi umip pku ospke waitpkg avx512_vbmi2 gfni vaes vpclmulqdq avx512_vnni avx512_bitalg tme avx512_vpopcntdq rdpid cldemote movdiri movdir64b md_clear serialize amx_bf16 avx512_fp16 amx_tile amx_int8 flush_l1d arch_capabilities
+#
+# compiler:     cc (Ubuntu 15.2.0-16ubuntu1) 15.2.0
+# openssl:      OpenSSL 3.5.5 27 Jan 2026 (Library: OpenSSL 3.5.5 27 Jan 2026)
+# sources:
+#   schemes/bat/ref: https://github.com/pornin/BAT@8280af7c9d4d5cdd9a70914f72a5f0ad774c7b8d
+#   schemes/frodo/ref: https://github.com/Microsoft/PQCrypto-LWEKE@7a4e7219d06305e16aef734213001cd8fefbcc14
+#   schemes/hqc/ref: https://gitlab.com/pqc-hqc/hqc.git@161cd4fdf6b4a5198cf40b3a1243f9f27f13e03d
+#   schemes/mike/ref: https://github.com/tensor-mike/mike_c.git@6057473e460165cc8721c05dc3fbbb73a009d147
+#   schemes/mlkem/ref: https://github.com/pq-code-package/mlkem-native.git@2d1cc90f71bd59617062844e874ac6e70868e1f8
+#   schemes/ntru/ref: https://github.com/jschanck/ntru@6d96ed3746000b6497392a425712fe483988fc80
+#   schemes/ntruplus/ref: https://github.com/ntruplus/ntruplus.git@f4507621e2111af52bb87b1950249baac683a37d
+#   schemes/saber/ref: https://github.com/KULeuven-COSIC/SABER@f7f39e4db2f3e22a21e1dd635e0601caae2b4510
+#   schemes/smaugt/ref: https://github.com/hmchoe0528/SMAUG-T_public.git@2c039df23134a2de3c7aa86a4904c9a4734f9def
+#   schemes/mceliece: https://lib.mceliece.org/libmceliece-20260622.tar.gz
+#   schemes/ngcc: https://www.niccs.org.cn/niccs/Proposal/Public-Key%20Cryptographic%20Algorithms/Round%201%20candidates/
+#   schemes/ntruprime: https://libntruprime.cr.yp.to/libntruprime-20241021.tar.gz
+# filter:       NGCC-BIKE_MLThre-256 NGCC-bag_piglet_512 NGCC-UVW-KEM-128 NGCC-TRIKE-7 NGCC-TRIKE-5 NGCC-TRIKE-2 NGCC-Scloudplus-512 NGCC-Scloudplus-384 NGCC-QUBE-512 NGCC-NGCC-2 NGCC-NGCC-1 NGCC-Mito-2-E-512 NGCC-Mito-2-E-256 NGCC-Mito-1-E-512 NGCC-Mito-1-E-256 NGCC-Mito-1-512 NGCC-Mito-1-256 NGCC-MAMBA-Frost-CC-512 NGCC-yuanyang-2048
+#
+# cyclecounter: rdpmc CPU_CYCLES (real core cycles, user-space)
+scheme                       iters    keygen (cyc)  keygen (us)    encaps (cyc)  encaps (us)    decaps (cyc)  decaps (us)      ok
+------                       -----    ------------  -----------    ------------  -----------    ------------  -----------      --
+NGCC-bag_piglet_512            271        59893368     15880.4        51920087     13769.2       184041834     48848.5     yes
+NGCC-BIKE_MLThre-256            10     15899480029   4216679.0        92158909     24428.8       448872418    119056.9     yes
+NGCC-MAMBA-Frost-CC-512        986        31382043      8340.7        25545974      6805.2        26759652      7123.8     yes
+NGCC-Mito-1-256                389        28217860      7480.4        46922870     12439.4        66390597     17599.2     yes
+NGCC-Mito-1-512                 80       170965999     45351.0       284893437     75553.3       401144575    106393.5     yes
+NGCC-Mito-1-E-256              471        29219066      7747.1        48578866     12877.5        68610868     18187.2     yes
+NGCC-Mito-1-E-512               69       163784709     43447.9       272833945     72356.1       384093794    101873.3     yes
+NGCC-Mito-2-E-256              353        40719529     10795.2        58781356     15583.1        77884647     20646.7     yes
+NGCC-Mito-2-E-512               56       252370476     66931.4       364893150     96752.4       480226097    127355.4     yes
+NGCC-NGCC-1                     88       241439638     64553.7        97092302     25749.1       154559402     41190.7     yes
+NGCC-NGCC-2                     40       743816828    198253.3       277319205     73537.8       445377353    118633.8     yes
+NGCC-QUBE-512                  579        17000615      4508.7        17211201      4564.5        25439180      6747.5     yes
+NGCC-Scloudplus-384            934        26264589      6963.2        26982917      7154.3        25671772      6806.9     yes
+NGCC-Scloudplus-512            436        52933978     14039.1        53914291     14299.0        52026957     13796.0     yes
+NGCC-TRIKE-2                   268        96187284     25500.5         8945030      2371.9        44380992     11768.7     yes
+NGCC-TRIKE-5                    44       691393151    183294.5        64838757     17188.3       172350486     45707.5     yes
+NGCC-TRIKE-7                    14      2242420242    594482.8       189824472     50318.7       507148389    134580.9     yes
+NGCC-UVW-KEM-128                11      1351599795    358385.7          730585       196.6      2991744851    793619.0     yes
+NGCC-yuanyang-2048            1000         1883378       497.8          927098       245.6         1498072       398.2     yes
+

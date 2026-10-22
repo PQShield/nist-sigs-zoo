@@ -1,0 +1,116 @@
+#!/usr/bin/env bash
+# Run a command inside a throwaway, network-less container.
+#
+#   scripts/ngcc-run <cmd ...>      run <cmd> in a writable copy of the repo at /work
+#   scripts/ngcc-run --self-test    verify the sandbox (PASS/FAIL per check)
+#
+# All builds, KAT replays, `--sizes` extraction and smoke benchmarks of NGCC
+# candidate code (untrusted) must go through this wrapper, never the host.
+#
+# Isolation: --network none, all capabilities dropped, no-new-privileges,
+# read-only rootfs, pid/memory limits. The repo is mounted read-only at /repo;
+# entry.sh copies it into a writable anonymous volume at /work and runs the
+# command there. NO host-writable mount exists while untrusted code runs.
+# Afterwards the host pulls /work (`docker cp ... -`) through
+# scripts/ngcc-container/export.py, which writes into the git-ignored
+# .ngcc-out/ only allowlisted regular files that are plain UTF-8 text (no NUL),
+# mode 0644; everything else is rejected. Review the text there and copy it to
+# its committed location by hand. The host never runs or makes container output.
+#
+# Env: BENCH_ITER, BENCH_CYCLES, BENCH_CPU, BENCH_TIMEOUT, BENCH_OP_LIMIT are forwarded if set.
+#      NGCC_DOCKER overrides the docker command (default: docker); a
+#      `sg docker -c "scripts/ngcc-run ..."` invocation works as well.
+#
+# NGCC_KEEP=1 keeps the stopped container (name printed) for debugging; remove
+# it with `docker rm -v <name>`. Default: removed with its volume.
+#
+# Caveat: perf counters (rdpmc / perf_event_open) are usually unavailable in
+# the container, so cycle counts fall back to rdtsc. Local runs are smoke
+# tests only; real numbers come from scripts/aws-bench.sh.
+set -euo pipefail
+
+REPO="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+DOCKERFILE_DIR="$REPO/scripts/ngcc-container"
+read -ra DOCKER <<<"${NGCC_DOCKER:-docker}"
+
+SELF_TEST=0
+if [ "${1:-}" = "--self-test" ]; then
+    SELF_TEST=1
+    shift
+elif [ $# -eq 0 ] || [ "${1:-}" = "-h" ] || [ "${1:-}" = "--help" ]; then
+    sed -n '2,/^set -euo/{/^set -euo/d;s/^# \{0,1\}//;p}' "$0"
+    [ $# -eq 0 ] && exit 2 || exit 0
+fi
+
+TAG="nist-sigs-zoo-ngcc:$(sha256sum "$DOCKERFILE_DIR/Dockerfile" | cut -c1-12)"
+if ! "${DOCKER[@]}" image inspect "$TAG" >/dev/null 2>&1; then
+    echo "ngcc-run: building $TAG" >&2
+    "${DOCKER[@]}" build -q --build-arg "UID=$(id -u)" --build-arg "GID=$(id -g)" \
+        -t "$TAG" "$DOCKERFILE_DIR" >&2
+fi
+
+OUT="${NGCC_OUT:-$REPO/.ngcc-out}"  # set NGCC_OUT=$REPO/.ngcc-out-<name> for concurrent runs
+mkdir -p "$OUT"
+CTR="ngcc-run-$$-$(date +%s)"
+
+ARGS=(run --name "$CTR" --network none --cap-drop ALL --security-opt no-new-privileges
+    --read-only --pids-limit 4096 --memory 16g --memory-swap 16g
+    --cpus "$("${DOCKER[@]}" info --format '{{.NCPU}}' 2>/dev/null || nproc)" --user "$(id -u):$(id -g)"
+    --tmpfs "/tmp:exec,size=4g,uid=$(id -u),gid=$(id -g)"
+    -e HOME=/tmp -v "$REPO:/repo:ro" -v /work -w /repo)
+for d in src specs; do
+    if [ -d "$REPO/bench-common/ngcc/$d" ]; then
+        ARGS+=(-v "$REPO/bench-common/ngcc/$d:/repo/bench-common/ngcc/$d:ro")
+    fi
+done
+for v in BENCH_ITER BENCH_CYCLES BENCH_CPU BENCH_TIMEOUT BENCH_OP_LIMIT; do
+    if [ -n "${!v:-}" ]; then ARGS+=(-e "$v=${!v}"); fi
+done
+if [ -t 0 ]; then ARGS+=(-i); fi
+if [ -t 0 ] && [ -t 1 ]; then ARGS+=(-t); fi
+
+ENTRY=/repo/scripts/ngcc-container/entry.sh
+
+# shellcheck disable=SC2317  # invoked via the EXIT trap
+cleanup() {
+    if [ "${NGCC_KEEP:-}" = 1 ]; then
+        echo "ngcc-run: kept container $CTR (docker rm -v $CTR)" >&2
+    else
+        "${DOCKER[@]}" rm -f -v "$CTR" >/dev/null 2>&1 || true
+    fi
+}
+trap cleanup EXIT
+
+if [ "$SELF_TEST" = 1 ]; then
+    CMD=(/repo/scripts/ngcc-container/selftest.sh)
+else
+    CMD=("$@")
+fi
+
+set +e
+"${DOCKER[@]}" "${ARGS[@]}" "$TAG" "$ENTRY" "${CMD[@]}"
+status=$?
+# Host pulls: a tar stream of /work through the trusted exporter.
+"${DOCKER[@]}" cp "$CTR:/work" - 2>/dev/null |
+    python3 -I "$REPO/scripts/ngcc-container/export.py" --out "$OUT" --repo "$REPO" >&2
+if [ "${PIPESTATUS[1]}" != 0 ]; then
+    echo "ngcc-run: export failed" >&2
+    [ "$status" = 0 ] && status=70
+fi
+
+if [ "$SELF_TEST" = 1 ]; then
+    chk() { if [ "$2" = 0 ]; then echo "PASS  $1"; else echo "FAIL  $1"; status=1; fi; }
+    f="$OUT/bench/results/selftest.txt"
+    if [ -f "$f" ]; then r=0; else r=1; fi
+    chk "allowlisted text output is exported" $r
+    if [ -f "$f" ] && [ -z "$(find "$f" -perm /111)" ]; then r=0; else r=1; fi
+    chk "exported file has no exec bit" $r
+    if [ ! -e "$OUT/bench/schemes/ngcc/build/selftest.so" ] && [ ! -e "$OUT/bench/schemes/ngcc/build/selftest.mk" ]; then r=0; else r=1; fi
+    chk "non-allowlisted files (.so, .mk) are not exported" $r
+    if [ ! -e "$OUT/bench/results/selftest-elf.log" ] && [ ! -L "$OUT/bench/results/selftest-link.txt" ]; then r=0; else r=1; fi
+    chk "ELF named .log and symlink written by inner command do not appear on host" $r
+    if [ -z "$(find "$OUT" -type f -perm /111 2>/dev/null)" ] && [ -z "$(find "$OUT" -type l 2>/dev/null)" ]; then r=0; else r=1; fi
+    chk "no executable file or symlink anywhere in .ngcc-out" $r
+    rm -f "$f"
+fi
+exit "$status"

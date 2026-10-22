@@ -3,35 +3,56 @@ website: https://kpqc.cryptolab.co.kr/smaug-t
 category: Lattices
 assumption: MLWE / MLWR
 status: KpqC standard
+programmes:
+  kpqc: selected
 info: Module-LWE/LWR KEM (CryptoLab) selected as a final algorithm in Korea's KpqC competition, merged with TiGER during round 2. Uses a sparse secret and the Fujisaki-Okamoto transform over an MLWE/MLWR IND-CPA PKE, in the style of Kyber/Saber.
+# recommended: spec v4.0 §5.2 "TiMER, an additional parameter set, further investigates the room for efficiency, introducing the D2 encoding to SMAUG-T128" (https://hmchoe0528.github.io/assets/manuscripts/SMAUG_T_spec_Oct24_v4.0.pdf)
 parametersets:
 - name: SMAUG-T128
+  recommended: true
   level: 1
   pk: 672
   ct: 672
-  keygen_cycles: 25458
-  encaps_cycles: 21427
-  decaps_cycles: 32472
-  keygen_us: 9.1
-  encaps_us: 7.7
-  decaps_us: 10.5
+  keygen_cycles: 25739
+  encaps_cycles: 21287
+  decaps_cycles: 32807
+  keygen_us: 8.3
+  encaps_us: 6.9
+  decaps_us: 9.5
+  bench_env: 2026-10-16-c8i.4xlarge
 - name: SMAUG-T192
+  recommended: true
   level: 3
   pk: 1088
   ct: 992
-  keygen_cycles: 39242
-  encaps_cycles: 38662
-  decaps_cycles: 54341
-  keygen_us: 13.1
-  encaps_us: 12.6
-  decaps_us: 16.8
+  keygen_cycles: 39265
+  encaps_cycles: 38540
+  decaps_cycles: 54581
+  keygen_us: 11.8
+  encaps_us: 11.3
+  decaps_us: 15.1
+  bench_env: 2026-10-16-c8i.4xlarge
 - name: SMAUG-T256
+  recommended: true
   level: 5
   pk: 1440
   ct: 1376
-  keygen_cycles: 49620
-  encaps_cycles: 49709
-  decaps_cycles: 69982
-  keygen_us: 16.1
-  encaps_us: 15.8
-  decaps_us: 21.3
+  keygen_cycles: 49957
+  encaps_cycles: 49317
+  decaps_cycles: 69901
+  keygen_us: 14.5
+  encaps_us: 14.1
+  decaps_us: 19.1
+  bench_env: 2026-10-16-c8i.4xlarge
+- name: TiMER
+  level: 1
+  pk: 672
+  ct: 608
+  notes: Additional parameter set (spec v4.0 Table 3) for lightweight/IoT use; SMAUG-T128 with D2 encoding and p' = 8. The spec recommends limiting the number of encapsulations/decapsulations per key.
+  keygen_cycles: 25702
+  encaps_cycles: 21002
+  decaps_cycles: 33104
+  keygen_us: 8.3
+  encaps_us: 6.8
+  decaps_us: 9.6
+  bench_env: 2026-10-16-c8i.4xlarge

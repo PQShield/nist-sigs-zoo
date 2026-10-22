@@ -1,0 +1,47 @@
+# pq-sigs benchmark results
+# date:         2026-10-15T10:39:22Z
+# host:         ip-172-31-10-122
+# commit:       4e30eeea86598f74867ef504b599f7f55085e218
+# instance_type: c8i.4xlarge
+# os:           Ubuntu 26.04.1 LTS
+# kernel:       7.0.0-1014-aws
+# cpu:          Intel(R) Xeon(R) 6975P-C
+# cores:        16 (threads/core: 2)
+# max_freq_mhz: unknown (cur: unknown MHz)
+# governor:     unknown
+# turbo:        unknown
+# flags:        fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ss ht syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon rep_good nopl xtopology nonstop_tsc cpuid aperfmperf tsc_known_freq pni pclmulqdq monitor ssse3 fma cx16 pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand hypervisor lahf_lm abm 3dnowprefetch cpuid_fault ssbd ibrs ibpb stibp ibrs_enhanced fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid avx512f avx512dq rdseed adx smap avx512ifma clflushopt clwb avx512cd sha_ni avx512bw avx512vl xsaveopt xsavec xgetbv1 xsaves avx_vnni avx512_bf16 wbnoinvd ida arat avx512vbmi umip pku ospke waitpkg avx512_vbmi2 gfni vaes vpclmulqdq avx512_vnni avx512_bitalg tme avx512_vpopcntdq rdpid bus_lock_detect cldemote movdiri movdir64b md_clear serialize amx_bf16 avx512_fp16 amx_tile amx_int8 flush_l1d arch_capabilities
+#
+# compiler:     cc (Ubuntu 15.2.0-16ubuntu1) 15.2.0
+# openssl:      OpenSSL 3.5.5 27 Jan 2026 (Library: OpenSSL 3.5.5 27 Jan 2026)
+# sources:
+#   schemes/faest/ref: https://github.com/faest-sign/faest-arch-opt@1d8330979cb467c54edac43ffe695da249fa3417
+#   schemes/fndsa/ref: https://github.com/pornin/c-fn-dsa@33026d4d2734049a23f065f77eea11c35de58d76
+#   schemes/hawk/ref: https://github.com/hawk-sign/dev@1b9fef52559273fe7b40fe3e22968eaedd3a4c2a
+#   schemes/mayo/ref: https://github.com/PQCMayo/MAYO-C@74de637a7c4a7f9fafa888183bc05f5cf920cd2d
+#   schemes/mldsa/ref: https://github.com/pq-crystals/dilithium.git@6e00625c5b29f516c6de973fe2ee2fbb150973f9
+#   schemes/mqom/ref: https://github.com/mqom/mqom-v3@d9c64e386b186ee186684a0389fc32009bd67cd1
+#   schemes/qruov/ref: https://github.com/qruov/round3.git@3d84d0f6afae80c88deefab03b1dd6633a147f96
+#   schemes/sdith/ref: https://github.com/sdith/sdith@fff41ae5b12ba3c6b90d8f97b2ede57aa277a92f
+#   schemes/sdith2/ref: https://github.com/sdith/sdith@ce7adf06476674d4ff990f378f83f9981cd6745b
+#   schemes/slhdsa/ref: https://github.com/pq-code-package/slhdsa-c@2ee6f6853af95d5833a567cc4dcfd7f08d66bfd4
+#   schemes/snova/ref: https://github.com/PQCLAB-SNOVA/SNOVA.git@9b29c1e332cbd85757c8d6362a57b9a8c8298a38
+#   schemes/sqisign/ref: https://github.com/SQISign/the-sqisign@6d017708db403bf83977fa70770fc4f7f9e9ff21
+#   schemes/uov/ref: https://github.com/pqov/pqov.git@fac2ec1fe6d8ea508eab4b98eb5341e1eed930a4
+#   schemes/ngcc: https://www.niccs.org.cn/niccs/Proposal/Public-Key%20Cryptographic%20Algorithms/Round%201%20candidates/
+# filter:       NGCC-CEDRUSC-512s SLH-DSA-SHA2-192s NGCC-Flextree-384f NGCC-CEDRUSALPHA-256s NGCC-Galas-256F NGCC-Phoenix-SM3-256s SLH-DSA-SHAKE-128s NGCC-Phoenix-SHAKE-512s NGCC-Phoenix-SM3-256f NGCC-Octarine-512
+#
+# cyclecounter: rdpmc CPU_CYCLES (real core cycles, user-space)
+scheme                       iters    keygen (cyc)  keygen (us)      sign (cyc)   sign (us)    verify (cyc)  verify (us)
+------                       -----    ------------  -----------      ----------   ---------    ------------  ----------
+SLH-DSA-SHAKE-128s              50       273510290     70745.5      2092625880    541379.2         2098024       541.3
+SLH-DSA-SHA2-192s               50       296124146     76598.5      2744672424    709938.2         2279696       590.1
+NGCC-CEDRUSC-512s                5      7653560518   1977810.5     93203856837  24087446.9       126602758     32699.8
+NGCC-CEDRUSALPHA-256s           10       855865133    221149.2     13005894675   3361237.7        31569751      8160.7
+NGCC-Flextree-384f              10       710229565    183720.1     13464352841   3482806.0       137812098     35644.5
+NGCC-Galas-256F                 10        54087770     13993.6      6984419583   1807403.0      4522988810   1170542.3
+NGCC-Octarine-512             1000         2373123       615.7         8956507      2315.6         2505218       649.7
+NGCC-Phoenix-SHAKE-512s         10       684798710    177156.3      6295639304   1628456.1        30940800      8005.0
+NGCC-Phoenix-SM3-256s           10       804062493    207933.9     10595844237   2740482.9        69912441     18078.1
+NGCC-Phoenix-SM3-256f           89        61053069     15790.5      1155344585    298827.2        31097086      8043.3
+

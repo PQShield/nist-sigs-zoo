@@ -1,0 +1,45 @@
+name: TSUOV
+website: https://www.niccs.org.cn/niccs/Round1Additional/pc/content/content_2101561105597419520.html
+category: Multivariate
+assumption: UOV
+versions:
+- version: Round 1
+  date: '2026-09-20'
+  status: NGCC round 1
+  programmes:
+    china-ngcc: round-1
+  perf_source: our benchmark
+  parametersets:
+  - name: TSUOV_128
+    ngcc_level: 128
+    pk: 779
+    sig: 896
+    signing_cycles: 11883671
+    verification_cycles: 11244684
+    signing_us: 3070.4
+    verification_us: 2905.5
+    bench_env: 2026-10-16-c8i.4xlarge
+    notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+  - name: TSUOV_256
+    ngcc_level: 256
+    pk: 2170
+    sig: 2412
+    signing_cycles: 71351393
+    verification_cycles: 69628972
+    signing_us: 18430.9
+    verification_us: 17984.1
+    bench_env: 2026-10-16-c8i.4xlarge
+    notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+  - name: TSUOV_512
+    ngcc_level: 512
+    pk: 21319
+    sig: 2939
+    signing_cycles: 833965666
+    verification_cycles: 882512948
+    signing_us: 215444.0
+    verification_us: 227927.5
+    bench_env: 2026-10-16-c8i.4xlarge
+    notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+    broken: The 512-bit message prehash limits forgery resistance to about 2^256 work, below the 512-bit target (<a href="https://ngcc.dev/reports/sign-31.html#sign-31-1-a-512-bit-prehash-caps-forgery-security-at-256-bits">Saarinen</a>).
+  findings_url: https://ngcc.dev/reports/sign-31.html
+  implementation: On allocation failure the submitted verifier can reuse an earlier message digest and accept a signature for a different message (<a href="https://list.niccs.org.cn/archives/list/pkcforum@list.niccs.org.cn/message/FQMMQX3BFR473NUCIPK5IIFXKO3X6QKO/">Xiong and Wang</a>).

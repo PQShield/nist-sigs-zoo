@@ -1,0 +1,22 @@
+# Mirath v2.1.0 (specification 23/09/2025), the official submission package from
+# https://pqc-mirath.org/resources.html (zip; sha256 pinned in .source, checked by the
+# Makefile). There is no public upstream git repository. Optimized_Implementation/
+# (AVX2 + AES-NI, one directory per parameter set) with the default Rijndael-based
+# commitments: the variant of spec Tables 10/12, whose cycle counts the YAML carries.
+# Sizes match each set's mirath_parameters.h and data/schemes/Mirath.yaml; our build
+# reproduces the shipped commit_rijndael KATs for all 12 sets.
+# Columns: file, name, pk, sk, sig, iters, dir (Optimized_Implementation/mirath_tcith/<dir>),
+#          lambda (selects common/hash_sha3_<lambda>.c)
+file	name	pk	sk	sig	iters	dir	lambda
+mirath_1a_short	Mirath-1a-Short	73	32	3182	0	mirath_tcith_1a_short	128
+mirath_1a_fast	Mirath-1a-Fast	73	32	3728	0	mirath_tcith_1a_fast	128
+mirath_1b_short	Mirath-1b-Short	57	32	2990	0	mirath_tcith_1b_short	128
+mirath_1b_fast	Mirath-1b-Fast	57	32	3456	0	mirath_tcith_1b_fast	128
+mirath_3a_short	Mirath-3a-Short	107	48	7456	440	mirath_tcith_3a_short	192
+mirath_3a_fast	Mirath-3a-Fast	107	48	8548	0	mirath_tcith_3a_fast	192
+mirath_3b_short	Mirath-3b-Short	84	48	6825	550	mirath_tcith_3b_short	192
+mirath_3b_fast	Mirath-3b-Fast	84	48	7924	0	mirath_tcith_3b_fast	192
+mirath_5a_short	Mirath-5a-Short	147	64	13091	440	mirath_tcith_5a_short	256
+mirath_5a_fast	Mirath-5a-Fast	147	64	15440	0	mirath_tcith_5a_fast	256
+mirath_5b_short	Mirath-5b-Short	112	64	12229	360	mirath_tcith_5b_short	256
+mirath_5b_fast	Mirath-5b-Fast	112	64	14198	760	mirath_tcith_5b_fast	256
