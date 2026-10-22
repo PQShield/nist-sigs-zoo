@@ -559,6 +559,10 @@ sets `NGCC_BUILD=1` on the VM; without it NGCC instances are skipped.
   to avoid noise from other tenants on the host.
 - **Smoke-test changes cheaply first** (`BENCH_ITER=5`, a filter). Those results
   files are junk: don't commit or import them.
+- **Pinned archives** (`.source*` files with a sha256, e.g. the NIST round packages) come
+  from a local cache, `~/.cache/nist-sigs-zoo/dl` (`BENCH_DL_CACHE`): the script runs
+  `scripts/fetch-sources` before launching and seeds each scheme's `build/dl/` on the VM, so
+  a slow or failing csrc.nist.gov costs no VM time. Missing archives fall back to a VM download.
 - **New build dependency?** Add it to the user-data `apt-get` list in the script.
   The VM is a stock Ubuntu with GCC 15 (C23 by default) and multiarch OpenSSL. If a
   scheme breaks there, fix its Makefile, not the script (see `bench/schemes/sdith`).

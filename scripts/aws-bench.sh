@@ -220,6 +220,15 @@ if [ -z "$(git branch -r --list 'origin/*' --contains "$HEAD_SHA" 2>/dev/null)" 
         || die "failed to create git bundle of local commits"
 fi
 
+# --- pinned source archives travel from a local cache ---------------------------
+
+# Filled before any instance exists, so a slow or flaky upstream (csrc.nist.gov) costs no
+# VM time; the VM never downloads them (scripts/fetch-sources).
+DL_CACHE="${BENCH_DL_CACHE:-${XDG_CACHE_HOME:-$HOME/.cache}/nist-sigs-zoo/dl}"
+log "filling the source archive cache ($DL_CACHE)"
+scripts/fetch-sources --cache "$DL_CACHE" \
+    || log "warning: some archives are not cached; the VM will download them"
+
 # --- ephemeral key pair + security group ---------------------------------------
 
 ssh-keygen -q -t ed25519 -N "" -C "$RUN_ID" -f "$KEY"
@@ -362,6 +371,11 @@ git config --global url."https://github.com/".insteadOf git@github.com:
 # embedded-target code the x86 build never uses.
 git submodule update -q --init --jobs 8 -- "$@"
 EOF
+
+log "uploading cached source archives ($(du -sh "$DL_CACHE" | cut -f1))"
+rsync -a -e "$RSYNC_RSH" "$DL_CACHE/" "ubuntu@$IP:dl-cache/"
+rssh 'cd repo && scripts/fetch-sources --cache ~/dl-cache --seed >/dev/null' \
+    || die "seeding the cached source archives failed"
 
 if [ -n "$NGCC_SRC_TAR" ]; then
     log "uploading NGCC sources ($(du -h "$NGCC_SRC_TAR" | cut -f1))"
