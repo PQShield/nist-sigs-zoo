@@ -415,7 +415,8 @@ def test_full_import_gives_every_older_round_of_active_schemes_our_numbers(
         doc = y.load(path.read_text())
         stages = set().union(*(onramp_stages(v) for v in doc["versions"]))
         if "round-3" not in stages:
-            if path.name in versioned_files:
+            # Versioned rows on schemes outside the on-ramp (Falcon's two implementations) are fine.
+            if stages and path.name in versioned_files:
                 eliminated_hits.append(path.name)
             continue
         for v in doc["versions"]:

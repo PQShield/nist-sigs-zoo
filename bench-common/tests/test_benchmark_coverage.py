@@ -313,7 +313,9 @@ def test_rule_2_sets_of_active_schemes_need_a_mapping_or_no_code(data):
         data.schemes_dir / "BiT.yaml",
         lambda d: sig_set(d, "Round 1", "BiT-384").pop("no_code"),
     )
-    edit(data.schemes_dir / "Falcon.yaml", add("initial"))  # selected: still in
+    edit(
+        data.schemes_dir / "Falcon.yaml", add("fixed-point")
+    )  # selected: newest version
     edit(data.schemes_dir / "CROSS.yaml", add("v2.2"))  # eliminated: exempt
     edit(data.kems_dir / "HQC.yaml", lambda d: d["parametersets"].append(dict(new)))
     edit(data.kems_dir / "ML-KEM.yaml", lambda d: d["parametersets"].append(dict(new)))
@@ -321,7 +323,7 @@ def test_rule_2_sets_of_active_schemes_need_a_mapping_or_no_code(data):
     msg = "rule 2: still in a competition, but no mapping and no no_code"
     assert coverage_errors(data) == [
         f"BiT.yaml: Round 1: BiT-384: {msg}",
-        f"Falcon.yaml: initial: new-set: {msg}",
+        f"Falcon.yaml: fixed-point: new-set: {msg}",
         f"MAYO.yaml: Round 1: new-set: {msg}",
         f"ML-DSA.yaml: FIPS 204: new-set: {msg}",
         f"HQC.yaml: -: new-set: {msg}",
