@@ -1,9 +1,9 @@
 import { describe, expect, it } from 'vitest';
-import { kemAxisValue, omittedNote, timeTooltip, partitionPlottable, sigAxisValue } from '$lib/chartData';
-import { processYamlSchemes } from '$lib/data';
-import { processKemSchemes } from '$lib/kemData';
-import { CYCLES_PER_US } from '$lib/constants';
-import type { SchemeYaml } from '$lib/types';
+import { kemAxisValue, omittedNote, timeTooltip, partitionPlottable, sigAxisValue } from '#lib/chartData.ts';
+import { processYamlSchemes } from '#lib/data.ts';
+import { processKemSchemes } from '#lib/kemData.ts';
+import { CYCLES_PER_US } from '#lib/constants.ts';
+import type { SchemeYaml } from '#lib/types.ts';
 
 const SIGS: SchemeYaml[] = [
 	{

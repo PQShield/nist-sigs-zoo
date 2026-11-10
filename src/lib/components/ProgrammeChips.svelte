@@ -1,6 +1,8 @@
 <script lang="ts">
-	import { base } from '$app/paths';
-	import type { Chip, ChipTone } from '$lib/badges';
+	import { basePath } from '#lib/paths.ts';
+	import type { Chip, ChipTone } from '#lib/badges.ts';
+
+	const base = basePath();
 
 	let { chips, link = false }: { chips: Chip[]; link?: boolean } = $props();
 

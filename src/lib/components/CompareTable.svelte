@@ -1,17 +1,19 @@
 <script lang="ts" generics="R extends CompareRow, G, F extends CompareFilter, A extends string">
-	import { base } from '$app/paths';
-	import { slugOf } from '$lib/schemeIndex';
-	import { schemeHref } from '$lib/slugs';
-	import { programmeChips, securityBadges, type BadgeKind } from '$lib/badges';
-	import { sortCompareRows, type CompareConfig, type CompareRow } from '$lib/compare';
-	import type { CompareFilter, SortDir } from '$lib/types';
-	import { allProgrammes } from '$lib/programmeData';
-	import { CPU_GHZ_LABEL } from '$lib/constants';
-	import { fmt, fmtCycles, fmtTime } from '$lib/format';
-	import { displayUs, dnfCell, noCodeCell } from '$lib/timing';
+	import { basePath } from '#lib/paths.ts';
+	import { slugOf } from '#lib/schemeIndex.ts';
+	import { schemeHref } from '#lib/slugs.ts';
+	import { programmeChips, securityBadges, type BadgeKind } from '#lib/badges.ts';
+	import { sortCompareRows, type CompareConfig, type CompareRow } from '#lib/compare.ts';
+	import type { CompareFilter, SortDir } from '#lib/types.ts';
+	import { allProgrammes } from '#lib/programmeData.ts';
+	import { CPU_GHZ_LABEL } from '#lib/constants.ts';
+	import { fmt, fmtCycles, fmtTime } from '#lib/format.ts';
+	import { displayUs, dnfCell, noCodeCell } from '#lib/timing.ts';
 	import BadgeIcon from './BadgeIcon.svelte';
 	import ProgrammeChips from './ProgrammeChips.svelte';
 	import TableLegend from './TableLegend.svelte';
+
+	const base = basePath();
 
 	interface Props {
 		config: CompareConfig<R, G, F, A>;

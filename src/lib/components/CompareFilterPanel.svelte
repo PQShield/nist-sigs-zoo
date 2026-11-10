@@ -1,14 +1,14 @@
 <script lang="ts" generics="R extends CompareRow, G, F extends CompareFilter">
 	import type { Snippet } from 'svelte';
-	import type { CommonFilter, CompareFilter, ProgrammeGroup, ProgrammeMembership } from '$lib/types';
-	import type { BoundSpec, CompareRow, FilterSpec } from '$lib/compare';
+	import type { CommonFilter, CompareFilter, ProgrammeGroup, ProgrammeMembership } from '#lib/types.ts';
+	import type { BoundSpec, CompareRow, FilterSpec } from '#lib/compare.ts';
 	import RangeField from './RangeField.svelte';
 	import ProgrammeFilter from './ProgrammeFilter.svelte';
 	import LevelFilter from './LevelFilter.svelte';
 	import ParamSetFilter from './ParamSetFilter.svelte';
 	import StatusFilter from './StatusFilter.svelte';
 	import { FILTER_HEADING } from './filterStyles';
-	import { listedSchemes as listed } from '$lib/compareFilters';
+	import { listedSchemes as listed } from '#lib/compareFilters.ts';
 
 	interface Props {
 		spec: FilterSpec<R, G, F>;

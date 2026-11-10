@@ -6,11 +6,11 @@ import {
 	encodeCompareFilter,
 	filterCompareRows,
 	sortCompareRows
-} from '$lib/compare';
-import { processYamlSchemes } from '$lib/data';
-import { defaultCommonFilter, presentProgrammeGroups } from '$lib/compareFilters';
-import { SIGNATURE_FILTER } from '$lib/primitives';
-import type { DataRanges, FilterState, ParameterSet, ParameterSetYaml, SchemeYaml } from '$lib/types';
+} from '#lib/compare.ts';
+import { processYamlSchemes } from '#lib/data.ts';
+import { defaultCommonFilter, presentProgrammeGroups } from '#lib/compareFilters.ts';
+import { SIGNATURE_FILTER } from '#lib/primitives.ts';
+import type { DataRanges, FilterState, ParameterSet, ParameterSetYaml, SchemeYaml } from '#lib/types.ts';
 
 const buildUrlParams = (state: FilterState, defaults: FilterState) =>
 	encodeCompareFilter(SIGNATURE_FILTER, state, defaults);

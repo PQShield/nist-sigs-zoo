@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { TIMING_VARIABILITY_NOTE } from '$lib/constants';
-	import type { BenchmarkEnv, BenchmarkEnvFile } from '$lib/types';
+	import { TIMING_VARIABILITY_NOTE } from '#lib/constants.ts';
+	import type { BenchmarkEnv, BenchmarkEnvFile } from '#lib/types.ts';
 
 	/** Every environment in the file: each one some parameter set's timings come from. */
 	let { file }: { file: BenchmarkEnvFile } = $props();

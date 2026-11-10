@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { schemeEvents } from '$lib/schemeHistory';
-import type { HistoryEntry } from '$lib/types';
+import { schemeEvents } from '#lib/schemeHistory.ts';
+import type { HistoryEntry } from '#lib/types.ts';
 
 const HISTORY: HistoryEntry[] = [
 	{ date: '2025-01-01', type: 'update', description: 'v2 released', schemes: ['Toy'] },

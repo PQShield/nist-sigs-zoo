@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { fmtDate } from '$lib/dates';
+import { fmtDate } from '#lib/dates.ts';
 
 describe('fmtDate', () => {
 	it('formats ISO dates as "D Mon YYYY" without time-zone shifts', () => {

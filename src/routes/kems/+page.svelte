@@ -1,11 +1,13 @@
 <script lang="ts">
-	import { SITE_NAME } from '$lib/constants';
-	import ComparePage from '$lib/components/ComparePage.svelte';
-	import { kemCompareData } from '$lib/compareData';
-	import { KEMS } from '$lib/primitives';
-	import { base } from '$app/paths';
-	import { envCpuModels } from '$lib/benchEnv';
-	import { kemBenchmarkEnv } from '$lib/kemSchemeData';
+	import { SITE_NAME } from '#lib/constants.ts';
+	import ComparePage from '#lib/components/ComparePage.svelte';
+	import { kemCompareData } from '#lib/compareData.ts';
+	import { KEMS } from '#lib/primitives.ts';
+	import { basePath } from '#lib/paths.ts';
+	import { envCpuModels } from '#lib/benchEnv.ts';
+	import { kemBenchmarkEnv } from '#lib/kemSchemeData.ts';
+
+	const base = basePath();
 </script>
 
 <svelte:head>

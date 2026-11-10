@@ -1,9 +1,9 @@
 import { describe, expect, it } from 'vitest';
-import { computeKemRanges, processKemSchemes } from '$lib/kemData';
-import { decodeCompareFilter, defaultCompareFilter, encodeCompareFilter, filterCompareRows } from '$lib/compare';
-import { KEM_FILTER } from '$lib/primitives';
-import { presentProgrammeGroups } from '$lib/compareFilters';
-import type { KemSchemeYaml } from '$lib/types';
+import { computeKemRanges, processKemSchemes } from '#lib/kemData.ts';
+import { decodeCompareFilter, defaultCompareFilter, encodeCompareFilter, filterCompareRows } from '#lib/compare.ts';
+import { KEM_FILTER } from '#lib/primitives.ts';
+import { presentProgrammeGroups } from '#lib/compareFilters.ts';
+import type { KemSchemeYaml } from '#lib/types.ts';
 
 const mlkem: KemSchemeYaml = {
 	name: 'ML-KEM',

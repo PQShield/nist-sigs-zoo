@@ -26,7 +26,7 @@ export interface UrlSyncEnv {
 }
 
 /**
- * Debounced filter → URL sync of the query string `qs` (`replaceState` `goto` in `env`).
+ * Debounced filter → URL sync of the query string `qs` (`goto` with `replace` in `env`).
  * A sync that falls due while a navigation is in progress is rescheduled, not dropped, so the
  * URL catches up once the navigation settles (a navigation away unmounts the page, whose effect
  * cleanup calls the returned cancel function). Returns that cancel function.

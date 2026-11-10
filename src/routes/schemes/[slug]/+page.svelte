@@ -1,11 +1,11 @@
 <script lang="ts">
-	import { SITE_NAME, TIMING_VARIABILITY_NOTE } from '$lib/constants';
-	import { fmtDate } from '$lib/dates';
-	import FlagNotes from '$lib/components/scheme/FlagNotes.svelte';
-	import ParamSetTable from '$lib/components/scheme/ParamSetTable.svelte';
-	import VersionCompare from '$lib/components/scheme/VersionCompare.svelte';
-	import SchemeEvents from '$lib/components/scheme/SchemeEvents.svelte';
-	import SchemeHeader from '$lib/components/scheme/SchemeHeader.svelte';
+	import { SITE_NAME, TIMING_VARIABILITY_NOTE } from '#lib/constants.ts';
+	import { fmtDate } from '#lib/dates.ts';
+	import FlagNotes from '#lib/components/scheme/FlagNotes.svelte';
+	import ParamSetTable from '#lib/components/scheme/ParamSetTable.svelte';
+	import VersionCompare from '#lib/components/scheme/VersionCompare.svelte';
+	import SchemeEvents from '#lib/components/scheme/SchemeEvents.svelte';
+	import SchemeHeader from '#lib/components/scheme/SchemeHeader.svelte';
 	import type { PageData } from './$types';
 
 	let { data }: { data: PageData } = $props();

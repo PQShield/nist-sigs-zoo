@@ -1,10 +1,10 @@
 <script lang="ts">
 	import { untrack } from 'svelte';
-	import { CPU_GHZ_LABEL } from '$lib/constants';
-	import { fmtDate } from '$lib/dates';
-	import { fmt, fmtCycles } from '$lib/format';
-	import { stripHtml } from '$lib/html';
-	import type { VersionYaml } from '$lib/types';
+	import { CPU_GHZ_LABEL } from '#lib/constants.ts';
+	import { fmtDate } from '#lib/dates.ts';
+	import { fmt, fmtCycles } from '#lib/format.ts';
+	import { stripHtml } from '#lib/html.ts';
+	import type { VersionYaml } from '#lib/types.ts';
 	import {
 		COMPARE_METRICS,
 		FLAG_TITLES,
@@ -15,7 +15,7 @@
 		type MetricValue,
 		type ParamSetComparison,
 		type VersionOption
-	} from '$lib/versionCompare';
+	} from '#lib/versionCompare.ts';
 
 	let { versions, options }: { versions: VersionYaml[]; options: VersionOption[] } = $props();
 

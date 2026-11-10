@@ -1,9 +1,9 @@
 <script lang="ts">
 	import { untrack } from 'svelte';
-	import { base } from '$app/paths';
-	import { SITE_NAME } from '$lib/constants';
-	import { allKemData } from '$lib/kemSchemeData';
-	import { allSchemeData } from '$lib/schemeData';
+	import { basePath } from '#lib/paths.ts';
+	import { SITE_NAME } from '#lib/constants.ts';
+	import { allKemData } from '#lib/kemSchemeData.ts';
+	import { allSchemeData } from '#lib/schemeData.ts';
 	import {
 		CURRENT_VIEW,
 		findingsSummary,
@@ -13,15 +13,17 @@
 		programmeSignatureRows,
 		signatureMembers,
 		stageViews
-	} from '$lib/programmePage';
-	import { computeKemRanges } from '$lib/kemData';
-	import { KEMS, SIGNATURES } from '$lib/primitives';
-	import type { ProgrammeYaml } from '$lib/types';
+	} from '#lib/programmePage.ts';
+	import { computeKemRanges } from '#lib/kemData.ts';
+	import { KEMS, SIGNATURES } from '#lib/primitives.ts';
+	import type { ProgrammeYaml } from '#lib/types.ts';
 	import SegmentedToggle from '../SegmentedToggle.svelte';
 	import FindingsSummary from './FindingsSummary.svelte';
 	import ProgrammeCandidates from './ProgrammeCandidates.svelte';
 	import ProgrammeTimeline from './ProgrammeTimeline.svelte';
 	import SecurityLevelsTable from './SecurityLevelsTable.svelte';
+
+	const base = basePath();
 
 	let { programme }: { programme: ProgrammeYaml } = $props();
 

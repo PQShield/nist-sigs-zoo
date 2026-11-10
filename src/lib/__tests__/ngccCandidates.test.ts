@@ -1,9 +1,9 @@
 import { describe, it, expect } from 'vitest';
 import { existsSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
-import yaml from 'js-yaml';
-import type { KemSchemeYaml, SchemeYaml } from '$lib/types';
-import { stripHtml } from '$lib/html';
+import * as yaml from 'js-yaml';
+import type { KemSchemeYaml, SchemeYaml } from '#lib/types.ts';
+import { stripHtml } from '#lib/html.ts';
 
 interface NgccInstance {
 	instance: string;

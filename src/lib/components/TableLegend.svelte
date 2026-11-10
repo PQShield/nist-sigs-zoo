@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { BADGE_LEGEND, type BadgeKind } from '$lib/badges';
-	import { CPU_GHZ_LABEL } from '$lib/constants';
+	import { BADGE_LEGEND, type BadgeKind } from '#lib/badges.ts';
+	import { CPU_GHZ_LABEL } from '#lib/constants.ts';
 	import BadgeIcon from './BadgeIcon.svelte';
 
 	const KINDS: BadgeKind[] = ['pre-quantum', 'broken', 'implementation', 'warning', 'note'];

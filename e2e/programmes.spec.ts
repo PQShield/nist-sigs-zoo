@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import yaml from 'js-yaml';
+import * as yaml from 'js-yaml';
 import { test, expect } from '@playwright/test';
 
 // NGCC data arrives with plan 3; expectations are read from data/ so these tests pass with or without it.

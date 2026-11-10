@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { FINDING_LABELS, FINDING_ORDER, type FindingsCount } from '$lib/programmePage';
-	import type { FindingsSourceYaml } from '$lib/types';
+	import { FINDING_LABELS, FINDING_ORDER, type FindingsCount } from '#lib/programmePage.ts';
+	import type { FindingsSourceYaml } from '#lib/types.ts';
 
 	let { source, groups }: { source: FindingsSourceYaml; groups: { label: string; count: FindingsCount }[] } = $props();
 </script>

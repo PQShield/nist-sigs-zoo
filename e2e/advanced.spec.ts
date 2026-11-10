@@ -1,4 +1,10 @@
-import { test, expect } from '@playwright/test';
+import { test, expect, type Page } from '@playwright/test';
+
+/** Open the page and wait for hydration: until then, a control change is reset to the default. */
+async function openHydrated(page: Page) {
+	await page.goto('/signatures/advanced/');
+	await page.waitForLoadState('networkidle');
+}
 
 test.describe('Advanced page', () => {
 	test('loads with correct heading', async ({ page }) => {
@@ -50,31 +56,31 @@ test.describe('Advanced page', () => {
 	});
 
 	test('changing X axis updates heading', async ({ page }) => {
-		await page.goto('/signatures/advanced/');
+		await openHydrated(page);
 		await page.locator('select').first().selectOption('pkPlusSig');
 		await expect(page.locator('section h2')).toContainText('pk+sig vs. sig size');
 	});
 
 	test('changing Y axis updates heading', async ({ page }) => {
-		await page.goto('/signatures/advanced/');
+		await openHydrated(page);
 		await page.locator('select').nth(1).selectOption('signingCycles');
 		await expect(page.locator('section h2')).toContainText('pk size vs. signing (cycles)');
 	});
 
 	test('toggling X scale to linear updates heading', async ({ page }) => {
-		await page.goto('/signatures/advanced/');
+		await openHydrated(page);
 		await page.getByRole('button', { name: 'linear' }).first().click();
 		await expect(page.locator('section h2')).toContainText('linear–log');
 	});
 
 	test('toggling Y scale to linear updates heading', async ({ page }) => {
-		await page.goto('/signatures/advanced/');
+		await openHydrated(page);
 		await page.getByRole('button', { name: 'linear' }).nth(1).click();
 		await expect(page.locator('section h2')).toContainText('log–linear');
 	});
 
 	test('non-default axis is encoded in URL', async ({ page }) => {
-		await page.goto('/signatures/advanced/');
+		await openHydrated(page);
 		await page.locator('select').first().selectOption('sig');
 		await expect(page).toHaveURL(/[?&]x=sig(&|$)/);
 	});
@@ -100,7 +106,7 @@ test.describe('Advanced page', () => {
 	});
 
 	test('Y scale linear button is highlighted after toggle', async ({ page }) => {
-		await page.goto('/signatures/advanced/');
+		await openHydrated(page);
 		const yLinear = page.getByRole('button', { name: 'linear' }).nth(1);
 		await yLinear.click();
 		// Active button gets bg-pqs-apricot class

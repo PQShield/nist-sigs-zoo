@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { omittedNote } from '$lib/chartData';
+	import { omittedNote } from '#lib/chartData.ts';
 
 	/** `count` rows not shown: `noCode` of them have no implementation, `dnf` of them did not finish. */
 	let { count, dnf = 0, noCode = 0 }: { count: number; dnf?: number; noCode?: number } = $props();

@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { NGCC_LEVELS } from '$lib/constants';
-	import type { CommonFilter, NgccLevel, NistLevel } from '$lib/types';
+	import { NGCC_LEVELS } from '#lib/constants.ts';
+	import type { CommonFilter, NgccLevel, NistLevel } from '#lib/types.ts';
 	import { FILTER_HEADING, FILTER_OPTION, FILTER_OPTION_TEXT, FILTER_SUBHEADING } from './filterStyles';
 
 	let { filter, onchange }: { filter: CommonFilter; onchange: (patch: Partial<CommonFilter>) => void } = $props();

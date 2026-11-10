@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { displayUs, dnfCell, kemTimes, noCodeCell, sigTimes, timeRange } from '$lib/timing';
-import { CYCLES_PER_US } from '$lib/constants';
+import { displayUs, dnfCell, kemTimes, noCodeCell, sigTimes, timeRange } from '#lib/timing.ts';
+import { CYCLES_PER_US } from '#lib/constants.ts';
 
 describe('displayUs', () => {
 	it('prefers a measured time', () => {

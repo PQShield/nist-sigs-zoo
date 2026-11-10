@@ -1,8 +1,8 @@
 import { describe, it, expect } from 'vitest';
-import { processYamlSchemes } from '$lib/data';
-import { CPUSPEED } from '$lib/constants';
-import { roundToFilter } from '$lib/roundStore';
-import type { SchemeYaml } from '$lib/types';
+import { processYamlSchemes } from '#lib/data.ts';
+import { CPUSPEED } from '#lib/constants.ts';
+import { roundToFilter } from '#lib/roundStore.ts';
+import type { SchemeYaml } from '#lib/types.ts';
 
 function scheme(overrides: Partial<SchemeYaml> = {}): SchemeYaml {
 	return {

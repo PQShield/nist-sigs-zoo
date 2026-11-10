@@ -1,7 +1,9 @@
 <script lang="ts">
-	import { base } from '$app/paths';
-	import { SITE_NAME } from '$lib/constants';
+	import { basePath } from '#lib/paths.ts';
+	import { SITE_NAME } from '#lib/constants.ts';
 	import type { PageData } from './$types';
+
+	const base = basePath();
 
 	let { data }: { data: PageData } = $props();
 

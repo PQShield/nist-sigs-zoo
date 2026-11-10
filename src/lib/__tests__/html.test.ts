@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { decodeEntities, stripHtml } from '$lib/html';
+import { decodeEntities, stripHtml } from '#lib/html.ts';
 
 describe('decodeEntities', () => {
 	it('decodes named entities used in the data files', () => {

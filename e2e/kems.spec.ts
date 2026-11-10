@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import yaml from 'js-yaml';
+import * as yaml from 'js-yaml';
 import { test, expect, type Page } from '@playwright/test';
 
 // Real data rows carry a title attribute on the Parameter Set cell (4th column);

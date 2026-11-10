@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { SecurityLevelTableYaml } from '$lib/types';
+	import type { SecurityLevelTableYaml } from '#lib/types.ts';
 
 	let { table }: { table: SecurityLevelTableYaml } = $props();
 </script>

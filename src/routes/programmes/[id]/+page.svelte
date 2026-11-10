@@ -1,5 +1,5 @@
 <script lang="ts">
-	import ProgrammeView from '$lib/components/programme/ProgrammeView.svelte';
+	import ProgrammeView from '#lib/components/programme/ProgrammeView.svelte';
 	import type { PageData } from './$types';
 
 	let { data }: { data: PageData } = $props();

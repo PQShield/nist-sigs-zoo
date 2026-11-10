@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { BadgeKind } from '$lib/badges';
+	import type { BadgeKind } from '#lib/badges.ts';
 
 	let { kind }: { kind: BadgeKind } = $props();
 </script>

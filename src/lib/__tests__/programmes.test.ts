@@ -6,8 +6,8 @@ import {
 	membershipLabel,
 	programmeSummaries,
 	summariseGroups
-} from '$lib/programmes';
-import type { KemSchemeYaml, ProgrammeYaml, SchemeYaml, VersionYaml } from '$lib/types';
+} from '#lib/programmes.ts';
+import type { KemSchemeYaml, ProgrammeYaml, SchemeYaml, VersionYaml } from '#lib/types.ts';
 
 const PROGRAMMES: ProgrammeYaml[] = [
 	{

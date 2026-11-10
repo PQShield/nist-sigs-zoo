@@ -1,11 +1,13 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { base } from '$app/paths';
-	import { legacyHomeRedirect } from '$lib/legacy';
-	import { SITE_NAME } from '$lib/constants';
-	import { lastDataChange } from '$lib/dataDates';
-	import { summariseGroups, type StageGroup } from '$lib/programmes';
+	import { basePath } from '#lib/paths.ts';
+	import { legacyHomeRedirect } from '#lib/legacy.ts';
+	import { SITE_NAME } from '#lib/constants.ts';
+	import { lastDataChange } from '#lib/dataDates.ts';
+	import { summariseGroups, type StageGroup } from '#lib/programmes.ts';
 	import type { PageData } from './$types';
+
+	const base = basePath();
 
 	let { data }: { data: PageData } = $props();
 

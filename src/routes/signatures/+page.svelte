@@ -1,12 +1,12 @@
 <script lang="ts">
-	import { SITE_NAME } from '$lib/constants';
-	import ComparePage from '$lib/components/ComparePage.svelte';
-	import { signatureCompareData } from '$lib/compareData';
-	import { SIGNATURES } from '$lib/primitives';
-	import { roundStore } from '$lib/roundStore';
-	import { envCpuModels } from '$lib/benchEnv';
-	import { benchmarkEnv } from '$lib/schemeData';
-	import { lastDataChange } from '$lib/dataDates';
+	import { SITE_NAME } from '#lib/constants.ts';
+	import ComparePage from '#lib/components/ComparePage.svelte';
+	import { signatureCompareData } from '#lib/compareData.ts';
+	import { SIGNATURES } from '#lib/primitives.ts';
+	import { roundStore } from '#lib/roundStore.ts';
+	import { envCpuModels } from '#lib/benchEnv.ts';
+	import { benchmarkEnv } from '#lib/schemeData.ts';
+	import { lastDataChange } from '#lib/dataDates.ts';
 </script>
 
 <svelte:head>

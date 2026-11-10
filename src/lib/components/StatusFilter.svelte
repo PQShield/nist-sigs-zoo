@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { CommonFilter } from '$lib/types';
+	import type { CommonFilter } from '#lib/types.ts';
 	import { FILTER_HEADING, FILTER_OPTION, FILTER_OPTION_TEXT } from './filterStyles';
 
 	let { filter, onchange }: { filter: CommonFilter; onchange: (patch: Partial<CommonFilter>) => void } = $props();

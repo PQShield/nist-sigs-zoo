@@ -1,10 +1,10 @@
 import { describe, it, expect } from 'vitest';
-import { legacyHomeRedirect, legacyPathRedirect, SIGNATURE_PARAMS } from '$lib/legacy';
-import { encodeCompareFilter } from '$lib/compare';
-import { SIGNATURE_FILTER } from '$lib/primitives';
-import { roundFromParam, roundParam } from '$lib/roundStore';
-import { defaultCommonFilter } from '$lib/compareFilters';
-import type { FilterState, ProgrammeGroup } from '$lib/types';
+import { legacyHomeRedirect, legacyPathRedirect, SIGNATURE_PARAMS } from '#lib/legacy.ts';
+import { encodeCompareFilter } from '#lib/compare.ts';
+import { SIGNATURE_FILTER } from '#lib/primitives.ts';
+import { roundFromParam, roundParam } from '#lib/roundStore.ts';
+import { defaultCommonFilter } from '#lib/compareFilters.ts';
+import type { FilterState, ProgrammeGroup } from '#lib/types.ts';
 
 describe('legacyHomeRedirect', () => {
 	it('forwards a round + filter link to /signatures/ unchanged', () => {

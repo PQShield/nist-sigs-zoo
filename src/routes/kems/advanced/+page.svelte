@@ -1,8 +1,8 @@
 <script lang="ts">
-	import { SITE_NAME } from '$lib/constants';
-	import ComparePage from '$lib/components/ComparePage.svelte';
-	import { kemCompareData } from '$lib/compareData';
-	import { KEMS } from '$lib/primitives';
+	import { SITE_NAME } from '#lib/constants.ts';
+	import ComparePage from '#lib/components/ComparePage.svelte';
+	import { kemCompareData } from '#lib/compareData.ts';
+	import { KEMS } from '#lib/primitives.ts';
 </script>
 
 <svelte:head>

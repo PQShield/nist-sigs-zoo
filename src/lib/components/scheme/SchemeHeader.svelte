@@ -1,8 +1,10 @@
 <script lang="ts">
-	import { base } from '$app/paths';
-	import { fmtDate } from '$lib/dates';
-	import type { SchemePageData } from '$lib/schemePage';
+	import { basePath } from '#lib/paths.ts';
+	import { fmtDate } from '#lib/dates.ts';
+	import type { SchemePageData } from '#lib/schemePage.ts';
 	import ProgrammeChips from '../ProgrammeChips.svelte';
+
+	const base = basePath();
 
 	let { page }: { page: SchemePageData } = $props();
 
