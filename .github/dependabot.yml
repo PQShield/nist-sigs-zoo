@@ -9,6 +9,11 @@ updates:
     groups:
       npm:
         patterns: ['*']
+    ignore:
+      # SvelteKit 3 requires typescript@^6; TypeScript 7 fails npm ci with
+      # ERESOLVE. Drop this once @sveltejs/kit accepts TypeScript 7.
+      - dependency-name: typescript
+        update-types: ['version-update:semver-major']
 
   - package-ecosystem: github-actions
     directory: /
