@@ -1,0 +1,4 @@
+# Toy KEM instances for test_suite_kem.py
+file	name	id	instance	impl	srcdir	srcs	kat
+toy_kem_1	NGCC-Toy-KEM-1	kem-99	Toy-KEM-1	ref	Reference_Implementation/Toy-KEM-1	*	KAT/KAT_KEM_Toy-KEM-1.txt
+toy_kem_missing	NGCC-Toy-KEM-Missing	kem-99	Toy-KEM-Missing	ref	Reference_Implementation/Missing	*	-

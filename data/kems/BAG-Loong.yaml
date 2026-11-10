@@ -1,0 +1,61 @@
+name: BAG-Loong
+website: https://www.niccs.org.cn/niccs/Round1Additional/pc/content/content_2101560843247898624.html
+category: Code-based
+assumption: Rank Synd. Dec.
+status: NGCC round 1
+programmes:
+  china-ngcc: round-1
+parametersets:
+- name: BAG-Loong-128
+  ngcc_level: 128
+  pk: 2500
+  ct: 3071
+  keygen_cycles: 52760685
+  encaps_cycles: 54664208
+  decaps_cycles: 96228997
+  keygen_us: 13644.6
+  encaps_us: 14133.5
+  decaps_us: 24883.0
+  bench_env: 2026-10-16-c8i.4xlarge
+  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+- name: BAG-Loong-256
+  ngcc_level: 256
+  pk: 6597
+  ct: 8400
+  keygen_cycles: 139554936
+  encaps_cycles: 120764752
+  decaps_cycles: 235793483
+  keygen_us: 36090.4
+  encaps_us: 31226.0
+  decaps_us: 60967.4
+  bench_env: 2026-10-16-c8i.4xlarge
+  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+  broken: Merging error supports lowers the cost of rank-decoding key recovery below this set's claimed level (<a href="https://list.niccs.org.cn/archives/list/pkcforum@list.niccs.org.cn/message/632RW5CKKAJXJ3GBZ7ZL6RE7CLCVYFGQ/">Xiong and Wang</a>).
+- name: BAG-Loong-384
+  ngcc_level: 384
+  pk: 12152
+  ct: 15112
+  keygen_cycles: 319413580
+  encaps_cycles: 245041661
+  decaps_cycles: 483640225
+  keygen_us: 82601.9
+  encaps_us: 63365.7
+  decaps_us: 125093.6
+  bench_env: 2026-10-16-c8i.4xlarge
+  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+  broken: Merging error supports lowers the cost of rank-decoding key recovery below this set's claimed level (<a href="https://list.niccs.org.cn/archives/list/pkcforum@list.niccs.org.cn/message/632RW5CKKAJXJ3GBZ7ZL6RE7CLCVYFGQ/">Xiong and Wang</a>).
+- name: BAG-Loong-512
+  ngcc_level: 512
+  pk: 19043
+  ct: 21660
+  keygen_cycles: 536865378
+  encaps_cycles: 356462309
+  decaps_cycles: 697041639
+  keygen_us: 139365.0
+  encaps_us: 92717.4
+  decaps_us: 181278.0
+  bench_env: 2026-10-16-c8i.4xlarge
+  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+  broken: Merging error supports lowers the cost of rank-decoding key recovery below this set's claimed level (<a href="https://list.niccs.org.cn/archives/list/pkcforum@list.niccs.org.cn/message/632RW5CKKAJXJ3GBZ7ZL6RE7CLCVYFGQ/">Xiong and Wang</a>).
+findings_url: https://ngcc.dev/reports/kem-03.html
+implementation: The submitted reference code publishes the support spaces, reducing secret-key recovery to linear algebra that runs in under a second (<a href="https://eprint.iacr.org/2026/2223">Zihan Liu</a>).

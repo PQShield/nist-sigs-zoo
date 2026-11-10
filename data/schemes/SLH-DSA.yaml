@@ -6,53 +6,98 @@ versions:
 - version: FIPS 205
   date: '2024-08-13'
   status: FIPS
-  perf_source: submission document
+  programmes:
+    nist-pqc: standardised
+  perf_source: our benchmark
+  # recommended: NIST SP 800-230 ipd (2026-04-13) §2.1 "The following six SLH-DSA parameter sets listed in Table 1 provide a specialized alternative to the parameter sets found in Section 11 of FIPS 205" (https://doi.org/10.6028/NIST.SP.800-230.ipd)
   parametersets:
   - name: SHAKE-192s
+    recommended: true
     level: 3
     pk: 48
     sig: 16224
-    signing_cycles: 3740482401
-    verification_cycles: 3083648
-    signing_us: 992528.7
-    verification_us: 819.9
+    signing_cycles: 3888175247
+    verification_cycles: 3195560
+    signing_us: 1019649.3
+    verification_us: 842.4
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: SHAKE-256s
+    recommended: true
     level: 5
     pk: 64
     sig: 29792
-    signing_cycles: 3440370832
-    verification_cycles: 4560742
-    signing_us: 912602.4
-    verification_us: 1210.8
+    signing_cycles: 3535384695
+    verification_cycles: 4788314
+    signing_us: 922565.3
+    verification_us: 1248.7
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: SHAKE-128s
+    recommended: true
     level: 1
     pk: 32
     sig: 7856
-    signing_cycles: 2098060294
-    verification_cycles: 2087849
-    signing_us: 556729.0
-    verification_us: 557.0
+    signing_cycles: 2207552792
+    verification_cycles: 2186413
+    signing_us: 576409.6
+    verification_us: 575.6
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: SHAKE-256f
+    recommended: true
     level: 5
     pk: 64
     sig: 49856
-    signing_cycles: 351349275
-    verification_cycles: 9168666
-    signing_us: 93225.1
-    verification_us: 2431.6
+    signing_cycles: 364303908
+    verification_cycles: 9580418
+    signing_us: 94575.1
+    verification_us: 2485.8
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: SHAKE-192f
+    recommended: true
     level: 3
     pk: 48
     sig: 35664
-    signing_cycles: 169159755
-    verification_cycles: 8867662
-    signing_us: 44852.4
-    verification_us: 2355.2
+    signing_cycles: 168407028
+    verification_cycles: 8948359
+    signing_us: 43564.6
+    verification_us: 2316.7
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: SHAKE-128f
+    recommended: true
     level: 1
     pk: 32
     sig: 17088
-    signing_cycles: 102258389
-    verification_cycles: 6072205
-    signing_us: 27124.0
-    verification_us: 1610.5
+    signing_cycles: 102623288
+    verification_cycles: 6088374
+    signing_us: 26550.7
+    verification_us: 1576.9
+    bench_env: 2026-10-16-c8i.4xlarge
+  - name: SHAKE-128-24
+    level: 1
+    pk: 32
+    sig: 3856
+    notes: NIST SP 800-230 ipd (initial public draft, 2026-04-13) limited-signature parameter set, at most 2^24 signatures per signing key. Not final; may change.
+    signing_cycles: 1483886086695
+    verification_cycles: 320473
+    signing_us: 383640305.2
+    verification_us: 83.1
+    bench_env: 2026-10-16-c8i.4xlarge
+  - name: SHAKE-192-24
+    level: 3
+    pk: 48
+    sig: 7752
+    notes: NIST SP 800-230 ipd (initial public draft, 2026-04-13) limited-signature parameter set, at most 2^24 signatures per signing key. Not final; may change.
+    signing_cycles: 2133481241507
+    verification_cycles: 582572
+    signing_us: 552274361.5
+    verification_us: 157.0
+    bench_env: 2026-10-16-c8i.4xlarge
+  - name: SHAKE-256-24
+    level: 5
+    pk: 64
+    sig: 14944
+    notes: NIST SP 800-230 ipd (initial public draft, 2026-04-13) limited-signature parameter set, at most 2^24 signatures per signing key. Not final; may change.
+    signing_cycles: 2630291940468
+    verification_cycles: 679939
+    signing_us: 695029244.8
+    verification_us: 175.5
+    bench_env: 2026-10-16-c8i.4xlarge

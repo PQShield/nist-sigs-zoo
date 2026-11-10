@@ -1,5 +1,8 @@
 export type NistLevel = 'Pre-Quantum' | 1 | 2 | 3 | 4 | 5;
 
+/** China NGCC claimed classical security, in bits. Not a NIST category; never converted to one. */
+export type NgccLevel = 128 | 256 | 384 | 512;
+
 export interface Scheme {
 	scheme: string;
 	status: string;
@@ -10,7 +13,7 @@ export interface Scheme {
 	warning: false | string;
 	info: false | string;
 	classical: boolean;
-	tags: string[];
+	programmes: ProgrammeMembership[];
 }
 
 export interface ParameterSet {
@@ -18,7 +21,7 @@ export interface ParameterSet {
 	parameterset: string;
 	category: string;
 	status: string;
-	level: NistLevel;
+	level: NistLevel | null;
 	pk: number;
 	sig: number;
 	pkPlusSig: number;
@@ -34,15 +37,31 @@ export interface ParameterSet {
 	website: string;
 	assumption: string;
 	notes: string | null;
+	/** Why the benchmark did not finish (`timeout`, `operation-over-600s`, `SIGSEGV`, …); null otherwise. */
+	dnf: string | null;
+	/** Why there is no code to benchmark (`no_code`); null otherwise. */
+	noCode: string | null;
+	/** Id of the BenchmarkEnv our timings come from (`bench_env`); absent for other sources. */
+	benchEnv?: string | null;
 	version: string;
 	perfSource: string | null;
+	programmes: ProgrammeMembership[];
+	ngccLevel: NgccLevel | null;
+	recommended: boolean;
+	implementation: false | string;
+	findingsUrl: string | null;
 }
 
 // YAML schema types
 
 export interface ParameterSetYaml {
 	name: string;
-	level: number | 'Pre-Quantum';
+	/** The set's name in the previous version, when it was renamed (pairs them in version comparisons). */
+	renamed_from?: string;
+	level?: number | 'Pre-Quantum';
+	ngcc_level?: NgccLevel;
+	recommended?: boolean;
+	implementation?: string;
 	pk: number;
 	sig: number;
 	signing_cycles?: number;
@@ -53,6 +72,12 @@ export interface ParameterSetYaml {
 	warning?: string;
 	info?: string;
 	notes?: string;
+	/** One-word reason the benchmark did not finish (written by the importers); no timings then. */
+	dnf?: string;
+	/** Why the set has no implementation to benchmark (sizes from the specification only). */
+	no_code?: string;
+	/** Id of the BenchmarkEnv the timings were measured in (written by the importers). */
+	bench_env?: string;
 }
 
 export interface VersionYaml {
@@ -60,7 +85,10 @@ export interface VersionYaml {
 	date: string;
 	status: string;
 	perf_source?: string;
-	tags?: string[];
+	implementation?: string;
+	findings_url?: string;
+	/** Programme id → stage id, e.g. { 'nist-onramp': 'round-3' } */
+	programmes?: Record<string, string | string[]>;
 	notes?: string;
 	broken?: string;
 	warning?: string;
@@ -70,9 +98,13 @@ export interface VersionYaml {
 
 export interface SchemeYaml {
 	name: string;
+	/** Full title when `name` is an abbreviation (shown on the scheme page only). */
+	full_name?: string;
 	website: string;
 	category: string;
 	assumption: string;
+	/** Optional URL slug for /schemes/<slug>/; defaults to slugify(name). Needed only for clashes or non-ASCII names. */
+	slug?: string;
 	versions: VersionYaml[];
 }
 
@@ -80,7 +112,10 @@ export interface SchemeYaml {
 
 export interface KemParameterSetYaml {
 	name: string;
-	level: number | 'Pre-Quantum';
+	level?: number | 'Pre-Quantum';
+	ngcc_level?: NgccLevel;
+	recommended?: boolean;
+	implementation?: string;
 	pk: number;
 	ct: number;
 	keygen_cycles?: number;
@@ -93,14 +128,28 @@ export interface KemParameterSetYaml {
 	warning?: string;
 	info?: string;
 	notes?: string;
+	/** One-word reason the benchmark did not finish (written by the importers); no timings then. */
+	dnf?: string;
+	/** Why the set has no implementation to benchmark (sizes from the specification only). */
+	no_code?: string;
+	/** Id of the BenchmarkEnv the timings were measured in (written by the importers). */
+	bench_env?: string;
 }
 
 export interface KemSchemeYaml {
 	name: string;
+	/** Full title when `name` is an abbreviation (shown on the scheme page only). */
+	full_name?: string;
 	website: string;
 	category: string;
 	assumption: string;
+	/** Optional URL slug for /schemes/<slug>/; defaults to slugify(name). Needed only for clashes or non-ASCII names. */
+	slug?: string;
 	status: string;
+	implementation?: string;
+	findings_url?: string;
+	/** Programme id → stage id, e.g. { 'nist-pqc': 'standardised' } */
+	programmes?: Record<string, string | string[]>;
 	broken?: string;
 	warning?: string;
 	info?: string;
@@ -117,6 +166,7 @@ export interface KemScheme {
 	warning: false | string;
 	info: false | string;
 	classical: boolean;
+	programmes: ProgrammeMembership[];
 }
 
 export interface KemParameterSet {
@@ -124,7 +174,7 @@ export interface KemParameterSet {
 	parameterset: string;
 	category: string;
 	status: string;
-	level: NistLevel;
+	level: NistLevel | null;
 	pk: number;
 	ct: number;
 	pkPlusCt: number;
@@ -141,53 +191,65 @@ export interface KemParameterSet {
 	website: string;
 	assumption: string;
 	notes: string | null;
+	/** Why the benchmark did not finish (`timeout`, `operation-over-600s`, `SIGSEGV`, …); null otherwise. */
+	dnf: string | null;
+	/** Why there is no code to benchmark (`no_code`); null otherwise. */
+	noCode: string | null;
+	/** Id of the BenchmarkEnv our timings come from (`bench_env`); absent for other sources. */
+	benchEnv?: string | null;
+	programmes: ProgrammeMembership[];
+	ngccLevel: NgccLevel | null;
+	recommended: boolean;
+	implementation: false | string;
+	findingsUrl: string | null;
 }
 
 export type KemAxisField =
-    | 'pk'
-    | 'ct'
-    | 'pkPlusCt'
-    | 'keygenCycles'
-    | 'encapsCycles'
-    | 'decapsCycles'
-    | 'keygenUs'
-    | 'encapsUs'
-    | 'decapsUs';
-
-export type KemSortableColumn =
-	| 'scheme'
-	| 'category'
-	| 'status'
-	| 'parameterset'
-	| 'level'
 	| 'pk'
 	| 'ct'
 	| 'pkPlusCt'
+	| 'keygenCycles'
+	| 'encapsCycles'
+	| 'decapsCycles'
 	| 'keygenUs'
 	| 'encapsUs'
-	| 'decapsUs';
+	| 'decapsUs'
+	| 'keygenTime'
+	| 'encapsTime'
+	| 'decapsTime';
 
 export interface KemDataRanges {
 	pk: [number, number];
 	ct: [number, number];
 	pkPlusCt: [number, number];
+	/** Displayed times in µs (extrapolated from cycles where needed); null when no row has one. */
+	keygenUs: [number, number] | null;
+	encapsUs: [number, number] | null;
+	decapsUs: [number, number] | null;
 }
 
-export interface KemFilterState {
-	schemes: Set<string>;
-	levels: Set<NistLevel>;
+export interface KemFilterState extends CompareFilter {
 	minPk: number;
 	maxPk: number;
 	minCt: number;
 	maxCt: number;
 	minPkPlusCt: number;
 	maxPkPlusCt: number;
+	minKeygenUs: number;
+	maxKeygenUs: number;
+	minEncapsUs: number;
+	maxEncapsUs: number;
+	minDecapsUs: number;
+	maxDecapsUs: number;
 }
 
+/** One benchmark run's environment (data/benchmark_env.yaml, data/kem_benchmark_env.yaml). */
 export interface BenchmarkEnv {
-	license: string;
-	attribution: string;
+	/** `<run date>-<EC2 instance type>`; parameter sets name it in `bench_env`. */
+	id: string;
 	date: string;
+	/** EC2 instance type, or `local` for a run outside EC2. */
+	instance_type?: string;
 	cpu: {
 		model: string;
 		cores: number;
@@ -201,36 +263,44 @@ export interface BenchmarkEnv {
 	compiler: string;
 	openssl: string;
 	notes: string;
-	sources: Record<string, string>;
+	sources?: Record<string, string>;
 }
+
+/** A benchmark environment file: every environment some parameter set's timings come from. */
+export interface BenchmarkEnvFile {
+	license: string;
+	attribution: string;
+	environments: BenchmarkEnv[];
+}
+
+export type HistoryType = 'update' | 'attack' | 'standardization' | 'milestone';
 
 export interface HistoryEntry {
+	/** ISO date, quoted in YAML so it stays a string. */
 	date: string;
-	type: 'update' | 'attack' | 'standardization' | 'milestone';
+	type: HistoryType;
+	/** Trusted HTML from our own YAML. */
 	description: string;
+	/** Affected scheme names (signature or KEM `name:`); their programmes are derived. */
 	schemes?: string[];
+	/** Extra programme ids (data/programmes.yaml), added to those derived from `schemes`. */
+	programmes?: string[];
 }
 
-export type AxisField = 'pk' | 'sig' | 'pkPlusSig' | 'signingCycles' | 'verificationCycles' | 'signingUs' | 'verificationUs';
-export type ScaleType = 'log' | 'linear';
-
-export type SortableColumn =
-	| 'scheme'
-	| 'category'
-	| 'status'
-	| 'parameterset'
-	| 'level'
+/** `signingTime` / `verificationTime`: displayed µs (measured, else extrapolated from cycles). */
+export type AxisField =
 	| 'pk'
 	| 'sig'
 	| 'pkPlusSig'
 	| 'signingCycles'
 	| 'verificationCycles'
 	| 'signingUs'
-	| 'verificationUs';
+	| 'verificationUs'
+	| 'signingTime'
+	| 'verificationTime';
+export type ScaleType = 'log' | 'linear';
 
-export interface FilterState {
-	schemes: Set<string>;
-	levels: Set<NistLevel>;
+export interface FilterState extends CompareFilter {
 	minPk: number;
 	maxPk: number;
 	minSig: number;
@@ -245,8 +315,6 @@ export interface FilterState {
 	maxSigningUs: number;
 	minVerificationUs: number;
 	maxVerificationUs: number;
-	sortCol: SortableColumn;
-	sortDir: 'asc' | 'desc';
 }
 
 export interface DataRanges {
@@ -257,4 +325,111 @@ export interface DataRanges {
 	verificationCycles: [number, number];
 	signingUs: [number, number] | null;
 	verificationUs: [number, number] | null;
+}
+
+// Standardisation programmes (data/programmes.yaml)
+
+export interface ProgrammeStageYaml {
+	id: string;
+	label: string;
+	/** Badge text after the programme's short name; "" shows the short name alone. Default: the label, with "round N" as "RN". */
+	chip?: string;
+}
+
+export interface ProgrammeLinkYaml {
+	label: string;
+	url: string;
+}
+
+/** One step on a programme page's timeline. `date` is YYYY, YYYY-MM or YYYY-MM-DD; omit when not announced. */
+export interface ProgrammeTimelineEntry {
+	date?: string;
+	label: string;
+	note?: string;
+	/** The step the programme is at now (at most one per programme). */
+	current?: boolean;
+}
+
+/** A programme's security-level scale, shown as a table. The first cell of each row is its row header. */
+export interface SecurityLevelTableYaml {
+	intro: string;
+	note?: string;
+	columns: string[];
+	rows: string[][];
+}
+
+/** Where a programme's published findings come from, and how we credit them. */
+export interface FindingsSourceYaml {
+	label: string;
+	url: string;
+	credit: string;
+	note?: string;
+}
+
+export interface ProgrammeYaml {
+	id: string;
+	name: string;
+	short: string;
+	organiser: string;
+	region: string;
+	url?: string;
+	primitives: ('signature' | 'kem')[];
+	stages: ProgrammeStageYaml[];
+	// Programme page content (all optional; the page omits what is missing)
+	/** Breadcrumb, card and tab title, e.g. "China NGCC". Falls back to `short`. */
+	nav_label?: string;
+	/** Facts-box organiser, e.g. "ICCS, Beijing". Falls back to `organiser`. */
+	organiser_detail?: string;
+	description?: string;
+	links?: ProgrammeLinkYaml[];
+	/** Facts-box "Not tracked" text, e.g. "9 key exchange, 35 hash functions". */
+	out_of_scope?: string;
+	candidates_heading?: string;
+	/** Official candidate counts at the current stage, for "34 candidates · 0 in our data". */
+	official_counts?: { signature?: number; kem?: number };
+	timeline?: ProgrammeTimelineEntry[];
+	security_levels?: SecurityLevelTableYaml;
+	findings?: FindingsSourceYaml;
+}
+
+/** One programme a scheme took part in, and how far it got. */
+export interface ProgrammeMembership {
+	programme: string;
+	stage: string;
+}
+
+/** Selects the versions that were at `stage` in `programme`. */
+export interface StageFilter {
+	programme: string;
+	stage: string;
+}
+
+// Compare-page filters shared by the signatures and KEM pages
+
+/** Programme filter buckets on the compare pages (see rowProgrammeGroups in compareFilters.ts). */
+export type ProgrammeGroup =
+	'nist-standards' | 'nist-pqc-rounds' | 'nist-onramp' | 'china-ngcc' | 'kpqc' | 'iso' | 'research' | 'pre-quantum';
+
+export type ChartMode = 'sizes' | 'speed';
+
+/** Data-independent filter fields shared by both compare pages, with one URL codec. */
+export interface CommonFilter {
+	programmes: Set<ProgrammeGroup>;
+	levels: Set<NistLevel>;
+	ngccLevels: Set<NgccLevel>;
+	paramSets: 'recommended' | 'all';
+	hideBroken: boolean;
+	hideImplementation: boolean;
+	hideWarnings: boolean;
+	/** Main compare chart axes. View state, kept here so it shares the URL codec. */
+	chart: ChartMode;
+}
+
+export type SortDir = 'asc' | 'desc';
+
+/** Filter state of a compare page; each bound of its FilterSpec adds `min<Field>` / `max<Field>`. */
+export interface CompareFilter extends CommonFilter {
+	schemes: Set<string>;
+	sortCol: string;
+	sortDir: SortDir;
 }

@@ -3,45 +3,51 @@ website: https://ntru.org/
 category: Lattices
 assumption: NTRU
 status: Round-3 finalist
+programmes:
+  nist-pqc: round-3
 info: Merged NTRU-HPS and NTRU-HRSS submission. A NIST round-3 finalist, not selected for standardisation. AVX2 reference from github.com/jschanck/ntru; public key and ciphertext are the same size.
 parametersets:
 - name: ntruhps2048509
   level: 1
   pk: 699
   ct: 699
-  keygen_cycles: 113303
-  encaps_cycles: 17605
-  decaps_cycles: 29467
-  keygen_us: 42.2
-  encaps_us: 12.7
-  decaps_us: 10.3
+  keygen_cycles: 105188
+  encaps_cycles: 16626
+  decaps_cycles: 27195
+  keygen_us: 34.5
+  encaps_us: 10.9
+  decaps_us: 8.3
+  bench_env: 2026-10-16-c8i.4xlarge
 - name: ntruhps2048677
   level: 3
   pk: 930
   ct: 930
-  keygen_cycles: 190260
-  encaps_cycles: 25200
-  decaps_cycles: 42620
-  keygen_us: 65.4
-  encaps_us: 16.4
-  decaps_us: 13.8
+  keygen_cycles: 168655
+  encaps_cycles: 22811
+  decaps_cycles: 39754
+  keygen_us: 53.0
+  encaps_us: 14.2
+  decaps_us: 11.7
+  bench_env: 2026-10-16-c8i.4xlarge
 - name: ntruhps4096821
   level: 5
   pk: 1230
   ct: 1230
-  keygen_cycles: 260266
-  encaps_cycles: 26685
-  decaps_cycles: 54355
-  keygen_us: 90.0
-  encaps_us: 18.8
-  decaps_us: 17.7
+  keygen_cycles: 252717
+  encaps_cycles: 26577
+  decaps_cycles: 54946
+  keygen_us: 74.4
+  encaps_us: 16.1
+  decaps_us: 15.3
+  bench_env: 2026-10-16-c8i.4xlarge
 - name: ntruhrss701
   level: 1
   pk: 1138
   ct: 1138
-  keygen_cycles: 189157
-  encaps_cycles: 19254
-  decaps_cycles: 45712
-  keygen_us: 59.4
-  encaps_us: 10.3
-  decaps_us: 14.4
+  keygen_cycles: 173654
+  encaps_cycles: 21023
+  decaps_cycles: 44162
+  keygen_us: 50.5
+  encaps_us: 10.0
+  decaps_us: 12.8
+  bench_env: 2026-10-16-c8i.4xlarge

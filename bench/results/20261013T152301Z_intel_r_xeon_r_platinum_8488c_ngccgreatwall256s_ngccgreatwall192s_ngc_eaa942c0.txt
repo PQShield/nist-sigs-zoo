@@ -1,0 +1,59 @@
+# pq-sigs benchmark results
+# date:         2026-10-13T15:23:01Z
+# host:         ip-172-31-15-50
+# os:           Ubuntu 26.04.1 LTS
+# kernel:       7.0.0-1014-aws
+# cpu:          Intel(R) Xeon(R) Platinum 8488C
+# cores:        16 (threads/core: 2)
+# max_freq_mhz: unknown (cur: unknown MHz)
+# governor:     unknown
+# turbo:        unknown
+# flags:        fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ss ht syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon rep_good nopl xtopology nonstop_tsc cpuid aperfmperf tsc_known_freq pni pclmulqdq monitor ssse3 fma cx16 pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand hypervisor lahf_lm abm 3dnowprefetch cpuid_fault ssbd ibrs ibpb stibp ibrs_enhanced fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid avx512f avx512dq rdseed adx smap avx512ifma clflushopt clwb avx512cd sha_ni avx512bw avx512vl xsaveopt xsavec xgetbv1 xsaves avx_vnni avx512_bf16 wbnoinvd ida arat avx512vbmi umip pku ospke waitpkg avx512_vbmi2 gfni vaes vpclmulqdq avx512_vnni avx512_bitalg tme avx512_vpopcntdq rdpid cldemote movdiri movdir64b md_clear serialize amx_bf16 avx512_fp16 amx_tile amx_int8 flush_l1d arch_capabilities
+#
+# compiler:     cc (Ubuntu 15.2.0-16ubuntu1) 15.2.0
+# openssl:      OpenSSL 3.5.5 27 Jan 2026 (Library: OpenSSL 3.5.5 27 Jan 2026)
+# sources:
+#   schemes/faest/ref: https://github.com/faest-sign/faest-arch-opt@1d8330979cb467c54edac43ffe695da249fa3417
+#   schemes/fndsa/ref: https://github.com/pornin/c-fn-dsa@33026d4d2734049a23f065f77eea11c35de58d76
+#   schemes/hawk/ref: https://github.com/hawk-sign/dev@1b9fef52559273fe7b40fe3e22968eaedd3a4c2a
+#   schemes/mayo/ref: https://github.com/PQCMayo/MAYO-C@74de637a7c4a7f9fafa888183bc05f5cf920cd2d
+#   schemes/mldsa/ref: https://github.com/pq-crystals/dilithium.git@6e00625c5b29f516c6de973fe2ee2fbb150973f9
+#   schemes/mqom/ref: https://github.com/mqom/mqom-v3@d9c64e386b186ee186684a0389fc32009bd67cd1
+#   schemes/qruov/ref: https://github.com/qruov/round3.git@3d84d0f6afae80c88deefab03b1dd6633a147f96
+#   schemes/sdith/ref: https://github.com/sdith/sdith@fff41ae5b12ba3c6b90d8f97b2ede57aa277a92f
+#   schemes/sdith2/ref: https://github.com/sdith/sdith@ce7adf06476674d4ff990f378f83f9981cd6745b
+#   schemes/slhdsa/ref: https://github.com/pq-code-package/slhdsa-c@fac08b7d0a93849de0ee163c63712395e012b38c
+#   schemes/snova/ref: https://github.com/PQCLAB-SNOVA/SNOVA.git@9b29c1e332cbd85757c8d6362a57b9a8c8298a38
+#   schemes/sqisign/ref: https://github.com/SQISign/the-sqisign@6d017708db403bf83977fa70770fc4f7f9e9ff21
+#   schemes/uov/ref: https://github.com/pqov/pqov.git@fac2ec1fe6d8ea508eab4b98eb5341e1eed930a4
+#   schemes/ngcc: https://www.niccs.org.cn/niccs/Proposal/Public-Key%20Cryptographic%20Algorithms/Round%201%20candidates/
+# filter:       NGCC-GreatWall256s NGCC-GreatWall192s NGCC-yuanyang-512 NGCC-yuanyang-1024 NGCC-lwrdsa512 NGCC-lwrdsa256 NGCC-lwrdsa128 NGCC-TSUOV_128 NGCC-SHUTTLE-512 NGCC-SHUTTLE-256 NGCC-SHUTTLE-128 NGCC-QingLuan-128 NGCC-Origami-128 NGCC-Octarine-512 NGCC-Octarine-256 NGCC-Octarine-128 NGCC-OPSsig-512 NGCC-OPSsig-256 NGCC-OPSsig-128 NGCC-GreatWall256f NGCC-GreatWall192f
+#
+# cyclecounter: rdpmc CPU_CYCLES (real core cycles, user-space)
+scheme                       iters    keygen (cyc)  keygen (us)      sign (cyc)   sign (us)    verify (cyc)  verify (us)
+------                       -----    ------------  -----------      ----------   ---------    ------------  ----------
+NGCC-GreatWall192f            1000         4652429      1324.0        10847208      3023.8        14000074      3877.2
+NGCC-GreatWall192s             563         4647252      1298.4        39191071     11511.1        95357660     26834.2
+NGCC-GreatWall256f            1000         9370201      2503.8        20131637      5615.1        23551568      6547.4
+NGCC-GreatWall256s             384         8518050      2315.8        64151328     18999.5       134672766     38220.9
+NGCC-lwrdsa128                1000         2694270       717.2         5256159      1398.3         2768706       736.6
+NGCC-lwrdsa256                1000         3393867       907.5         6342614      1705.4         3478117       929.9
+NGCC-lwrdsa512                1000         9619987      2607.3        16757646      4568.9         9902377      2677.3
+NGCC-Octarine-128             1000          544485       144.5         1236487       326.6          534196       141.8
+NGCC-Octarine-256             1000          991953       262.5         2497737       665.4         1023823       270.7
+NGCC-Octarine-512             1000         2351280       626.6         8886209      2361.3         2473141       658.9
+NGCC-OPSsig-128               1000         1006304       266.4         1498450       401.6         1036848       277.1
+NGCC-OPSsig-256               1000         1296830       343.6         2015367       612.0         1406615       377.5
+NGCC-OPSsig-512               1000         2687937       715.8         5034897      1367.6         3127058       831.3
+NGCC-Origami-128              1000         2717648       724.6        30499002      8271.9        27418622      7416.2
+NGCC-QingLuan-128             1000          285835        76.4        16305734      4403.2         7322193      1964.3
+NGCC-SHUTTLE-128              1000          913498       255.3          773726       206.2          315432        84.3
+NGCC-SHUTTLE-256              1000         1282683       338.8         1208087       326.1          450605       120.0
+NGCC-SHUTTLE-512              1000         2323657       619.4         2636332       737.9          808265       214.3
+NGCC-TSUOV_128                1000        10635468      2874.0        11925122      3225.2        11345183      3058.4
+NGCC-yuanyang-512             1000        13476487      3634.7         5269320      1430.5          239708        64.3
+bench: build/src/sign_34_yuanyang_1024/keygen/ntrugen/src/ntrugen.c:429: ntrugen: Assertion `maxe<0.1' failed.
+NGCC-yuanyang-1024            1000             DNF         DNF             DNF         DNF             DNF         DNF  SIGABRT
+DNF NGCC-yuanyang-1024: SIGABRT
+1 scheme(s) did not finish (DNF), 20 finished
+

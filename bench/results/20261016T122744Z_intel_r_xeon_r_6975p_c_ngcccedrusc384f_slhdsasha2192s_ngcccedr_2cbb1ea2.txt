@@ -1,0 +1,268 @@
+# pq-sigs benchmark results
+# date:         2026-10-16T12:27:44Z
+# host:         ip-172-31-15-122
+# commit:       124dc8b40d0bb1f9efcab461ea75e100aebc0564
+# instance_type: c8i.4xlarge
+# os:           Ubuntu 26.04.1 LTS
+# kernel:       7.0.0-1014-aws
+# cpu:          Intel(R) Xeon(R) 6975P-C
+# cores:        16 (threads/core: 2)
+# max_freq_mhz: unknown (cur: unknown MHz)
+# governor:     unknown
+# turbo:        unknown
+# flags:        fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ss ht syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon rep_good nopl xtopology nonstop_tsc cpuid aperfmperf tsc_known_freq pni pclmulqdq monitor ssse3 fma cx16 pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand hypervisor lahf_lm abm 3dnowprefetch cpuid_fault ssbd ibrs ibpb stibp ibrs_enhanced fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid avx512f avx512dq rdseed adx smap avx512ifma clflushopt clwb avx512cd sha_ni avx512bw avx512vl xsaveopt xsavec xgetbv1 xsaves avx_vnni avx512_bf16 wbnoinvd ida arat avx512vbmi umip pku ospke waitpkg avx512_vbmi2 gfni vaes vpclmulqdq avx512_vnni avx512_bitalg tme avx512_vpopcntdq rdpid bus_lock_detect cldemote movdiri movdir64b md_clear serialize amx_bf16 avx512_fp16 amx_tile amx_int8 flush_l1d arch_capabilities
+#
+# compiler:     cc (Ubuntu 15.2.0-16ubuntu1) 15.2.0
+# openssl:      OpenSSL 3.5.5 27 Jan 2026 (Library: OpenSSL 3.5.5 27 Jan 2026)
+# sources:
+#   schemes/aimer/ref: https://github.com/samsungsds-opensource/AIMer@734cc76fa4695ca8c8eaa070508db8ff62205e68
+#   schemes/cross/ref: https://github.com/CROSS-signature/CROSS-implementation@b2a84251c83840e016aaaabc5ca82fafc91ee5ef
+#   schemes/faest/ref: https://github.com/faest-sign/faest-arch-opt@1d8330979cb467c54edac43ffe695da249fa3417
+#   schemes/faest_r2/ref: https://github.com/faest-sign/faest-arch-opt@7fe7d54f382396ae338051a4bde901f2417272ea
+#   schemes/fndsa/ref: https://github.com/pornin/c-fn-dsa@33026d4d2734049a23f065f77eea11c35de58d76
+#   schemes/hawk/ref: https://github.com/hawk-sign/dev@1b9fef52559273fe7b40fe3e22968eaedd3a4c2a
+#   schemes/hawk_r1/ref: https://github.com/hawk-sign/dev@ac3a98c3107ea030cc18fb2afef7f5655c588138
+#   schemes/less/ref: https://github.com/less-sig/LESS@9ec6915af5e2bf4898db73a540d178817e6013b3
+#   schemes/mayo/ref: https://github.com/PQCMayo/MAYO-C@74de637a7c4a7f9fafa888183bc05f5cf920cd2d
+#   schemes/mayo_r1/ref: https://github.com/PQCMayo/MAYO-C.git@3c9be9ea140b9c0352ed4bd7bb121493b5ff92f3
+#   schemes/mayo_r2/ref: https://github.com/PQCMayo/MAYO-C.git@11ff0f04eb58f955d14d11b8739b8093720678ae
+#   schemes/mldsa/ref: https://github.com/pq-crystals/dilithium.git@6e00625c5b29f516c6de973fe2ee2fbb150973f9
+#   schemes/mqom/ref: https://github.com/mqom/mqom-v3@d9c64e386b186ee186684a0389fc32009bd67cd1
+#   schemes/mqom_r2/ref: https://github.com/mqom/mqom-v2@377f5cea4d5fbe0ec357bb08953623a29de00072
+#   schemes/qruov/ref: https://github.com/qruov/round3.git@3d84d0f6afae80c88deefab03b1dd6633a147f96
+#   schemes/qruov_r2/ref: https://github.com/qruov/round2.git@bc2c9616c5f8b2b9ba4688733d7b1488f900b336
+#   schemes/sdith/ref: https://github.com/sdith/sdith@fff41ae5b12ba3c6b90d8f97b2ede57aa277a92f
+#   schemes/sdith2/ref: https://github.com/sdith/sdith@ce7adf06476674d4ff990f378f83f9981cd6745b
+#   schemes/slhdsa/ref: https://github.com/pq-code-package/slhdsa-c@2ee6f6853af95d5833a567cc4dcfd7f08d66bfd4
+#   schemes/snova/ref: https://github.com/PQCLAB-SNOVA/SNOVA.git@9b29c1e332cbd85757c8d6362a57b9a8c8298a38
+#   schemes/snova_r2/ref: https://github.com/PQCLAB-SNOVA/SNOVA.git@13182903755ade177e02d1fea77f0bd2e1e1a280
+#   schemes/sqisign/ref: https://github.com/SQISign/the-sqisign@6d017708db403bf83977fa70770fc4f7f9e9ff21
+#   schemes/sqisign_r1/ref: https://github.com/SQISign/the-sqisign@28ff420dd012b64fdca87729ba172ef8683172b1
+#   schemes/sqisign_r2/ref: https://github.com/SQISign/the-sqisign@91e9e464fe5400192d13e1f9240cbf180200a103
+#   schemes/uov/ref: https://github.com/pqov/pqov.git@fac2ec1fe6d8ea508eab4b98eb5341e1eed930a4
+#   schemes/uov_r1/ref: https://github.com/pqov/pqov.git@95aa9264d371213586bc6e29718a1636b02eef74
+#   schemes/uov_r2/ref: https://github.com/pqov/pqov.git@26e4171495978597237aae644b4f408929d783f2
+#   schemes/faest_r1: https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/round-1/submission-pkg/FAEST-submission.zip
+#   schemes/haetae: https://drive.usercontent.google.com/download?id=1pW6YS1wZ1gm8Neb8pY5EyYTkkdRIDmJ6&export=download
+#   schemes/mirath: https://pqc-mirath.org/assets/downloads/mirath_v2.1.0.zip
+#   schemes/mqom_r1: https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/round-1/submission-pkg/mqom-submission.zip
+#   schemes/ngcc: https://www.niccs.org.cn/niccs/Proposal/Public-Key%20Cryptographic%20Algorithms/Round%201%20candidates/
+#   schemes/perk: https://pqc-perk.org/assets/downloads/perk-v2.2.0.zip
+#   schemes/qruov_r1: https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/round-1/submission-pkg/QR-UOV-submission.zip
+#   schemes/ryde: https://pqc-ryde.org/assets/downloads/ryde_v2.1.0.zip
+#   schemes/sdith_r2: https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/round-2/submission-pkg/sdith-submission-round2.zip
+#   schemes/snova_r1: https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/round-1/submission-pkg/SNOVAnoKATs-submission.zip
+# filter:       NGCC-CEDRUSC-384f SLH-DSA-SHA2-192s NGCC-CEDRUSALPHA-256s SNOVA (47 6 19 4 6 9 144) RYDE-1-Fast RYDE-1-Faster RYDE-3-Fast RYDE-3-Faster RYDE-5-Fast RYDE-5-Faster SNOVA (40 5 19 5 6 6 150) NGCC-Phoenix-SM3-192s SLH-DSA-SHA2-256s NGCC-SQIsign2D-lvl3 NGCC-Galas-256F NGCC-QingLuan-128
+#
+# cyclecounter: rdpmc CPU_CYCLES (real core cycles, user-space)
+scheme                       iters    keygen (cyc)  keygen (us)      sign (cyc)   sign (us)    verify (cyc)  verify (us)
+------                       -----    ------------  -----------      ----------   ---------    ------------  ----------
+SLH-DSA-SHA2-192s               50       293242776     75788.5      2701843305    698418.1         2252565       580.2
+SLH-DSA-SHA2-256s               50       190113056     49135.1      2352163028    607989.7         3235387       840.8
+SNOVA (40 5 19 5 6 6 150)     1000        23424430      6056.5        88260504     22823.5        33318740      8620.8
+SNOVA (47 6 19 4 6 9 144)     1000        28966828      7491.8        87901693     22737.8        32928423      8525.5
+RYDE-1-Fast                   1000           36442        10.3        14512095      3748.2        12293905      3178.3
+RYDE-1-Faster                 1000           36411        10.3         3810986       986.8         3101648       803.3
+RYDE-3-Fast                   1000           59859        16.4        38570420      9976.0        34926310      9028.9
+RYDE-3-Faster                 1000           58918        16.1         9241727      2391.1         8438047      2182.1
+RYDE-5-Fast                   1000           72732        19.7        59971410     15515.5        55572068     14368.9
+RYDE-5-Faster                 1000           66840        18.1        15699472      4058.6        14288971      3694.2
+NGCC-CEDRUSC-384f               10       716058993    185069.1     13385314752   3459600.3       137551140     35550.8
+NGCC-CEDRUSALPHA-256s           10       854838521    220939.7     12997886367   3359251.7        31553351      8154.9
+NGCC-Galas-256F                 10        53645497     13870.4      6953290296   1798079.1      4460060109   1153326.9
+NGCC-Phoenix-SM3-192s           10      1127985154    291506.5     11693602589   3021969.6        40240329     10404.0
+NGCC-QingLuan-128             1000          266521        69.4        15904813      4110.6         7141698      1847.1
+lifting the two basis [3111]
+4 xyz doubling [10420]
+gluing comput [744]
+precomputation for the first codomain [15]
+gluing eval [232]
+middle steps [50782]
+last two steps [92]
+splitting [1383]
+lifting the two basis [3108]
+4 xyz doubling [10417]
+gluing comput [752]
+precomputation for the first codomain [15]
+gluing eval [233]
+middle steps [50870]
+last two steps [94]
+splitting [1376]
+lifting the two basis [3112]
+4 xyz doubling [10425]
+gluing comput [742]
+precomputation for the first codomain [15]
+gluing eval [233]
+middle steps [50875]
+last two steps [93]
+splitting [1374]
+lifting the two basis [3109]
+4 xyz doubling [10423]
+gluing comput [754]
+precomputation for the first codomain [14]
+gluing eval [233]
+middle steps [50811]
+last two steps [92]
+splitting [1373]
+lifting the two basis [3114]
+4 xyz doubling [10348]
+gluing comput [745]
+precomputation for the first codomain [15]
+gluing eval [232]
+middle steps [50431]
+last two steps [98]
+splitting [1374]
+lifting the two basis [3113]
+4 xyz doubling [10339]
+gluing comput [743]
+precomputation for the first codomain [14]
+gluing eval [233]
+middle steps [50441]
+last two steps [94]
+splitting [1371]
+lifting the two basis [3115]
+4 xyz doubling [10478]
+gluing comput [747]
+precomputation for the first codomain [16]
+gluing eval [232]
+middle steps [51074]
+last two steps [93]
+splitting [1387]
+lifting the two basis [3112]
+4 xyz doubling [10464]
+gluing comput [736]
+precomputation for the first codomain [14]
+gluing eval [241]
+middle steps [51083]
+last two steps [93]
+splitting [1388]
+lifting the two basis [3113]
+4 xyz doubling [10467]
+gluing comput [732]
+precomputation for the first codomain [15]
+gluing eval [247]
+middle steps [51048]
+last two steps [93]
+splitting [1372]
+lifting the two basis [3133]
+4 xyz doubling [10466]
+gluing comput [735]
+precomputation for the first codomain [14]
+gluing eval [246]
+middle steps [51075]
+last two steps [165]
+splitting [1371]
+lifting the two basis [3106]
+4 xyz doubling [10451]
+gluing comput [741]
+precomputation for the first codomain [20]
+gluing eval [233]
+middle steps [50778]
+last two steps [97]
+splitting [1372]
+lifting the two basis [3112]
+4 xyz doubling [10432]
+gluing comput [740]
+precomputation for the first codomain [15]
+gluing eval [238]
+middle steps [50846]
+last two steps [94]
+splitting [1375]
+lifting the two basis [3110]
+4 xyz doubling [10475]
+gluing comput [745]
+precomputation for the first codomain [15]
+gluing eval [233]
+middle steps [51047]
+last two steps [93]
+splitting [1373]
+lifting the two basis [3118]
+4 xyz doubling [10463]
+gluing comput [743]
+precomputation for the first codomain [15]
+gluing eval [232]
+middle steps [51077]
+last two steps [93]
+splitting [1383]
+lifting the two basis [3106]
+4 xyz doubling [10474]
+gluing comput [743]
+precomputation for the first codomain [15]
+gluing eval [232]
+middle steps [51057]
+last two steps [102]
+splitting [1370]
+lifting the two basis [3114]
+4 xyz doubling [10459]
+gluing comput [751]
+precomputation for the first codomain [15]
+gluing eval [233]
+middle steps [51078]
+last two steps [95]
+splitting [1388]
+lifting the two basis [3117]
+4 xyz doubling [10567]
+gluing comput [742]
+precomputation for the first codomain [15]
+gluing eval [233]
+middle steps [51306]
+last two steps [93]
+splitting [1380]
+lifting the two basis [3117]
+4 xyz doubling [10504]
+gluing comput [741]
+precomputation for the first codomain [15]
+gluing eval [233]
+middle steps [51275]
+last two steps [94]
+splitting [1377]
+lifting the two basis [3117]
+4 xyz doubling [10443]
+gluing comput [747]
+precomputation for the first codomain [15]
+gluing eval [232]
+middle steps [50879]
+last two steps [93]
+splitting [1378]
+lifting the two basis [3106]
+4 xyz doubling [10429]
+gluing comput [743]
+precomputation for the first codomain [15]
+gluing eval [237]
+middle steps [50892]
+last two steps [93]
+splitting [1373]
+lifting the two basis [3123]
+4 xyz doubling [10508]
+gluing comput [747]
+precomputation for the first codomain [15]
+gluing eval [238]
+middle steps [51067]
+last two steps [92]
+splitting [1381]
+lifting the two basis [3111]
+4 xyz doubling [10460]
+gluing comput [748]
+precomputation for the first codomain [15]
+gluing eval [233]
+middle steps [51100]
+last two steps [93]
+splitting [1384]
+lifting the two basis [3115]
+4 xyz doubling [10234]
+gluing comput [739]
+precomputation for the first codomain [16]
+gluing eval [233]
+middle steps [49701]
+last two steps [94]
+splitting [1374]
+lifting the two basis [3107]
+4 xyz doubling [10223]
+gluing comput [744]
+precomputation for the first codomain [15]
+gluing eval [233]
+middle steps [49787]
+last two steps [94]
+splitting [1374]
+NGCC-SQIsign2D-lvl3             10      2719807064    703086.1      2761053073    714251.2       617390953    159984.1
+

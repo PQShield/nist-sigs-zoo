@@ -1,0 +1,4 @@
+file	name	pk	sk	sig	iters
+sqisign_r1_lvl1	SQIsign-R1-I	64	782	177	10
+sqisign_r1_lvl3	SQIsign-R1-III	96	1138	263	5
+sqisign_r1_lvl5	SQIsign-R1-V	128	1509	335	3

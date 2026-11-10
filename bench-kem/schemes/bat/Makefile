@@ -1,7 +1,8 @@
+include ../../../bench-common/flags.mk
 CC     ?= cc
 BUILD   = build
 BAT     = ref/src
-CFLAGS := -O3 -fPIC -Wall -Wextra -march=native -mtune=native -DBAT_AVX2 -I$(BAT)
+CFLAGS := -Wall -Wextra -DBAT_AVX2 -I$(BAT) $(BENCH_CFLAGS) -fPIC
 
 # Generic BAT objects, built once and shared by both .so. The generic keygen/codec
 # dispatch into every q-variant, so all three kem<q>.o must be present in each .so

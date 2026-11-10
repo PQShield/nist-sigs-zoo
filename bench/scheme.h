@@ -10,5 +10,5 @@ typedef struct {
     size_t      pk_bytes;
     size_t      sk_bytes;
     size_t      sig_bytes;
-    int         iters;    /* 0 → use BENCH_ITER; non-zero overrides */
+    int         iters;    /* 0 → use BENCH_ITER; >0 overrides; <0 → listed by --sizes, not timed */
 } bench_scheme_info_t;

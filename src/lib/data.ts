@@ -1,5 +1,6 @@
 import { CPUSPEED } from './constants';
-import type { DataRanges, NistLevel, ParameterSet, Scheme, SchemeYaml } from './types';
+import { isReferenceScheme, schemeProgrammes, versionProgrammes } from './programmes';
+import type { DataRanges, NistLevel, ParameterSet, Scheme, SchemeYaml, StageFilter } from './types';
 
 function parseCsv(text: string): Record<string, string>[] {
 	const lines = text.trim().split('\n');
@@ -49,14 +50,11 @@ export function parseSchemes(csv: string): Scheme[] {
 		warning: d['Warning'] === '' ? false : d['Warning'],
 		info: d['Info'] === '' ? false : d['Info'],
 		classical: d['Broken'] === 'classical',
-		tags: [],
+		programmes: []
 	}));
 }
 
-export function parseParameterSets(
-	csv: string,
-	schemes: Scheme[]
-): { rows: ParameterSet[]; ranges: DataRanges } {
+export function parseParameterSets(csv: string, schemes: Scheme[]): { rows: ParameterSet[]; ranges: DataRanges } {
 	const schemeMap = new Map(schemes.map((s) => [s.scheme, s]));
 
 	const rows: ParameterSet[] = parseCsv(csv).map((d) => {
@@ -76,8 +74,7 @@ export function parseParameterSets(
 		} else {
 			extrapolated = true;
 			signingCycles = signingUs != null ? Math.round((CPUSPEED * signingUs) / 1_000_000) : 0;
-			verificationCycles =
-				verificationUs != null ? Math.round((CPUSPEED * verificationUs) / 1_000_000) : 0;
+			verificationCycles = verificationUs != null ? Math.round((CPUSPEED * verificationUs) / 1_000_000) : 0;
 		}
 
 		const scheme = schemeMap.get(d['Scheme']);
@@ -112,8 +109,15 @@ export function parseParameterSets(
 			website: scheme.website,
 			assumption: scheme.assumption,
 			notes: null,
+			dnf: null,
+			noCode: null,
 			version: '',
 			perfSource: null,
+			programmes: [],
+			ngccLevel: null,
+			recommended: true,
+			implementation: false,
+			findingsUrl: null
 		};
 	});
 
@@ -123,26 +127,26 @@ export function parseParameterSets(
 	const ranges: DataRanges = {
 		pk: [Math.min(...rows.map((r) => r.pk)), Math.max(...rows.map((r) => r.pk))],
 		sig: [Math.min(...rows.map((r) => r.sig)), Math.max(...rows.map((r) => r.sig))],
-		pkPlusSig: [
-			Math.min(...rows.map((r) => r.pkPlusSig)),
-			Math.max(...rows.map((r) => r.pkPlusSig)),
-		],
+		pkPlusSig: [Math.min(...rows.map((r) => r.pkPlusSig)), Math.max(...rows.map((r) => r.pkPlusSig))],
 		signingCycles: [
 			Math.min(...rows.filter((r) => r.signingCycles > 0).map((r) => r.signingCycles)),
-			Math.max(...rows.map((r) => r.signingCycles)),
+			Math.max(...rows.map((r) => r.signingCycles))
 		],
 		verificationCycles: [
-			Math.min(
-				...rows.filter((r) => r.verificationCycles > 0).map((r) => r.verificationCycles)
-			),
-			Math.max(...rows.map((r) => r.verificationCycles)),
+			Math.min(...rows.filter((r) => r.verificationCycles > 0).map((r) => r.verificationCycles)),
+			Math.max(...rows.map((r) => r.verificationCycles))
 		],
-		signingUs: withSignUs.length > 0
-			? [Math.min(...withSignUs.map((r) => r.signingUs!)), Math.max(...withSignUs.map((r) => r.signingUs!))]
-			: null,
-		verificationUs: withVerifyUs.length > 0
-			? [Math.min(...withVerifyUs.map((r) => r.verificationUs!)), Math.max(...withVerifyUs.map((r) => r.verificationUs!))]
-			: null,
+		signingUs:
+			withSignUs.length > 0
+				? [Math.min(...withSignUs.map((r) => r.signingUs!)), Math.max(...withSignUs.map((r) => r.signingUs!))]
+				: null,
+		verificationUs:
+			withVerifyUs.length > 0
+				? [
+						Math.min(...withVerifyUs.map((r) => r.verificationUs!)),
+						Math.max(...withVerifyUs.map((r) => r.verificationUs!))
+					]
+				: null
 	};
 
 	return { rows, ranges };
@@ -150,8 +154,11 @@ export function parseParameterSets(
 
 export function processYamlSchemes(
 	schemeData: SchemeYaml[],
-	tagFilter?: string,
-	{ useLatestVersion = false }: { useLatestVersion?: boolean } = {}
+	filter?: StageFilter,
+	{
+		useLatestVersion = false,
+		includeOtherProgrammes = false
+	}: { useLatestVersion?: boolean; includeOtherProgrammes?: boolean } = {}
 ): {
 	schemes: Scheme[];
 	parameterSets: ParameterSet[];
@@ -164,23 +171,35 @@ export function processYamlSchemes(
 		if (!yaml.versions || yaml.versions.length === 0) continue;
 
 		const sorted = [...yaml.versions].sort((a, b) => b.date.localeCompare(a.date));
+		const memberships = schemeProgrammes(yaml.versions);
 
 		let latest;
-		if (tagFilter) {
-			// Pick latest version with the requested tag
-			const tagged = sorted.filter((v) => v.tags?.includes(tagFilter));
-			if (tagged.length > 0) {
-				// useLatestVersion: include scheme if it has the tag, but show newest version
-				latest = useLatestVersion ? sorted[0] : tagged[0];
-			} else if (yaml.versions.every((v) => !v.tags || v.tags.length === 0)) {
-				// Untagged reference scheme — always include
+		let dropProgramme: string | null = null;
+		if (filter) {
+			const atStage = sorted.filter((v) => versionProgrammes(v)[filter.programme]?.includes(filter.stage));
+			if (atStage.length > 0) {
+				latest = useLatestVersion ? sorted[0] : atStage[0];
+			} else if (
+				includeOtherProgrammes
+					? // Latest view: the stage only scopes this programme's entrants. Standards,
+						// other programmes and pre-quantum schemes show their newest spec; the
+						// programme filter on the page decides whether they are visible.
+						memberships.length === 0 || memberships.some((m) => m.programme !== filter.programme)
+					: isReferenceScheme(yaml.versions)
+			) {
 				latest = sorted[0];
+				// Shown for another programme only: it did not reach this stage, so in this view
+				// it is not a member of `filter.programme` (e.g. AIMer and HAETAE, KpqC selections
+				// eliminated from the on-ramp after round 1, must not match the on-ramp filter).
+				if (includeOtherProgrammes) dropProgramme = filter.programme;
 			} else {
-				continue; // Scheme exists but not in this round
+				continue; // a competition entrant that was not at this stage
 			}
 		} else {
 			latest = sorted[0];
 		}
+
+		const programmes = memberships.filter((m) => m.programme !== dropProgramme);
 
 		const scheme: Scheme = {
 			scheme: yaml.name,
@@ -192,13 +211,14 @@ export function processYamlSchemes(
 			warning: latest.warning ?? false,
 			info: latest.info ?? false,
 			classical: latest.broken === 'classical',
-			tags: [...new Set(yaml.versions.flatMap((v) => v.tags ?? []))],
+			programmes
 		};
 		schemes.push(scheme);
 
+		const anyRecommended = latest.parametersets.some((p) => p.recommended);
 		for (const ps of latest.parametersets) {
-			const level: NistLevel =
-				ps.level === 'Pre-Quantum' ? 'Pre-Quantum' : (ps.level as 1 | 2 | 3 | 4 | 5);
+			const level: NistLevel | null =
+				ps.level === undefined ? null : ps.level === 'Pre-Quantum' ? 'Pre-Quantum' : (ps.level as 1 | 2 | 3 | 4 | 5);
 
 			const signingUs = ps.signing_us ?? null;
 			const verificationUs = ps.verification_us ?? null;
@@ -214,14 +234,14 @@ export function processYamlSchemes(
 			} else {
 				extrapolated = true;
 				signingCycles = signingUs != null ? Math.round((CPUSPEED * signingUs) / 1_000_000) : 0;
-				verificationCycles =
-					verificationUs != null ? Math.round((CPUSPEED * verificationUs) / 1_000_000) : 0;
+				verificationCycles = verificationUs != null ? Math.round((CPUSPEED * verificationUs) / 1_000_000) : 0;
 			}
 
 			// Parameterset flags fall back to version-level flags
 			const broken = ps.broken ?? latest.broken ?? false;
 			const warning = ps.warning ?? latest.warning ?? false;
 			const info = ps.info ?? latest.info ?? false;
+			const implementation = ps.implementation ?? latest.implementation ?? false;
 
 			const pk = ps.pk;
 			const sig = ps.sig;
@@ -247,8 +267,16 @@ export function processYamlSchemes(
 				website: yaml.website,
 				assumption: yaml.assumption,
 				notes: ps.notes ?? null,
+				dnf: ps.dnf ?? null,
+				noCode: ps.no_code ?? null,
+				benchEnv: ps.bench_env ?? null,
 				version: latest.version,
 				perfSource: latest.perf_source ?? null,
+				programmes,
+				ngccLevel: ps.ngcc_level ?? null,
+				recommended: anyRecommended ? ps.recommended === true : true,
+				implementation,
+				findingsUrl: latest.findings_url ?? null
 			});
 		}
 	}
@@ -261,24 +289,26 @@ export function processYamlSchemes(
 	const ranges: DataRanges = {
 		pk: [Math.min(...rows.map((r) => r.pk)), Math.max(...rows.map((r) => r.pk))],
 		sig: [Math.min(...rows.map((r) => r.sig)), Math.max(...rows.map((r) => r.sig))],
-		pkPlusSig: [
-			Math.min(...rows.map((r) => r.pkPlusSig)),
-			Math.max(...rows.map((r) => r.pkPlusSig)),
-		],
+		pkPlusSig: [Math.min(...rows.map((r) => r.pkPlusSig)), Math.max(...rows.map((r) => r.pkPlusSig))],
 		signingCycles: [
 			Math.min(...nonZeroSign.map((r) => r.signingCycles)),
-			Math.max(...nonZeroSign.map((r) => r.signingCycles)),
+			Math.max(...nonZeroSign.map((r) => r.signingCycles))
 		],
 		verificationCycles: [
 			Math.min(...nonZeroVerify.map((r) => r.verificationCycles)),
-			Math.max(...nonZeroVerify.map((r) => r.verificationCycles)),
+			Math.max(...nonZeroVerify.map((r) => r.verificationCycles))
 		],
-		signingUs: withSignUs.length > 0
-			? [Math.min(...withSignUs.map((r) => r.signingUs!)), Math.max(...withSignUs.map((r) => r.signingUs!))]
-			: null,
-		verificationUs: withVerifyUs.length > 0
-			? [Math.min(...withVerifyUs.map((r) => r.verificationUs!)), Math.max(...withVerifyUs.map((r) => r.verificationUs!))]
-			: null,
+		signingUs:
+			withSignUs.length > 0
+				? [Math.min(...withSignUs.map((r) => r.signingUs!)), Math.max(...withSignUs.map((r) => r.signingUs!))]
+				: null,
+		verificationUs:
+			withVerifyUs.length > 0
+				? [
+						Math.min(...withVerifyUs.map((r) => r.verificationUs!)),
+						Math.max(...withVerifyUs.map((r) => r.verificationUs!))
+					]
+				: null
 	};
 
 	return { schemes, parameterSets: rows, ranges };

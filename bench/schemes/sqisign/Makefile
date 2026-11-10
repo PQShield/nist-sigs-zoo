@@ -1,3 +1,4 @@
+include ../../../bench-common/flags.mk
 CC     ?= cc
 CMAKE  ?= cmake
 
@@ -23,7 +24,7 @@ PARAM_SETS :=
 define SQISIGN_RULES
 PARAM_SETS += $(1)
 $(BUILD)/$(1).so: $(1)_shim.c $(CSRC)/libsqisign_$(2)_nistapi.a | $(BUILD)
-	$$(CC) -O2 -fPIC -std=c99 -shared -DSQISIGN_NS_TYPE=$(SQISIGN_BUILD_TYPE) \
+	$$(CC) $(BENCH_CFLAGS) -fPIC -std=c99 -shared -DSQISIGN_NS_TYPE=$(SQISIGN_BUILD_TYPE) \
 	    $(1)_shim.c \
 	    $(CSRC)/libsqisign_$(2)_nistapi.a \
 	    $(CSRC)/libsqisign_$(2).a \
@@ -67,9 +68,23 @@ $(CSRC)/libsqisign_p500_27_nistapi.a \
 $(CSRC)/libsqisign_p664_17_nistapi.a: $(CBUILD)/.built
 	@true
 
-$(CBUILD)/.built: $(REF)/CMakeLists.txt | $(CBUILD)
+# Compiler flags: upstream's .cmake/flags.cmake appends -O2 -funroll-loops
+# -fvisibility=hidden (and, in its default ENABLE_STRICT mode, -fno-strict-aliasing) to
+# CMAKE_C_FLAGS, turns Release's -O3 into -O2 and enables LTO for every build type but
+# Debug. CMAKE_C_FLAGS_<TYPE> comes after CMAKE_C_FLAGS, so we use a build type upstream
+# does not know (Bench) whose flags are the global set (flags.mk) followed by
+# -fno-unroll-loops; no_lto.cmake turns LTO off. Exceptions, kept: -fvisibility=hidden
+# (needed: the broadwell fp_asm.S addresses the C constant <ns>_p PC-relatively, which
+# only links into our shared objects if the symbol is DSO-local) and -fno-strict-aliasing
+# (upstream's default ENABLE_STRICT build has it).
+SQISIGN_CMAKE_CFLAGS := $(BENCH_CFLAGS) -fPIC -fno-unroll-loops
+
+$(CBUILD)/.built: $(REF)/CMakeLists.txt Makefile no_lto.cmake ../../../bench-common/flags.mk | $(CBUILD)
 	cd $(CBUILD) && $(CMAKE) ../../$(REF) \
-	    -DCMAKE_BUILD_TYPE=Release \
+	    -DCMAKE_BUILD_TYPE=Bench \
+	    -DCMAKE_C_FLAGS_BENCH='$(SQISIGN_CMAKE_CFLAGS)' \
+	    -DCMAKE_PROJECT_INCLUDE=$(CURDIR)/no_lto.cmake \
+	    -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
 	    -DSQISIGN_BUILD_TYPE=$(SQISIGN_BUILD_TYPE) \
 	    -DENABLE_TESTS=OFF \
 	    -DCMAKE_POSITION_INDEPENDENT_CODE=ON

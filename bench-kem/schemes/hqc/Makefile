@@ -1,6 +1,6 @@
+include ../../../bench-common/flags.mk
 CC     ?= cc
-CFLAGS := -O3 -fomit-frame-pointer -fPIC -Wall -Wextra \
-          -mavx2 -mpclmul -mbmi -march=native -mtune=native
+CFLAGS := -Wall -Wextra -mavx2 -mpclmul -mbmi $(BENCH_CFLAGS) -fPIC
 BUILD   = build
 HQC     = ref
 

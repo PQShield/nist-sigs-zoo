@@ -10,64 +10,70 @@ parametersets:
   pk: 80
   ct: 80
   notes: Secret key 29 bytes. Ciphertext is the ephemeral public key.
-  keygen_us: 588.8
-  encaps_us: 4755.7
-  decaps_us: 4166.0
-  keygen_cycles: 1977977
-  encaps_cycles: 16040429
-  decaps_cycles: 14062371
+  keygen_us: 514.4
+  encaps_us: 4196.9
+  decaps_us: 3685.3
+  keygen_cycles: 1978817
+  encaps_cycles: 16242808
+  decaps_cycles: 14260006
+  bench_env: 2026-10-16-c8i.4xlarge
 - name: MIKE-fast-III
   level: 3
   pk: 122
   ct: 122
   notes: Secret key 43 bytes. Ciphertext is the ephemeral public key.
-  keygen_us: 1925.9
-  encaps_us: 15415.2
-  decaps_us: 13510.7
-  keygen_cycles: 6462391
-  encaps_cycles: 51952765
-  decaps_cycles: 45597283
+  keygen_us: 1679.8
+  encaps_us: 13538.9
+  decaps_us: 11861.3
+  keygen_cycles: 6495285
+  encaps_cycles: 52360799
+  decaps_cycles: 45917145
+  bench_env: 2026-10-16-c8i.4xlarge
 - name: MIKE-fast-V
   level: 5
   pk: 160
   ct: 160
   notes: Secret key 57 bytes. Ciphertext is the ephemeral public key.
-  keygen_us: 4043.2
-  encaps_us: 30909.2
-  decaps_us: 26873.3
-  keygen_cycles: 13425595
-  encaps_cycles: 102652382
-  decaps_cycles: 89253025
+  keygen_us: 3484.4
+  encaps_us: 26558.1
+  decaps_us: 23074.6
+  keygen_cycles: 13480125
+  encaps_cycles: 102776925
+  decaps_cycles: 89308249
+  bench_env: 2026-10-16-c8i.4xlarge
 - name: MIKE-rigorous-I
   level: 1
   pk: 96
   ct: 96
   notes: Secret key 47 bytes. Ciphertext is the ephemeral public key.
-  keygen_us: 1311.4
-  encaps_us: 10729.2
-  decaps_us: 9435.2
-  keygen_cycles: 4389250
-  encaps_cycles: 35975441
-  decaps_cycles: 31591555
+  keygen_us: 1131.6
+  encaps_us: 9229.6
+  decaps_us: 8099.4
+  keygen_cycles: 4380626
+  encaps_cycles: 35738979
+  decaps_cycles: 31362215
+  bench_env: 2026-10-16-c8i.4xlarge
 - name: MIKE-rigorous-III
   level: 3
   pk: 144
   ct: 144
   notes: Secret key 71 bytes. Ciphertext is the ephemeral public key.
-  keygen_us: 4186.0
-  encaps_us: 32707.7
-  decaps_us: 28539.8
-  keygen_cycles: 13897404
-  encaps_cycles: 108687334
-  decaps_cycles: 94794784
+  keygen_us: 3599.5
+  encaps_us: 28188.1
+  decaps_us: 24589.0
+  keygen_cycles: 13929815
+  encaps_cycles: 109152573
+  decaps_cycles: 95213437
+  bench_env: 2026-10-16-c8i.4xlarge
 - name: MIKE-rigorous-V
   level: 5
   pk: 192
   ct: 192
   notes: Secret key 95 bytes. Ciphertext is the ephemeral public key.
-  keygen_us: 9329.3
-  encaps_us: 71065.5
-  decaps_us: 61770.3
-  keygen_cycles: 31976583
-  encaps_cycles: 243285833
-  decaps_cycles: 211428578
+  keygen_us: 8355.5
+  encaps_us: 62949.6
+  decaps_us: 54620.8
+  keygen_cycles: 32352988
+  encaps_cycles: 243752353
+  decaps_cycles: 211495810
+  bench_env: 2026-10-16-c8i.4xlarge

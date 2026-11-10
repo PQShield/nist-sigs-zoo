@@ -173,3 +173,33 @@ static uint64_t bench_median(uint64_t *arr, int n) {
     (ns)[i]  = (uint64_t)(_ts1.tv_sec  - _ts0.tv_sec)  * 1000000000ULL    \
              + (uint64_t)(_ts1.tv_nsec - _ts0.tv_nsec);                   \
 } while (0)
+
+/* ---------- per-operation limit ----------
+ *
+ * BENCH_OP_LIMIT (seconds, default 600, 0 = none): a single warm-up sign / verify
+ * (bench/) or encaps / decaps (bench-kem/) call that runs longer kills the child
+ * with SIGALRM, recorded as the DNF reason "operation-over-<n>s" (isolate.h).
+ * Policy: a scheme that needs more than 10 minutes for one such operation is not
+ * benchmarked. Key generation is not limited. A value that is not a number of
+ * seconds is reported on stderr and the default is used. */
+#include <limits.h>
+#include <unistd.h>
+#define BENCH_OP_LIMIT_DEFAULT 600
+static unsigned bench_op_limit(void) {
+    static long cached = -1;
+    if (cached >= 0) return (unsigned)cached;
+    const char *e = getenv("BENCH_OP_LIMIT");
+    cached = BENCH_OP_LIMIT_DEFAULT;
+    if (e && *e) {
+        char *end;
+        long v = strtol(e, &end, 10);
+        if (*end || v < 0 || v > INT_MAX)
+            fprintf(stderr, "BENCH_OP_LIMIT=%s is not a number of seconds; using %d\n",
+                    e, BENCH_OP_LIMIT_DEFAULT);
+        else
+            cached = v;
+    }
+    return (unsigned)cached;
+}
+/* Run `call` (an int expression) under the limit; needs `int _bench_rc;` in scope. */
+#define BENCH_LIMITED(call) (alarm(bench_op_limit()), _bench_rc = (call), alarm(0), _bench_rc)

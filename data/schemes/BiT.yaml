@@ -1,0 +1,52 @@
+name: BiT
+full_name: 'BIT: Bimodal Triangular distribution based lattice signatures'
+website: https://www.niccs.org.cn/niccs/Round1Additional/pc/content/content_2101561076358926336.html
+category: Lattices
+assumption: MLWE/MSIS
+versions:
+- version: Round 1
+  date: '2026-09-20'
+  status: NGCC round 1
+  programmes:
+    china-ngcc: round-1
+  perf_source: our benchmark
+  parametersets:
+  - name: BiT-128
+    ngcc_level: 128
+    pk: 1048
+    sig: 1504
+    signing_cycles: 1237763
+    verification_cycles: 366013
+    signing_us: 324.8
+    verification_us: 95.0
+    bench_env: 2026-10-16-c8i.4xlarge
+    notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+    broken: Equivalent signing keys can be recovered from a large but practical number of public signatures, enabling forgeries (<a href="https://groups.google.com/a/list.nist.gov/g/pqc-forum/c/84_EKMOtk_M/m/ZNMqLQ07BAAJ">Feussner</a>).
+  - name: BiT-256
+    ngcc_level: 256
+    pk: 2144
+    sig: 3456
+    signing_cycles: 2263923
+    verification_cycles: 1198012
+    signing_us: 582.7
+    verification_us: 308.5
+    bench_env: 2026-10-16-c8i.4xlarge
+    notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+  - name: BiT-512
+    ngcc_level: 512
+    pk: 5056
+    sig: 6695
+    signing_cycles: 8594940
+    verification_cycles: 3494201
+    signing_us: 2229.2
+    verification_us: 903.8
+    bench_env: 2026-10-16-c8i.4xlarge
+    notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+    broken: The unsalted 512-bit message digest limits forgery resistance to about 2^256 work, below the 512-bit target (<a href="https://ngcc.dev/reports/sign-02.html#sign-02-1-a-512-bit-unsalted-message-representative-caps-forgery-security-at-256-bits">Saarinen</a>).
+  - name: BiT-384
+    ngcc_level: 384
+    pk: 2435
+    sig: 5251
+    notes: Sizes from the specification (Sec. 6.3, Table 10 (PDF p. 35)); not measured, the submission package has no implementation of it.
+    no_code: No implementation in the submission package
+  findings_url: https://ngcc.dev/reports/sign-02.html

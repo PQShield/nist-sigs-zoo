@@ -2,66 +2,75 @@ name: FrodoKEM
 website: https://frodokem.org/
 category: Lattices
 assumption: LWE
-status: ISO standardisation
+status: ISO standard
+programmes:
+  nist-pqc: round-3
+  iso: published
 info: Conservative plain-LWE KEM (no algebraic ring structure). Sizes are the standard (ISO) FrodoKEM with the salt countermeasure — ciphertexts are slightly larger than older round-3 tables. Both AES128 and SHAKE128 matrix-A generation are shown; sizes are identical, only timings differ.
 parametersets:
 - name: FrodoKEM-640-AES
   level: 1
   pk: 9616
   ct: 9752
-  keygen_cycles: 890469
-  encaps_cycles: 1067386
-  decaps_cycles: 1061637
-  keygen_us: 263.0
-  encaps_us: 313.5
-  decaps_us: 312.1
+  keygen_cycles: 945711
+  encaps_cycles: 1048377
+  decaps_cycles: 1007111
+  keygen_us: 252.2
+  encaps_us: 279.1
+  decaps_us: 269.1
+  bench_env: 2026-10-16-c8i.4xlarge
 - name: FrodoKEM-640-SHAKE
   level: 1
   pk: 9616
   ct: 9752
-  keygen_cycles: 2280602
-  encaps_cycles: 2454055
-  decaps_cycles: 2449144
-  keygen_us: 673.6
-  encaps_us: 720.0
-  decaps_us: 718.6
+  keygen_cycles: 2085559
+  encaps_cycles: 2218181
+  decaps_cycles: 2161306
+  keygen_us: 540.3
+  encaps_us: 574.1
+  decaps_us: 559.2
+  bench_env: 2026-10-16-c8i.4xlarge
 - name: FrodoKEM-976-AES
   level: 3
   pk: 15632
   ct: 15792
-  keygen_cycles: 1811016
-  encaps_cycles: 2002489
-  decaps_cycles: 1960652
-  keygen_us: 532.0
-  encaps_us: 588.2
-  decaps_us: 574.2
+  keygen_cycles: 1846232
+  encaps_cycles: 1978191
+  decaps_cycles: 1895185
+  keygen_us: 488.4
+  encaps_us: 525.6
+  decaps_us: 500.4
+  bench_env: 2026-10-16-c8i.4xlarge
 - name: FrodoKEM-976-SHAKE
   level: 3
   pk: 15632
   ct: 15792
-  keygen_cycles: 4729004
-  encaps_cycles: 4911142
-  decaps_cycles: 4878609
-  keygen_us: 1398.9
-  encaps_us: 1445.4
-  decaps_us: 1435.4
+  keygen_cycles: 4345766
+  encaps_cycles: 4515824
+  decaps_cycles: 4455794
+  keygen_us: 1124.0
+  encaps_us: 1168.1
+  decaps_us: 1151.3
+  bench_env: 2026-10-16-c8i.4xlarge
 - name: FrodoKEM-1344-AES
   level: 5
   pk: 21520
   ct: 21696
-  keygen_cycles: 3080001
-  encaps_cycles: 3285609
-  decaps_cycles: 3261906
-  keygen_us: 949.2
-  encaps_us: 1023.6
-  decaps_us: 1017.4
+  keygen_cycles: 3220219
+  encaps_cycles: 3339662
+  decaps_cycles: 3227090
+  keygen_us: 854.1
+  encaps_us: 887.1
+  decaps_us: 856.6
+  bench_env: 2026-10-16-c8i.4xlarge
 - name: FrodoKEM-1344-SHAKE
   level: 5
   pk: 21520
   ct: 21696
-  keygen_cycles: 8021372
-  encaps_cycles: 8318105
-  decaps_cycles: 8209580
-  keygen_us: 2392.2
-  encaps_us: 2478.3
-  decaps_us: 2449.1
+  keygen_cycles: 7650521
+  encaps_cycles: 7886091
+  decaps_cycles: 7757153
+  keygen_us: 1978.1
+  encaps_us: 2039.0
+  decaps_us: 2004.8
+  bench_env: 2026-10-16-c8i.4xlarge

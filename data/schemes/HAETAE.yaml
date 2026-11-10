@@ -3,12 +3,147 @@ website: https://kpqc.cryptolab.co.kr/haetae
 category: Lattices
 assumption: MLWE/MSIS
 versions:
+- version: KS draft 260904 (code 1.2.0)
+  date: '2026-09-04'
+  status: KpqC selected
+  info: 'Implementation 1.2.0 (specification 260825, 25 August 2026) revises the hyperball sampler: the discrete Gaussian CDT grows from 64 entries at 16-bit precision to 166 entries at 83-bit precision (203 instead of 136 random bits per sample candidate), after Jipeng Zhang (National University of Singapore) raised a question about the precision of the discrete Gaussian sampler (acknowledged in specification 260904). Sizes are unchanged.'
+  parametersets:
+  - name: HAETAE-2
+    level: 2
+    pk: 992
+    sig: 1474
+    notes: Reference implementation; the 1.2.0 release has no optimised implementation.
+    signing_cycles: 5613556
+    verification_cycles: 155960
+    signing_us: 1451.2
+    verification_us: 41.1
+    bench_env: 2026-10-16-c8i.4xlarge
+  - name: HAETAE-3
+    level: 3
+    pk: 1472
+    sig: 2349
+    notes: Reference implementation; the 1.2.0 release has no optimised implementation.
+    signing_cycles: 6832984
+    verification_cycles: 263339
+    signing_us: 1772.6
+    verification_us: 69.1
+    bench_env: 2026-10-16-c8i.4xlarge
+  - name: HAETAE-5
+    level: 5
+    pk: 2080
+    sig: 2948
+    notes: Reference implementation; the 1.2.0 release has no optimised implementation.
+    signing_cycles: 8499338
+    verification_cycles: 317622
+    signing_us: 2211.4
+    verification_us: 82.9
+    bench_env: 2026-10-16-c8i.4xlarge
+  perf_source: our benchmark
+- version: KS draft 260204 (code 1.1.2)
+  date: '2026-02-04'
+  status: KpqC selected
+  perf_source: submission document (Table 4, Intel Core i7-10700k, reference implementation)
+  parametersets:
+  - name: HAETAE-2
+    renamed_from: '120'
+    level: 2
+    pk: 992
+    sig: 1474
+    signing_cycles: 6039674
+    verification_cycles: 376486
+  - name: HAETAE-3
+    renamed_from: '180'
+    level: 3
+    pk: 1472
+    sig: 2349
+    signing_cycles: 9161312
+    verification_cycles: 691652
+  - name: HAETAE-5
+    renamed_from: '260'
+    level: 5
+    pk: 2080
+    sig: 2948
+    signing_cycles: 11444678
+    verification_cycles: 895098
+- version: v3.0
+  date: '2024-07-04'
+  status: KpqC selected
+  programmes:
+    kpqc: selected
+  perf_source: submission document (Table 4, Intel Core i7-10700k, reference implementation)
+  parametersets:
+  - name: '120'
+    level: 2
+    pk: 992
+    sig: 1474
+    signing_cycles: 6039674
+    verification_cycles: 376486
+  - name: '180'
+    level: 3
+    pk: 1472
+    sig: 2349
+    signing_cycles: 9161312
+    verification_cycles: 691652
+  - name: '260'
+    level: 5
+    pk: 2080
+    sig: 2948
+    signing_cycles: 11444678
+    verification_cycles: 895098
+- version: v2.1
+  date: '2024-02-23'
+  status: KpqC round 2
+  perf_source: submission document (Table 4, Intel Core i7-10700k, reference implementation)
+  parametersets:
+  - name: '120'
+    level: 2
+    pk: 992
+    sig: 1474
+    signing_cycles: 6039674
+    verification_cycles: 376486
+  - name: '180'
+    level: 3
+    pk: 1472
+    sig: 2349
+    signing_cycles: 9161312
+    verification_cycles: 691652
+  - name: '260'
+    level: 5
+    pk: 2080
+    sig: 2948
+    signing_cycles: 11444678
+    verification_cycles: 895098
+- version: v2.0
+  date: '2023-11-29'
+  status: KpqC round 2
+  programmes:
+    kpqc: round-2
+  perf_source: submission document (Table 4, Intel Core i7-10700k, reference implementation)
+  parametersets:
+  - name: '120'
+    level: 2
+    pk: 992
+    sig: 1474
+    signing_cycles: 6039674
+    verification_cycles: 376486
+  - name: '180'
+    level: 3
+    pk: 1472
+    sig: 2349
+    signing_cycles: 9161312
+    verification_cycles: 691652
+  - name: '260'
+    level: 5
+    pk: 2080
+    sig: 2948
+    signing_cycles: 11444678
+    verification_cycles: 895098
 - version: Round 1
   date: '2023-05-31'
   status: On-ramp
+  programmes:
+    nist-onramp: round-1
   perf_source: submission document
-  tags:
-  - round-1
   parametersets:
   - name: '180'
     level: 3

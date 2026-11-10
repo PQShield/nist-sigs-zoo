@@ -1,0 +1,44 @@
+name: Sigurd
+website: https://www.niccs.org.cn/niccs/Round1Additional/pc/content/content_2101561096235732992.html
+category: MPCitH
+assumption: Regular Synd. Dec.
+versions:
+- version: Round 1
+  date: '2026-09-20'
+  status: NGCC round 1
+  programmes:
+    china-ngcc: round-1
+  perf_source: our benchmark
+  parametersets:
+  - name: Sigurd128
+    ngcc_level: 128
+    pk: 112
+    sig: 62868
+    signing_cycles: 37688349
+    verification_cycles: 14837835
+    signing_us: 9771.5
+    verification_us: 3960.8
+    bench_env: 2026-10-16-c8i.4xlarge
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+  - name: Sigurd256
+    ngcc_level: 256
+    pk: 212
+    sig: 137412
+    signing_cycles: 343937665
+    verification_cycles: 123001413
+    signing_us: 89533.4
+    verification_us: 32156.3
+    bench_env: 2026-10-16-c8i.4xlarge
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+  - name: Sigurd512
+    ngcc_level: 512
+    pk: 435
+    sig: 494532
+    signing_cycles: 3190258263
+    verification_cycles: 996858575
+    signing_us: 824973.3
+    verification_us: 294293.0
+    bench_env: 2026-10-16-c8i.4xlarge
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+  findings_url: https://ngcc.dev/reports/sign-24.html
+  implementation: The submitted code leaks the signing witness through its encoding after a handful of signatures (<a href="https://ngcc.dev/reports/sign-24.html#sign-24-1-chunked-reedsolomon-encoding-reveals-the-signing-witness">Guoxiao Liu</a>; <a href="https://groups.google.com/a/list.nist.gov/g/pqc-forum/c/2lO14yYyDK4/m/UYKYkWM7BAAJ">Feussner</a>; <a href="https://ngcc.dev/reports/sign-24.html#sign-24-1-chunked-reedsolomon-encoding-reveals-the-signing-witness">Saarinen</a>), and through occasional zero challenges, enabling forgery at every level (<a href="https://ngcc.dev/reports/sign-24.html#sign-24-2-zero-16-bit-challenge-exposes-the-signing-witness">Saarinen</a>).

@@ -6,119 +6,175 @@ versions:
 - version: v2.2
   date: '2025-07-31'
   status: On-ramp
-  perf_source: submission document
+  perf_source: our benchmark
   parametersets:
   - name: R-SDP 1 fast
     level: 1
     pk: 77
     sig: 18432
-    signing_cycles: 1366000
-    verification_cycles: 781000
+    signing_cycles: 1260784
+    verification_cycles: 802952
+    signing_us: 331.2
+    verification_us: 211.1
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: R-SDP 1 balanced
     level: 1
     pk: 77
     sig: 13152
-    signing_cycles: 2361000
-    verification_cycles: 1539000
+    signing_cycles: 2109194
+    verification_cycles: 1495568
+    signing_us: 556.4
+    verification_us: 394.2
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: R-SDP 1 small
     level: 1
     pk: 77
     sig: 12432
-    signing_cycles: 4783000
-    verification_cycles: 3290000
+    signing_cycles: 4156295
+    verification_cycles: 3098860
+    signing_us: 1098.6
+    verification_us: 820.5
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: R-SDP(G) 1 fast
     level: 1
     pk: 54
     sig: 11980
-    signing_cycles: 744000
-    verification_cycles: 482000
+    signing_cycles: 680903
+    verification_cycles: 456843
+    signing_us: 175.7
+    verification_us: 118.3
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: R-SDP(G) 1 balanced
     level: 1
     pk: 54
     sig: 9120
-    signing_cycles: 1452000
-    verification_cycles: 989000
+    signing_cycles: 1248713
+    verification_cycles: 898987
+    signing_us: 321.5
+    verification_us: 231.9
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: R-SDP(G) 1 small
     level: 1
     pk: 54
     sig: 8960
-    signing_cycles: 2849000
-    verification_cycles: 1995000
+    signing_cycles: 2454788
+    verification_cycles: 1812086
+    signing_us: 642.5
+    verification_us: 475.1
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: R-SDP 3 fast
     level: 3
     pk: 115
     sig: 41406
-    signing_cycles: 3110000
-    verification_cycles: 1909000
+    signing_cycles: 2825494
+    verification_cycles: 1849828
+    signing_us: 742.5
+    verification_us: 487.7
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: R-SDP 3 balanced
     level: 3
     pk: 115
     sig: 29853
-    signing_cycles: 5099000
-    verification_cycles: 3500000
+    signing_cycles: 4530793
+    verification_cycles: 3284332
+    signing_us: 1198.7
+    verification_us: 871.2
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: R-SDP 3 small
     level: 3
     pk: 115
     sig: 28391
-    signing_cycles: 7612000
-    verification_cycles: 5381000
+    signing_cycles: 6790143
+    verification_cycles: 5017482
+    signing_us: 1776.3
+    verification_us: 1313.1
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: R-SDP(G) 3 fast
     level: 3
     pk: 83
     sig: 26772
-    signing_cycles: 1745000
-    verification_cycles: 1166000
+    signing_cycles: 1677069
+    verification_cycles: 1130952
+    signing_us: 438.0
+    verification_us: 294.8
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: R-SDP(G) 3 balanced
     level: 3
     pk: 83
     sig: 22464
-    signing_cycles: 2225000
-    verification_cycles: 1508000
+    signing_cycles: 2044772
+    verification_cycles: 1467032
+    signing_us: 534.1
+    verification_us: 382.5
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: R-SDP(G) 3 small
     level: 3
     pk: 83
     sig: 20452
-    signing_cycles: 4159000
-    verification_cycles: 3052000
+    signing_cycles: 3819446
+    verification_cycles: 2923876
+    signing_us: 1010.4
+    verification_us: 771.5
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: R-SDP 5 fast
     level: 5
     pk: 153
     sig: 74590
-    signing_cycles: 5501000
-    verification_cycles: 3453000
+    signing_cycles: 5136629
+    verification_cycles: 3290947
+    signing_us: 1363.1
+    verification_us: 874.3
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: R-SDP 5 balanced
     level: 5
     pk: 153
     sig: 53527
-    signing_cycles: 8802000
-    verification_cycles: 6054000
+    signing_cycles: 8016153
+    verification_cycles: 5658595
+    signing_us: 2113.7
+    verification_us: 1484.3
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: R-SDP 5 small
     level: 5
     pk: 153
     sig: 50818
-    signing_cycles: 14062000
-    verification_cycles: 10009000
+    signing_cycles: 13051439
+    verification_cycles: 9254355
+    signing_us: 3459.9
+    verification_us: 2447.1
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: R-SDP(G) 5 fast
     level: 5
     pk: 106
     sig: 48102
-    signing_cycles: 2912000
-    verification_cycles: 1961000
+    signing_cycles: 2827258
+    verification_cycles: 1804130
+    signing_us: 749.6
+    verification_us: 480.5
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: R-SDP(G) 5 balanced
     level: 5
     pk: 106
     sig: 40100
-    signing_cycles: 3577000
-    verification_cycles: 2463000
+    signing_cycles: 3124093
+    verification_cycles: 2217293
+    signing_us: 828.1
+    verification_us: 589.2
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: R-SDP(G) 5 small
     level: 5
     pk: 106
     sig: 36454
-    signing_cycles: 6289000
-    verification_cycles: 4509000
+    signing_cycles: 5490924
+    verification_cycles: 4103599
+    signing_us: 1440.5
+    verification_us: 1082.1
+    bench_env: 2026-10-16-c8i.4xlarge
 - version: v2
   date: '2025-01-31'
   status: On-ramp
+  programmes:
+    nist-onramp: round-2
   perf_source: submission document
   parametersets:
   - name: R-SDP 5 small
@@ -229,14 +285,12 @@ versions:
     sig: 11980
     signing_cycles: 687000
     verification_cycles: 422000
-  tags:
-  - round-2
 - version: Round 1
   date: '2023-06-02'
   status: On-ramp
+  programmes:
+    nist-onramp: round-1
   perf_source: submission document
-  tags:
-  - round-1
   parametersets:
   - name: R-SDP 5 small
     level: 5

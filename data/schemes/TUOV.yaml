@@ -1,14 +1,14 @@
 name: TUOV
-website: https://www.tuovsig.org/
+website: https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/round-1/spec-files/TUOV-spec-web.pdf
 category: Multivariate
 assumption: UOV
 versions:
 - version: v1.0
   date: '2023-05-30'
   status: On-ramp
+  programmes:
+    nist-onramp: round-1
   perf_source: submission document
-  tags:
-  - round-1
   parametersets:
   - name: V
     level: 5

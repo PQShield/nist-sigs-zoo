@@ -1,0 +1,59 @@
+name: MAMBA-Viper
+website: https://www.niccs.org.cn/niccs/Round1Additional/pc/content/content_2101560854052425728.html
+category: Lattices
+assumption: MLWQ
+status: NGCC round 1
+programmes:
+  china-ngcc: round-1
+parametersets:
+- name: MAMBA-Viper-128
+  ngcc_level: 128
+  pk: 608
+  ct: 736
+  keygen_cycles: 143533
+  encaps_cycles: 227737
+  decaps_cycles: 261438
+  keygen_us: 37.9
+  encaps_us: 59.5
+  decaps_us: 68.2
+  bench_env: 2026-10-16-c8i.4xlarge
+  notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+- name: MAMBA-Viper-256
+  ngcc_level: 256
+  pk: 1312
+  ct: 1472
+  keygen_cycles: 464708
+  encaps_cycles: 601875
+  decaps_cycles: 636510
+  keygen_us: 120.3
+  encaps_us: 155.5
+  decaps_us: 164.4
+  bench_env: 2026-10-16-c8i.4xlarge
+  notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+- name: MAMBA-Viper-384
+  ngcc_level: 384
+  pk: 2496
+  ct: 2656
+  keygen_cycles: 1336434
+  encaps_cycles: 1545763
+  decaps_cycles: 1573441
+  keygen_us: 343.8
+  encaps_us: 397.7
+  decaps_us: 404.9
+  bench_env: 2026-10-16-c8i.4xlarge
+  notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+  implementation: The submitted code derives the secret from a 256-bit seed, so key search falls below this set's target (<a href="https://ngcc.dev/reports/kem-21.html#kem-21-1-viper-384-and-512-restrict-the-secret-to-a-256-bit-seed">Saarinen</a>).
+- name: MAMBA-Viper-512
+  ngcc_level: 512
+  pk: 3200
+  ct: 3456
+  keygen_cycles: 2121813
+  encaps_cycles: 2374721
+  decaps_cycles: 2412653
+  keygen_us: 553.5
+  encaps_us: 620.2
+  decaps_us: 631.3
+  bench_env: 2026-10-16-c8i.4xlarge
+  notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+  implementation: The submitted code derives the secret from a 256-bit seed, so key search falls below this set's target (<a href="https://ngcc.dev/reports/kem-21.html#kem-21-1-viper-384-and-512-restrict-the-secret-to-a-256-bit-seed">Saarinen</a>).
+findings_url: https://ngcc.dev/reports/kem-21.html

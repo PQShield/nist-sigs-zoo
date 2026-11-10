@@ -1,3 +1,4 @@
+include ../../../bench-common/flags.mk
 CC  ?= cc
 AR  ?= ar
 
@@ -53,7 +54,7 @@ endif
 SHA3_SRCS := $(SHA3_COMMON_SRCS) $(SHA3_PLAT_SRCS)
 SHA3_OBJS := $(patsubst $(SHA3)/%,$(BUILD)/sha3/%.o,$(SHA3_SRCS))
 SHA3_LIB  := $(BUILD)/libhash.a
-SHA3_CFLAGS := -O2 -march=native -fPIC -std=gnu99 -DNO_MISALIGNED_ACCESSES $(KECCAK_CFLAGS) $(SHA3_INC)
+SHA3_CFLAGS := -std=gnu99 -DNO_MISALIGNED_ACCESSES $(KECCAK_CFLAGS) $(SHA3_INC) $(BENCH_CFLAGS) -fPIC
 
 # ------- Sources common to every variant, independent of CT/OT -------
 COMMON_SRCS := \
@@ -78,17 +79,18 @@ INCLUDES := \
     -I$(REF)/piop -I$(REF)/fields -I$(REF)/fields_bitsliced \
     -I$(REF)
 
-# Flags match what upstream's own Makefile uses by default on x86-64
+# Defines match what upstream's own Makefile uses by default on x86-64
 # (`make -n` in ref/; see also issue #58): -O3 plus the PIOP cache, x4 XOF,
 # x4 AES grinding, x8 encryption and x8 breadth-first large-tree expansion.
 # Field and Rijndael backends (AVX2/AVX-512, AES-NI/VAES, GFNI) are picked
 # at compile time from -march=native. Not the liboqs META "default" profile:
 # its -DPIOP_BITSLICE path is 3-5x slower on x86.
-CFLAGS_BASE := -O3 -march=native $(VAES_CFLAGS) -fPIC -std=c99 \
-    -DNDEBUG -DNO_ALLOC_PROBE -DNO_EMBEDDED_SRAM_SECTION \
+# Compiler flags: the global set (flags.mk); upstream builds its sha3 library with -O2.
+CFLAGS_BASE := $(VAES_CFLAGS) -std=c99 \
+    -DNO_ALLOC_PROBE -DNO_EMBEDDED_SRAM_SECTION \
     -DUSE_PIOP_CACHE -DUSE_XOF_X4 -DAES_GRINDING_X4 -DUSE_ENC_X8 \
     -DLARGE_TREE_BFS -DLARGE_TREE_BFS_X8 \
-    $(KECCAK_CFLAGS)
+    $(KECCAK_CFLAGS) $(BENCH_CFLAGS) -fPIC
 
 # ------- Variant rule template -------
 # $(1) = file stem          (e.g. mqom3_cat1_gf2_shorter_ct)
@@ -159,7 +161,7 @@ $(BUILD)/sha3/%.c.o: $(SHA3)/%.c | $(BUILD)/sha3
 
 $(BUILD)/sha3/%.S.o: $(SHA3)/%.S | $(BUILD)/sha3
 	@mkdir -p $(dir $@)
-	$(CC) $(KECCAK_CFLAGS) -fPIC -c $< -o $@
+	$(CC) $(KECCAK_CFLAGS) $(BENCH_CFLAGS) -fPIC -c $< -o $@
 
 $(SHA3_LIB): $(SHA3_OBJS) | $(BUILD)
 	$(AR) rcs $@ $^

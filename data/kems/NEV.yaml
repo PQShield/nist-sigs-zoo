@@ -1,0 +1,156 @@
+name: NEV
+website: https://www.niccs.org.cn/niccs/Round1Additional/pc/content/content_2101560863040819200.html
+category: Lattices
+assumption: NTRU/RLWE
+status: NGCC round 1
+programmes:
+  china-ngcc: round-1
+parametersets:
+- name: NEV-C1
+  ngcc_level: 128
+  pk: 615
+  ct: 615
+  keygen_cycles: 48521
+  encaps_cycles: 50282
+  decaps_cycles: 37670
+  keygen_us: 13.5
+  encaps_us: 14.0
+  decaps_us: 10.7
+  bench_env: 2026-10-16-c8i.4xlarge
+  notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+- name: NEV-C1-c
+  ngcc_level: 128
+  pk: 615
+  ct: 512
+  keygen_cycles: 48558
+  encaps_cycles: 41194
+  decaps_cycles: 27300
+  keygen_us: 13.5
+  encaps_us: 11.6
+  decaps_us: 8.1
+  bench_env: 2026-10-16-c8i.4xlarge
+  notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+- name: NEV-C2
+  ngcc_level: 256
+  pk: 1229
+  ct: 1229
+  keygen_cycles: 81372
+  encaps_cycles: 99135
+  decaps_cycles: 79133
+  keygen_us: 21.9
+  encaps_us: 26.5
+  decaps_us: 21.4
+  bench_env: 2026-10-16-c8i.4xlarge
+  notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+- name: NEV-C2-c
+  ngcc_level: 256
+  pk: 1229
+  ct: 1024
+  keygen_cycles: 81317
+  encaps_cycles: 84484
+  decaps_cycles: 62086
+  keygen_us: 21.9
+  encaps_us: 22.7
+  decaps_us: 17.0
+  bench_env: 2026-10-16-c8i.4xlarge
+  notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+- name: NEV-C3
+  ngcc_level: 512
+  pk: 2458
+  ct: 2458
+  keygen_cycles: 321962
+  encaps_cycles: 285111
+  decaps_cycles: 186950
+  keygen_us: 83.7
+  encaps_us: 74.2
+  decaps_us: 49.0
+  bench_env: 2026-10-16-c8i.4xlarge
+  notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+- name: NEV-C3-c
+  ngcc_level: 512
+  pk: 2458
+  ct: 2048
+  keygen_cycles: 321125
+  encaps_cycles: 238495
+  decaps_cycles: 135739
+  keygen_us: 83.5
+  encaps_us: 62.2
+  decaps_us: 35.9
+  bench_env: 2026-10-16-c8i.4xlarge
+  notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+- name: NEV-D1
+  ngcc_level: 128
+  pk: 768
+  ct: 768
+  keygen_cycles: 120297
+  encaps_cycles: 117593
+  decaps_cycles: 96167
+  keygen_us: 31.9
+  encaps_us: 31.2
+  decaps_us: 25.7
+  bench_env: 2026-10-16-c8i.4xlarge
+  notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+- name: NEV-D2
+  ngcc_level: 256
+  pk: 1536
+  ct: 1536
+  keygen_cycles: 153579
+  encaps_cycles: 160543
+  decaps_cycles: 123773
+  keygen_us: 40.5
+  encaps_us: 42.3
+  decaps_us: 32.8
+  bench_env: 2026-10-16-c8i.4xlarge
+  notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+- name: NEV-D3
+  ngcc_level: 512
+  pk: 3072
+  ct: 3072
+  keygen_cycles: 440195
+  encaps_cycles: 450787
+  decaps_cycles: 304321
+  keygen_us: 114.0
+  encaps_us: 116.7
+  decaps_us: 79.1
+  bench_env: 2026-10-16-c8i.4xlarge
+  notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+- name: NEV-R1
+  ngcc_level: 128
+  recommended: true
+  pk: 672
+  ct: 672
+  keygen_cycles: 66823
+  encaps_cycles: 64943
+  decaps_cycles: 45927
+  keygen_us: 18.2
+  encaps_us: 17.7
+  decaps_us: 12.8
+  bench_env: 2026-10-16-c8i.4xlarge
+  notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+- name: NEV-R2
+  ngcc_level: 256
+  recommended: true
+  pk: 1344
+  ct: 1344
+  keygen_cycles: 101053
+  encaps_cycles: 107303
+  decaps_cycles: 74982
+  keygen_us: 27.0
+  encaps_us: 28.6
+  decaps_us: 20.3
+  bench_env: 2026-10-16-c8i.4xlarge
+  notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+- name: NEV-R3
+  ngcc_level: 512
+  recommended: true
+  pk: 2688
+  ct: 2688
+  keygen_cycles: 276059
+  encaps_cycles: 334639
+  decaps_cycles: 207151
+  keygen_us: 71.9
+  encaps_us: 86.9
+  decaps_us: 54.2
+  bench_env: 2026-10-16-c8i.4xlarge
+  notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+findings_url: https://ngcc.dev/reports/kem-25.html

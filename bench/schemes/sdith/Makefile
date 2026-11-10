@@ -1,10 +1,11 @@
+include ../../../bench-common/flags.mk
 CC      ?= cc
 BUILD    = build
 IMPL_BASE = ref/Optimized_Implementation
 
 # Common flags for all variants. -std=gnu17: the hypercube sdith.c does
 # `typedef int bool;`, which is an error under C23 (GCC >= 15 default).
-BASE_CFLAGS := -std=gnu17 -O3 -fPIC -DNDEBUG -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare
+BASE_CFLAGS := -std=gnu17 -Wall -Wextra -Wno-unused-parameter -Wno-sign-compare $(BENCH_CFLAGS) -fPIC
 
 # Hypercube: uses AVX2 field arithmetic
 HC_CFLAGS   := $(BASE_CFLAGS) -DAVX2 -mavx2 -mpclmul -mgfni -mavx -maes
@@ -113,7 +114,7 @@ $$(sha3_simd256_obj_$(1)): $$(sha3_simd256_$(1)) | $(BUILD)/$(1)
 
 # Compile SHA3 AVX2 assembly
 $$(sha3_asm_obj_$(1)): $$(sha3_asm_$(1)) | $(BUILD)/$(1)
-	$$(CC) -c $$< -o $$@
+	$$(CC) $(BASE_CFLAGS) -c $$< -o $$@
 
 # Static library
 $$(lib_$(1)): $$(main_objs_$(1)) $$(sha3_c_objs_$(1)) $$(sha3_simd256_obj_$(1)) $$(sha3_asm_obj_$(1)) | $(BUILD)/$(1)

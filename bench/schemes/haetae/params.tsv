@@ -1,0 +1,13 @@
+# HAETAE implementation 1.2.0 (KS draft specification 260825/260904), the official
+# release linked from https://kpqc.cryptolab.co.kr/haetae (Google Drive; sha256 pinned in
+# .source, which the Makefile checks). The newer code is not on GitHub: CryptoLabInc/HAETAE
+# only has 1.1.2. The release contains the reference implementation only (its kat.sh
+# mentions an optimized_implementation/ AVX2 tree that the archive does not include), so
+# this is the reference build (-O3 -march=native). Sizes match include/params.h, the
+# specification (Table 3) and data/schemes/HAETAE.yaml; our build of the reference code
+# reproduces the shipped KATs for all three modes.
+# Columns: file, name, pk, sk, sig, iters, mode (HAETAE_CONFIG_MODE value)
+file	name	pk	sk	sig	iters	mode
+haetae2	HAETAE-2	992	1408	1474	0	HAETAE_MODE2
+haetae3	HAETAE-3	1472	2112	2349	0	HAETAE_MODE3
+haetae5	HAETAE-5	2080	2752	2948	0	HAETAE_MODE5

@@ -1,0 +1,5 @@
+# HAWK v1.0 (NIST round 1) shim parameters. Columns: file, name, iters, logn
+# logn: log2(n); sizes computed via HAWK_PUBKEY_SIZE(logn) etc.
+file	name	iters	logn
+hawk_r1_512	HAWK-R1-512	0	9
+hawk_r1_1024	HAWK-R1-1024	0	10

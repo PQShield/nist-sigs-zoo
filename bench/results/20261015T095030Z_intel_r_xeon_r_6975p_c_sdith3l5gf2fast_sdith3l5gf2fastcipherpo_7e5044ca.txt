@@ -1,0 +1,246 @@
+# pq-sigs benchmark results
+# date:         2026-10-15T09:50:30Z
+# host:         ip-172-31-11-221
+# commit:       67699d7da50c4d783a0c43bc466b52b356feff90
+# instance_type: c8i.4xlarge
+# os:           Ubuntu 26.04.1 LTS
+# kernel:       7.0.0-1014-aws
+# cpu:          Intel(R) Xeon(R) 6975P-C
+# cores:        16 (threads/core: 2)
+# max_freq_mhz: unknown (cur: unknown MHz)
+# governor:     unknown
+# turbo:        unknown
+# flags:        fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ss ht syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon rep_good nopl xtopology nonstop_tsc cpuid aperfmperf tsc_known_freq pni pclmulqdq monitor ssse3 fma cx16 pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand hypervisor lahf_lm abm 3dnowprefetch cpuid_fault ssbd ibrs ibpb stibp ibrs_enhanced fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid avx512f avx512dq rdseed adx smap avx512ifma clflushopt clwb avx512cd sha_ni avx512bw avx512vl xsaveopt xsavec xgetbv1 xsaves avx_vnni avx512_bf16 wbnoinvd ida arat avx512vbmi umip pku ospke waitpkg avx512_vbmi2 gfni vaes vpclmulqdq avx512_vnni avx512_bitalg tme avx512_vpopcntdq rdpid bus_lock_detect cldemote movdiri movdir64b md_clear serialize amx_bf16 avx512_fp16 amx_tile amx_int8 flush_l1d arch_capabilities
+#
+# compiler:     cc (Ubuntu 15.2.0-16ubuntu1) 15.2.0
+# openssl:      OpenSSL 3.5.5 27 Jan 2026 (Library: OpenSSL 3.5.5 27 Jan 2026)
+# sources:
+#   schemes/faest/ref: https://github.com/faest-sign/faest-arch-opt@1d8330979cb467c54edac43ffe695da249fa3417
+#   schemes/fndsa/ref: https://github.com/pornin/c-fn-dsa@33026d4d2734049a23f065f77eea11c35de58d76
+#   schemes/hawk/ref: https://github.com/hawk-sign/dev@1b9fef52559273fe7b40fe3e22968eaedd3a4c2a
+#   schemes/mayo/ref: https://github.com/PQCMayo/MAYO-C@74de637a7c4a7f9fafa888183bc05f5cf920cd2d
+#   schemes/mldsa/ref: https://github.com/pq-crystals/dilithium.git@6e00625c5b29f516c6de973fe2ee2fbb150973f9
+#   schemes/mqom/ref: https://github.com/mqom/mqom-v3@d9c64e386b186ee186684a0389fc32009bd67cd1
+#   schemes/qruov/ref: https://github.com/qruov/round3.git@3d84d0f6afae80c88deefab03b1dd6633a147f96
+#   schemes/sdith/ref: https://github.com/sdith/sdith@fff41ae5b12ba3c6b90d8f97b2ede57aa277a92f
+#   schemes/sdith2/ref: https://github.com/sdith/sdith@ce7adf06476674d4ff990f378f83f9981cd6745b
+#   schemes/slhdsa/ref: https://github.com/pq-code-package/slhdsa-c@2ee6f6853af95d5833a567cc4dcfd7f08d66bfd4
+#   schemes/snova/ref: https://github.com/PQCLAB-SNOVA/SNOVA.git@9b29c1e332cbd85757c8d6362a57b9a8c8298a38
+#   schemes/sqisign/ref: https://github.com/SQISign/the-sqisign@6d017708db403bf83977fa70770fc4f7f9e9ff21
+#   schemes/uov/ref: https://github.com/pqov/pqov.git@fac2ec1fe6d8ea508eab4b98eb5341e1eed930a4
+#   schemes/ngcc: https://www.niccs.org.cn/niccs/Proposal/Public-Key%20Cryptographic%20Algorithms/Round%201%20candidates/
+# filter:       SDitH3-L5-gf2-fast SDitH3-L5-gf2-fast-cipherpow SDitH3-L5-gf2-short SDitH3-L5-gf2-short-cipherpow NGCC-CEDRUSC-512f NGCC-Flextree-512f NGCC-Lynxer-512s NGCC-Phoenix-SM3-512s NGCC-Galas-256S NGCC-Phoenix-SM3-384s SLH-DSA-SHAKE-256s NGCC-sydo_512s NGCC-Rhyme-SM3-512 NGCC-ReSolveD-alpha-512f NGCC-SQIsign2D-lvl3 NGCC-CEDRUSC-256s NGCC-Rhyme-SM3-128
+#
+# cyclecounter: rdpmc CPU_CYCLES (real core cycles, user-space)
+scheme                       iters    keygen (cyc)  keygen (us)      sign (cyc)   sign (us)    verify (cyc)  verify (us)
+------                       -----    ------------  -----------      ----------   ---------    ------------  ----------
+SLH-DSA-SHAKE-256s              50       271587465     71652.5      3406432020    900893.1         4557943      1206.5
+SDitH3-L5-gf2-short             50          184036        48.3        65435328     16930.6        64558529     16701.0
+SDitH3-L5-gf2-fast              50          179058        46.9        14294987      3698.9        13454570      3480.7
+SDitH3-L5-gf2-short-cipherpow      50          184084        48.3        65368834     16913.7        64568845     16704.6
+SDitH3-L5-gf2-fast-cipherpow      50          179532        47.1        14190077      3668.8        13452545      3479.4
+NGCC-CEDRUSC-256s               10      1040227100    268942.7     13752645248   3557014.7        38196212      9873.8
+NGCC-CEDRUSC-512f               10      1921885049    497021.0     26971998857   6975959.9       171659899     44355.9
+NGCC-Flextree-512f              10      1921762252    496881.7     27099548821   7008100.8       173330228     44785.6
+NGCC-Galas-256S                 10        54005982     13955.2     11343202747   2939686.9      8897064774   2307015.8
+NGCC-Lynxer-512s                17        12363553      3202.1     18241204979   4728850.9     14445144302   3746337.9
+NGCC-Phoenix-SM3-384s           10      1258815795    325652.9     17167974421   4439514.6       110703438     28605.1
+NGCC-Phoenix-SM3-512s           10      2652727166    686132.4     26028420618   6735513.8        44409680     11483.3
+NGCC-ReSolveD-alpha-512f       109       140954200     36610.8      2080137047    538406.2      1734775472    448773.2
+NGCC-Rhyme-SM3-128             184       412204901    106623.9         4209784      1092.5          406227       106.6
+NGCC-Rhyme-SM3-512              14     16609870200   4297026.8        23536482      6089.6         1749560       452.4
+lifting the two basis [6761]
+4 xyz doubling [21329]
+gluing comput [1589]
+precomputation for the first codomain [30]
+gluing eval [475]
+middle steps [103836]
+last two steps [188]
+splitting [2972]
+lifting the two basis [6743]
+4 xyz doubling [21317]
+gluing comput [1578]
+precomputation for the first codomain [30]
+gluing eval [483]
+middle steps [104464]
+last two steps [194]
+splitting [2977]
+lifting the two basis [6743]
+4 xyz doubling [21329]
+gluing comput [1580]
+precomputation for the first codomain [30]
+gluing eval [483]
+middle steps [103903]
+last two steps [187]
+splitting [2976]
+lifting the two basis [6732]
+4 xyz doubling [21320]
+gluing comput [1574]
+precomputation for the first codomain [30]
+gluing eval [490]
+middle steps [103799]
+last two steps [187]
+splitting [2995]
+lifting the two basis [6750]
+4 xyz doubling [21341]
+gluing comput [1577]
+precomputation for the first codomain [30]
+gluing eval [490]
+middle steps [104492]
+last two steps [186]
+splitting [2979]
+lifting the two basis [6742]
+4 xyz doubling [21350]
+gluing comput [1573]
+precomputation for the first codomain [30]
+gluing eval [484]
+middle steps [103824]
+last two steps [187]
+splitting [2983]
+lifting the two basis [6772]
+4 xyz doubling [21317]
+gluing comput [1580]
+precomputation for the first codomain [31]
+gluing eval [475]
+middle steps [103849]
+last two steps [187]
+splitting [2975]
+lifting the two basis [6733]
+4 xyz doubling [21338]
+gluing comput [1582]
+precomputation for the first codomain [30]
+gluing eval [485]
+middle steps [103814]
+last two steps [187]
+splitting [2979]
+lifting the two basis [6769]
+4 xyz doubling [21413]
+gluing comput [1582]
+precomputation for the first codomain [30]
+gluing eval [484]
+middle steps [104350]
+last two steps [187]
+splitting [2988]
+lifting the two basis [6741]
+4 xyz doubling [21405]
+gluing comput [1586]
+precomputation for the first codomain [31]
+gluing eval [477]
+middle steps [104312]
+last two steps [197]
+splitting [2990]
+lifting the two basis [6768]
+4 xyz doubling [21427]
+gluing comput [1586]
+precomputation for the first codomain [31]
+gluing eval [477]
+middle steps [103855]
+last two steps [189]
+splitting [2970]
+lifting the two basis [6743]
+4 xyz doubling [21329]
+gluing comput [1571]
+precomputation for the first codomain [30]
+gluing eval [492]
+middle steps [104500]
+last two steps [197]
+splitting [2997]
+lifting the two basis [6768]
+4 xyz doubling [21516]
+gluing comput [1573]
+precomputation for the first codomain [31]
+gluing eval [484]
+middle steps [104785]
+last two steps [196]
+splitting [2978]
+lifting the two basis [6755]
+4 xyz doubling [21480]
+gluing comput [1575]
+precomputation for the first codomain [30]
+gluing eval [484]
+middle steps [105464]
+last two steps [188]
+splitting [2983]
+lifting the two basis [6777]
+4 xyz doubling [21318]
+gluing comput [1584]
+precomputation for the first codomain [31]
+gluing eval [475]
+middle steps [103810]
+last two steps [186]
+splitting [2975]
+lifting the two basis [6769]
+4 xyz doubling [21329]
+gluing comput [1581]
+precomputation for the first codomain [30]
+gluing eval [483]
+middle steps [104519]
+last two steps [197]
+splitting [2999]
+lifting the two basis [6754]
+4 xyz doubling [21175]
+gluing comput [1580]
+precomputation for the first codomain [30]
+gluing eval [475]
+middle steps [102921]
+last two steps [189]
+splitting [2977]
+lifting the two basis [6745]
+4 xyz doubling [21196]
+gluing comput [1579]
+precomputation for the first codomain [30]
+gluing eval [485]
+middle steps [102976]
+last two steps [189]
+splitting [2981]
+lifting the two basis [6779]
+4 xyz doubling [21175]
+gluing comput [1588]
+precomputation for the first codomain [30]
+gluing eval [474]
+middle steps [102903]
+last two steps [188]
+splitting [2977]
+lifting the two basis [6769]
+4 xyz doubling [21150]
+gluing comput [1580]
+precomputation for the first codomain [31]
+gluing eval [476]
+middle steps [102949]
+last two steps [199]
+splitting [2993]
+lifting the two basis [6769]
+4 xyz doubling [21424]
+gluing comput [1576]
+precomputation for the first codomain [31]
+gluing eval [490]
+middle steps [104301]
+last two steps [187]
+splitting [2974]
+lifting the two basis [6754]
+4 xyz doubling [21519]
+gluing comput [1576]
+precomputation for the first codomain [30]
+gluing eval [491]
+middle steps [104249]
+last two steps [187]
+splitting [2972]
+lifting the two basis [6755]
+4 xyz doubling [21342]
+gluing comput [1573]
+precomputation for the first codomain [30]
+gluing eval [491]
+middle steps [103831]
+last two steps [195]
+splitting [2968]
+lifting the two basis [6761]
+4 xyz doubling [21323]
+gluing comput [1685]
+precomputation for the first codomain [30]
+gluing eval [483]
+middle steps [113194]
+last two steps [186]
+splitting [2973]
+NGCC-SQIsign2D-lvl3             10      5484987045   1418125.1      5029927940   1301048.3      1256665188    328661.5
+NGCC-sydo_512s                  31          384035        99.8      1368866054    362431.7      1265664836    334477.2
+

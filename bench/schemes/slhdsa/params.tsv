@@ -1,6 +1,12 @@
 # SLH-DSA shim parameters. Columns: file, name, pk, sk, sig, iters, param
 # param: slh_dsa.h parameter struct variable name
-# iters: 50 for all variants
+# iters: 50 for the FIPS 205 variants. The SP 800-230 ipd *-24 variants (2^24 signatures
+# per key; d = 1, so keygen and every signature rebuild one 2^21-2^22-leaf XMSS tree, and
+# slhdsa-c caches nothing) take about 10 min per keygen and per signature on an
+# i7-8550U: iters 1. Only the SHAKE ones are built (the site lists SHAKE only). They exceed
+# the default time limits (BENCH_OP_LIMIT 600 s per signature, BENCH_TIMEOUT 3600 s) and are
+# exempt from them (Thom, 2026-10-14) via scripts/aws-bench-exemptions.txt: scripts/aws-bench-split
+# runs each alone with BENCH_OP_LIMIT=0 BENCH_TIMEOUT=0. A plain run_bench.sh run still DNFs them.
 file	name	pk	sk	sig	iters	param
 slhdsa_sha2_128s	SLH-DSA-SHA2-128s	32	64	7856	50	slh_dsa_sha2_128s
 slhdsa_sha2_128f	SLH-DSA-SHA2-128f	32	64	17088	50	slh_dsa_sha2_128f
@@ -14,3 +20,6 @@ slhdsa_shake_192s	SLH-DSA-SHAKE-192s	48	96	16224	50	slh_dsa_shake_192s
 slhdsa_shake_192f	SLH-DSA-SHAKE-192f	48	96	35664	50	slh_dsa_shake_192f
 slhdsa_shake_256s	SLH-DSA-SHAKE-256s	64	128	29792	50	slh_dsa_shake_256s
 slhdsa_shake_256f	SLH-DSA-SHAKE-256f	64	128	49856	50	slh_dsa_shake_256f
+slhdsa_shake_128_24	SLH-DSA-SHAKE-128-24	32	64	3856	1	slh_dsa_shake_128_24
+slhdsa_shake_192_24	SLH-DSA-SHAKE-192-24	48	96	7752	1	slh_dsa_shake_192_24
+slhdsa_shake_256_24	SLH-DSA-SHAKE-256-24	64	128	14944	1	slh_dsa_shake_256_24

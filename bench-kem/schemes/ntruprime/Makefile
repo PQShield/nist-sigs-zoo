@@ -1,5 +1,6 @@
+include ../../../bench-common/flags.mk
 CC     ?= cc
-CFLAGS := -O2 -fPIC -Wall -Wextra
+CFLAGS := -Wall -Wextra $(BENCH_CFLAGS) -fPIC
 BUILD   = build
 LOCAL   = $(BUILD)/local
 
@@ -14,8 +15,9 @@ RB_A = $(LOCAL)/lib/librandombytes-kernel.a
 all: $(SOS)
 
 # Fetch + build libntruprime (+ randombytes) into build/local once.
-$(LOCAL)/.done:
-	./build_libs.sh
+$(LOCAL)/.done: build_libs.sh ../../../bench-common/flags.mk
+	rm -f $@
+	BENCH_CFLAGS='$(BENCH_CFLAGS)' ./build_libs.sh
 $(NP_A) $(RB_A): $(LOCAL)/.done
 
 $(SHIM_FILES): shim_template.c params.tsv

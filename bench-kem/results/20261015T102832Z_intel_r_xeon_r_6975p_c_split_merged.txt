@@ -1,0 +1,61 @@
+# pq-kems benchmark results
+# date:         2026-10-15T10:28:32Z
+# host:         ip-172-31-17-112
+# commit:       4e30eeea86598f74867ef504b599f7f55085e218
+# instance_type: c8i.4xlarge
+# os:           Ubuntu 26.04.1 LTS
+# kernel:       7.0.0-1014-aws
+# cpu:          Intel(R) Xeon(R) 6975P-C
+# cores:        16 (threads/core: 2)
+# max_freq_mhz: unknown (cur: unknown MHz)
+# governor:     unknown
+# turbo:        unknown
+# flags:        fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ss ht syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon rep_good nopl xtopology nonstop_tsc cpuid aperfmperf tsc_known_freq pni pclmulqdq monitor ssse3 fma cx16 pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand hypervisor lahf_lm abm 3dnowprefetch cpuid_fault ssbd ibrs ibpb stibp ibrs_enhanced fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid avx512f avx512dq rdseed adx smap avx512ifma clflushopt clwb avx512cd sha_ni avx512bw avx512vl xsaveopt xsavec xgetbv1 xsaves avx_vnni avx512_bf16 wbnoinvd ida arat avx512vbmi umip pku ospke waitpkg avx512_vbmi2 gfni vaes vpclmulqdq avx512_vnni avx512_bitalg tme avx512_vpopcntdq rdpid bus_lock_detect cldemote movdiri movdir64b md_clear serialize amx_bf16 avx512_fp16 amx_tile amx_int8 flush_l1d arch_capabilities
+#
+# compiler:     cc (Ubuntu 15.2.0-16ubuntu1) 15.2.0
+# openssl:      OpenSSL 3.5.5 27 Jan 2026 (Library: OpenSSL 3.5.5 27 Jan 2026)
+# sources:
+#   schemes/bat/ref: https://github.com/pornin/BAT@8280af7c9d4d5cdd9a70914f72a5f0ad774c7b8d
+#   schemes/frodo/ref: https://github.com/Microsoft/PQCrypto-LWEKE@7a4e7219d06305e16aef734213001cd8fefbcc14
+#   schemes/hqc/ref: https://gitlab.com/pqc-hqc/hqc.git@161cd4fdf6b4a5198cf40b3a1243f9f27f13e03d
+#   schemes/mike/ref: https://github.com/tensor-mike/mike_c.git@6057473e460165cc8721c05dc3fbbb73a009d147
+#   schemes/mlkem/ref: https://github.com/pq-code-package/mlkem-native.git@2d1cc90f71bd59617062844e874ac6e70868e1f8
+#   schemes/ntru/ref: https://github.com/jschanck/ntru@6d96ed3746000b6497392a425712fe483988fc80
+#   schemes/ntruplus/ref: https://github.com/ntruplus/ntruplus.git@f4507621e2111af52bb87b1950249baac683a37d
+#   schemes/saber/ref: https://github.com/KULeuven-COSIC/SABER@f7f39e4db2f3e22a21e1dd635e0601caae2b4510
+#   schemes/smaugt/ref: https://github.com/hmchoe0528/SMAUG-T_public.git@2c039df23134a2de3c7aa86a4904c9a4734f9def
+#   schemes/mceliece: https://lib.mceliece.org/libmceliece-20260622.tar.gz
+#   schemes/ngcc: https://www.niccs.org.cn/niccs/Proposal/Public-Key%20Cryptographic%20Algorithms/Round%201%20candidates/
+#   schemes/ntruprime: https://libntruprime.cr.yp.to/libntruprime-20241021.tar.gz
+#
+# merged:       4 parts of a split run on separate instances of the same type
+# part:         20261015T102832Z_intel_r_xeon_r_6975p_c_split_g02_recovered.txt (host ip-172-31-17-112, 2026-10-15T10:28:32Z, 2 rows, commit 4e30eeea86598f74867ef504b599f7f55085e218, instance_type c8i.4xlarge; note: recovered from the streamed log of split-run group 2 (failed: instance is 'terminated' (spot interruption?); no results fetched); rows after the last one are missing)
+# part:         20261015T102907Z_intel_r_xeon_r_6975p_c_split_g04_recovered.txt (host ip-172-31-35-185, 2026-10-15T10:29:07Z, 8 rows, commit 4e30eeea86598f74867ef504b599f7f55085e218, instance_type c8i.4xlarge; note: recovered from the streamed log of split-run group 4 (failed: instance is 'terminated' (spot interruption?); no results fetched); rows after the last one are missing)
+# part:         20261015T103511Z_intel_r_xeon_r_6975p_c_ngccqctm256_ngccuvwkem256_ngccbike_mlth_1a765d06.txt (host ip-172-31-7-9, 2026-10-15T10:35:11Z, 11 rows, commit 4e30eeea86598f74867ef504b599f7f55085e218, instance_type c8i.4xlarge)
+# part:         20261015T103617Z_intel_r_xeon_r_6975p_c_ngccuvwkem512_mikerigorousv.txt (host ip-172-31-14-167, 2026-10-15T10:36:16Z, 2 rows, commit 4e30eeea86598f74867ef504b599f7f55085e218, instance_type c8i.4xlarge)
+# cyclecounter: rdpmc CPU_CYCLES (real core cycles, user-space)
+scheme                       iters    keygen (cyc)  keygen (us)    encaps (cyc)  encaps (us)    decaps (cyc)  decaps (us)      ok
+------                       -----    ------------  -----------    ------------  -----------    ------------  -----------      --
+NGCC-BAG-Loong-512              43       609760014    158451.3       409926759    106784.9       779752845    203251.3     yes
+NGCC-bag_piglet_384           1000         9625451      2490.6        11151142      2884.1        45198271     11676.8     yes
+NGCC-bag_piglet_256           1000         2799327       727.0         4071747      1054.0        18517021      4787.4     yes
+NGCC-BRQC-512                 1000         3601997       931.4         5720367      1480.4        31977574      8258.9     yes
+NGCC-CMultiURAG-256           1000         3909941      1010.7         6171976      1595.4        18276821      4722.0     yes
+NGCC-CTL-769-1024              684        60282850     15575.1           62100        17.0          391761       101.6     yes
+NGCC-DTRU-Prime                338       139405709     35996.5          409180       106.0          838895       216.2     yes
+NGCC-HARE-384-kr              1000         2348297       603.1         8333714      2153.3        13817248      3569.1     yes
+NGCC-HARE-512-kr              1000         5709977      1471.8        16124939      4165.5        26793735      6920.7     yes
+NGCC-Loong256                 1000        15750893      4068.9        15830523      4089.6        15912547      4110.7     yes
+NGCC-BIKE_MLThre-256            10     15487656333   4001922.8        90758455     23442.9       451426620    116651.5     yes
+NGCC-HEP-QC-7                   10      4778109972   1264115.7       600347585    155435.3      3214235815    840093.2     yes
+NGCC-Loong384                  653        49343198     12913.1        49513511     12961.3        49902402     13059.9     yes
+NGCC-Loong512                  417        80698438     21123.5        80832794     21154.5        81540034     21336.3     yes
+NGCC-HQC-128                   464        34732212      9089.8        63168828     16524.6       117641917     30810.4     yes
+NGCC-HQC-256                   160       103004495     26911.4       185940988     48579.2       320196408     83677.8     yes
+NGCC-HQC-384                    50       347565451     90279.7       626433646    163228.8      1021823007    265806.4     yes
+NGCC-HQC-512                    18       820361060    212770.7      1499762139    389144.8      2383541384    618075.3     yes
+NGCC-QCTM256                     5    116555161370  30840587.5         3909528      1011.7        16359639      4315.2     yes
+NGCC-TriQ-KEM-384             1000         2515513       652.3         3832690       991.8         5881817      1523.9     yes
+NGCC-UVW-KEM-256                10      6316541603   1644620.5         2296943       604.3     11976833439   3116281.3     yes
+MIKE-rigorous-V               1000        32230355      8432.6       243669544     63720.2       211443621     55292.7     yes
+NGCC-UVW-KEM-512                 5     49598591302  12914389.8        18504286      4862.0     82145022455  21385592.2     yes

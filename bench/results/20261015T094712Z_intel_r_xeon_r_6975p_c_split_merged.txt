@@ -1,0 +1,164 @@
+# pq-sigs benchmark results
+# date:         2026-10-15T09:47:12Z
+# host:         ip-172-31-15-184
+# commit:       67699d7da50c4d783a0c43bc466b52b356feff90
+# instance_type: c8i.4xlarge
+# os:           Ubuntu 26.04.1 LTS
+# kernel:       7.0.0-1014-aws
+# cpu:          Intel(R) Xeon(R) 6975P-C
+# cores:        16 (threads/core: 2)
+# max_freq_mhz: unknown (cur: unknown MHz)
+# governor:     unknown
+# turbo:        unknown
+# flags:        fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ss ht syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon rep_good nopl xtopology nonstop_tsc cpuid aperfmperf tsc_known_freq pni pclmulqdq monitor ssse3 fma cx16 pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand hypervisor lahf_lm abm 3dnowprefetch cpuid_fault ssbd ibrs ibpb stibp ibrs_enhanced fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid avx512f avx512dq rdseed adx smap avx512ifma clflushopt clwb avx512cd sha_ni avx512bw avx512vl xsaveopt xsavec xgetbv1 xsaves avx_vnni avx512_bf16 wbnoinvd ida arat avx512vbmi umip pku ospke waitpkg avx512_vbmi2 gfni vaes vpclmulqdq avx512_vnni avx512_bitalg tme avx512_vpopcntdq rdpid bus_lock_detect cldemote movdiri movdir64b md_clear serialize amx_bf16 avx512_fp16 amx_tile amx_int8 flush_l1d arch_capabilities
+#
+# compiler:     cc (Ubuntu 15.2.0-16ubuntu1) 15.2.0
+# openssl:      OpenSSL 3.5.5 27 Jan 2026 (Library: OpenSSL 3.5.5 27 Jan 2026)
+# sources:
+#   schemes/faest/ref: https://github.com/faest-sign/faest-arch-opt@1d8330979cb467c54edac43ffe695da249fa3417
+#   schemes/fndsa/ref: https://github.com/pornin/c-fn-dsa@33026d4d2734049a23f065f77eea11c35de58d76
+#   schemes/hawk/ref: https://github.com/hawk-sign/dev@1b9fef52559273fe7b40fe3e22968eaedd3a4c2a
+#   schemes/mayo/ref: https://github.com/PQCMayo/MAYO-C@74de637a7c4a7f9fafa888183bc05f5cf920cd2d
+#   schemes/mldsa/ref: https://github.com/pq-crystals/dilithium.git@6e00625c5b29f516c6de973fe2ee2fbb150973f9
+#   schemes/mqom/ref: https://github.com/mqom/mqom-v3@d9c64e386b186ee186684a0389fc32009bd67cd1
+#   schemes/qruov/ref: https://github.com/qruov/round3.git@3d84d0f6afae80c88deefab03b1dd6633a147f96
+#   schemes/sdith/ref: https://github.com/sdith/sdith@fff41ae5b12ba3c6b90d8f97b2ede57aa277a92f
+#   schemes/sdith2/ref: https://github.com/sdith/sdith@ce7adf06476674d4ff990f378f83f9981cd6745b
+#   schemes/slhdsa/ref: https://github.com/pq-code-package/slhdsa-c@2ee6f6853af95d5833a567cc4dcfd7f08d66bfd4
+#   schemes/snova/ref: https://github.com/PQCLAB-SNOVA/SNOVA.git@9b29c1e332cbd85757c8d6362a57b9a8c8298a38
+#   schemes/sqisign/ref: https://github.com/SQISign/the-sqisign@6d017708db403bf83977fa70770fc4f7f9e9ff21
+#   schemes/uov/ref: https://github.com/pqov/pqov.git@fac2ec1fe6d8ea508eab4b98eb5341e1eed930a4
+#   schemes/ngcc: https://www.niccs.org.cn/niccs/Proposal/Public-Key%20Cryptographic%20Algorithms/Round%201%20candidates/
+#
+# merged:       17 parts of a split run on separate instances of the same type
+# part:         20261015T094712Z_intel_r_xeon_r_6975p_c_slhdsashake19224.txt (host ip-172-31-15-184, 2026-10-15T09:47:12Z, 1 rows, commit 67699d7da50c4d783a0c43bc466b52b356feff90, instance_type c8i.4xlarge)
+# part:         20261015T094733Z_intel_r_xeon_r_6975p_c_slhdsashake25624.txt (host ip-172-31-1-171, 2026-10-15T09:47:32Z, 1 rows, commit 67699d7da50c4d783a0c43bc466b52b356feff90, instance_type c8i.4xlarge)
+# part:         20261015T094913Z_intel_r_xeon_r_6975p_c_ngccuvw256.txt (host ip-172-31-32-254, 2026-10-15T09:49:13Z, 1 rows, commit 67699d7da50c4d783a0c43bc466b52b356feff90, instance_type c8i.4xlarge)
+# part:         20261015T094937Z_intel_r_xeon_r_6975p_c_ngccresolvedalpha256f_ngcclynxer160s_ngccsigurd128.txt (host ip-172-31-1-216, 2026-10-15T09:49:36Z, 3 rows, commit 67699d7da50c4d783a0c43bc466b52b356feff90, instance_type c8i.4xlarge)
+# part:         20261015T094955Z_intel_r_xeon_r_6975p_c_ngccdove_pkc_skc_256_ngccgalas160f_ngcc_39c67f67.txt (host ip-172-31-2-26, 2026-10-15T09:49:54Z, 44 rows, commit 67699d7da50c4d783a0c43bc466b52b356feff90, instance_type c8i.4xlarge)
+# part:         20261015T094958Z_intel_r_xeon_r_6975p_c_ngccgalas512s_ngccresolvedalpha160s_ngcccedrusalpha512f.txt (host ip-172-31-7-23, 2026-10-15T09:49:57Z, 3 rows, commit 67699d7da50c4d783a0c43bc466b52b356feff90, instance_type c8i.4xlarge)
+# part:         20261015T094958Z_intel_r_xeon_r_6975p_c_ngcclynxer512f_ngcclynxer384f_slhdsasha2256s.txt (host ip-172-31-0-12, 2026-10-15T09:49:58Z, 3 rows, commit 67699d7da50c4d783a0c43bc466b52b356feff90, instance_type c8i.4xlarge)
+# part:         20261015T095030Z_intel_r_xeon_r_6975p_c_sdith3l5gf2fast_sdith3l5gf2fastcipherpo_7e5044ca.txt (host ip-172-31-11-221, 2026-10-15T09:50:30Z, 17 rows, commit 67699d7da50c4d783a0c43bc466b52b356feff90, instance_type c8i.4xlarge)
+# part:         20261015T095930Z_intel_r_xeon_r_6975p_c_ngcccedrusc384s_ngcccedrusalpha384s_ngc_d7a0e7fe.txt (host ip-172-31-46-144, 2026-10-15T09:59:30Z, 7 rows, commit 67699d7da50c4d783a0c43bc466b52b356feff90, instance_type c8i.4xlarge)
+# part:         20261015T100102Z_intel_r_xeon_r_6975p_c_ngcclynxer256s.txt (host ip-172-31-2-101, 2026-10-15T10:01:02Z, 1 rows, commit 67699d7da50c4d783a0c43bc466b52b356feff90, instance_type c8i.4xlarge)
+# part:         20261015T100117Z_intel_r_xeon_r_6975p_c_ngccgalas512f_ngccflextree512s_ngcclynx_d8d43ff6.txt (host ip-172-31-8-137, 2026-10-15T10:01:17Z, 5 rows, commit 67699d7da50c4d783a0c43bc466b52b356feff90, instance_type c8i.4xlarge)
+# part:         20261015T100152Z_intel_r_xeon_r_6975p_c_ngccsydo_256f_ngccsqisign2dlvl4_ngccres_41ae54e6.txt (host ip-172-31-44-170, 2026-10-15T10:01:52Z, 6 rows, commit 67699d7da50c4d783a0c43bc466b52b356feff90, instance_type c8i.4xlarge)
+# part:         20261015T100442Z_intel_r_xeon_r_6975p_c_ngccuvw128_ngccsydo_256s_ngccgalas384f__888005d7.txt (host ip-172-31-38-9, 2026-10-15T10:04:42Z, 13 rows, commit 67699d7da50c4d783a0c43bc466b52b356feff90, instance_type c8i.4xlarge)
+# part:         20261015T100451Z_intel_r_xeon_r_6975p_c_ngccresolvedalpha256s.txt (host ip-172-31-33-226, 2026-10-15T10:04:50Z, 1 rows, commit 67699d7da50c4d783a0c43bc466b52b356feff90, instance_type c8i.4xlarge)
+# part:         20261015T100733Z_intel_r_xeon_r_6975p_c_ngcctrine256balanced.txt (host ip-172-31-6-236, 2026-10-15T10:07:33Z, 1 rows, commit 67699d7da50c4d783a0c43bc466b52b356feff90, instance_type c8i.4xlarge)
+# part:         20261015T100826Z_intel_r_xeon_r_6975p_c_ngcclynxer256f.txt (host ip-172-31-2-79, 2026-10-15T10:08:25Z, 1 rows, commit 67699d7da50c4d783a0c43bc466b52b356feff90, instance_type c8i.4xlarge)
+# part:         20261015T101243Z_intel_r_xeon_r_6975p_c_uovisclassic_uovippkc_uovipclassic.txt (host ip-172-31-4-97, 2026-10-15T10:12:42Z, 3 rows, commit 67699d7da50c4d783a0c43bc466b52b356feff90, instance_type c8i.4xlarge)
+# cyclecounter: rdpmc CPU_CYCLES (real core cycles, user-space)
+scheme                       iters    keygen (cyc)  keygen (us)      sign (cyc)   sign (us)    verify (cyc)  verify (us)
+------                       -----    ------------  -----------      ----------   ---------    ------------  ----------
+SLH-DSA-SHAKE-192-24             1   1111982986525  295033014.1   2105448097080  558680723.2          546154       143.9
+SLH-DSA-SHAKE-256-24             1   1174310448781  311970804.0   2550238784640  676520942.0          676217       177.3
+NGCC-UVW-256                     5    383372801835  100493003.7    105992471828  27831926.9      2311475749    605247.5
+NGCC-Lynxer-160s               248         1062995       274.1        75604097     19923.2        62752569     16797.3
+NGCC-ReSolveD-alpha-256f      1000        14479049      3846.9        38560389     10026.5        19329112      5100.8
+NGCC-Sigurd128                 585        21130491      5465.7        37968478      9814.6        15620986      4066.0
+SLH-DSA-SHA2-128s               50       199732567     51673.4      1520342655    393297.9         1519205       393.5
+RSA-4096 (PSS)                  50      1034964859    267571.8         8316819      2185.9          242770        67.9
+SNOVA (27 3 16 4 7 5 84)      1000          148539        39.2          647583       167.2          219006        57.3
+SNOVA (27 4 16 4 5 5 80)      1000          308514        82.3          622732       165.8          201141        54.1
+SNOVA (27 4 19 4 6 5 96)      1000         4011682      1037.1        17055028      4405.2         7250606      1873.8
+SNOVA (27 5 13 4 4 5 80)      1000         5093229      1315.4        13574020      3506.3         4906954      1267.6
+SNOVA (50 17 16 2 2 17 68)    1000        12611991      3273.5         8789029      2274.5          565765       153.1
+SNOVA (27 4 16 5 5 4 100)     1000         1426501       372.2         1279041       341.8          268121        71.7
+SNOVA (33 5 16 4 5 6 100)     1000          400290       106.4         1073478       288.6          333717        89.0
+SNOVA (39 5 11 4 6 7 120)     1000        13606085      3515.1        45165141     11664.2        18559742      4794.5
+SNOVA (38 5 19 4 6 7 120)     1000        12995778      3357.0        43573184     11254.3        18002220      4649.7
+SNOVA (76 25 16 2 2 25 100)    1000        65421545     16923.6        37576627      9734.0         1968406       534.1
+SNOVA (40 5 19 5 6 6 150)     1000        24090662      6224.2        83399276     21549.7        33845723      8746.6
+SNOVA (47 6 19 4 6 9 144)     1000        29692606      7675.4        88113607     22778.1        33622212      8696.3
+SNOVA (104 33 16 2 2 33 132)    1000       209285143     54165.4       123449116     31982.7         5044834      1356.6
+NGCC-BiT-512                  1000         3606148       932.7         8688516      2248.6         3528349       913.0
+NGCC-CEDRUSALPHA-160s           10       566731848    146523.2      8419854257   2176517.8        20798585      5379.4
+NGCC-sm4th_em_d2_128s_loose     315           31222         9.3       109496861     28343.1       101281973     26211.9
+NGCC-sm4th_em_d2_128s_tight     278           32888         9.6       119460436     30964.5       111684098     28942.7
+NGCC-ublockith_d3_256f         693           24278         7.3        44843507     11835.5        43940850     11371.1
+NGCC-ublockith_d3_256s          92           43335        12.4       331302712     88262.2       330522141     86007.2
+NGCC-ublockith_em_d3_256s      106           36987        10.6       312698094     82960.2       300904722     78151.8
+NGCC-vistrutith_d3_512s         24           28169         8.4      1247145453    331705.4      1234501101    320506.5
+NGCC-dove_classic_256          320       292550536     75813.7         5170989      1436.8         6785712      1791.2
+NGCC-dove_pkc_skc_256          301       143429534     37244.0        94482552     24552.4        87444717     22617.2
+NGCC-Facto-DSA-512              29      2381316992    616941.8       194720437     50333.4       147661330     38196.4
+NGCC-Flextree-160f             135        15838583      4091.6       597372916    154363.8        17058793      4408.3
+NGCC-Galas-160S                 24        20784715      5370.9      2238002686    578252.9      1603703240    414506.7
+NGCC-Galas-160F                 33        20816077      5375.8      1719023611    444477.3      1115227152    288311.2
+NGCC-GreatWall192s             563         4598865      1193.3        38687723     10940.2        97539541     26179.5
+NGCC-GreatWall256s             384         8913900      2303.6        62773252     17824.5       136875030     37050.9
+NGCC-Origami-256                23        98150119     25356.1      1575985606    407162.6      1484470801    383447.4
+NGCC-Phoenix-SHAKE-192f        320        11100306      2865.7       220037475     56837.9         5901688      1525.1
+NGCC-Phoenix-SHAKE-256s         17       301444151     78469.8      3917033658   1020369.4        26541394      6906.3
+NGCC-Rhyme-SM3-384              20      5554077894   1439467.2        10524055      2760.4         1346742       349.2
+NGCC-Rhyme-SHAKE-256            51      3162303864    819042.8         4403311      1167.3          759714       198.8
+NGCC-Rhyme-SHAKE-512            18      4455435913   1151647.3         9652575      2493.9         1269237       327.9
+NGCC-Sigurd256                 121       115603696     29891.6       345678565     89374.3       119957489     31060.8
+NGCC-SQISign2Dsquare-Level2-eff     382        20000123      5253.7       120478386     31453.8        23973594      6344.1
+NGCC-SQISign2Dsquare-Level2-sec     347        24560789      6461.4       144401719     37724.3        27602693      7296.7
+NGCC-SQISign2Dsquare-Level3-eff     118        63770797     16645.4       390998812    101836.6        76284451     20086.9
+NGCC-SQISign2Dsquare-Level3-sec     133        77650076     20298.7       465222188    121083.2        87516160     23007.0
+NGCC-SQIsign2D-lvl2             10      2398776097    619915.7      2275124421    588497.4       553525592    143452.2
+NGCC-TSUOV_256                 468        67627804     17473.5        73891555     19091.7        71983605     18602.3
+NGCC-CEDRUSALPHA-512f           10      1737031910    448640.2     22852615902   5901645.6       158928604     41043.3
+NGCC-Galas-512S                 10       232428405     60019.7     82730400341  21384366.1     57242469707  14799438.7
+NGCC-ReSolveD-alpha-160s       238         5587818      1483.6        82079008     21616.7        63928052     17137.8
+SLH-DSA-SHA2-256s               50       192764404     49791.9      2412462581    623294.5         3317415       857.8
+NGCC-Lynxer-384f               194         7207450      1886.6        79098628     20869.4        70719466     18664.6
+NGCC-Lynxer-512f               145        12210626      3159.2      1682324944    435604.5      1440396225    373124.1
+SLH-DSA-SHAKE-256s              50       271587465     71652.5      3406432020    900893.1         4557943      1206.5
+SDitH3-L5-gf2-short             50          184036        48.3        65435328     16930.6        64558529     16701.0
+SDitH3-L5-gf2-fast              50          179058        46.9        14294987      3698.9        13454570      3480.7
+SDitH3-L5-gf2-short-cipherpow      50          184084        48.3        65368834     16913.7        64568845     16704.6
+SDitH3-L5-gf2-fast-cipherpow      50          179532        47.1        14190077      3668.8        13452545      3479.4
+NGCC-CEDRUSC-256s               10      1040227100    268942.7     13752645248   3557014.7        38196212      9873.8
+NGCC-CEDRUSC-512f               10      1921885049    497021.0     26971998857   6975959.9       171659899     44355.9
+NGCC-Flextree-512f              10      1921762252    496881.7     27099548821   7008100.8       173330228     44785.6
+NGCC-Galas-256S                 10        54005982     13955.2     11343202747   2939686.9      8897064774   2307015.8
+NGCC-Lynxer-512s                17        12363553      3202.1     18241204979   4728850.9     14445144302   3746337.9
+NGCC-Phoenix-SM3-384s           10      1258815795    325652.9     17167974421   4439514.6       110703438     28605.1
+NGCC-Phoenix-SM3-512s           10      2652727166    686132.4     26028420618   6735513.8        44409680     11483.3
+NGCC-ReSolveD-alpha-512f       109       140954200     36610.8      2080137047    538406.2      1734775472    448773.2
+NGCC-Rhyme-SM3-128             184       412204901    106623.9         4209784      1092.5          406227       106.6
+NGCC-Rhyme-SM3-512              14     16609870200   4297026.8        23536482      6089.6         1749560       452.4
+NGCC-SQIsign2D-lvl3             10      5484987045   1418125.1      5029927940   1301048.3      1256665188    328661.5
+NGCC-sydo_512s                  31          384035        99.8      1368866054    362431.7      1265664836    334477.2
+NGCC-CEDRUSC-384s               10      3573719896    923344.5     49939457891  12900920.9        58603296     15138.8
+NGCC-CEDRUSALPHA-384s           10      4465763339   1153662.8     48286910251  12474958.1        74517414     19250.7
+NGCC-Flextree-384s              10      3571285425    922620.6     48130381343  12438259.1        59417690     15351.7
+NGCC-Phoenix-SM3-192s           10      1136815127    293664.3     11619558659   3001814.2        40716507     10516.7
+NGCC-sydo_160s                 470           72527        19.9        82222834     21937.1        71905754     19162.3
+NGCC-TRINE-128-Balanced         10         9552883      2485.1     31574420983   8159517.8     20371934119   5266214.5
+NGCC-VDOO-512                   10     56574954746  14653354.5      1274082140    332407.1         8083691      2115.3
+NGCC-Lynxer-256s               196         3294879       854.0       201702888     53651.9       169605553     45244.2
+NGCC-Flextree-512s              10      7659359919   2041161.7     92675345960  24622876.3       129205186     33845.4
+NGCC-Galas-512F                 10       232042858     60971.0     65096146745  17206403.3     39692509833  10510109.8
+NGCC-Lynxer-384s                21         7218982      1913.1       736115984    197294.9       550577059    149691.4
+NGCC-TRINE-128-ShortSig         10        18208029      4761.6     13255888490   3517965.4      5552555515   1472804.1
+NGCC-yuanyang-1024            1000        20285752      5373.9        10166173      2779.0          530668       141.5
+SLH-DSA-SHAKE-192s              50       405260429    107448.6      3741107318    993365.0         3112385       826.0
+SNOVA_III_B                   1000          634185       174.4         1508096       415.3          483944       134.2
+NGCC-Lynxer-160f              1000         1053569       278.7         9670292      2591.9         8847604      2383.7
+NGCC-ReSolveD-alpha-384f       140        32552236      8450.0       118993715     30857.7        69624187     18106.6
+NGCC-SQIsign2D-lvl4              5     54841983554  14190698.8     48725833982  12606485.8     11385440409   2946914.2
+NGCC-sydo_256f                1000           83900        22.9        36493544      9699.1        35560244      9442.2
+SDitH3-L1-gf2-short             50           81647        22.0         9148400      2368.7         8302093      2147.4
+SDitH3-L1-gf2-fast              50           80129        21.6         1980737       512.5         1715837       447.6
+SDitH3-L3-gf2-short             50          123506        32.8        41999263     10857.3        41460668     10721.6
+SDitH3-L3-gf2-fast              50          119544        31.7         9575545      2476.7         9012772      2327.0
+SDitH3-L1-gf2-short-cipherpow      50           79794        21.5         8592234      2222.2         8305414      2148.4
+SDitH3-L1-gf2-fast-cipherpow      50           79440        21.4         1971441       512.5         1659053       428.3
+SDitH3-L3-gf2-short-cipherpow      50          122960        32.7        41932921     10843.9        41392281     10704.5
+SDitH3-L3-gf2-fast-cipherpow      50          118761        31.5         9920617      2559.3         8852928      2288.7
+NGCC-Galas-384F                 10       126087411     32571.6     25306248883   6537497.1     16159205913   4174788.4
+NGCC-sydo_160f                1000           55826        15.6        15711208      4162.0        15074882      3987.0
+NGCC-sydo_256s                 205           84559        22.9       176096936     46984.2       174892956     46614.9
+NGCC-sydo_512f                 147          368233        95.7       260877298     68464.4       258126267     67881.9
+NGCC-UVW-128                    10     30842825738   8109362.0     13889656773   3632939.6       339339376     88680.9
+NGCC-ReSolveD-alpha-256s       189        14497246      3754.8       222792883     57880.2       168116750     44477.2
+NGCC-TRINE-256-Balanced          5        52166298     13571.2    294482730771  76137398.7    190733202610  49326635.6
+NGCC-Lynxer-256f              1000         3282412       849.3        22935413      6033.0        21608766      5686.7
+UOV-Ip-pkc                     100         1644781       439.5           53173        15.4          168920        45.9
+UOV-Ip-classic                 100         1658462       447.3           52437        15.2           60384        17.4
+UOV-Is-classic                 100         2259328       610.7           65644        18.9           47783        14.1

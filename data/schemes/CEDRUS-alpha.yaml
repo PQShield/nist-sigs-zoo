@@ -1,0 +1,95 @@
+name: CEDRUSɑ
+website: https://www.niccs.org.cn/niccs/Round1Additional/pc/content/content_2101561076644139008.html
+category: Symmetric
+assumption: Hash-based
+versions:
+- version: Round 1
+  date: '2026-09-20'
+  status: NGCC round 1
+  programmes:
+    china-ngcc: round-1
+  perf_source: our benchmark
+  parametersets:
+  - name: CEDRUSALPHA-160s
+    ngcc_level: 128
+    pk: 40
+    sig: 10300
+    signing_cycles: 8371117166
+    verification_cycles: 20683064
+    signing_us: 2161842.6
+    verification_us: 5341.1
+    bench_env: 2026-10-16-c8i.4xlarge
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+    implementation: The submitted code checks only 128 bits of each one-time chain value, so a lower-layer root can be replaced with about 2^128 work, below the claim for this set (<a href="https://list.niccs.org.cn/archives/list/pkcforum@list.niccs.org.cn/message/S5GGRLD7YZQQRH2VPPYET2GWYTHFWKXR/">shiyuan</a>).
+  - name: CEDRUSALPHA-160f
+    ngcc_level: 128
+    pk: 40
+    sig: 19420
+    signing_cycles: 613933320
+    verification_cycles: 19118149
+    signing_us: 158538.7
+    verification_us: 4938.2
+    bench_env: 2026-10-16-c8i.4xlarge
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+    implementation: The submitted code checks only 128 bits of each one-time chain value, so a lower-layer root can be replaced with about 2^128 work, below the claim for this set (<a href="https://list.niccs.org.cn/archives/list/pkcforum@list.niccs.org.cn/message/S5GGRLD7YZQQRH2VPPYET2GWYTHFWKXR/">shiyuan</a>).
+  - name: CEDRUSALPHA-256s
+    ngcc_level: 256
+    pk: 64
+    sig: 25568
+    signing_cycles: 12997886367
+    verification_cycles: 31553351
+    signing_us: 3359251.7
+    verification_us: 8154.9
+    bench_env: 2026-10-16-c8i.4xlarge
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+  - name: CEDRUSALPHA-256f
+    ngcc_level: 256
+    pk: 64
+    sig: 43296
+    signing_cycles: 1454623031
+    verification_cycles: 25966912
+    signing_us: 375644.4
+    verification_us: 6707.5
+    bench_env: 2026-10-16-c8i.4xlarge
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+  - name: CEDRUSALPHA-384s
+    ngcc_level: 384
+    pk: 96
+    sig: 60672
+    signing_cycles: 48144037185
+    verification_cycles: 74351802
+    signing_us: 12437896.0
+    verification_us: 19215.9
+    bench_env: 2026-10-16-c8i.4xlarge
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+  - name: CEDRUSALPHA-384f
+    ngcc_level: 384
+    pk: 96
+    sig: 76176
+    signing_cycles: 13507473941
+    verification_cycles: 134490278
+    signing_us: 3488488.6
+    verification_us: 34732.9
+    bench_env: 2026-10-16-c8i.4xlarge
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+  - name: CEDRUSALPHA-512s
+    ngcc_level: 512
+    pk: 128
+    sig: 98048
+    signing_cycles: 96583260808
+    verification_cycles: 139943480
+    signing_us: 24941886.2
+    verification_us: 36136.9
+    bench_env: 2026-10-16-c8i.4xlarge
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+  - name: CEDRUSALPHA-512f
+    ngcc_level: 512
+    pk: 128
+    sig: 127488
+    signing_cycles: 22778151099
+    verification_cycles: 158718077
+    signing_us: 5882381.2
+    verification_us: 40993.4
+    bench_env: 2026-10-16-c8i.4xlarge
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+  findings_url: https://ngcc.dev/reports/sign-04.html

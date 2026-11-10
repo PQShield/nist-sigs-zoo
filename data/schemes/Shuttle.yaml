@@ -1,0 +1,44 @@
+name: Shuttle
+website: https://www.niccs.org.cn/niccs/Round1Additional/pc/content/content_2101561096101515264.html
+category: Lattices
+assumption: MLWE/MSIS
+versions:
+- version: Round 1
+  date: '2026-09-20'
+  status: NGCC round 1
+  programmes:
+    china-ngcc: round-1
+  perf_source: our benchmark
+  parametersets:
+  - name: SHUTTLE-128
+    ngcc_level: 128
+    pk: 1264
+    sig: 1183
+    signing_cycles: 749608
+    verification_cycles: 298258
+    signing_us: 193.5
+    verification_us: 77.7
+    bench_env: 2026-10-16-c8i.4xlarge
+    notes: Optimised x86 implementation.
+  - name: SHUTTLE-256
+    ngcc_level: 256
+    pk: 1952
+    sig: 2417
+    signing_cycles: 1153036
+    verification_cycles: 430203
+    signing_us: 303.0
+    verification_us: 114.7
+    bench_env: 2026-10-16-c8i.4xlarge
+    notes: Optimised x86 implementation.
+  - name: SHUTTLE-512
+    ngcc_level: 512
+    pk: 3648
+    sig: 5001
+    signing_cycles: 2466374
+    verification_cycles: 766914
+    signing_us: 645.4
+    verification_us: 197.9
+    bench_env: 2026-10-16-c8i.4xlarge
+    notes: Optimised x86 implementation.
+  findings_url: https://ngcc.dev/reports/sign-23.html
+  broken: A reversed transition in the signing procedure leaks an equivalent signing key after a few hundred thousand signatures, giving forgeries at every level (<a href="https://groups.google.com/a/list.nist.gov/g/pqc-forum/c/5ao-Ebsa_Ow/m/zwYJk_Q-BAAJ">Feussner</a>).

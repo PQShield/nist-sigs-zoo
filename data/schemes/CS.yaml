@@ -1,0 +1,45 @@
+name: CS
+website: https://www.niccs.org.cn/niccs/Round1Additional/pc/content/content_2101561077046792192.html
+category: Lattices
+assumption: MLWE/MSIS
+versions:
+- version: Round 1
+  date: '2026-09-20'
+  status: NGCC round 1
+  programmes:
+    china-ngcc: round-1
+  perf_source: our benchmark
+  parametersets:
+  - name: CS-128
+    ngcc_level: 128
+    pk: 976
+    sig: 1548
+    signing_cycles: 2766798
+    verification_cycles: 597233
+    signing_us: 722.0
+    verification_us: 154.4
+    bench_env: 2026-10-16-c8i.4xlarge
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+  - name: CS-256
+    ngcc_level: 256
+    pk: 1760
+    sig: 3164
+    signing_cycles: 11646413
+    verification_cycles: 1118486
+    signing_us: 3013.1
+    verification_us: 289.0
+    bench_env: 2026-10-16-c8i.4xlarge
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+  - name: CS-512
+    ngcc_level: 512
+    pk: 4288
+    sig: 5975
+    signing_cycles: 43133181
+    verification_cycles: 3656854
+    signing_us: 11144.4
+    verification_us: 946.0
+    bench_env: 2026-10-16-c8i.4xlarge
+    notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+  findings_url: https://ngcc.dev/reports/sign-07.html
+  implementation: The submitted code omits a nonce when sampling secrets, collapsing them to one value and making key recovery cheap (<a href="https://list.niccs.org.cn/archives/list/pkcforum@list.niccs.org.cn/message/2OEX5VKCOX3NZV2DFKG3DF7B3OA6Z3FC/">Sun</a>). Signatures are also trivially malleable (<a href="https://ngcc.dev/reports/sign-07.html#sign-07-1-trivial-signature-malleability-violates-suf-cma">Saarinen</a>).
+  broken: The verifier ignores the signs of challenge coefficients, allowing universal forgery below every claimed level (<a href="https://github.com/ngcc-dev/ngcc-harness/pull/1">Kwiatkowski</a>). Compressed CS-128 signatures leak an equivalent signing key (<a href="https://list.niccs.org.cn/archives/list/pkcforum@list.niccs.org.cn/message/PNQJ4PBNVDPNY624PDPCOO7ZL2GXIP6H/">Lu and Liu</a>; made practical by <a href="https://list.niccs.org.cn/archives/list/pkcforum@list.niccs.org.cn/message/YHC7FIZTNPJBTYDCH2H5JAYBR7Z4FEYH/">Feussner</a>).

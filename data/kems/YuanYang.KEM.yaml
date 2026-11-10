@@ -1,0 +1,46 @@
+name: YuanYang.KEM
+website: https://www.niccs.org.cn/niccs/Round1Additional/pc/content/content_2101560890442207232.html
+category: Lattices
+assumption: NTRU
+status: NGCC round 1
+programmes:
+  china-ngcc: round-1
+parametersets:
+- name: yuanyang-512
+  ngcc_level: 128
+  pk: 736
+  ct: 656
+  keygen_cycles: 419945
+  encaps_cycles: 257297
+  decaps_cycles: 289195
+  keygen_us: 108.9
+  encaps_us: 67.1
+  decaps_us: 75.3
+  bench_env: 2026-10-16-c8i.4xlarge
+  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+- name: yuanyang-1024
+  ngcc_level: 256
+  pk: 1568
+  ct: 1344
+  keygen_cycles: 1226665
+  encaps_cycles: 414812
+  decaps_cycles: 490692
+  keygen_us: 315.9
+  encaps_us: 107.5
+  decaps_us: 126.9
+  bench_env: 2026-10-16-c8i.4xlarge
+  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+- name: yuanyang-2048
+  ngcc_level: 512
+  pk: 3328
+  ct: 2880
+  keygen_cycles: 1728160
+  encaps_cycles: 802145
+  decaps_cycles: 966019
+  keygen_us: 444.3
+  encaps_us: 206.8
+  decaps_us: 248.8
+  bench_env: 2026-10-16-c8i.4xlarge
+  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+  implementation: A truncated encryption seed in the submitted code allows challenge keys to be distinguished with about 2^440 work, below the 512-bit target (<a href="https://ngcc.dev/reports/kem-40.html#kem-40-5-truncated-encryption-seed-permits-a-2440-challenge-key-distinguisher-at-the-512-bit-level">Saarinen</a>).
+findings_url: https://ngcc.dev/reports/kem-40.html

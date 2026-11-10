@@ -1,0 +1,27 @@
+# Build output and dependencies
+node_modules/
+dist/
+build/
+.svelte-kit/
+test-results/
+playwright-report/
+package-lock.json
+
+# Frozen round-1 snapshot (do not modify)
+round-1/
+
+# Scheme/KEM data: round-tripped by ruamel.yaml scripts, keep their formatting
+data/
+static/
+
+# Benchmark harnesses: vendored sources, build trees and result files
+bench/
+bench-kem/
+bench-common/
+.ngcc-out*/
+
+# Prose: formatting Markdown reflows tables and lists for no benefit
+*.md
+
+# Managed by Claude Code
+.claude/

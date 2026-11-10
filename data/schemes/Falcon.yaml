@@ -3,24 +3,59 @@ website: https://falcon-sign.info
 category: Lattices
 assumption: NTRU-SIS
 versions:
-- version: initial
-  date: '2024-10-01'
+- version: fixed-point
+  date: '2026-10-09'
   status: To be standardized
-  perf_source: OQS bench
+  info: >-
+    Experimental fixed-point implementation by Thomas Pornin
+    (<a href="https://github.com/pornin/c-fn-dsa-fx32.64">c-fn-dsa-fx32.64</a>),
+    "type 1 fixed-point 32.64" in the terminology of
+    <a href="https://eprint.iacr.org/2026/1531">De Almeida Braga, Fouque, Lachguel and Prest</a>.
+    It replaces floating-point arithmetic in signing, as NIST intends for FN-DSA. Keys and
+    signatures are interoperable with the floating-point implementation; seeded signatures
+    differ by design. Public-key and signature sizes are unchanged.
   parametersets:
   - name: '1024'
     level: 5
     pk: 1793
     sig: 1280
-    signing_cycles: 1189055
-    verification_cycles: 115024
-    signing_us: 319.1
-    verification_us: 33.4
+    signing_cycles: 3976488
+    verification_cycles: 80199
+    signing_us: 1028.5
+    verification_us: 23.4
+    bench_env: 2026-10-22-c8i.4xlarge
   - name: '512'
     level: 1
     pk: 897
     sig: 666
-    signing_cycles: 598902
-    verification_cycles: 62118
-    signing_us: 162.8
-    verification_us: 19.5
+    signing_cycles: 1892606
+    verification_cycles: 41906
+    signing_us: 490.8
+    verification_us: 13.5
+    bench_env: 2026-10-22-c8i.4xlarge
+  perf_source: our benchmark
+- version: initial
+  date: '2024-10-01'
+  status: To be standardized
+  programmes:
+    nist-pqc: selected
+  perf_source: our benchmark
+  parametersets:
+  - name: '1024'
+    level: 5
+    pk: 1793
+    sig: 1280
+    signing_cycles: 1073331
+    verification_cycles: 111359
+    signing_us: 280.1
+    verification_us: 31.3
+    bench_env: 2026-10-16-c8i.4xlarge
+  - name: '512'
+    level: 1
+    pk: 897
+    sig: 666
+    signing_cycles: 530613
+    verification_cycles: 56813
+    signing_us: 140.1
+    verification_us: 17.3
+    bench_env: 2026-10-16-c8i.4xlarge

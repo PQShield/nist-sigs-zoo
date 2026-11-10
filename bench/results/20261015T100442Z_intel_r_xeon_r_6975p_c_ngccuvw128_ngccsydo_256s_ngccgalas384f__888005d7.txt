@@ -1,0 +1,90 @@
+# pq-sigs benchmark results
+# date:         2026-10-15T10:04:42Z
+# host:         ip-172-31-38-9
+# commit:       67699d7da50c4d783a0c43bc466b52b356feff90
+# instance_type: c8i.4xlarge
+# os:           Ubuntu 26.04.1 LTS
+# kernel:       7.0.0-1014-aws
+# cpu:          Intel(R) Xeon(R) 6975P-C
+# cores:        16 (threads/core: 2)
+# max_freq_mhz: unknown (cur: unknown MHz)
+# governor:     unknown
+# turbo:        unknown
+# flags:        fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ss ht syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon rep_good nopl xtopology nonstop_tsc cpuid aperfmperf tsc_known_freq pni pclmulqdq monitor ssse3 fma cx16 pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand hypervisor lahf_lm abm 3dnowprefetch cpuid_fault ssbd ibrs ibpb stibp ibrs_enhanced fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid avx512f avx512dq rdseed adx smap avx512ifma clflushopt clwb avx512cd sha_ni avx512bw avx512vl xsaveopt xsavec xgetbv1 xsaves avx_vnni avx512_bf16 wbnoinvd ida arat avx512vbmi umip pku ospke waitpkg avx512_vbmi2 gfni vaes vpclmulqdq avx512_vnni avx512_bitalg tme avx512_vpopcntdq rdpid bus_lock_detect cldemote movdiri movdir64b md_clear serialize amx_bf16 avx512_fp16 amx_tile amx_int8 flush_l1d arch_capabilities
+#
+# compiler:     cc (Ubuntu 15.2.0-16ubuntu1) 15.2.0
+# openssl:      OpenSSL 3.5.5 27 Jan 2026 (Library: OpenSSL 3.5.5 27 Jan 2026)
+# sources:
+#   schemes/faest/ref: https://github.com/faest-sign/faest-arch-opt@1d8330979cb467c54edac43ffe695da249fa3417
+#   schemes/fndsa/ref: https://github.com/pornin/c-fn-dsa@33026d4d2734049a23f065f77eea11c35de58d76
+#   schemes/hawk/ref: https://github.com/hawk-sign/dev@1b9fef52559273fe7b40fe3e22968eaedd3a4c2a
+#   schemes/mayo/ref: https://github.com/PQCMayo/MAYO-C@74de637a7c4a7f9fafa888183bc05f5cf920cd2d
+#   schemes/mldsa/ref: https://github.com/pq-crystals/dilithium.git@6e00625c5b29f516c6de973fe2ee2fbb150973f9
+#   schemes/mqom/ref: https://github.com/mqom/mqom-v3@d9c64e386b186ee186684a0389fc32009bd67cd1
+#   schemes/qruov/ref: https://github.com/qruov/round3.git@3d84d0f6afae80c88deefab03b1dd6633a147f96
+#   schemes/sdith/ref: https://github.com/sdith/sdith@fff41ae5b12ba3c6b90d8f97b2ede57aa277a92f
+#   schemes/sdith2/ref: https://github.com/sdith/sdith@ce7adf06476674d4ff990f378f83f9981cd6745b
+#   schemes/slhdsa/ref: https://github.com/pq-code-package/slhdsa-c@2ee6f6853af95d5833a567cc4dcfd7f08d66bfd4
+#   schemes/snova/ref: https://github.com/PQCLAB-SNOVA/SNOVA.git@9b29c1e332cbd85757c8d6362a57b9a8c8298a38
+#   schemes/sqisign/ref: https://github.com/SQISign/the-sqisign@6d017708db403bf83977fa70770fc4f7f9e9ff21
+#   schemes/uov/ref: https://github.com/pqov/pqov.git@fac2ec1fe6d8ea508eab4b98eb5341e1eed930a4
+#   schemes/ngcc: https://www.niccs.org.cn/niccs/Proposal/Public-Key%20Cryptographic%20Algorithms/Round%201%20candidates/
+# filter:       NGCC-UVW-128 NGCC-sydo_256s NGCC-Galas-384F NGCC-sydo_160f NGCC-sydo_512f SDitH3-L1-gf2-fast SDitH3-L1-gf2-fast-cipherpow SDitH3-L1-gf2-short SDitH3-L1-gf2-short-cipherpow SDitH3-L3-gf2-fast SDitH3-L3-gf2-fast-cipherpow SDitH3-L3-gf2-short SDitH3-L3-gf2-short-cipherpow
+#
+# cyclecounter: rdpmc CPU_CYCLES (real core cycles, user-space)
+scheme                       iters    keygen (cyc)  keygen (us)      sign (cyc)   sign (us)    verify (cyc)  verify (us)
+------                       -----    ------------  -----------      ----------   ---------    ------------  ----------
+SDitH3-L1-gf2-short             50           81647        22.0         9148400      2368.7         8302093      2147.4
+SDitH3-L1-gf2-fast              50           80129        21.6         1980737       512.5         1715837       447.6
+SDitH3-L3-gf2-short             50          123506        32.8        41999263     10857.3        41460668     10721.6
+SDitH3-L3-gf2-fast              50          119544        31.7         9575545      2476.7         9012772      2327.0
+SDitH3-L1-gf2-short-cipherpow      50           79794        21.5         8592234      2222.2         8305414      2148.4
+SDitH3-L1-gf2-fast-cipherpow      50           79440        21.4         1971441       512.5         1659053       428.3
+SDitH3-L3-gf2-short-cipherpow      50          122960        32.7        41932921     10843.9        41392281     10704.5
+SDitH3-L3-gf2-fast-cipherpow      50          118761        31.5         9920617      2559.3         8852928      2288.7
+NGCC-Galas-384F                 10       126087411     32571.6     25306248883   6537497.1     16159205913   4174788.4
+NGCC-sydo_160f                1000           55826        15.6        15711208      4162.0        15074882      3987.0
+NGCC-sydo_256s                 205           84559        22.9       176096936     46984.2       174892956     46614.9
+NGCC-sydo_512f                 147          368233        95.7       260877298     68464.4       258126267     67881.9
+DBG_SIGN: e1e1e2_hw=8633 fe_hw=8633 diff=0
+DBG_SIGN: e1e1e2_hw=8633 f_hw=4298 e_hw=4335 sum=8633 w=8633 d_zeros=0 p_dups=0
+DBG_VFY: ew=4335 ertw=4298 sum=8633 w=8633 match=1
+DBG_VFY: ew=4334 ertw=3238 sum=7572 w=8633 match=0
+DBG_VFY: ew=4335 ertw=3257 sum=7592 w=8633 match=0
+DBG_SIGN: e1e1e2_hw=8633 fe_hw=8633 diff=0
+DBG_SIGN: e1e1e2_hw=8633 f_hw=4302 e_hw=4331 sum=8633 w=8633 d_zeros=0 p_dups=0
+DBG_VFY: ew=4331 ertw=4302 sum=8633 w=8633 match=1
+DBG_SIGN: e1e1e2_hw=8633 fe_hw=8633 diff=0
+DBG_SIGN: e1e1e2_hw=8633 f_hw=4306 e_hw=4327 sum=8633 w=8633 d_zeros=0 p_dups=0
+DBG_VFY: ew=4327 ertw=4306 sum=8633 w=8633 match=1
+DBG_SIGN: e1e1e2_hw=8633 fe_hw=8633 diff=0
+DBG_SIGN: e1e1e2_hw=8633 f_hw=4311 e_hw=4322 sum=8633 w=8633 d_zeros=0 p_dups=0
+DBG_VFY: ew=4322 ertw=4311 sum=8633 w=8633 match=1
+DBG_DEC_XY: counter=100
+DBG_SIGN: e1e1e2_hw=8633 fe_hw=8633 diff=0
+DBG_SIGN: e1e1e2_hw=8633 f_hw=4317 e_hw=4316 sum=8633 w=8633 d_zeros=0 p_dups=0
+DBG_VFY: ew=4316 ertw=4317 sum=8633 w=8633 match=1
+DBG_DEC_XY: counter=100
+DBG_SIGN: e1e1e2_hw=8633 fe_hw=8633 diff=0
+DBG_SIGN: e1e1e2_hw=8633 f_hw=4279 e_hw=4354 sum=8633 w=8633 d_zeros=0 p_dups=0
+DBG_VFY: ew=4354 ertw=4279 sum=8633 w=8633 match=1
+DBG_DEC_XY: counter=100
+DBG_SIGN: e1e1e2_hw=8633 fe_hw=8633 diff=0
+DBG_SIGN: e1e1e2_hw=8633 f_hw=4317 e_hw=4316 sum=8633 w=8633 d_zeros=0 p_dups=0
+DBG_VFY: ew=4316 ertw=4317 sum=8633 w=8633 match=1
+DBG_DEC_XY: counter=100
+DBG_SIGN: e1e1e2_hw=8633 fe_hw=8633 diff=0
+DBG_SIGN: e1e1e2_hw=8633 f_hw=4313 e_hw=4320 sum=8633 w=8633 d_zeros=0 p_dups=0
+DBG_VFY: ew=4320 ertw=4313 sum=8633 w=8633 match=1
+DBG_SIGN: e1e1e2_hw=8633 fe_hw=8633 diff=0
+DBG_SIGN: e1e1e2_hw=8633 f_hw=4285 e_hw=4348 sum=8633 w=8633 d_zeros=0 p_dups=0
+DBG_VFY: ew=4348 ertw=4285 sum=8633 w=8633 match=1
+DBG_DEC_XY: counter=100
+DBG_SIGN: e1e1e2_hw=8633 fe_hw=8633 diff=0
+DBG_SIGN: e1e1e2_hw=8633 f_hw=4310 e_hw=4323 sum=8633 w=8633 d_zeros=0 p_dups=0
+DBG_VFY: ew=4323 ertw=4310 sum=8633 w=8633 match=1
+DBG_SIGN: e1e1e2_hw=8633 fe_hw=8633 diff=0
+DBG_SIGN: e1e1e2_hw=8633 f_hw=4329 e_hw=4304 sum=8633 w=8633 d_zeros=0 p_dups=0
+DBG_VFY: ew=4304 ertw=4329 sum=8633 w=8633 match=1
+NGCC-UVW-128                    10     30842825738   8109362.0     13889656773   3632939.6       339339376     88680.9
+

@@ -1,0 +1,13 @@
+# AIMer v3.0 (AIM3), samsungsds-opensource/AIMer @ 734cc76f (2026-08-25). The repo
+# ships only AIMer.zip with the reference implementation and KATs (no optimised/AVX2
+# implementation for v3.0), so this is the reference build (-O3 -march=native).
+# Sizes match the v3.0 params-aimer-*.h headers, data/schemes/AIMer.yaml and the KATs
+# (upstream `make check` passes for all six sets).
+# Columns: file, name, pk, sk, sig, iters, param (PARAMS value passed via -D)
+file	name	pk	sk	sig	iters	param
+aimer128f	AIMer-128f	32	48	6944	0	128f
+aimer128s	AIMer-128s	32	48	4704	0	128s
+aimer192f	AIMer-192f	48	72	15408	0	192f
+aimer192s	AIMer-192s	48	72	10320	350	192s
+aimer256f	AIMer-256f	64	96	31360	0	256f
+aimer256s	AIMer-256s	64	96	20224	170	256s

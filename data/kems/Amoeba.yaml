@@ -1,0 +1,58 @@
+name: Amoeba
+website: https://www.niccs.org.cn/niccs/Round1Additional/pc/content/content_2101560843117875200.html
+category: Lattices
+assumption: RLWE
+status: NGCC round 1
+programmes:
+  china-ngcc: round-1
+parametersets:
+- name: Amoeba-576
+  ngcc_level: 128
+  pk: 784
+  ct: 1047
+  keygen_cycles: 387444
+  encaps_cycles: 530605
+  decaps_cycles: 579944
+  keygen_us: 100.8
+  encaps_us: 138.2
+  decaps_us: 150.5
+  bench_env: 2026-10-16-c8i.4xlarge
+  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+- name: Amoeba-1152
+  ngcc_level: 256
+  pk: 1648
+  ct: 1833
+  keygen_cycles: 616748
+  encaps_cycles: 814320
+  decaps_cycles: 911096
+  keygen_us: 159.4
+  encaps_us: 210.2
+  decaps_us: 235.1
+  bench_env: 2026-10-16-c8i.4xlarge
+  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+- name: Amoeba-1728
+  ngcc_level: 384
+  pk: 2440
+  ct: 2769
+  keygen_cycles: 917317
+  encaps_cycles: 1223113
+  decaps_cycles: 1376950
+  keygen_us: 236.5
+  encaps_us: 315.3
+  decaps_us: 355.0
+  bench_env: 2026-10-16-c8i.4xlarge
+  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+- name: Amoeba-2304
+  ngcc_level: 512
+  pk: 3520
+  ct: 3914
+  keygen_cycles: 1179228
+  encaps_cycles: 1601177
+  decaps_cycles: 1811695
+  keygen_us: 304.0
+  encaps_us: 412.7
+  decaps_us: 467.7
+  bench_env: 2026-10-16-c8i.4xlarge
+  notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+findings_url: https://ngcc.dev/reports/kem-02.html
+implementation: The submitted decapsulation compares only part of the ciphertext (<a href="https://list.niccs.org.cn/archives/list/pkcforum@list.niccs.org.cn/message/JB6IBZZUEVGTMM2SF6WK5PIYW7ESSPYT/">Li</a>), and exposes decoder failures; both allow full key recovery from chosen ciphertexts (<a href="https://eprint.iacr.org/2026/2232">Xiong and Wang</a>).

@@ -1,3 +1,4 @@
+include ../../../bench-common/flags.mk
 CC     ?= cc
 BUILD   = build
 FRODO   = ref
@@ -7,11 +8,11 @@ SRC     = $(FRODO)/FrodoKEM/src
 # Standard FrodoKEM (the ISO/salted variant), "fast" AVX2 implementation, no OpenSSL
 # (upstream's own aes_ni.c for AES-NI). NIX + _AMD64_ + _FAST_ are fixed; the
 # matrix-A generation method (_AES128_FOR_A_ / _SHAKE128_FOR_A_) is set per combo.
-CFLAGS := -O3 -fomit-frame-pointer -fPIC -Wall -Wextra -std=gnu11 \
-          -mavx2 -maes -msse2 -march=native -mtune=native \
+CFLAGS := -Wall -Wextra -std=gnu11 \
+          -mavx2 -maes -msse2 \
           -DNIX -D_AMD64_ -D_FAST_ \
           -I$(SRC) -I$(COMMON)/random -I$(COMMON)/sha3 -I$(COMMON)/sha3/keccak4x \
-          -I$(COMMON)/aes
+          -I$(COMMON)/aes $(BENCH_CFLAGS) -fPIC
 
 # Generic (level/method-independent) objects, built once and shared by every .so.
 # Unused objects in a given .so (e.g. aes_ni in a SHAKE build) are harmless. config.h

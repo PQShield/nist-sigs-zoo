@@ -1,0 +1,1 @@
+/* PATCH (nist-sigs-zoo): the BRA submission includes "seedexpander.h" (rbc_mat.h, rbc_mat_fq.h, rbc_isometry.h, rbc_perm.h) but does not ship it; only the SHAKE-based seedexpander_shake.h is used. Empty stand-in. */

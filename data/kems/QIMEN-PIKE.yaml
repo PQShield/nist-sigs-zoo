@@ -1,0 +1,46 @@
+name: QIMEN-PIKE
+website: https://www.niccs.org.cn/niccs/Round1Additional/pc/content/content_2101560872306036736.html
+category: Isogenies
+assumption: Isogenies
+status: NGCC round 1
+programmes:
+  china-ngcc: round-1
+parametersets:
+- name: NGCC-1
+  ngcc_level: 128
+  pk: 389
+  ct: 602
+  keygen_cycles: 238838944
+  encaps_cycles: 97138459
+  decaps_cycles: 154830927
+  keygen_us: 62164.9
+  encaps_us: 25096.2
+  decaps_us: 40218.4
+  bench_env: 2026-10-16-c8i.4xlarge
+  notes: Optimised x86 implementation. Measured sizes differ from the specification, which gives pk 405 B, sk 488 B (Table 7.1, compressed columns (PDF p. 57)).
+- name: NGCC-2
+  ngcc_level: 256
+  pk: 592
+  ct: 882
+  keygen_cycles: 741211622
+  encaps_cycles: 279984471
+  decaps_cycles: 449458572
+  keygen_us: 192481.0
+  encaps_us: 72311.5
+  decaps_us: 116661.7
+  bench_env: 2026-10-16-c8i.4xlarge
+  notes: Optimised x86 implementation. Measured sizes differ from the specification, which gives pk 595 B, sk 737 B (Table 7.1, compressed columns (PDF p. 57)).
+- name: NGCC-3
+  ngcc_level: 512
+  pk: 1198
+  ct: 1746
+  keygen_cycles: 6409935307
+  encaps_cycles: 2637458554
+  decaps_cycles: 4188731402
+  keygen_us: 1661477.8
+  encaps_us: 681621.4
+  decaps_us: 1084395.7
+  bench_env: 2026-10-16-c8i.4xlarge
+  notes: Optimised x86 implementation. Measured sizes differ from the specification, which gives pk 1201 B, sk 1500 B (Table 7.1, compressed columns (PDF p. 57)).
+findings_url: https://ngcc.dev/reports/kem-31.html
+implementation: Non-canonical field encodings in the submitted code let altered ciphertexts decapsulate to the same key, breaking IND-CCA security (<a href="https://ngcc.dev/reports/kem-31.html#kem-31-2-non-canonical-field-encodings-make-ciphertexts-malleable-without-changing-the-key">Saarinen</a>).

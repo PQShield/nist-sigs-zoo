@@ -1,0 +1,7 @@
+# MAYO round-2 (MAYO-C tag round2) shim parameters. Columns: file, name, pk, sk, sig, iters, variant
+# variant: MAYO_VARIANT value passed by Makefile via -D (used in VARIANT_RULES)
+file	name	pk	sk	sig	iters	variant
+mayo_r2_1	MAYO-R2-one	1420	24	454	0	MAYO_1
+mayo_r2_2	MAYO-R2-two	4912	24	186	0	MAYO_2
+mayo_r2_3	MAYO-R2-three	2986	32	681	0	MAYO_3
+mayo_r2_5	MAYO-R2-five	5554	40	964	0	MAYO_5

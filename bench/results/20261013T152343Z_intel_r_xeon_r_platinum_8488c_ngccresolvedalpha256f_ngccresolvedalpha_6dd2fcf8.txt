@@ -1,0 +1,56 @@
+# pq-sigs benchmark results
+# date:         2026-10-13T15:23:42Z
+# host:         ip-172-31-4-125
+# os:           Ubuntu 26.04.1 LTS
+# kernel:       7.0.0-1014-aws
+# cpu:          Intel(R) Xeon(R) Platinum 8488C
+# cores:        16 (threads/core: 2)
+# max_freq_mhz: unknown (cur: unknown MHz)
+# governor:     unknown
+# turbo:        unknown
+# flags:        fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ss ht syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon rep_good nopl xtopology nonstop_tsc cpuid aperfmperf tsc_known_freq pni pclmulqdq monitor ssse3 fma cx16 pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand hypervisor lahf_lm abm 3dnowprefetch cpuid_fault ssbd ibrs ibpb stibp ibrs_enhanced fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid avx512f avx512dq rdseed adx smap avx512ifma clflushopt clwb avx512cd sha_ni avx512bw avx512vl xsaveopt xsavec xgetbv1 xsaves avx_vnni avx512_bf16 wbnoinvd ida arat avx512vbmi umip pku ospke waitpkg avx512_vbmi2 gfni vaes vpclmulqdq avx512_vnni avx512_bitalg tme avx512_vpopcntdq rdpid cldemote movdiri movdir64b md_clear serialize amx_bf16 avx512_fp16 amx_tile amx_int8 flush_l1d arch_capabilities
+#
+# compiler:     cc (Ubuntu 15.2.0-16ubuntu1) 15.2.0
+# openssl:      OpenSSL 3.5.5 27 Jan 2026 (Library: OpenSSL 3.5.5 27 Jan 2026)
+# sources:
+#   schemes/faest/ref: https://github.com/faest-sign/faest-arch-opt@1d8330979cb467c54edac43ffe695da249fa3417
+#   schemes/fndsa/ref: https://github.com/pornin/c-fn-dsa@33026d4d2734049a23f065f77eea11c35de58d76
+#   schemes/hawk/ref: https://github.com/hawk-sign/dev@1b9fef52559273fe7b40fe3e22968eaedd3a4c2a
+#   schemes/mayo/ref: https://github.com/PQCMayo/MAYO-C@74de637a7c4a7f9fafa888183bc05f5cf920cd2d
+#   schemes/mldsa/ref: https://github.com/pq-crystals/dilithium.git@6e00625c5b29f516c6de973fe2ee2fbb150973f9
+#   schemes/mqom/ref: https://github.com/mqom/mqom-v3@d9c64e386b186ee186684a0389fc32009bd67cd1
+#   schemes/qruov/ref: https://github.com/qruov/round3.git@3d84d0f6afae80c88deefab03b1dd6633a147f96
+#   schemes/sdith/ref: https://github.com/sdith/sdith@fff41ae5b12ba3c6b90d8f97b2ede57aa277a92f
+#   schemes/sdith2/ref: https://github.com/sdith/sdith@ce7adf06476674d4ff990f378f83f9981cd6745b
+#   schemes/slhdsa/ref: https://github.com/pq-code-package/slhdsa-c@fac08b7d0a93849de0ee163c63712395e012b38c
+#   schemes/snova/ref: https://github.com/PQCLAB-SNOVA/SNOVA.git@9b29c1e332cbd85757c8d6362a57b9a8c8298a38
+#   schemes/sqisign/ref: https://github.com/SQISign/the-sqisign@6d017708db403bf83977fa70770fc4f7f9e9ff21
+#   schemes/uov/ref: https://github.com/pqov/pqov.git@fac2ec1fe6d8ea508eab4b98eb5341e1eed930a4
+#   schemes/ngcc: https://www.niccs.org.cn/niccs/Proposal/Public-Key%20Cryptographic%20Algorithms/Round%201%20candidates/
+# filter:       NGCC-ReSolveD-alpha-256f NGCC-ReSolveD-alpha-160s NGCC-ReSolveD-alpha-160f NGCC-QingLuan-512 NGCC-QingLuan-384 NGCC-QingLuan-256 NGCC-Phoenix-SM3-512f NGCC-Phoenix-SM3-384f NGCC-Phoenix-SM3-256f NGCC-Phoenix-SM3-192f NGCC-Phoenix-SHAKE-512f NGCC-Phoenix-SHAKE-384f NGCC-Phoenix-SHAKE-256s NGCC-Phoenix-SHAKE-256f NGCC-Phoenix-SHAKE-192s NGCC-Phoenix-SHAKE-192f NGCC-Origami-256 NGCC-Lynxer-256f NGCC-Lynxer-160s NGCC-Lynxer-160f NGCC-GreatWall512f
+#
+# cyclecounter: rdpmc CPU_CYCLES (real core cycles, user-space)
+scheme                       iters    keygen (cyc)  keygen (us)      sign (cyc)   sign (us)    verify (cyc)  verify (us)
+------                       -----    ------------  -----------      ----------   ---------    ------------  ----------
+NGCC-GreatWall512f              53        50842837     14771.7       318195001     90856.2       328113471     93630.1
+NGCC-Lynxer-160s                14        26204908      7498.7      2636180423    752854.7      2566977381    733543.1
+NGCC-Lynxer-160f               105        26204368      7496.6       380915160    108753.1       323917007     92479.6
+NGCC-Lynxer-256f                35       188314317     53988.0      1271717723    366663.1       885700688    254314.2
+NGCC-Origami-256                23        96492148     27580.5      1504789426    431607.6      1467057454    420005.8
+NGCC-Phoenix-SHAKE-192s         23        87770717     25130.1       949317846    273435.2        14369020      4132.2
+NGCC-Phoenix-SHAKE-192f        320        10992596      3189.4       218638911     63578.4         5860261      1697.6
+NGCC-Phoenix-SHAKE-256s         17       298897815     85384.6      3923616826   1121098.4        26153116      7462.0
+NGCC-Phoenix-SHAKE-256f        210         4386696      1292.7        89925875     26464.4        11461432      3393.7
+NGCC-Phoenix-SHAKE-384f         42        36115008     10550.4      1025113374    299324.2        27973656      8159.0
+NGCC-Phoenix-SHAKE-512f         16        97396637     28467.0      2210799337    645347.5        96526332     28172.4
+NGCC-Phoenix-SM3-192f          154        29745430      8690.0       582572188    170114.1        15688831      4593.5
+NGCC-Phoenix-SM3-256f           89        59195341     17284.1      1121355009    327359.0        30125821      8815.3
+NGCC-Phoenix-SM3-384f           26       125133687     36544.8      3574025506   1043660.3        67862213     19827.0
+NGCC-Phoenix-SM3-512f           16       250486172     73176.4      5964452010   1742179.1       135230072     39529.0
+NGCC-QingLuan-256              612         1778946       516.7       104759478     30601.8        47252833     13811.3
+NGCC-QingLuan-384              243         3788331      1115.5       257034542     75286.7       119405615     35008.1
+NGCC-QingLuan-512              102         9334373      2724.9       619016642    181242.2       284740247     83482.0
+NGCC-ReSolveD-alpha-160s        11        12340058      3592.3      3157687293    922669.1      3122149579    911796.4
+NGCC-ReSolveD-alpha-160f        91        12328134      3592.2       418737033    122395.9       394252350    115169.2
+NGCC-ReSolveD-alpha-256f        38        29058327      8468.1       984815746    288048.4       933000971    272596.9
+

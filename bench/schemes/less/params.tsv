@@ -1,0 +1,15 @@
+# LESS v2.0 (NIST round 2) shim parameters. Columns: file, name, pk, sk, sig, iters, category, target
+# category/target become -DCATEGORY=<n> -DTARGET=<t> (upstream CMake convention).
+# sig = CRYPTO_BYTES = sizeof(sign_t), the code's worst case (signatures are variable
+# length; the shim returns the actual length). For 252-192/400-220/548-345 this differs
+# from the spec's Table 4 worst case (2625/6329/10680), upstream MAX_PUBLISHED_SEEDS gives
+# 87/119/169 seeds where the spec formula gives 88/118/168.
+# iters: ~30 s of timed work (keygen+sign+verify) on a 2026 desktop AVX2 host; re-check on the bench machine.
+file	name	pk	sk	sig	iters	category	target
+less_252_192	LESS-252-192	13940	32	2609	180	252	192
+less_252_68	LESS-252-68	41788	32	1825	480	252	68
+less_252_45	LESS-252-45	97484	32	1329	730	252	45
+less_400_220	LESS-400-220	35074	48	6353	70	400	220
+less_400_102	LESS-400-102	105174	48	4131	140	400	102
+less_548_345	LESS-548-345	65793	64	10712	20	548	345
+less_548_137	LESS-548-137	197315	64	7436	50	548	137

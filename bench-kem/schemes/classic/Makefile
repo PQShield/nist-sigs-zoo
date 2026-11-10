@@ -1,3 +1,4 @@
+include ../../../bench-common/flags.mk
 CC     ?= cc
 BUILD   = build
 
@@ -13,7 +14,9 @@ endif
 OSSL_CFLAGS  = -I$(OSSL_PREFIX)/include
 OSSL_LDFLAGS = -L$(OSSL_PREFIX)/lib -lcrypto -Wl,-rpath,$(OSSL_PREFIX)/lib
 
-CFLAGS := -O3 -fomit-frame-pointer -fPIC -Wall -Wextra $(OSSL_CFLAGS)
+# Only the shims are compiled here; the algorithms run in the system's libcrypto,
+# built with the distribution's flags.
+CFLAGS := -Wall -Wextra $(OSSL_CFLAGS) $(BENCH_CFLAGS) -fPIC
 
 X25519_SHIMS := ecdh_x25519_shim.c ecdh_x448_shim.c
 NIST_SHIMS   := ecdh_p256_shim.c ecdh_p384_shim.c

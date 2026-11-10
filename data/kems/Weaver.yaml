@@ -1,0 +1,45 @@
+name: Weaver
+website: https://www.niccs.org.cn/niccs/Round1Additional/pc/content/content_2101560890312183808.html
+category: Lattices
+assumption: MLWR
+status: NGCC round 1
+programmes:
+  china-ngcc: round-1
+parametersets:
+- name: WeaverKEM-128
+  ngcc_level: 128
+  pk: 752
+  ct: 816
+  keygen_cycles: 540223
+  encaps_cycles: 586966
+  decaps_cycles: 590609
+  keygen_us: 139.6
+  encaps_us: 151.6
+  decaps_us: 152.6
+  bench_env: 2026-10-16-c8i.4xlarge
+  notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+- name: WeaverKEM-256
+  ngcc_level: 256
+  pk: 1312
+  ct: 1536
+  keygen_cycles: 771466
+  encaps_cycles: 826721
+  decaps_cycles: 825611
+  keygen_us: 198.9
+  encaps_us: 213.1
+  decaps_us: 212.8
+  bench_env: 2026-10-16-c8i.4xlarge
+  notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+- name: WeaverKEM-512
+  ngcc_level: 512
+  pk: 2880
+  ct: 3392
+  keygen_cycles: 2831709
+  encaps_cycles: 3205515
+  decaps_cycles: 3301888
+  keygen_us: 733.6
+  encaps_us: 829.7
+  decaps_us: 854.5
+  bench_env: 2026-10-16-c8i.4xlarge
+  notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+findings_url: https://ngcc.dev/reports/kem-39.html

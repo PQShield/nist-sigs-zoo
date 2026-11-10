@@ -6,83 +6,238 @@ versions:
 - version: v3.0
   date: '2026-08-31'
   status: On-ramp
-  tags:
-  - round-3
-  perf_source: official spec (AVX2, SHAKE128 public XOF)
-  info: "The round-3 vinegar sampler reduces uniform bytes modulo q^g, which is biased for odd q; Beullens &amp; Hess recover secret keys from signatures for the six odd-characteristic alternative parameter sets (LPN/BKW attack, to appear on ePrint). The recommended sets below use q = 16 and are unaffected. Easily fixed by sampling vinegar uniformly."
+  programmes:
+    nist-onramp: round-3
+  perf_source: our benchmark
+  info: "The round-3 vinegar sampler reduces uniform bytes modulo q^g, which is biased for odd q; <a href=\"https://groups.google.com/a/list.nist.gov/d/msgid/pqc-forum/000001dd4a73%247e3c04e0%247ab40ea0%24%40beullens.com\">Beullens &amp; Hess</a> recover secret keys from signatures for the six odd-characteristic alternative parameter sets (LPN/BKW attack, to appear on ePrint). The recommended sets below use q = 16 and are unaffected. Easily fixed by sampling vinegar uniformly."
+  # recommended: round-3 spec v3.0 §1.9.1 Table 5 "Recommended parameter sets"; §1.9.2 Table 6 lists "Alternative SNOVA parameter sets" whose "security margins are less conservative than those of the recommended parameter sets" (https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/SNOVA_specifications.pdf)
   parametersets:
   - name: SNOVA_I_K
     level: 1
+    recommended: true
     pk: 376
     sig: 528
-    signing_cycles: 621407
-    verification_cycles: 231915
-    signing_us: 164.9
-    verification_us: 62.3
+    signing_cycles: 639628
+    verification_cycles: 230506
+    signing_us: 174.6
+    verification_us: 63.6
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: SNOVA_I_B
     level: 1
+    recommended: true
     pk: 656
     sig: 388
-    signing_cycles: 664958
-    verification_cycles: 211752
-    signing_us: 176.2
-    verification_us: 56.9
+    signing_cycles: 668332
+    verification_cycles: 210056
+    signing_us: 177.9
+    verification_us: 56.4
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: SNOVA_I_S
     level: 1
+    recommended: true
     pk: 1016
     sig: 272
-    signing_cycles: 490511
-    verification_cycles: 188406
-    signing_us: 130.3
-    verification_us: 50.8
+    signing_cycles: 472380
+    verification_cycles: 159912
+    signing_us: 125.5
+    verification_us: 44.3
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: SNOVA_III_K
     level: 3
+    recommended: true
     pk: 912
     sig: 688
-    signing_cycles: 1339974
-    verification_cycles: 483866
-    signing_us: 357.7
-    verification_us: 128.8
+    signing_cycles: 1372466
+    verification_cycles: 481296
+    signing_us: 367.0
+    verification_us: 129.0
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: SNOVA_III_B
     level: 3
+    recommended: true
     pk: 1416
     sig: 532
-    signing_cycles: 1456257
-    verification_cycles: 484839
-    signing_us: 388.3
-    verification_us: 129.3
+    signing_cycles: 1481303
+    verification_cycles: 483308
+    signing_us: 396.6
+    verification_us: 129.6
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: SNOVA_III_S
     level: 3
+    recommended: true
     pk: 2032
     sig: 456
-    signing_cycles: 1698112
-    verification_cycles: 501985
-    signing_us: 453.6
-    verification_us: 133.5
+    signing_cycles: 1747857
+    verification_cycles: 497406
+    signing_us: 467.0
+    verification_us: 134.6
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: SNOVA_V_K
     level: 5
+    recommended: true
     pk: 1216
     sig: 896
-    signing_cycles: 3553652
-    verification_cycles: 1043073
-    signing_us: 946.2
-    verification_us: 276.5
+    signing_cycles: 3761226
+    verification_cycles: 933428
+    signing_us: 1007.5
+    verification_us: 257.9
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: SNOVA_V_B
     level: 5
+    recommended: true
     pk: 1891
     sig: 691
-    signing_cycles: 3515458
-    verification_cycles: 797376
-    signing_us: 935.5
-    verification_us: 211.3
+    signing_cycles: 3818412
+    verification_cycles: 770860
+    signing_us: 1025.5
+    verification_us: 210.9
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: SNOVA_V_S
     level: 5
+    recommended: true
     pk: 2716
     sig: 591
-    signing_cycles: 3758087
-    verification_cycles: 789141
-    signing_us: 999.4
-    verification_us: 209.3
+    signing_cycles: 4070559
+    verification_cycles: 757883
+    signing_us: 1093.1
+    verification_us: 206.0
+    bench_env: 2026-10-16-c8i.4xlarge
+  - name: SNOVA (27 3 16 4 7 5 84)
+    level: 1
+    pk: 376
+    sig: 436
+    notes: "Alternative parameter set (v, o, q, l, r, m1, m2) from spec Table 6 (claimed security 169 bits)."
+    signing_cycles: 644815
+    verification_cycles: 215164
+    signing_us: 166.7
+    verification_us: 56.5
+    bench_env: 2026-10-16-c8i.4xlarge
+  - name: SNOVA (27 4 16 4 5 5 80)
+    level: 1
+    pk: 656
+    sig: 326
+    notes: "Alternative parameter set (v, o, q, l, r, m1, m2) from spec Table 6 (claimed security 177 bits)."
+    signing_cycles: 623432
+    verification_cycles: 200101
+    signing_us: 166.3
+    verification_us: 53.8
+    bench_env: 2026-10-16-c8i.4xlarge
+  - name: SNOVA (27 4 19 4 6 5 96)
+    level: 1
+    pk: 699
+    sig: 413
+    broken: "Key recovery from signatures: the vinegar sampler reduces uniform bytes modulo q^g, which is biased for odd q, turning key recovery into an LPN problem far below the claimed security (<a href=\"https://groups.google.com/a/list.nist.gov/d/msgid/pqc-forum/000001dd4a73%247e3c04e0%247ab40ea0%24%40beullens.com\">Beullens &amp; Hess</a>)"
+    notes: "Alternative parameter set (v, o, q, l, r, m1, m2) from spec Table 6 (claimed security 201 bits)."
+    signing_cycles: 17852780
+    verification_cycles: 7094971
+    signing_us: 4628.7
+    verification_us: 1842.9
+    bench_env: 2026-10-16-c8i.4xlarge
+  - name: SNOVA (27 5 13 4 4 5 80)
+    level: 1
+    pk: 950
+    sig: 255
+    broken: "Key recovery from signatures: the vinegar sampler reduces uniform bytes modulo q^g, which is biased for odd q, turning key recovery into an LPN problem far below the claimed security (<a href=\"https://groups.google.com/a/list.nist.gov/d/msgid/pqc-forum/000001dd4a73%247e3c04e0%247ab40ea0%24%40beullens.com\">Beullens &amp; Hess</a>)"
+    notes: "Alternative parameter set (v, o, q, l, r, m1, m2) from spec Table 6 (claimed security 170 bits)."
+    signing_cycles: 13419038
+    verification_cycles: 4811504
+    signing_us: 3467.4
+    verification_us: 1244.2
+    bench_env: 2026-10-16-c8i.4xlarge
+  - name: SNOVA (50 17 16 2 2 17 68)
+    level: 1
+    pk: 9842
+    sig: 150
+    notes: "Alternative parameter set (v, o, q, l, r, m1, m2) from spec Table 6 (claimed security 158 bits)."
+    signing_cycles: 8354573
+    verification_cycles: 571274
+    signing_us: 2224.9
+    verification_us: 158.0
+    bench_env: 2026-10-16-c8i.4xlarge
+  - name: SNOVA (27 4 16 5 5 4 100)
+    level: 3
+    pk: 816
+    sig: 404
+    notes: "Alternative parameter set (v, o, q, l, r, m1, m2) from spec Table 6 (claimed security 221 bits)."
+    signing_cycles: 1266985
+    verification_cycles: 267216
+    signing_us: 338.9
+    verification_us: 71.4
+    bench_env: 2026-10-16-c8i.4xlarge
+  - name: SNOVA (33 5 16 4 5 6 100)
+    level: 3
+    pk: 1216
+    sig: 396
+    notes: "Alternative parameter set (v, o, q, l, r, m1, m2) from spec Table 6 (claimed security 221 bits)."
+    signing_cycles: 1073358
+    verification_cycles: 332723
+    signing_us: 290.0
+    verification_us: 90.1
+    bench_env: 2026-10-16-c8i.4xlarge
+  - name: SNOVA (39 5 11 4 6 7 120)
+    level: 3
+    pk: 1241
+    sig: 478
+    broken: "Key recovery from signatures: the vinegar sampler reduces uniform bytes modulo q^g, which is biased for odd q, turning key recovery into an LPN problem far below the claimed security (<a href=\"https://groups.google.com/a/list.nist.gov/d/msgid/pqc-forum/000001dd4a73%247e3c04e0%247ab40ea0%24%40beullens.com\">Beullens &amp; Hess</a>)"
+    notes: "Alternative parameter set (v, o, q, l, r, m1, m2) from spec Table 6 (claimed security 230 bits)."
+    signing_cycles: 44642518
+    verification_cycles: 18170045
+    signing_us: 11549.6
+    verification_us: 4701.4
+    bench_env: 2026-10-16-c8i.4xlarge
+  - name: SNOVA (38 5 19 4 6 7 120)
+    level: 3
+    pk: 1510
+    sig: 567
+    broken: "Key recovery from signatures: the vinegar sampler reduces uniform bytes modulo q^g, which is biased for odd q, turning key recovery into an LPN problem far below the claimed security (<a href=\"https://groups.google.com/a/list.nist.gov/d/msgid/pqc-forum/000001dd4a73%247e3c04e0%247ab40ea0%24%40beullens.com\">Beullens &amp; Hess</a>)"
+    notes: "Alternative parameter set (v, o, q, l, r, m1, m2) from spec Table 6 (claimed security 269 bits)."
+    signing_cycles: 43231732
+    verification_cycles: 17619206
+    signing_us: 11182.4
+    verification_us: 4558.0
+    bench_env: 2026-10-16-c8i.4xlarge
+  - name: SNOVA (76 25 16 2 2 25 100)
+    level: 3
+    pk: 31266
+    sig: 218
+    notes: "Alternative parameter set (v, o, q, l, r, m1, m2) from spec Table 6 (claimed security 223 bits)."
+    signing_cycles: 37431915
+    verification_cycles: 1942368
+    signing_us: 9733.0
+    verification_us: 528.2
+    bench_env: 2026-10-16-c8i.4xlarge
+  - name: SNOVA (40 5 19 5 6 6 150)
+    level: 5
+    pk: 2016
+    sig: 736
+    broken: "Key recovery from signatures: the vinegar sampler reduces uniform bytes modulo q^g, which is biased for odd q, turning key recovery into an LPN problem far below the claimed security (<a href=\"https://groups.google.com/a/list.nist.gov/d/msgid/pqc-forum/000001dd4a73%247e3c04e0%247ab40ea0%24%40beullens.com\">Beullens &amp; Hess</a>)"
+    notes: "Alternative parameter set (v, o, q, l, r, m1, m2) from spec Table 6 (claimed security 331 bits)."
+    signing_cycles: 88260504
+    verification_cycles: 33318740
+    signing_us: 22823.5
+    verification_us: 8620.8
+    bench_env: 2026-10-16-c8i.4xlarge
+  - name: SNOVA (47 6 19 4 6 9 144)
+    level: 5
+    pk: 2781
+    sig: 695
+    broken: "Key recovery from signatures: the vinegar sampler reduces uniform bytes modulo q^g, which is biased for odd q, turning key recovery into an LPN problem far below the claimed security (<a href=\"https://groups.google.com/a/list.nist.gov/d/msgid/pqc-forum/000001dd4a73%247e3c04e0%247ab40ea0%24%40beullens.com\">Beullens &amp; Hess</a>)"
+    notes: "Alternative parameter set (v, o, q, l, r, m1, m2) from spec Table 6 (claimed security 318 bits)."
+    signing_cycles: 87901693
+    verification_cycles: 32928423
+    signing_us: 22737.8
+    verification_us: 8525.5
+    bench_env: 2026-10-16-c8i.4xlarge
+  - name: SNOVA (104 33 16 2 2 33 132)
+    level: 5
+    pk: 71890
+    sig: 290
+    notes: "Alternative parameter set (v, o, q, l, r, m1, m2) from spec Table 6 (claimed security 287 bits)."
+    signing_cycles: 129431575
+    verification_cycles: 5609186
+    signing_us: 33842.0
+    verification_us: 1541.9
+    bench_env: 2026-10-16-c8i.4xlarge
 - version: v2.3
   date: '2026-04-03'
   status: On-ramp
@@ -119,7 +274,7 @@ versions:
     sig: 376
     signing_cycles: 2462627
     verification_cycles: 822123
-    warning: "Wedge product attack (Bros et al., ePrint 2026/237) reduces best known classical attack to ~214 bits; above NIST Level III threshold (192 bits) but significantly weaker than claimed"
+    warning: "Wedge product attack (<a href=\"https://eprint.iacr.org/2026/237\">Bros et al.</a>, ePrint 2026/237) reduces best known classical attack to ~214 bits; above NIST Level III threshold (192 bits) but significantly weaker than claimed"
     signing_us: 658.3
     verification_us: 218.2
   - name: SNOVA-40-7-19-4
@@ -161,7 +316,7 @@ versions:
     sig: 248
     signing_cycles: 540669
     verification_cycles: 231601
-    warning: "Wedge product attack (Bros et al., ePrint 2026/237) reduces best known classical attack to ~155 bits; above NIST Level I threshold (128 bits) but significantly weaker than claimed"
+    warning: "Wedge product attack (<a href=\"https://eprint.iacr.org/2026/237\">Bros et al.</a>, ePrint 2026/237) reduces best known classical attack to ~155 bits; above NIST Level I threshold (128 bits) but significantly weaker than claimed"
     signing_us: 143.5
     verification_us: 62.1
   - name: SNOVA-28-5-19-4
@@ -207,146 +362,202 @@ versions:
 - version: v2.0
   date: '2025-01-25'
   status: On-ramp
-  tags:
-  - round-2
+  programmes:
+    nist-onramp: round-2
   parametersets:
   - name: (60 10 4)
     level: 5
     pk: 8016
     sig: 576
-    signing_cycles: 4574330
-    verification_cycles: 1312834
-    signing_us: 3054.6
-    verification_us: 876.8
+    signing_cycles: 2874666
+    verification_cycles: 2076933
+    signing_us: 797.7
+    verification_us: 578.2
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: (66 15 3)
     level: 5
     pk: 15204
     sig: 381
-    signing_cycles: 2215902
-    verification_cycles: 1737533
+    signing_cycles: 2203957
+    verification_cycles: 1716042
+    signing_us: 617.3
+    verification_us: 479.9
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: (75 33 2)
     level: 5
     pk: 71890
     sig: 232
-    signing_cycles: 1426465
-    verification_cycles: 1309034
-    broken: "Wedge product attack (Bros et al., ePrint 2026/237) reduces classical security to ~180 bits, below NIST Level V threshold (256 bits)"
+    signing_cycles: 1422973
+    verification_cycles: 1346294
+    broken: "Wedge product attack (<a href=\"https://eprint.iacr.org/2026/237\">Bros et al.</a>, ePrint 2026/237) reduces classical security to ~180 bits, below NIST Level V threshold (256 bits)"
+    signing_us: 393.3
+    verification_us: 380.8
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: (29 6 5)
     level: 5
     pk: 2716
     sig: 454
-    signing_cycles: 1758416
-    verification_cycles: 1073040
-    broken: "Wedge product attack (Bros et al., ePrint 2026/237) reduces classical security to ~181 bits, below NIST Level V threshold (256 bits)"
+    signing_cycles: 1631359
+    verification_cycles: 1095042
+    broken: "Wedge product attack (<a href=\"https://eprint.iacr.org/2026/237\">Bros et al.</a>, ePrint 2026/237) reduces classical security to ~181 bits, below NIST Level V threshold (256 bits)"
+    signing_us: 449.9
+    verification_us: 301.1
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: (37 8 4)
     level: 3
     pk: 4112
     sig: 376
-    signing_cycles: 1576596
-    verification_cycles: 455047
-    warning: "Wedge product attack (Bros et al., ePrint 2026/237) reduces best known classical attack to ~214 bits; above NIST Level III threshold (192 bits) but significantly weaker than claimed"
-    signing_us: 1052.8
-    verification_us: 303.9
+    signing_cycles: 1030106
+    verification_cycles: 714116
+    warning: "Wedge product attack (<a href=\"https://eprint.iacr.org/2026/237\">Bros et al.</a>, ePrint 2026/237) reduces best known classical attack to ~214 bits; above NIST Level III threshold (192 bits) but significantly weaker than claimed"
+    signing_us: 284.2
+    verification_us: 196.5
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: (49 11 3)
     level: 3
     pk: 6006
     sig: 286
-    signing_cycles: 984405
-    verification_cycles: 675680
+    signing_cycles: 975841
+    verification_cycles: 658615
+    signing_us: 268.5
+    verification_us: 180.5
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: (56 25 2)
     level: 3
     pk: 31266
     sig: 178
-    signing_cycles: 648245
-    verification_cycles: 531159
-    broken: "Wedge product attack (Bros et al., ePrint 2026/237) reduces classical security to ~140 bits, below NIST Level III threshold (192 bits)"
+    signing_cycles: 585950
+    verification_cycles: 538142
+    broken: "Wedge product attack (<a href=\"https://eprint.iacr.org/2026/237\">Bros et al.</a>, ePrint 2026/237) reduces classical security to ~140 bits, below NIST Level III threshold (192 bits)"
+    signing_us: 162.3
+    verification_us: 148.0
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: (24 5 5)
     level: 3
     pk: 1579
     sig: 379
-    signing_cycles: 1120762
-    verification_cycles: 685307
-    broken: "Wedge product attack (Bros et al., ePrint 2026/237) reduces classical security to ~155 bits, below NIST Level III threshold (192 bits)"
+    signing_cycles: 1064632
+    verification_cycles: 687615
+    broken: "Wedge product attack (<a href=\"https://eprint.iacr.org/2026/237\">Bros et al.</a>, ePrint 2026/237) reduces classical security to ~155 bits, below NIST Level III threshold (192 bits)"
+    signing_us: 294.2
+    verification_us: 188.6
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: (24 5 4)
     level: 1
     pk: 1016
     sig: 248
-    signing_cycles: 576635
-    verification_cycles: 156279
-    warning: "Wedge product attack (Bros et al., ePrint 2026/237) reduces best known classical attack to ~155 bits; above NIST Level I threshold (128 bits) but significantly weaker than claimed"
-    signing_us: 385.1
-    verification_us: 104.4
+    signing_cycles: 391374
+    verification_cycles: 235701
+    warning: "Wedge product attack (<a href=\"https://eprint.iacr.org/2026/237\">Bros et al.</a>, ePrint 2026/237) reduces best known classical attack to ~155 bits; above NIST Level I threshold (128 bits) but significantly weaker than claimed"
+    signing_us: 105.4
+    verification_us: 63.5
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: (25 8 3)
     level: 1
     pk: 2320
     sig: 165
-    signing_cycles: 340740
-    verification_cycles: 176153
-    broken: "Wedge product attack (Bros et al., ePrint 2026/237) reduces classical security to ~110 bits, below NIST Level I threshold (128 bits)"
+    signing_cycles: 342452
+    verification_cycles: 176837
+    broken: "Wedge product attack (<a href=\"https://eprint.iacr.org/2026/237\">Bros et al.</a>, ePrint 2026/237) reduces classical security to ~110 bits, below NIST Level I threshold (128 bits)"
+    signing_us: 94.0
+    verification_us: 49.6
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: (37 17 2)
     level: 1
     pk: 9842
     sig: 124
-    signing_cycles: 262422
-    verification_cycles: 151842
-    broken: "Wedge product attack (Bros et al., ePrint 2026/237) reduces classical security to ~103 bits, below NIST Level I threshold (128 bits)"
+    signing_cycles: 240078
+    verification_cycles: 142390
+    broken: "Wedge product attack (<a href=\"https://eprint.iacr.org/2026/237\">Bros et al.</a>, ePrint 2026/237) reduces classical security to ~103 bits, below NIST Level I threshold (128 bits)"
+    signing_us: 66.2
+    verification_us: 39.7
+    bench_env: 2026-10-16-c8i.4xlarge
+  perf_source: our benchmark
 - version: Round 1
   date: '2023-05-25'
   status: On-ramp
-  tags:
-  - round-1
+  programmes:
+    nist-onramp: round-1
   parametersets:
   - name: (60, 10, 16, 4)
     level: 5
     pk: 8016
     sig: 576
-    signing_cycles: 237150613
-    verification_cycles: 90472932
+    signing_cycles: 155597464
+    verification_cycles: 51352773
+    signing_us: 40533.3
+    verification_us: 13388.2
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: (66, 15, 16, 3)
     level: 5
     pk: 15204
     sig: 381
-    signing_cycles: 172139775
-    verification_cycles: 47936266
+    signing_cycles: 119981986
+    verification_cycles: 28857166
+    signing_us: 31295.7
+    verification_us: 7540.5
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: (61, 33, 16, 2)
     level: 5
     pk: 71890
     sig: 204
-    signing_cycles: 158443732
-    verification_cycles: 25289616
+    signing_cycles: 78959634
+    verification_cycles: 16235076
+    signing_us: 20541.0
+    verification_us: 4226.3
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: (37, 8, 16, 4)
     level: 3
     pk: 4112
     sig: 376
-    signing_cycles: 81382976
-    verification_cycles: 31084401
+    signing_cycles: 52638447
+    verification_cycles: 16959483
+    signing_us: 13689.9
+    verification_us: 4403.9
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: (49, 11, 16, 3)
     level: 3
     pk: 6006
     sig: 286
-    signing_cycles: 60561733
-    verification_cycles: 18853861
+    signing_cycles: 42958163
+    verification_cycles: 11372391
+    signing_us: 11167.2
+    verification_us: 2952.2
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: (43, 25, 16, 2)
     level: 3
     pk: 31266
     sig: 152
-    signing_cycles: 47587816
-    verification_cycles: 9443639
+    signing_cycles: 26533863
+    verification_cycles: 6398990
+    signing_us: 6914.3
+    verification_us: 1666.7
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: (24, 5, 16, 4)
     level: 1
     pk: 1016
     sig: 248
-    signing_cycles: 19681409
-    verification_cycles: 8086815
+    signing_cycles: 12726069
+    verification_cycles: 4468769
+    signing_us: 3361.9
+    verification_us: 1181.6
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: (25, 8, 16, 3)
     level: 1
     pk: 2320
     sig: 165
-    signing_cycles: 12408096
-    verification_cycles: 3959869
+    signing_cycles: 9334766
+    verification_cycles: 2563469
+    signing_us: 2418.4
+    verification_us: 666.5
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: (28, 17, 16, 2)
     level: 1
     pk: 9842
     sig: 106
-    signing_cycles: 10964945
-    verification_cycles: 3161199
+    signing_cycles: 6339272
+    verification_cycles: 1901078
+    signing_us: 1647.1
+    verification_us: 495.9
+    bench_env: 2026-10-16-c8i.4xlarge
+  perf_source: our benchmark

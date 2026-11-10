@@ -1,0 +1,249 @@
+# pq-kems benchmark results
+# date:         2026-10-16T11:44:15Z
+# host:         ip-172-31-6-239
+# commit:       124dc8b40d0bb1f9efcab461ea75e100aebc0564
+# instance_type: c8i.4xlarge
+# os:           Ubuntu 26.04.1 LTS
+# kernel:       7.0.0-1014-aws
+# cpu:          Intel(R) Xeon(R) 6975P-C
+# cores:        16 (threads/core: 2)
+# max_freq_mhz: unknown (cur: unknown MHz)
+# governor:     unknown
+# turbo:        unknown
+# flags:        fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ss ht syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon rep_good nopl xtopology nonstop_tsc cpuid aperfmperf tsc_known_freq pni pclmulqdq monitor ssse3 fma cx16 pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand hypervisor lahf_lm abm 3dnowprefetch cpuid_fault ssbd ibrs ibpb stibp ibrs_enhanced fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid avx512f avx512dq rdseed adx smap avx512ifma clflushopt clwb avx512cd sha_ni avx512bw avx512vl xsaveopt xsavec xgetbv1 xsaves avx_vnni avx512_bf16 wbnoinvd ida arat avx512vbmi umip pku ospke waitpkg avx512_vbmi2 gfni vaes vpclmulqdq avx512_vnni avx512_bitalg tme avx512_vpopcntdq rdpid bus_lock_detect cldemote movdiri movdir64b md_clear serialize amx_bf16 avx512_fp16 amx_tile amx_int8 flush_l1d arch_capabilities
+#
+# compiler:     cc (Ubuntu 15.2.0-16ubuntu1) 15.2.0
+# openssl:      OpenSSL 3.5.5 27 Jan 2026 (Library: OpenSSL 3.5.5 27 Jan 2026)
+# sources:
+#   schemes/bat/ref: https://github.com/pornin/BAT@8280af7c9d4d5cdd9a70914f72a5f0ad774c7b8d
+#   schemes/frodo/ref: https://github.com/Microsoft/PQCrypto-LWEKE@7a4e7219d06305e16aef734213001cd8fefbcc14
+#   schemes/hqc/ref: https://gitlab.com/pqc-hqc/hqc.git@161cd4fdf6b4a5198cf40b3a1243f9f27f13e03d
+#   schemes/mike/ref: https://github.com/tensor-mike/mike_c.git@6057473e460165cc8721c05dc3fbbb73a009d147
+#   schemes/mlkem/ref: https://github.com/pq-code-package/mlkem-native.git@2d1cc90f71bd59617062844e874ac6e70868e1f8
+#   schemes/ntru/ref: https://github.com/jschanck/ntru@6d96ed3746000b6497392a425712fe483988fc80
+#   schemes/ntruplus/ref: https://github.com/ntruplus/ntruplus.git@f4507621e2111af52bb87b1950249baac683a37d
+#   schemes/saber/ref: https://github.com/KULeuven-COSIC/SABER@f7f39e4db2f3e22a21e1dd635e0601caae2b4510
+#   schemes/smaugt/ref: https://github.com/hmchoe0528/SMAUG-T_public.git@2c039df23134a2de3c7aa86a4904c9a4734f9def
+#   schemes/mceliece: https://lib.mceliece.org/libmceliece-20260622.tar.gz
+#   schemes/ngcc: https://www.niccs.org.cn/niccs/Proposal/Public-Key%20Cryptographic%20Algorithms/Round%201%20candidates/
+#   schemes/ntruprime: https://libntruprime.cr.yp.to/libntruprime-20241021.tar.gz
+#
+# merged:       7 parts of a split run on separate instances of the same type
+# part:         20261016T114415Z_intel_r_xeon_r_6975p_c_ngccbike_mlthre512_mikerigorousv_ngccctl33292048.txt (host ip-172-31-6-239, 2026-10-16T11:44:15Z, 3 rows, commit 124dc8b40d0bb1f9efcab461ea75e100aebc0564, instance_type c8i.4xlarge)
+# part:         20261016T114423Z_intel_r_xeon_r_6975p_c_mikefastv_ngccuvwkem256_ngccbike_mlthre_ebc393e9.txt (host ip-172-31-4-159, 2026-10-16T11:44:23Z, 17 rows, commit 124dc8b40d0bb1f9efcab461ea75e100aebc0564, instance_type c8i.4xlarge)
+# part:         20261016T114427Z_intel_r_xeon_r_6975p_c_ngccmambafrost512_ngccbike_mlthre128_ng_091e1aa7.txt (host ip-172-31-4-149, 2026-10-16T11:44:27Z, 24 rows, commit 124dc8b40d0bb1f9efcab461ea75e100aebc0564, instance_type c8i.4xlarge)
+# part:         20261016T115611Z_intel_r_xeon_r_6975p_c_ngccuvwkem512_ngccqctm256_mikerigorousi_bf3de29d.txt (host ip-172-31-5-26, 2026-10-16T11:56:10Z, 5 rows, commit 124dc8b40d0bb1f9efcab461ea75e100aebc0564, instance_type c8i.4xlarge)
+# part:         20261016T115621Z_intel_r_xeon_r_6975p_c_ecdhp384_ngccdtru2048_ngccyuanyang1024__a096d143.txt (host ip-172-31-32-249, 2026-10-16T11:56:21Z, 77 rows, commit 124dc8b40d0bb1f9efcab461ea75e100aebc0564, instance_type c8i.4xlarge)
+# part:         20261016T115646Z_intel_r_xeon_r_6975p_c_ngcctrike9_ngccdtruprime_ngccloong256_n_75439152.txt (host ip-172-31-4-52, 2026-10-16T11:56:46Z, 81 rows, commit 124dc8b40d0bb1f9efcab461ea75e100aebc0564, instance_type c8i.4xlarge)
+# part:         20261016T120247Z_intel_r_xeon_r_6975p_c_ngccqctm512_ngccqctm128.txt (host ip-172-31-12-106, 2026-10-16T12:02:47Z, 1 rows, commit 124dc8b40d0bb1f9efcab461ea75e100aebc0564, instance_type c8i.4xlarge)
+# cyclecounter: rdpmc CPU_CYCLES (real core cycles, user-space)
+scheme                       iters    keygen (cyc)  keygen (us)    encaps (cyc)  encaps (us)    decaps (cyc)  decaps (us)      ok
+------                       -----    ------------  -----------    ------------  -----------    ------------  -----------      --
+MIKE-rigorous-V               1000        32352988      8355.5       243752353     62949.6       211495810     54620.8     yes
+NGCC-BIKE_MLThre-512             5    206460812059  53324473.6       676914516    174808.4      3210449024    829127.3     yes
+NGCC-CTL-3329-2048              30      1900508581    490982.2          203820        53.7        55252775     14306.4     yes
+HQC-128                       1000           69083        18.8          136458        36.1          305958        79.6     yes
+HQC-256                       1000          321470        86.1          630564       168.0         1214996       324.0     yes
+MIKE-fast-I                   1000         1978817       514.4        16242808      4196.9        14260006      3685.3     yes
+MIKE-fast-III                 1000         6495285      1679.8        52360799     13538.9        45917145     11861.3     yes
+MIKE-fast-V                   1000        13480125      3484.4       102776925     26558.1        89308249     23074.6     yes
+NGCC-BIKE_MLThre-256            10     16105607744   4161378.1        87463452     22598.6       449442348    116138.5     yes
+NGCC-HEP-QC-1                  180       242724165     63064.6        13458404      3550.0       236871163     61334.7     yes
+NGCC-HEP-QC-7                   10      4771785543   1256612.4       600050719    155200.1      3205058033    831154.6     yes
+NGCC-Loong384                  653        49929805     12902.2        50105811     12948.3        50428568     13031.5     yes
+NGCC-Loong512                  417        81133903     20972.6        80170763     20723.7        80693266     20859.6     yes
+NGCC-HQC-128                   464        34719226      8970.0        63142404     16310.0       117519824     30358.5     yes
+NGCC-HQC-256                   160       103092893     26623.8       185770419     47987.3       320592285     82809.0     yes
+NGCC-HQC-384                    50       347342656     89704.1       626719616    161919.2      1022617130    264073.6     yes
+NGCC-HQC-512                    18       820268930    211891.1      1500341211    387478.8      2384426396    615966.9     yes
+NGCC-NGCC-3                     10      6409935307   1661477.8      2637458554    681621.4      4188731402   1084395.7     yes
+NGCC-Scloudplus-512            436        56195130     14620.5        57422794     14843.9        55357853     14410.3     yes
+NGCC-UVW-KEM-256                10      5830472326   1518611.4         2276636       588.3     11434982964   2972888.0     yes
+NGCC-BAG-Loong-128             376        52760685     13644.6        54664208     14133.5        96228997     24883.0     yes
+NGCC-BAG-Loong-256             148       139554936     36090.4       120764752     31226.0       235793483     60967.4     yes
+NGCC-BAG-Loong-384              67       319413580     82601.9       245041661     63365.7       483640225    125093.6     yes
+NGCC-BAG-Loong-512              43       536865378    139365.0       356462309     92717.4       697041639    181278.0     yes
+NGCC-bag_piglet_384           1000         9568557      2473.1        11043222      2855.3        44073374     11397.0     yes
+NGCC-bag_piglet_512            271        59806410     15455.5        51010439     13181.0       180609834     46665.5     yes
+NGCC-BIKE_MLThre-128            56      1399053310    361320.9        13967892      3604.5        90923846     23485.7     yes
+NGCC-CMultiURAG-512            740        16041361      4151.2        22510949      5859.6        61876622     16092.3     yes
+NGCC-HARE-512-kr              1000         6528950      1683.2        17779905      4592.9        29268120      7560.7     yes
+NGCC-HEP-QC-5                   42       902751783    235785.6        89055078     23068.7       827648323    214486.3     yes
+NGCC-MAMBA-Frost-384          1000        10609260      2745.2        17368531      4566.2        19192034      4966.2     yes
+NGCC-MAMBA-Frost-512           901        18996129      4909.2        35295593      9294.2        38848305     10212.9     yes
+NGCC-MAMBA-Frost-CC-512        986        31268989      8210.7        25769188      6667.2        26739526      6917.2     yes
+NGCC-Mito-1-256                389        28695829      7414.7        47712280     12327.3        67483996     17430.9     yes
+NGCC-Mito-1-512                 80       175381236     45294.4       292285829     75483.4       411436656    106252.8     yes
+NGCC-Mito-1-E-256              471        29193209      7541.8        48525127     12533.5        68546140     17702.3     yes
+NGCC-Mito-1-E-512               69       166909920     43100.2       278038023     71810.8       391300690    101057.1     yes
+NGCC-Mito-2-E-128             1000        13110943      3387.9        18815162      4860.2        25013262      6461.1     yes
+NGCC-Mito-2-E-256              353        41045761     10601.3        59248637     15301.7        78470752     20263.5     yes
+NGCC-Mito-2-E-512               56       252391544     65170.6       364851347     94226.3       480044972    123949.9     yes
+NGCC-NGCC-2                     40       741211622    192481.0       279984471     72311.5       449458572    116661.7     yes
+NGCC-lwekem512                 874        20843329      5384.5        20797815      5373.1        20825381      5380.3     yes
+NGCC-Scloudplus-384            934        27767446      7173.2        28558595      7378.3        27260065      7042.4     yes
+NGCC-TRIKE-7                    14      2488737182    642790.8       210417853     54362.0       534920176    138179.5     yes
+FrodoKEM-976-SHAKE            1000         4345766      1124.0         4515824      1168.1         4455794      1151.3     yes
+MIKE-rigorous-I               1000         4380626      1131.6        35738979      9229.6        31362215      8099.4     yes
+MIKE-rigorous-III             1000        13929815      3599.5       109152573     28188.1        95213437     24589.0     yes
+NGCC-QCTM256                     5     40299764287  10682919.6         2056013       538.0        17421362      4562.6     yes
+NGCC-UVW-KEM-512                 5     45922175008  11979217.2        17947380      4705.5     75358985788  19605616.8     yes
+ECDH-X25519                   1000          124524        33.2          237576        62.2          119675        31.8     yes
+ECDH-X448                     1000          549004       142.2         1152478       296.8          610980       157.8     yes
+ECDH-P256                     1000           58613        16.3          279647        73.0          229111        59.9     yes
+ECDH-P384                     1000          430107       111.5         1497765       388.9         1044015       269.5     yes
+ML-KEM-512                    1000           20274         6.3           22887         7.0           28133         8.3     yes
+ML-KEM-768                    1000           32466         9.4           35061        10.1           43061        12.2     yes
+ML-KEM-1024                   1000           46441        13.0           50454        14.1           60888        16.7     yes
+HQC-192                       1000          161653        43.8          314864        84.0          626871       166.2     yes
+mceliece348864                  30        39942086     10563.7           24595         8.8           98220        27.1     yes
+ntruhps2048509                1000          105188        34.5           16626        10.9           27195         8.3     yes
+ntruhps2048677                1000          168655        53.0           22811        14.2           39754        11.7     yes
+ntruhps4096821                1000          252717        74.4           26577        16.1           54946        15.3     yes
+ntruhrss701                   1000          173654        50.5           21023        10.0           44162        12.8     yes
+sntrup653                     1000          501576       134.3           50114        14.3           57668        16.3     yes
+sntrup761                     1000          654664       174.3           55619        15.8           61128        17.3     yes
+sntrup857                     1000          792511       217.1           65952        19.0           77220        22.1     yes
+sntrup953                     1000          989404       262.2           71726        20.0           82010        22.8     yes
+sntrup1013                    1000         1171620       310.9           74394        20.7           84605        23.4     yes
+sntrup1277                    1000         1678078       445.7           96848        27.6           99596        27.4     yes
+NTRU+768                      1000           22755         7.4           29762         9.2           20668         6.3     yes
+NTRU+864                      1000           25266         8.1           34889        10.5           25160         7.5     yes
+NTRU+1152                     1000           34414        11.8           44751        13.2           31751         9.2     yes
+SMAUG-T128                    1000           25739         8.3           21287         6.9           32807         9.5     yes
+SMAUG-T192                    1000           39265        11.8           38540        11.3           54581        15.1     yes
+SMAUG-T256                    1000           49957        14.5           49317        14.1           69901        19.1     yes
+TiMER                         1000           25702         8.3           21002         6.8           33104         9.6     yes
+NGCC-Amoeba-576               1000          387444       100.8          530605       138.2          579944       150.5     yes
+NGCC-Amoeba-1152              1000          616748       159.4          814320       210.2          911096       235.1     yes
+NGCC-BW_KEM_C128              1000          264906        69.0          307654        79.9          368896        95.7     yes
+NGCC-BW_KEM_C256              1000          668029       172.4          720444       185.8          826155       213.1     yes
+NGCC-Cheetah128               1000          266557        69.4          336537        87.4          369552        95.9     yes
+NGCC-Cheetah256               1000          699848       180.6          782515       201.8          850709       219.3     yes
+NGCC-DKEM-128                 1000          152400        40.2          166023        43.7          165728        43.6     yes
+NGCC-DKEM-256                 1000          469688       121.5          479139       123.9          479899       124.1     yes
+NGCC-DTRU-648                 1000          301588        78.4          159427        42.0          318486        82.7     yes
+NGCC-DTRU-Light               1000          108947        29.0           92958        24.9          184837        48.5     yes
+NGCC-DTRU-1024                1000          326626        84.8          217978        57.0          431927       111.8     yes
+NGCC-DTRU-1536                1000          404563       104.7          363667        94.3          699125       180.3     yes
+NGCC-DTRU-2048                1000          751867       193.8          490779       126.9          948179       244.4     yes
+NGCC-FLIT128                  1000           68619        18.7           82396        22.2           66965        18.3     yes
+NGCC-FLIT256                  1000          161766        42.6          145186        38.3          125598        33.3     yes
+NGCC-FLIT512                  1000          740381       190.9          610537       157.6          518800       134.1    FAIL
+NGCC-Lore-L1                  1000           72224        19.6          125887        33.3          163825        43.1     yes
+NGCC-Lore-L2                  1000          151214        42.7          234507        64.6          380453       104.6     yes
+NGCC-Lore-L3                  1000          307197        84.9          430825       118.8          555118       154.1     yes
+NGCC-Lore-L4                  1000          529906       145.8          733573       202.9         1015154       280.2     yes
+NGCC-MAMBA-Viper-128          1000          143533        37.9          227737        59.5          261438        68.2     yes
+NGCC-MAMBA-Viper-256          1000          464708       120.3          601875       155.5          636510       164.4     yes
+NGCC-Mithril-128              1000          174742        45.9          173713        45.6          174014        45.7     yes
+NGCC-Mithril-256              1000          296206        77.1          298479        77.7          304770        79.3     yes
+NGCC-Mithril-512              1000          617350       159.4          633886       163.7          670900       173.1     yes
+NGCC-scabbard128              1000          632311       167.4          636145       168.4          618274       163.7     yes
+NGCC-NEV-D1                   1000          120297        31.9          117593        31.2           96167        25.7     yes
+NGCC-NEV-D2                   1000          153579        40.5          160543        42.3          123773        32.8     yes
+NGCC-NEV-D3                   1000          440195       114.0          450787       116.7          304321        79.1     yes
+NGCC-NEV-R1                   1000           66823        18.2           64943        17.7           45927        12.8     yes
+NGCC-NEV-R2                   1000          101053        27.0          107303        28.6           74982        20.3     yes
+NGCC-NEV-R3                   1000          276059        71.9          334639        86.9          207151        54.2     yes
+NGCC-NTRE-128                 1000           97120        26.0           98977        26.5           84807        22.9     yes
+NGCC-NTRE-256                 1000          145770        38.5          153263        40.4          122147        32.4     yes
+NGCC-NTRE-512                 1000          242879        63.4          318625        82.8          264690        69.0     yes
+NGCC-OAEP-NTRU-648            1000           74043        20.1           93448        25.1           57506        15.8     yes
+NGCC-OAEP-NTRU-1296           1000          205450        53.8          315845        82.1          177858        46.7     yes
+NGCC-OAEP-NTRU-2592           1000          470724       121.8          917300       236.4          640379       165.3     yes
+NGCC-PolarKEM-256             1000          349558        90.7          682738       176.2          931176       239.9     yes
+NGCC-POLARLAC-128             1000          130569        34.6          170464        44.8          196134        51.4     yes
+NGCC-POLARLAC-256             1000          220072        57.5          309844        80.6          366587        95.1     yes
+NGCC-POLARLAC-Light           1000          119178        31.7          156185        41.2          180641        47.4     yes
+NGCC-QUBE-128                 1000          559902       144.6          612719       158.2         1003837       258.5     yes
+NGCC-TriQ-KEM-128             1000          532907       137.8          577976       149.3          743136       191.7     yes
+NGCC-WeaverKEM-128            1000          540223       139.6          586966       151.6          590609       152.6     yes
+NGCC-WeaverKEM-256            1000          771466       198.9          826721       213.1          825611       212.8     yes
+NGCC-yuanyang-512             1000          419945       108.9          257297        67.1          289195        75.3     yes
+NGCC-yuanyang-1024            1000         1226665       315.9          414812       107.5          490692       126.9     yes
+NGCC-ZEN_128                  1000          170542        45.8          130350        34.5          148799        39.2     yes
+NGCC-ZEN_256                  1000          240398        68.3          153169        40.4          201223        52.7     yes
+NGCC-ZEN_512                  1000          742924       191.6          418500       108.4          537293       139.0     yes
+FrodoKEM-640-AES              1000          945711       252.2         1048377       279.1         1007111       269.1     yes
+FrodoKEM-640-SHAKE            1000         2085559       540.3         2218181       574.1         2161306       559.2     yes
+FrodoKEM-976-AES              1000         1846232       488.4         1978191       525.6         1895185       500.4     yes
+FrodoKEM-1344-AES             1000         3220219       854.1         3339662       887.1         3227090       856.6     yes
+FrodoKEM-1344-SHAKE           1000         7650521      1978.1         7886091      2039.0         7757153      2004.8     yes
+mceliece460896                  30       120591754     31894.5           55517        15.7          225807        59.4     yes
+mceliece6688128                 30       288102317     76382.8          132509        35.6          302830        79.9     yes
+mceliece6960119                 30       179481799     47614.1          136151        37.6          293279        77.4     yes
+mceliece8192128                 30       273995073     72600.4          196109        52.5          300212        80.1     yes
+BAT-257-512                    200        17769449      4593.4           11326         4.4           72035        19.6     yes
+BAT-769-1024                   200       103517040     26754.1           22638         7.4          143730        38.0     yes
+LightSaber                    1000           49463        13.8           48605        13.6           41629        11.8     yes
+Saber                         1000           72847        19.8           75121        20.4           67274        18.4     yes
+FireSaber                     1000          102303        27.4          107521        28.7          100470        26.9     yes
+NGCC-Aigis-Enc+-I             1000          242440        63.2          273194        71.1          276786        72.0     yes
+NGCC-Aigis-Enc+-II            1000          372517        96.6          444277       115.0          453661       117.5     yes
+NGCC-Aigis-Enc+-III           1000          844888       217.9          997807       257.3         1051204       270.9     yes
+NGCC-Amoeba-1728              1000          917317       236.5         1223113       315.3         1376950       355.0     yes
+NGCC-Amoeba-2304              1000         1179228       304.0         1601177       412.7         1811695       467.7     yes
+NGCC-bag_piglet_128           1000         1171197       301.7         1335074       344.9         5176318      1339.4     yes
+NGCC-bag_piglet_256           1000         2700859       733.3         3855220      1048.5        18043937      4759.9     yes
+NGCC-BRA-128                  1000          592754       153.0         1044422       268.9         3215135       832.8     yes
+NGCC-BRA-256                  1000          982552       253.2         1724766       448.7         5359406      1385.3     yes
+NGCC-BRA-512                  1000         1636380       422.0         2909781       753.8         9053726      2340.6     yes
+NGCC-BRQC-128                 1000          672869       173.6         1291503       332.4         3731961       965.8     yes
+NGCC-BRQC-256                 1000         1890725       492.0         3017564       782.0        12645872      3267.9     yes
+NGCC-BRQC-512                 1000         3527672       912.5         5627407      1457.2        29580724      7642.2     yes
+NGCC-BW_KEM_C512              1000         2324275       603.4         2402770       623.3         2769707       717.4     yes
+NGCC-Cheetah384               1000         2251069       584.4         2379012       617.2         2547104       660.6     yes
+NGCC-Cheetah512               1000         3658076       946.0         3779172       977.1         4009562      1036.3     yes
+NGCC-CMultiURAG-128           1000         1723030       446.3         2882486       746.7         7193988      1860.5     yes
+NGCC-CMultiURAG-256           1000         3680210       951.8         5875547      1520.1        14483501      3743.0     yes
+NGCC-COMPASS-KEM-128          1000         1717094       443.3         1746469       451.6         1779778       460.5     yes
+NGCC-COMPASS-KEM-256          1000         6646708      1718.4         6701759      1732.4         6753346      1745.9     yes
+NGCC-COMPASS-KEM-384          1000         3795499       981.4         3795278       981.3         3817648       987.1     yes
+NGCC-COMPASS-KEM-512          1000         6696747      1731.3         6699981      1732.1         6727520      1739.4     yes
+NGCC-CTL-257-512              1000        13964354      3607.6           41307        11.6          210398        55.0     yes
+NGCC-CTL-769-1024              684        60222074     15556.7           61801        16.9          391742       101.6     yes
+NGCC-DKEM-512                 1000         1923337       499.8         1964690       510.5         1980091       514.5     yes
+NGCC-DTRU-Prime                338        13894935      3589.2          161438        42.5          342210        88.9     yes
+NGCC-HARE-128-kr              1000          315597        82.0         1376998       354.3         2219036       576.0     yes
+NGCC-HARE-256-kr              1000          942576       249.7         3737324       966.2         6426177      1662.9     yes
+NGCC-HARE-384-kr              1000         2555081       656.2         8899272      2299.7        14503155      3747.4     yes
+NGCC-Loong128                 1000         6270912      1621.3         6319362      1634.0         6336102      1638.3     yes
+NGCC-Loong256                 1000        15287544      3950.2        15350336      3966.2        15487693      4001.5     yes
+NGCC-MAMBA-Frost-128          1000         1386157       366.9         1934468       513.1         2285204       605.0     yes
+NGCC-MAMBA-Frost-256          1000         5962497      1567.1         7606670      2006.2         8043320      2109.7     yes
+NGCC-MAMBA-Frost-CC-384       1000        14409421      3794.0        14959791      3958.8        15686304      4128.4     yes
+NGCC-MAMBA-Viper-384          1000         1336434       343.8         1545763       397.7         1573441       404.9     yes
+NGCC-MAMBA-Viper-512          1000         2121813       553.5         2374721       620.2         2412653       631.3     yes
+NGCC-Mito-1-128               1000         9487543      2452.4        15672249      4048.5        22122291      5716.1     yes
+NGCC-Mito-1-E-128             1000         8808209      2275.5        14540684      3757.8        20510093      5299.3     yes
+NGCC-scabbard256              1000         1116492       291.9         1167965       306.2         1199272       316.6     yes
+NGCC-scabbard512              1000         3153853       837.8         3382504       891.1         3276613       867.1     yes
+NGCC-NEV-C1                   1000           48521        13.5           50282        14.0           37670        10.7     yes
+NGCC-NEV-C1-c                 1000           48558        13.5           41194        11.6           27300         8.1     yes
+NGCC-NEV-C2                   1000           81372        21.9           99135        26.5           79133        21.4     yes
+NGCC-NEV-C2-c                 1000           81317        21.9           84484        22.7           62086        17.0     yes
+NGCC-NEV-C3                   1000          321962        83.7          285111        74.2          186950        49.0     yes
+NGCC-NEV-C3-c                 1000          321125        83.5          238495        62.2          135739        35.9     yes
+NGCC-PolarKEM-128             1000          178917        46.8          548179       141.6          671058       173.1     yes
+NGCC-PolarKEM-512             1000          690918       178.1         1339476       344.9         1833389       473.2     yes
+NGCC-POLARLAC-512             1000          843725       219.3         1139619       294.1         1314935       340.2     yes
+NGCC-POLARLAC-512-Star        1000          833900       214.9         1130408       290.9         1334109       343.4     yes
+NGCC-NGCC-1                     88       238838944     62164.9        97138459     25096.2       154830927     40218.4     yes
+NGCC-QUBE-256                 1000         2518845       653.0         2619151       672.8         4663435      1203.4     yes
+NGCC-QUBE-384                 1000         5957993      1541.0         6168586      1595.1        10866394      2808.1     yes
+NGCC-QUBE-512                  579        16973179      4384.8        17191093      4440.8        25427672      6569.7     yes
+NGCC-lwekem128                1000         3141144       812.8         3141402       812.9         3131424       810.6     yes
+NGCC-lwekem256                1000         6268607      1621.1         6248310      1616.0         6237797      1613.1     yes
+NGCC-Scloudplus-128           1000         3613018       934.4         3747385       969.2         3484743       902.1     yes
+NGCC-Scloudplus-256           1000        13872795      3584.9        14394974      3719.9        13768000      3557.6     yes
+NGCC-TRIKE-2                   268        76706026     19809.7         7396975      1912.2        43363528     11202.3     yes
+NGCC-TRIKE-5                    44       759948806    196310.7        70984812     18334.6       186158946     48081.9     yes
+NGCC-TRIKE-9                    10      3145054325    812379.8       213686290     55180.1      1031817581    266639.4     yes
+NGCC-TriQ-KEM-256             1000         1171520       309.4         1814978       481.6         2538812       675.5     yes
+NGCC-TriQ-KEM-384             1000         2459098       656.4         3772189      1005.4         5818724      1556.7     yes
+NGCC-TriQ-KEM-512             1000         6776532      1795.2        10469252      2783.1        14604996      3952.8     yes
+NGCC-UVW-KEM-128                11       761148597    196841.4          741296       192.0      1656684394    428075.4     yes
+NGCC-WeaverKEM-512            1000         2831709       733.6         3205515       829.7         3301888       854.5     yes
+NGCC-yuanyang-2048            1000         1728160       444.3          802145       206.8          966019       248.8     yes
+NGCC-QCTM128                    10      9294746126   2458081.3         2189211       563.1         7337083      1977.6     yes

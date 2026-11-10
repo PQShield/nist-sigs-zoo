@@ -1,0 +1,23 @@
+version: 2
+updates:
+  # Site toolchain and the one runtime dependency (vega-embed): all updates,
+  # majors included, arrive batched as one weekly PR.
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+    groups:
+      npm:
+        patterns: ['*']
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+    groups:
+      actions:
+        patterns: ['*']
+
+# Not covered on purpose: the benchmarked scheme sources (git submodules and
+# pinned tarballs under bench*/schemes) are pinned to the exact versions we
+# measure and are updated by hand (see the updating-scheme-versions skill).

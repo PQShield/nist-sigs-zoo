@@ -3,12 +3,166 @@ website: https://www.aimer-signature.org/
 category: Symmetric
 assumption: AIM
 versions:
+- version: v3.0
+  date: '2026-07-31'
+  status: KpqC selected
+  programmes:
+    kpqc: selected
+  info: 'v3.0 replaces AIM2 with AIM3. The earlier AIM2-based versions, v2.0 and v2.1 (the version KpqC selected), are broken by a public-key-only universal forgery (<a href="https://eprint.iacr.org/2026/2235">Liu et al.</a>); the AIM cipher of v1.0 falls short of its claimed security (<a href="https://eprint.iacr.org/2023/1133">Liu, Mahzoun, Øygarden &amp; Meier</a>). We list v3.0 as the KpqC selection, expecting KpqC to adopt it.'
+  parametersets:
+  - name: AIMer-128f
+    level: 1
+    pk: 32
+    sig: 6944
+    notes: Reference implementation; the v3.0 release has no optimised implementation.
+    signing_cycles: 4549207
+    verification_cycles: 4142333
+    signing_us: 1176.7
+    verification_us: 1072.2
+    bench_env: 2026-10-16-c8i.4xlarge
+  - name: AIMer-128s
+    level: 1
+    pk: 32
+    sig: 4704
+    notes: Reference implementation; the v3.0 release has no optimised implementation.
+    signing_cycles: 35296344
+    verification_cycles: 35155686
+    signing_us: 9137.3
+    verification_us: 9097.7
+    bench_env: 2026-10-16-c8i.4xlarge
+  - name: AIMer-192f
+    level: 3
+    pk: 48
+    sig: 15408
+    notes: Reference implementation; the v3.0 release has no optimised implementation.
+    signing_cycles: 14722966
+    verification_cycles: 13655257
+    signing_us: 3807.7
+    verification_us: 3530.3
+    bench_env: 2026-10-16-c8i.4xlarge
+  - name: AIMer-192s
+    level: 3
+    pk: 48
+    sig: 10320
+    notes: Reference implementation; the v3.0 release has no optimised implementation.
+    signing_cycles: 112444493
+    verification_cycles: 112686201
+    signing_us: 29079.1
+    verification_us: 29119.4
+    bench_env: 2026-10-16-c8i.4xlarge
+  - name: AIMer-256f
+    level: 5
+    pk: 64
+    sig: 31360
+    notes: Reference implementation; the v3.0 release has no optimised implementation.
+    signing_cycles: 30878023
+    verification_cycles: 27227724
+    signing_us: 7997.7
+    verification_us: 7065.3
+    bench_env: 2026-10-16-c8i.4xlarge
+  - name: AIMer-256s
+    level: 5
+    pk: 64
+    sig: 20224
+    notes: Reference implementation; the v3.0 release has no optimised implementation.
+    signing_cycles: 230405989
+    verification_cycles: 220795756
+    signing_us: 59578.2
+    verification_us: 57058.3
+    bench_env: 2026-10-16-c8i.4xlarge
+  perf_source: our benchmark
+- version: v2.1
+  date: '2024-07-12'
+  status: KpqC selected
+  perf_source: submission document (AVX2, Intel Xeon E5-1650 v3 Haswell)
+  parametersets:
+  - name: AIMer-128f
+    level: 1
+    pk: 32
+    sig: 5888
+    signing_cycles: 1434607
+    verification_cycles: 1391522
+  - name: AIMer-128s
+    level: 1
+    pk: 32
+    sig: 4160
+    signing_cycles: 10707455
+    verification_cycles: 10613281
+  - name: AIMer-192f
+    level: 3
+    pk: 48
+    sig: 13056
+    signing_cycles: 3520329
+    verification_cycles: 3467598
+  - name: AIMer-192s
+    level: 3
+    pk: 48
+    sig: 9120
+    signing_cycles: 26238870
+    verification_cycles: 26486219
+  - name: AIMer-256f
+    level: 5
+    pk: 64
+    sig: 25120
+    signing_cycles: 6872392
+    verification_cycles: 6671228
+  - name: AIMer-256s
+    level: 5
+    pk: 64
+    sig: 17056
+    signing_cycles: 49593604
+    verification_cycles: 49209017
+  broken: 'Public-key-only universal forgery: in the BN++ relation for the inverse Mersenne S-boxes of AIM2, t^(2^e) + γt = pt·t, a zero S-box output t satisfies the equation for any pt, so anyone can build a witness that is not an AIM2 preimage and sign arbitrary messages under every honest key of every parameter set (<a href="https://eprint.iacr.org/2026/2235">Liu, Peng, Liu, Jia, Wang, Wang &amp; Fan</a>, confirmed by the AIMer team). The paper demonstrates it on the January 2026 AIM2 specification, which uses the same relation as v2.0 and v2.1. Separately, AIM2 itself is below its claimed security: key recovery in 2^103.7/2^147.5/2^213.2 for AIM2-I/III/V, practical with reused or related keys (<a href="https://eprint.iacr.org/2026/903">Biryukov, García Fernández &amp; Udovenko</a>, EUROCRYPT 2026). Fixed in v3.0 (AIM3).'
+- version: v2.0
+  date: '2024-02-23'
+  status: KpqC round 2
+  programmes:
+    kpqc: round-2
+  perf_source: submission document (AVX2, Intel Xeon E5-1650 v3 Haswell)
+  parametersets:
+  - name: AIMer-128f
+    level: 1
+    pk: 32
+    sig: 5888
+    signing_cycles: 1483624
+    verification_cycles: 1442334
+  - name: AIMer-128s
+    level: 1
+    pk: 32
+    sig: 4160
+    signing_cycles: 11135350
+    verification_cycles: 10957182
+  - name: AIMer-192f
+    level: 3
+    pk: 48
+    sig: 13056
+    signing_cycles: 3636148
+    verification_cycles: 3604350
+  - name: AIMer-192s
+    level: 3
+    pk: 48
+    sig: 9120
+    signing_cycles: 27802144
+    verification_cycles: 27521544
+  - name: AIMer-256f
+    level: 5
+    pk: 64
+    sig: 25120
+    signing_cycles: 7262315
+    verification_cycles: 7104449
+  - name: AIMer-256s
+    level: 5
+    pk: 64
+    sig: 17056
+    signing_cycles: 53415934
+    verification_cycles: 51844631
+  broken: 'Public-key-only universal forgery: in the BN++ relation for the inverse Mersenne S-boxes of AIM2, t^(2^e) + γt = pt·t, a zero S-box output t satisfies the equation for any pt, so anyone can build a witness that is not an AIM2 preimage and sign arbitrary messages under every honest key of every parameter set (<a href="https://eprint.iacr.org/2026/2235">Liu, Peng, Liu, Jia, Wang, Wang &amp; Fan</a>, confirmed by the AIMer team). The paper demonstrates it on the January 2026 AIM2 specification, which uses the same relation as v2.0 and v2.1. Separately, AIM2 itself is below its claimed security: key recovery in 2^103.7/2^147.5/2^213.2 for AIM2-I/III/V, practical with reused or related keys (<a href="https://eprint.iacr.org/2026/903">Biryukov, García Fernández &amp; Udovenko</a>, EUROCRYPT 2026). Fixed in v3.0 (AIM3).'
 - version: v1.0
   date: '2023-06-01'
   status: On-ramp
-  perf_source: submission document
-  tags:
-  - round-1
+  programmes:
+    nist-onramp: round-1
+  perf_source: submission document (AVX2, Intel Xeon E5-1650 v3 Haswell)
   parametersets:
   - name: L5_PARAM4
     level: 5
@@ -82,4 +236,4 @@ versions:
     sig: 5904
     signing_cycles: 2079167
     verification_cycles: 1840810
-  warning: Original AIM cipher was insecure
+  warning: 'The AIM one-way function falls short of its claimed security: <a href="https://eprint.iacr.org/2023/1133">Liu, Mahzoun, Øygarden &amp; Meier</a> (ToSC 2023(4)) recover the key of full AIM-I/III/V with about 2^115/2^178/2^241 AIM evaluations, using equivalent representations and fast exhaustive search, and <a href="https://eprint.iacr.org/2023/1397">Zhang, Wang, Yu, Guo &amp; Cui</a> (ASIACRYPT 2023) attack AIM-III in 2^186.5. Replaced by AIM2 in v2.0.'

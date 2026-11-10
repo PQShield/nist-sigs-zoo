@@ -1,9 +1,9 @@
+include ../../../bench-common/flags.mk
 CC     ?= cc
 BUILD   = build
 REF     = ref/Additional_Implementation/avx2
 
-CFLAGS := -O3 -fomit-frame-pointer -fPIC -Wall -Wextra \
-          -mavx2 -mbmi2 -mpopcnt -maes -march=native -mtune=native
+CFLAGS := -Wall -Wextra -mavx2 -mbmi2 -mpopcnt -maes $(BENCH_CFLAGS) -fPIC
 
 SETS = ntruplus768 ntruplus864 ntruplus1152
 SHIM_FILES := $(addsuffix _shim.c, $(SETS))

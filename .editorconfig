@@ -1,0 +1,31 @@
+# Matches .prettierrc (web sources) and ruff.toml (Python); the formatters are the source of truth.
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+[*.{js,ts,svelte,css,html,json}]
+indent_style = tab
+max_line_length = 120
+
+[*.py]
+indent_style = space
+indent_size = 4
+max_line_length = 88
+
+[*.{yaml,yml}]
+indent_style = space
+indent_size = 2
+
+[*.sh]
+indent_style = space
+indent_size = 4
+
+[Makefile]
+indent_style = tab
+
+[*.md]
+trim_trailing_whitespace = false

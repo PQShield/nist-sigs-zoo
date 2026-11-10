@@ -1,0 +1,46 @@
+name: DKEM
+full_name: DKEM (Ding Key Encapsulation)
+website: https://www.niccs.org.cn/niccs/Round1Additional/pc/content/content_2101560844552327168.html
+category: Lattices
+assumption: MLWE
+status: NGCC round 1
+programmes:
+  china-ngcc: round-1
+parametersets:
+- name: DKEM-128
+  ngcc_level: 128
+  pk: 800
+  ct: 800
+  keygen_cycles: 152400
+  encaps_cycles: 166023
+  decaps_cycles: 165728
+  keygen_us: 40.2
+  encaps_us: 43.7
+  decaps_us: 43.6
+  bench_env: 2026-10-16-c8i.4xlarge
+  notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+- name: DKEM-256
+  ngcc_level: 256
+  pk: 1568
+  ct: 1600
+  keygen_cycles: 469688
+  encaps_cycles: 479139
+  decaps_cycles: 479899
+  keygen_us: 121.5
+  encaps_us: 123.9
+  decaps_us: 124.1
+  bench_env: 2026-10-16-c8i.4xlarge
+  notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+- name: DKEM-512
+  ngcc_level: 512
+  pk: 3392
+  ct: 3136
+  keygen_cycles: 1923337
+  encaps_cycles: 1964690
+  decaps_cycles: 1980091
+  keygen_us: 499.8
+  encaps_us: 510.5
+  decaps_us: 514.5
+  bench_env: 2026-10-16-c8i.4xlarge
+  notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+findings_url: https://ngcc.dev/reports/kem-13.html

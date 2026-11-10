@@ -1,10 +1,11 @@
+include ../../../bench-common/flags.mk
 .DEFAULT_GOAL := all
 
 CC  ?= cc
 BUILD = build
 IMPL  = ref
 
-CFLAGS   := -O3 -fPIC -DNDEBUG -Wno-unused-parameter -mavx2 -mpclmul -msse2 -maes
+CFLAGS   := -Wno-unused-parameter -mavx2 -mpclmul -msse2 -maes $(BENCH_CFLAGS) -fPIC
 
 SHA3_DIR  := $(IMPL)/lib/sha3
 AES_DIR   := $(IMPL)/lib/aes
@@ -49,7 +50,10 @@ ALL_OBJS := $(SHA3_COBJS) $(SHA3_AVX2OBJ) $(SHA3_SOBJ) $(AES_COBJS) $(VOLE_COBJS
 # ---------------------------------------------------------------------------
 PARAMS     := sdith2_cat1_short sdith2_cat1_fast \
               sdith2_cat3_short sdith2_cat3_fast \
-              sdith2_cat5_short sdith2_cat5_fast
+              sdith2_cat5_short sdith2_cat5_fast \
+              sdith2_cat1_short_cipherpow sdith2_cat1_fast_cipherpow \
+              sdith2_cat3_short_cipherpow sdith2_cat3_fast_cipherpow \
+              sdith2_cat5_short_cipherpow sdith2_cat5_fast_cipherpow
 SHIM_FILES := $(addsuffix _shim.c, $(PARAMS))
 SOS        := $(addprefix $(BUILD)/, $(addsuffix .so, $(PARAMS)))
 
@@ -73,7 +77,7 @@ $(SHA3_AVX2OBJ): $(SHA3_AVX2C) | $(BUILD)
 	$(CC) $(CFLAGS) $(IFLAGS) -c $< -o $@
 
 $(SHA3_SOBJ): $(SHA3_SSRCS) | $(BUILD)
-	$(CC) -c -Dno_type -Dno_size -Dno_plt $< -o $@
+	$(CC) $(CFLAGS) -c -Dno_type -Dno_size -Dno_plt $< -o $@
 
 $(BUILD)/aes_%.o: $(AES_DIR)/%.c | $(BUILD)
 	$(CC) $(CFLAGS) $(IFLAGS) -c $< -o $@

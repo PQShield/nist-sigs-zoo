@@ -1,11 +1,11 @@
+include ../../../bench-common/flags.mk
 CC     ?= cc
 BUILD   = build
 REF     = ref
 NS      = ntru_
 
 # CRYPTO_NAMESPACE must match the NTRU_NAMESPACE the .s assembly is generated with.
-CFLAGS := -O3 -fomit-frame-pointer -march=native -mtune=native -fPIC -Wall -Wextra \
-          -DCRYPTO_NAMESPACE\(s\)=$(NS)\#\#s
+CFLAGS := -Wall -Wextra -DCRYPTO_NAMESPACE\(s\)=$(NS)\#\#s $(BENCH_CFLAGS) -fPIC
 
 # The portable C source set differs per parameter set (e.g. HRSS has no
 # crypto_sort_int32.c / poly_lift.c), so each .so globs its dir's *.c at recipe time

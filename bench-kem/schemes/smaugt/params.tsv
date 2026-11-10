@@ -1,7 +1,12 @@
 # SMAUG-T (KpqC round-2 finalist) via hmchoe0528/SMAUG-T_public, optimized (AVX2) impl.
 # Namespace is cryptolab_smaug<mode>_crypto_kem_*; -DSMAUG_MODE=<mode> selects the set.
-# Columns: file, name, pk, sk, ct, ss, iters, mode
-file	name	pk	sk	ct	ss	iters	mode
-smaugt1	SMAUG-T128	672	832	672	32	0	1
-smaugt3	SMAUG-T192	1088	1312	992	32	0	3
-smaugt5	SMAUG-T256	1440	1792	1376	32	0	5
+# TiMER (spec v4.0 "additional parameter set") is a separate tree,
+# additional_implementation/TiMER_optimized_implementation/kem (AVX2), namespace
+# TiMER1_crypto_kem_*, built with -DTiMER_MODE=1. Its api.h says 16-byte shared
+# secret, but kem.c writes CRYPTO_BYTES = 32 (parameters.h), as the spec says.
+# Columns: file, name, pk, sk, ct, ss, iters, ns (upstream symbol prefix)
+file	name	pk	sk	ct	ss	iters	ns
+smaugt1	SMAUG-T128	672	832	672	32	0	cryptolab_smaug1_
+smaugt3	SMAUG-T192	1088	1312	992	32	0	cryptolab_smaug3_
+smaugt5	SMAUG-T256	1440	1792	1376	32	0	cryptolab_smaug5_
+timer	TiMER	672	832	608	32	0	TiMER1_

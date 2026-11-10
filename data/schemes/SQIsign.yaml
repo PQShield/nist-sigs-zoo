@@ -6,34 +6,119 @@ versions:
 - version: v3.0
   date: '2026-09-01'
   status: On-ramp
-  perf_source: submission document
-  tags:
-  - round-3
+  programmes:
+    nist-onramp: round-3
+  perf_source: our benchmark
+  # recommended: round-3 spec Appendix P Table 20 "List of alternate prime suggestions. Primes in bold refer to our selected primes" (p324.3, p500.27, p664.17 = I, III, V); the other primes are "parameter sets of interest" for further cryptanalysis (https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/sqisign_specification.pdf)
   parametersets:
   - name: V
     level: 5
+    recommended: true
     pk: 169
     sig: 406
-    signing_cycles: 789867523
-    verification_cycles: 76992104
-    signing_us: 209684.2
-    verification_us: 20415.2
+    signing_cycles: 805279144
+    verification_cycles: 77580434
+    signing_us: 208058.7
+    verification_us: 20051.6
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: III
     level: 3
+    recommended: true
     pk: 129
     sig: 306
-    signing_cycles: 373523067
-    verification_cycles: 31558355
-    signing_us: 99281.3
-    verification_us: 8369.4
+    signing_cycles: 338058280
+    verification_cycles: 31714667
+    signing_us: 87296.7
+    verification_us: 8196.0
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: I
     level: 1
+    recommended: true
     pk: 83
     sig: 200
-    signing_cycles: 97816602
-    verification_cycles: 12150906
-    signing_us: 25956.8
-    verification_us: 3224.7
+    signing_cycles: 95436887
+    verification_cycles: 12186701
+    signing_us: 24646.5
+    verification_us: 3151.0
+    bench_env: 2026-10-16-c8i.4xlarge
+  - name: alt p306.3
+    level: 1
+    pk: 79
+    sig: 192
+    notes: "Alternate prime from spec Appendix P Table 20 (\"other parameter sets of interest\", more aggressive or more conservative than the selected primes); sizes from the specification, not implemented or benchmarked."
+    no_code: No implementation of this alternative prime in the official code (the implementation covers only the three main primes)
+  - name: alt p305.55
+    level: 1
+    pk: 79
+    sig: 192
+    notes: "Alternate prime from spec Appendix P Table 20 (\"other parameter sets of interest\", more aggressive or more conservative than the selected primes); sizes from the specification, not implemented or benchmarked."
+    no_code: No implementation of this alternative prime in the official code (the implementation covers only the three main primes)
+  - name: alt p313.69
+    level: 1
+    pk: 81
+    sig: 198
+    notes: "Alternate prime from spec Appendix P Table 20 (\"other parameter sets of interest\", more aggressive or more conservative than the selected primes); sizes from the specification, not implemented or benchmarked."
+    no_code: No implementation of this alternative prime in the official code (the implementation covers only the three main primes)
+  - name: alt p343.9
+    level: 1
+    pk: 89
+    sig: 214
+    notes: "Alternate prime from spec Appendix P Table 20 (\"other parameter sets of interest\", more aggressive or more conservative than the selected primes); sizes from the specification, not implemented or benchmarked."
+    no_code: No implementation of this alternative prime in the official code (the implementation covers only the three main primes)
+  - name: alt p376.65
+    level: 1
+    pk: 97
+    sig: 230
+    notes: "Alternate prime from spec Appendix P Table 20 (\"other parameter sets of interest\", more aggressive or more conservative than the selected primes); sizes from the specification, not implemented or benchmarked."
+    no_code: No implementation of this alternative prime in the official code (the implementation covers only the three main primes)
+  - name: alt p448.3
+    level: 3
+    pk: 117
+    sig: 286
+    notes: "Alternate prime from spec Appendix P Table 20 (\"other parameter sets of interest\", more aggressive or more conservative than the selected primes); sizes from the specification, not implemented or benchmarked."
+    no_code: No implementation of this alternative prime in the official code (the implementation covers only the three main primes)
+  - name: alt p470.3
+    level: 3
+    pk: 119
+    sig: 288
+    notes: "Alternate prime from spec Appendix P Table 20 (\"other parameter sets of interest\", more aggressive or more conservative than the selected primes); sizes from the specification, not implemented or benchmarked."
+    no_code: No implementation of this alternative prime in the official code (the implementation covers only the three main primes)
+  - name: alt p521.1
+    level: 3
+    pk: 133
+    sig: 314
+    notes: "Alternate prime from spec Appendix P Table 20 (\"other parameter sets of interest\", more aggressive or more conservative than the selected primes); sizes from the specification, not implemented or benchmarked."
+    no_code: No implementation of this alternative prime in the official code (the implementation covers only the three main primes)
+  - name: alt p574.27
+    level: 3
+    pk: 147
+    sig: 344
+    notes: "Alternate prime from spec Appendix P Table 20 (\"other parameter sets of interest\", more aggressive or more conservative than the selected primes); sizes from the specification, not implemented or benchmarked."
+    no_code: No implementation of this alternative prime in the official code (the implementation covers only the three main primes)
+  - name: alt p607.1
+    level: 5
+    pk: 153
+    sig: 373
+    notes: "Alternate prime from spec Appendix P Table 20 (\"other parameter sets of interest\", more aggressive or more conservative than the selected primes); sizes from the specification, not implemented or benchmarked."
+    no_code: No implementation of this alternative prime in the official code (the implementation covers only the three main primes)
+  - name: alt p612.17
+    level: 5
+    pk: 157
+    sig: 378
+    notes: "Alternate prime from spec Appendix P Table 20 (\"other parameter sets of interest\", more aggressive or more conservative than the selected primes); sizes from the specification, not implemented or benchmarked."
+    no_code: No implementation of this alternative prime in the official code (the implementation covers only the three main primes)
+  - name: alt p665.19
+    level: 5
+    pk: 169
+    sig: 406
+    notes: "Alternate prime from spec Appendix P Table 20 (\"other parameter sets of interest\", more aggressive or more conservative than the selected primes); sizes from the specification, not implemented or benchmarked."
+    no_code: No implementation of this alternative prime in the official code (the implementation covers only the three main primes)
+  - name: alt p767.43
+    level: 5
+    pk: 195
+    sig: 456
+    notes: "Alternate prime from spec Appendix P Table 20 (\"other parameter sets of interest\", more aggressive or more conservative than the selected primes); sizes from the specification, not implemented or benchmarked."
+    no_code: No implementation of this alternative prime in the official code (the implementation covers only the three main primes)
 - version: v2.0.1
   date: '2025-07-07'
   status: On-ramp
@@ -67,51 +152,69 @@ versions:
 - version: v2.0
   date: '2025-02-05'
   status: On-ramp
-  perf_source: submission document
+  programmes:
+    nist-onramp: round-2
+  perf_source: our benchmark
   warning: "Improved algorithm for the supersingular isogeny problem (ePrint 2026/1486) achieves time/memory p^{1/3+o(1)}, vs. previous best p^{1/2}; relies on an unproven heuristic smoothness assumption and carries a superpolynomial o(1) overhead plus high memory cost — concrete impact on SQIsign's parameters not yet clarified"
   parametersets:
   - name: V
     level: 5
     pk: 129
     sig: 292
-    signing_cycles: 507500000
-    verification_cycles: 35700000
+    signing_cycles: 504299252
+    verification_cycles: 35812175
+    signing_us: 132174.2
+    verification_us: 9335.7
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: III
     level: 3
     pk: 97
     sig: 224
-    signing_cycles: 309200000
-    verification_cycles: 18600000
+    signing_cycles: 313776578
+    verification_cycles: 18682310
+    signing_us: 81286.9
+    verification_us: 4831.3
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: I
     level: 1
     pk: 65
     sig: 148
-    signing_cycles: 101600000
-    verification_cycles: 5100000
-  tags:
-  - round-2
+    signing_cycles: 102897375
+    verification_cycles: 5215265
+    signing_us: 26742.0
+    verification_us: 1354.6
+    bench_env: 2026-10-16-c8i.4xlarge
 - version: v1.0
   date: '2023-06-01'
   status: On-ramp
-  perf_source: submission document
-  tags:
-  - round-1
+  programmes:
+    nist-onramp: round-1
+  perf_source: our benchmark
   parametersets:
   - name: V
     level: 5
     pk: 128
     sig: 335
-    signing_cycles: 158544000000
-    verification_cycles: 2177000000
+    signing_cycles: 276058252873
+    verification_cycles: 3928016770
+    signing_us: 71505105.2
+    verification_us: 1017092.2
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: III
     level: 3
     pk: 96
     sig: 263
-    signing_cycles: 43760000000
-    verification_cycles: 654000000
+    signing_cycles: 67621250399
+    verification_cycles: 1238242016
+    signing_us: 17472797.9
+    verification_us: 319929.0
+    bench_env: 2026-10-16-c8i.4xlarge
   - name: I
     level: 1
     pk: 64
     sig: 177
-    signing_cycles: 5669000000
-    verification_cycles: 108000000
+    signing_cycles: 2108824728
+    verification_cycles: 32454224
+    signing_us: 545523.2
+    verification_us: 8380.7
+    bench_env: 2026-10-16-c8i.4xlarge

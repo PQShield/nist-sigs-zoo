@@ -1,0 +1,47 @@
+name: QCTM
+full_name: Quasi-Cyclic Twisted McEliece Key Encapsulation Mechanism
+website: https://www.niccs.org.cn/niccs/Round1Additional/pc/content/content_2101560872431865856.html
+category: Code-based
+assumption: QC twisted Goppa SD
+status: NGCC round 1
+programmes:
+  china-ngcc: round-1
+parametersets:
+- name: QCTM128
+  ngcc_level: 128
+  pk: 167987
+  ct: 640
+  keygen_cycles: 9294746126
+  encaps_cycles: 2189211
+  decaps_cycles: 7337083
+  keygen_us: 2458081.3
+  encaps_us: 563.1
+  decaps_us: 1977.6
+  bench_env: 2026-10-16-c8i.4xlarge
+  notes: Optimised x86 implementation.
+- name: QCTM256
+  ngcc_level: 256
+  pk: 595662
+  ct: 1153
+  keygen_cycles: 40299764287
+  encaps_cycles: 2056013
+  decaps_cycles: 17421362
+  keygen_us: 10682919.6
+  encaps_us: 538.0
+  decaps_us: 4562.6
+  bench_env: 2026-10-16-c8i.4xlarge
+  notes: Optimised x86 implementation.
+- name: QCTM512
+  ngcc_level: 512
+  pk: 2374727
+  ct: 2264
+  keygen_cycles: 829742467975
+  encaps_cycles: 17785688
+  decaps_cycles: 60781877
+  keygen_us: 218755418.0
+  encaps_us: 4613.3
+  decaps_us: 15992.8
+  bench_env: 2026-10-16-c8i.4xlarge
+  notes: Optimised x86 implementation.
+  implementation: The bundled random generator limits key-generation randomness to 384 bits, below the 512-bit target (<a href="https://ngcc.dev/reports/kem-32.html#kem-32-3-the-bundled-rng-limits-qctm-512-key-generation-randomness-to-384-bits">Saarinen</a>).
+findings_url: https://ngcc.dev/reports/kem-32.html

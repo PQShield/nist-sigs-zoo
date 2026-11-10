@@ -1,6 +1,8 @@
+include ../../../bench-common/flags.mk
 CC      ?= cc
-# Upstream's CMake defaults: -O3 -funroll-loops -march=native.
-CFLAGS  := -O3 -funroll-loops -march=native -mtune=native -Wall -Wextra -std=c99
+# Upstream's CMake defaults: -O3 -funroll-loops -march=native; we use the global flag
+# set (flags.mk).
+CFLAGS  := -Wall -Wextra -std=c99 $(BENCH_CFLAGS)
 BUILD   := build
 REF     := ref
 SRC     := $(REF)/src

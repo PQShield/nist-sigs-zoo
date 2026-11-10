@@ -1,0 +1,1177 @@
+#!/usr/bin/env -S uv run --script
+# /// script
+# requires-python = ">=3.10"
+# dependencies = []
+# ///
+"""Split one benchmark suite over several EC2 spot instances of the same type.
+
+Usage:
+    python3 scripts/aws-bench-split --suite sigs|kems [options] [filter ...]
+
+Always start with --dry-run: it prints the groups, their estimated run time and the
+exact scripts/aws-bench.sh commands, and launches nothing.
+
+Rows: every parameter set in <suite>/schemes/*/*params*.tsv (the files the shims and the
+bench binary's scheme list are generated from), minus rows with iters `skip`. NGCC rows
+(schemes/ngcc/params.tsv, those status.tsv says build) are only included with
+--ngcc-src, because without it the VM does not build them. Positional filters restrict
+the rows like run_bench.sh does (case-insensitive substrings, non-alphanumerics ignored,
+OR-ed). Rows whose YAML parameter set has a `no_code` field (no implementation to
+benchmark) are never selected, not even with --all.
+
+Staleness: by default only rows that need a run are planned (filters are intersected
+with them; --all plans every selected row). A row needs a run when it is not in
+<suite>/results/fingerprints.tsv ("new row", or "no timing" if a results file has it but
+it was never imported), when it was last measured on another instance type than
+--instance-type ("hardware: c7i.4xlarge → c8i.4xlarge"), or when an input of its
+timing changed since the commit that run built: source, params row, patch, build or
+harness (bench-common/fingerprint.py; the importers record fingerprints.tsv). A row
+whose last result was a DNF the importer recorded (NGCC, e.g. operation-over-600s) is up
+to date until one of those changes. --stale-report prints every selected row that needs
+a run, NGCC included, with its reasons, and plans nothing.
+
+Estimates: a row found (non-DNF) in the suite's results files, merged files first,
+newest first, takes (iters+1) x (keygen + sign + verify us) (KEMs: keygen + encaps +
+decaps) plus a little overhead; otherwise its params.tsv iters decide: 1 -> 25 min,
+5 -> 10 min, 10 -> 3 min, other < 1000 -> 45 s, 1000 -> 20 s. BENCH_ITER scales both.
+
+Groups: rows estimated at 10 min or more get their own instance; the rest are packed
+first-fit-decreasing into groups of about --bin-minutes. Each group is one
+`scripts/aws-bench.sh --suite S --instance-type T --ttl M [--ngcc-src F] <row names>`
+call. Filters are substring matches, so a row name contained in another one (e.g.
+NGCC-Aigis-Enc+-I in -II) also runs the longer rows; the plan warns about these.
+
+Time-limit exemptions: rows named in scripts/aws-bench-exemptions.txt (--exempt-file;
+`NAME<TAB>minutes` per line) are the ones Thom decided may exceed the harness limits
+(BENCH_OP_LIMIT 600 s per sign/verify, BENCH_TIMEOUT 3600 s per scheme). Each gets an
+instance of its own, launched with BENCH_OP_LIMIT=0 and BENCH_TIMEOUT=0 (the TTL is the
+bound). Its estimate is the file's minutes (the whole instance run, boot and build
+included) unless results have the row, and its TTL that estimate plus the usual margin.
+Other groups keep the defaults. Adding a row to that file needs Thom's decision.
+
+Launch: groups start in the background, --stagger seconds apart, at most
+--max-instances at a time (the account's spot quota is 16). A group refused with
+MaxSpotInstanceCountExceeded or InsufficientInstanceCapacity before an instance was
+launched is retried after --retry-delay seconds, at most --max-retries times. Each group
+logs to <run-dir>/group-NN.log. Ctrl-C (or SIGTERM) is forwarded to every aws-bench.sh
+and its whole process group (ssh included), so each instance is terminated and its key
+pair and security group deleted; a second Ctrl-C does not abort that cleanup.
+Before each launch the tree must still be clean and HEAD unchanged: each instance
+builds local HEAD.
+
+End: each group's results file (found by its "# filter:" header; rows recovered from
+the streamed log if the file never came back) is merged with
+bench-common/merge_results.py into
+<suite>/results/<first-timestamp>_<cpu>_split_merged.txt, --rerun-first files first
+(the first non-DNF row per scheme wins). Then it prints the DNF rows, the planned rows
+missing from the merged file and leftover AWS resources tagged nist-sigs-zoo-bench-*.
+
+Environment: AWS_PROFILE, AWS_REGION and BENCH_* are passed on to aws-bench.sh.
+"""
+
+from __future__ import annotations
+
+import argparse
+import ast
+import math
+import os
+import re
+import shlex
+import signal
+import subprocess
+import sys
+import time
+from dataclasses import dataclass, field
+from pathlib import Path
+
+REPO = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(REPO / "bench-common"))
+import fingerprint as FP  # noqa: E402
+
+AWS_BENCH = REPO / "scripts" / "aws-bench.sh"
+MERGE = REPO / "bench-common" / "merge_results.py"
+SUITE_DIRS = {"sigs": "bench", "kems": "bench-kem"}
+TAG = "nist-sigs-zoo-bench-*"
+
+LONG_ROW_S = 600  # rows estimated at this or more get an instance of their own
+ROW_OVERHEAD_S = 2.0  # process start, loading the .so, warm-up checks
+TTL_MARGIN_MIN = 25  # setup, build and fetch on top of the group's estimate
+DEFAULT_BENCH_TIMEOUT_S = 3600  # run_bench.sh / isolate.h per-scheme default
+DEFAULT_EXEMPT_FILE = REPO / "scripts" / "aws-bench-exemptions.txt"
+# Env of an exempt group: no per-operation limit and no per-scheme timeout; the
+# instance's TTL then bounds the run.
+EXEMPT_ENV = {"BENCH_OP_LIMIT": "0", "BENCH_TIMEOUT": "0"}
+RETRYABLE = ("MaxSpotInstanceCountExceeded", "InsufficientInstanceCapacity")
+LAUNCHED = "launched; waiting for it to run"
+ENV_PREFIXES = ("AWS_PROFILE", "AWS_REGION", "AWS_DEFAULT_REGION", "BENCH_")
+
+
+# --- rows ---------------------------------------------------------------------
+
+
+def normalize(s: str) -> str:
+    """Lowercase and keep only [a-z0-9], as bench/main.c does for filters."""
+    return re.sub(r"[^a-z0-9]", "", s.lower())
+
+
+def matches(name: str, filters: list[str]) -> bool:
+    if not filters:
+        return True
+    n = normalize(name)
+    return any(normalize(f) in n for f in filters)
+
+
+@dataclass
+class Row:
+    name: str
+    iters: int  # iters this run will use (BENCH_ITER, else params.tsv, else 1000)
+    params_iters: int  # params.tsv value (0 = harness default 1000)
+    est_s: float = 0.0
+    source: str = ""  # "results", "iters" or "exempt" (aws-bench-exemptions.txt)
+    exempt: bool = False  # exempt from the time limits (see read_exemptions)
+    why: list[str] = field(default_factory=list)  # why it needs a run (staleness)
+
+
+def read_tsv(path: Path) -> list[dict[str, str]]:
+    lines = [
+        ln for ln in path.read_text().splitlines() if ln and not ln.startswith("#")
+    ]
+    if not lines:
+        return []
+    cols = lines[0].split("\t")
+    return [dict(zip(cols, ln.split("\t"), strict=False)) for ln in lines[1:]]
+
+
+def load_registry(suite_dir: Path, include_ngcc: bool) -> list[tuple[str, str]]:
+    """(name, params iters) of every row the suite's bench binary times."""
+    rows: list[tuple[str, str]] = []
+    for tsv in sorted(suite_dir.glob("schemes/*/*params*.tsv")):
+        is_ngcc = tsv.parent.name == "ngcc"
+        if is_ngcc and not include_ngcc:
+            continue
+        built = None
+        status = tsv.parent / "status.tsv"
+        if is_ngcc and status.exists():
+            built = {r["name"] for r in read_tsv(status) if r.get("build") == "ok"}
+        for r in read_tsv(tsv):
+            name = r.get("name", "").strip()
+            iters = (r.get("iters") or "0").strip()
+            if not name or iters == "skip" or (built is not None and name not in built):
+                continue
+            rows.append((name, iters))
+    return rows
+
+
+# Per suite: the YAML data directory and the importer whose BENCH_TO_YAML maps bench row
+# names to (YAML file, parameter-set name). NGCC files map NGCC-<name> (see ngcc_data.py).
+DATA = {
+    "sigs": ("data/schemes", "bench/update_scheme_data.py"),
+    "kems": ("data/kems", "bench-kem/update_scheme_data.py"),
+}
+_PS_NAME = re.compile(r"^(\s*)- name: (.+?)\s*$")
+_VERSION = re.compile(r"^- version: (.+?)\s*$")
+_DATE = re.compile(r"^  date: (.+?)\s*$")
+
+
+def _scalar(text: str) -> str:
+    return text.strip().strip("'\"")
+
+
+def yaml_sets(text: str) -> list[tuple[str, str, str, bool]]:
+    """(version label, version date, parameter-set name, has `no_code`) of every
+    parameter set in one data YAML file, in file order (versions newest first).
+
+    A line scan (this script has no YAML dependency): `- version:` items start at column
+    0 with their `date:` at two spaces; a `- name:` item owns the following lines indented
+    two more spaces, as the importers and ngcc_data.py write them.
+    """
+    out: list[list] = []
+    label, date = "", ""
+    cur, key_indent = None, None
+    for line in text.splitlines():
+        if m := _VERSION.match(line):
+            label, date, cur = _scalar(m.group(1)), "", None
+            continue
+        if cur is None and (m := _DATE.match(line)):
+            date = _scalar(m.group(1))
+            continue
+        if m := _PS_NAME.match(line):
+            cur = [label, date, _scalar(m.group(2)), False]
+            key_indent = " " * (len(m.group(1)) + 2)
+            out.append(cur)
+            continue
+        if cur is None:
+            continue
+        if line.startswith(key_indent + "no_code:"):
+            cur[3] = True
+        elif line.strip() and not line.startswith(key_indent):
+            cur = None
+    return [tuple(x) for x in out]
+
+
+def yaml_no_code(text: str) -> set[str]:
+    """Names of the parameter sets in one data YAML file that carry a `no_code` field."""
+    return {ps for _, _, ps, no_code in yaml_sets(text) if no_code}
+
+
+def bench_to_yaml(importer: Path) -> dict[str, list[tuple[str, str, str | None]]]:
+    """The importer's literal BENCH_TO_YAML dict, read with ast (the importer is not run),
+    each value as a list of (YAML file, parameter-set name, version selector or None)
+    targets (see the importer); {} without an importer."""
+    if not importer.exists():
+        return {}
+    for node in ast.parse(importer.read_text(encoding="utf-8")).body:
+        target = (
+            node.target
+            if isinstance(node, ast.AnnAssign)
+            else (node.targets[0] if isinstance(node, ast.Assign) else None)
+        )
+        if isinstance(target, ast.Name) and target.id == "BENCH_TO_YAML":
+            raw = ast.literal_eval(node.value)
+            return {
+                name: [
+                    (t[0], t[1], t[2] if len(t) > 2 else None)
+                    for t in (v if isinstance(v, list) else [v])
+                ]
+                for name, v in raw.items()
+            }
+    return {}
+
+
+def _selects(selector: str | None, label: str, date: str) -> bool:
+    want_label, _, want_date = (selector or "").partition("@")
+    return want_label == label and (not want_date or want_date == date)
+
+
+def no_code_rows(repo: Path, suite: str) -> set[str]:
+    """Bench row names whose parameter set is marked `no_code` in the suite's YAML data.
+
+    A row lands on the version its target names, or on the first version that has the
+    set (the importer's rule), so a no_code set in one version never hides a row that
+    benchmarks the same set name in another version."""
+    data_dir, importer = DATA[suite]
+    mapping = bench_to_yaml(repo / importer)
+    out: set[str] = set()
+    for path in sorted((repo / data_dir).glob("*.yaml")):
+        text = path.read_text(encoding="utf-8")
+        sets = yaml_sets(text)
+        if "china-ngcc" in text:
+            out.update(f"NGCC-{ps}" for _, _, ps, no_code in sets if no_code)
+            continue
+        hit: set[int] = set()  # indices into sets that some row lands on
+        for name, tgts in mapping.items():
+            for f, ps, version in tgts:
+                if f != path.name:
+                    continue
+                i = next(
+                    (
+                        i
+                        for i, (label, date, name_, _) in enumerate(sets)
+                        if name_ == ps
+                        and (version is None or _selects(version, label, date))
+                    ),
+                    None,
+                )
+                if i is None:
+                    continue
+                hit.add(i)
+                if sets[i][3]:
+                    out.add(name)
+        # A no_code set no row maps to: its own name (as before), so a row named like it
+        # is never planned either.
+        out.update(
+            ps for i, (_, _, ps, no_code) in enumerate(sets) if no_code and i not in hit
+        )
+    return out
+
+
+def effective_iters(params_iters: int, bench_iter: int | None) -> int:
+    if bench_iter and bench_iter > 0:
+        return bench_iter
+    return params_iters if params_iters > 0 else 1000
+
+
+def iters_estimate_s(params_iters: int) -> float:
+    """Rough seconds for a row with no measurement, from its tuned params.tsv iters."""
+    n = params_iters if params_iters > 0 else 1000
+    if n <= 1:
+        return 1500
+    if n <= 5:
+        return 600
+    if n <= 10:
+        return 180
+    if n < 1000:
+        return 45
+    return 20
+
+
+DATA_ROW = re.compile(r"\s{2,}")
+
+
+def parse_results(path: Path) -> dict[str, list[str]]:
+    """name -> fields of each data row in a results file (later rows don't override)."""
+    rows: dict[str, list[str]] = {}
+    in_rows = False
+    for line in path.read_text(errors="replace").splitlines():
+        if line.startswith("------"):
+            in_rows = True
+            continue
+        if not in_rows or line.startswith("#"):
+            continue
+        fields = DATA_ROW.split(line.strip())
+        if len(fields) >= 8 and fields[1].isdigit():
+            rows.setdefault(fields[0], fields)
+    return rows
+
+
+def results_files(results_dir: Path) -> list[Path]:
+    """Results files: merged ones first, each newest first (names start with a UTC
+    timestamp)."""
+    files = [p for p in results_dir.glob("*.txt") if re.match(r"\d{8}T\d{6}Z_", p.name)]
+    return sorted(files, key=lambda p: ("merged" in p.name, p.name), reverse=True)
+
+
+def measured_us(results_dir: Path) -> dict[str, float]:
+    """name -> keygen+op1+op2 microseconds, from the first file (results_files order)
+    with a non-DNF row for it."""
+    out: dict[str, float] = {}
+    for path in results_files(results_dir):
+        for name, f in parse_results(path).items():
+            if name in out or "DNF" in f[2:8]:
+                continue
+            try:
+                out[name] = float(f[3]) + float(f[5]) + float(f[7])
+            except ValueError:
+                continue
+    return out
+
+
+def read_exemptions(path: Path) -> dict[str, float]:
+    """Row name -> estimated minutes, from an exemption file's `NAME<TAB>minutes` lines
+    (blank lines and # comments skipped)."""
+    out: dict[str, float] = {}
+    for ln in path.read_text().splitlines():
+        if not ln.strip() or ln.lstrip().startswith("#"):
+            continue
+        name, _, minutes = ln.partition("\t")
+        try:
+            out[name.strip()] = float(minutes)
+        except ValueError:
+            raise SystemExit(
+                f"{path}: {ln.strip()!r}: expected NAME<TAB>minutes (estimate)"
+            ) from None
+    return out
+
+
+def stale_reasons(
+    repo: Path, suite: str, names: list[str], instance_type: str
+) -> dict[str, list[str]]:
+    """name -> why it needs a run on instance_type ([] = up to date); see the doc."""
+    suite_dir = SUITE_DIRS[suite]
+    results_dir = repo / suite_dir / "results"
+    in_results: set[str] = set()
+    for p in results_files(results_dir):
+        in_results.update(parse_results(p))
+    return FP.stale_reasons(
+        names,
+        FP.suite_fingerprints(repo, suite_dir),
+        FP.read_fingerprints(FP.fingerprints_path(repo, suite_dir)),
+        instance_type,
+        in_results,
+    )
+
+
+def reason_kind(why: str) -> str:
+    return why.split(":", 1)[0]
+
+
+def stale_report(
+    suite: str, names: list[str], why: dict[str, list[str]], instance_type: str
+) -> str:
+    stale = [n for n in names if why[n]]
+    counts: dict[str, int] = {}
+    for n in stale:
+        for w in why[n]:
+            counts[reason_kind(w)] = counts.get(reason_kind(w), 0) + 1
+    out = [
+        f"{suite}: {len(stale)} of {len(names)} rows need a run on {instance_type}; "
+        f"{len(names) - len(stale)} up to date"
+    ]
+    if counts:
+        out.append(
+            "by reason: "
+            + ", ".join(
+                f"{k} {v}" for k, v in sorted(counts.items(), key=lambda x: -x[1])
+            )
+        )
+    width = max((len(n) for n in stale), default=0)
+    out += [f"  {n:<{width}}  {'; '.join(why[n])}" for n in stale]
+    return "\n".join(out)
+
+
+def estimate_rows(
+    registry: list[tuple[str, str]],
+    measured: dict[str, float],
+    bench_iter: int | None,
+    timeout_s: float,
+    exempt: dict[str, float] | None = None,
+) -> list[Row]:
+    exempt = exempt or {}
+    rows = []
+    for name, it in registry:
+        p = int(it) if it.isdigit() else 0
+        n = effective_iters(p, bench_iter)
+        row = Row(name, n, p, exempt=name in exempt)
+        if name in measured:
+            row.est_s = ROW_OVERHEAD_S + (n + 1) * measured[name] / 1e6
+            row.source = "results"
+        elif row.exempt:
+            row.est_s = exempt[name] * 60  # the whole run, boot and build included
+            row.source = "exempt"
+        else:
+            tuned = p if p > 0 else 1000
+            row.est_s = max(ROW_OVERHEAD_S, iters_estimate_s(p) * (n + 1) / (tuned + 1))
+            row.source = "iters"
+        # A row that runs into BENCH_TIMEOUT stops there (timeout DNF); exempt rows
+        # have no timeout.
+        if not row.exempt:
+            row.est_s = min(row.est_s, timeout_s + 30)
+        rows.append(row)
+    return rows
+
+
+# --- groups -------------------------------------------------------------------
+
+
+@dataclass
+class Group:
+    index: int
+    rows: list[Row]
+
+    @property
+    def exempt(self) -> bool:
+        """True for a group of time-limit-exempt rows (always a single row)."""
+        return any(r.exempt for r in self.rows)
+
+    @property
+    def env(self) -> dict[str, str]:
+        return dict(EXEMPT_ENV) if self.exempt else {}
+
+    @property
+    def est_s(self) -> float:
+        return sum(r.est_s for r in self.rows)
+
+    @property
+    def filters(self) -> list[str]:
+        return [r.name for r in self.rows]
+
+
+def clusters(rows: list[Row]) -> list[list[Row]]:
+    """Rows whose names contain one another (filters are substring matches, so
+    NGCC-Aigis-Enc+-I also runs -II and -III): keep them in one group, where each
+    runs once."""
+    parent = list(range(len(rows)))
+
+    def find(i: int) -> int:
+        while parent[i] != i:
+            parent[i] = parent[parent[i]]
+            i = parent[i]
+        return i
+
+    norm = [normalize(r.name) for r in rows]
+    for i in range(len(rows)):
+        for j in range(i + 1, len(rows)):
+            if norm[i] in norm[j] or norm[j] in norm[i]:
+                parent[find(i)] = find(j)
+    out: dict[int, list[Row]] = {}
+    for i, r in enumerate(rows):
+        out.setdefault(find(i), []).append(r)
+    return list(out.values())
+
+
+def partition(rows: list[Row], bin_s: float, long_s: float = LONG_ROW_S) -> list[Group]:
+    """Exempt rows (see read_exemptions) each alone, so the relaxed limits reach only
+    them; then clusters (see clusters()) of long rows alone, the rest
+    first-fit-decreasing into bins of bin_s seconds. Longest groups first, so they
+    start first."""
+
+    def est(rs: list[Row]) -> float:
+        return sum(r.est_s for r in rs)
+
+    items = sorted(
+        clusters([r for r in rows if not r.exempt]), key=lambda c: (-est(c), c[0].name)
+    )
+    bins: list[list[Row]] = []
+    long_bins: list[list[Row]] = [[r] for r in rows if r.exempt]
+    for c in items:
+        if est(c) >= long_s:
+            long_bins.append(list(c))
+            continue
+        for b in bins:
+            if est(b) + est(c) <= bin_s:
+                b.extend(c)
+                break
+        else:
+            bins.append(list(c))
+    groups = sorted(long_bins + bins, key=lambda b: -est(b))
+    return [Group(i, b) for i, b in enumerate(groups, 1)]
+
+
+def collisions(filters: list[str], all_names: list[str]) -> dict[str, list[str]]:
+    """filter -> rows outside the group that it also matches (filters are substring
+    matches; rows of the same group run once anyway)."""
+    out: dict[str, list[str]] = {}
+    for f in filters:
+        nf = normalize(f)
+        extra = [n for n in all_names if n not in filters and nf in normalize(n)]
+        if extra:
+            out[f] = extra
+    return out
+
+
+def ttl_minutes(est_s: float, margin: int = TTL_MARGIN_MIN) -> int:
+    return max(10, math.ceil(est_s / 60) + margin)
+
+
+def group_ttl(g: Group) -> int:
+    return ttl_minutes(g.est_s)
+
+
+def default_instance_type(script: Path = AWS_BENCH) -> str:
+    m = re.search(r"^INSTANCE_TYPE=(\S+)", script.read_text(), re.M)
+    return m.group(1) if m else "c8i.4xlarge"
+
+
+def build_command(
+    aws_bench: str,
+    suite: str,
+    instance_type: str,
+    ttl: int,
+    ngcc_src: str | None,
+    filters: list[str],
+) -> list[str]:
+    cmd = [aws_bench, "--suite", suite, "--instance-type", instance_type]
+    cmd += ["--ttl", str(ttl)]
+    if ngcc_src:
+        cmd += ["--ngcc-src", ngcc_src]
+    return cmd + filters
+
+
+def env_prefix(env: dict[str, str]) -> str:
+    keys = sorted(k for k in env if k.startswith(ENV_PREFIXES))
+    return "".join(f"{k}={shlex.quote(env[k])} " for k in keys)
+
+
+# --- logs ---------------------------------------------------------------------
+
+ANSI = re.compile(r"\x1b\[[0-9;]*m")
+
+
+def is_retryable(log: str) -> bool:
+    """True if aws-bench.sh gave up before any instance was launched because of the
+    spot quota or capacity: nothing ran, so the group can simply be started again."""
+    return LAUNCHED not in log and any(code in log for code in RETRYABLE)
+
+
+def log_stage(log: str) -> str:
+    """Stage of a live aws-bench.sh attempt, from its log."""
+    if "=== running " in log:
+        return "benchmarking"
+    if "benchmark running; streaming" in log:
+        return "building"
+    if LAUNCHED in log:
+        return "booting"
+    return "launching"
+
+
+def last_error(log: str) -> str:
+    errs = [ln for ln in ANSI.sub("", log).splitlines() if "ERROR:" in ln]
+    return errs[-1].split("ERROR:", 1)[1].strip() if errs else ""
+
+
+def header_value(text: str, key: str) -> str | None:
+    m = re.search(rf"^#\s+{key}:[ \t]*(.*)$", text, re.M)
+    return m.group(1).strip() if m else None
+
+
+def cpu_slug(cpu: str) -> str:
+    """Same as run_bench.sh's CPU_SLUG."""
+    return re.sub(r"_+", "_", re.sub(r"[^a-z0-9]", "_", cpu.lower())).rstrip("_")
+
+
+def recover_from_log(log: str, note: str) -> str | None:
+    """Rebuild a results file (header + complete rows) from a group's streamed log."""
+    lines = ANSI.sub("", log).splitlines()
+    starts = [
+        i for i, ln in enumerate(lines) if re.match(r"# pq-\w+ benchmark results", ln)
+    ]
+    if not starts:
+        return None
+    header, columns, rows = [], [], []
+    for ln in lines[starts[-1] :]:
+        if ln.startswith(("scheme ", "------")):
+            columns.append(ln)
+        elif not columns:
+            if ln.startswith("#"):
+                header.append(ln)
+        elif not ln.startswith("#"):
+            fields = DATA_ROW.split(ln.strip())
+            if len(fields) >= 8 and fields[1].isdigit():
+                rows.append(ln)
+    if len(columns) < 2 or not rows:
+        return None
+    return "\n".join(header + [f"# note:         {note}"] + columns + rows) + "\n"
+
+
+# --- launcher -----------------------------------------------------------------
+
+
+@dataclass
+class Job:
+    group: Group
+    cmd: list[str]
+    log_path: Path
+    env: dict[str, str] = field(default_factory=dict)  # added to the environment
+    state: str = "pending"  # see log_stage, + pending retry-wait done failed cancelled
+    attempts: int = 0
+    proc: subprocess.Popen | None = None
+    offset: int = 0  # start of the current attempt in the log
+    started: float = 0.0
+    retry_at: float = 0.0
+    note: str = ""
+    history: list[str] = field(default_factory=list)
+
+    def attempt_log(self) -> str:
+        try:
+            with open(self.log_path, "rb") as f:
+                f.seek(self.offset)
+                return f.read().decode(errors="replace")
+        except OSError:
+            return ""
+
+
+FINAL = ("done", "failed", "cancelled")
+
+
+class Launcher:
+    def __init__(
+        self,
+        jobs: list[Job],
+        *,
+        max_instances: int,
+        stagger: float,
+        poll: float,
+        retry_delay: float,
+        max_retries: int,
+        heartbeat: float = 300,
+        cwd: Path = REPO,
+        pre_launch=None,
+        out=sys.stdout,
+    ):
+        self.jobs = jobs
+        self.max_instances = max_instances
+        self.stagger = stagger
+        self.poll = poll
+        self.retry_delay = retry_delay
+        self.max_retries = max_retries
+        self.heartbeat = heartbeat
+        self.cwd = cwd
+        self.pre_launch = pre_launch
+        self.out = out
+        self.stopping = 0  # signal number once interrupted
+        self.last_launch = -math.inf
+
+    def alive(self) -> list[Job]:
+        return [j for j in self.jobs if j.proc is not None and j.proc.poll() is None]
+
+    def on_signal(self, signum, _frame) -> None:
+        if self.stopping:
+            print(
+                f"\nstill waiting for {len(self.alive())} aws-bench.sh to terminate "
+                "their instances; not interrupting that cleanup",
+                file=self.out,
+                flush=True,
+            )
+            return
+        self.stopping = signum
+        print(
+            f"\n{signal.Signals(signum).name}: forwarding to every aws-bench.sh and its "
+            "process group; waiting for them to clean up",
+            file=self.out,
+            flush=True,
+        )
+        for j in self.alive():
+            try:
+                os.killpg(j.proc.pid, signum)
+            except ProcessLookupError:
+                pass
+
+    def start(self, job: Job) -> None:
+        job.attempts += 1
+        with open(job.log_path, "ab") as f:
+            f.write(f"=== attempt {job.attempts}: {shlex.join(job.cmd)}\n".encode())
+            job.offset = f.tell()
+        logf = open(job.log_path, "ab")  # closed below; the child keeps its copy
+        job.proc = subprocess.Popen(
+            job.cmd,
+            stdin=subprocess.DEVNULL,
+            stdout=logf,
+            stderr=subprocess.STDOUT,
+            cwd=self.cwd,
+            env={**os.environ, **job.env},
+            start_new_session=True,  # own process group: Ctrl-C reaches ssh too
+        )
+        logf.close()
+        job.started = time.monotonic()
+        job.state = "launching"
+        self.last_launch = job.started
+
+    def reap(self, job: Job) -> None:
+        rc = job.proc.returncode
+        log = job.attempt_log()
+        job.history.append(f"attempt {job.attempts}: rc={rc}")
+        job.proc = None
+        if rc == 0:
+            job.state = "done"
+            job.note = ""
+        elif self.stopping:
+            job.state = "cancelled"
+            job.note = "interrupted"
+        elif is_retryable(log) and job.attempts <= self.max_retries:
+            job.state = "retry-wait"
+            job.retry_at = time.monotonic() + self.retry_delay
+            job.note = next(c for c in RETRYABLE if c in log)
+        else:
+            job.state = "failed"
+            job.note = last_error(log) or f"rc={rc}"
+            if is_retryable(log):
+                job.note += f" (gave up after {job.attempts} attempts)"
+
+    def launch_next(self) -> None:
+        now = time.monotonic()
+        if (
+            len(self.alive()) >= self.max_instances
+            or now - self.last_launch < self.stagger
+        ):
+            return
+        for j in self.jobs:
+            if j.state == "pending" or (j.state == "retry-wait" and j.retry_at <= now):
+                why = self.pre_launch() if self.pre_launch else None
+                if why:
+                    for k in self.jobs:
+                        if k.state in ("pending", "retry-wait"):
+                            k.state, k.note = "cancelled", why
+                    return
+                self.start(j)
+                return
+
+    def table(self) -> str:
+        now = time.monotonic()
+        counts: dict[str, int] = {}
+        for j in self.jobs:
+            counts[j.state] = counts.get(j.state, 0) + 1
+        summary = ", ".join(f"{n} {s}" for s, n in counts.items())
+        lines = [f"[{time.strftime('%H:%M:%S')}] {summary}"]
+        lines.append(
+            f"  {'#':>3}  {'state':<12} {'try':>3} {'elapsed':>7} {'est':>5}  rows"
+        )
+        for j in self.jobs:
+            el = ""
+            if j.proc is not None:
+                m, s = divmod(int(now - j.started), 60)
+                el = f"{m}:{s:02d}"
+            names = j.group.filters
+            rows = ", ".join(names[:3]) + (
+                f" +{len(names) - 3}" if len(names) > 3 else ""
+            )
+            note = f"  [{j.note}]" if j.note else ""
+            lines.append(
+                f"  {j.group.index:>3}  {j.state:<12} {j.attempts:>3} {el:>7} "
+                f"{j.group.est_s / 60:>4.0f}m  {rows}{note}"
+            )
+        return "\n".join(lines)
+
+    def run(self) -> list[Job]:
+        old = {
+            s: signal.signal(s, self.on_signal) for s in (signal.SIGINT, signal.SIGTERM)
+        }
+        try:
+            last_sig, last_print = None, -math.inf
+            while True:
+                for j in self.jobs:
+                    if j.proc is not None:
+                        if j.proc.poll() is not None:
+                            self.reap(j)
+                        else:
+                            j.state = log_stage(j.attempt_log())
+                if self.stopping:
+                    for j in self.jobs:
+                        if j.state in ("pending", "retry-wait"):
+                            j.state, j.note = "cancelled", "interrupted"
+                else:
+                    self.launch_next()
+                sig = tuple((j.state, j.attempts) for j in self.jobs)
+                now = time.monotonic()
+                if sig != last_sig or now - last_print >= self.heartbeat:
+                    print(self.table(), file=self.out, flush=True)
+                    last_sig, last_print = sig, now
+                if all(j.state in FINAL for j in self.jobs):
+                    return self.jobs
+                time.sleep(self.poll)
+        finally:
+            for s, h in old.items():
+                signal.signal(s, h)
+
+
+# --- results ------------------------------------------------------------------
+
+
+def snapshot(results_dir: Path) -> set[str]:
+    return {p.name for p in results_dir.glob("*.txt")}
+
+
+def find_parts(results_dir: Path, before: set[str], jobs: list[Job]) -> dict[int, Path]:
+    """group index -> its new results file, matched by the "# filter:" header."""
+    by_filter = {" ".join(j.group.filters): j.group.index for j in jobs}
+    parts: dict[int, Path] = {}
+    for p in sorted(results_dir.glob("*.txt")):
+        if p.name in before:
+            continue
+        flt = header_value(p.read_text(errors="replace"), "filter")
+        if flt is not None and flt in by_filter:
+            parts[by_filter[flt]] = p  # sorted by name: the newest wins
+    return parts
+
+
+def merge_order(rerun_first: list[Path], parts: list[Path]) -> list[Path]:
+    """Reruns first (merge_results.py keeps the first non-DNF row per scheme), then
+    the parts, oldest first; nothing twice."""
+    seen: set[Path] = set()
+    out = []
+    for p in list(rerun_first) + sorted(parts, key=lambda p: p.name):
+        if p.resolve() not in seen:
+            seen.add(p.resolve())
+            out.append(p)
+    return out
+
+
+def merged_name(parts: list[Path]) -> str:
+    """<first-timestamp>_<cpu>_split_merged.txt, from the earliest part."""
+    first = min(parts, key=lambda p: p.name)
+    cpu = header_value(first.read_text(errors="replace"), "cpu") or "unknown"
+    return f"{first.name[:16]}_{cpu_slug(cpu)}_split_merged.txt"
+
+
+def recover_parts(results_dir: Path, jobs: list[Job], parts: dict[int, Path]) -> None:
+    for j in jobs:
+        if j.group.index in parts or j.attempts == 0:
+            continue
+        log = j.attempt_log()
+        note = (
+            f"recovered from the streamed log of split-run group {j.group.index} "
+            f"({j.state}: {j.note or 'no results file'}); rows after the last one are missing"
+        )
+        text = recover_from_log(log, note)
+        if not text:
+            continue
+        date = header_value(text, "date") or ""
+        ts = re.sub(r"[-:]", "", date)[:16] if date else time.strftime("%Y%m%dT%H%M%SZ")
+        cpu = cpu_slug(header_value(text, "cpu") or "unknown")
+        out = results_dir / f"{ts}_{cpu}_split_g{j.group.index:02d}_recovered.txt"
+        out.write_text(text)
+        parts[j.group.index] = out
+        print(f"group {j.group.index}: rebuilt {out.name} from its log")
+
+
+def merge_and_report(
+    results_dir: Path, rerun_first: list[Path], parts: list[Path], planned: list[str]
+) -> bool:
+    if not parts:
+        print("no results files came back; nothing to merge")
+        return False
+    out = results_dir / merged_name(parts)
+    order = merge_order(rerun_first, parts)
+    print("merging (in this order):\n" + "\n".join(f"  {p}" for p in order))
+    r = subprocess.run([sys.executable, str(MERGE), str(out), *map(str, order)])
+    if r.returncode != 0:
+        print("merge_results.py failed")
+        return False
+    rows = parse_results(out)
+    dnf = [(n, f[8] if len(f) > 8 else "?") for n, f in rows.items() if "DNF" in f[2:8]]
+    missing = [n for n in planned if n not in rows]
+    print(f"\nmerged: {out}")
+    print(f"DNF rows ({len(dnf)}):")
+    for n, why in dnf:
+        print(f"  {n}  {why}")
+    print(f"planned rows missing from the merged file ({len(missing)}):")
+    for n in missing:
+        print(f"  {n}")
+    return not missing
+
+
+def orphan_check(aws: str) -> None:
+    checks = {
+        "instances": [
+            "describe-instances",
+            "--filters",
+            f"Name=tag:Name,Values={TAG}",
+            "Name=instance-state-name,Values=pending,running,shutting-down,stopping,stopped",
+            "--query",
+            "Reservations[].Instances[].[InstanceId,State.Name,Tags[?Key=='Name']|[0].Value]",
+        ],
+        "security groups": [
+            "describe-security-groups",
+            "--filters",
+            f"Name=tag:Name,Values={TAG}",
+            "--query",
+            "SecurityGroups[].[GroupId,GroupName]",
+        ],
+        "key pairs": [
+            "describe-key-pairs",
+            "--filters",
+            f"Name=tag:Name,Values={TAG}",
+            "--query",
+            "KeyPairs[].[KeyName]",
+        ],
+    }
+    print(f"\nleftover AWS resources tagged {TAG} (any run, not just this one):")
+    for what, args in checks.items():
+        r = subprocess.run(
+            [aws, "ec2", *args, "--output", "text"], capture_output=True, text=True
+        )
+        if r.returncode != 0:
+            print(f"  {what}: CHECK FAILED ({r.stderr.strip().splitlines()[-1:]})")
+        else:
+            body = r.stdout.strip()
+            print(
+                f"  {what}: "
+                + ("none" if not body else "\n    " + body.replace("\n", "\n    "))
+            )
+
+
+# --- main ---------------------------------------------------------------------
+
+
+def git(*args: str) -> str:
+    return subprocess.run(
+        ["git", "-C", str(REPO), *args], capture_output=True, text=True, check=True
+    ).stdout.strip()
+
+
+def tree_problem(head: str) -> str | None:
+    if git("rev-parse", "HEAD") != head:
+        return "HEAD moved since the first launch; not launching the rest"
+    if git("status", "--porcelain", "--untracked-files=no"):
+        return "working tree has uncommitted changes; not launching the rest"
+    return None
+
+
+def parse_args(argv: list[str] | None) -> argparse.Namespace:
+    ap = argparse.ArgumentParser(
+        description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter
+    )
+    ap.add_argument("--suite", choices=SUITE_DIRS, required=True)
+    ap.add_argument("--instance-type", help="default: aws-bench.sh's default")
+    ap.add_argument("--max-instances", type=int, default=16)
+    ap.add_argument("--bin-minutes", type=float, default=16)
+    ap.add_argument(
+        "--ttl",
+        type=int,
+        help=f"per instance (default: estimate + {TTL_MARGIN_MIN} min)",
+    )
+    ap.add_argument(
+        "--exempt-file",
+        type=Path,
+        default=DEFAULT_EXEMPT_FILE,
+        help="rows exempt from the time limits, NAME<TAB>minutes per line "
+        "(default: scripts/aws-bench-exemptions.txt; adding rows needs Thom's decision)",
+    )
+    ap.add_argument("--ngcc-src", metavar="TARBALL")
+    ap.add_argument("--rerun-first", nargs="+", default=[], metavar="FILE", type=Path)
+    ap.add_argument("--dry-run", action="store_true")
+    ap.add_argument(
+        "--all",
+        action="store_true",
+        help="plan every selected row, not only those that need a run (only when Thom asks)",
+    )
+    ap.add_argument(
+        "--stale-report",
+        action="store_true",
+        help="print the rows that need a run and why (NGCC included), plan nothing",
+    )
+    ap.add_argument("--stagger", type=float, default=5, help="seconds between launches")
+    ap.add_argument("--retry-delay", type=float, default=60)
+    ap.add_argument("--max-retries", type=int, default=30)
+    ap.add_argument("--poll", type=float, default=5, help=argparse.SUPPRESS)
+    ap.add_argument("--run-dir", type=Path)
+    # Testing hooks: a fake aws-bench.sh / aws CLI and a fake repo (params, results).
+    ap.add_argument("--aws-bench", help=argparse.SUPPRESS)
+    ap.add_argument("--aws", default="aws", help=argparse.SUPPRESS)
+    ap.add_argument("--repo", type=Path, default=REPO, help=argparse.SUPPRESS)
+    ap.add_argument("filters", nargs="*")
+    args = ap.parse_args(argv)
+    if args.ngcc_src and not Path(args.ngcc_src).is_file():
+        ap.error(f"--ngcc-src: no such file: {args.ngcc_src}")
+    if not args.exempt_file.is_file():
+        ap.error(f"--exempt-file: no such file: {args.exempt_file}")
+    for f in args.rerun_first:
+        if not f.is_file():
+            ap.error(f"--rerun-first: no such file: {f}")
+    return args
+
+
+def main(argv: list[str] | None = None) -> int:
+    args = parse_args(argv)
+    env = dict(os.environ)
+    suite_dir = args.repo / SUITE_DIRS[args.suite]
+    results_dir = suite_dir / "results"
+    instance_type = args.instance_type or default_instance_type()
+    real = args.aws_bench is None
+    aws_bench = str(AWS_BENCH.relative_to(REPO)) if real else args.aws_bench
+    bench_iter = int(env["BENCH_ITER"]) if env.get("BENCH_ITER", "").isdigit() else None
+    timeout = env.get("BENCH_TIMEOUT", "")
+    timeout_s = int(timeout) if timeout.isdigit() else DEFAULT_BENCH_TIMEOUT_S
+
+    no_code = no_code_rows(args.repo, args.suite)
+    full = [
+        r for r in load_registry(suite_dir, include_ngcc=True) if r[0] not in no_code
+    ]
+    registry = load_registry(suite_dir, include_ngcc=bool(args.ngcc_src))
+    registry = [r for r in registry if r[0] not in no_code]
+    why = stale_reasons(args.repo, args.suite, [n for n, _ in full], instance_type)
+    if args.stale_report:
+        names = [n for n, _ in full if matches(n, args.filters)]
+        print(stale_report(args.suite, names, why, instance_type))
+        return 0
+    selected = [(n, i) for n, i in registry if matches(n, args.filters)]
+    if not selected:
+        sys.exit(
+            "no rows match" + ("" if args.ngcc_src else " (NGCC rows need --ngcc-src)")
+        )
+    if not args.all:
+        n_sel = len(selected)
+        selected = [(n, i) for n, i in selected if why[n]]
+        print(
+            f"{len(selected)} of {n_sel} selected rows need a run on {instance_type} "
+            "(--stale-report says why; --all plans them all)"
+        )
+        if not args.ngcc_src:
+            ngcc = [n for n, _ in full if n.startswith("NGCC-") and why[n]]
+            ngcc = [n for n in ngcc if matches(n, args.filters)]
+            if ngcc:
+                print(f"{len(ngcc)} NGCC rows also need a run (they need --ngcc-src)")
+        if not selected:
+            print("nothing to run")
+            return 0
+    exempt = read_exemptions(args.exempt_file)
+    rows = estimate_rows(
+        selected, measured_us(results_dir), bench_iter, timeout_s, exempt
+    )
+    for r in rows:
+        r.why = why.get(r.name, [])
+    groups = partition(rows, args.bin_minutes * 60)
+    all_names = [n for n, _ in registry]
+    jobs: list[Job] = []
+
+    stamp = time.strftime("%Y%m%dT%H%M%S")
+    run_dir = (
+        args.run_dir
+        or Path(os.environ.get("TMPDIR", "/tmp")) / f"aws-bench-split-{stamp}"
+    )
+
+    total = sum(g.est_s for g in groups)
+    print(
+        f"{args.suite}: {len(rows)} rows in {len(groups)} groups on {instance_type} "
+        f"(up to {args.max_instances} at a time); estimated {total / 60:.0f} instance-minutes "
+        f"of benchmarking, plus ~10 min setup and build per instance"
+    )
+    by_iters = sum(r.source == "iters" for r in rows)
+    if by_iters:
+        print(f"{by_iters} rows have no results to estimate from; used their iters")
+    n_exempt = sum(r.exempt for r in rows)
+    if n_exempt:
+        print(
+            f"{n_exempt} rows are exempt from the time limits ({args.exempt_file.name}): "
+            "each alone on its instance with "
+            + " ".join(f"{k}={v}" for k, v in EXEMPT_ENV.items())
+        )
+    for g in groups:
+        ttl = args.ttl or group_ttl(g)
+        flag = "  EXEMPT from time limits: " + " ".join(
+            f"{k}={v}" for k, v in g.env.items()
+        )
+        print(
+            f"\ngroup {g.index:>2}: {g.est_s / 60:5.1f} min, {len(g.rows)} rows, --ttl {ttl}"
+            + (flag if g.exempt else "")
+        )
+        for r in g.rows:
+            stale = f"  [{'; '.join(r.why)}]" if r.why else ""
+            print(
+                f"    {r.name:<34} iters {r.iters:>5}  {r.est_s:7.0f} s  ({r.source}){stale}"
+            )
+        for f, extra in collisions(g.filters, all_names).items():
+            print(f"    WARNING: filter {f!r} also runs {', '.join(extra)}")
+        cmd = build_command(
+            aws_bench, args.suite, instance_type, ttl, args.ngcc_src, g.filters
+        )
+        jobs.append(Job(g, cmd, run_dir / f"group-{g.index:02d}.log", g.env))
+    longest = max(g.est_s for g in groups)
+    print(
+        f"\ntotal: {total / 60:.0f} min estimated over {len(groups)} instances; "
+        f"longest group {longest / 60:.0f} min"
+    )
+    if args.rerun_first:
+        print(
+            "merge order: "
+            + ", ".join(str(p) for p in args.rerun_first)
+            + ", then the parts"
+        )
+    print("\ncommands:")
+    for j in jobs:
+        print(env_prefix({**env, **j.env}) + shlex.join(j.cmd))
+    if args.dry_run:
+        return 0
+
+    pre_launch = None
+    if real:
+        if git("status", "--porcelain", "--untracked-files=no"):
+            sys.exit("working tree has uncommitted changes; the instances build HEAD")
+        head = git("rev-parse", "HEAD")
+        pre_launch = lambda: tree_problem(head)  # noqa: E731
+
+    run_dir.mkdir(parents=True, exist_ok=True)
+    print(f"\nlogs: {run_dir}/group-NN.log\n", flush=True)
+    results_dir.mkdir(parents=True, exist_ok=True)
+    before = snapshot(results_dir)
+    launcher = Launcher(
+        jobs,
+        max_instances=args.max_instances,
+        stagger=args.stagger,
+        poll=args.poll,
+        retry_delay=args.retry_delay,
+        max_retries=args.max_retries,
+        cwd=args.repo,
+        pre_launch=pre_launch,
+    )
+    launcher.run()
+
+    print()
+    for j in jobs:
+        if j.state != "done":
+            print(f"group {j.group.index}: {j.state} {j.note}  (log: {j.log_path})")
+    parts = find_parts(results_dir, before, jobs)
+    recover_parts(results_dir, jobs, parts)
+    complete = merge_and_report(
+        results_dir,
+        args.rerun_first,
+        list(parts.values()),
+        [r.name for r in rows],
+    )
+    orphan_check(args.aws)
+    if launcher.stopping:
+        return 130
+    return 0 if complete and all(j.state == "done" for j in jobs) else 1
+
+
+if __name__ == "__main__":
+    sys.exit(main())

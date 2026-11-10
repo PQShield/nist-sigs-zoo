@@ -1,0 +1,46 @@
+name: FLIT
+website: https://www.niccs.org.cn/niccs/Round1Additional/pc/content/content_2101560844812374016.html
+category: Lattices
+assumption: NTRU
+status: NGCC round 1
+programmes:
+  china-ngcc: round-1
+parametersets:
+- name: FLIT128
+  ngcc_level: 128
+  pk: 615
+  ct: 512
+  keygen_cycles: 68619
+  encaps_cycles: 82396
+  decaps_cycles: 66965
+  keygen_us: 18.7
+  encaps_us: 22.2
+  decaps_us: 18.3
+  bench_env: 2026-10-16-c8i.4xlarge
+  notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+- name: FLIT256
+  ngcc_level: 256
+  pk: 1229
+  ct: 1024
+  keygen_cycles: 161766
+  encaps_cycles: 145186
+  decaps_cycles: 125598
+  keygen_us: 42.6
+  encaps_us: 38.3
+  decaps_us: 33.3
+  bench_env: 2026-10-16-c8i.4xlarge
+  notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+- name: FLIT512
+  ngcc_level: 512
+  pk: 3072
+  ct: 2304
+  keygen_cycles: 740381
+  encaps_cycles: 610537
+  decaps_cycles: 518800
+  keygen_us: 190.9
+  encaps_us: 157.6
+  decaps_us: 134.1
+  bench_env: 2026-10-16-c8i.4xlarge
+  notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+findings_url: https://ngcc.dev/reports/kem-15.html
+implementation: The optimised equality check accepts invalid ciphertexts (<a href="https://list.niccs.org.cn/archives/list/pkcforum@list.niccs.org.cn/message/KP5VT25RVLVRBBJ7XFPTNMBSZV6PIPEN/">Xiong and Wang</a>), and the additional FIPS202 builds never seed their generator, so their keys are predictable (<a href="https://ngcc.dev/reports/kem-15.html#kem-15-3-the-fips202-variants-generate-predictable-keys-because-their-rng-is-never-seeded">Saarinen</a>).

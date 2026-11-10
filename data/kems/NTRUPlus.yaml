@@ -3,35 +3,40 @@ website: https://www.ntruplus.org/specification
 category: Lattices
 assumption: NTRU
 status: KpqC standard
+programmes:
+  kpqc: selected
 info: NTT-friendly NTRU variant (Kim, Park) selected as a final algorithm in Korea's KpqC competition. Uses a new ACWC2+FO⊥ transform chain that avoids re-encryption during decapsulation, unlike most FO-transformed KEMs. Public key and ciphertext are the same size.
 parametersets:
 - name: NTRU+768
   level: 1
   pk: 1152
   ct: 1152
-  keygen_cycles: 22459
-  encaps_cycles: 29152
-  decaps_cycles: 20008
-  keygen_us: 8.3
-  encaps_us: 10.2
-  decaps_us: 7.0
+  keygen_cycles: 22755
+  encaps_cycles: 29762
+  decaps_cycles: 20668
+  keygen_us: 7.4
+  encaps_us: 9.2
+  decaps_us: 6.3
+  bench_env: 2026-10-16-c8i.4xlarge
 - name: NTRU+864
   level: 3
   pk: 1296
   ct: 1296
-  keygen_cycles: 24921
-  encaps_cycles: 33940
-  decaps_cycles: 24305
-  keygen_us: 8.9
-  encaps_us: 11.5
-  decaps_us: 8.2
+  keygen_cycles: 25266
+  encaps_cycles: 34889
+  decaps_cycles: 25160
+  keygen_us: 8.1
+  encaps_us: 10.5
+  decaps_us: 7.5
+  bench_env: 2026-10-16-c8i.4xlarge
 - name: NTRU+1152
   level: 5
   pk: 1728
   ct: 1728
-  keygen_cycles: 38200
-  encaps_cycles: 43536
-  decaps_cycles: 30764
-  keygen_us: 13.0
-  encaps_us: 14.8
-  decaps_us: 10.1
+  keygen_cycles: 34414
+  encaps_cycles: 44751
+  decaps_cycles: 31751
+  keygen_us: 11.8
+  encaps_us: 13.2
+  decaps_us: 9.2
+  bench_env: 2026-10-16-c8i.4xlarge

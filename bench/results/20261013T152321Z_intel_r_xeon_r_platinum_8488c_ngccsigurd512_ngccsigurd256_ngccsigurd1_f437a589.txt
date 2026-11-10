@@ -1,0 +1,60 @@
+# pq-sigs benchmark results
+# date:         2026-10-13T15:23:21Z
+# host:         ip-172-31-2-65
+# os:           Ubuntu 26.04.1 LTS
+# kernel:       7.0.0-1014-aws
+# cpu:          Intel(R) Xeon(R) Platinum 8488C
+# cores:        16 (threads/core: 2)
+# max_freq_mhz: unknown (cur: unknown MHz)
+# governor:     unknown
+# turbo:        unknown
+# flags:        fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ss ht syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon rep_good nopl xtopology nonstop_tsc cpuid aperfmperf tsc_known_freq pni pclmulqdq monitor ssse3 fma cx16 pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand hypervisor lahf_lm abm 3dnowprefetch cpuid_fault ssbd ibrs ibpb stibp ibrs_enhanced fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid avx512f avx512dq rdseed adx smap avx512ifma clflushopt clwb avx512cd sha_ni avx512bw avx512vl xsaveopt xsavec xgetbv1 xsaves avx_vnni avx512_bf16 wbnoinvd ida arat avx512vbmi umip pku ospke waitpkg avx512_vbmi2 gfni vaes vpclmulqdq avx512_vnni avx512_bitalg tme avx512_vpopcntdq rdpid cldemote movdiri movdir64b md_clear serialize amx_bf16 avx512_fp16 amx_tile amx_int8 flush_l1d arch_capabilities
+#
+# compiler:     cc (Ubuntu 15.2.0-16ubuntu1) 15.2.0
+# openssl:      OpenSSL 3.5.5 27 Jan 2026 (Library: OpenSSL 3.5.5 27 Jan 2026)
+# sources:
+#   schemes/faest/ref: https://github.com/faest-sign/faest-arch-opt@1d8330979cb467c54edac43ffe695da249fa3417
+#   schemes/fndsa/ref: https://github.com/pornin/c-fn-dsa@33026d4d2734049a23f065f77eea11c35de58d76
+#   schemes/hawk/ref: https://github.com/hawk-sign/dev@1b9fef52559273fe7b40fe3e22968eaedd3a4c2a
+#   schemes/mayo/ref: https://github.com/PQCMayo/MAYO-C@74de637a7c4a7f9fafa888183bc05f5cf920cd2d
+#   schemes/mldsa/ref: https://github.com/pq-crystals/dilithium.git@6e00625c5b29f516c6de973fe2ee2fbb150973f9
+#   schemes/mqom/ref: https://github.com/mqom/mqom-v3@d9c64e386b186ee186684a0389fc32009bd67cd1
+#   schemes/qruov/ref: https://github.com/qruov/round3.git@3d84d0f6afae80c88deefab03b1dd6633a147f96
+#   schemes/sdith/ref: https://github.com/sdith/sdith@fff41ae5b12ba3c6b90d8f97b2ede57aa277a92f
+#   schemes/sdith2/ref: https://github.com/sdith/sdith@ce7adf06476674d4ff990f378f83f9981cd6745b
+#   schemes/slhdsa/ref: https://github.com/pq-code-package/slhdsa-c@fac08b7d0a93849de0ee163c63712395e012b38c
+#   schemes/snova/ref: https://github.com/PQCLAB-SNOVA/SNOVA.git@9b29c1e332cbd85757c8d6362a57b9a8c8298a38
+#   schemes/sqisign/ref: https://github.com/SQISign/the-sqisign@6d017708db403bf83977fa70770fc4f7f9e9ff21
+#   schemes/uov/ref: https://github.com/pqov/pqov.git@fac2ec1fe6d8ea508eab4b98eb5341e1eed930a4
+#   schemes/ngcc: https://www.niccs.org.cn/niccs/Proposal/Public-Key%20Cryptographic%20Algorithms/Round%201%20candidates/
+# filter:       NGCC-Sigurd512 NGCC-Sigurd256 NGCC-Sigurd128 NGCC-SQIsignTriangle_lvl5 NGCC-SQIsignTriangle_lvl2 NGCC-SQISign2Dsquare-Level5-sec NGCC-SQISign2Dsquare-Level5-eff NGCC-SQISign2Dsquare-Level3-sec NGCC-SQISign2Dsquare-Level3-eff NGCC-SQISign2Dsquare-Level2-sec NGCC-SQISign2Dsquare-Level2-eff NGCC-Rhyme-SM3-512 NGCC-Rhyme-SM3-384 NGCC-Rhyme-SM3-256 NGCC-Rhyme-SM3-128 NGCC-Rhyme-SHAKE-512 NGCC-Rhyme-SHAKE-256 NGCC-Rhyme-SHAKE-128 NGCC-ReSolveD-alpha-512s NGCC-ReSolveD-alpha-512f NGCC-ReSolveD-alpha-384f
+#
+# cyclecounter: rdpmc CPU_CYCLES (real core cycles, user-space)
+scheme                       iters    keygen (cyc)  keygen (us)      sign (cyc)   sign (us)    verify (cyc)  verify (us)
+------                       -----    ------------  -----------      ----------   ---------    ------------  ----------
+NGCC-ReSolveD-alpha-384f        12        73203526     20160.5      2967854984    805308.8      2819914017    764704.4
+NGCC-ReSolveD-alpha-512s        14       136314001     36892.7      3894221793   1059960.9      3157467479    859003.0
+NGCC-ReSolveD-alpha-512f        61       136989009     37783.2       782698914    213876.4       616074599    167675.0
+NGCC-Rhyme-SM3-128             184       380876547    103129.2         4132628      1128.2          399899       109.6
+NGCC-Rhyme-SM3-256              14      3183795680    863145.8         9966511      2716.3          952985       256.1
+NGCC-Rhyme-SM3-384              20      3040354872    824995.7        15646727      4228.9         1329908       359.7
+NGCC-Rhyme-SM3-512              14     12108514145   3283594.6        16885906      4578.6         1691418       457.3
+NGCC-Rhyme-SHAKE-128            66             DNF         DNF             DNF         DNF             DNF         DNF  SIGSEGV
+DNF NGCC-Rhyme-SHAKE-128: SIGSEGV
+NGCC-Rhyme-SHAKE-256            51             DNF         DNF             DNF         DNF             DNF         DNF  SIGSEGV
+DNF NGCC-Rhyme-SHAKE-256: SIGSEGV
+NGCC-Rhyme-SHAKE-512            18             DNF         DNF             DNF         DNF             DNF         DNF  SIGSEGV
+DNF NGCC-Rhyme-SHAKE-512: SIGSEGV
+NGCC-Sigurd128                 585        22186061      6000.6        38969005     10549.8        15559830      4234.6
+NGCC-Sigurd256                 121       122846912     33268.8       350310111     94851.0       119962939     32570.3
+NGCC-Sigurd512                  11       618767279    167453.4      3179045212    860788.6      1026540550    312285.4
+NGCC-SQISign2Dsquare-Level2-eff     382        20276747      5601.8       122763962     33649.4        24208509      6760.3
+NGCC-SQISign2Dsquare-Level2-sec     347        24725075      6800.1       146646433     40108.0        27721457      7690.5
+NGCC-SQISign2Dsquare-Level3-eff     118        63970330     17531.7       382357083    104228.9        76231676     21081.8
+NGCC-SQISign2Dsquare-Level3-sec     133        81872250     22439.7       459836595    125433.1        87317658     24047.9
+NGCC-SQISign2Dsquare-Level5-eff      15       509865538    139243.7      2904401882    791335.9       462848060    127174.1
+NGCC-SQISign2Dsquare-Level5-sec      14       464729839    126914.4      2945291760    803108.5       542895021    149116.2
+NGCC-SQIsignTriangle_lvl2       40        94252730     25459.3       227993441     61964.7        46678005     12621.8
+NGCC-SQIsignTriangle_lvl5       35       330603614     89720.0       818813709    221738.3       195072235     52821.7
+3 scheme(s) did not finish (DNF), 18 finished
+

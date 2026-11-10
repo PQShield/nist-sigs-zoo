@@ -1,0 +1,91 @@
+#!/usr/bin/env bash
+# Cache the pinned source archives of the benchmark suites, or seed a checkout from a cache.
+#
+# Usage: scripts/fetch-sources [--cache DIR]           download missing archives into the cache
+#        scripts/fetch-sources [--cache DIR] --seed    copy cached archives into each scheme's
+#                                                      build/dl/, where its Makefile looks first
+#
+# Archives are those named by a bench*/schemes/*/.source* file whose line 2 is
+# "<sha256>  <file name>" (line 1 is the URL). Every scheme Makefile downloads its archive
+# to <scheme dir>/build/dl/<file name> and skips the download when that file is newer than
+# the .source file, so seeding needs no Makefile change (and no row's fingerprint changes).
+#
+# scripts/aws-bench.sh runs the first form locally and the second on the VM after uploading
+# the cache, so cloud runs never download from the upstream servers (csrc.nist.gov resets
+# HTTP/2 streams now and then and fails a whole run). Every archive is checked against its
+# SHA-256 when cached and again when seeded.
+#
+# Default cache: ${XDG_CACHE_HOME:-~/.cache}/nist-sigs-zoo/dl
+set -euo pipefail
+
+CACHE="${XDG_CACHE_HOME:-$HOME/.cache}/nist-sigs-zoo/dl"
+SEED=0
+ATTEMPTS=${FETCH_ATTEMPTS:-30}
+while [ $# -gt 0 ]; do
+    case "$1" in
+        --cache) [ $# -ge 2 ] || { echo "--cache needs a directory" >&2; exit 2; }
+                 CACHE="$2"; shift 2 ;;
+        --seed)  SEED=1; shift ;;
+        -h|--help) sed -n '2,/^set -euo/{/^set -euo/d;s/^# \{0,1\}//;p}' "$0"; exit 0 ;;
+        *) echo "unknown argument: $1" >&2; exit 2 ;;
+    esac
+done
+
+cd "$(git -C "$(dirname "$0")" rev-parse --show-toplevel)"
+mkdir -p "$CACHE"
+
+verify() { echo "$1  $2" | sha256sum -c --quiet - >/dev/null 2>&1; }
+
+status=0
+for src in bench/schemes/*/.source* bench-kem/schemes/*/.source*; do
+    [ -f "$src" ] || continue
+    read -r sha name < <(sed -n 2p "$src") || true
+    [[ "${sha:-}" =~ ^[0-9a-f]{64}$ ]] && [ -n "${name:-}" ] || continue  # URL-only .source
+    url=$(sed -n 1p "$src")
+    cached="$CACHE/$name"
+
+    if [ "$SEED" = 1 ]; then
+        if [ ! -f "$cached" ]; then
+            echo "fetch-sources: not in cache, the build will download it: $name" >&2
+            continue
+        fi
+        verify "$sha" "$cached" || { echo "fetch-sources: SHA-256 mismatch: $cached" >&2; status=1; continue; }
+        dest="$(dirname "$src")/build/dl/$name"
+        mkdir -p "$(dirname "$dest")"
+        cp "$cached" "$dest"
+        touch "$dest"  # newer than the .source prerequisite
+        echo "seeded $dest"
+        continue
+    fi
+
+    if [ -f "$cached" ] && verify "$sha" "$cached"; then
+        continue
+    fi
+    echo "fetching $name"
+    # csrc.nist.gov is slow and drops connections mid-transfer: resume (-C -) over HTTP/1.1
+    # (its HTTP/2 streams get reset). After a few failed tries, fall back to the Wayback
+    # Machine's copy of the same URL; the SHA-256 check makes any mirror safe to use.
+    ok=0
+    rm -f "$cached.tmp"
+    for i in $(seq 1 "$ATTEMPTS"); do
+        from="$url"
+        if [ "$i" -gt 3 ]; then
+            from="https://web.archive.org/web/2025id_/$url"
+            [ "$i" -eq 4 ] && rm -f "$cached.tmp"
+        fi
+        rc=0
+        curl -fsSL --http1.1 --connect-timeout 30 -C - -o "$cached.tmp" "$from" || rc=$?
+        if verify "$sha" "$cached.tmp"; then ok=1; break; fi
+        # A complete download with the wrong bytes cannot be resumed into the right ones.
+        [ "$rc" -eq 0 ] && rm -f "$cached.tmp"
+        sleep 5
+    done
+    if [ "$ok" = 1 ]; then
+        mv "$cached.tmp" "$cached"
+    else
+        echo "fetch-sources: failed or SHA-256 mismatch after $ATTEMPTS attempts: $name ($url)" >&2
+        rm -f "$cached.tmp"
+        status=1
+    fi
+done
+exit "$status"

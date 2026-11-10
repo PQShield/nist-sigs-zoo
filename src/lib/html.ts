@@ -28,9 +28,7 @@ export function decodeEntities(text: string): string {
 	return text.replace(/&(#x[0-9a-fA-F]+|#[0-9]+|[a-zA-Z][a-zA-Z0-9]*);/g, (match, ref: string) => {
 		if (ref[0] === '#') {
 			const code =
-				ref[1] === 'x' || ref[1] === 'X'
-					? Number.parseInt(ref.slice(2), 16)
-					: Number.parseInt(ref.slice(1), 10);
+				ref[1] === 'x' || ref[1] === 'X' ? Number.parseInt(ref.slice(2), 16) : Number.parseInt(ref.slice(1), 10);
 			if (!Number.isFinite(code) || code <= 0 || code > 0x10ffff) return match;
 			return String.fromCodePoint(code);
 		}
