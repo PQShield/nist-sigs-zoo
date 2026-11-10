@@ -1,14 +1,14 @@
 <script lang="ts" generics="R extends CompareRow, G, F extends CompareFilter, A extends string">
 	import { untrack } from 'svelte';
-	import { base } from '$app/paths';
-	import { presentProgrammeGroups } from '$lib/compareFilters';
+	import { basePath } from '#lib/paths.ts';
+	import { presentProgrammeGroups } from '#lib/compareFilters.ts';
 	import {
 		anyTimings,
 		defaultCompareFilter,
 		filterCompareRows,
 		type CompareConfig,
 		type CompareRow
-	} from '$lib/compare';
+	} from '#lib/compare.ts';
 	import {
 		compareHref,
 		CURRENT_VIEW,
@@ -16,12 +16,14 @@
 		ngccTargets,
 		unmappedAtTarget,
 		type StageView
-	} from '$lib/programmePage';
-	import type { CompareFilter, NgccLevel, ProgrammeYaml } from '$lib/types';
+	} from '#lib/programmePage.ts';
+	import type { CompareFilter, NgccLevel, ProgrammeYaml } from '#lib/types.ts';
 	import ChartModeToggle from '../ChartModeToggle.svelte';
 	import CompareChart from '../CompareChart.svelte';
 	import CompareTable from '../CompareTable.svelte';
 	import SegmentedToggle from '../SegmentedToggle.svelte';
+
+	const base = basePath();
 
 	interface Props {
 		programme: ProgrammeYaml;

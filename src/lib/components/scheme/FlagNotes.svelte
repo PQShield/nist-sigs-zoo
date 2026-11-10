@@ -1,6 +1,6 @@
 <script lang="ts">
-	import type { BadgeKind } from '$lib/badges';
-	import type { FlagNote } from '$lib/schemePage';
+	import type { BadgeKind } from '#lib/badges.ts';
+	import type { FlagNote } from '#lib/schemePage.ts';
 	import BadgeIcon from '../BadgeIcon.svelte';
 
 	let { notes }: { notes: FlagNote[] } = $props();

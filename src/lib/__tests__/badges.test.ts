@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { programmeChips, securityBadges } from '$lib/badges';
-import type { ProgrammeYaml } from '$lib/types';
+import { programmeChips, securityBadges } from '#lib/badges.ts';
+import type { ProgrammeYaml } from '#lib/types.ts';
 
 const CLEAN = {
 	classical: false,

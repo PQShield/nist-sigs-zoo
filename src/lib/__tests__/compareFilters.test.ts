@@ -9,8 +9,8 @@ import {
 	presentProgrammeGroups,
 	rowProgrammeGroups,
 	type FilterableRow
-} from '$lib/compareFilters';
-import type { CommonFilter, NgccLevel, NistLevel, ProgrammeGroup } from '$lib/types';
+} from '#lib/compareFilters.ts';
+import type { CommonFilter, NgccLevel, NistLevel, ProgrammeGroup } from '#lib/types.ts';
 
 function row(overrides: Partial<FilterableRow> = {}): FilterableRow {
 	return {

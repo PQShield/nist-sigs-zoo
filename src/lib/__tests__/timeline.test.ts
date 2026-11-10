@@ -15,8 +15,8 @@ import {
 	SITE_PROGRAMME,
 	timelineItems,
 	timelineSummary
-} from '$lib/timeline';
-import type { HistoryEntry, HistoryType, KemSchemeYaml, ProgrammeYaml, SchemeYaml } from '$lib/types';
+} from '#lib/timeline.ts';
+import type { HistoryEntry, HistoryType, KemSchemeYaml, ProgrammeYaml, SchemeYaml } from '#lib/types.ts';
 
 const programme = (id: string, short: string, nav_label: string): ProgrammeYaml => ({
 	id,

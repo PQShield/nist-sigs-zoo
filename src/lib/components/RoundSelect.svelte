@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { roundStore, type Round } from '$lib/roundStore';
+	import { roundStore, type Round } from '#lib/roundStore.ts';
 
 	let { disabled = false }: { disabled?: boolean } = $props();
 

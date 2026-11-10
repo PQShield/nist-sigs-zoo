@@ -12,7 +12,10 @@ Deploy: `npm run build` → `dist/`. GitHub Actions deploys to GitHub Pages.
 
 ## Stack
 
-- **Framework**: SvelteKit 2 + Svelte 5 (runes mode), adapter-static → `dist/`
+- **Framework**: SvelteKit 3 + Svelte 5 (runes mode), adapter-static → `dist/`. Configured in
+  `vite.config.ts` (`sveltekit({...})`; there is no `svelte.config.js`). Needs Node ≥ 22.17.
+- **Imports**: `#lib/<file>.ts` (Node subpath import, `imports` in `package.json`; extension
+  required), not `$lib`. Links use `basePath()` from `#lib/paths.ts` (Kit 3 removed `base`).
 - **CSS**: Tailwind CSS v4 via `@tailwindcss/vite`
 - **Charts**: Vega-Lite scatter plots (Sizes: pk vs sig/ct; Speed: operation times; the advanced
   pages choose axes and log/linear scales)
@@ -82,9 +85,9 @@ Vitest with node environment. Tests pure TypeScript functions only — no Svelte
 - `lastDataChange.test.ts` — the "data last changed" date
 - `html.test.ts` — stripping tags / decoding entities for text contexts (tooltips, titles; not a sanitiser for `{@html}`); `dataFiles.test.ts` — validates `data/**/*.yaml` (incl. history dates/types/programmes and programme primitives)
 
-**Adding unit tests:** create `src/lib/__tests__/<module>.test.ts`. Import directly from `$lib/...`.
+**Adding unit tests:** create `src/lib/__tests__/<module>.test.ts`. Import directly from `#lib/....ts`.
 Pass mock `SchemeYaml[]` objects to `processYamlSchemes` — no fixture files needed.
-Do not import from `$app/*` or `$lib/schemeData` (these need the Vite/SvelteKit runtime).
+Do not import from `$app/*`, `#lib/paths.ts` or `#lib/schemeData.ts` (these need the Vite/SvelteKit runtime).
 
 ### E2E tests — `e2e/*.spec.ts`
 
@@ -493,7 +496,7 @@ category, and KEM pages show their status once (no Parameter-sets subtitle).
 
 - Titles: `<page> · {SITE_NAME}` (" · " everywhere); `app.html`'s static `og:title` equals `SITE_NAME`.
 - Every `target="_blank"` link carries `<span class="sr-only"> (opens in a new tab)</span>`.
-- Filter→URL syncs (`replaceState` `goto`, compare pages and timeline) go through
+- Filter→URL syncs (`goto` with `replace: true, reset: false`, compare pages and timeline) go through
   `scheduleUrlSync()` in `src/lib/urlSync.ts`: 300 ms debounce, no-op URLs skipped
   (`urlSyncTarget()`), and a sync that falls due while `navigating.to` is set is rescheduled, not
   dropped; otherwise the mount-time sync cancels a click on a scheme link.

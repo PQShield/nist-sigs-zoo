@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { attachChartNav, chartClickHref } from '$lib/chartNav';
+import { attachChartNav, chartClickHref } from '#lib/chartNav.ts';
 
 const DATUM = { scheme: 'MAYO', href: '/schemes/mayo/' };
 

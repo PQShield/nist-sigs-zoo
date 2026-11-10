@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { ChartMode } from '$lib/types';
+	import type { ChartMode } from '#lib/types.ts';
 
 	let { mode, onchange }: { mode: ChartMode; onchange: (mode: ChartMode) => void } = $props();
 

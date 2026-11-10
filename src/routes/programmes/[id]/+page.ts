@@ -1,5 +1,5 @@
 import { error } from '@sveltejs/kit';
-import { allProgrammes } from '$lib/programmeData';
+import { allProgrammes } from '#lib/programmeData.ts';
 import type { EntryGenerator, PageLoad } from './$types';
 
 export const prerender = true;

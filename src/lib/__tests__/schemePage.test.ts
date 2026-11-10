@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { flagSummary, hostOf, kemPage, signaturePage, timeCell } from '$lib/schemePage';
-import type { HistoryEntry, KemSchemeYaml, ProgrammeYaml, SchemeYaml } from '$lib/types';
+import { flagSummary, hostOf, kemPage, signaturePage, timeCell } from '#lib/schemePage.ts';
+import type { HistoryEntry, KemSchemeYaml, ProgrammeYaml, SchemeYaml } from '#lib/types.ts';
 
 const REGISTRY: ProgrammeYaml[] = [
 	{

@@ -1,8 +1,8 @@
 <script lang="ts">
-	import { SITE_NAME } from '$lib/constants';
-	import ComparePage from '$lib/components/ComparePage.svelte';
-	import { signatureCompareData } from '$lib/compareData';
-	import { SIGNATURES } from '$lib/primitives';
+	import { SITE_NAME } from '#lib/constants.ts';
+	import ComparePage from '#lib/components/ComparePage.svelte';
+	import { signatureCompareData } from '#lib/compareData.ts';
+	import { SIGNATURES } from '#lib/primitives.ts';
 </script>
 
 <svelte:head>

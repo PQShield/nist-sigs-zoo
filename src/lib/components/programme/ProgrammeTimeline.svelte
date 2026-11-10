@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { fmtDate } from '$lib/dates';
-	import type { ProgrammeTimelineEntry } from '$lib/types';
+	import { fmtDate } from '#lib/dates.ts';
+	import type { ProgrammeTimelineEntry } from '#lib/types.ts';
 
 	let { entries }: { entries: ProgrammeTimelineEntry[] } = $props();
 </script>

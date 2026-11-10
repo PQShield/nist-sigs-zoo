@@ -1,10 +1,10 @@
 import { error } from '@sveltejs/kit';
-import { allHistory } from '$lib/historyData';
-import { allKemData, kemBenchmarkEnv } from '$lib/kemSchemeData';
-import { allProgrammes } from '$lib/programmeData';
-import { allSchemeData, benchmarkEnv } from '$lib/schemeData';
-import { schemeIndex } from '$lib/schemeIndex';
-import { kemPage, signaturePage, type SchemePageData } from '$lib/schemePage';
+import { allHistory } from '#lib/historyData.ts';
+import { allKemData, kemBenchmarkEnv } from '#lib/kemSchemeData.ts';
+import { allProgrammes } from '#lib/programmeData.ts';
+import { allSchemeData, benchmarkEnv } from '#lib/schemeData.ts';
+import { schemeIndex } from '#lib/schemeIndex.ts';
+import { kemPage, signaturePage, type SchemePageData } from '#lib/schemePage.ts';
 import type { EntryGenerator, PageLoad } from './$types';
 
 export const prerender = true;

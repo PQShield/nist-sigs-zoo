@@ -2,7 +2,7 @@ import { describe, it, expect } from 'vitest';
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import * as yaml from 'js-yaml';
-import type { ProgrammeYaml } from '$lib/types';
+import type { ProgrammeYaml } from '#lib/types.ts';
 
 const programmes = yaml.load(readFileSync(join(process.cwd(), 'data', 'programmes.yaml'), 'utf8')) as ProgrammeYaml[];
 const byId = new Map(programmes.map((p) => [p.id, p]));

@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, it, expect, vi } from 'vitest';
-import { scheduleUrlSync, urlSyncTarget, type UrlSyncEnv } from '$lib/urlSync';
+import { scheduleUrlSync, urlSyncTarget, type UrlSyncEnv } from '#lib/urlSync.ts';
 
 describe('urlSyncTarget', () => {
 	it('skips when the query string already matches', () => {

@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { Snippet } from 'svelte';
-	import { PROGRAMME_GROUP_LABELS } from '$lib/compareFilters';
-	import type { CommonFilter, ProgrammeGroup } from '$lib/types';
+	import { PROGRAMME_GROUP_LABELS } from '#lib/compareFilters.ts';
+	import type { CommonFilter, ProgrammeGroup } from '#lib/types.ts';
 	import { FILTER_HEADING, FILTER_OPTION, FILTER_OPTION_TEXT } from './filterStyles';
 
 	interface Props {

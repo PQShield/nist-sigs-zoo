@@ -1,8 +1,8 @@
-import { allProgrammes } from '$lib/programmeData';
-import { programmeSummaries } from '$lib/programmes';
-import { allSchemeData } from '$lib/schemeData';
-import { allKemData } from '$lib/kemSchemeData';
-import { allHistory as history } from '$lib/historyData';
+import { allProgrammes } from '#lib/programmeData.ts';
+import { programmeSummaries } from '#lib/programmes.ts';
+import { allSchemeData } from '#lib/schemeData.ts';
+import { allKemData } from '#lib/kemSchemeData.ts';
+import { allHistory as history } from '#lib/historyData.ts';
 
 export function load() {
 	const pq = (cat: string) => cat !== 'Pre-Quantum';

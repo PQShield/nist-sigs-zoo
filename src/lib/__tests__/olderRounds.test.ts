@@ -5,9 +5,9 @@
 // (bench-common/tests/test_bench_importers.py checks the import end to end); these tests check
 // what the site makes of the imported data.
 import { describe, it, expect } from 'vitest';
-import { programmeSignatureRows } from '$lib/programmePage';
-import { compareVersions } from '$lib/versionCompare';
-import type { SchemeYaml, VersionYaml } from '$lib/types';
+import { programmeSignatureRows } from '#lib/programmePage.ts';
+import { compareVersions } from '#lib/versionCompare.ts';
+import type { SchemeYaml, VersionYaml } from '#lib/types.ts';
 
 const ENV = '2026-10-20-c8i.4xlarge';
 

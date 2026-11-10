@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { latestDate } from '$lib/lastDataChange';
+import { latestDate } from '#lib/lastDataChange.ts';
 
 describe('latestDate', () => {
 	it('picks the newest date and trims timestamps to the day', () => {

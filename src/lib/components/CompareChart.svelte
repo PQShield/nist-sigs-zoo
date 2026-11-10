@@ -1,11 +1,11 @@
 <script lang="ts" generics="R extends CompareRow, G, F extends CompareFilter, A extends string">
 	import { goto } from '$app/navigation';
-	import { base } from '$app/paths';
-	import { attachChartNav } from '$lib/chartNav';
-	import { slugOf } from '$lib/schemeIndex';
-	import { schemeHref } from '$lib/slugs';
+	import { basePath } from '#lib/paths.ts';
+	import { attachChartNav } from '#lib/chartNav.ts';
+	import { slugOf } from '#lib/schemeIndex.ts';
+	import { schemeHref } from '#lib/slugs.ts';
 	import { onMount } from 'svelte';
-	import { themeStore } from '$lib/themeStore';
+	import { themeStore } from '#lib/themeStore.ts';
 	import {
 		chartLegend,
 		familyKey,
@@ -15,13 +15,15 @@
 		RINGS,
 		securityStatus,
 		type LegendGroup
-	} from '$lib/chartLegend';
-	import { partitionPlottable } from '$lib/chartData';
-	import { chartTooltip, type CompareConfig, type CompareRow } from '$lib/compare';
-	import { CPU_GHZ_LABEL, TIMING_VARIABILITY_NOTE } from '$lib/constants';
-	import type { CompareFilter, ScaleType } from '$lib/types';
+	} from '#lib/chartLegend.ts';
+	import { partitionPlottable } from '#lib/chartData.ts';
+	import { chartTooltip, type CompareConfig, type CompareRow } from '#lib/compare.ts';
+	import { CPU_GHZ_LABEL, TIMING_VARIABILITY_NOTE } from '#lib/constants.ts';
+	import type { CompareFilter, ScaleType } from '#lib/types.ts';
 	import ChartLegend from './ChartLegend.svelte';
 	import OmittedNote from './OmittedNote.svelte';
+
+	const base = basePath();
 
 	interface Props {
 		config: CompareConfig<R, G, F, A>;

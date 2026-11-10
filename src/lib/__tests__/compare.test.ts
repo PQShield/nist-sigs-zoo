@@ -11,11 +11,11 @@ import {
 	filterCompareRows,
 	sortCompareRows,
 	type FilterSpec
-} from '$lib/compare';
-import { processYamlSchemes } from '$lib/data';
-import { processKemSchemes } from '$lib/kemData';
-import { KEMS, SIGNATURES } from '$lib/primitives';
-import type { CompareFilter, NistLevel, NgccLevel, ProgrammeMembership } from '$lib/types';
+} from '#lib/compare.ts';
+import { processYamlSchemes } from '#lib/data.ts';
+import { processKemSchemes } from '#lib/kemData.ts';
+import { KEMS, SIGNATURES } from '#lib/primitives.ts';
+import type { CompareFilter, NistLevel, NgccLevel, ProgrammeMembership } from '#lib/types.ts';
 
 interface Row {
 	scheme: string;

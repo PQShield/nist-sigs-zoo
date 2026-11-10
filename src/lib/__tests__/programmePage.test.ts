@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
-import { anyTimings } from '$lib/compare';
-import { KEMS, SIGNATURES } from '$lib/primitives';
+import { anyTimings } from '#lib/compare.ts';
+import { KEMS, SIGNATURES } from '#lib/primitives.ts';
 import {
 	compareHref,
 	CURRENT_VIEW,
@@ -17,9 +17,9 @@ import {
 	stageViews,
 	unmappedAtTarget,
 	type FindingRow
-} from '$lib/programmePage';
-import { defaultCommonFilter } from '$lib/compareFilters';
-import type { KemSchemeYaml, ParameterSetYaml, ProgrammeYaml, SchemeYaml, VersionYaml } from '$lib/types';
+} from '#lib/programmePage.ts';
+import { defaultCommonFilter } from '#lib/compareFilters.ts';
+import type { KemSchemeYaml, ParameterSetYaml, ProgrammeYaml, SchemeYaml, VersionYaml } from '#lib/types.ts';
 
 function ver(
 	date: string,

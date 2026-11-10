@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { LegendGroup } from '$lib/chartLegend';
+	import type { LegendGroup } from '#lib/chartLegend.ts';
 
 	let { groups, footnote }: { groups: LegendGroup[]; footnote?: string } = $props();
 </script>

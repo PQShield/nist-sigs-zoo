@@ -2,11 +2,11 @@ import { describe, it, expect } from 'vitest';
 import { readFileSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
 import * as yaml from 'js-yaml';
-import { isProgrammeGroup } from '$lib/compareFilters';
-import { versionProgrammes } from '$lib/programmes';
-import { buildSchemeIndex } from '$lib/slugs';
-import { isHistoryType } from '$lib/timeline';
-import type { HistoryEntry, KemSchemeYaml, ProgrammeYaml, SchemeYaml } from '$lib/types';
+import { isProgrammeGroup } from '#lib/compareFilters.ts';
+import { versionProgrammes } from '#lib/programmes.ts';
+import { buildSchemeIndex } from '#lib/slugs.ts';
+import { isHistoryType } from '#lib/timeline.ts';
+import type { HistoryEntry, KemSchemeYaml, ProgrammeYaml, SchemeYaml } from '#lib/types.ts';
 
 const DATA = join(process.cwd(), 'data');
 // js-yaml 5 defaults to the YAML 1.2 core schema, which reads an unquoted date as a string.

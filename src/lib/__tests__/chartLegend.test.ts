@@ -7,7 +7,7 @@ import {
 	levelDescription,
 	levelKey,
 	STANDARDISED
-} from '$lib/chartLegend';
+} from '#lib/chartLegend.ts';
 
 describe('levelKey', () => {
 	it('names NIST levels and NGCC targets on their own scales', () => {

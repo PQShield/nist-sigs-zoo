@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { buildSchemeIndex, schemeHref, schemeSlug, slugify } from '$lib/slugs';
+import { buildSchemeIndex, schemeHref, schemeSlug, slugify } from '#lib/slugs.ts';
 
 describe('slugify', () => {
 	it.each([

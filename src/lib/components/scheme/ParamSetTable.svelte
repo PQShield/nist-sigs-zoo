@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { ParamSetTableModel } from '$lib/schemePage';
+	import type { ParamSetTableModel } from '#lib/schemePage.ts';
 	import BadgeIcon from '../BadgeIcon.svelte';
 
 	let { table, caption }: { table: ParamSetTableModel; caption: string } = $props();

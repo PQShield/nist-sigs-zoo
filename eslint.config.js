@@ -4,7 +4,6 @@ import prettier from 'eslint-config-prettier';
 import svelte from 'eslint-plugin-svelte';
 import globals from 'globals';
 import ts from 'typescript-eslint';
-import svelteConfig from './svelte.config.js';
 
 export default defineConfig(
 	{
@@ -34,7 +33,7 @@ export default defineConfig(
 			globals: { ...globals.browser, ...globals.node }
 		},
 		rules: {
-			// Internal links are built with `base` from $app/paths, which works with adapter-static + BASE_PATH.
+			// Internal links are built with basePath() from #lib/paths.ts, which works with adapter-static + BASE_PATH.
 			'svelte/no-navigation-without-resolve': 'off',
 			// {@html} only renders repo-authored HTML from data/*.yaml, never user input.
 			'svelte/no-at-html-tags': 'off',
@@ -51,7 +50,8 @@ export default defineConfig(
 				projectService: true,
 				extraFileExtensions: ['.svelte'],
 				parser: ts.parser,
-				svelteConfig
+				// Mirrors compilerOptions.runes in vite.config.ts (node_modules is not linted).
+				svelteConfig: { compilerOptions: { runes: true } }
 			}
 		},
 		rules: {

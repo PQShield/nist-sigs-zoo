@@ -2,8 +2,8 @@ import { describe, it, expect } from 'vitest';
 import { readFileSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
 import * as yaml from 'js-yaml';
-import { envCpuModels, envLabel, envOf } from '$lib/benchEnv';
-import type { BenchmarkEnv, BenchmarkEnvFile } from '$lib/types';
+import { envCpuModels, envLabel, envOf } from '#lib/benchEnv.ts';
+import type { BenchmarkEnv, BenchmarkEnvFile } from '#lib/types.ts';
 
 const env = (id: string, model: string, instance_type?: string): BenchmarkEnv => ({
 	id,

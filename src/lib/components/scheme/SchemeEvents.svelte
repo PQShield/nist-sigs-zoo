@@ -1,7 +1,9 @@
 <script lang="ts">
-	import { base } from '$app/paths';
-	import { fmtDate } from '$lib/dates';
-	import { EVENT_LABELS, type SchemeEvent, type SchemeEventKind } from '$lib/schemeHistory';
+	import { basePath } from '#lib/paths.ts';
+	import { fmtDate } from '#lib/dates.ts';
+	import { EVENT_LABELS, type SchemeEvent, type SchemeEventKind } from '#lib/schemeHistory.ts';
+
+	const base = basePath();
 
 	let { events }: { events: SchemeEvent[] } = $props();
 

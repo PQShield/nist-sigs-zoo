@@ -2,9 +2,9 @@
 	import { onMount, untrack, type Snippet } from 'svelte';
 	import { goto } from '$app/navigation';
 	import { navigating } from '$app/state';
-	import { base } from '$app/paths';
-	import { scheduleUrlSync } from '$lib/urlSync';
-	import { encodeCommonFilters, filterSummary, listedSchemeCount } from '$lib/compareFilters';
+	import { basePath } from '#lib/paths.ts';
+	import { scheduleUrlSync } from '#lib/urlSync.ts';
+	import { encodeCommonFilters, filterSummary, listedSchemeCount } from '#lib/compareFilters.ts';
 	import {
 		decodeAxes,
 		decodeCompareFilter,
@@ -16,9 +16,9 @@
 		type CompareConfig,
 		type CompareData,
 		type CompareRow
-	} from '$lib/compare';
-	import { roundFromParam, roundParam, roundStore, type Round } from '$lib/roundStore';
-	import type { BenchmarkEnvFile, CompareFilter } from '$lib/types';
+	} from '#lib/compare.ts';
+	import { roundFromParam, roundParam, roundStore, type Round } from '#lib/roundStore.ts';
+	import type { BenchmarkEnvFile, CompareFilter } from '#lib/types.ts';
 	import BenchmarkEnvInfo from './BenchmarkEnvInfo.svelte';
 	import ChartModeToggle from './ChartModeToggle.svelte';
 	import CompareChart from './CompareChart.svelte';
@@ -26,6 +26,8 @@
 	import CompareTable from './CompareTable.svelte';
 	import FilterSidebar from './FilterSidebar.svelte';
 	import RoundSelect from './RoundSelect.svelte';
+
+	const base = basePath();
 
 	interface Props {
 		config: CompareConfig<R, G, F, A>;
@@ -109,7 +111,7 @@
 		return scheduleUrlSync(qs, {
 			location: window.location,
 			isNavigating: () => navigating.to !== null,
-			goto: (target) => goto(target, { replaceState: true, keepFocus: true, noScroll: true })
+			goto: (target) => goto(target, { replace: true, reset: false })
 		});
 	});
 

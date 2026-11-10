@@ -7,8 +7,8 @@ import {
 	parameterSetFlag,
 	percentChange,
 	versionOptions
-} from '$lib/versionCompare';
-import type { VersionYaml } from '$lib/types';
+} from '#lib/versionCompare.ts';
+import type { VersionYaml } from '#lib/types.ts';
 
 const R2: VersionYaml = {
 	version: 'Round 2',

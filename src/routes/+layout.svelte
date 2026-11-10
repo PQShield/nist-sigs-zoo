@@ -1,18 +1,20 @@
 <script lang="ts">
 	import './layout.css';
 	import { onMount } from 'svelte';
-	import { page } from '$app/stores';
-	import { base } from '$app/paths';
-	import { themeStore } from '$lib/themeStore';
-	import { lastDataChange } from '$lib/dataDates';
-	import { SITE_NAME } from '$lib/constants';
+	import { page } from '$app/state';
+	import { basePath } from '#lib/paths.ts';
+	import { themeStore } from '#lib/themeStore.ts';
+	import { lastDataChange } from '#lib/dataDates.ts';
+	import { SITE_NAME } from '#lib/constants.ts';
+
+	const base = basePath();
 
 	let { children } = $props();
 
 	const themeIcon = $derived($themeStore === 'dark' ? '🌙' : $themeStore === 'light' ? '☀️' : '🖥️');
 	const themeLabel = $derived(`Theme: ${$themeStore} — click to cycle`);
 
-	const path = $derived($page.url.pathname.slice(base.length));
+	const path = $derived(page.url.pathname.slice(base.length));
 	/** Whether a nav item is the current section (its page or any page under it). */
 	const isCurrent = (href: string) => path.startsWith('/' + href);
 

@@ -1,6 +1,5 @@
 import { defineConfig } from 'vitest/config';
 import * as yaml from 'js-yaml';
-import path from 'path';
 
 function yamlPlugin() {
 	return {
@@ -19,10 +18,5 @@ export default defineConfig({
 	test: {
 		include: ['src/**/*.test.ts'],
 		environment: 'node'
-	},
-	resolve: {
-		alias: {
-			$lib: path.resolve('./src/lib')
-		}
 	}
 });

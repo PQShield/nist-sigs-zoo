@@ -1,8 +1,10 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { base } from '$app/paths';
-	import { legacyPathRedirect } from '$lib/legacy';
-	import { SITE_NAME } from '$lib/constants';
+	import { basePath } from '#lib/paths.ts';
+	import { legacyPathRedirect } from '#lib/legacy.ts';
+	import { SITE_NAME } from '#lib/constants.ts';
+
+	const base = basePath();
 
 	interface Props {
 		/** Target path relative to base, no leading slash, e.g. "signatures/advanced/". */
