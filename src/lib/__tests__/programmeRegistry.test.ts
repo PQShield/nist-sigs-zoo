@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
-import yaml from 'js-yaml';
+import * as yaml from 'js-yaml';
 import type { ProgrammeYaml } from '$lib/types';
 
 const programmes = yaml.load(readFileSync(join(process.cwd(), 'data', 'programmes.yaml'), 'utf8')) as ProgrammeYaml[];

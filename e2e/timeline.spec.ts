@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import yaml from 'js-yaml';
+import * as yaml from 'js-yaml';
 import { test, expect, type Page } from '@playwright/test';
 
 // Expected counts come from the YAML (the source of truth), not from the rendered page.

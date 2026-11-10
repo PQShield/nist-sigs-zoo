@@ -1,7 +1,7 @@
 import tailwindcss from '@tailwindcss/vite';
 import { sveltekit } from '@sveltejs/kit/vite';
 import { defineConfig } from 'vite';
-import yaml from 'js-yaml';
+import * as yaml from 'js-yaml';
 
 function yamlPlugin() {
 	return {

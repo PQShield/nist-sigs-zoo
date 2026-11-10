@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { readFileSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
-import yaml from 'js-yaml';
+import * as yaml from 'js-yaml';
 import { isProgrammeGroup } from '$lib/compareFilters';
 import { versionProgrammes } from '$lib/programmes';
 import { buildSchemeIndex } from '$lib/slugs';
@@ -9,7 +9,11 @@ import { isHistoryType } from '$lib/timeline';
 import type { HistoryEntry, KemSchemeYaml, ProgrammeYaml, SchemeYaml } from '$lib/types';
 
 const DATA = join(process.cwd(), 'data');
-const load = <T>(path: string): T => yaml.load(readFileSync(path, 'utf8')) as T;
+// js-yaml 5 defaults to the YAML 1.2 core schema, which reads an unquoted date as a string.
+// We add the timestamp tag so the history test still catches unquoted dates (YAML 1.1
+// readers such as our Python tooling turn them into dates).
+const SCHEMA = yaml.CORE_SCHEMA.withTags(yaml.timestampTag);
+const load = <T>(path: string): T => yaml.load(readFileSync(path, 'utf8'), { schema: SCHEMA }) as T;
 
 const programmes = load<ProgrammeYaml[]>(join(DATA, 'programmes.yaml'));
 const stagesOf = new Map(programmes.map((p) => [p.id, new Set(p.stages.map((s) => s.id))]));
@@ -257,8 +261,8 @@ describe('data/history.yaml', () => {
 		]);
 	});
 
-	it('rejects an unquoted date (js-yaml reads it as a Date)', () => {
-		const parsed = yaml.load('- date: 2026-01-02\n  type: update\n  description: x\n') as Entry[];
+	it('rejects an unquoted date (read as a Date with the timestamp tag)', () => {
+		const parsed = yaml.load('- date: 2026-01-02\n  type: update\n  description: x\n', { schema: SCHEMA }) as Entry[];
 		expect(historyErrors(parsed, programmeIds)[0]).toMatch(/entry 1 .*date must be a quoted/);
 	});
 

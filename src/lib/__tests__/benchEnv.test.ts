@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { readFileSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
-import yaml from 'js-yaml';
+import * as yaml from 'js-yaml';
 import { envCpuModels, envLabel, envOf } from '$lib/benchEnv';
 import type { BenchmarkEnv, BenchmarkEnvFile } from '$lib/types';
 
