@@ -85,6 +85,12 @@
   description: "Benchmarked the round-1 candidates of China's NGCC programme on our own harness (AWS c7i.4xlarge, Intel Xeon Platinum 8488C, core cycles via rdpmc): 178 signature and 160 KEM parameter sets. Tins128/256/512 fail our sign/verify checks and are shown as not finished. We do not benchmark parameter sets that need more than 10 minutes for one signature or verification (TRINE-512-Balanced) or hours for key generation (UVW-512). A few submissions needed small fixes to their own code to run reliably; each is noted on the parameter set. The signature run also refreshes the timings of the NIST on-ramp schemes."
   programmes: [china-ngcc]
 
+- date: '2026-10-12'
+  added: '2026-11-12'
+  type: update
+  description: "HQC v5.1 (<a href=\"https://pqc-hqc.org/doc/hqc_specifications_v5.1.pdf\">specification</a>, 2026-10-12, revised 2026-11-09; <a href=\"https://groups.google.com/a/list.nist.gov/g/pqc-forum/c/8frP-TxHTzo\">announcement</a> by Bidoux) refines the decryption-failure analysis and raises the weights: &omega; by 1 for HQC-1, -3 and -5, and &omega;<sub>r</sub> by 1 for HQC-1 and -5, to offset minor cryptanalytic improvements. The decapsulation key becomes the 32-byte seed (previously 2,321, 4,602 and 7,333 bytes), the F<sub>2<sup>8</sup></sub> polynomial changes and the XOF domain separator changes. Public keys and ciphertexts keep their sizes. We now build the <a href=\"https://gitlab.com/pqc-hqc/hqc/-/tags/v5.1.0\">v5.1.0 release</a> (upstream KATs pass) and benchmarked it on AWS c8i.4xlarge on 2026-11-12. Key generation and encapsulation keep their speed; decapsulation is 10&ndash;17% slower (79.8&rarr;87.5, 166.9&rarr;191.0 and 322.7&rarr;377.6 µs), because it now expands the 32-byte key first."
+  schemes: [HQC]
+
 - date: '2026-10-09'
   added: '2026-11-10'
   type: update

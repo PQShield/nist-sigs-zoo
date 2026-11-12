@@ -8,8 +8,8 @@ HQC     = ref
 # reed_solomon.c are per-variant (variant-specific tables / carryless-mul code),
 # the rest are shared. Basenames are unique, so each variant compiles into its
 # own dir with variant-specific include paths (parameters.h, api.h).
-SHARED_SRCS = src/common/code.c src/common/crypto_memset.c src/common/fft.c \
-              src/common/kem.c src/common/symmetric.c \
+SHARED_SRCS = src/common/code.c src/common/crypto_memset.c \
+              src/common/hqc-kem.c src/common/symmetric.c \
               src/x86_64/common/hqc.c src/x86_64/common/parsing.c \
               src/x86_64/avx256/gf.c src/x86_64/avx256/reed_muller.c \
               src/x86_64/avx256/vector.c \

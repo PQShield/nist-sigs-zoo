@@ -5,26 +5,31 @@
 #include "../../scheme.h"
 
 /*
- * HQC already exports the bare NIST KEM API (crypto_kem_keypair/enc/dec) from its
- * own objects compiled into this .so, so the loader resolves those directly — no
- * wrapping needed. The shim only:
- *   1. provides bench_info() metadata, and
- *   2. seeds HQC's SHAKE-based PRNG (prng_init), which the upstream otherwise
- *      expects the NIST KAT harness to initialise. Without seeding, prng_get_bytes
- *      squeezes an unfinalised state.
+ * HQC v5.1 exports hqc_kem_keygen/encaps/decaps and expects the integrator to
+ * provide randombytes() from a secure RBG. The shim:
+ *   1. provides bench_info() metadata,
+ *   2. maps the bare NIST KEM API (crypto_kem_keypair/enc/dec) that the loader
+ *      resolves onto HQC's functions (note HQC's argument order), and
+ *   3. backs randombytes() with getrandom().
  * RTLD_LOCAL keeps the three variants' identical bare symbols isolated.
  */
-void prng_init(uint8_t *entropy, uint8_t *perso, uint32_t enlen, uint32_t perlen);
+int8_t hqc_kem_keygen(uint8_t *ek_kem, uint8_t *dk_kem);
+int8_t hqc_kem_encaps(uint8_t *K, uint8_t *c_kem, const uint8_t *ek_kem);
+int8_t hqc_kem_decaps(uint8_t *K_prime, const uint8_t *dk_kem, const uint8_t *c_kem);
 
 static const bench_scheme_info_t INFO = { "@NAME@", @PK@, @SK@, @CT@, @SS@, @ITERS@ };
 const bench_scheme_info_t *bench_info(void) { return &INFO; }
 
-__attribute__((constructor))
-static void seed_prng(void) {
-    uint8_t entropy[48];
-    if (getrandom(entropy, sizeof entropy, 0) != (ssize_t)sizeof entropy) {
-        /* Fallback: non-zero deterministic seed if getrandom is unavailable. */
-        for (size_t i = 0; i < sizeof entropy; i++) entropy[i] = (uint8_t)(i + 1);
+int randombytes(uint8_t *out, size_t outlen) {
+    while (outlen > 0) {
+        ssize_t n = getrandom(out, outlen, 0);
+        if (n <= 0) return -1;
+        out += n;
+        outlen -= (size_t)n;
     }
-    prng_init(entropy, entropy, (uint32_t)sizeof entropy, 0);
+    return 0;
 }
+
+int crypto_kem_keypair(uint8_t *pk, uint8_t *sk) { return hqc_kem_keygen(pk, sk); }
+int crypto_kem_enc(uint8_t *ct, uint8_t *ss, const uint8_t *pk) { return hqc_kem_encaps(ss, ct, pk); }
+int crypto_kem_dec(uint8_t *ss, const uint8_t *ct, const uint8_t *sk) { return hqc_kem_decaps(ss, sk, ct); }
