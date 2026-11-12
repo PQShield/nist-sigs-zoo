@@ -73,6 +73,14 @@ export function timelineItems(
 		.sort((a, b) => b.entry.date.localeCompare(a.entry.date));
 }
 
+/**
+ * The `n` entries most recently added to the site, newest first. Entries added on the same day are
+ * ordered by event date, newest first, then by file order.
+ */
+export function latestAdded(entries: HistoryEntry[], n: number): HistoryEntry[] {
+	return [...entries].sort((a, b) => b.added.localeCompare(a.added) || b.date.localeCompare(a.date)).slice(0, n);
+}
+
 export function programmeLabel(id: string, registry: ProgrammeYaml[]): string {
 	if (id === SITE_PROGRAMME) return 'Site updates';
 	const p = registry.find((p) => p.id === id);

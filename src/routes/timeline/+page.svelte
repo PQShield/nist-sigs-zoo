@@ -158,6 +158,11 @@
 								<time datetime={item.entry.date} class="font-mono text-xs text-pqs-steel dark:text-pqs-bluegray"
 									>{fmtDate(item.entry.date)}</time
 								>
+								{#if item.entry.added !== item.entry.date}
+									<span class="font-mono text-xs text-pqs-steel dark:text-pqs-bluegray"
+										>(added to site <time datetime={item.entry.added}>{fmtDate(item.entry.added)}</time>)</span
+									>
+								{/if}
 								<span class="rounded px-1.5 py-0.5 font-heading text-xs font-semibold {TYPE_BADGE[item.entry.type]}">
 									{HISTORY_TYPE_LABELS[item.entry.type]}
 								</span>
