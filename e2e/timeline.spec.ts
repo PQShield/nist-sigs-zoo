@@ -67,7 +67,7 @@ test.describe('timeline', () => {
 
 	test('shows when an entry was added to the site, if later than the event', async ({ page }) => {
 		await open(page, '/timeline/');
-		const gijs = events(page).filter({ hasText: 'Ghoshal, Ishai, Jain and Sun' });
+		const gijs = events(page).filter({ hasText: 'distinguish Classic McEliece public keys' });
 		await expect(gijs.locator('time').first()).toHaveAttribute('datetime', '2026-08-07');
 		await expect(gijs).toContainText('(added to site 10 Nov 2026)');
 		const withAdded = HISTORY.filter((e) => e.added !== e.date).length;
