@@ -61,7 +61,7 @@ bench/
     ├── haetae/           # HAETAE 1.2.0 (official zip from Google Drive, vendored as HAETAE-1.2.0.zip, MIT; URL + sha256 in .source; reference implementation only)
     ├── mirath/ ryde/ perk/  # official round-2 zips (URL + sha256 in .source, fetched into build/dl; 30-36 MB each, so not vendored); AVX2 Optimized_Implementation
     ├── cross/            # CROSS-signature/CROSS-implementation v2.2 (Optimized_Implementation, AVX2)
-    ├── less/             # less-sig/LESS 9ec6915 = NIST round-2 code (Optimized_Implementation/avx2)
+    ├── less/             # less-sig/LESS v2.1.1 (post-round code, same sets as round 2; Optimized_Implementation/avx2)
     ├── <x>_r1/ <x>_r2/   # older NIST on-ramp rounds of the schemes still in the competition
     │                     #   (see "Older on-ramp rounds"): faest, hawk (r1 = r1+r2), mayo, mqom, qruov,
     │                     #   sdith (r2; sdith/ = r1), snova, sqisign, uov

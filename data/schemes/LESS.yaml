@@ -3,6 +3,44 @@ website: https://less-project.com
 category: Code-based
 assumption: Linear Equiv.
 versions:
+- version: v2.1
+  date: '2026-07-13'
+  status: On-ramp
+  # Code release v2.1.1 (https://github.com/less-sig/LESS/releases/tag/v2.1.1), "Implements https://eprint.iacr.org/2025/1424.pdf".
+  # No new specification document; parameter sets and sizes are unchanged from v2.0 (checked with ./bench --sizes), the KATs changed.
+  perf_source: our benchmark
+  parametersets:
+  - name: 252-192
+    level: 1
+    pk: 13940
+    sig: 2609
+    notes: Signature size is the implementation's maximum (CRYPTO_BYTES); the v2.0 specification's Table 4 gives 2625 bytes.
+  - name: 252-68
+    level: 1
+    pk: 41788
+    sig: 1825
+  - name: 252-45
+    level: 1
+    pk: 97484
+    sig: 1329
+  - name: 400-220
+    level: 3
+    pk: 35074
+    sig: 6353
+    notes: Signature size is the implementation's maximum (CRYPTO_BYTES); the v2.0 specification's Table 4 gives 6329 bytes.
+  - name: 400-102
+    level: 3
+    pk: 105174
+    sig: 4131
+  - name: 548-345
+    level: 5
+    pk: 65793
+    sig: 10712
+    notes: Signature size is the implementation's maximum (CRYPTO_BYTES); the v2.0 specification's Table 4 gives 10680 bytes.
+  - name: 548-137
+    level: 5
+    pk: 197315
+    sig: 7436
 - version: v2.0
   date: '2025-02-07'
   status: On-ramp

@@ -206,7 +206,7 @@ BENCH_TO_YAML: dict[str, Target | list[Target]] = {
     "PERK-3-fast": ("PERK.yaml", "3-fast"),
     "PERK-5-short": ("PERK.yaml", "5-short"),
     "PERK-5-fast": ("PERK.yaml", "5-fast"),
-    # CROSS v2.2 and LESS v2.0 (round 2; optimised AVX2 implementations)
+    # CROSS v2.2 (round 2) and LESS v2.1 (post-round code); optimised AVX2 implementations
     "CROSS-RSDP-1-fast": ("CROSS.yaml", "R-SDP 1 fast"),
     "CROSS-RSDP-1-balanced": ("CROSS.yaml", "R-SDP 1 balanced"),
     "CROSS-RSDP-1-small": ("CROSS.yaml", "R-SDP 1 small"),
