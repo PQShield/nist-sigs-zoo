@@ -79,11 +79,23 @@
   added: '2026-11-10'
   type: update
   description: "Scheme data now records which standardisation programmes each scheme belongs to (NIST PQC, NIST on-ramp, KpqC, ISO), in preparation for tracking China's NGCC programme."
+- date: '2026-09-28'
+  added: '2026-11-12'
+  type: attack
+  description: "Ostuzzi (<a href=\"https://eprint.iacr.org/2026/2247\">ePrint 2026/2247</a>) gives the first structural forgery on MAYO. Whipping amplifies polar cancellations in the public map, and combined with the Pseudo-Oil Attack and a multi-target reduction this lowers the estimated security of the round-3 sets MAYO1, MAYO2 and MAYO3 by about 6, 4 and 2 bits. MAYO2 falls 3 bits below the NIST Level I threshold and is flagged broken; MAYO1 stays above it and is flagged with a warning. For round 2 the paper reports reductions of about 18 bits at Level I and 16 bits at Level III."
+  schemes: [MAYO]
+
 - date: '2026-09-27'
   added: '2026-11-10'
   type: attack
   description: "Public-key-only universal forgery on AIM2-based AIMer (Liu, Peng, Liu, Jia, Wang, Wang &amp; Fan, <a href=\"https://eprint.iacr.org/2026/2235\">ePrint 2026/2235</a>): BN++ checks each inverse Mersenne S-box of AIM2 through the quadratic relation t^(2^e) + &gamma;t = pt&middot;t, which holds for any pt when the S-box output t is zero. Setting all first-layer outputs to zero and pt = ct + b^(2^e*&minus;1), computed from the public key alone, gives a witness that satisfies every checked equation without being an AIM2 preimage; the unmodified prover then signs any message, with probability one, for every honest key of every parameter set. Forgeries were accepted by the unmodified reference verifier for AIMer-128f/192f/256f (about 11.6 ms per AIMer-256f forgery). The paper attacks the January 2026 AIM2 specification; v2.0 and v2.1 use the same relation, so we mark them broken. The AIMer team confirmed the attack, and the AIM3 relation of v3.0 rules out the zero branch. The paper also forges signatures for some Lynxer variants. v1.0 (AIM) is not covered by the paper."
   schemes: [AIMer]
+
+- date: '2026-09-26'
+  added: '2026-11-12'
+  type: attack
+  description: "Merz and Ran (<a href=\"https://eprint.iacr.org/2026/2181\">ePrint 2026/2181</a>) extend the wedge attack with divided squares of the polar forms and Schur&ndash;Macaulay matrices, removing its parameter threshold and covering odd characteristic. The attack applies to every round-2 parameter set of UOV, MAYO, SNOVA and QR-UOV but one; four alternate round-2 MAYO sets, which the site does not list, fall below their claimed level. After their disclosure the MAYO team dropped a planned round-3 set and raised the parameters of MAYO2 (see the round-3 entry of 2026-08-31). No set shown on the site falls below its level."
+  schemes: [UOV, MAYO, SNOVA, QR-UOV]
 
 - date: '2026-09-22'
   added: '2026-09-22'
@@ -150,6 +162,12 @@
   type: update
   description: "MAYO published its round-3 spec (<a href=\"https://pqmayo.org/assets/specs/mayo-round3.pdf\">PDF</a>): MAYO2's parameters change to increase its margin against the Wedge attack (Ran, ePrint 2025/1143), shrinking its public key from 4912B to 2928B while growing its signature from 186B to 239B; MAYO1 grows slightly (pk 1420&rarr;1456B, sig 454&rarr;464B) to push the improved-MQ attack (Asanuma et al., ePrint 2026/1054) margin back above the NIST Level I threshold &mdash; both flags are dropped for the round-3 parameter sets. Also adds an explicit linear term to the verification equation to block a newly disclosed claw-finding forgery attack, and fixes a low-rank weakness in the whipping schedule. MAYO3 and MAYO5 sizes are unchanged. The team also widened MAYO2's margin further in response to a new, not-yet-public UOV-like key-recovery attack privately disclosed by Lars Ran and Simon-Philipp Merz shortly before the deadline."
   schemes: [MAYO]
+
+- date: '2026-08-26'
+  added: '2026-11-12'
+  type: attack
+  description: "Delgado (<a href=\"https://eprint.iacr.org/2026/1808\">ePrint 2026/1808</a>) recovers SDitH v2 signing keys across signatures: the round-2 VOLEitH PRG runs AES or Rijndael in counter mode from zero, so every signature and leaf uses the same input and one encryption tests a candidate seed against every exposed value. With 2^12 chosen-message signatures the attack costs 11.2 to 11.7 bits less than AES key search at all six parameter sets; reduced-keyspace runs against the official code recover witnesses and produce accepted fresh signatures. The round-2 version is flagged broken. SDitH v3.0 builds its counter blocks from a tweak and the salt and is not affected."
+  schemes: [SDitH]
 
 - date: '2026-08-19'
   added: '2026-11-10'

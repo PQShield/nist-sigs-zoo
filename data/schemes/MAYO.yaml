@@ -34,6 +34,7 @@ versions:
   - name: two
     level: 1
     recommended: true
+    broken: "Structural forgery (<a href=\"https://eprint.iacr.org/2026/2247\">Ostuzzi</a>, ePrint 2026/2247) combines the polar cancellations amplified by whipping with the Pseudo-Oil Attack and a multi-target reduction; it lowers the classical security estimate by about 4 bits, 3 bits below the NIST Level I threshold"
     pk: 2928
     sig: 239
     signing_cycles: 108944
@@ -44,6 +45,7 @@ versions:
   - name: one
     level: 1
     recommended: true
+    warning: "Structural forgery (<a href=\"https://eprint.iacr.org/2026/2247\">Ostuzzi</a>, ePrint 2026/2247) lowers the classical security estimate by about 6 bits; still above the NIST Level I threshold"
     pk: 1456
     sig: 464
     signing_cycles: 183608
