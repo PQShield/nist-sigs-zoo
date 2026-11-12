@@ -14,111 +14,222 @@ versions:
     recommended: true
     pk: 376
     sig: 528
+    signing_cycles: 763518
+    verification_cycles: 235506
+    signing_us: 210.3
+    verification_us: 64.9
+    bench_env: 2026-11-12-c8i.4xlarge
   - name: SNOVA_I_B
     level: 1
     recommended: true
     pk: 656
     sig: 388
+    signing_cycles: 767171
+    verification_cycles: 211916
+    signing_us: 209.7
+    verification_us: 58.5
+    bench_env: 2026-11-12-c8i.4xlarge
   - name: SNOVA_I_S
     level: 1
     recommended: true
     pk: 1016
     sig: 272
+    signing_cycles: 522837
+    verification_cycles: 166712
+    signing_us: 142.6
+    verification_us: 47.6
+    bench_env: 2026-11-12-c8i.4xlarge
   - name: SNOVA_III_K
     level: 3
     recommended: true
     pk: 912
     sig: 688
+    signing_cycles: 1599497
+    verification_cycles: 485484
+    signing_us: 439.4
+    verification_us: 134.9
+    bench_env: 2026-11-12-c8i.4xlarge
   - name: SNOVA_III_B
     level: 3
     recommended: true
     pk: 1416
     sig: 532
+    signing_cycles: 1666048
+    verification_cycles: 487724
+    signing_us: 457.2
+    verification_us: 135.6
+    bench_env: 2026-11-12-c8i.4xlarge
   - name: SNOVA_III_S
     level: 3
     recommended: true
     pk: 2032
     sig: 456
+    signing_cycles: 1884411
+    verification_cycles: 499580
+    signing_us: 515.3
+    verification_us: 139.2
+    bench_env: 2026-11-12-c8i.4xlarge
   - name: SNOVA_V_K
     level: 5
     recommended: true
     pk: 1216
     sig: 896
+    signing_cycles: 3977886
+    verification_cycles: 935789
+    signing_us: 1095.7
+    verification_us: 261.1
+    bench_env: 2026-11-12-c8i.4xlarge
   - name: SNOVA_V_B
     level: 5
     recommended: true
     pk: 1891
     sig: 691
+    signing_cycles: 3983758
+    verification_cycles: 774809
+    signing_us: 1098.0
+    verification_us: 217.8
+    bench_env: 2026-11-12-c8i.4xlarge
   - name: SNOVA_V_S
     level: 5
     recommended: true
     pk: 2716
     sig: 591
+    signing_cycles: 4246441
+    verification_cycles: 754983
+    signing_us: 1168.9
+    verification_us: 209.0
+    bench_env: 2026-11-12-c8i.4xlarge
   - name: SNOVA (27 3 16 4 7 5 84)
     level: 1
     pk: 376
     sig: 436
     notes: "Alternative parameter set (v, o, q, l, r, m1, m2) from spec Table 6 (claimed security 169 bits)."
+    signing_cycles: 720727
+    verification_cycles: 221067
+    signing_us: 195.6
+    verification_us: 60.8
+    bench_env: 2026-11-12-c8i.4xlarge
   - name: SNOVA (27 4 16 4 5 5 80)
     level: 1
     pk: 656
     sig: 326
     notes: "Alternative parameter set (v, o, q, l, r, m1, m2) from spec Table 6 (claimed security 177 bits)."
+    signing_cycles: 682107
+    verification_cycles: 202296
+    signing_us: 186.5
+    verification_us: 55.9
+    bench_env: 2026-11-12-c8i.4xlarge
   - name: SNOVA (27 4 19 4 6 5 96)
     level: 1
     pk: 699
     sig: 413
     notes: "Alternative parameter set (v, o, q, l, r, m1, m2) from spec Table 6 (claimed security 201 bits)."
+    signing_cycles: 17881270
+    verification_cycles: 7101392
+    signing_us: 4642.6
+    verification_us: 1848.9
+    bench_env: 2026-11-12-c8i.4xlarge
   - name: SNOVA (27 5 13 4 4 5 80)
     level: 1
     pk: 950
     sig: 255
     notes: "Alternative parameter set (v, o, q, l, r, m1, m2) from spec Table 6 (claimed security 170 bits)."
+    signing_cycles: 13440078
+    verification_cycles: 4812428
+    signing_us: 3478.3
+    verification_us: 1245.9
+    bench_env: 2026-11-12-c8i.4xlarge
   - name: SNOVA (50 17 16 2 2 17 68)
     level: 1
     pk: 9842
     sig: 150
     notes: "Alternative parameter set (v, o, q, l, r, m1, m2) from spec Table 6 (claimed security 158 bits)."
+    signing_cycles: 8177909
+    verification_cycles: 574246
+    signing_us: 2173.3
+    verification_us: 158.8
+    bench_env: 2026-11-12-c8i.4xlarge
   - name: SNOVA (27 4 16 5 5 4 100)
     level: 3
     pk: 816
     sig: 404
     notes: "Alternative parameter set (v, o, q, l, r, m1, m2) from spec Table 6 (claimed security 221 bits)."
+    signing_cycles: 1347764
+    verification_cycles: 270906
+    signing_us: 370.2
+    verification_us: 74.5
+    bench_env: 2026-11-12-c8i.4xlarge
   - name: SNOVA (33 5 16 4 5 6 100)
     level: 3
     pk: 1216
     sig: 396
     notes: "Alternative parameter set (v, o, q, l, r, m1, m2) from spec Table 6 (claimed security 221 bits)."
+    signing_cycles: 1160176
+    verification_cycles: 336196
+    signing_us: 319.1
+    verification_us: 94.0
+    bench_env: 2026-11-12-c8i.4xlarge
   - name: SNOVA (39 5 11 4 6 7 120)
     level: 3
     pk: 1241
     sig: 478
     notes: "Alternative parameter set (v, o, q, l, r, m1, m2) from spec Table 6 (claimed security 230 bits)."
+    signing_cycles: 44714714
+    verification_cycles: 18163527
+    signing_us: 11604.7
+    verification_us: 4705.9
+    bench_env: 2026-11-12-c8i.4xlarge
   - name: SNOVA (38 5 19 4 6 7 120)
     level: 3
     pk: 1510
     sig: 567
     notes: "Alternative parameter set (v, o, q, l, r, m1, m2) from spec Table 6 (claimed security 269 bits)."
+    signing_cycles: 43283057
+    verification_cycles: 17631709
+    signing_us: 11272.7
+    verification_us: 4581.2
+    bench_env: 2026-11-12-c8i.4xlarge
   - name: SNOVA (76 25 16 2 2 25 100)
     level: 3
     pk: 31266
     sig: 218
     notes: "Alternative parameter set (v, o, q, l, r, m1, m2) from spec Table 6 (claimed security 223 bits)."
+    signing_cycles: 39034799
+    verification_cycles: 2043172
+    signing_us: 10219.2
+    verification_us: 565.4
+    bench_env: 2026-11-12-c8i.4xlarge
   - name: SNOVA (40 5 19 5 6 6 150)
     level: 5
     pk: 2016
     sig: 736
     notes: "Alternative parameter set (v, o, q, l, r, m1, m2) from spec Table 6 (claimed security 331 bits)."
+    signing_cycles: 88610711
+    verification_cycles: 33264443
+    signing_us: 22959.8
+    verification_us: 8614.5
+    bench_env: 2026-11-12-c8i.4xlarge
   - name: SNOVA (47 6 19 4 6 9 144)
     level: 5
     pk: 2781
     sig: 695
     notes: "Alternative parameter set (v, o, q, l, r, m1, m2) from spec Table 6 (claimed security 318 bits)."
+    signing_cycles: 87695700
+    verification_cycles: 32828811
+    signing_us: 22686.8
+    verification_us: 8495.0
+    bench_env: 2026-11-12-c8i.4xlarge
   - name: SNOVA (104 33 16 2 2 33 132)
     level: 5
     pk: 71890
     sig: 290
     notes: "Alternative parameter set (v, o, q, l, r, m1, m2) from spec Table 6 (claimed security 287 bits)."
+    signing_cycles: 125793308
+    verification_cycles: 5123289
+    signing_us: 32729.6
+    verification_us: 1393.4
+    bench_env: 2026-11-12-c8i.4xlarge
+  perf_source: our benchmark
 - version: v3.0
   date: '2026-08-31'
   status: On-ramp
