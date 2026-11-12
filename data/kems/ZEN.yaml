@@ -19,6 +19,7 @@ parametersets:
   decaps_us: 39.2
   bench_env: 2026-10-16-c8i.4xlarge
   notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+  implementation: Key generation ignores XOF failures, so under address-space exhaustion it can return a decryption key sampled from stale stack data (<a href="https://list.niccs.org.cn/archives/list/pkcforum@list.niccs.org.cn/message/MDKAVOLOV5VMHHZXAWCWGQTOBIQUB7B7/">Wen and Wu</a>).
 - name: ZEN_256
   ngcc_level: 256
   recommended: true
@@ -32,6 +33,7 @@ parametersets:
   decaps_us: 52.7
   bench_env: 2026-10-16-c8i.4xlarge
   notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+  implementation: Key generation ignores XOF failures, so under address-space exhaustion it can return a decryption key sampled from stale stack data (<a href="https://list.niccs.org.cn/archives/list/pkcforum@list.niccs.org.cn/message/MDKAVOLOV5VMHHZXAWCWGQTOBIQUB7B7/">Wen and Wu</a>).
 - name: ZEN_512
   ngcc_level: 512
   recommended: true
@@ -45,6 +47,7 @@ parametersets:
   decaps_us: 139.0
   bench_env: 2026-10-16-c8i.4xlarge
   notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+  implementation: Key generation ignores XOF failures, so under address-space exhaustion it can return a decryption key sampled from stale stack data (<a href="https://list.niccs.org.cn/archives/list/pkcforum@list.niccs.org.cn/message/MDKAVOLOV5VMHHZXAWCWGQTOBIQUB7B7/">Wen and Wu</a>).
 - name: ZEN-256-backup
   ngcc_level: 256
   pk: 1229

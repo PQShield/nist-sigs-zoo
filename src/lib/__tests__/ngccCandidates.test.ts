@@ -17,6 +17,7 @@ interface NgccInstance {
 	sk?: number;
 	size_ref?: string;
 	implementation?: string;
+	warning?: string;
 	broken?: string;
 }
 interface NgccCandidate {
@@ -29,7 +30,7 @@ interface NgccCandidate {
 	assumption: string;
 	spec: string;
 	instances: NgccInstance[];
-	findings?: { url: string; implementation?: string; broken?: string; sources?: string[] };
+	findings?: { url: string; implementation?: string; warning?: string; broken?: string; sources?: string[] };
 }
 
 const DATA = join(process.cwd(), 'data');
@@ -186,9 +187,12 @@ describe('data/ngcc/candidates.yaml', () => {
 			);
 		const errors = candidates.flatMap((c) => {
 			const f = c.findings;
-			const texts = [f?.implementation, f?.broken, ...c.instances.flatMap((i) => [i.implementation, i.broken])].filter(
-				(t): t is string => !!t
-			);
+			const texts = [
+				f?.implementation,
+				f?.warning,
+				f?.broken,
+				...c.instances.flatMap((i) => [i.implementation, i.warning, i.broken])
+			].filter((t): t is string => !!t);
 			const e: string[] = [];
 			if (!f) return texts.length ? [`${c.id}: instance flags need a findings block`] : [];
 			if (f.url !== `https://ngcc.dev/reports/${c.id}.html`)

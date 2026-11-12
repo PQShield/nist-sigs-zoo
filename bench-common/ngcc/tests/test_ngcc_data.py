@@ -214,7 +214,8 @@ def test_signature_findings_go_on_the_version_and_instance_flags_on_sets(tmp_pat
         },
         instances=[
             dict(CANDS[0]["instances"][0], broken="Forgery (Feussner)."),
-            *CANDS[0]["instances"][1:],
+            dict(CANDS[0]["instances"][1], warning="Partial attack (Xie)."),
+            *CANDS[0]["instances"][2:],
         ],
     )
     nd.write_files([cand], "signature", SIG_SIZES, {}, tmp_path)
@@ -224,6 +225,8 @@ def test_signature_findings_go_on_the_version_and_instance_flags_on_sets(tmp_pat
     assert "implementation" not in version and "broken" not in version
     sets = {p["name"]: p for p in version["parametersets"]}
     assert sets["A1"]["broken"] == "Forgery (Feussner)."
+    assert sets["A2"]["warning"] == "Partial attack (Xie)."
+    assert "warning" not in sets["A1"]
     assert "broken" not in sets["A2"]
 
 
