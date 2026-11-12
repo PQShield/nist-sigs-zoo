@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import {
+	addedDate,
 	decodeTimelineFilter,
 	defaultTimelineFilter,
 	encodeTimelineFilter,
@@ -8,6 +9,7 @@ import {
 	filterTimeline,
 	HISTORY_TYPE_LABELS,
 	isHistoryType,
+	latestAdded,
 	presentTypes,
 	programmeLabel,
 	programmeOptions,
@@ -143,6 +145,31 @@ describe('timelineItems', () => {
 	});
 	it('leaves the input unsorted', () => {
 		expect(entries[0].description).toBe('old');
+	});
+});
+
+describe('added dates', () => {
+	it('falls back to the event date', () => {
+		expect(addedDate(entry({ date: '2026-01-02' }))).toBe('2026-01-02');
+		expect(addedDate(entry({ date: '2026-01-02', added: '2026-03-04' }))).toBe('2026-03-04');
+	});
+
+	it('lists the most recently added entries first, then by event date, then file order', () => {
+		const late = entry({ date: '2025-06-01', added: '2026-03-01', description: 'late' });
+		const sameDayOlder = entry({ date: '2025-01-01', added: '2026-03-01', description: 'same day, older event' });
+		const recent = entry({ date: '2026-02-01', description: 'recent' });
+		const tieA = entry({ date: '2026-01-01', description: 'tie A' });
+		const tieB = entry({ date: '2026-01-01', description: 'tie B' });
+		const all = [recent, tieA, sameDayOlder, tieB, late];
+		expect(latestAdded(all, 5).map((e) => e.description)).toEqual([
+			'late',
+			'same day, older event',
+			'recent',
+			'tie A',
+			'tie B'
+		]);
+		expect(latestAdded(all, 2)).toHaveLength(2);
+		expect(all[0]).toBe(recent);
 	});
 });
 

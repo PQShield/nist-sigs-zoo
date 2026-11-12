@@ -10,6 +10,7 @@ const load = <T>(file: string): T => yaml.load(fs.readFileSync(file, 'utf8')) as
 const yamlFiles = (dir: string) => fs.readdirSync(path.join(DATA, dir)).filter((f) => f.endsWith('.yaml'));
 
 interface Entry {
+	added?: string;
 	type: string;
 	schemes?: string[];
 	programmes?: string[];
@@ -57,9 +58,19 @@ test.describe('timeline', () => {
 		await expect(events(page)).toHaveCount(HISTORY.length);
 		const dates = await page
 			.getByRole('list', { name: 'Events' })
-			.locator('time')
+			.locator('time:not(span > time)')
 			.evaluateAll((els) => els.map((e) => e.getAttribute('datetime') ?? ''));
+		expect(dates).toHaveLength(HISTORY.length);
 		expect(dates).toEqual([...dates].sort().reverse());
+	});
+
+	test('shows when an entry was added to the site, if later than the event', async ({ page }) => {
+		await open(page, '/timeline/');
+		const gijs = events(page).filter({ hasText: 'Ghoshal, Ishai, Jain and Sun' });
+		await expect(gijs.locator('time').first()).toHaveAttribute('datetime', '2026-08-07');
+		await expect(gijs).toContainText('(added to site 10 Nov 2026)');
+		const withAdded = HISTORY.filter((e) => e.added).length;
+		await expect(page.getByText(/^\(added to site /)).toHaveCount(withAdded);
 	});
 
 	test('filters by event type and keeps the choice in the URL', async ({ page }) => {

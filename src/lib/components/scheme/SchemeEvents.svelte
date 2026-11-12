@@ -30,6 +30,11 @@
 						<time datetime={event.date} class="font-mono text-xs text-pqs-steel dark:text-pqs-bluegray"
 							>{fmtDate(event.date)}</time
 						>
+						{#if event.added}
+							<span class="block font-mono text-xs text-pqs-steel dark:text-pqs-bluegray"
+								>added to site <time datetime={event.added}>{fmtDate(event.added)}</time></span
+							>
+						{/if}
 						<span class="mt-1 block w-fit rounded px-1.5 py-0.5 font-heading text-xs font-semibold {TONE[event.kind]}"
 							>{EVENT_LABELS[event.kind]}</span
 						>

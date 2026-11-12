@@ -4,6 +4,7 @@
 	import { legacyHomeRedirect } from '#lib/legacy.ts';
 	import { SITE_NAME } from '#lib/constants.ts';
 	import { lastDataChange } from '#lib/dataDates.ts';
+	import { fmtDate } from '#lib/dates.ts';
 	import { summariseGroups, type StageGroup } from '#lib/programmes.ts';
 	import type { PageData } from './$types';
 
@@ -129,7 +130,12 @@
 			{#each data.latest as e (e.date + e.description)}
 				<li class="grid gap-1 py-4 sm:grid-cols-[112px_1fr] sm:gap-6">
 					<div class="font-heading text-sm">
-						<time class="block text-pqs-steel dark:text-pqs-bluegray">{e.date}</time>
+						<time datetime={e.date} class="block text-pqs-steel dark:text-pqs-bluegray">{fmtDate(e.date)}</time>
+						{#if e.added}
+							<span class="block text-xs text-pqs-steel dark:text-pqs-bluegray"
+								>added to site <time datetime={e.added}>{fmtDate(e.added)}</time></span
+							>
+						{/if}
 						<span class="font-semibold capitalize">{e.type}</span>
 					</div>
 					<p class="text-sm [&_a]:text-pqs-steel [&_a]:underline dark:[&_a]:text-pqs-apricot">{@html e.description}</p>

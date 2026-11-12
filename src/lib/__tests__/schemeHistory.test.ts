@@ -3,9 +3,9 @@ import { schemeEvents } from '#lib/schemeHistory.ts';
 import type { HistoryEntry } from '#lib/types.ts';
 
 const HISTORY: HistoryEntry[] = [
-	{ date: '2025-01-01', type: 'update', description: 'v2 released', schemes: ['Toy'] },
+	{ date: '2025-01-01', added: '2025-02-01', type: 'update', description: 'v2 released', schemes: ['Toy'] },
 	{ date: '2025-01-01', type: 'attack', description: 'same-day attack', schemes: ['Toy', 'Other'] },
-	{ date: '2024-06-01', type: 'milestone', description: 'round 2', schemes: ['Other', 'Toy'] },
+	{ date: '2024-06-01', added: '2024-07-01', type: 'milestone', description: 'round 2', schemes: ['Other', 'Toy'] },
 	{ date: '2024-03-01', type: 'update', description: 'other only', schemes: ['Other'] },
 	{ date: '2023-01-01', type: 'milestone', description: 'no schemes' }
 ];
@@ -16,12 +16,12 @@ const VERSIONS = [
 ];
 
 describe('schemeEvents', () => {
-	it('keeps only entries naming the scheme, merges same-day updates into versions, newest first', () => {
+	it('keeps only entries naming the scheme, merges same-day updates into versions (keeping their added date), newest first', () => {
 		expect(schemeEvents(HISTORY, 'Toy', VERSIONS)).toEqual([
-			{ date: '2025-01-01', kind: 'version', title: 'v2', html: 'v2 released' },
-			{ date: '2025-01-01', kind: 'attack', title: null, html: 'same-day attack' },
-			{ date: '2024-06-01', kind: 'milestone', title: null, html: 'round 2' },
-			{ date: '2024-01-01', kind: 'version', title: 'v1', html: null }
+			{ date: '2025-01-01', added: '2025-02-01', kind: 'version', title: 'v2', html: 'v2 released' },
+			{ date: '2025-01-01', added: null, kind: 'attack', title: null, html: 'same-day attack' },
+			{ date: '2024-06-01', added: '2024-07-01', kind: 'milestone', title: null, html: 'round 2' },
+			{ date: '2024-01-01', added: null, kind: 'version', title: 'v1', html: null }
 		]);
 	});
 

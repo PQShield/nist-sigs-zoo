@@ -278,6 +278,8 @@ export type HistoryType = 'update' | 'attack' | 'standardization' | 'milestone';
 export interface HistoryEntry {
 	/** ISO date, quoted in YAML so it stays a string. */
 	date: string;
+	/** ISO date the entry reached the site, when later than `date`; omitted when equal. */
+	added?: string;
 	type: HistoryType;
 	/** Trusted HTML from our own YAML. */
 	description: string;

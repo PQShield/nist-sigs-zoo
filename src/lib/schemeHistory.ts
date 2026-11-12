@@ -4,6 +4,8 @@ export type SchemeEventKind = HistoryEntry['type'] | 'version';
 
 export interface SchemeEvent {
 	date: string;
+	/** When the history entry reached the site, if later than `date` (see `HistoryEntry.added`). */
+	added: string | null;
 	kind: SchemeEventKind;
 	/** Version label for 'version' events. */
 	title: string | null;
@@ -35,10 +37,17 @@ export function schemeEvents(
 	const events: SchemeEvent[] = versions.map((v) => {
 		const update = mine.find((e) => e.type === 'update' && e.date === v.date && !merged.has(e));
 		if (update) merged.add(update);
-		return { date: v.date, kind: 'version', title: v.version, html: update?.description ?? null };
+		return {
+			date: v.date,
+			added: update?.added ?? null,
+			kind: 'version',
+			title: v.version,
+			html: update?.description ?? null
+		};
 	});
 	for (const e of mine) {
-		if (!merged.has(e)) events.push({ date: e.date, kind: e.type, title: null, html: e.description });
+		if (!merged.has(e))
+			events.push({ date: e.date, added: e.added ?? null, kind: e.type, title: null, html: e.description });
 	}
 	return events.sort((a, b) => b.date.localeCompare(a.date) || KIND_ORDER.indexOf(a.kind) - KIND_ORDER.indexOf(b.kind));
 }

@@ -219,7 +219,14 @@ describe('scheme pages', () => {
 });
 
 describe('data/history.yaml', () => {
-	type Entry = { date?: unknown; type?: unknown; description?: unknown; schemes?: unknown; programmes?: unknown };
+	type Entry = {
+		date?: unknown;
+		added?: unknown;
+		type?: unknown;
+		description?: unknown;
+		schemes?: unknown;
+		programmes?: unknown;
+	};
 
 	// Scheme names are checked by 'every history entry names a scheme or KEM that has a page' (scheme pages block).
 	/** One message per problem, naming the entry by position and date. */
@@ -229,6 +236,13 @@ describe('data/history.yaml', () => {
 			const errors: string[] = [];
 			if (typeof e.date !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(e.date)) {
 				errors.push(`${where}: date must be a quoted 'YYYY-MM-DD' string`);
+			}
+			if (e.added !== undefined) {
+				if (typeof e.added !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(e.added)) {
+					errors.push(`${where}: added must be a quoted 'YYYY-MM-DD' string`);
+				} else if (typeof e.date === 'string' && e.added <= e.date) {
+					errors.push(`${where}: added must be later than date (omit it when they are equal)`);
+				}
 			}
 			if (!isHistoryType(e.type)) errors.push(`${where}: unknown type "${String(e.type)}"`);
 			if (typeof e.description !== 'string' || e.description.trim() === '') errors.push(`${where}: empty description`);
@@ -264,6 +278,22 @@ describe('data/history.yaml', () => {
 	it('rejects an unquoted date (read as a Date with the timestamp tag)', () => {
 		const parsed = yaml.load('- date: 2026-01-02\n  type: update\n  description: x\n', { schema: SCHEMA }) as Entry[];
 		expect(historyErrors(parsed, programmeIds)[0]).toMatch(/entry 1 .*date must be a quoted/);
+	});
+
+	it('rejects an added date that is unquoted or not later than the event date', () => {
+		const parsed = yaml.load("- date: '2026-01-02'\n  added: 2026-01-05\n  type: update\n  description: x\n", {
+			schema: SCHEMA
+		}) as Entry[];
+		const same: Entry[] = [{ date: '2026-01-02', added: '2026-01-02', type: 'update', description: 'x' }];
+		const earlier: Entry[] = [{ date: '2026-01-02', added: '2025-12-31', type: 'update', description: 'x' }];
+		expect(historyErrors(parsed, programmeIds)).toEqual([
+			"history.yaml entry 1 (2026-01-02): added must be a quoted 'YYYY-MM-DD' string"
+		]);
+		for (const bad of [same, earlier]) {
+			expect(historyErrors(bad, programmeIds)).toEqual([
+				'history.yaml entry 1 (2026-01-02): added must be later than date (omit it when they are equal)'
+			]);
+		}
 	});
 
 	it('rejects an unknown type, an empty description and an empty list', () => {
