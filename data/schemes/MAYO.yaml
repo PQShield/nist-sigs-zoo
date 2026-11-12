@@ -34,7 +34,7 @@ versions:
   - name: two
     level: 1
     recommended: true
-    broken: "Structural forgery (<a href=\"https://eprint.iacr.org/2026/2247\">Ostuzzi</a>, ePrint 2026/2247) combines the polar cancellations amplified by whipping with the Pseudo-Oil Attack and a multi-target reduction; it lowers the classical security estimate by about 4 bits, 3 bits below the NIST Level I threshold"
+    broken: "Structural forgery (<a href=\"https://eprint.iacr.org/2026/2247\">Ostuzzi</a>, ePrint 2026/2247, Table 6) lowers the estimated forgery cost from 2^144 to 2^140 bit operations, 3 bits below the 2^143 required for NIST Level I. The round-3 linear term blocks the paper's multi-target technique."
     pk: 2928
     sig: 239
     signing_cycles: 108944
@@ -45,7 +45,7 @@ versions:
   - name: one
     level: 1
     recommended: true
-    warning: "Structural forgery (<a href=\"https://eprint.iacr.org/2026/2247\">Ostuzzi</a>, ePrint 2026/2247) lowers the classical security estimate by about 6 bits; still above the NIST Level I threshold"
+    warning: "Structural forgery (<a href=\"https://eprint.iacr.org/2026/2247\">Ostuzzi</a>, ePrint 2026/2247, Table 6) lowers the estimated forgery cost from 2^153 to 2^147 bit operations, still above the 2^143 required for NIST Level I."
     pk: 1456
     sig: 464
     signing_cycles: 183608
@@ -248,6 +248,7 @@ versions:
     verification_us: 333.0
   - name: three
     level: 3
+    warning: "Structural forgery combined with a multi-target reduction (<a href=\"https://eprint.iacr.org/2026/2247\">Ostuzzi</a>, ePrint 2026/2247, Table 5) lowers the estimated forgery cost from 2^223 to 2^207 bit operations, exactly the 2^207 required for NIST Level III."
     pk: 2986
     sig: 681
     signing_cycles: 1402602
@@ -271,7 +272,7 @@ versions:
     verification_cycles: 284905
     signing_us: 179.5
     verification_us: 77.4
-    warning: "Improved MQ attack (<a href=\"https://eprint.iacr.org/2026/1054\">Asanuma et al.</a>, ePrint 2026/1054) reduces classical security estimate from 2^156 to 2^145 — still above NIST Level I threshold (128 bits)"
+    broken: "Structural forgery combined with a multi-target reduction (<a href=\"https://eprint.iacr.org/2026/2247\">Ostuzzi</a>, ePrint 2026/2247, Table 5) lowers the estimated forgery cost from 2^146 to 2^128 bit operations, 15 bits below the 2^143 required for NIST Level I. The improved MQ attack of <a href=\"https://eprint.iacr.org/2026/1054\">Asanuma et al.</a>, ePrint 2026/1054 had given 2^145."
 - version: Round 2
   date: '2025-02-05'
   status: On-ramp
@@ -290,6 +291,7 @@ versions:
     bench_env: 2026-10-16-c8i.4xlarge
   - name: three
     level: 3
+    warning: "Structural forgery combined with a multi-target reduction (<a href=\"https://eprint.iacr.org/2026/2247\">Ostuzzi</a>, ePrint 2026/2247, Table 5) lowers the estimated forgery cost from 2^223 to 2^207 bit operations, exactly the 2^207 required for NIST Level III."
     pk: 2986
     sig: 681
     signing_cycles: 1042338
@@ -313,7 +315,7 @@ versions:
     sig: 454
     signing_cycles: 492911
     verification_cycles: 215036
-    warning: "Improved MQ attack (<a href=\"https://eprint.iacr.org/2026/1054\">Asanuma et al.</a>, ePrint 2026/1054) reduces classical security estimate from 2^156 to 2^145 — still above NIST Level I threshold (128 bits)"
+    broken: "Structural forgery combined with a multi-target reduction (<a href=\"https://eprint.iacr.org/2026/2247\">Ostuzzi</a>, ePrint 2026/2247, Table 5) lowers the estimated forgery cost from 2^146 to 2^128 bit operations, 15 bits below the 2^143 required for NIST Level I. The improved MQ attack of <a href=\"https://eprint.iacr.org/2026/1054\">Asanuma et al.</a>, ePrint 2026/1054 had given 2^145."
     signing_us: 127.6
     verification_us: 56.2
     bench_env: 2026-10-16-c8i.4xlarge

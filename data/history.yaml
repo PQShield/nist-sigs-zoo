@@ -82,7 +82,7 @@
 - date: '2026-09-28'
   added: '2026-11-12'
   type: attack
-  description: "Ostuzzi (<a href=\"https://eprint.iacr.org/2026/2247\">ePrint 2026/2247</a>) gives the first structural forgery on MAYO. Whipping amplifies polar cancellations in the public map, and combined with the Pseudo-Oil Attack and a multi-target reduction this lowers the estimated security of the round-3 sets MAYO1, MAYO2 and MAYO3 by about 6, 4 and 2 bits. MAYO2 falls 3 bits below the NIST Level I threshold and is flagged broken; MAYO1 stays above it and is flagged with a warning. For round 2 the paper reports reductions of about 18 bits at Level I and 16 bits at Level III."
+  description: "Ostuzzi (<a href=\"https://eprint.iacr.org/2026/2247\">ePrint 2026/2247</a>) gives the first structural forgery on MAYO: whipping amplifies polar cancellations, which the Pseudo-Oil Attack exploits, and a separate multi-target reduction uses the homogeneity of the round-2 map. For round 2 the combination lowers the estimated forgery cost of MAYO1 from 2^146 to 2^128 bit operations, 15 bits below the 2^143 required for NIST Level I, and of MAYO3 from 2^223 to 2^207, exactly at the Level III requirement (Table 5); MAYO1 is now flagged broken and MAYO3 with a warning. The round-3 linear term blocks the multi-target reduction, and the structural attack alone lowers MAYO1, MAYO2 and MAYO3 from 2^153, 2^144 and 2^223 to 2^147, 2^140 and 2^221 (Table 6). MAYO2 falls 3 bits below Level I and is flagged broken; MAYO1 is flagged with a warning; MAYO3 is not flagged."
   schemes: [MAYO]
 
 - date: '2026-09-27'
