@@ -123,6 +123,12 @@
   description: "Merz and Ran (<a href=\"https://eprint.iacr.org/2026/2181\">ePrint 2026/2181</a>) extend the wedge attack with divided squares of the polar forms and Schur&ndash;Macaulay matrices, removing its parameter threshold and covering odd characteristic. The attack applies to every round-2 parameter set of UOV, MAYO, SNOVA and QR-UOV but one; four alternate round-2 MAYO sets, which the site does not list, fall below their claimed level. After their disclosure the MAYO team dropped a planned round-3 set and raised the parameters of MAYO2 (see the round-3 entry of 2026-08-31). No set shown on the site falls below its level."
   schemes: [UOV, MAYO, SNOVA, QR-UOV]
 
+- date: '2026-09-26'
+  added: '2026-11-12'
+  type: update
+  description: "SNOVA v3.1 (<a href=\"https://github.com/PQCLAB-SNOVA/SNOVA/blob/ebdd7e29f7cc2a4e5852304c8ea418c3416b1eda/Supporting_Documentation/SNOVA_v3.1.pdf\">specification</a>, September 2026; <a href=\"https://github.com/PQCLAB-SNOVA/SNOVA/commit/1c23d277fa\">code</a>) samples the vinegar variables by rejection sampling for odd q. This removes the bias that <a href=\"https://groups.google.com/a/list.nist.gov/d/msgid/pqc-forum/000001dd4a73%247e3c04e0%247ab40ea0%24%40beullens.com\">Beullens &amp; Hess</a> used to recover keys of the six odd-characteristic alternative sets of v3.0; those sets keep their broken flags under v3.0. Parameters and sizes are unchanged, and the q = 16 sets sample as before. We now build v3.1 (upstream commit <a href=\"https://github.com/PQCLAB-SNOVA/SNOVA/commit/ebdd7e29f7\">ebdd7e2</a>, which also fixes table initialisation in the reference <code>pk_expand()</code>) and benchmarked it on AWS c8i.4xlarge on 2026-11-12, the instance type of all other signature timings."
+  schemes: [SNOVA]
+
 - date: '2026-09-22'
   added: '2026-09-22'
   type: attack
