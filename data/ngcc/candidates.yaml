@@ -51,7 +51,7 @@
   spec: Algorithm specifications.pdf
   findings:
     url: https://ngcc.dev/reports/sign-01.html
-    implementation: "Submitted code accepts altered copies of valid signatures and lets malformed hints write out of bounds on the stack (<a href=\"https://ngcc.dev/reports/sign-01.html#sign-01-1-trivial-signature-malleability-violates-suf-cma\">Saarinen</a>). Its challenge sampler gives sets I and II far too little sign entropy (<a href=\"https://list.niccs.org.cn/archives/list/pkcforum@list.niccs.org.cn/message/PKKXNPUY433TLJHGCS365LENBN75SHAZ/\">Yijian Liu</a>)."
+    implementation: "The submitted code accepts altered signatures and lets malformed hints overflow the stack (<a href=\"https://ngcc.dev/reports/sign-01.html#sign-01-1-trivial-signature-malleability-violates-suf-cma\">Saarinen</a>). Its challenge sampler gives sets I and II too little sign entropy (<a href=\"https://list.niccs.org.cn/archives/list/pkcforum@list.niccs.org.cn/message/PKKXNPUY433TLJHGCS365LENBN75SHAZ/\">Yijian Liu</a>). 32-bit length arithmetic lets signatures verify on long forged messages (<a href=\"https://ngcc.dev/reports/sign-01.html#sign-01-9-32-bit-message-length-arithmetic-gives-long-message-forgeries\">Saarinen</a>)."
     sources:
       - https://ngcc.dev/reports/sign-01.html
       - https://list.niccs.org.cn/archives/list/pkcforum@list.niccs.org.cn/message/PKKXNPUY433TLJHGCS365LENBN75SHAZ/
@@ -262,14 +262,15 @@
       ngcc_level: 128
       ref: "Table 1 and Table 2 (PDF p. 15)"
     - instance: COMPASS-SIG-256
+      implementation: "The submitted SHAKE wrapper compresses long messages to 256 bits, so a collision in about 2^128 work moves a signature to another message, below this set's target (<a href=\"https://ngcc.dev/reports/sign-06.html#sign-06-6-the-shake-wrapper-compresses-the-message-representative-input-to-256-bits\">Saarinen</a>)."
       ngcc_level: 256
       ref: "Table 1 and Table 2 (PDF p. 15)"
     - instance: COMPASS-SIG-384
-      implementation: "The submitted code expands the whole key pair from a 256-bit seed and compresses messages too far, so key search or forgery costs about 2^256, below this set's target (<a href=\"https://ngcc.dev/reports/sign-06.html#sign-06-2-the-implementation-expands-the-entire-key-pair-from-a-256-bit-root\">Saarinen</a>)."
+      implementation: "The submitted code expands the whole key pair from a 256-bit seed (<a href=\"https://ngcc.dev/reports/sign-06.html#sign-06-2-the-implementation-expands-the-entire-key-pair-from-a-256-bit-root\">Saarinen</a>) and caps the message representative at 256 bits (<a href=\"https://ngcc.dev/reports/sign-06.html#sign-06-1-the-implemented-message-representative-caps-forgery-security-at-256-bits\">Saarinen</a>). Its SHAKE wrapper also compresses long messages to 256 bits. Key search and forgery fall below this set's target (<a href=\"https://ngcc.dev/reports/sign-06.html#sign-06-6-the-shake-wrapper-compresses-the-message-representative-input-to-256-bits\">Saarinen</a>)."
       ngcc_level: 384
       ref: "Table 1 and Table 2 (PDF p. 15)"
     - instance: COMPASS-SIG-512
-      implementation: "The submitted code expands the whole key pair from a 256-bit seed and compresses messages too far, so key search or forgery costs about 2^256, below this set's target (<a href=\"https://ngcc.dev/reports/sign-06.html#sign-06-2-the-implementation-expands-the-entire-key-pair-from-a-256-bit-root\">Saarinen</a>)."
+      implementation: "The submitted code expands the whole key pair from a 256-bit seed (<a href=\"https://ngcc.dev/reports/sign-06.html#sign-06-2-the-implementation-expands-the-entire-key-pair-from-a-256-bit-root\">Saarinen</a>) and caps the message representative at 256 bits (<a href=\"https://ngcc.dev/reports/sign-06.html#sign-06-1-the-implemented-message-representative-caps-forgery-security-at-256-bits\">Saarinen</a>). Its SHAKE wrapper also compresses long messages to 256 bits. Key search and forgery fall below this set's target (<a href=\"https://ngcc.dev/reports/sign-06.html#sign-06-6-the-shake-wrapper-compresses-the-message-representative-input-to-256-bits\">Saarinen</a>)."
       ngcc_level: 512
       ref: "Table 1 and Table 2 (PDF p. 15)"
 # Assumption also uses BSTMSIS (spec Sec. 3). No recommended set.
@@ -283,7 +284,7 @@
   spec: Algorithm specifications/CS.pdf
   findings:
     url: https://ngcc.dev/reports/sign-07.html
-    implementation: "The submitted code omits a nonce when sampling secrets, collapsing them to one value and making key recovery cheap (<a href=\"https://list.niccs.org.cn/archives/list/pkcforum@list.niccs.org.cn/message/2OEX5VKCOX3NZV2DFKG3DF7B3OA6Z3FC/\">Sun</a>). Signatures are also trivially malleable (<a href=\"https://ngcc.dev/reports/sign-07.html#sign-07-1-trivial-signature-malleability-violates-suf-cma\">Saarinen</a>)."
+    implementation: "The submitted code omits a nonce when sampling secrets, collapsing them to one value and making key recovery cheap (<a href=\"https://list.niccs.org.cn/archives/list/pkcforum@list.niccs.org.cn/message/2OEX5VKCOX3NZV2DFKG3DF7B3OA6Z3FC/\">Sun</a>). Signatures are also trivially malleable (<a href=\"https://ngcc.dev/reports/sign-07.html#sign-07-1-trivial-signature-malleability-violates-suf-cma\">Saarinen</a>). 32-bit message lengths let a signature verify on long forged messages (<a href=\"https://ngcc.dev/reports/sign-07.html#sign-07-5-32-bit-message-lengths-give-long-message-forgeries\">Saarinen</a>)."
     broken: "The verifier ignores the signs of challenge coefficients, allowing universal forgery below every claimed level (<a href=\"https://github.com/ngcc-dev/ngcc-harness/pull/1\">Kwiatkowski</a>). Compressed CS-128 signatures leak an equivalent signing key (<a href=\"https://list.niccs.org.cn/archives/list/pkcforum@list.niccs.org.cn/message/PNQJ4PBNVDPNY624PDPCOO7ZL2GXIP6H/\">Lu and Liu</a>; made practical by <a href=\"https://list.niccs.org.cn/archives/list/pkcforum@list.niccs.org.cn/message/YHC7FIZTNPJBTYDCH2H5JAYBR7Z4FEYH/\">Feussner</a>)."
     sources:
       - https://list.niccs.org.cn/archives/list/pkcforum@list.niccs.org.cn/message/2OEX5VKCOX3NZV2DFKG3DF7B3OA6Z3FC/
@@ -591,9 +592,10 @@
   spec: Algorithm_Specifications/DSA_ATLAS_Specification.pdf
   findings:
     url: https://ngcc.dev/reports/sign-15.html
-    implementation: "In the submitted code, repeated masking coefficients let two signatures reveal the key (<a href=\"https://list.niccs.org.cn/archives/list/pkcforum@list.niccs.org.cn/message/L5UNKA72RZ2TBTCKZYIVJ5KFDU6XTWFB/\">Lu and Liu</a>; for the 512-bit set via overlapping mask streams, <a href=\"https://ngcc.dev/reports/sign-15.html#sign-15-13-overlapping-mask-streams-recover-the-atlas-512-signing-key\">Saarinen</a>), signatures are malleable (<a href=\"https://ngcc.dev/reports/sign-15.html#sign-15-2-trivial-hint-padding-malleability-violates-suf-cma\">Saarinen</a>), and crafted hints cause out-of-bounds accesses (<a href=\"https://list.niccs.org.cn/archives/list/pkcforum@list.niccs.org.cn/message/QUKIQWX7B5D2UYVTGSZ3JC6IVELQWA2Q/\">Song-Anxiao</a>)."
+    implementation: "Repeated masking coefficients let two signatures reveal the key (<a href=\"https://list.niccs.org.cn/archives/list/pkcforum@list.niccs.org.cn/message/L5UNKA72RZ2TBTCKZYIVJ5KFDU6XTWFB/\">Lu and Liu</a>; at 512 bits through overlapping streams, <a href=\"https://ngcc.dev/reports/sign-15.html#sign-15-13-overlapping-mask-streams-recover-the-atlas-512-signing-key\">Saarinen</a>). Signatures are malleable (<a href=\"https://ngcc.dev/reports/sign-15.html#sign-15-2-trivial-hint-padding-malleability-violates-suf-cma\">Saarinen</a>), bad hints read out of bounds (<a href=\"https://list.niccs.org.cn/archives/list/pkcforum@list.niccs.org.cn/message/QUKIQWX7B5D2UYVTGSZ3JC6IVELQWA2Q/\">Song-Anxiao</a>) and signed-message opening returns an unchecked message (<a href=\"https://list.niccs.org.cn/archives/list/pkcforum@list.niccs.org.cn/message/AXKDEMO2FJGNOAOMLHHPJPPROOEMYME4/\">Yan et al.</a>)."
     broken: "The specified 128-bit set leaks its key from millions of signatures (<a href=\"https://list.niccs.org.cn/archives/list/pkcforum@list.niccs.org.cn/message/3BUUSX5DBW37Y35QAEXA53ZAEU3JBDET/\">Feussner</a>), and the higher sets have challenge spaces, digests or seeds too small for their targets (<a href=\"https://list.niccs.org.cn/archives/list/pkcforum@list.niccs.org.cn/message/6UCTMUFIYLOOSNAC7EAMPVCVANTUTFEO/\">Xiong and Wang</a>)."
     sources:
+      - https://list.niccs.org.cn/archives/list/pkcforum@list.niccs.org.cn/message/AXKDEMO2FJGNOAOMLHHPJPPROOEMYME4/
       - https://list.niccs.org.cn/archives/list/pkcforum@list.niccs.org.cn/message/L5UNKA72RZ2TBTCKZYIVJ5KFDU6XTWFB/
       - https://ngcc.dev/reports/sign-15.html
       - https://list.niccs.org.cn/archives/list/pkcforum@list.niccs.org.cn/message/QUKIQWX7B5D2UYVTGSZ3JC6IVELQWA2Q/
@@ -1026,7 +1028,9 @@
   findings:
     url: https://ngcc.dev/reports/sign-27.html
     broken: "Rescaling a signature's response gives practical forgeries on fresh messages after one signing query, at every parameter set (<a href=\"https://list.niccs.org.cn/archives/list/pkcforum@list.niccs.org.cn/message/DYDMQ7SEI5DPVVP6IL27J63YODLVUPE3/\">Feussner</a>)."
+    implementation: "The submitted code never checks the unused high bits of the auxiliary-basis coefficients, so altered copies of a signature verify (<a href=\"https://ngcc.dev/reports/sign-27.html#sign-27-6-high-bits-of-the-auxiliary-basis-coefficients-are-never-authenticated\">Saarinen</a>)."
     sources:
+      - https://ngcc.dev/reports/sign-27.html
       - https://list.niccs.org.cn/archives/list/pkcforum@list.niccs.org.cn/message/DYDMQ7SEI5DPVVP6IL27J63YODLVUPE3/
       - https://github.com/martinfeussner/NGCC-Signature-Audit/tree/66c991978995c17d1514825a9e9d2ff6810bb22a/SQIsignTriangle
   instances:
@@ -1181,6 +1185,7 @@
     url: https://ngcc.dev/reports/sign-32.html
     implementation: "The submitted verifier accepts every signature, valid or not (<a href=\"https://ngcc.dev/reports/sign-32.html#sign-32-1-every-signature-is-accepted\">Saarinen</a>)."
     sources:
+      - https://ngcc.dev/reports/sign-32.html#sign-32-3-pair-correlated-signatures-recover-an-equivalent-uvw-128-or-uvw-256-signing-key
       - https://ngcc.dev/reports/sign-32.html
       - https://list.niccs.org.cn/archives/list/pkcforum@list.niccs.org.cn/message/SDUWEI2UT7BAEIDNVKTSMJF3YYJXUDFQ/
   instances:
@@ -1190,6 +1195,7 @@
       recommended: true
       ref: "§1.6 Table 1 (PDF p. 15)"
     - instance: UVW-256
+      broken: "Correlated pairs in signatures reveal an equivalent signing key from about 300 signatures, enabling forgery (<a href=\"https://list.niccs.org.cn/archives/list/pkcforum@list.niccs.org.cn/message/SDUWEI2UT7BAEIDNVKTSMJF3YYJXUDFQ/\">Feussner</a>, extended by <a href=\"https://ngcc.dev/reports/sign-32.html#sign-32-3-pair-correlated-signatures-recover-an-equivalent-uvw-128-or-uvw-256-signing-key\">Saarinen</a>)."
       ngcc_level: 256
       recommended: true
       ref: "§1.6 Table 1 (PDF p. 15)"
@@ -1209,7 +1215,7 @@
   spec: Specification/VDOO-Specifications.pdf
   findings:
     url: https://ngcc.dev/reports/sign-33.html
-    implementation: "The submitted code generates reproducible signing keys and predictable signing randomness (<a href=\"https://ngcc.dev/reports/sign-33.html#sign-33-1-publicly-reproducible-signing-keys\">Saarinen</a>), and its restricted coefficients allow public-key-only forgery at VDOO-128 (<a href=\"https://groups.google.com/a/list.nist.gov/g/pqc-forum/c/mYN9Br_C8dg/m/BDmmwIE6BAAJ\">Feussner</a>)."
+    implementation: "The submitted code generates reproducible keys and predictable signing randomness (<a href=\"https://ngcc.dev/reports/sign-33.html#sign-33-1-publicly-reproducible-signing-keys\">Saarinen</a>), restricted coefficients allow public-key-only forgery at VDOO-128 (<a href=\"https://groups.google.com/a/list.nist.gov/g/pqc-forum/c/mYN9Br_C8dg/m/BDmmwIE6BAAJ\">Feussner</a>) and its wrapper lets one signature verify on shifted messages (<a href=\"https://ngcc.dev/reports/sign-33.html#sign-33-7-moving-the-messagesignature-boundary-forges-new-messages\">Saarinen</a>)."
     sources:
       - https://ngcc.dev/reports/sign-33.html
       - https://groups.google.com/a/list.nist.gov/g/pqc-forum/c/mYN9Br_C8dg/m/BDmmwIE6BAAJ
@@ -1501,7 +1507,7 @@
   spec: Algorithm specifications/cheetah_kem_en.pdf
   findings:
     url: https://ngcc.dev/reports/kem-09.html
-    implementation: "A faulty rejection mask in the submitted decapsulation returns most bits of the true shared secret for modified ciphertexts (<a href=\"https://ngcc.dev/reports/kem-09.html#kem-09-1-partial-rejection-mask-leaks-the-candidate-shared-secret\">Saarinen</a>)."
+    implementation: "A faulty rejection mask in the submitted decapsulation returns most bits of the true shared secret for modified ciphertexts (<a href=\"https://ngcc.dev/reports/kem-09.html#kem-09-1-partial-rejection-mask-leaks-the-candidate-shared-secret\">Saarinen</a>). Its rejection key also hashes the re-encryption instead of the received ciphertext, so decapsulation queries recover the secret key (<a href=\"https://ngcc.dev/reports/kem-09.html#kem-09-4-the-rejection-key-hashes-the-re-encryption-instead-of-the-received-ciphertext\">Saarinen</a>)."
     sources:
       - https://ngcc.dev/reports/kem-09.html
   instances:
@@ -1765,7 +1771,7 @@
   spec: Algorithm specifications/loong_kem_en.pdf
   findings:
     url: https://ngcc.dev/reports/kem-18.html
-    implementation: "A faulty rejection mask in the submitted decapsulation returns the true shared secret for modified ciphertexts (<a href=\"https://ngcc.dev/reports/kem-18.html#kem-18-1-partial-rejection-mask-leaks-the-candidate-shared-secret\">Saarinen</a>)."
+    implementation: "A faulty rejection mask in the submitted decapsulation returns the true shared secret for modified ciphertexts (<a href=\"https://ngcc.dev/reports/kem-18.html#kem-18-1-partial-rejection-mask-leaks-the-candidate-shared-secret\">Saarinen</a>). Its rejection key also hashes the re-encryption instead of the received ciphertext, so decapsulation queries recover the secret key (<a href=\"https://ngcc.dev/reports/kem-18.html#kem-18-4-the-rejection-key-hashes-the-re-encryption-instead-of-the-received-ciphertext\">Saarinen</a>)."
     sources:
       - https://ngcc.dev/reports/kem-18.html
       - https://list.niccs.org.cn/archives/list/pkcforum@list.niccs.org.cn/message/VBOUFRS2CDGNLPEAR4ZBKZM4U5YHBTZY/
@@ -1892,10 +1898,12 @@
       ngcc_level: 256
       ref: "Table 2 (PDF p. 4)"
     - instance: MAMBA-Viper-384
+      broken: "The specification derives every session secret from a 256-bit seed, so a passive search recovers shared keys below this set's target (<a href=\"https://ngcc.dev/reports/kem-21.html#kem-21-2-viper-384-and-512-derive-the-encapsulation-secret-from-a-256-bit-seed\">Saarinen</a>)."
       implementation: "The submitted code derives the secret from a 256-bit seed, so key search falls below this set's target (<a href=\"https://ngcc.dev/reports/kem-21.html#kem-21-1-viper-384-and-512-restrict-the-secret-to-a-256-bit-seed\">Saarinen</a>)."
       ngcc_level: 384
       ref: "Table 2 (PDF p. 4)"
     - instance: MAMBA-Viper-512
+      broken: "The specification derives every session secret from a 256-bit seed, so a passive search recovers shared keys below this set's target (<a href=\"https://ngcc.dev/reports/kem-21.html#kem-21-2-viper-384-and-512-derive-the-encapsulation-secret-from-a-256-bit-seed\">Saarinen</a>)."
       implementation: "The submitted code derives the secret from a 256-bit seed, so key search falls below this set's target (<a href=\"https://ngcc.dev/reports/kem-21.html#kem-21-1-viper-384-and-512-restrict-the-secret-to-a-256-bit-seed\">Saarinen</a>)."
       ngcc_level: 512
       ref: "Table 2 (PDF p. 4)"
@@ -2230,7 +2238,7 @@
       ngcc_level: 256
       ref: "§3.2.2; Table 2 (PDF p. 19): 272.90 bits"
     - instance: QCTM512
-      implementation: "The bundled random generator limits key-generation randomness to 384 bits, below the 512-bit target (<a href=\"https://ngcc.dev/reports/kem-32.html#kem-32-3-the-bundled-rng-limits-qctm-512-key-generation-randomness-to-384-bits\">Saarinen</a>)."
+      implementation: "The bundled random generator limits key-generation and encapsulation randomness to 384 bits, below the 512-bit target (<a href=\"https://ngcc.dev/reports/kem-32.html#kem-32-3-the-bundled-rng-limits-qctm-512-key-generation-and-encapsulation-randomness-to-384-bits\">Saarinen</a>)."
       ngcc_level: 512
       ref: "§3.2.3; Table 3 (PDF p. 19): 530.30 bits"
 # Inventory shows only the macro "qube"; instance names are the spec names (directories qube-128 ... qube-512; no KAT for 192).
@@ -2244,8 +2252,9 @@
   spec: Algorithm specifications/Algorithm specifications.pdf
   findings:
     url: https://ngcc.dev/reports/kem-33.html
-    implementation: "The optimised implementation produces predictable keys and encapsulations (<a href=\"https://list.niccs.org.cn/archives/list/pkcforum@list.niccs.org.cn/message/RFAWJMFS3YHSQG4HMPKOCVYLX7BZK3YX/\">Xiong and Wang</a>)."
+    implementation: "The optimised implementation produces predictable keys and encapsulations (<a href=\"https://list.niccs.org.cn/archives/list/pkcforum@list.niccs.org.cn/message/RFAWJMFS3YHSQG4HMPKOCVYLX7BZK3YX/\">Xiong and Wang</a>). Its FO check compares only part of each ciphertext, so one altered ciphertext decapsulates to the challenge key (<a href=\"https://ngcc.dev/reports/kem-33.html#kem-33-4-the-optimized-fo-check-compares-word-counts-as-byte-counts\">Saarinen</a>)."
     sources:
+      - https://ngcc.dev/reports/kem-33.html
       - https://list.niccs.org.cn/archives/list/pkcforum@list.niccs.org.cn/message/RFAWJMFS3YHSQG4HMPKOCVYLX7BZK3YX/
   instances:
     - instance: QUBE-128

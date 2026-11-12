@@ -57,4 +57,4 @@ parametersets:
   bench_env: 2026-10-16-c8i.4xlarge
   notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 findings_url: https://ngcc.dev/reports/kem-18.html
-implementation: A faulty rejection mask in the submitted decapsulation returns the true shared secret for modified ciphertexts (<a href="https://ngcc.dev/reports/kem-18.html#kem-18-1-partial-rejection-mask-leaks-the-candidate-shared-secret">Saarinen</a>).
+implementation: A faulty rejection mask in the submitted decapsulation returns the true shared secret for modified ciphertexts (<a href="https://ngcc.dev/reports/kem-18.html#kem-18-1-partial-rejection-mask-leaks-the-candidate-shared-secret">Saarinen</a>). Its rejection key also hashes the re-encryption instead of the received ciphertext, so decapsulation queries recover the secret key (<a href="https://ngcc.dev/reports/kem-18.html#kem-18-4-the-rejection-key-hashes-the-re-encryption-instead-of-the-received-ciphertext">Saarinen</a>).

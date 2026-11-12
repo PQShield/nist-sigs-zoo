@@ -33,6 +33,7 @@ versions:
     verification_us: 588826.9
     bench_env: 2026-10-16-c8i.4xlarge
     notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it; our build applies a small patch to the submitted code.
+    broken: Correlated pairs in signatures reveal an equivalent signing key from about 300 signatures, enabling forgery (<a href="https://list.niccs.org.cn/archives/list/pkcforum@list.niccs.org.cn/message/SDUWEI2UT7BAEIDNVKTSMJF3YYJXUDFQ/">Feussner</a>, extended by <a href="https://ngcc.dev/reports/sign-32.html#sign-32-3-pair-correlated-signatures-recover-an-equivalent-uvw-128-or-uvw-256-signing-key">Saarinen</a>).
   - name: UVW-512
     ngcc_level: 512
     recommended: true

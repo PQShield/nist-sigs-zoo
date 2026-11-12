@@ -55,4 +55,4 @@ parametersets:
   bench_env: 2026-10-16-c8i.4xlarge
   notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 findings_url: https://ngcc.dev/reports/kem-33.html
-implementation: The optimised implementation produces predictable keys and encapsulations (<a href="https://list.niccs.org.cn/archives/list/pkcforum@list.niccs.org.cn/message/RFAWJMFS3YHSQG4HMPKOCVYLX7BZK3YX/">Xiong and Wang</a>).
+implementation: The optimised implementation produces predictable keys and encapsulations (<a href="https://list.niccs.org.cn/archives/list/pkcforum@list.niccs.org.cn/message/RFAWJMFS3YHSQG4HMPKOCVYLX7BZK3YX/">Xiong and Wang</a>). Its FO check compares only part of each ciphertext, so one altered ciphertext decapsulates to the challenge key (<a href="https://ngcc.dev/reports/kem-33.html#kem-33-4-the-optimized-fo-check-compares-word-counts-as-byte-counts">Saarinen</a>).
