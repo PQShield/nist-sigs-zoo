@@ -1,3 +1,10 @@
+- date: '2026-10-26'
+  added: '2026-11-12'
+  type: attack
+  description: "UVW KEM: Liping Wang (<a href=\"https://list.niccs.org.cn/archives/list/pkcforum@list.niccs.org.cn/message/D2DTPPLQWKGE3QZQCTDEMXYPKPGHXH4A/\">PKC Forum</a>) applies the cubic-jet multiplicity method of Ghoshal, Ishai, Jain and Sun (<a href=\"https://eprint.iacr.org/2026/1630\">ePrint 2026/1630</a>) and Weis (<a href=\"https://eprint.iacr.org/2026/1984\">ePrint 2026/1984</a>) to shortened public codes, following the shortening approach of Couvreur, Lequesne and Tillich for RLCE. This distinguishes UVW public keys from random codes and refutes the (U+V, U+W) code-distinguishing assumption of the security proof. The post estimates key recovery at 2^53.68, 2^57.75 and 2^61.56 bit operations for UVW-KEM-128, -256 and -512, far below the 128-, 256- and 512-bit targets. Saarinen (<a href=\"https://ngcc.dev/reports/kem-38.html#kem-38-8-cubic-jet-syzygies-recover-uvws-secret-structure-from-the-public-key\">ngcc.dev</a>) recovers an equivalent decapsulation key of UVW-KEM-128 from the public key alone in under a minute on 28 cores and confirms the distinguisher on a UVW-KEM-256 key. Key recovery has not been run for UVW-KEM-256 or -512. Yongge Wang (<a href=\"https://eprint.iacr.org/2026/2710\">ePrint 2026/2710</a>) predicts the same weakness at every parameter set. All three sets are now flagged broken."
+  programmes: [china-ngcc]
+  schemes: [UVW KEM]
+
 - date: '2026-10-16'
   added: '2026-11-10'
   type: update
