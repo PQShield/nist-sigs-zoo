@@ -2,9 +2,14 @@ import type { HistoryEntry } from './types';
 
 export type SchemeEventKind = HistoryEntry['type'] | 'version';
 
+/** The date the entry reached the site, when it differs from the event date; else null. */
+export function lateAdded(entry: HistoryEntry): string | null {
+	return entry.added !== entry.date ? entry.added : null;
+}
+
 export interface SchemeEvent {
 	date: string;
-	/** When the history entry reached the site, if later than `date` (see `HistoryEntry.added`). */
+	/** When the history entry reached the site, if that differs from `date` (see `HistoryEntry.added`). */
 	added: string | null;
 	kind: SchemeEventKind;
 	/** Version label for 'version' events. */
@@ -39,7 +44,7 @@ export function schemeEvents(
 		if (update) merged.add(update);
 		return {
 			date: v.date,
-			added: update?.added ?? null,
+			added: update ? lateAdded(update) : null,
 			kind: 'version',
 			title: v.version,
 			html: update?.description ?? null
@@ -47,7 +52,7 @@ export function schemeEvents(
 	});
 	for (const e of mine) {
 		if (!merged.has(e))
-			events.push({ date: e.date, added: e.added ?? null, kind: e.type, title: null, html: e.description });
+			events.push({ date: e.date, added: lateAdded(e), kind: e.type, title: null, html: e.description });
 	}
 	return events.sort((a, b) => b.date.localeCompare(a.date) || KIND_ORDER.indexOf(a.kind) - KIND_ORDER.indexOf(b.kind));
 }

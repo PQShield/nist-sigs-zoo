@@ -10,7 +10,8 @@ const load = <T>(file: string): T => yaml.load(fs.readFileSync(file, 'utf8')) as
 const yamlFiles = (dir: string) => fs.readdirSync(path.join(DATA, dir)).filter((f) => f.endsWith('.yaml'));
 
 interface Entry {
-	added?: string;
+	date: string;
+	added: string;
 	type: string;
 	schemes?: string[];
 	programmes?: string[];
@@ -69,7 +70,7 @@ test.describe('timeline', () => {
 		const gijs = events(page).filter({ hasText: 'Ghoshal, Ishai, Jain and Sun' });
 		await expect(gijs.locator('time').first()).toHaveAttribute('datetime', '2026-08-07');
 		await expect(gijs).toContainText('(added to site 10 Nov 2026)');
-		const withAdded = HISTORY.filter((e) => e.added).length;
+		const withAdded = HISTORY.filter((e) => e.added !== e.date).length;
 		await expect(page.getByText(/^\(added to site /)).toHaveCount(withAdded);
 	});
 

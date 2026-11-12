@@ -1,19 +1,32 @@
 import { describe, expect, it } from 'vitest';
-import { schemeEvents } from '#lib/schemeHistory.ts';
+import { lateAdded, schemeEvents } from '#lib/schemeHistory.ts';
 import type { HistoryEntry } from '#lib/types.ts';
 
 const HISTORY: HistoryEntry[] = [
 	{ date: '2025-01-01', added: '2025-02-01', type: 'update', description: 'v2 released', schemes: ['Toy'] },
-	{ date: '2025-01-01', type: 'attack', description: 'same-day attack', schemes: ['Toy', 'Other'] },
+	{
+		date: '2025-01-01',
+		added: '2025-01-01',
+		type: 'attack',
+		description: 'same-day attack',
+		schemes: ['Toy', 'Other']
+	},
 	{ date: '2024-06-01', added: '2024-07-01', type: 'milestone', description: 'round 2', schemes: ['Other', 'Toy'] },
-	{ date: '2024-03-01', type: 'update', description: 'other only', schemes: ['Other'] },
-	{ date: '2023-01-01', type: 'milestone', description: 'no schemes' }
+	{ date: '2024-03-01', added: '2024-03-01', type: 'update', description: 'other only', schemes: ['Other'] },
+	{ date: '2023-01-01', added: '2023-01-01', type: 'milestone', description: 'no schemes' }
 ];
 
 const VERSIONS = [
 	{ version: 'v2', date: '2025-01-01' },
 	{ version: 'v1', date: '2024-01-01' }
 ];
+
+describe('lateAdded', () => {
+	it('gives the added date only when it differs from the event date', () => {
+		expect(lateAdded(HISTORY[0])).toBe('2025-02-01');
+		expect(lateAdded(HISTORY[1])).toBeNull();
+	});
+});
 
 describe('schemeEvents', () => {
 	it('keeps only entries naming the scheme, merges same-day updates into versions (keeping their added date), newest first', () => {

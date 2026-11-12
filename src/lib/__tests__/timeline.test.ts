@@ -1,6 +1,5 @@
 import { describe, expect, it } from 'vitest';
 import {
-	addedDate,
 	decodeTimelineFilter,
 	defaultTimelineFilter,
 	encodeTimelineFilter,
@@ -84,7 +83,8 @@ const entry = (o: Partial<HistoryEntry> = {}): HistoryEntry => ({
 	date: '2026-01-01',
 	type: 'update',
 	description: 'x',
-	...o
+	...o,
+	added: o.added ?? o.date ?? '2026-01-01'
 });
 
 describe('schemeProgrammeIndex', () => {
@@ -149,11 +149,6 @@ describe('timelineItems', () => {
 });
 
 describe('added dates', () => {
-	it('falls back to the event date', () => {
-		expect(addedDate(entry({ date: '2026-01-02' }))).toBe('2026-01-02');
-		expect(addedDate(entry({ date: '2026-01-02', added: '2026-03-04' }))).toBe('2026-03-04');
-	});
-
 	it('lists the most recently added entries first, then by event date, then file order', () => {
 		const late = entry({ date: '2025-06-01', added: '2026-03-01', description: 'late' });
 		const sameDayOlder = entry({ date: '2025-01-01', added: '2026-03-01', description: 'same day, older event' });

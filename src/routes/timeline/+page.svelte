@@ -158,7 +158,7 @@
 								<time datetime={item.entry.date} class="font-mono text-xs text-pqs-steel dark:text-pqs-bluegray"
 									>{fmtDate(item.entry.date)}</time
 								>
-								{#if item.entry.added}
+								{#if item.entry.added !== item.entry.date}
 									<span class="font-mono text-xs text-pqs-steel dark:text-pqs-bluegray"
 										>(added to site <time datetime={item.entry.added}>{fmtDate(item.entry.added)}</time>)</span
 									>

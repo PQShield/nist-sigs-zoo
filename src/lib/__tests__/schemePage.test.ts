@@ -83,8 +83,8 @@ const KEM: KemSchemeYaml = {
 };
 
 const HISTORY: HistoryEntry[] = [
-	{ date: '2025-01-01', type: 'update', description: 'v2 out', schemes: ['Toy'] },
-	{ date: '2025-06-01', type: 'attack', description: 'KEM attack', schemes: ['ToyKEM'] }
+	{ date: '2025-01-01', added: '2025-01-01', type: 'update', description: 'v2 out', schemes: ['Toy'] },
+	{ date: '2025-06-01', added: '2025-06-01', type: 'attack', description: 'KEM attack', schemes: ['ToyKEM'] }
 ];
 
 describe('signaturePage', () => {

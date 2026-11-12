@@ -86,6 +86,7 @@
   schemes: [AIMer]
 
 - date: '2026-09-22'
+  added: '2026-09-22'
   type: attack
   description: "Key-recovery attack on SNOVA's biased vinegar sampling (Beullens &amp; Hess, IBM Research, <a href=\"https://groups.google.com/a/list.nist.gov/d/msgid/pqc-forum/000001dd4a73%247e3c04e0%247ab40ea0%24%40beullens.com\">pqc-forum OFFICIAL COMMENT</a>, paper to appear on ePrint): the round-3 signer draws vinegar variables by reducing uniform byte strings modulo q^g, which is never uniform when q is odd, so every signature yields noisy linear equations in the secret transformation T. Key recovery becomes a q-ary LPN problem with a known full-support error distribution, solved with BKW reduction plus Fourier hypothesis testing. This affects only the <strong>six odd-characteristic alternative parameter sets</strong> of Table 6 in the round-3 spec &mdash; (27 4 19 4 6), (27 5 13 4 4), (39 5 11 4 6), (38 5 19 4 6), (40 5 19 5 6) and (47 6 19 4 6) &mdash; all of which fall far below their claimed 170&ndash;331 bits (2^90&ndash;2^130 operations from ~6&ndash;11k signatures). Four were broken end to end against the unmodified reference implementation: 9M, 16.5M, 9M and 180M signatures recovered in 22s, 34s, 22s and 16min respectively (<a href=\"https://github.com/WardBeullens/SNOVA_LPN_Attack\">proof of concept</a>). <strong>The recommended parameter sets shown here (SNOVA_{I,III,V}_{K,B,S}) use q = 16 and are unaffected</strong>, since 16^g divides 256^b exactly; no flags are changed for them. The fix is simple: sample the vinegar variables uniformly, e.g. by rejection sampling as QR-UOV does. The first version of the attack was found independently by an AI system (gpt-5.6-sol); the authors verified it, improved it and wrote it up."
   schemes: [SNOVA]
@@ -163,6 +164,7 @@
   schemes: [Classic McEliece]
 
 - date: '2026-08-07'
+  added: '2026-08-07'
   type: attack
   description: "Passive full-key-recovery attack on MQOM v2 (Delgado, <a href=\"https://eprint.iacr.org/2026/1542\">ePrint 2026/1542</a>): the v2.x spec derives correlated GGM roots from a fresh master seed via a fixed, zero-salt PRG call (Algorithm 10), so repeated seeds across signatures, keys, and salts leak linear equations in the MQ witness. A parity-indexed XOR-collision attack recovers the complete signing key, but requires signature/query volumes at NIST's outer Q=2^64 permitted bound (~39% success in Category I) or substantial precomputation (tens of GiB&ndash;PiB of tables) to push higher; affects Categories I, III, and V, verified against every official tag from v2.0.0 through v2.1.1. Fix: salt-bound, domain-separated root expansion. v1.0 unaffected. Flagged as warning."
   schemes: [MQOM]
@@ -174,31 +176,37 @@
   schemes: [HAWK]
 
 - date: '2026-07-29'
+  added: '2026-07-29'
   type: attack
   description: "Deterministic key-recovery attack (Straznickas &amp; Weis, Anthropic, <a href=\"https://www-cdn.anthropic.com/e8d50c167ad47beeb03d6109a4a484be95cb38ea/hawk_key_recovery.pdf\">paper</a>) reduces HAWK-n key recovery to poly(n) calls to an exact-SVP oracle in dimension n/2+1, using a second Galois involution (τ: ζ↦−ζ) beyond the complex conjugation prior module-LIP attacks relied on. Lowers key-recovery cost from 2^150 to 2^108 gates (HAWK-512) and from 2^288 to 2^182 gates (HAWK-1024), both below their NIST level thresholds. The smaller HAWK-256 challenge parameter set was fully broken in practice: secret key recovered end-to-end in a few hours on a single 96-core server. Falcon is unaffected. Flagged as broken."
   schemes: [HAWK]
 
 - date: '2026-07-26'
+  added: '2026-07-26'
   type: attack
   description: "Improved algorithm for the supersingular isogeny problem (<a href=\"https://eprint.iacr.org/2026/1486\">ePrint 2026/1486</a>) achieves time/memory p^{1/3+o(1)}, down from the previous best p^{1/2}. Relies on an unproven heuristic smoothness assumption and has a superpolynomial overhead plus high memory cost; concrete impact on SQIsign's parameters not yet clarified. Flagged as warning."
   schemes: [SQIsign]
 
 - date: '2026-07-02'
+  added: '2026-07-02'
   type: update
   description: "Added SMAUG-T (finalist algorithm selected in Korea's KpqC competition) to the KEMs comparison page, with benchmarked keygen/encaps/decaps timings for SMAUG-T128, SMAUG-T192, and SMAUG-T256."
   schemes: [SMAUG-T]
 
 - date: '2026-07-02'
+  added: '2026-07-02'
   type: update
   description: "Added NTRU+ (finalist algorithm selected in Korea's KpqC competition) to the KEMs comparison page, with benchmarked keygen/encaps/decaps timings for NTRU+768, NTRU+864, and NTRU+1152."
   schemes: [NTRU+]
 
 - date: '2026-07-02'
+  added: '2026-07-02'
   type: update
   description: "Added SABER (NIST round-3 finalist, not selected) to the KEMs comparison page, with benchmarked keygen/encaps/decaps timings for LightSaber, Saber, and FireSaber."
   schemes: [SABER]
 
 - date: '2026-07-01'
+  added: '2026-07-01'
   type: update
   description: "Published a standalone KEMs comparison page — public-key and ciphertext sizes plus keygen/encaps/decaps benchmarks for ML-KEM, HQC, and classical ECDH."
 
@@ -209,31 +217,37 @@
   schemes: [MAYO]
 
 - date: '2026-05-26'
+  added: '2026-05-26'
   type: update
   description: "Updated FAEST performance data to use the AVX2+AES-NI optimized implementation (<a href=\"https://github.com/faest-sign/faest-arch-opt\">faest-arch-opt</a>) instead of the reference implementation. Signing is 10–100× faster depending on the parameter set."
   schemes: [FAEST]
 
 - date: '2026-05-26'
+  added: '2026-05-26'
   type: update
   description: "Updated SNOVA to v2.3 (2026-04-03). Split round-2 and round-3 data: round-3 now shows the 14 current parameter sets from the v2.3 spec (l=4 variants retained with warnings, new q=19 variants, rectangular 4×5 structure added per \"Rectangular signatures\" update)."
   schemes: [SNOVA]
 
 - date: '2026-05-14'
+  added: '2026-05-14'
   type: milestone
   description: "NIST announced 9 Round 3 candidates for additional post-quantum signature schemes: FAEST, HAWK, MAYO, MQOM, QR-UOV, SDitH, SNOVA, SQIsign, UOV. Rationale in <a href=\"https://csrc.nist.gov/pubs/ir/8610/final\">NIST IR 8610</a>. <a href=\"https://csrc.nist.gov/projects/pqc-dig-sig/round-3-additional-signatures\">Round 3 candidates</a>."
   schemes: [FAEST, HAWK, MAYO, MQOM, QR-UOV, SDitH, SNOVA, SQIsign, UOV]
 
 - date: '2026-05-09'
+  added: '2026-05-09'
   type: attack
   description: "Updated UOV security flags based on pℓ-truncated polynomial ring intersection attack (Furue &amp; Ikematsu, <a href=\"https://eprint.iacr.org/2026/298\">ePrint 2026/298</a>). Improves on Ran's wedge attack for Ip (~128 bits), III (~182 bits), V (~223 bits). Is parameter sets newly flagged as warning (~159 bits, still above threshold)."
   schemes: [UOV]
 
 - date: '2026-05-09'
+  added: '2026-05-09'
   type: attack
   description: "Updated UOV and MAYO security flags based on wedge attack (Ran, <a href=\"https://eprint.iacr.org/2025/1143\">ePrint 2025/1143</a>). MAYO-2 (\"two\") marked broken (~113 bits, below 128-bit threshold). UOV Ip, III, and V parameter sets marked with warning (reduced but still above threshold). UOV Is unaffected."
   schemes: [UOV, MAYO]
 
 - date: '2026-05-09'
+  added: '2026-05-09'
   type: attack
   description: "Updated SNOVA security flags based on wedge product attack (Bros et al., <a href=\"https://eprint.iacr.org/2026/237\">ePrint 2026/237</a>). 6 parameter sets marked broken: (37 17 2), (25 8 3), (56 25 2), (24 5 5), (75 33 2), (29 6 5). 2 parameter sets marked with warning: (24 5 4), (37 8 4)."
   schemes: [SNOVA]
@@ -251,10 +265,12 @@
   schemes: [AIMer]
 
 - date: '2026-05-07'
+  added: '2026-05-07'
   type: update
   description: Fixed some typos in scheme data. <a href="https://github.com/PQShield/nist-sigs-zoo/commit/355b685ab03fa8f51b8bd1fec2b17e46ed701ffa">commit</a>
 
 - date: '2026-05-07'
+  added: '2026-05-07'
   type: update
   description: Website rewritten with SvelteKit, Tailwind CSS v4, and a new round selector, filter panel, and scatter plot.
 

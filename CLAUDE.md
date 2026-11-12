@@ -183,7 +183,7 @@ updates, new attacks, milestone events).
 
 ```yaml
 - date: '2026-05-26'          # ISO date, quoted (unquoted dates become Date objects and fail the data test)
-  added: '2026-06-02'          # optional; the date the entry reaches main (the live site), when later than date
+  added: '2026-06-02'          # the date the entry reaches main (the live site); quoted, never before date
   type: update                 # update | attack | milestone | standardization
   description: "HTML string. Link tags allowed."
   schemes: [SNOVA]             # optional; signature or KEM `name:`s — each must exist (checked in dataFiles.test.ts; the build fails via slugOf)
@@ -194,9 +194,9 @@ Types: `update` (spec/data change), `attack` (new cryptanalysis result), `milest
 process event), `standardization` (a standard published; shown as "Standardisation").
 
 `date` is when the event happened (paper received, spec published). `added` is when the entry
-reaches `main`. Set it when that is later than `date`, and omit it otherwise (`dataFiles.test.ts`
-requires `added > date`). An entry that waits in a long-lived branch gets the merge date. The
-timeline, scheme pages and the home page show "added to site <date>" next to the event date. The
+reaches `main`. Every entry has both (`dataFiles.test.ts` requires `added >= date`). An entry that
+waits in a long-lived branch gets the merge date. Where the two differ, the timeline, scheme pages
+and the home page show "added to site <date>" next to the event date. The
 home page's "Latest changes" lists the three entries added most recently (`latestAdded()` in
 `src/lib/timeline.ts`). The footer's "data last changed" also uses `added`.
 
