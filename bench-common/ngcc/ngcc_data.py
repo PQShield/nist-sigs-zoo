@@ -294,7 +294,7 @@ def parameterset(
     info = " ".join(t for t in (inst.get("info"), kat_info(status.get(name))) if t)
     if info:
         ps["info"] = info
-    for flag in ("implementation", "broken"):
+    for flag in ("implementation", "warning", "broken"):
         if inst.get(flag):
             ps[flag] = inst[flag]
     # Last, where mark_dnf() also puts it, so imports and --ngcc-sizes agree on key order.
@@ -389,7 +389,7 @@ def scheme_doc(
     target = doc["versions"][0] if kind == "signature" else doc
     if findings:
         target["findings_url"] = findings["url"]
-        for flag in ("implementation", "broken"):
+        for flag in ("implementation", "warning", "broken"):
             if findings.get(flag):
                 target[flag] = findings[flag]
     return doc
