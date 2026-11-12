@@ -1,14 +1,8 @@
 - date: '2026-11-12'
   added: '2026-11-12'
   type: update
-  description: "ML-DSA, MAYO and ML-KEM: we moved our builds to the latest upstream code. ML-DSA uses the pq-crystals reference at <a href=\"https://github.com/pq-crystals/dilithium/commit/d35ba3f\">d35ba3f</a>, with two AVX2 conformance fixes by Gregor Seiler: the stricter infinity-norm check FIPS 204 requires (<a href=\"https://github.com/pq-crystals/dilithium/issues/113\">issue 113</a>) and the rounding of <code>use_hint</code> when the low part is zero (<a href=\"https://github.com/pq-crystals/dilithium/commit/bba9534\">bba9534</a>, reported by Eric Biggers). MAYO uses MAYO-C at <a href=\"https://github.com/PQCMayo/MAYO-C/commit/412cb8a13b\">412cb8a</a>, which makes the generic echelon-form routine constant-time; we build the AVX2 path, which this commit does not change. ML-KEM uses <a href=\"https://github.com/pq-code-package/mlkem-native/releases/tag/v2.0.0\">mlkem-native v2.0.0</a>. Sizes are unchanged and upstream's known-answer tests pass for every set. We re-benchmarked all three on AWS c8i.4xlarge; the timings do not change beyond run-to-run variation."
+  description: "ML-DSA, MAYO and ML-KEM: we moved our builds to the latest upstream code. ML-DSA uses the pq-crystals reference at <a href=\"https://github.com/pq-crystals/dilithium/commit/d35ba3f\">d35ba3f</a>, with two AVX2 conformance fixes by Gregor Seiler: the stricter infinity-norm check FIPS 204 requires (<a href=\"https://github.com/pq-crystals/dilithium/issues/113\">issue 113</a>) and the rounding of <code>use_hint</code> when the low part is zero (<a href=\"https://github.com/pq-crystals/dilithium/commit/bba9534\">bba9534</a>, reported by Eric Biggers). MAYO uses MAYO-C at <a href=\"https://github.com/PQCMayo/MAYO-C/commit/412cb8a13b\">412cb8a</a>, which makes the generic echelon-form routine constant-time; our GFNI/AVX-512 build uses the AVX2 echelon-form code, which this commit does not change. ML-KEM uses <a href=\"https://github.com/pq-code-package/mlkem-native/releases/tag/v2.0.0\">mlkem-native v2.0.0</a>. Sizes are unchanged and upstream's known-answer tests pass for every set. We re-benchmarked all three on AWS c8i.4xlarge; the timings do not change beyond run-to-run variation."
   schemes: [ML-DSA, MAYO, ML-KEM]
-
-- date: '2026-07-13'
-  added: '2026-11-12'
-  type: update
-  description: "LESS v2.1: the designers released code <a href=\"https://github.com/less-sig/LESS/releases/tag/v2.1.1\">v2.1.1</a>, which implements the optimised canonical forms of Beckwith, Esser, Persichetti, Santini and Zweydinger (<a href=\"https://eprint.iacr.org/2025/1424\">ePrint 2025/1424</a>, TCHES 2025). The parameter sets and sizes are those of the round-2 specification v2.0; signatures differ, so the known-answer tests changed. There is no new specification document. We build the AVX2 implementation of v2.1.1 and keep our timings of the round-2 code for v2.0. On AWS c8i.4xlarge, v2.1 signs 22% to 35% faster and verifies 23% to 42% faster than v2.0 (LESS-252-192: signing 61.6 to 40.1 ms, verification 58.4 to 33.9 ms)."
-  schemes: [LESS]
 
 - date: '2026-11-12'
   added: '2026-11-12'
@@ -242,6 +236,12 @@
   type: attack
   description: "Improved algorithm for the supersingular isogeny problem (<a href=\"https://eprint.iacr.org/2026/1486\">ePrint 2026/1486</a>) achieves time/memory p^{1/3+o(1)}, down from the previous best p^{1/2}. Relies on an unproven heuristic smoothness assumption and has a superpolynomial overhead plus high memory cost; concrete impact on SQIsign's parameters not yet clarified. Flagged as warning."
   schemes: [SQIsign]
+
+- date: '2026-07-13'
+  added: '2026-11-12'
+  type: update
+  description: "LESS v2.1 (code release <a href=\"https://github.com/less-sig/LESS/releases/tag/v2.1.1\">v2.1.1</a>) implements the optimised canonical forms of Beckwith, Esser, Persichetti, Santini and Zweydinger (<a href=\"https://eprint.iacr.org/2025/1424\">ePrint 2025/1424</a>, TCHES 2025). The parameter sets and sizes are those of the round-2 specification v2.0; signatures differ, so the known-answer tests changed. There is no new specification document. We build its AVX2 implementation and keep our timings of the round-2 code for v2.0. On AWS c8i.4xlarge, v2.1 signs 22% to 35% faster and verifies 23% to 42% faster than v2.0 (LESS-252-192: signing 61.6 to 40.1 ms, verification 58.4 to 33.9 ms)."
+  schemes: [LESS]
 
 - date: '2026-07-02'
   added: '2026-07-02'
