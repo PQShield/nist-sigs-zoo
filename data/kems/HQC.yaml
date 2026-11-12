@@ -5,7 +5,7 @@ assumption: QCSD
 status: To be standardized
 programmes:
   nist-pqc: selected
-info: Selected by NIST for standardisation (March 2025). Sizes from the 2025-08-22 specification.
+info: Selected by NIST for standardisation (March 2025). Sizes from the v5.1 specification (2026-11-09), which keeps the v5.0 key and ciphertext sizes; timings are from our benchmark of the v5.0 code until the next run.
 parametersets:
 - name: HQC-128
   level: 1
