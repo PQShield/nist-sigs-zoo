@@ -16,41 +16,41 @@ versions:
     recommended: true
     pk: 5554
     sig: 964
-    signing_cycles: 837196
-    verification_cycles: 346061
-    signing_us: 223.2
-    verification_us: 92.2
-    bench_env: 2026-10-16-c8i.4xlarge
+    signing_cycles: 836777
+    verification_cycles: 345899
+    signing_us: 216.0
+    verification_us: 89.9
+    bench_env: 2026-11-12-c8i.4xlarge
   - name: three
     level: 3
     recommended: true
     pk: 2986
     sig: 681
-    signing_cycles: 376218
-    verification_cycles: 155752
-    signing_us: 97.6
-    verification_us: 41.0
-    bench_env: 2026-10-16-c8i.4xlarge
+    signing_cycles: 379174
+    verification_cycles: 156361
+    signing_us: 98.4
+    verification_us: 41.2
+    bench_env: 2026-11-12-c8i.4xlarge
   - name: two
     level: 1
     recommended: true
     pk: 2928
     sig: 239
-    signing_cycles: 108944
-    verification_cycles: 43188
-    signing_us: 29.1
+    signing_cycles: 109506
+    verification_cycles: 43384
+    signing_us: 29.2
     verification_us: 12.2
-    bench_env: 2026-10-16-c8i.4xlarge
+    bench_env: 2026-11-12-c8i.4xlarge
   - name: one
     level: 1
     recommended: true
     pk: 1456
     sig: 464
-    signing_cycles: 183608
+    signing_cycles: 183900
     verification_cycles: 74246
-    signing_us: 48.2
+    signing_us: 48.3
     verification_us: 20.1
-    bench_env: 2026-10-16-c8i.4xlarge
+    bench_env: 2026-11-12-c8i.4xlarge
   - name: alt (85 76 9 9 16)
     level: 1
     pk: 1726

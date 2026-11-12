@@ -15,32 +15,67 @@ versions:
     pk: 13940
     sig: 2609
     notes: Signature size is the implementation's maximum (CRYPTO_BYTES); the v2.0 specification's Table 4 gives 2625 bytes.
+    signing_cycles: 155040344
+    verification_cycles: 130992778
+    signing_us: 40098.5
+    verification_us: 33883.9
+    bench_env: 2026-11-12-c8i.4xlarge
   - name: 252-68
     level: 1
     pk: 41788
     sig: 1825
+    signing_cycles: 56561687
+    verification_cycles: 51791239
+    signing_us: 14626.3
+    verification_us: 13395.1
+    bench_env: 2026-11-12-c8i.4xlarge
   - name: 252-45
     level: 1
     pk: 97484
     sig: 1329
+    signing_cycles: 37893827
+    verification_cycles: 35735598
+    signing_us: 9799.7
+    verification_us: 9243.9
+    bench_env: 2026-11-12-c8i.4xlarge
   - name: 400-220
     level: 3
     pk: 35074
     sig: 6353
     notes: Signature size is the implementation's maximum (CRYPTO_BYTES); the v2.0 specification's Table 4 gives 6329 bytes.
+    signing_cycles: 490668764
+    verification_cycles: 441599325
+    signing_us: 126889.0
+    verification_us: 114175.9
+    bench_env: 2026-11-12-c8i.4xlarge
   - name: 400-102
     level: 3
     pk: 105174
     sig: 4131
+    signing_cycles: 230264176
+    verification_cycles: 216287481
+    signing_us: 59536.8
+    verification_us: 55930.7
+    bench_env: 2026-11-12-c8i.4xlarge
   - name: 548-345
     level: 5
     pk: 65793
     sig: 10712
     notes: Signature size is the implementation's maximum (CRYPTO_BYTES); the v2.0 specification's Table 4 gives 10680 bytes.
+    signing_cycles: 1723520934
+    verification_cycles: 1595120202
+    signing_us: 445686.4
+    verification_us: 412368.4
+    bench_env: 2026-11-12-c8i.4xlarge
   - name: 548-137
     level: 5
     pk: 197315
     sig: 7436
+    signing_cycles: 692151882
+    verification_cycles: 677380721
+    signing_us: 178966.5
+    verification_us: 175193.0
+    bench_env: 2026-11-12-c8i.4xlarge
 - version: v2.0
   date: '2025-02-07'
   status: On-ramp

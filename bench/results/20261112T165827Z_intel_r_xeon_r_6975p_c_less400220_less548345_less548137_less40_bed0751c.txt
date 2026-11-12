@@ -1,0 +1,78 @@
+# pq-sigs benchmark results
+# date:         2026-11-12T16:58:27Z
+# host:         ip-172-31-15-173
+# commit:       0369a540186e59b67dc2a3694bc83d1fe33e3fee
+# instance_type: c8i.4xlarge
+# os:           Ubuntu 26.04.1 LTS
+# kernel:       7.0.0-1016-aws
+# cpu:          Intel(R) Xeon(R) 6975P-C
+# cores:        16 (threads/core: 2)
+# max_freq_mhz: unknown (cur: unknown MHz)
+# governor:     unknown
+# turbo:        unknown
+# flags:        fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ss ht syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon rep_good nopl xtopology nonstop_tsc cpuid aperfmperf tsc_known_freq pni pclmulqdq monitor ssse3 fma cx16 pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand hypervisor lahf_lm abm 3dnowprefetch cpuid_fault ssbd ibrs ibpb stibp ibrs_enhanced fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid avx512f avx512dq rdseed adx smap avx512ifma clflushopt clwb avx512cd sha_ni avx512bw avx512vl xsaveopt xsavec xgetbv1 xsaves avx_vnni avx512_bf16 wbnoinvd ida arat avx512vbmi umip pku ospke waitpkg avx512_vbmi2 gfni vaes vpclmulqdq avx512_vnni avx512_bitalg tme avx512_vpopcntdq rdpid bus_lock_detect cldemote movdiri movdir64b md_clear serialize amx_bf16 avx512_fp16 amx_tile amx_int8 flush_l1d arch_capabilities
+#
+# compiler:     cc (Ubuntu 15.2.0-16ubuntu1) 15.2.0
+# openssl:      OpenSSL 3.5.5 27 Jan 2026 (Library: OpenSSL 3.5.5 27 Jan 2026)
+# sources:
+#   schemes/aimer/ref: https://github.com/samsungsds-opensource/AIMer@734cc76fa4695ca8c8eaa070508db8ff62205e68
+#   schemes/cross/ref: https://github.com/CROSS-signature/CROSS-implementation@b2a84251c83840e016aaaabc5ca82fafc91ee5ef
+#   schemes/faest/ref: https://github.com/faest-sign/faest-arch-opt@1d8330979cb467c54edac43ffe695da249fa3417
+#   schemes/faest_r2/ref: https://github.com/faest-sign/faest-arch-opt@7fe7d54f382396ae338051a4bde901f2417272ea
+#   schemes/fndsa/ref: https://github.com/pornin/c-fn-dsa@33026d4d2734049a23f065f77eea11c35de58d76
+#   schemes/fndsa_fx/ref: https://github.com/pornin/c-fn-dsa-fx32.64@1e6ef5d0fa7c577e5fea3c92e07ea9e2d0edbc2f
+#   schemes/hawk/ref: https://github.com/hawk-sign/dev@1b9fef52559273fe7b40fe3e22968eaedd3a4c2a
+#   schemes/hawk_r1/ref: https://github.com/hawk-sign/dev@ac3a98c3107ea030cc18fb2afef7f5655c588138
+#   schemes/less/ref: https://github.com/less-sig/LESS@6383430b9123e69d2ef6a6224f930972e3225610
+#   schemes/mayo/ref: https://github.com/PQCMayo/MAYO-C@412cb8a13bd7d6df1b6672c109a85f43c5f9f269
+#   schemes/mayo_r1/ref: https://github.com/PQCMayo/MAYO-C.git@3c9be9ea140b9c0352ed4bd7bb121493b5ff92f3
+#   schemes/mayo_r2/ref: https://github.com/PQCMayo/MAYO-C.git@11ff0f04eb58f955d14d11b8739b8093720678ae
+#   schemes/mldsa/ref: https://github.com/pq-crystals/dilithium.git@d35ba3fe5449bee3e6d43e1f296c3ca818bd36be
+#   schemes/mqom/ref: https://github.com/mqom/mqom-v3@d9c64e386b186ee186684a0389fc32009bd67cd1
+#   schemes/mqom_r2/ref: https://github.com/mqom/mqom-v2@377f5cea4d5fbe0ec357bb08953623a29de00072
+#   schemes/qruov/ref: https://github.com/qruov/round3.git@3d84d0f6afae80c88deefab03b1dd6633a147f96
+#   schemes/qruov_r2/ref: https://github.com/qruov/round2.git@bc2c9616c5f8b2b9ba4688733d7b1488f900b336
+#   schemes/sdith/ref: https://github.com/sdith/sdith@fff41ae5b12ba3c6b90d8f97b2ede57aa277a92f
+#   schemes/sdith2/ref: https://github.com/sdith/sdith@ce7adf06476674d4ff990f378f83f9981cd6745b
+#   schemes/slhdsa/ref: https://github.com/pq-code-package/slhdsa-c@2ee6f6853af95d5833a567cc4dcfd7f08d66bfd4
+#   schemes/snova/ref: https://github.com/PQCLAB-SNOVA/SNOVA.git@9b29c1e332cbd85757c8d6362a57b9a8c8298a38
+#   schemes/snova_r2/ref: https://github.com/PQCLAB-SNOVA/SNOVA.git@13182903755ade177e02d1fea77f0bd2e1e1a280
+#   schemes/sqisign/ref: https://github.com/SQISign/the-sqisign@6d017708db403bf83977fa70770fc4f7f9e9ff21
+#   schemes/sqisign_r1/ref: https://github.com/SQISign/the-sqisign@28ff420dd012b64fdca87729ba172ef8683172b1
+#   schemes/sqisign_r2/ref: https://github.com/SQISign/the-sqisign@91e9e464fe5400192d13e1f9240cbf180200a103
+#   schemes/uov/ref: https://github.com/pqov/pqov.git@fac2ec1fe6d8ea508eab4b98eb5341e1eed930a4
+#   schemes/uov_r1/ref: https://github.com/pqov/pqov.git@95aa9264d371213586bc6e29718a1636b02eef74
+#   schemes/uov_r2/ref: https://github.com/pqov/pqov.git@26e4171495978597237aae644b4f408929d783f2
+#   schemes/faest_r1: https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/round-1/submission-pkg/FAEST-submission.zip
+#   schemes/haetae: https://drive.usercontent.google.com/download?id=1pW6YS1wZ1gm8Neb8pY5EyYTkkdRIDmJ6&export=download
+#   schemes/mirath: https://pqc-mirath.org/assets/downloads/mirath_v2.1.0.zip
+#   schemes/mqom_r1: https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/round-1/submission-pkg/mqom-submission.zip
+#   schemes/ngcc: https://www.niccs.org.cn/niccs/Proposal/Public-Key%20Cryptographic%20Algorithms/Round%201%20candidates/
+#   schemes/perk: https://pqc-perk.org/assets/downloads/perk-v2.2.0.zip
+#   schemes/qruov_r1: https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/round-1/submission-pkg/QR-UOV-submission.zip
+#   schemes/ryde: https://pqc-ryde.org/assets/downloads/ryde_v2.1.0.zip
+#   schemes/sdith_r2: https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/round-2/submission-pkg/sdith-submission-round2.zip
+#   schemes/snova_r1: https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/round-1/submission-pkg/SNOVAnoKATs-submission.zip
+# filter:       LESS-400-220 LESS-548-345 LESS-548-137 LESS-400-102 LESS-252-45 LESS-252-192 LESS-252-68 MAYO-five ML-DSA-87 MAYO-three ML-DSA-65 MAYO-one ML-DSA-44 MAYO-two
+#
+# cyclecounter: rdpmc CPU_CYCLES (real core cycles, user-space)
+scheme                       iters    keygen (cyc)  keygen (us)      sign (cyc)   sign (us)    verify (cyc)  verify (us)
+------                       -----    ------------  -----------      ----------   ---------    ------------  ----------
+ML-DSA-44                     1000           72889        20.1          179129        50.2           77240        20.9
+ML-DSA-65                     1000          125184        33.6          276652        73.3          126069        33.5
+ML-DSA-87                     1000          198071        52.3          356049        93.1          198274        52.0
+bench_load: schemes/slhdsa/build/slhdsa_shake_192f.so: bench_info not found
+bench_load: schemes/slhdsa/build/slhdsa_shake_128_24.so: bench_info not found
+bench_load: schemes/slhdsa/build/slhdsa_shake_192_24.so: bench_info not found
+MAYO-one                      1000           66577        18.2          183900        48.3           74246        20.1
+MAYO-two                      1000           56562        15.6          109506        29.2           43384        12.2
+MAYO-three                    1000          166119        43.7          379174        98.4          156361        41.2
+MAYO-five                     1000          365104        94.8          836777       216.0          345899        89.9
+LESS-252-192                   180          801551       207.2       155040344     40098.5       130992778     33883.9
+LESS-252-68                    480         1986169       515.1        56561687     14626.3        51791239     13395.1
+LESS-252-45                    730         4363860      1129.3        37893827      9799.7        35735598      9243.9
+LESS-400-220                    70         2435785       631.5       490668764    126889.0       441599325    114175.9
+LESS-400-102                   140         6200993      1605.7       230264176     59536.8       216287481     55930.7
+LESS-548-345                    20         5462393      1409.6      1723520934    445686.4      1595120202    412368.4
+LESS-548-137                    50        14289998      3698.7       692151882    178966.5       677380721    175193.0
+
