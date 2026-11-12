@@ -20,6 +20,7 @@ versions:
     verification_us: 5280475.8
     bench_env: 2026-10-16-c8i.4xlarge
     notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+    broken: The specification's unsalted 128-bit round seeds allow a forgery after at most 2^64 signatures and about 2^95 work, below the target. The submitted code is salted (<a href="https://list.niccs.org.cn/archives/list/pkcforum@list.niccs.org.cn/message/2VDYFLE2UZG5ASUDLWANL5OTSRWTOTQ7/">Feussner</a>).
   - name: TRINE-128-ShortSig
     ngcc_level: 128
     pk: 63920
@@ -30,6 +31,7 @@ versions:
     verification_us: 1554773.8
     bench_env: 2026-10-16-c8i.4xlarge
     notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
+    broken: The specification's unsalted 128-bit round seeds allow a forgery after at most 2^64 signatures and about 2^95 work, below the target. The submitted code is salted (<a href="https://list.niccs.org.cn/archives/list/pkcforum@list.niccs.org.cn/message/2VDYFLE2UZG5ASUDLWANL5OTSRWTOTQ7/">Feussner</a>).
   - name: TRINE-256-Balanced
     ngcc_level: 256
     pk: 96064

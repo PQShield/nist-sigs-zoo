@@ -55,3 +55,4 @@ parametersets:
   bench_env: 2026-10-16-c8i.4xlarge
   notes: Reference implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
 findings_url: https://ngcc.dev/reports/kem-04.html
+broken: 'The specified rejection key hashes the re-encryption instead of the received ciphertext, so decapsulation queries recover the secret key: about 57,000 at BAG-Piglet-128, every set affected (<a href="https://ngcc.dev/reports/kem-04.html#kem-04-2-the-rejection-key-does-not-bind-the-received-ciphertext">Saarinen</a>).'

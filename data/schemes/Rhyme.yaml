@@ -64,6 +64,7 @@ versions:
     verification_us: 49.2
     bench_env: 2026-10-16-c8i.4xlarge
     notes: Reference implementation; our build applies a small patch to the submitted code.
+    warning: A signer that follows the specification's rejection bound leaks the secret tail after 40,000 signatures, enabling forgery. The submitted signer is not affected (<a href="https://list.niccs.org.cn/archives/list/pkcforum@list.niccs.org.cn/message/3FOEXR4RO5COXIJ7RQZH2GSXCTAH7V3R/">Feussner</a>).
   - name: Rhyme-SHAKE-256
     ngcc_level: 256
     pk: 1824

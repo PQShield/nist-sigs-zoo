@@ -42,3 +42,4 @@ versions:
     bench_env: 2026-10-16-c8i.4xlarge
     notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it.
   findings_url: https://ngcc.dev/reports/sign-17.html
+  broken: The specified challenge sampler allows forgeries from the public key alone in about 2^39, 2^45 and 2^90 trials for the three sets. The submitted code does not follow it (<a href="https://list.niccs.org.cn/archives/list/pkcforum@list.niccs.org.cn/message/P72SIPCDX7C2TRO36VBHX7GGMKGDNCIH/">Xiong and Wang</a>).

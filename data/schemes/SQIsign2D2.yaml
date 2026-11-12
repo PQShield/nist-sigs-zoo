@@ -72,3 +72,4 @@ versions:
     bench_env: 2026-10-16-c8i.4xlarge
     notes: Optimised x86 implementation; uses the ICCS placeholder hash/XOF (pseudohash/pseudoXOF) from the submission package; any timings include it; our build applies a small patch to the submitted code.
   findings_url: https://ngcc.dev/reports/sign-25.html
+  broken: The compact verifier never checks the transmitted challenge against the commitment, so one signature yields forgeries on fresh messages at every parameter set (<a href="https://list.niccs.org.cn/archives/list/pkcforum@list.niccs.org.cn/message/2M2QPP46J6K3E623EXZXGCU2QFZFDIL6/">Feussner</a>).
