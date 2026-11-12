@@ -3,7 +3,7 @@ license: CC-BY-4.0
 attribution: Thom Wiggers / PQShield
 environments:
 - id: 2026-11-12-c8i.4xlarge
-  date: '2026-11-12T15:14:30Z'
+  date: '2026-11-12T15:59:02Z'
   instance_type: c8i.4xlarge
   cpu:
     model: Intel(R) Xeon(R) 6975P-C
@@ -49,6 +49,7 @@ environments:
     snova: https://github.com/PQCLAB-SNOVA/SNOVA.git@ebdd7e29f7cc2a4e5852304c8ea418c3416b1eda
     snova_r1: https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/round-1/submission-pkg/SNOVAnoKATs-submission.zip
     snova_r2: https://github.com/PQCLAB-SNOVA/SNOVA.git@13182903755ade177e02d1fea77f0bd2e1e1a280
+    snova_r3: https://github.com/PQCLAB-SNOVA/SNOVA.git@9b29c1e332cbd85757c8d6362a57b9a8c8298a38
     sqisign: https://github.com/SQISign/the-sqisign@6d017708db403bf83977fa70770fc4f7f9e9ff21
     sqisign_r1: https://github.com/SQISign/the-sqisign@28ff420dd012b64fdca87729ba172ef8683172b1
     sqisign_r2: https://github.com/SQISign/the-sqisign@91e9e464fe5400192d13e1f9240cbf180200a103
