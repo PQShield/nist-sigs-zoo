@@ -190,15 +190,16 @@ The shim adapts upstream API conventions to the KEM contract. Notes:
   each shim. AVX2 is selected at runtime by the library's IFUNC dispatch. The shim
   wraps the IFUNC-dispatched `ntruprime_kem_<set>_{keypair,enc,dec}` (all return void
   → return 0; enc/dec already match the NIST arg order).
-- **HQC** (gitlab.com/pqc-hqc/hqc) exports the *bare* NIST API (`crypto_kem_*`) from
-  its own objects, so the shim does **not** wrap them — the loader resolves HQC's
-  directly, and `RTLD_LOCAL` isolates the three variants' identical symbols. The shim
-  only adds `bench_info()` and a `__attribute__((constructor))` that seeds HQC's
-  SHAKE PRNG (`prng_init`) — the upstream expects the NIST KAT harness to do this.
+- **HQC** (gitlab.com/pqc-hqc/hqc, v5.1.0) exports `hqc_kem_keygen/encaps/decaps`
+  (`encaps(K, c, ek)`, `decaps(K, dk, c)`) and expects the integrator to supply
+  `randombytes()`. The shim maps `crypto_kem_*` onto them (note the argument order) and backs
+  `randombytes()` with `getrandom()`. Since v5.1 the decapsulation key is the 32-byte seed.
   Variant (HQC-1/3/5) is selected by include path; the x86_64/avx256 implementation
-  is built (needs `-mavx2 -mpclmul`), with `gf2x.c`/`reed_solomon.c` per-variant.
+  is built (needs `-mavx2 -mpclmul`), with `gf2x.c`/`reed_solomon.c` per-variant. Upstream's
+  KATs: `cmake -S ref -B <dir> -G Ninja && cmake --build <dir> && ctest --test-dir <dir> -R kat`
+  (configure with the system `gcc` if a Nix compiler cannot find the OpenSSL headers).
 - **SABER** (KULeuven-COSIC/SABER) also exports the bare NIST API from its own
-  objects — same no-wrap shape as HQC — but the parameter set can't be chosen via
+  objects (no wrapping needed) — but the parameter set can't be chosen via
   `-D` on the command line: `AVX_Implementation_KEM/api.h` hardcodes
   `#define SABER_TYPE Saber` with no `#ifndef` guard, so a command-line macro of
   the same name loses (the header's own `#define` is processed later and wins).
@@ -218,7 +219,7 @@ The shim adapts upstream API conventions to the KEM contract. Notes:
   compiles it as an ordinary source file instead. A NIST round-3 finalist, not
   selected for standardisation.
 - **NTRU+** (ntruplus/ntruplus, KpqC-Final branch) exports the bare NIST API from its
-  own objects — same no-wrap shape as HQC/SABER — pk == ct for all sets. The AVX2
+  own objects — same no-wrap shape as SABER — pk == ct for all sets. The AVX2
   implementation's hand-written `.s` files address per-set lookup tables (`_16xv`,
   `zetas`, …) `%rip`-relative; those relocations only resolve when linking a shared
   object if the referenced symbols are DSO-local, so `consts.c` (where the tables are

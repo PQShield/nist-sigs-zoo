@@ -1,7 +1,8 @@
 include ../../../bench-common/flags.mk
-# LESS v2.0 (NIST round 2), AVX2 Optimized_Implementation. Upstream:
-#   https://github.com/less-sig/LESS  commit 9ec6915af5e2 ("release (#65)", 2025-02-04),
-#   byte-identical to the NIST round-2 submission package's code.
+# LESS v2.1.1, AVX2 Optimized_Implementation. Upstream:
+#   https://github.com/less-sig/LESS  tag v2.1.1, commit 6383430 (2026-07-13), which
+#   implements ePrint 2025/1424. Same parameter sets and sizes as v2.0 (NIST round 2,
+#   commit 9ec6915); the canonical-form code and so the KATs changed.
 # Mirrors Optimized_Implementation/avx2/CMakeLists.txt, Release build type (its default):
 # -std=gnu99 -DUSE_AVX2 -O3 -DNDEBUG -mavx2 -mavx -mbmi2 -mbmi -flto -ftree-vectorize
 # -funroll-loops. We keep the language, define and ISA flags and use the global flag set
@@ -16,6 +17,9 @@ LIB    := $(AVX2)/lib
 
 CFLAGS := -std=gnu99 -DUSE_AVX2 -Wall -Wextra -Wpedantic -Wno-type-limits \
           -mavx2 -mavx -mbmi2 -mbmi $(BENCH_CFLAGS) -fPIC
+# KeccakP-1600-AVX2.s has no .note.GNU-stack section, so ld marks the .so as needing an
+# executable stack, which newer glibc refuses to dlopen ("cannot enable executable stack").
+CFLAGS += -Wa,--noexecstack
 INCFLAGS := -I$(AVX2)/include
 
 # lib/*.c are symlinks into Optimized_Implementation/common/lib (sign.c deliberately omitted).

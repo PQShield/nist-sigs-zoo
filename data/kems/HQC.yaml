@@ -5,38 +5,38 @@ assumption: QCSD
 status: To be standardized
 programmes:
   nist-pqc: selected
-info: Selected by NIST for standardisation (March 2025). Sizes from the 2025-08-22 specification.
+info: Selected by NIST for standardisation (March 2025). Sizes from the v5.1 specification.
 parametersets:
 - name: HQC-128
   level: 1
   pk: 2241
   ct: 4433
-  keygen_cycles: 69083
-  encaps_cycles: 136458
-  decaps_cycles: 305958
-  keygen_us: 18.8
-  encaps_us: 36.1
-  decaps_us: 79.6
-  bench_env: 2026-10-16-c8i.4xlarge
+  keygen_cycles: 69746
+  encaps_cycles: 134685
+  decaps_cycles: 336917
+  keygen_us: 19.0
+  encaps_us: 35.7
+  decaps_us: 87.5
+  bench_env: 2026-11-12-c8i.4xlarge
 - name: HQC-192
   level: 3
   pk: 4514
   ct: 8978
-  keygen_cycles: 161653
-  encaps_cycles: 314864
-  decaps_cycles: 626871
-  keygen_us: 43.8
-  encaps_us: 84.0
-  decaps_us: 166.2
-  bench_env: 2026-10-16-c8i.4xlarge
+  keygen_cycles: 162551
+  encaps_cycles: 313836
+  decaps_cycles: 740592
+  keygen_us: 42.8
+  encaps_us: 81.6
+  decaps_us: 191.0
+  bench_env: 2026-11-12-c8i.4xlarge
 - name: HQC-256
   level: 5
   pk: 7237
   ct: 14421
-  keygen_cycles: 321470
-  encaps_cycles: 630564
-  decaps_cycles: 1214996
-  keygen_us: 86.1
-  encaps_us: 168.0
-  decaps_us: 324.0
-  bench_env: 2026-10-16-c8i.4xlarge
+  keygen_cycles: 322990
+  encaps_cycles: 629956
+  decaps_cycles: 1453280
+  keygen_us: 83.9
+  encaps_us: 162.6
+  decaps_us: 377.6
+  bench_env: 2026-11-12-c8i.4xlarge

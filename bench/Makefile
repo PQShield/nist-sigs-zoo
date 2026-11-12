@@ -154,6 +154,15 @@ SNOVA_R2_SOS = $(addprefix schemes/snova_r2/build/, \
     snova_r2_56_25_2.so snova_r2_49_11_3.so snova_r2_37_8_4.so \
     snova_r2_24_5_5.so snova_r2_75_33_2.so snova_r2_66_15_3.so \
     snova_r2_60_10_4.so snova_r2_29_6_5.so)
+SNOVA_R3_SOS = $(addprefix schemes/snova_r3/build/, \
+    snova_r3_i_k.so snova_r3_i_b.so snova_r3_i_s.so \
+    snova_r3_iii_k.so snova_r3_iii_b.so snova_r3_iii_s.so \
+    snova_r3_v_k.so snova_r3_v_b.so snova_r3_v_s.so \
+    snova_r3_27_3_16_4_7_5_84.so snova_r3_27_4_16_4_5_5_80.so snova_r3_27_4_19_4_6_5_96.so \
+    snova_r3_27_5_13_4_4_5_80.so snova_r3_50_17_16_2_2_17_68.so snova_r3_27_4_16_5_5_4_100.so \
+    snova_r3_33_5_16_4_5_6_100.so snova_r3_39_5_11_4_6_7_120.so snova_r3_38_5_19_4_6_7_120.so \
+    snova_r3_76_25_16_2_2_25_100.so snova_r3_40_5_19_5_6_6_150.so snova_r3_47_6_19_4_6_9_144.so \
+    snova_r3_104_33_16_2_2_33_132.so)
 SQISIGN_R1_SOS = $(addprefix schemes/sqisign_r1/build/, \
     sqisign_r1_lvl1.so sqisign_r1_lvl3.so sqisign_r1_lvl5.so)
 SQISIGN_R2_SOS = $(addprefix schemes/sqisign_r2/build/, \
@@ -169,8 +178,8 @@ QRUOV_R2_SOS = $(addprefix schemes/qruov_r2/build/, \
     qruov3q31L10v890m100.so qruov3q7L10v1100m140.so qruov5q127L3v306m105.so \
     qruov5q31L3v324m114.so qruov5q31L10v1120m120.so qruov5q7L10v1490m190.so)
 
-ALL_SOS     = $(MLDSA_SOS) $(SLHDSA_SOS) $(FNDSA_SOS) $(FNDSA_FX_SOS) $(CLASSIC_SOS) $(HAWK_SOS) $(MAYO_SOS) $(FAEST_SOS) $(SDITH_SOS) $(SDITH2_SOS) $(SNOVA_SOS) $(UOV_SOS) $(QRUOV_SOS) $(MQOM_SOS) $(SQISIGN_SOS) $(AIMER_SOS) $(HAETAE_SOS) $(MIRATH_SOS) $(RYDE_SOS) $(PERK_SOS) $(CROSS_SOS) $(LESS_SOS) $(MAYO_R1_SOS) $(MAYO_R2_SOS) $(HAWK_R1_SOS) $(SDITH_R2_SOS) $(MQOM_R1_SOS) $(MQOM_R2_SOS) $(UOV_R1_SOS) $(UOV_R2_SOS) $(FAEST_R1_SOS) $(FAEST_R2_SOS) $(SNOVA_R1_SOS) $(SNOVA_R2_SOS) $(SQISIGN_R1_SOS) $(SQISIGN_R2_SOS) $(QRUOV_R1_SOS) $(QRUOV_R2_SOS)
-SCHEME_DIRS = mldsa slhdsa fndsa fndsa_fx classic hawk mayo faest sdith sdith2 snova uov qruov mqom sqisign aimer haetae mirath ryde perk cross less mayo_r1 mayo_r2 hawk_r1 sdith_r2 mqom_r1 mqom_r2 uov_r1 uov_r2 faest_r1 faest_r2 snova_r1 snova_r2 sqisign_r1 sqisign_r2 qruov_r1 qruov_r2
+ALL_SOS     = $(MLDSA_SOS) $(SLHDSA_SOS) $(FNDSA_SOS) $(FNDSA_FX_SOS) $(CLASSIC_SOS) $(HAWK_SOS) $(MAYO_SOS) $(FAEST_SOS) $(SDITH_SOS) $(SDITH2_SOS) $(SNOVA_SOS) $(UOV_SOS) $(QRUOV_SOS) $(MQOM_SOS) $(SQISIGN_SOS) $(AIMER_SOS) $(HAETAE_SOS) $(MIRATH_SOS) $(RYDE_SOS) $(PERK_SOS) $(CROSS_SOS) $(LESS_SOS) $(MAYO_R1_SOS) $(MAYO_R2_SOS) $(HAWK_R1_SOS) $(SDITH_R2_SOS) $(MQOM_R1_SOS) $(MQOM_R2_SOS) $(UOV_R1_SOS) $(UOV_R2_SOS) $(FAEST_R1_SOS) $(FAEST_R2_SOS) $(SNOVA_R1_SOS) $(SNOVA_R2_SOS) $(SNOVA_R3_SOS) $(SQISIGN_R1_SOS) $(SQISIGN_R2_SOS) $(QRUOV_R1_SOS) $(QRUOV_R2_SOS)
+SCHEME_DIRS = mldsa slhdsa fndsa fndsa_fx classic hawk mayo faest sdith sdith2 snova uov qruov mqom sqisign aimer haetae mirath ryde perk cross less mayo_r1 mayo_r2 hawk_r1 sdith_r2 mqom_r1 mqom_r2 uov_r1 uov_r2 faest_r1 faest_r2 snova_r1 snova_r2 snova_r3 sqisign_r1 sqisign_r2 qruov_r1 qruov_r2
 STAMPS      = $(addprefix schemes/, $(addsuffix /.stamp, $(SCHEME_DIRS)))
 
 # China NGCC round-1 candidates: one generic ICCS-API shim, data-driven from
@@ -220,6 +229,7 @@ schemes/faest_r1/.stamp: schemes/faest_r1/Makefile schemes/faest_r1/shim_templat
 schemes/faest_r2/.stamp: schemes/faest_r2/Makefile schemes/faest_r2/shim_template.c schemes/faest_r2/params.tsv schemes/faest_r2/gen_faest.py
 schemes/snova_r1/.stamp: schemes/snova_r1/Makefile schemes/snova_r1/shim_template.c schemes/snova_r1/params.tsv schemes/snova_r1/.source
 schemes/snova_r2/.stamp: schemes/snova_r2/Makefile schemes/snova_r2/shim_template.c schemes/snova_r2/params.tsv
+schemes/snova_r3/.stamp: schemes/snova_r3/Makefile schemes/snova_r3/shim_template.c schemes/snova_r3/params.tsv
 schemes/sqisign_r1/.stamp: schemes/sqisign_r1/Makefile schemes/sqisign_r1/shim_template.c schemes/sqisign_r1/params.tsv
 schemes/sqisign_r2/.stamp: schemes/sqisign_r2/Makefile schemes/sqisign_r2/shim_template.c schemes/sqisign_r2/params.tsv schemes/sqisign_r2/no_lto.cmake
 schemes/qruov_r1/.stamp: schemes/qruov_r1/Makefile schemes/qruov_r1/shim_template.c schemes/qruov_r1/params.tsv schemes/qruov_r1/.source schemes/qruov_r1/.source-openssl
@@ -271,6 +281,7 @@ $(FAEST_R1_SOS): schemes/faest_r1/.stamp
 $(FAEST_R2_SOS): schemes/faest_r2/.stamp
 $(SNOVA_R1_SOS): schemes/snova_r1/.stamp
 $(SNOVA_R2_SOS): schemes/snova_r2/.stamp
+$(SNOVA_R3_SOS): schemes/snova_r3/.stamp
 $(SQISIGN_R1_SOS): schemes/sqisign_r1/.stamp
 $(SQISIGN_R2_SOS): schemes/sqisign_r2/.stamp
 $(QRUOV_R1_SOS): schemes/qruov_r1/.stamp

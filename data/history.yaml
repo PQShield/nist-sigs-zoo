@@ -1,6 +1,12 @@
 - date: '2026-11-12'
   added: '2026-11-12'
   type: update
+  description: "ML-DSA, MAYO and ML-KEM: we moved our builds to the latest upstream code. ML-DSA uses the pq-crystals reference at <a href=\"https://github.com/pq-crystals/dilithium/commit/d35ba3f\">d35ba3f</a>, with two AVX2 conformance fixes by Gregor Seiler: the stricter infinity-norm check FIPS 204 requires (<a href=\"https://github.com/pq-crystals/dilithium/issues/113\">issue 113</a>) and the rounding of <code>use_hint</code> when the low part is zero (<a href=\"https://github.com/pq-crystals/dilithium/commit/bba9534\">bba9534</a>, reported by Eric Biggers). MAYO uses MAYO-C at <a href=\"https://github.com/PQCMayo/MAYO-C/commit/412cb8a13b\">412cb8a</a>, which makes the generic echelon-form routine constant-time; our GFNI/AVX-512 build uses the AVX2 echelon-form code, which this commit does not change. ML-KEM uses <a href=\"https://github.com/pq-code-package/mlkem-native/releases/tag/v2.0.0\">mlkem-native v2.0.0</a>. Sizes are unchanged and upstream's known-answer tests pass for every set. We re-benchmarked all three on AWS c8i.4xlarge; the timings do not change beyond run-to-run variation."
+  schemes: [ML-DSA, MAYO, ML-KEM]
+
+- date: '2026-11-12'
+  added: '2026-11-12'
+  type: update
   description: "NGCC round 1: we checked every confirmed critical and high-severity finding on ngcc.dev against our data, and the PKC Forum, the ngcc-harness issues, the public analysis repositories and ePrint for findings ngcc.dev does not list. New broken flags: OPS-DSA, whose specified challenge sampler allows forgery from the public key in 2^39 to 2^90 trials (<a href=\"https://list.niccs.org.cn/archives/list/pkcforum@list.niccs.org.cn/message/P72SIPCDX7C2TRO36VBHX7GGMKGDNCIH/\">Xiong and Wang</a>); the compact SQIsign2D2 sets, where one signature yields forgeries on fresh messages (<a href=\"https://list.niccs.org.cn/archives/list/pkcforum@list.niccs.org.cn/message/2M2QPP46J6K3E623EXZXGCU2QFZFDIL6/\">Feussner</a>); BAG-Piglet, whose specified rejection key gives key recovery from decapsulation queries (<a href=\"https://ngcc.dev/reports/kem-04.html#kem-04-2-the-rejection-key-does-not-bind-the-received-ciphertext\">Saarinen</a>); MAMBA-Viper-384 and -512, whose specification derives every session secret from a 256-bit seed (<a href=\"https://ngcc.dev/reports/kem-21.html#kem-21-2-viper-384-and-512-derive-the-encapsulation-secret-from-a-256-bit-seed\">Saarinen</a>); FlexTree-160, where verifiers that follow the specification accept forgeries after about 2^40 work (<a href=\"https://ngcc.dev/reports/sign-11.html#sign-11-3-the-specified-ots-verifier-omits-its-encoding-checks\">Kudinov</a>); TRINE-128, whose specified unsalted round seeds allow forgery in about 2^95 work (<a href=\"https://list.niccs.org.cn/archives/list/pkcforum@list.niccs.org.cn/message/2VDYFLE2UZG5ASUDLWANL5OTSRWTOTQ7/\">Feussner</a>); and UVW-256 signatures, which leak an equivalent signing key as at UVW-128 (<a href=\"https://list.niccs.org.cn/archives/list/pkcforum@list.niccs.org.cn/message/SDUWEI2UT7BAEIDNVKTSMJF3YYJXUDFQ/\">Feussner</a>, extended by <a href=\"https://ngcc.dev/reports/sign-32.html#sign-32-3-pair-correlated-signatures-recover-an-equivalent-uvw-128-or-uvw-256-signing-key\">Saarinen</a>). New warnings: HEP-QC, whose public key is distinguishable from random (<a href=\"https://list.niccs.org.cn/archives/list/pkcforum@list.niccs.org.cn/message/XQ3A3A3IGNRQDLEQ6BD73ENALBGSDEO6/\">Xie</a>), and Rhyme-SHAKE-128, where a signer that follows the specified rejection bound leaks its secret (<a href=\"https://list.niccs.org.cn/archives/list/pkcforum@list.niccs.org.cn/message/3FOEXR4RO5COXIJ7RQZH2GSXCTAH7V3R/\">Feussner</a>). New implementation notes cover rejection keys over the re-encryption (CheetahKEM, LoongKEM), partial FO checks (QUBE), buffer overflows (Amoeba, MORNING-ATLAS), 32-bit message lengths (Aigis-Sig+, CS), message compression and short prehashes (COMPASS-SIG, VDOO, Amoeba), wrapper boundaries and signed-message opening (VDOO, MORNING-ATLAS), malleable encodings (SQIsignTriangle) and fail-open key generation (ZEN). Each flag credits and links its finding."
   programmes: [china-ngcc]
   schemes: [OPS-DSA, SQIsign2D2, BAG-Piglet, MAMBA-Viper, FlexTree, TRINE, UVW signature, HEP-QC, Rhyme, CheetahKEM, LoongKEM, QUBE, Amoeba, MORNING-ATLAS, Aigis-Sig+, CS, COMPASS-SIG, VDOO, SQIsignTriangle, ZEN]
@@ -73,6 +79,12 @@
   description: "Benchmarked the round-1 candidates of China's NGCC programme on our own harness (AWS c7i.4xlarge, Intel Xeon Platinum 8488C, core cycles via rdpmc): 178 signature and 160 KEM parameter sets. Tins128/256/512 fail our sign/verify checks and are shown as not finished. We do not benchmark parameter sets that need more than 10 minutes for one signature or verification (TRINE-512-Balanced) or hours for key generation (UVW-512). A few submissions needed small fixes to their own code to run reliably; each is noted on the parameter set. The signature run also refreshes the timings of the NIST on-ramp schemes."
   programmes: [china-ngcc]
 
+- date: '2026-10-12'
+  added: '2026-11-12'
+  type: update
+  description: "HQC v5.1 (<a href=\"https://pqc-hqc.org/doc/hqc_specifications_v5.1.pdf\">specification</a>, 2026-10-12, revised 2026-11-09; <a href=\"https://groups.google.com/a/list.nist.gov/g/pqc-forum/c/8frP-TxHTzo\">announcement</a> by Bidoux) refines the decryption-failure analysis and raises the weights: &omega; by 1 for HQC-1, -3 and -5, and &omega;<sub>r</sub> by 1 for HQC-1 and -5, to offset minor cryptanalytic improvements. The decapsulation key becomes the 32-byte seed (previously 2,321, 4,602 and 7,333 bytes), the F<sub>2<sup>8</sup></sub> polynomial changes and the XOF domain separator changes. Public keys and ciphertexts keep their sizes. We now build the <a href=\"https://gitlab.com/pqc-hqc/hqc/-/tags/v5.1.0\">v5.1.0 release</a> (upstream KATs pass) and benchmarked it on AWS c8i.4xlarge on 2026-11-12. Key generation and encapsulation keep their speed; decapsulation is 10&ndash;17% slower (79.8&rarr;87.5, 166.9&rarr;191.0 and 322.7&rarr;377.6 µs), because it now expands the 32-byte key first."
+  schemes: [HQC]
+
 - date: '2026-10-09'
   added: '2026-11-10'
   type: update
@@ -93,11 +105,29 @@
   added: '2026-11-10'
   type: update
   description: "Scheme data now records which standardisation programmes each scheme belongs to (NIST PQC, NIST on-ramp, KpqC, ISO), in preparation for tracking China's NGCC programme."
+- date: '2026-09-28'
+  added: '2026-11-12'
+  type: attack
+  description: "Ostuzzi (<a href=\"https://eprint.iacr.org/2026/2247\">ePrint 2026/2247</a>) gives the first structural forgery on MAYO: whipping amplifies polar cancellations, which the Pseudo-Oil Attack exploits, and a separate multi-target reduction uses the homogeneity of the round-2 map. For round 2 the combination lowers the estimated forgery cost of MAYO1 from 2^146 to 2^128 bit operations, 15 bits below the 2^143 required for NIST Level I, and of MAYO3 from 2^223 to 2^207, exactly at the Level III requirement (Table 5); MAYO1 is now flagged broken and MAYO3 with a warning. The round-3 linear term blocks the multi-target reduction, and the structural attack alone lowers MAYO1, MAYO2 and MAYO3 from 2^153, 2^144 and 2^223 to 2^147, 2^140 and 2^221 (Table 6). MAYO2 falls 3 bits below Level I and is flagged broken; MAYO1 is flagged with a warning; MAYO3 is not flagged."
+  schemes: [MAYO]
+
 - date: '2026-09-27'
   added: '2026-11-10'
   type: attack
   description: "Public-key-only universal forgery on AIM2-based AIMer (Liu, Peng, Liu, Jia, Wang, Wang &amp; Fan, <a href=\"https://eprint.iacr.org/2026/2235\">ePrint 2026/2235</a>): BN++ checks each inverse Mersenne S-box of AIM2 through the quadratic relation t^(2^e) + &gamma;t = pt&middot;t, which holds for any pt when the S-box output t is zero. Setting all first-layer outputs to zero and pt = ct + b^(2^e*&minus;1), computed from the public key alone, gives a witness that satisfies every checked equation without being an AIM2 preimage; the unmodified prover then signs any message, with probability one, for every honest key of every parameter set. Forgeries were accepted by the unmodified reference verifier for AIMer-128f/192f/256f (about 11.6 ms per AIMer-256f forgery). The paper attacks the January 2026 AIM2 specification; v2.0 and v2.1 use the same relation, so we mark them broken. The AIMer team confirmed the attack, and the AIM3 relation of v3.0 rules out the zero branch. The paper also forges signatures for some Lynxer variants. v1.0 (AIM) is not covered by the paper."
   schemes: [AIMer]
+
+- date: '2026-09-26'
+  added: '2026-11-12'
+  type: attack
+  description: "Merz and Ran (<a href=\"https://eprint.iacr.org/2026/2181\">ePrint 2026/2181</a>) extend the wedge attack with divided squares of the polar forms and Schur&ndash;Macaulay matrices, removing its parameter threshold and covering odd characteristic. The attack applies to every round-2 parameter set of UOV, MAYO, SNOVA and QR-UOV but one; four alternate round-2 MAYO sets, which the site does not list, fall below their claimed level. After their disclosure the MAYO team dropped a planned round-3 set and raised the parameters of MAYO2 (see the round-3 entry of 2026-08-31). No set shown on the site falls below its level."
+  schemes: [UOV, MAYO, SNOVA, QR-UOV]
+
+- date: '2026-09-26'
+  added: '2026-11-12'
+  type: update
+  description: "SNOVA v3.1 (<a href=\"https://github.com/PQCLAB-SNOVA/SNOVA/blob/ebdd7e29f7cc2a4e5852304c8ea418c3416b1eda/Supporting_Documentation/SNOVA_v3.1.pdf\">specification</a>, September 2026; <a href=\"https://github.com/PQCLAB-SNOVA/SNOVA/commit/1c23d277fa\">code</a>) samples the vinegar variables by rejection sampling for odd q. This removes the bias that <a href=\"https://groups.google.com/a/list.nist.gov/d/msgid/pqc-forum/000001dd4a73%247e3c04e0%247ab40ea0%24%40beullens.com\">Beullens &amp; Hess</a> used to recover keys of the six odd-characteristic alternative sets of v3.0; those sets keep their broken flags under v3.0. Parameters and sizes are unchanged, and the q = 16 sets sample as before. We now build v3.1 (upstream commit <a href=\"https://github.com/PQCLAB-SNOVA/SNOVA/commit/ebdd7e29f7\">ebdd7e2</a>, which also fixes table initialisation in the reference <code>pk_expand()</code>) and benchmarked it on AWS c8i.4xlarge on 2026-11-12, the instance type of all other signature timings."
+  schemes: [SNOVA]
 
 - date: '2026-09-22'
   added: '2026-09-22'
@@ -165,6 +195,12 @@
   description: "MAYO published its round-3 spec (<a href=\"https://pqmayo.org/assets/specs/mayo-round3.pdf\">PDF</a>): MAYO2's parameters change to increase its margin against the Wedge attack (Ran, ePrint 2025/1143), shrinking its public key from 4912B to 2928B while growing its signature from 186B to 239B; MAYO1 grows slightly (pk 1420&rarr;1456B, sig 454&rarr;464B) to push the improved-MQ attack (Asanuma et al., ePrint 2026/1054) margin back above the NIST Level I threshold &mdash; both flags are dropped for the round-3 parameter sets. Also adds an explicit linear term to the verification equation to block a newly disclosed claw-finding forgery attack, and fixes a low-rank weakness in the whipping schedule. MAYO3 and MAYO5 sizes are unchanged. The team also widened MAYO2's margin further in response to a new, not-yet-public UOV-like key-recovery attack privately disclosed by Lars Ran and Simon-Philipp Merz shortly before the deadline."
   schemes: [MAYO]
 
+- date: '2026-08-26'
+  added: '2026-11-12'
+  type: attack
+  description: "Delgado (<a href=\"https://eprint.iacr.org/2026/1808\">ePrint 2026/1808</a>) recovers SDitH v2 signing keys across signatures: the round-2 VOLEitH PRG runs AES or Rijndael in counter mode from zero, so every signature and leaf uses the same input and one encryption tests a candidate seed against every exposed value. With 2^12 chosen-message signatures the attack costs 11.2 to 11.7 bits less than AES key search at all six parameter sets; reduced-keyspace runs against the official code recover witnesses and produce accepted fresh signatures. The round-2 version is flagged broken. SDitH v3.0 builds its counter blocks from a tweak and the salt and is not affected."
+  schemes: [SDitH]
+
 - date: '2026-08-19'
   added: '2026-11-10'
   type: update
@@ -200,6 +236,12 @@
   type: attack
   description: "Improved algorithm for the supersingular isogeny problem (<a href=\"https://eprint.iacr.org/2026/1486\">ePrint 2026/1486</a>) achieves time/memory p^{1/3+o(1)}, down from the previous best p^{1/2}. Relies on an unproven heuristic smoothness assumption and has a superpolynomial overhead plus high memory cost; concrete impact on SQIsign's parameters not yet clarified. Flagged as warning."
   schemes: [SQIsign]
+
+- date: '2026-07-13'
+  added: '2026-11-12'
+  type: update
+  description: "LESS v2.1 (code release <a href=\"https://github.com/less-sig/LESS/releases/tag/v2.1.1\">v2.1.1</a>) implements the optimised canonical forms of Beckwith, Esser, Persichetti, Santini and Zweydinger (<a href=\"https://eprint.iacr.org/2025/1424\">ePrint 2025/1424</a>, TCHES 2025). The parameter sets and sizes are those of the round-2 specification v2.0; signatures differ, so the known-answer tests changed. There is no new specification document. We build its AVX2 implementation and keep our timings of the round-2 code for v2.0. On AWS c8i.4xlarge, v2.1 signs 22% to 35% faster and verifies 23% to 42% faster than v2.0 (LESS-252-192: signing 61.6 to 40.1 ms, verification 58.4 to 33.9 ms)."
+  schemes: [LESS]
 
 - date: '2026-07-02'
   added: '2026-07-02'

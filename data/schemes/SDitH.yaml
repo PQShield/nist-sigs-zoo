@@ -143,6 +143,7 @@ versions:
   programmes:
     nist-onramp: round-2
   perf_source: our benchmark
+  broken: "Cross-signature signing-key recovery (<a href=\"https://eprint.iacr.org/2026/1808\">Delgado</a>, ePrint 2026/1808): the v2 VOLEitH PRG runs AES or Rijndael in counter mode from zero in every signature, so one key-search trial tests every exposed seed. With 2^12 chosen-message signatures the attack costs 11.2 to 11.7 bits less than AES key search at all six parameter sets. The round-3 v3.0 PRG salts its counter blocks."
   parametersets:
   - name: SDitH2-L1-gf2-short
     level: 1

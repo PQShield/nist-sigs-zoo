@@ -61,10 +61,11 @@ bench/
     ├── haetae/           # HAETAE 1.2.0 (official zip from Google Drive, vendored as HAETAE-1.2.0.zip, MIT; URL + sha256 in .source; reference implementation only)
     ├── mirath/ ryde/ perk/  # official round-2 zips (URL + sha256 in .source, fetched into build/dl; 30-36 MB each, so not vendored); AVX2 Optimized_Implementation
     ├── cross/            # CROSS-signature/CROSS-implementation v2.2 (Optimized_Implementation, AVX2)
-    ├── less/             # less-sig/LESS 9ec6915 = NIST round-2 code (Optimized_Implementation/avx2)
+    ├── less/             # less-sig/LESS v2.1.1 (post-round code, same sets as round 2; Optimized_Implementation/avx2)
     ├── <x>_r1/ <x>_r2/   # older NIST on-ramp rounds of the schemes still in the competition
     │                     #   (see "Older on-ramp rounds"): faest, hawk (r1 = r1+r2), mayo, mqom, qruov,
-    │                     #   sdith (r2; sdith/ = r1), snova, sqisign, uov
+    │                     #   sdith (r2; sdith/ = r1), snova, sqisign, uov; snova_r3/ = SNOVA v3.0
+    │                     #   (the round-3 submission) since snova/ builds the post-round v3.1
     └── <name>/
         ├── params.tsv       # one row per parameter set; columns substituted into template
         ├── shim_template.c  # C template with @COLNAME@ tokens
@@ -390,6 +391,10 @@ one machine. Eliminated schemes keep their reported numbers; no versioned row ta
   upstream tag/commit whose code equals the NIST round package (checked by diff), else the
   package zip itself via `.source` (URL + sha256, fetched into `build/dl`). The Makefile header
   says which, and why. Same flag policy, same "fastest backend the submitters shipped" rule.
+- A post-round update of a round-3 scheme (a new version without a `nist-onramp` entry) moves
+  `schemes/<x>/` to the new code, and the submitted round-3 code moves to `schemes/<x>_r3/` with
+  versioned rows, so the round-3 view keeps our timings of the submission (SNOVA: `snova/` = v3.1,
+  `snova_r3/` = v3.0; `test_benchmark_coverage.py` rule 2 requires both).
 - Row names insert the round after the scheme prefix (`MAYO-R2-one`, `QR-UOV-R1-I-(7,740,100,10)`);
   they must be unique across all dirs (`test_bench_importers.py`).
 - `BENCH_TO_YAML` entries of these rows name their version: `(file, set, version)`, where

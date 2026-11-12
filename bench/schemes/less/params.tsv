@@ -1,4 +1,4 @@
-# LESS v2.0 (NIST round 2) shim parameters. Columns: file, name, pk, sk, sig, iters, category, target
+# LESS v2.1.1 shim parameters (same sets and sizes as v2.0, NIST round 2). Columns: file, name, pk, sk, sig, iters, category, target
 # category/target become -DCATEGORY=<n> -DTARGET=<t> (upstream CMake convention).
 # sig = CRYPTO_BYTES = sizeof(sign_t), the code's worst case (signatures are variable
 # length; the shim returns the actual length). For 252-192/400-220/548-345 this differs

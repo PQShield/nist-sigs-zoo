@@ -125,3 +125,6 @@
 [submodule "bench/schemes/fndsa_fx/ref"]
 	path = bench/schemes/fndsa_fx/ref
 	url = https://github.com/pornin/c-fn-dsa-fx32.64
+[submodule "bench/schemes/snova_r3/ref"]
+	path = bench/schemes/snova_r3/ref
+	url = https://github.com/PQCLAB-SNOVA/SNOVA.git
