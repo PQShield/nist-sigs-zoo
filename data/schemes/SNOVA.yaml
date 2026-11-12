@@ -3,6 +3,122 @@ website: http://snova.pqclab.org/
 category: Multivariate
 assumption: Non-comm. Ring UOV
 versions:
+- version: v3.1
+  date: '2026-09-26'
+  status: On-ramp
+  info: "Version 3.1 samples the vinegar variables by rejection sampling, which removes the bias that broke the six odd-characteristic alternative sets of v3.0 (<a href=\"https://groups.google.com/a/list.nist.gov/d/msgid/pqc-forum/000001dd4a73%247e3c04e0%247ab40ea0%24%40beullens.com\">Beullens &amp; Hess</a>). Sizes and parameters are unchanged."
+  # recommended: spec v3.1 §1.9.1 Table 5 "Recommended parameter sets"; §1.9.2 Table 6 lists "Alternative SNOVA parameter sets" whose "security margins are less conservative than those of the recommended parameter sets" (https://github.com/PQCLAB-SNOVA/SNOVA/blob/ebdd7e29f7cc2a4e5852304c8ea418c3416b1eda/Supporting_Documentation/SNOVA_v3.1.pdf)
+  parametersets:
+  - name: SNOVA_I_K
+    level: 1
+    recommended: true
+    pk: 376
+    sig: 528
+  - name: SNOVA_I_B
+    level: 1
+    recommended: true
+    pk: 656
+    sig: 388
+  - name: SNOVA_I_S
+    level: 1
+    recommended: true
+    pk: 1016
+    sig: 272
+  - name: SNOVA_III_K
+    level: 3
+    recommended: true
+    pk: 912
+    sig: 688
+  - name: SNOVA_III_B
+    level: 3
+    recommended: true
+    pk: 1416
+    sig: 532
+  - name: SNOVA_III_S
+    level: 3
+    recommended: true
+    pk: 2032
+    sig: 456
+  - name: SNOVA_V_K
+    level: 5
+    recommended: true
+    pk: 1216
+    sig: 896
+  - name: SNOVA_V_B
+    level: 5
+    recommended: true
+    pk: 1891
+    sig: 691
+  - name: SNOVA_V_S
+    level: 5
+    recommended: true
+    pk: 2716
+    sig: 591
+  - name: SNOVA (27 3 16 4 7 5 84)
+    level: 1
+    pk: 376
+    sig: 436
+    notes: "Alternative parameter set (v, o, q, l, r, m1, m2) from spec Table 6 (claimed security 169 bits)."
+  - name: SNOVA (27 4 16 4 5 5 80)
+    level: 1
+    pk: 656
+    sig: 326
+    notes: "Alternative parameter set (v, o, q, l, r, m1, m2) from spec Table 6 (claimed security 177 bits)."
+  - name: SNOVA (27 4 19 4 6 5 96)
+    level: 1
+    pk: 699
+    sig: 413
+    notes: "Alternative parameter set (v, o, q, l, r, m1, m2) from spec Table 6 (claimed security 201 bits)."
+  - name: SNOVA (27 5 13 4 4 5 80)
+    level: 1
+    pk: 950
+    sig: 255
+    notes: "Alternative parameter set (v, o, q, l, r, m1, m2) from spec Table 6 (claimed security 170 bits)."
+  - name: SNOVA (50 17 16 2 2 17 68)
+    level: 1
+    pk: 9842
+    sig: 150
+    notes: "Alternative parameter set (v, o, q, l, r, m1, m2) from spec Table 6 (claimed security 158 bits)."
+  - name: SNOVA (27 4 16 5 5 4 100)
+    level: 3
+    pk: 816
+    sig: 404
+    notes: "Alternative parameter set (v, o, q, l, r, m1, m2) from spec Table 6 (claimed security 221 bits)."
+  - name: SNOVA (33 5 16 4 5 6 100)
+    level: 3
+    pk: 1216
+    sig: 396
+    notes: "Alternative parameter set (v, o, q, l, r, m1, m2) from spec Table 6 (claimed security 221 bits)."
+  - name: SNOVA (39 5 11 4 6 7 120)
+    level: 3
+    pk: 1241
+    sig: 478
+    notes: "Alternative parameter set (v, o, q, l, r, m1, m2) from spec Table 6 (claimed security 230 bits)."
+  - name: SNOVA (38 5 19 4 6 7 120)
+    level: 3
+    pk: 1510
+    sig: 567
+    notes: "Alternative parameter set (v, o, q, l, r, m1, m2) from spec Table 6 (claimed security 269 bits)."
+  - name: SNOVA (76 25 16 2 2 25 100)
+    level: 3
+    pk: 31266
+    sig: 218
+    notes: "Alternative parameter set (v, o, q, l, r, m1, m2) from spec Table 6 (claimed security 223 bits)."
+  - name: SNOVA (40 5 19 5 6 6 150)
+    level: 5
+    pk: 2016
+    sig: 736
+    notes: "Alternative parameter set (v, o, q, l, r, m1, m2) from spec Table 6 (claimed security 331 bits)."
+  - name: SNOVA (47 6 19 4 6 9 144)
+    level: 5
+    pk: 2781
+    sig: 695
+    notes: "Alternative parameter set (v, o, q, l, r, m1, m2) from spec Table 6 (claimed security 318 bits)."
+  - name: SNOVA (104 33 16 2 2 33 132)
+    level: 5
+    pk: 71890
+    sig: 290
+    notes: "Alternative parameter set (v, o, q, l, r, m1, m2) from spec Table 6 (claimed security 287 bits)."
 - version: v3.0
   date: '2026-08-31'
   status: On-ramp

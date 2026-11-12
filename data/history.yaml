@@ -85,6 +85,12 @@
   description: "Public-key-only universal forgery on AIM2-based AIMer (Liu, Peng, Liu, Jia, Wang, Wang &amp; Fan, <a href=\"https://eprint.iacr.org/2026/2235\">ePrint 2026/2235</a>): BN++ checks each inverse Mersenne S-box of AIM2 through the quadratic relation t^(2^e) + &gamma;t = pt&middot;t, which holds for any pt when the S-box output t is zero. Setting all first-layer outputs to zero and pt = ct + b^(2^e*&minus;1), computed from the public key alone, gives a witness that satisfies every checked equation without being an AIM2 preimage; the unmodified prover then signs any message, with probability one, for every honest key of every parameter set. Forgeries were accepted by the unmodified reference verifier for AIMer-128f/192f/256f (about 11.6 ms per AIMer-256f forgery). The paper attacks the January 2026 AIM2 specification; v2.0 and v2.1 use the same relation, so we mark them broken. The AIMer team confirmed the attack, and the AIM3 relation of v3.0 rules out the zero branch. The paper also forges signatures for some Lynxer variants. v1.0 (AIM) is not covered by the paper."
   schemes: [AIMer]
 
+- date: '2026-09-26'
+  added: '2026-11-12'
+  type: update
+  description: "SNOVA v3.1 (<a href=\"https://github.com/PQCLAB-SNOVA/SNOVA/blob/ebdd7e29f7cc2a4e5852304c8ea418c3416b1eda/Supporting_Documentation/SNOVA_v3.1.pdf\">specification</a>, September 2026; <a href=\"https://github.com/PQCLAB-SNOVA/SNOVA/commit/1c23d277fa\">code</a>) samples the vinegar variables by rejection sampling for odd q. This removes the bias that <a href=\"https://groups.google.com/a/list.nist.gov/d/msgid/pqc-forum/000001dd4a73%247e3c04e0%247ab40ea0%24%40beullens.com\">Beullens &amp; Hess</a> used to recover keys of the six odd-characteristic alternative sets of v3.0; those sets keep their broken flags under v3.0. Parameters and sizes are unchanged, and the q = 16 sets sample as before. We now build v3.1 (upstream commit <a href=\"https://github.com/PQCLAB-SNOVA/SNOVA/commit/ebdd7e29f7\">ebdd7e2</a>, which also fixes table initialisation in the reference <code>pk_expand()</code>); timings follow with our next benchmark run."
+  schemes: [SNOVA]
+
 - date: '2026-09-22'
   added: '2026-09-22'
   type: attack
