@@ -51,8 +51,8 @@ test.describe('Scheme pages', () => {
 		await expect(page.getByRole('link', { name: /pqmayo\.org/ })).toHaveAttribute('href', 'https://pqmayo.org');
 		await expect(page.getByText('On-ramp R3')).toBeVisible();
 		await expect(page.getByText('Round 3 · 31 Aug 2026').first()).toBeVisible();
-		// Ostuzzi (ePrint 2026/2247): MAYO2 broken, MAYO1 warning on the round-3 sets.
-		await expect(page.getByText('Broken (1 of 34 sets) · Warning (1 of 34 sets)')).toBeVisible();
+		// Ostuzzi (ePrint 2026/2247): MAYO1 and MAYO2 warnings on the round-3 sets.
+		await expect(page.getByText('Warning (2 of 34 sets)')).toBeVisible();
 	});
 
 	test('MAYO parameter sets and history slice', async ({ page }) => {
@@ -123,8 +123,8 @@ test.describe('Compare versions (MAYO)', () => {
 		await expect(two).toContainText('2,928');
 		await expect(two).toContainText('▼ 40%');
 		await expect(two).toContainText('▲ 28%');
-		// Broken in round 2 (Ran's wedge attack) and in round 3 (Ostuzzi's structural forgery).
-		await expect(two).toContainText('Broken');
+		// Broken in round 2 (Ran's wedge attack); a warning in round 3 (Ostuzzi's structural forgery).
+		await expect(two).toContainText('Warning');
 		await expect(two).not.toContainText('Flag cleared');
 		await expect(setRow(page, 'three')).toContainText('same');
 	});
