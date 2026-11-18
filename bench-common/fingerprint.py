@@ -26,9 +26,10 @@ those inputs, split into components so a report can say which input changed:
 Deliberately left out: isolate.h, main.c, loader.c, the time limits and DNF plumbing,
 <suite>/harness.h (its timed loop only calls BENCH_TIME_OP once per operation),
 gen_rules.py (it turns the params row into make rules; the row and the flags are
-hashed instead) and comments: C-family sources are hashed without comments, Python as
-its AST, other text files without full-line `#` comments, all with whitespace runs
-collapsed, so editing a
+hashed instead) and comments: C-family and Python sources are hashed without comments
+(Python via tokenize, the same on every Python version; until 2026-11-18 its ast.dump,
+which differs between versions), other text files without full-line `#` comments, all
+with whitespace runs collapsed, so editing a
 PATCH header or a Makefile comment does not re-stale rows. If a change to an excluded
 file does change what is timed (e.g. a different timed loop in harness.h, or a
 gen_rules.py change to the rules of existing rows), bump HARNESS_EPOCH (all rows) or
@@ -57,10 +58,11 @@ commit, instance type, CPU, date and results file. The importers write it.
 
 from __future__ import annotations
 
-import ast
 import hashlib
+import io
 import re
 import subprocess
+import tokenize
 from dataclasses import dataclass, field
 from pathlib import Path
 
@@ -203,15 +205,31 @@ def _collapse(text: str) -> str:
     return "\n".join(ln for ln in lines if ln)
 
 
+def _strip_py_comments(text: str) -> str:
+    """Python source without its comments. tokenize reports comments the same way on
+    every Python version; ast.dump output does not (3.13 omits empty fields, 3.15
+    omits ctx=Load() and adds Import.is_lazy), so it cannot be hashed."""
+    try:
+        comments = [
+            t
+            for t in tokenize.generate_tokens(io.StringIO(text).readline)
+            if t.type == tokenize.COMMENT
+        ]
+    except (tokenize.TokenError, SyntaxError):
+        return text
+    lines = text.splitlines(keepends=True)
+    for t in reversed(comments):
+        (row, start), (_, end) = t.start, t.end
+        lines[row - 1] = lines[row - 1][:start] + lines[row - 1][end:]
+    return "".join(lines)
+
+
 def normalize(path: str, text: str) -> str:
     """Text as hashed: comments and whitespace differences removed (see module doc)."""
     text = text.replace("\ufeff", "").replace("\r\n", "\n")
     if Path(path).suffix == ".py":
-        try:
-            return ast.dump(ast.parse(text))
-        except SyntaxError:
-            pass
-    if Path(path).suffix in C_SUFFIXES:
+        text = _strip_py_comments(text)
+    elif Path(path).suffix in C_SUFFIXES:
         text = _C_TOKENS.sub(lambda m: m[0] if m[0][0] in "\"'" else " ", text)
     elif Path(path).suffix not in (".s", ".S"):
         text = "\n".join(

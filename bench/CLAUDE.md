@@ -209,7 +209,7 @@ params.tsv line without `iters`/`kat`/`katn`), `patch` (NGCC: the `patches/<id>/
 srcs name, headers in patch dirs its incs name), `build` (the scheme dir's other tracked files;
 NGCC: shim template, Makefile, `NGCC_CFLAGS`, `NGCC_CXXFLAGS` for C++ rows) and `harness`
 (`harness_common.h` up to its per-operation-limit section, the suite Makefile's `CC`/`CFLAGS`,
-`../bench-common/flags.mk`, `HARNESS_EPOCH`). Comments and whitespace do not count (Python: its AST). Excluded on purpose:
+`../bench-common/flags.mk`, `HARNESS_EPOCH`). Comments and whitespace do not count (Python: comments found with `tokenize`, the same on every Python version; `ast.dump` output is not). Excluded on purpose:
 `harness.h`, `main.c`, `isolate.h`, the limits and DNF plumbing, `gen_rules.py`. If a change to
 an excluded file changes what is timed, bump `HARNESS_EPOCH`. No candidate code is read.
 
