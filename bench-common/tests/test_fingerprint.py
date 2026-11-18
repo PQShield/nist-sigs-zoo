@@ -142,6 +142,24 @@ def test_comments_whitespace_and_untimed_columns_do_not_count(repo):
     assert fps(repo) == before
 
 
+def test_python_helpers_hash_without_comments(repo):
+    code = 'import os\n\n\ndef f(a):\n    return [x for x in a if x] or "#"\n'
+    write(repo, "bench/schemes/a/gen.py", code)
+    git(repo, "add", "bench/schemes/a/gen.py")
+    before = fps(repo)
+    # the hash is plain normalised text, not an AST dump (which differs by version)
+    assert F.normalize("gen.py", code) == F._collapse(code)
+    write(
+        repo,
+        "bench/schemes/a/gen.py",
+        "# header\nimport os  # used\n\ndef f(a):\n    # body\n"
+        '    return [x for x in a if x] or "#"\n',
+    )
+    assert fps(repo) == before
+    write(repo, "bench/schemes/a/gen.py", code.replace('"#"', '"*"'))
+    assert changed(before, fps(repo)) == {"A-1": ["build"], "A-2": ["build"]}
+
+
 def test_each_input_changes_its_component(repo):
     before = fps(repo)
     write(repo, "bench/schemes/a/Makefile", "all:\n\tcc -O2 a.c\n")
