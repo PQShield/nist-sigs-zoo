@@ -1,3 +1,9 @@
+- date: '2026-11-18'
+  added: '2026-11-18'
+  type: update
+  description: "MAYO: the MAYO team released faster implementations in MAYO-C (<a href=\"https://github.com/PQCMayo/MAYO-C/pull/15\">pull request 15</a> by Ward Beullens, commit <a href=\"https://github.com/PQCMayo/MAYO-C/commit/eb67d6a\">eb67d6a</a>): a new AVX2 + GFNI backend, a rewritten AVX-512 + GFNI backend and faster AVX2 code. The specification, keys and signatures are unchanged. We build upstream's default backend for the CPU (AVX-512 + GFNI on our benchmark machine) and re-benchmarked the round-3 sets on AWS c8i.4xlarge: signing is 26 to 39% faster (MAYO-five 836,777 to 507,004 cycles) and verification 15 to 23% faster. Upstream's known-answer tests pass."
+  schemes: [MAYO]
+
 - date: '2026-11-12'
   added: '2026-11-12'
   type: update
