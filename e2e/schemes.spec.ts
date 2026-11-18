@@ -51,8 +51,14 @@ test.describe('Scheme pages', () => {
 		await expect(page.getByRole('link', { name: /pqmayo\.org/ })).toHaveAttribute('href', 'https://pqmayo.org');
 		await expect(page.getByText('On-ramp R3')).toBeVisible();
 		await expect(page.getByText('Round 3 · 31 Aug 2026').first()).toBeVisible();
-		// Ostuzzi (ePrint 2026/2247): MAYO2 broken, MAYO1 warning on the round-3 sets.
-		await expect(page.getByText('Broken (1 of 34 sets) · Warning (1 of 34 sets)')).toBeVisible();
+	});
+
+	test('HAWK header: round-3 flag summary', async ({ page }) => {
+		await page.goto('/schemes/hawk/');
+		await expect(page.locator('h1')).toHaveText('HAWK');
+		await expect(page.getByText('On-ramp R3')).toBeVisible();
+		// Straznickas & Weis key recovery: every set of every version is broken.
+		await expect(page.getByText('Broken (all sets)')).toBeVisible();
 	});
 
 	test('MAYO parameter sets and history slice', async ({ page }) => {
@@ -123,9 +129,6 @@ test.describe('Compare versions (MAYO)', () => {
 		await expect(two).toContainText('2,928');
 		await expect(two).toContainText('▼ 40%');
 		await expect(two).toContainText('▲ 28%');
-		// Broken in round 2 (Ran's wedge attack) and in round 3 (Ostuzzi's structural forgery).
-		await expect(two).toContainText('Broken');
-		await expect(two).not.toContainText('Flag cleared');
 		await expect(setRow(page, 'three')).toContainText('same');
 	});
 
@@ -161,6 +164,16 @@ test.describe('Compare versions (MAYO)', () => {
 		await expect(setRow(page, 'two')).toContainText('5,488');
 		await expect(setRow(page, 'two')).not.toContainText('Flag cleared');
 	});
+});
+
+test('Compare versions (HAWK): a flag kept across versions is shown, not cleared', async ({ page }) => {
+	await page.goto('/schemes/hawk/');
+	await page.waitForLoadState('networkidle');
+	const row = page
+		.getByRole('table', { name: /^Change from / })
+		.locator('tbody tr', { has: page.getByRole('rowheader', { name: /^512\b/ }) });
+	await expect(row).toContainText('Broken');
+	await expect(row).not.toContainText('Flag cleared');
 });
 
 test.describe('Compare versions layout', () => {
