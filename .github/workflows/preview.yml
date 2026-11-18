@@ -36,10 +36,16 @@ jobs:
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        # An explicit `shell: bash` adds -o pipefail, so a wrangler failure is not hidden by tee
+        shell: bash
         run: |
           npx --yes wrangler@4 pages deploy dist --project-name=nist-sigs-zoo \
             --branch=pr-${{ github.event.number }} --commit-dirty=true | tee deploy.log
-          url=$(grep -oE 'https://[a-z0-9]+\.nist-sigs-zoo\.pages\.dev' deploy.log | head -n1)
+          url=$(grep -oE 'https://[a-z0-9]+\.nist-sigs-zoo\.pages\.dev' deploy.log | head -n1 || true)
+          if [ -z "$url" ]; then
+            echo "::error::No deployment URL in the wrangler output"
+            exit 1
+          fi
           echo "url=$url" >> "$GITHUB_OUTPUT"
 
       - name: Comment preview URL
