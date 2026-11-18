@@ -373,7 +373,7 @@ HAVE_AVX512 := $(shell python3 ../../cpu_features.py avx512f avx512bw avx512_vnn
 
 Also pass the matching `-m` flags explicitly so the fast path can be compile-tested on
 another machine (`make HAVE_AVX512=1`). `BENCH_DISABLE_FEATURES="gfni avx512f"`
-forces the fallback. Current choices: MAYO `gfni` (GFNI+AVX-512) else `avx2`; QR-UOV
+forces the fallback. Current choices: MAYO `avx512_gfni` (GFNI+AVX-512) else `avx2_gfni` (GFNI+AVX2) else `avx2`; QR-UOV
 `IMPL=avx2` (Round 3 dropped the Round 2 avx512 implementation); UOV `PROJ=gfni`
 else `avx2`; SQIsign `broadwell`; SNOVA, FAEST,
 MQOM, ML-DSA etc. rely on `-march=native` (in the global flags).

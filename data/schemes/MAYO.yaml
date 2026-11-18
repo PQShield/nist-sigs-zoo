@@ -16,43 +16,43 @@ versions:
     recommended: true
     pk: 5554
     sig: 964
-    signing_cycles: 836777
-    verification_cycles: 345899
-    signing_us: 216.0
-    verification_us: 89.9
-    bench_env: 2026-11-12-c8i.4xlarge
+    signing_cycles: 507004
+    verification_cycles: 267555
+    signing_us: 135.9
+    verification_us: 71.5
+    bench_env: 2026-11-18-c8i.4xlarge
   - name: three
     level: 3
     recommended: true
     pk: 2986
     sig: 681
-    signing_cycles: 379174
-    verification_cycles: 156361
-    signing_us: 98.4
-    verification_us: 41.2
-    bench_env: 2026-11-12-c8i.4xlarge
+    signing_cycles: 259074
+    verification_cycles: 130202
+    signing_us: 67.6
+    verification_us: 34.5
+    bench_env: 2026-11-18-c8i.4xlarge
   - name: two
     level: 1
     recommended: true
     broken: "Structural forgery (<a href=\"https://eprint.iacr.org/2026/2247\">Ostuzzi</a>, ePrint 2026/2247, Table 6) lowers the estimated forgery cost from 2^144 to 2^140 bit operations, 3 bits below the 2^143 required for NIST Level I. The round-3 linear term blocks the paper's multi-target technique."
     pk: 2928
     sig: 239
-    signing_cycles: 109506
-    verification_cycles: 43384
-    signing_us: 29.2
-    verification_us: 12.2
-    bench_env: 2026-11-12-c8i.4xlarge
+    signing_cycles: 81455
+    verification_cycles: 36855
+    signing_us: 22.0
+    verification_us: 10.5
+    bench_env: 2026-11-18-c8i.4xlarge
   - name: one
     level: 1
     recommended: true
     warning: "Structural forgery (<a href=\"https://eprint.iacr.org/2026/2247\">Ostuzzi</a>, ePrint 2026/2247, Table 6) lowers the estimated forgery cost from 2^153 to 2^147 bit operations, still above the 2^143 required for NIST Level I."
     pk: 1456
     sig: 464
-    signing_cycles: 183900
-    verification_cycles: 74246
-    signing_us: 48.3
-    verification_us: 20.1
-    bench_env: 2026-11-12-c8i.4xlarge
+    signing_cycles: 130987
+    verification_cycles: 62809
+    signing_us: 34.7
+    verification_us: 17.2
+    bench_env: 2026-11-18-c8i.4xlarge
   - name: alt (85 76 9 9 16)
     level: 1
     pk: 1726

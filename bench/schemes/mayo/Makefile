@@ -8,13 +8,18 @@ REF     := ref
 SRC     := $(REF)/src
 
 INCFLAGS := -I$(REF)/include -I$(SRC) -I$(SRC)/common -I$(SRC)/AVX2 -I$(SRC)/generic
-# Upstream's fastest x86 build type is "gfni" (GFNI + AVX-512); fall back to
-# "avx2" when the CPU lacks those. See ref/.cmake/target.cmake.
-HAVE_GFNI_AVX512 := $(shell python3 ../../cpu_features.py gfni avx512f avx512bw avx512dq avx512vl)
+# Upstream's default ("auto") build type is the first of avx512_gfni, avx2_gfni and
+# avx2 the CPU supports. See ref/.cmake/target.cmake.
+HAVE_GFNI_AVX512 := $(shell python3 ../../cpu_features.py gfni avx512f avx512bw)
+HAVE_GFNI_AVX2   := $(shell python3 ../../cpu_features.py gfni avx2)
 ifneq ($(HAVE_GFNI_AVX512),)
-  MAYO_BUILD_TYPE := gfni
-  DEFINES    := -DMAYO_BUILD_TYPE_GFNI -DMAYO_AVX -DMAYO_GFNI -DENABLE_AESNI
-  SIMD_FLAGS := -mavx2 -maes -mssse3 -mgfni -mavx512f -mavx512bw -mavx512dq -mavx512vl
+  MAYO_BUILD_TYPE := avx512_gfni
+  DEFINES    := -DMAYO_BUILD_TYPE_AVX512_GFNI -DMAYO_GFNI_ZMM -DMAYO_AVX -DMAYO_GFNI -DENABLE_AESNI
+  SIMD_FLAGS := -mavx2 -maes -mssse3 -mgfni -mavx512f -mavx512bw
+else ifneq ($(HAVE_GFNI_AVX2),)
+  MAYO_BUILD_TYPE := avx2_gfni
+  DEFINES    := -DMAYO_BUILD_TYPE_AVX2_GFNI -DMAYO_AVX -DMAYO_GFNI -DENABLE_AESNI
+  SIMD_FLAGS := -mavx2 -maes -mssse3 -mgfni
 else
   MAYO_BUILD_TYPE := avx2
   DEFINES    := -DMAYO_BUILD_TYPE_AVX2 -DMAYO_AVX -DENABLE_AESNI
