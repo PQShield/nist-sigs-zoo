@@ -1,6 +1,12 @@
 - date: '2026-11-18'
   added: '2026-11-18'
   type: update
+  description: "MAYO: round-3 MAYO2 now carries a warning instead of a broken flag. Ostuzzi's structural forgery (<a href=\"https://eprint.iacr.org/2026/2247\">ePrint 2026/2247</a>) is estimated at 2^140 bit operations (Table 6), 3 bits below the 2^143 often used for NIST Level I. Ward Beullens (MAYO team) pointed out that the estimate counts a GF(16) multiplication as 16 bit operations (36 is common in the literature), applies Strassen's exponent to 36 by 36 linear systems and leaves out the cost of building them. With those costs the margin is within the uncertainty of the estimate, which does not support a broken flag. The other MAYO flags are unchanged."
+  schemes: [MAYO]
+
+- date: '2026-11-18'
+  added: '2026-11-18'
+  type: update
   description: "MAYO: the MAYO team released faster implementations in MAYO-C (<a href=\"https://github.com/PQCMayo/MAYO-C/pull/15\">pull request 15</a> by Ward Beullens, commit <a href=\"https://github.com/PQCMayo/MAYO-C/commit/eb67d6a\">eb67d6a</a>): a new AVX2 + GFNI backend, a rewritten AVX-512 + GFNI backend and faster AVX2 code. The specification, keys and signatures are unchanged. We build upstream's default backend for the CPU (AVX-512 + GFNI on our benchmark machine) and re-benchmarked the round-3 sets on AWS c8i.4xlarge: signing is 26 to 39% faster (MAYO-five 836,777 to 507,004 cycles) and verification 15 to 23% faster. Upstream's known-answer tests pass."
   schemes: [MAYO]
 
