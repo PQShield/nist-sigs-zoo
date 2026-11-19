@@ -1,3 +1,9 @@
+- date: '2026-11-19'
+  added: '2026-11-19'
+  type: update
+  description: "RSA and ECDSA sizes now use raw encodings, as for the other schemes. RSA public keys are the modulus plus a 3-byte exponent (259/387/515 bytes for RSA-2048/3072/4096, previously DER). ECDSA signatures are fixed-width r || s (64/96/132 bytes for P-256/384/521, previously the maximum DER length). ECDSA public keys stay the uncompressed point."
+  schemes: [RSA, ECDSA]
+
 - date: '2026-11-18'
   added: '2026-11-18'
   type: update

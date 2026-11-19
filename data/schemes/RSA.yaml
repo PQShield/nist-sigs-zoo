@@ -10,7 +10,7 @@ versions:
   parametersets:
   - name: '2048'
     level: Pre-Quantum
-    pk: 272
+    pk: 259
     sig: 256
     signing_cycles: 1873189
     verification_cycles: 75514
@@ -19,7 +19,7 @@ versions:
     bench_env: 2026-10-16-c8i.4xlarge
   - name: '3072'
     level: Pre-Quantum
-    pk: 422
+    pk: 387
     sig: 384
     signing_cycles: 4465521
     verification_cycles: 148315
@@ -28,7 +28,7 @@ versions:
     bench_env: 2026-10-16-c8i.4xlarge
   - name: '4096'
     level: Pre-Quantum
-    pk: 550
+    pk: 515
     sig: 512
     signing_cycles: 8353298
     verification_cycles: 242890

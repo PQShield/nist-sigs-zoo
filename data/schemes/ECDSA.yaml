@@ -11,7 +11,7 @@ versions:
   - name: P-256
     level: Pre-Quantum
     pk: 65
-    sig: 72
+    sig: 64
     signing_cycles: 83599
     verification_cycles: 241811
     signing_us: 22.7
@@ -20,7 +20,7 @@ versions:
   - name: P-384
     level: Pre-Quantum
     pk: 97
-    sig: 104
+    sig: 96
     signing_cycles: 569348
     verification_cycles: 1274504
     signing_us: 147.2
@@ -29,7 +29,7 @@ versions:
   - name: P-521
     level: Pre-Quantum
     pk: 133
-    sig: 139
+    sig: 132
     signing_cycles: 751622
     verification_cycles: 1408256
     signing_us: 194.3
