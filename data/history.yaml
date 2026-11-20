@@ -1,4 +1,10 @@
 - date: '2026-11-19'
+  added: '2026-11-20'
+  type: attack
+  description: "Peigen Li and Siyong Tao extend the attacks of Merz and Ran (<a href=\"https://eprint.iacr.org/2026/2181\">ePrint 2026/2181</a>) to odd characteristic with truncated polynomial algebras, with a level parameter that selects which divided-power equations are added. The divided power wedge attack (<a href=\"https://eprint.iacr.org/2026/2272\">ePrint 2026/2272</a>) lowers the round-3 UOV estimates by 2 bits (Ip 2^144 to 2^142, III 2^213 to 2^211, V 2^272 to 2^270), four additional MAYO sets by 3 to 14 bits and three alternative SNOVA sets by 2 to 24 bits. The Schur&ndash;Macaulay attack (<a href=\"https://eprint.iacr.org/2026/2444\">ePrint 2026/2444</a>) lowers seven additional MAYO sets of Levels III and V by up to 61 bits (2^291 to 2^230). Four additional MAYO sets and one alternative SNOVA set fall more than 3 bits below their level and are flagged broken; the other affected sets, including UOV Ip and V (1 and 2 bits below) and one MAYO and one SNOVA set (3 and 2 bits below), are flagged with a warning, since the margin is within the uncertainty of the estimates. All estimates rest on conjectured Hilbert-series predictions. The main MAYO and SNOVA sets and QR-UOV are not affected. Announced on the <a href=\"https://groups.google.com/a/list.nist.gov/g/pqc-forum\">pqc-forum</a>; the MAYO team has acknowledged the report."
+  schemes: [UOV, MAYO, SNOVA, QR-UOV]
+
+- date: '2026-11-19'
   added: '2026-11-19'
   type: update
   description: "RSA and ECDSA sizes now use raw encodings, as for the other schemes. RSA public keys are the modulus plus a 3-byte exponent (259/387/515 bytes for RSA-2048/3072/4096, previously DER). ECDSA signatures are fixed-width r || s (64/96/132 bytes for P-256/384/521, previously the maximum DER length). ECDSA public keys stay the uncompressed point."

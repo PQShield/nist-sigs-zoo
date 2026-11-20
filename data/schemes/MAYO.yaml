@@ -115,18 +115,21 @@ versions:
     no_code: No implementation of this alternative parameter set in the official code (MAYO-C implements only MAYO-one, -two, -three and -five)
   - name: alt (113 100 13 8 16)
     level: 3
+    warning: "Schur&ndash;Macaulay attack over truncated polynomial algebras (<a href=\"https://eprint.iacr.org/2026/2444\">Li and Tao</a>, ePrint 2026/2444, Table 4) lowers the estimated key-recovery cost from 2^217 to 2^215 bit operations, still above the 2^207 required for NIST Level III. The estimate rests on conjectured Hilbert-series predictions."
     pk: 4566
     sig: 484
     notes: "Additional parameter set (n, m, o, k, q) from spec Table 2.2, given to showcase pk/sig trade-offs; sizes from the specification, not benchmarked."
     no_code: No implementation of this alternative parameter set in the official code (MAYO-C implements only MAYO-one, -two, -three and -five)
   - name: alt (112 98 14 7 16)
     level: 3
+    broken: "Schur&ndash;Macaulay attack over truncated polynomial algebras (<a href=\"https://eprint.iacr.org/2026/2444\">Li and Tao</a>, ePrint 2026/2444, Table 4) lowers the estimated key-recovery cost from 2^217 to 2^198 bit operations, 9 bits below the 2^207 required for NIST Level III. The estimate rests on conjectured Hilbert-series predictions."
     pk: 5161
     sig: 424
     notes: "Additional parameter set (n, m, o, k, q) from spec Table 2.2, given to showcase pk/sig trade-offs; sizes from the specification, not benchmarked."
     no_code: No implementation of this alternative parameter set in the official code (MAYO-C implements only MAYO-one, -two, -three and -five)
   - name: alt (118 96 16 6 16)
     level: 3
+    broken: "Schur&ndash;Macaulay attack over truncated polynomial algebras (<a href=\"https://eprint.iacr.org/2026/2444\">Li and Tao</a>, ePrint 2026/2444, Table 4) lowers the estimated key-recovery cost from 2^215 to 2^196 bit operations, 11 bits below the 2^207 required for NIST Level III. The estimate rests on conjectured Hilbert-series predictions."
     pk: 6544
     sig: 386
     notes: "Additional parameter set (n, m, o, k, q) from spec Table 2.2, given to showcase pk/sig trade-offs; sizes from the specification, not benchmarked."
@@ -151,6 +154,7 @@ versions:
     no_code: No implementation of this alternative parameter set in the official code (MAYO-C implements only MAYO-one, -two, -three and -five)
   - name: alt (174 92 46 2 16)
     level: 3
+    warning: "Divided power wedge attack (<a href=\"https://eprint.iacr.org/2026/2272\">Li and Tao</a>, ePrint 2026/2272, Table 4) lowers the estimated key-recovery cost from 2^217 to 2^214 bit operations, still above the 2^207 required for NIST Level III. The estimate rests on conjectured Hilbert-series predictions."
     pk: 49742
     sig: 206
     notes: "Additional parameter set (n, m, o, k, q) from spec Table 2.2, given to showcase pk/sig trade-offs; sizes from the specification, not benchmarked."
@@ -181,24 +185,28 @@ versions:
     no_code: No implementation of this alternative parameter set in the official code (MAYO-C implements only MAYO-one, -two, -three and -five)
   - name: alt (152 136 16 9 16)
     level: 5
+    warning: "Schur&ndash;Macaulay attack over truncated polynomial algebras (<a href=\"https://eprint.iacr.org/2026/2444\">Li and Tao</a>, ePrint 2026/2444, Table 4) lowers the estimated key-recovery cost from 2^294 to 2^281 bit operations, still above the 2^272 required for NIST Level V. The estimate rests on conjectured Hilbert-series predictions."
     pk: 9264
     sig: 724
     notes: "Additional parameter set (n, m, o, k, q) from spec Table 2.2, given to showcase pk/sig trade-offs; sizes from the specification, not benchmarked."
     no_code: No implementation of this alternative parameter set in the official code (MAYO-C implements only MAYO-one, -two, -three and -five)
   - name: alt (151 134 17 8 16)
     level: 5
+    warning: "Schur&ndash;Macaulay attack over truncated polynomial algebras (<a href=\"https://eprint.iacr.org/2026/2444\">Li and Tao</a>, ePrint 2026/2444, Table 4) lowers the estimated key-recovery cost from 2^293 to 2^269 bit operations, 3 bits below the 2^272 required for NIST Level V. The estimate rests on conjectured Hilbert-series predictions. With a margin this small, within the uncertainty of the estimate, we flag a warning rather than broken."
     pk: 10267
     sig: 644
     notes: "Additional parameter set (n, m, o, k, q) from spec Table 2.2, given to showcase pk/sig trade-offs; sizes from the specification, not benchmarked."
     no_code: No implementation of this alternative parameter set in the official code (MAYO-C implements only MAYO-one, -two, -three and -five)
   - name: alt (152 132 19 7 16)
     level: 5
+    broken: "Schur&ndash;Macaulay attack over truncated polynomial algebras (<a href=\"https://eprint.iacr.org/2026/2444\">Li and Tao</a>, ePrint 2026/2444, Table 4) lowers the estimated key-recovery cost from 2^291 to 2^230 bit operations, 42 bits below the 2^272 required for NIST Level V. The estimate rests on conjectured Hilbert-series predictions."
     pk: 12556
     sig: 572
     notes: "Additional parameter set (n, m, o, k, q) from spec Table 2.2, given to showcase pk/sig trade-offs; sizes from the specification, not benchmarked."
     no_code: No implementation of this alternative parameter set in the official code (MAYO-C implements only MAYO-one, -two, -three and -five)
   - name: alt (168 132 22 6 16)
     level: 5
+    broken: "Schur&ndash;Macaulay attack over truncated polynomial algebras (<a href=\"https://eprint.iacr.org/2026/2444\">Li and Tao</a>, ePrint 2026/2444, Table 4) lowers the estimated key-recovery cost from 2^293 to 2^254 bit operations, 18 bits below the 2^272 required for NIST Level V. The estimate rests on conjectured Hilbert-series predictions."
     pk: 16714
     sig: 544
     notes: "Additional parameter set (n, m, o, k, q) from spec Table 2.2, given to showcase pk/sig trade-offs; sizes from the specification, not benchmarked."
@@ -211,18 +219,21 @@ versions:
     no_code: No implementation of this alternative parameter set in the official code (MAYO-C implements only MAYO-one, -two, -three and -five)
   - name: alt (212 130 33 4 16)
     level: 5
+    warning: "Divided power wedge attack (<a href=\"https://eprint.iacr.org/2026/2272\">Li and Tao</a>, ePrint 2026/2272, Table 4) lowers the estimated key-recovery cost from 2^292 to 2^278 bit operations, still above the 2^272 required for NIST Level V. The estimate rests on conjectured Hilbert-series predictions."
     pk: 36481
     sig: 464
     notes: "Additional parameter set (n, m, o, k, q) from spec Table 2.2, given to showcase pk/sig trade-offs; sizes from the specification, not benchmarked."
     no_code: No implementation of this alternative parameter set in the official code (MAYO-C implements only MAYO-one, -two, -three and -five)
   - name: alt (222 128 43 3 16)
     level: 5
+    warning: "Divided power wedge attack (<a href=\"https://eprint.iacr.org/2026/2272\">Li and Tao</a>, ePrint 2026/2272, Table 4) lowers the estimated key-recovery cost from 2^288 to 2^278 bit operations, still above the 2^272 required for NIST Level V. The estimate rests on conjectured Hilbert-series predictions."
     pk: 60560
     sig: 373
     notes: "Additional parameter set (n, m, o, k, q) from spec Table 2.2, given to showcase pk/sig trade-offs; sizes from the specification, not benchmarked."
     no_code: No implementation of this alternative parameter set in the official code (MAYO-C implements only MAYO-one, -two, -three and -five)
   - name: alt (241 126 63 2 16)
     level: 5
+    warning: "Divided power wedge attack (<a href=\"https://eprint.iacr.org/2026/2272\">Li and Tao</a>, ePrint 2026/2272, Table 4) lowers the estimated key-recovery cost from 2^287 to 2^278 bit operations, still above the 2^272 required for NIST Level V. The paper lists this set with n = 242 and v = 179. The estimate rests on conjectured Hilbert-series predictions."
     pk: 127024
     sig: 281
     notes: "Additional parameter set (n, m, o, k, q) from spec Table 2.2, given to showcase pk/sig trade-offs; sizes from the specification, not benchmarked."
