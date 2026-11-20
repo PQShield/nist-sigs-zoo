@@ -12,6 +12,7 @@ versions:
   parametersets:
   - name: V-pkc
     level: 5
+    warning: "Divided power wedge attack (<a href=\"https://eprint.iacr.org/2026/2272\">Li and Tao</a>, ePrint 2026/2272, Table 3) lowers the estimated key-recovery cost from 2^272 to 2^270 bit operations, 2 bits below the 2^272 required for NIST Level V. The estimate rests on conjectured Hilbert-series predictions. With a margin this small, within the uncertainty of the estimate, we flag a warning rather than broken."
     pk: 446992
     sig: 275
     signing_cycles: 415856
@@ -21,6 +22,7 @@ versions:
     bench_env: 2026-10-16-c8i.4xlarge
   - name: V-classic
     level: 5
+    warning: "Divided power wedge attack (<a href=\"https://eprint.iacr.org/2026/2272\">Li and Tao</a>, ePrint 2026/2272, Table 3) lowers the estimated key-recovery cost from 2^272 to 2^270 bit operations, 2 bits below the 2^272 required for NIST Level V. The estimate rests on conjectured Hilbert-series predictions. With a margin this small, within the uncertainty of the estimate, we flag a warning rather than broken."
     pk: 3232320
     sig: 275
     signing_cycles: 426103
@@ -30,6 +32,7 @@ versions:
     bench_env: 2026-10-16-c8i.4xlarge
   - name: III-pkc
     level: 3
+    warning: "Divided power wedge attack (<a href=\"https://eprint.iacr.org/2026/2272\">Li and Tao</a>, ePrint 2026/2272, Table 3) lowers the estimated key-recovery cost from 2^213 to 2^211 bit operations, still above the 2^207 required for NIST Level III. The estimate rests on conjectured Hilbert-series predictions."
     pk: 189232
     sig: 209
     signing_cycles: 149710
@@ -39,6 +42,7 @@ versions:
     bench_env: 2026-10-16-c8i.4xlarge
   - name: III-classic
     level: 3
+    warning: "Divided power wedge attack (<a href=\"https://eprint.iacr.org/2026/2272\">Li and Tao</a>, ePrint 2026/2272, Table 3) lowers the estimated key-recovery cost from 2^213 to 2^211 bit operations, still above the 2^207 required for NIST Level III. The estimate rests on conjectured Hilbert-series predictions."
     pk: 1347912
     sig: 209
     signing_cycles: 150594
@@ -66,6 +70,7 @@ versions:
     bench_env: 2026-10-16-c8i.4xlarge
   - name: Ip-pkc
     level: 1
+    warning: "Divided power wedge attack (<a href=\"https://eprint.iacr.org/2026/2272\">Li and Tao</a>, ePrint 2026/2272, Table 3) lowers the estimated key-recovery cost from 2^144 to 2^142 bit operations, 1 bit below the 2^143 required for NIST Level I. The estimate rests on conjectured Hilbert-series predictions. With a margin this small, within the uncertainty of the estimate, we flag a warning rather than broken."
     pk: 46591
     sig: 135
     signing_cycles: 50921
@@ -75,6 +80,7 @@ versions:
     bench_env: 2026-10-16-c8i.4xlarge
   - name: Ip-classic
     level: 1
+    warning: "Divided power wedge attack (<a href=\"https://eprint.iacr.org/2026/2272\">Li and Tao</a>, ePrint 2026/2272, Table 3) lowers the estimated key-recovery cost from 2^144 to 2^142 bit operations, 1 bit below the 2^143 required for NIST Level I. The estimate rests on conjectured Hilbert-series predictions. With a margin this small, within the uncertainty of the estimate, we flag a warning rather than broken."
     pk: 321300
     sig: 135
     signing_cycles: 50913

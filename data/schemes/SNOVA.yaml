@@ -140,6 +140,7 @@ versions:
     bench_env: 2026-11-12-c8i.4xlarge
   - name: SNOVA (50 17 16 2 2 17 68)
     level: 1
+    warning: "Divided power wedge attack (<a href=\"https://eprint.iacr.org/2026/2272\">Li and Tao</a>, ePrint 2026/2272, Table 6) lowers the estimated key-recovery cost from 2^158 to 2^156 bit operations, still above the 2^143 required for NIST Level I. The estimate rests on conjectured Hilbert-series predictions."
     pk: 9842
     sig: 150
     notes: "Alternative parameter set (v, o, q, l, r, m1, m2) from spec Table 6 (claimed security 158 bits)."
@@ -190,6 +191,7 @@ versions:
     bench_env: 2026-11-12-c8i.4xlarge
   - name: SNOVA (76 25 16 2 2 25 100)
     level: 3
+    warning: "Divided power wedge attack (<a href=\"https://eprint.iacr.org/2026/2272\">Li and Tao</a>, ePrint 2026/2272, Table 6) lowers the estimated key-recovery cost from 2^223 to 2^205 bit operations, 2 bits below the 2^207 required for NIST Level III. The estimate rests on conjectured Hilbert-series predictions. With a margin this small, within the uncertainty of the estimate, we flag a warning rather than broken."
     pk: 31266
     sig: 218
     notes: "Alternative parameter set (v, o, q, l, r, m1, m2) from spec Table 6 (claimed security 223 bits)."
@@ -220,6 +222,7 @@ versions:
     bench_env: 2026-11-12-c8i.4xlarge
   - name: SNOVA (104 33 16 2 2 33 132)
     level: 5
+    broken: "Divided power wedge attack (<a href=\"https://eprint.iacr.org/2026/2272\">Li and Tao</a>, ePrint 2026/2272, Table 6) lowers the estimated key-recovery cost from 2^287 to 2^263 bit operations, 9 bits below the 2^272 required for NIST Level V. The estimate rests on conjectured Hilbert-series predictions."
     pk: 71890
     sig: 290
     notes: "Alternative parameter set (v, o, q, l, r, m1, m2) from spec Table 6 (claimed security 287 bits)."
