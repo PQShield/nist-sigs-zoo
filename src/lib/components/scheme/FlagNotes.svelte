@@ -28,14 +28,14 @@
 				>
 					<BadgeIcon kind={note.kind} />
 					<strong class="font-heading">{note.title}</strong>
-					<span class="text-pqs-steel dark:text-pqs-bluegray"
-						>({note.allSets ? 'all parameter sets' : note.sets.join(', ')})</span
-					>:
+					<span class="text-pqs-steel dark:text-pqs-bluegray">
+						({note.allSets ? 'all parameter sets' : note.sets.join(', ')})
+					</span>:
 					{@html note.html}
 					{#if note.href}
-						<a href={note.href} target="_blank" rel="noopener noreferrer"
-							>Full findings report<span class="sr-only"> (opens in a new tab)</span></a
-						>
+						<a href={note.href} target="_blank" rel="noopener noreferrer">
+							Full findings report<span class="sr-only"> (opens in a new tab)</span>
+						</a>
 					{/if}
 				</li>
 			{/each}

@@ -24,8 +24,9 @@
 		<p class="mt-1.5 text-xs text-pqs-steel/70 dark:text-pqs-bluegray/70">
 			Sizes reflect the latest known specifications (ML-KEM: FIPS 203; HQC: 2025-08-22 draft). For ECDH the “ciphertext”
 			is the ephemeral public key and keygen/encaps/decaps map to the static/ephemeral key generation and the two ECDH
-			derivations. See the <a href="{base}/signatures/" class="text-pqs-apricot hover:underline">signature comparison</a
-			>
+			derivations. See the <a href="{base}/signatures/" class="text-pqs-apricot hover:underline">
+				signature comparison
+			</a>
 			for signature schemes.
 		</p>
 	</div>

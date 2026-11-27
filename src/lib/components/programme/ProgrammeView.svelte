@@ -87,9 +87,9 @@
 					<ul class="mt-4 flex flex-wrap gap-x-5 gap-y-2 font-heading text-sm font-semibold">
 						{#each p.links as l (l.url)}
 							<li>
-								<a href={l.url} target="_blank" rel="noopener noreferrer" class={LINK}
-									>{l.label} ↗<span class="sr-only"> (opens in a new tab)</span></a
-								>
+								<a href={l.url} target="_blank" rel="noopener noreferrer" class={LINK}>
+									{l.label} ↗<span class="sr-only"> (opens in a new tab)</span>
+								</a>
 							</li>
 						{/each}
 					</ul>

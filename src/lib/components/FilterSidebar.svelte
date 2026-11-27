@@ -27,8 +27,10 @@
 			stroke-linecap="round"
 			stroke-linejoin="round"
 			aria-hidden="true"
-			class="transition-transform {open ? 'rotate-180' : ''}"><path d="M6 9l6 6 6-6" /></svg
+			class="transition-transform {open ? 'rotate-180' : ''}"
 		>
+			<path d="M6 9l6 6 6-6" />
+		</svg>
 	</button>
 	<div id={bodyId} class={open ? 'mt-3 lg:mt-0' : 'hidden lg:block'}>
 		{@render children()}

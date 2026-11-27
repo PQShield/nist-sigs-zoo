@@ -18,8 +18,9 @@
 			<a
 				href="{base}/programmes/{chip.programme}/"
 				class="rounded px-1.5 py-px text-[11px] font-bold whitespace-nowrap hover:underline {TONE[chip.tone]}"
-				>{chip.label}</a
 			>
+				{chip.label}
+			</a>
 		{:else}
 			<span class="rounded px-1.5 py-px text-[11px] font-bold whitespace-nowrap {TONE[chip.tone]}">{chip.label}</span>
 		{/if}

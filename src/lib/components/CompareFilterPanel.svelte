@@ -125,9 +125,9 @@
 						onchange={() => toggleCategory(cat)}
 						class="shrink-0 accent-pqs-apricot"
 					/>
-					<span class="font-heading font-semibold text-pqs-midnight dark:text-pqs-smoke"
-						>{cat === 'Pre-Quantum' ? 'Pre-quantum' : cat}</span
-					>
+					<span class="font-heading font-semibold text-pqs-midnight dark:text-pqs-smoke">
+						{cat === 'Pre-Quantum' ? 'Pre-quantum' : cat}
+					</span>
 				</summary>
 				<div class="mt-0.5 ml-5 space-y-0.5">
 					{#each schemesByCategory[cat] as scheme (scheme.scheme)}
@@ -181,6 +181,7 @@
 		type="button"
 		onclick={reset}
 		class="h-10 w-full rounded border border-pqs-bluegray font-heading font-semibold text-pqs-steel hover:bg-pqs-smoke dark:border-pqs-steel dark:text-pqs-apricot dark:hover:bg-pqs-steel/30"
-		>Reset filters</button
 	>
+		Reset filters
+	</button>
 </aside>

@@ -129,8 +129,9 @@
 				type="button"
 				onclick={showAll}
 				class="font-heading text-sm font-semibold text-pqs-steel underline hover:text-pqs-apricot dark:text-pqs-apricot"
-				>Show all events</button
 			>
+				Show all events
+			</button>
 		</form>
 
 		<div>
@@ -155,13 +156,13 @@
 						<!-- content -->
 						<div class="min-w-0 pb-2">
 							<div class="flex flex-wrap items-center gap-2">
-								<time datetime={item.entry.date} class="font-mono text-xs text-pqs-steel dark:text-pqs-bluegray"
-									>{fmtDate(item.entry.date)}</time
-								>
+								<time datetime={item.entry.date} class="font-mono text-xs text-pqs-steel dark:text-pqs-bluegray">
+									{fmtDate(item.entry.date)}
+								</time>
 								{#if item.entry.added !== item.entry.date}
-									<span class="font-mono text-xs text-pqs-steel dark:text-pqs-bluegray"
-										>(added to site <time datetime={item.entry.added}>{fmtDate(item.entry.added)}</time>)</span
-									>
+									<span class="font-mono text-xs text-pqs-steel dark:text-pqs-bluegray">
+										(added to site <time datetime={item.entry.added}>{fmtDate(item.entry.added)}</time>)
+									</span>
 								{/if}
 								<span class="rounded px-1.5 py-0.5 font-heading text-xs font-semibold {TYPE_BADGE[item.entry.type]}">
 									{HISTORY_TYPE_LABELS[item.entry.type]}

@@ -5,3 +5,6 @@
 
 # Format Python with Ruff
 0fa5c5451701a2fb424a785172df6eb57cf1cc57
+
+# Reformat for the bumped Prettier plugins (PR 93)
+eafe98d991e43ffeb1ec470341787ed2b0e5da44

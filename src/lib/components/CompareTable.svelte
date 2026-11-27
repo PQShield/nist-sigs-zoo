@@ -82,26 +82,27 @@
 	<td class="px-2 py-1.5 text-right whitespace-nowrap tabular-nums">
 		{#if shown == null && noCode}
 			{@const d = noCodeCell(noCode)}
-			<span class="text-xs text-pqs-steel dark:text-pqs-bluegray" title={d.title}
-				>{d.text}<span class="sr-only"> ({d.title})</span></span
-			>
+			<span class="text-xs text-pqs-steel dark:text-pqs-bluegray" title={d.title}>
+				{d.text}<span class="sr-only"> ({d.title})</span>
+			</span>
 		{:else if shown == null && dnf}
 			{@const d = dnfCell(dnf)}
-			<span class="text-xs text-pqs-steel dark:text-pqs-bluegray" title={d.title}
-				>{d.text}<span class="sr-only"> ({d.title})</span></span
-			>
+			<span class="text-xs text-pqs-steel dark:text-pqs-bluegray" title={d.title}>
+				{d.text}<span class="sr-only"> ({d.title})</span>
+			</span>
 		{:else if us != null}
 			{fmtTime(us)}
 		{:else if shown != null}
 			<span
 				class="underline decoration-pqs-scarlet decoration-wavy"
 				title="Estimated from {fmtCycles(cyc)} cycles @ {CPU_GHZ_LABEL}"
-				>{fmtTime(shown)}<span class="sr-only"> (estimated from {fmtCycles(cyc)} cycles @ {CPU_GHZ_LABEL})</span></span
 			>
+				{fmtTime(shown)}<span class="sr-only"> (estimated from {fmtCycles(cyc)} cycles @ {CPU_GHZ_LABEL})</span>
+			</span>
 		{:else}
-			<span class="text-pqs-bluegray" title="Not yet benchmarked"
-				>—<span class="sr-only"> not yet benchmarked</span></span
-			>
+			<span class="text-pqs-bluegray" title="Not yet benchmarked">
+				—<span class="sr-only"> not yet benchmarked</span>
+			</span>
 		{/if}
 	</td>
 {/snippet}
@@ -141,8 +142,9 @@
 							<a
 								href={schemeHref(base, slugOf(row.scheme))}
 								class="font-heading font-semibold text-pqs-steel hover:text-pqs-apricot dark:text-pqs-apricot dark:hover:text-pqs-apricot-light"
-								>{row.scheme}</a
 							>
+								{row.scheme}
+							</a>
 							{#each badges as badge (badge.kind)}
 								<button
 									type="button"
@@ -150,15 +152,18 @@
 									aria-label="{badge.title}: show details"
 									aria-expanded={open[key] === badge.kind}
 									aria-controls={detailId}
-									onclick={() => toggle(key, badge.kind)}><BadgeIcon kind={badge.kind} /></button
+									onclick={() => toggle(key, badge.kind)}
 								>
+									<BadgeIcon kind={badge.kind} />
+								</button>
 							{/each}
 						</td>
 						<td class="px-2 py-1.5 whitespace-nowrap text-pqs-steel dark:text-pqs-bluegray">{row.category}</td>
 						<td class="px-2 py-1.5"><ProgrammeChips chips={programmeChips(row, allProgrammes)} /></td>
 						{#if config.table.shortParamSet}
-							<td class="px-2 py-1.5 font-mono text-xs whitespace-nowrap" title={row.parameterset}>{shortParam(row)}</td
-							>
+							<td class="px-2 py-1.5 font-mono text-xs whitespace-nowrap" title={row.parameterset}>
+								{shortParam(row)}
+							</td>
 						{:else}
 							<td class="px-2 py-1.5 font-mono text-xs whitespace-nowrap">{row.parameterset}</td>
 						{/if}
@@ -179,9 +184,9 @@
 								<td class="px-2 py-1.5 text-right tabular-nums">{fmt(col.size(row))}</td>
 							{/if}
 						{/each}
-						<td class="max-w-48 px-2 py-1.5 whitespace-normal text-pqs-steel/80 dark:text-pqs-bluegray"
-							>{row.assumption}</td
-						>
+						<td class="max-w-48 px-2 py-1.5 whitespace-normal text-pqs-steel/80 dark:text-pqs-bluegray">
+							{row.assumption}
+						</td>
 					</tr>
 					{#if badges.length > 0}
 						<tr id={detailId} hidden={!openBadge} class={openBadge ? DETAIL_TONE[openBadge.kind] : ''}>
@@ -194,9 +199,9 @@
 										<strong class="font-heading">{openBadge.title}:</strong>
 										{@html openBadge.html}
 										{#if openBadge.href && /^https?:\/\//.test(openBadge.href)}
-											<a href={openBadge.href} target="_blank" rel="noopener noreferrer"
-												>Full findings report<span class="sr-only"> (opens in a new tab)</span></a
-											>
+											<a href={openBadge.href} target="_blank" rel="noopener noreferrer">
+												Full findings report<span class="sr-only"> (opens in a new tab)</span>
+											</a>
 										{/if}
 									{/if}
 								</div>

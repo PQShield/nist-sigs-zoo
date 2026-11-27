@@ -257,8 +257,9 @@
 					type="button"
 					onclick={render}
 					class="text-xs text-pqs-steel transition-colors hover:text-pqs-apricot dark:text-pqs-bluegray dark:hover:text-pqs-apricot"
-					>Reset zoom</button
 				>
+					Reset zoom
+				</button>
 			</div>
 		</div>
 	</div>

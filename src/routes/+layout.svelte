@@ -165,15 +165,19 @@
 					href="https://github.com/pqshield/nist-sigs-zoo"
 					target="_blank"
 					rel="noopener noreferrer"
-					class="text-pqs-apricot hover:underline">GitHub<span class="sr-only"> (opens in a new tab)</span></a
+					class="text-pqs-apricot hover:underline"
 				>
+					GitHub<span class="sr-only"> (opens in a new tab)</span>
+				</a>
 				·
 				<a
 					href="https://bench.cr.yp.to"
 					target="_blank"
 					rel="noopener noreferrer"
-					class="text-pqs-apricot hover:underline">eBACS<span class="sr-only"> (opens in a new tab)</span></a
-				>: more comprehensive benchmarks on more platforms
+					class="text-pqs-apricot hover:underline"
+				>
+					eBACS<span class="sr-only"> (opens in a new tab)</span>
+				</a>: more comprehensive benchmarks on more platforms
 			</p>
 		</div>
 	</footer>

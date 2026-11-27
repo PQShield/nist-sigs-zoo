@@ -13,9 +13,9 @@
 	{#each KINDS as kind (kind)}
 		<span class="inline-flex items-center gap-1"><BadgeIcon {kind} />{BADGE_LEGEND[kind]}</span>
 	{/each}
-	<span
-		><span class="underline decoration-pqs-scarlet decoration-wavy">value</span> estimated from cycle counts at {CPU_GHZ_LABEL}</span
-	>
+	<span>
+		<span class="underline decoration-pqs-scarlet decoration-wavy">value</span> estimated from cycle counts at {CPU_GHZ_LABEL}
+	</span>
 	<span>— not yet benchmarked</span>
 	<span>timeout / DNF benchmark did not finish (too slow / failed)</span>
 	<span>no code: no implementation to benchmark</span>
