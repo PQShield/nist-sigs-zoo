@@ -22,7 +22,8 @@
 			class="h-9 px-4 font-heading text-sm font-semibold {mode === m.value
 				? 'bg-pqs-steel text-white'
 				: 'bg-white text-pqs-midnight hover:bg-pqs-smoke dark:bg-pqs-midnight-mid dark:text-pqs-smoke dark:hover:bg-pqs-steel/30'}"
-			>{m.label}</button
 		>
+			{m.label}
+		</button>
 	{/each}
 </div>

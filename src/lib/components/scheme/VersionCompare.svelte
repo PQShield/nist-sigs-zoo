@@ -67,9 +67,9 @@
 
 {#snippet valueCell(v: MetricValue | null)}
 	{#if v?.estimated}
-		<span class="underline decoration-pqs-scarlet decoration-wavy" title="Estimated from µs at {CPU_GHZ_LABEL}"
-			>{show(v)}<span class="sr-only"> (estimated)</span></span
-		>
+		<span class="underline decoration-pqs-scarlet decoration-wavy" title="Estimated from µs at {CPU_GHZ_LABEL}">
+			{show(v)}<span class="sr-only"> (estimated)</span>
+		</span>
 	{:else}
 		{show(v)}
 	{/if}
@@ -83,9 +83,9 @@
 
 	<div class="mt-4 flex flex-wrap items-end gap-3">
 		<div class="flex flex-col gap-1">
-			<label for="compare-from" class="font-heading text-xs font-semibold text-pqs-steel dark:text-pqs-bluegray"
-				>From</label
-			>
+			<label for="compare-from" class="font-heading text-xs font-semibold text-pqs-steel dark:text-pqs-bluegray">
+				From
+			</label>
 			<select id="compare-from" bind:value={fromId} class={select}>
 				{#each options as o (o.id)}<option value={o.id}>{optionLabel(o)}</option>{/each}
 			</select>
@@ -95,11 +95,13 @@
 			onclick={swap}
 			aria-label="Swap From and To"
 			class="h-11 rounded-md border border-pqs-bluegray px-3 hover:bg-pqs-ashgray focus-visible:outline-2 focus-visible:outline-pqs-apricot dark:border-pqs-steel dark:hover:bg-pqs-steel/40"
-			><span aria-hidden="true">⇄</span></button
 		>
+			<span aria-hidden="true">⇄</span>
+		</button>
 		<div class="flex flex-col gap-1">
-			<label for="compare-to" class="font-heading text-xs font-semibold text-pqs-steel dark:text-pqs-bluegray">To</label
-			>
+			<label for="compare-to" class="font-heading text-xs font-semibold text-pqs-steel dark:text-pqs-bluegray">
+				To
+			</label>
 			<select id="compare-to" bind:value={toId} class={select}>
 				{#each options as o (o.id)}<option value={o.id}>{optionLabel(o)}</option>{/each}
 			</select>
@@ -114,15 +116,17 @@
 				aria-pressed={mode === 'sizes'}
 				onclick={() => (mode = 'sizes')}
 				class="{toggle} {mode === 'sizes' ? 'bg-pqs-steel text-white' : 'text-pqs-steel dark:text-pqs-bluegray'}"
-				>Sizes</button
 			>
+				Sizes
+			</button>
 			<button
 				type="button"
 				aria-pressed={mode === 'cycles'}
 				onclick={() => (mode = 'cycles')}
 				class="{toggle} {mode === 'cycles' ? 'bg-pqs-steel text-white' : 'text-pqs-steel dark:text-pqs-bluegray'}"
-				>Cycles</button
 			>
+				Cycles
+			</button>
 		</div>
 	</div>
 
@@ -143,9 +147,9 @@
 						<th scope="col" class="px-3 py-2.5 text-right font-semibold whitespace-nowrap">{METRIC_LABELS[key]}</th>
 						<th scope="col" class="px-3 py-2.5 text-right font-semibold">Change</th>
 					{/each}
-					<th scope="col" class="px-3 py-2.5 text-left font-semibold whitespace-nowrap"
-						>Security flag <span class="font-normal">(today's assessment)</span></th
-					>
+					<th scope="col" class="px-3 py-2.5 text-left font-semibold whitespace-nowrap">
+						Security flag <span class="font-normal">(today's assessment)</span>
+					</th>
 				</tr>
 			</thead>
 			<tbody class="divide-y divide-pqs-ashgray bg-white dark:divide-pqs-steel dark:bg-pqs-midnight-mid">
@@ -157,8 +161,9 @@
 							{#if r.presence !== 'both'}
 								<span
 									class="ml-1 rounded bg-pqs-ashgray px-1.5 py-px font-heading text-[11px] font-bold text-pqs-midnight dark:bg-pqs-steel/40 dark:text-pqs-smoke"
-									>{r.presence === 'added' ? `new in ${toOpt.label}` : `not in ${toOpt.label}`}</span
 								>
+									{r.presence === 'added' ? `new in ${toOpt.label}` : `not in ${toOpt.label}`}
+								</span>
 							{/if}
 						</th>
 						<td class="px-3 py-1.5 text-right whitespace-nowrap text-pqs-steel tabular-nums dark:text-pqs-bluegray">
@@ -180,19 +185,21 @@
 										? 'text-[#8a5208] dark:text-pqs-apricot'
 										: 'text-pqs-bluegray'}"
 							>
-								{#if change.symbol}<span aria-hidden="true">{change.symbol}</span
-									>{' '}{/if}{change.text}{#if change.direction === 'down' || change.direction === 'up'}<span
+								{#if change.symbol}<span aria-hidden="true">
+										{change.symbol}
+									</span>{' '}{/if}{change.text}{#if change.direction === 'down' || change.direction === 'up'}<span
 										class="sr-only"
 									>
-										{WORDS[mode][change.direction]}</span
-									>{/if}
+										{WORDS[mode][change.direction]}
+									</span>{/if}
 							</td>
 						{/each}
 						<td
 							class="px-3 py-1.5 font-heading text-xs font-semibold whitespace-nowrap {flag.tone}"
 							title={flag.title || undefined}
-							>{flag.text}{#if flag.title}<span class="sr-only">. {flag.title}</span>{/if}</td
 						>
+							{flag.text}{#if flag.title}<span class="sr-only">. {flag.title}</span>{/if}
+						</td>
 					</tr>
 				{/each}
 			</tbody>

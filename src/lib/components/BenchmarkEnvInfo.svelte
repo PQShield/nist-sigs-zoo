@@ -46,11 +46,11 @@
 				{/if}
 				<div class="flex gap-2">
 					<span class="w-20 shrink-0 text-pqs-steel dark:text-pqs-bluegray">CPU</span>
-					<span
-						>{env.cpu.model} &mdash; {env.cpu.cores} cores,
+					<span>
+						{env.cpu.model} &mdash; {env.cpu.cores} cores,
 						{env.cpu.threads_per_core} threads/core,
-						{env.cpu.max_freq_mhz}&thinsp;MHz max, governor: {env.cpu.governor}, turbo: {env.cpu.turbo}</span
-					>
+						{env.cpu.max_freq_mhz}&thinsp;MHz max, governor: {env.cpu.governor}, turbo: {env.cpu.turbo}
+					</span>
 				</div>
 				<div class="flex gap-2">
 					<span class="w-20 shrink-0 text-pqs-steel dark:text-pqs-bluegray">OS</span>
@@ -111,8 +111,10 @@
 			href="https://creativecommons.org/licenses/by/4.0/"
 			target="_blank"
 			rel="noopener noreferrer"
-			class="text-pqs-apricot hover:underline">{file.license}<span class="sr-only"> (opens in a new tab)</span></a
+			class="text-pqs-apricot hover:underline"
 		>
+			{file.license}<span class="sr-only"> (opens in a new tab)</span>
+		</a>
 		&mdash; {file.attribution}
 	</p>
 </section>

@@ -23,7 +23,8 @@
 			o.value
 				? 'bg-pqs-steel text-white'
 				: 'bg-white text-pqs-midnight hover:bg-pqs-smoke dark:bg-pqs-midnight-mid dark:text-pqs-smoke dark:hover:bg-pqs-steel/30'}"
-			>{o.label}</button
 		>
+			{o.label}
+		</button>
 	{/each}
 </fieldset>

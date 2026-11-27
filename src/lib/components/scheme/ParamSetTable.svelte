@@ -25,28 +25,29 @@
 						{#if row.recommendedTag}
 							<span
 								class="ml-1 rounded bg-pqs-ashgray px-1.5 py-px font-heading text-[11px] font-bold text-pqs-midnight dark:bg-pqs-steel/40 dark:text-pqs-smoke"
-								>Recommended</span
 							>
+								Recommended
+							</span>
 						{/if}
 						{#each row.badges as badge (badge.kind)}
-							<span class="ml-1" title={badge.title}
-								><BadgeIcon kind={badge.kind} /><span class="sr-only">{badge.title}</span></span
-							>
+							<span class="ml-1" title={badge.title}>
+								<BadgeIcon kind={badge.kind} /><span class="sr-only">{badge.title}</span>
+							</span>
 						{/each}
 					</th>
-					<td class="px-3 py-1.5 text-right whitespace-nowrap text-pqs-steel tabular-nums dark:text-pqs-bluegray"
-						>{row.level}</td
-					>
+					<td class="px-3 py-1.5 text-right whitespace-nowrap text-pqs-steel tabular-nums dark:text-pqs-bluegray">
+						{row.level}
+					</td>
 					{#each row.cells as cell, i (i)}
 						<td class="px-3 py-1.5 text-right whitespace-nowrap tabular-nums">
 							{#if cell.kind === 'estimated'}
-								<span class="underline decoration-pqs-scarlet decoration-wavy" title={cell.title}
-									>{cell.text}<span class="sr-only"> ({cell.title})</span></span
-								>
+								<span class="underline decoration-pqs-scarlet decoration-wavy" title={cell.title}>
+									{cell.text}<span class="sr-only"> ({cell.title})</span>
+								</span>
 							{:else if cell.kind === 'dnf' || cell.kind === 'nocode'}
-								<span class="text-xs text-pqs-steel dark:text-pqs-bluegray" title={cell.title}
-									>{cell.text}<span class="sr-only"> ({cell.title})</span></span
-								>
+								<span class="text-xs text-pqs-steel dark:text-pqs-bluegray" title={cell.title}>
+									{cell.text}<span class="sr-only"> ({cell.title})</span>
+								</span>
 							{:else if cell.kind === 'missing'}
 								<span class="text-pqs-bluegray" title={cell.title}>—<span class="sr-only"> {cell.title}</span></span>
 							{:else if cell.title}

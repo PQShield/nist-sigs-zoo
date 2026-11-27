@@ -96,22 +96,23 @@
 								<a
 									href="{base}/programmes/{s.programme.id}/"
 									class="font-heading font-semibold text-pqs-steel underline hover:text-pqs-apricot dark:text-pqs-apricot"
-									>{s.programme.name}</a
 								>
-								<span class="block text-xs text-pqs-steel dark:text-pqs-bluegray"
-									>{[
+									{s.programme.name}
+								</a>
+								<span class="block text-xs text-pqs-steel dark:text-pqs-bluegray">
+									{[
 										s.programme.short,
 										...(s.programme.organiser === s.programme.short ? [] : [s.programme.organiser]),
 										s.programme.region
-									].join(' · ')}</span
-								>
+									].join(' · ')}
+								</span>
 							</td>
-							<td class="px-3 py-2"
-								>{#if s.programme.primitives.includes('signature')}{@render cell(s.signatures)}{:else}Not in scope{/if}</td
-							>
-							<td class="px-3 py-2"
-								>{#if s.programme.primitives.includes('kem')}{@render cell(s.kems)}{:else}Not in scope{/if}</td
-							>
+							<td class="px-3 py-2">
+								{#if s.programme.primitives.includes('signature')}{@render cell(s.signatures)}{:else}Not in scope{/if}
+							</td>
+							<td class="px-3 py-2">
+								{#if s.programme.primitives.includes('kem')}{@render cell(s.kems)}{:else}Not in scope{/if}
+							</td>
 						</tr>
 					{/each}
 				</tbody>
@@ -122,9 +123,9 @@
 	<section aria-labelledby="latest-h" class="mx-auto max-w-[880px]">
 		<div class="mb-2 flex items-baseline justify-between">
 			<h2 id="latest-h" class="font-heading text-2xl font-bold">Latest changes</h2>
-			<a href="{base}/timeline/" class="font-heading text-sm font-semibold text-pqs-steel dark:text-pqs-apricot"
-				>Full timeline</a
-			>
+			<a href="{base}/timeline/" class="font-heading text-sm font-semibold text-pqs-steel dark:text-pqs-apricot">
+				Full timeline
+			</a>
 		</div>
 		<ol class="divide-y divide-pqs-ashgray border-y border-pqs-ashgray dark:divide-pqs-steel dark:border-pqs-steel">
 			{#each data.latest as e (e.date + e.description)}
@@ -132,9 +133,9 @@
 					<div class="font-heading text-sm">
 						<time datetime={e.date} class="block text-pqs-steel dark:text-pqs-bluegray">{fmtDate(e.date)}</time>
 						{#if e.added !== e.date}
-							<span class="block text-xs text-pqs-steel dark:text-pqs-bluegray"
-								>added to site <time datetime={e.added}>{fmtDate(e.added)}</time></span
-							>
+							<span class="block text-xs text-pqs-steel dark:text-pqs-bluegray">
+								added to site <time datetime={e.added}>{fmtDate(e.added)}</time>
+							</span>
 						{/if}
 						<span class="font-semibold capitalize">{e.type}</span>
 					</div>

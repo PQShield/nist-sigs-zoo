@@ -130,8 +130,9 @@
 	<div class="flex items-center gap-2">
 		<span
 			class="w-14 shrink-0 font-heading text-xs font-semibold tracking-wider text-pqs-steel uppercase dark:text-pqs-bluegray"
-			>{label}</span
 		>
+			{label}
+		</span>
 		<select bind:value={axes[axis]} class="{selectClass} flex-1">
 			{#each cfg.chart.axisOptions as field (field)}
 				<option value={field}>{cfg.chart.axisTitles[field]}</option>
